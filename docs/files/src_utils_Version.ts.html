@@ -372,84 +372,84 @@
 
 module Kiwi.Utils {
 
-    /**
-    * Deals with parsing and comparing semver style version numbers
-    * @class Version
-    * @constructor
-    * @namespace Kiwi.Utils
-    */
-    export class Version {
+	/**
+	* Deals with parsing and comparing semver style version numbers
+	* @class Version
+	* @constructor
+	* @namespace Kiwi.Utils
+	*/
+	export class Version {
 
-        /**
-        * Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
-        * @method parseVersion
-        * @param version {String}
-        * @return {Object} Object with properties majorVersion, minorVersion, patchVersion.
-        * @public
-        * @static
-        */
-        public static parseVersion(version: string) {
-            var split: Array&lt;string&gt; = version.split(&quot;.&quot;);
-            return {
-                majorVersion: parseInt(split[0]),
-                minorVersion: parseInt(split[1]),
-                patchVersion: parseInt(split[2])
-            }  
-        }
+		/**
+		* Parses a string such as &quot;1.2.3&quot; and returns an oject containing numeric properties for majorVersion, minorVersion and patchVersion
+		* @method parseVersion
+		* @param version {String}
+		* @return {Object} Object with properties majorVersion, minorVersion, patchVersion.
+		* @public
+		* @static
+		*/
+		public static parseVersion(version: string) {
+			var split: Array&lt;string&gt; = version.split(&quot;.&quot;);
+			return {
+				majorVersion: parseInt(split[0]),
+				minorVersion: parseInt(split[1]),
+				patchVersion: parseInt(split[2])
+			}
+		}
 
-        /**
-        * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;.
-        * Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;.
-        * @method compareVersions
-        * @param version1 {String}
-        * @param version2 {String}
-        * @return {String} &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;
-        * @public
-        * @static
-        */
-        public static compareVersions(version1: string, version2: string): string {
-            var v1:any = Version.parseVersion(version1);
-            var v2:any = Version.parseVersion(version2);
-            if (v1.majorVersion &gt; v2.majorVersion) {
-                return &quot;greater&quot;;    
-            }
-            if (v1.majorVersion &lt; v2.majorVersion) {
-                return &quot;less&quot;;
-            }
-            // major versions must be equal
-            if (v1.minorVersion &gt; v2.minorVersion) {
-                return &quot;greater&quot;;
-            }
-            if (v1.minorVersion &lt; v2.minorVersion) {
-                return &quot;less&quot;;
-            }
-            //minor versions must be equal
-            if (v1.patchVersion &gt; v2.patchVersion) {
-                return &quot;greater&quot;;
-            }
-            if (v1.patchVersion &lt; v2.patchVersion) {
-                return &quot;less&quot;;
-            }
-            //patch versions must be equal
-            return &quot;equal&quot;;
+		/**
+		* Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;.
+		* Returns &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;.
+		* @method compareVersions
+		* @param version1 {String}
+		* @param version2 {String}
+		* @return {String} &quot;greater&quot;, &quot;less&quot; or &quot;equal&quot;
+		* @public
+		* @static
+		*/
+		public static compareVersions(version1: string, version2: string): string {
+			var v1:any = Version.parseVersion(version1);
+			var v2:any = Version.parseVersion(version2);
+			if (v1.majorVersion &gt; v2.majorVersion) {
+				return &quot;greater&quot;;
+			}
+			if (v1.majorVersion &lt; v2.majorVersion) {
+				return &quot;less&quot;;
+			}
+			// major versions must be equal
+			if (v1.minorVersion &gt; v2.minorVersion) {
+				return &quot;greater&quot;;
+			}
+			if (v1.minorVersion &lt; v2.minorVersion) {
+				return &quot;less&quot;;
+			}
+			//minor versions must be equal
+			if (v1.patchVersion &gt; v2.patchVersion) {
+				return &quot;greater&quot;;
+			}
+			if (v1.patchVersion &lt; v2.patchVersion) {
+				return &quot;less&quot;;
+			}
+			//patch versions must be equal
+			return &quot;equal&quot;;
 
-        }
+		}
 
-        /**
-        * Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns true if version1 is greater than version2. 
-        * @method greaterOrEqual
-        * @param version1 {String}
-        * @param version2 {String}
-        * @return {boolean}
-        * @public
-        * @static
-        */
-        public static greaterOrEqual(version1: string, version2: string): boolean {
-            var comp = Version.compareVersions(version1, version2);
-            return (comp == &quot;greater&quot; || comp == &quot;equal&quot;);
-        }
+		/**
+		* Compares two semver version strings such as &quot;0.1.0&quot; and &quot;0.2.1&quot;. Returns true if version1 is greater than version2. 
+		* @method greaterOrEqual
+		* @param version1 {String}
+		* @param version2 {String}
+		* @return {boolean}
+		* @public
+		* @static
+		*/
+		public static greaterOrEqual(version1: string, version2: string): boolean {
+			var comp = Version.compareVersions(version1, version2);
+			return (comp == &quot;greater&quot; || comp == &quot;equal&quot;);
+		}
 
-    }
+	}
 
 }
 

@@ -373,231 +373,230 @@
 
 module Kiwi.HUD {
 
-    /**
-    * A HUDDisplay is a container for which you can add/removes widget on, and is more used to manage the widgets that are being displayed on it.
-    * A HUDDisplay is created through a games HUDManager and is NOT directly instantiated.
-    * Each game can contain multiple HUDDisplay&#x27;s and each HUDDisplay can contain multiple HUDWidgets.
-    *
-    * @class HUDDisplay
-    * @namespace Kiwi.HUD
-    * @constructor
-    * @param game {Kiwi.Game} The game that this HUD Display belongs to. 
-    * @param name {string} The name of this display.
-    * @return HUDDisplay
-    */
-    export class HUDDisplay {
-        
-        constructor(game: Kiwi.Game,name:string) {
-            this._game = game;
-            this.name = name;
-            this._manager = this._game.huds;
-            this._device = this._game.deviceTargetOption;
+	/**
+	* A HUDDisplay is a container for which you can add/removes widget on, and is more used to manage the widgets that are being displayed on it.
+	* A HUDDisplay is created through a games HUDManager and is NOT directly instantiated.
+	* Each game can contain multiple HUDDisplay&#x27;s and each HUDDisplay can contain multiple HUDWidgets.
+	*
+	* @class HUDDisplay
+	* @namespace Kiwi.HUD
+	* @constructor
+	* @param game {Kiwi.Game} The game that this HUD Display belongs to. 
+	* @param name {string} The name of this display.
+	* @return HUDDisplay
+	*/
+	export class HUDDisplay {
 
-            if (this._manager.supported) {
+		constructor(game: Kiwi.Game,name:string) {
+			this._game = game;
+			this.name = name;
+			this._manager = this._game.huds;
+			this._device = this._game.deviceTargetOption;
 
-                switch (this._device) {
-                    case Kiwi.TARGET_BROWSER:
-                        this.container = &lt;HTMLDivElement&gt;document.createElement(&quot;div&quot;);
-                        this.container.id = &quot;HUD-layer-&quot; + game.rnd.uuid();
-                        this.container.style.width = &quot;100%&quot;;
-                        this.container.style.height = &quot;100%&quot;;
-                        this.container.style.position = &quot;absolute&quot;;
-                        this._widgets = new Array();
+			if (this._manager.supported) {
 
-                        break;
-                }
+				switch (this._device) {
+					case Kiwi.TARGET_BROWSER:
+						this.container = &lt;HTMLDivElement&gt;document.createElement(&quot;div&quot;);
+						this.container.id = &quot;HUD-layer-&quot; + game.rnd.uuid();
+						this.container.style.width = &quot;100%&quot;;
+						this.container.style.height = &quot;100%&quot;;
+						this.container.style.position = &quot;absolute&quot;;
+						this._widgets = new Array();
 
-                this.class = &#x27;kiwi-display&#x27;;
-            }
-        }
+						break;
+				}
 
-        /**
-        * Returns the type of object that this is.
-        * @method objType
-        * @return {String} &quot;HUDDisplay&quot;
-        * @public
-        */
-        public objType():string {
-            return &#x27;HUDDisplay&#x27;;
-        }
+				this.class = &#x27;kiwi-display&#x27;;
+			}
+		}
 
-        /**
-        * The type of device that is being targeted for the game. This is the same as games deviceTargetOption 
-        * Needed as the type of device will detiremine how the items will be added to game or whether it will even work.
-        * 
-        * @property _device
-        * @type number
-        * @private
-        */
-        private _device: number;
+		/**
+		* Returns the type of object that this is.
+		* @method objType
+		* @return {String} &quot;HUDDisplay&quot;
+		* @public
+		*/
+		public objType():string {
+			return &#x27;HUDDisplay&#x27;;
+		}
 
-        /**
-        * The HUD Manager that this Display belongs to. 
-        * @property _manager
-        * @type Kiwi.HUD.HUDManager
-        * @private
-        */
-        private _manager: Kiwi.HUD.HUDManager;
+		/**
+		* The type of device that is being targeted for the game. This is the same as games deviceTargetOption 
+		* Needed as the type of device will detiremine how the items will be added to game or whether it will even work.
+		* 
+		* @property _device
+		* @type number
+		* @private
+		*/
+		private _device: number;
 
-        /**
-        * Holds the container HTMLDivElement.
-        * @property container
-        * @type HTMLDivElement
-        * @public
-        */
-        public container: HTMLDivElement;
+		/**
+		* The HUD Manager that this Display belongs to. 
+		* @property _manager
+		* @type Kiwi.HUD.HUDManager
+		* @private
+		*/
+		private _manager: Kiwi.HUD.HUDManager;
 
-        /**
-        * The name of this HUD Display. 
-        * @property name
-        * @type String
-        * @public
-        */
-        public name: string;
-        
-        /**
-        * The game that this HUD Display is on.
-        * @property _game
-        * @type Kiwi.Game
-        * @private
-        */
-        private _game: Kiwi.Game;
+		/**
+		* Holds the container HTMLDivElement.
+		* @property container
+		* @type HTMLDivElement
+		* @public
+		*/
+		public container: HTMLDivElement;
 
-        /**
-        * Contains a list of the widgets that are contained in this HUDDisplay. Each member is of the type Kiwi.HUD.HUDWidget.
-        * @property _widgets
-        * @type Array
-        * @private
-        */
-        private _widgets: Kiwi.HUD.HUDWidget[];
+		/**
+		* The name of this HUD Display. 
+		* @property name
+		* @type String
+		* @public
+		*/
+		public name: string;
+		
+		/**
+		* The game that this HUD Display is on.
+		* @property _game
+		* @type Kiwi.Game
+		* @private
+		*/
+		private _game: Kiwi.Game;
 
-        /**
-        * Adds a widget to the HUDDisplay. Returns a boolean as an indication of whether or not it was successful.
-        *
-        * @method addWidget
-        * @param widget {Kiwi.HUD.HUDWidget}  The widget to be added to the Display
-        * @return {Boolean} If it was successful or not.
-        * @public
-        */
-        public addWidget(widget: Kiwi.HUD.HUDWidget):boolean {
-            if (this._manager.supported) {
-                this._widgets.push(widget);
-                
-                if (this._device == Kiwi.TARGET_BROWSER) {
-                    this.container.appendChild(widget.container);
-                    return true;
-                }
-            }
-            return false;
-        }
+		/**
+		* Contains a list of the widgets that are contained in this HUDDisplay. Each member is of the type Kiwi.HUD.HUDWidget.
+		* @property _widgets
+		* @type Array
+		* @private
+		*/
+		private _widgets: Kiwi.HUD.HUDWidget[];
 
-        /**
-        * Removes a singular widget from the display. Returns a boolean as an indication of if anything happened or not.
-        * 
-        * @method removeWidget
-        * @param widget {Kiwi.HUD.HUDWidget} The widget to be removed.
-        * @return {boolean} If it was successful or not.
-        * @public
-        */
-        public removeWidget(widget: Kiwi.HUD.HUDWidget):boolean {
-            if (this._manager.supported) {
-                
-                if (this.removeFromContainer(widget)) {
+		/**
+		* Adds a widget to the HUDDisplay. Returns a boolean as an indication of whether or not it was successful.
+		*
+		* @method addWidget
+		* @param widget {Kiwi.HUD.HUDWidget}  The widget to be added to the Display
+		* @return {Boolean} If it was successful or not.
+		* @public
+		*/
+		public addWidget(widget: Kiwi.HUD.HUDWidget):boolean {
+			if (this._manager.supported) {
+				this._widgets.push(widget);
+				
+				if (this._device == Kiwi.TARGET_BROWSER) {
+					this.container.appendChild(widget.container);
+					return true;
+				}
+			}
+			return false;
+		}
 
-                    var i = this._widgets.indexOf(widget);
+		/**
+		* Removes a singular widget from the display. Returns a boolean as an indication of if anything happened or not.
+		* 
+		* @method removeWidget
+		* @param widget {Kiwi.HUD.HUDWidget} The widget to be removed.
+		* @return {boolean} If it was successful or not.
+		* @public
+		*/
+		public removeWidget(widget: Kiwi.HUD.HUDWidget):boolean {
+			if (this._manager.supported) {
+				
+				if (this.removeFromContainer(widget)) {
 
-                    if (i !== -1) {
-                        this._widgets.splice(i, 1);
-                        return true;
-                    }
-                }
+					var i = this._widgets.indexOf(widget);
 
-            }
-            return false;
-        }
+					if (i !== -1) {
+						this._widgets.splice(i, 1);
+						return true;
+					}
+				}
 
-        /**
-        * Removes all of the widgets on this display.
-        * @method removeAllWidgets
-        * @public
-        */
-        public removeAllWidgets() {
-            for (var i = 0; i &lt; this._widgets.length; i++) {
-                this.removeFromContainer(this._widgets[i]);
-            }
+			}
+			return false;
+		}
 
-            this._widgets = [];
-        }
+		/**
+		* Removes all of the widgets on this display.
+		* @method removeAllWidgets
+		* @public
+		*/
+		public removeAllWidgets() {
+			for (var i = 0; i &lt; this._widgets.length; i++) {
+				this.removeFromContainer(this._widgets[i]);
+			}
 
-        /**
-        * Removes a widget from on the HUDDisplay. 
-        * @method removeFromContainer
-        * @param widget {Kiwi.HUD.HUDWidget} The Widget to be removed.
-        * @returns {boolean}
-        */
-        private removeFromContainer(widget:Kiwi.HUD.HUDWidget):boolean {
-            if (this._manager.supported) {
-                if(this._device == Kiwi.TARGET_BROWSER) {
+			this._widgets = [];
+		}
 
-                    if (this.container.contains(widget.container)) {
-                        this.container.removeChild(widget.container);
-                        return true;
-                    }
+		/**
+		* Removes a widget from on the HUDDisplay. 
+		* @method removeFromContainer
+		* @param widget {Kiwi.HUD.HUDWidget} The Widget to be removed.
+		* @returns {boolean}
+		*/
+		private removeFromContainer(widget:Kiwi.HUD.HUDWidget):boolean {
+			if (this._manager.supported) {
+				if(this._device == Kiwi.TARGET_BROWSER) {
 
-                }
-            }
-            return false;
-        }
+					if (this.container.contains(widget.container)) {
+						this.container.removeChild(widget.container);
+						return true;
+					}
 
-        /**
-        * Update loop.
-        * @method update
-        * @public
-        */
-        public update() {
-            for (var i = 0; i &lt; this._widgets.length; i++) {
-                this._widgets[i].update();
-            }
-        }
+				}
+			}
+			return false;
+		}
 
-        /**
-        * Shows displays the HUD Display on screen.
-        * @method show
-        * @public
-        */
-        public show() {
-            this.container.style.display = &#x27;block&#x27;;
-        }
+		/**
+		* Update loop.
+		* @method update
+		* @public
+		*/
+		public update() {
+			for (var i = 0; i &lt; this._widgets.length; i++) {
+				this._widgets[i].update();
+			}
+		}
 
-        /**
-        * Hides the current HUD Display from the screen.
-        * @method hide
-        * @public
-        */
-        public hide() {
-            this.container.style.display = &#x27;none&#x27;;
-        }
+		/**
+		* Shows displays the HUD Display on screen.
+		* @method show
+		* @public
+		*/
+		public show() {
+			this.container.style.display = &#x27;block&#x27;;
+		}
 
-        /**
-        * The class name that the container element that this HUDWidget current has.
-        * @property class
-        * @type {String} 
-        * @public
-        */
-        public set class(cssClass: string) {
-            if (this._device == Kiwi.TARGET_BROWSER) {
-                this.container.className = cssClass;
-            }
-        }
-        public get class(): string {
-            if (this._device == Kiwi.TARGET_BROWSER) {
-                return this.container.className;
-            }
-        }
+		/**
+		* Hides the current HUD Display from the screen.
+		* @method hide
+		* @public
+		*/
+		public hide() {
+			this.container.style.display = &#x27;none&#x27;;
+		}
 
-    }
+		/**
+		* The class name that the container element that this HUDWidget current has.
+		* @property class
+		* @type {String} 
+		* @public
+		*/
+		public set class(cssClass: string) {
+			if (this._device == Kiwi.TARGET_BROWSER) {
+				this.container.className = cssClass;
+			}
+		}
+		public get class(): string {
+			if (this._device == Kiwi.TARGET_BROWSER) {
+				return this.container.className;
+			}
+		}
+
+	}
 }
-
 
     </pre>
 </div>

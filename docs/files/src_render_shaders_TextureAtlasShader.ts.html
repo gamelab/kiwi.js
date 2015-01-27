@@ -373,111 +373,111 @@
 
 module Kiwi.Shaders {
 
-    /**
-    * Shader wrapper for rendering Texture Atlases
-    * @class TextureAtlasShader
-    * @extends Kiwi.Shaders.ShaderPair
-    * @constructor
-    * @namespace Kiwi.Shaders
-    * @return {Kiwi.Shaders.TextureAtlasShader}
-    */
-    export class TextureAtlasShader extends ShaderPair {
+	/**
+	* Shader wrapper for rendering Texture Atlases
+	* @class TextureAtlasShader
+	* @extends Kiwi.Shaders.ShaderPair
+	* @constructor
+	* @namespace Kiwi.Shaders
+	* @return {Kiwi.Shaders.TextureAtlasShader}
+	*/
+	export class TextureAtlasShader extends ShaderPair {
 
-        constructor() {
-            super();
-        }
+		constructor() {
+			super();
+		}
 
-        /**
-        * Initialise the shaderPair
-        * @method init
-        * @param gl {WebGLRenderingCotext}
-        * @return {WebGLBuffer}
-        * @public
-        */
-        public init(gl: WebGLRenderingContext) {
-            super.init(gl);
+		/**
+		* Initialise the shaderPair
+		* @method init
+		* @param gl {WebGLRenderingCotext}
+		* @return {WebGLBuffer}
+		* @public
+		*/
+		public init(gl: WebGLRenderingContext) {
+			super.init(gl);
 
-            this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, &quot;aXYUV&quot;);
-            this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, &quot;aAlpha&quot;);
-            
-            this.initUniforms(gl);
-        }
+			this.attributes.aXYUV = gl.getAttribLocation(this.shaderProgram, &quot;aXYUV&quot;);
+			this.attributes.aAlpha = gl.getAttribLocation(this.shaderProgram, &quot;aAlpha&quot;);
+			
+			this.initUniforms(gl);
+		}
 
-        /**
-        * Shader attribute references
-        * @property attributes
-        * @type object
-        * @public
-        */
-        public attributes: any = {
-            aXYUV: null,
-            aAlpha: null,
-        };
+		/**
+		* Shader attribute references
+		* @property attributes
+		* @type object
+		* @public
+		*/
+		public attributes: any = {
+			aXYUV: null,
+			aAlpha: null,
+		};
 
-        /**
-        * Shader uniform descriptors
-        * @property uniforms
-        * @type object
-        * @public
-        */
-        public uniforms: any = {
-            uCamMatrix: {
-                type: &quot;mat3&quot;,
-            },
-            uResolution: {
-                type: &quot;2fv&quot;,
-            },
-            uTextureSize: {
-                type: &quot;2fv&quot;,
-            },
-            uSampler: {
-                type: &quot;1i&quot;,
-            }
-        }
-
-
-        /**
-        * The source for the GLSL fragment shader
-        * @property fragSource
-        * @type Array
-        * @public
-        */
-        public fragSource: Array&lt;string&gt; = [
-            &quot;precision mediump float;&quot;,
-            &quot;varying vec2 vTextureCoord;&quot;,
-            &quot;varying float vAlpha;&quot;,
-            &quot;uniform sampler2D uSampler;&quot;,
-            &quot;void main(void) {&quot;,
-            &quot;gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));&quot;,
-            &quot;gl_FragColor.a *= vAlpha;&quot;,
-            &quot;}&quot;
-        ];
+		/**
+		* Shader uniform descriptors
+		* @property uniforms
+		* @type object
+		* @public
+		*/
+		public uniforms: any = {
+			uCamMatrix: {
+				type: &quot;mat3&quot;,
+			},
+			uResolution: {
+				type: &quot;2fv&quot;,
+			},
+			uTextureSize: {
+				type: &quot;2fv&quot;,
+			},
+			uSampler: {
+				type: &quot;1i&quot;,
+			}
+		}
 
 
-        /**
-        * The source for the GLSL vertex shader
-        * @property vertSource
-        * @type Array
-        * @public
-        */
-        public vertSource: Array&lt;string&gt; = [
-            &quot;attribute vec4 aXYUV;&quot;,
-            &quot;attribute float aAlpha;&quot;,
-            &quot;uniform mat3 uCamMatrix;&quot;,
-            &quot;uniform vec2 uResolution;&quot;,
-            &quot;uniform vec2 uTextureSize;&quot;,
-            &quot;varying vec2 vTextureCoord;&quot;,
-            &quot;varying float vAlpha;&quot;,
-            &quot;void main(void) {&quot;,
-            &quot;   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; &quot;,
-            &quot;   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);&quot;,
-            &quot;   vTextureCoord = aXYUV.zw / uTextureSize;&quot;,
-            &quot;   vAlpha = aAlpha;&quot;,
-            &quot;}&quot;
-        ];
+		/**
+		* The source for the GLSL fragment shader
+		* @property fragSource
+		* @type Array
+		* @public
+		*/
+		public fragSource: Array&lt;string&gt; = [
+			&quot;precision mediump float;&quot;,
+			&quot;varying vec2 vTextureCoord;&quot;,
+			&quot;varying float vAlpha;&quot;,
+			&quot;uniform sampler2D uSampler;&quot;,
+			&quot;void main(void) {&quot;,
+			&quot;gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));&quot;,
+			&quot;gl_FragColor.a *= vAlpha;&quot;,
+			&quot;}&quot;
+		];
 
 
-    }
+		/**
+		* The source for the GLSL vertex shader
+		* @property vertSource
+		* @type Array
+		* @public
+		*/
+		public vertSource: Array&lt;string&gt; = [
+			&quot;attribute vec4 aXYUV;&quot;,
+			&quot;attribute float aAlpha;&quot;,
+			&quot;uniform mat3 uCamMatrix;&quot;,
+			&quot;uniform vec2 uResolution;&quot;,
+			&quot;uniform vec2 uTextureSize;&quot;,
+			&quot;varying vec2 vTextureCoord;&quot;,
+			&quot;varying float vAlpha;&quot;,
+			&quot;void main(void) {&quot;,
+			&quot;   vec2 pos = (uCamMatrix * vec3(aXYUV.xy,1)).xy; &quot;,
+			&quot;   gl_Position = vec4((pos / uResolution * 2.0 - 1.0) * vec2(1, -1), 0, 1);&quot;,
+			&quot;   vTextureCoord = aXYUV.zw / uTextureSize;&quot;,
+			&quot;   vAlpha = aAlpha;&quot;,
+			&quot;}&quot;
+		];
+
+
+	}
 
 }
 

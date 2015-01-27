@@ -369,393 +369,394 @@
 * @module Kiwi
 * @submodule Input
 * 
-*/ 
+*/
 
 module Kiwi.Input {
 
-    /**
-    * Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
-    *
-    * @class Mouse
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param game {Kiwi.Game} The game that this mouse manager belongs to.
-    * @return {Kiwi.Input.Mouse} 
-    *
-    */
-    export class Mouse {
-          
-        constructor (game: Kiwi.Game) {
-            this._game = game;
-        }
+	/**
+	* Handles the dispatching/management of Mouse Events on a game. When this class is instantiated a MouseCursor object is also created (on this object) which holds the information that is unique to the mouse cursor, although majority of that information is still accessible inside this object.
+	*
+	* @class Mouse
+	* @constructor
+	* @namespace Kiwi.Input
+	* @param game {Kiwi.Game} The game that this mouse manager belongs to.
+	* @return {Kiwi.Input.Mouse} 
+	*
+	*/
+	export class Mouse {
 
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String} &quot;Mouse&quot;
-        * @public
-        */
-        public objType() {
-            return &quot;Mouse&quot;;
-        }
-         
-        /**
-        * The game that this mouse manager belongs to.
-        * @property _game
-        * @type Kiwi.Game
-        * @private
-        */
-        private _game: Kiwi.Game;
-         
-        /**
-        * The HTMLElement that is being used to apply the mouse events to.
-        * @property _domElement
-        * @type HTMLDivElement
-        * @private
-        */
-        private _domElement:HTMLDivElement = null;
+		constructor (game: Kiwi.Game) {
+			this._game = game;
+		}
 
-        /**  
-        * The numeric value for the LEFT button.
-        * @property LEFT_BUTTON
-        * @type Number
-        * @static
-        * @public
-        * @final
-        * @default 0
-        */
-        public static LEFT_BUTTON: number = 0;
+		/**
+		* The type of object that this is.
+		* @method objType
+		* @return {String} &quot;Mouse&quot;
+		* @public
+		*/
+		public objType() {
+			return &quot;Mouse&quot;;
+		}
 
-        /**  
-        * The numeric value for the MIDDLE button.
-        * @property MIDDLE_BUTTON
-        * @type Number
-        * @static
-        * @public 
-        * @final
-        * @default 1
-        */
-        public static MIDDLE_BUTTON: number = 1;
+		/**
+		* The game that this mouse manager belongs to.
+		* @property _game
+		* @type Kiwi.Game
+		* @private
+		*/
+		private _game: Kiwi.Game;
 
-        /**  
-        * The numeric value for the RIGHT button.
-        * @property RIGHT_BUTTON
-        * @type Number
-        * @static
-        * @public
-        * @final 
-        * @default 2
-        */
-        public static RIGHT_BUTTON: number = 2;
-         
-        /**
-        * A Signal that dispatches events when the mouse is pressed down on the stage.
-        * @property onDown 
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onDown: Kiwi.Signal;
-        
-        /**
-        * A Signal that dispatches events when the mouse is released from being down on the stage.
-        * @property onUp 
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onUp: Kiwi.Signal;
+		/**
+		* The HTMLElement that is being used to apply the mouse events to.
+		* @property _domElement
+		* @type HTMLDivElement
+		* @private
+		*/
+		private _domElement:HTMLDivElement = null;
 
-        /**
-        * A Signal that dispatches events mouse wheel moves.
-        * @property onWheel 
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onWheel: Kiwi.Signal;
+		/**  
+		* The numeric value for the LEFT button.
+		* @property LEFT_BUTTON
+		* @type Number
+		* @static
+		* @public
+		* @final
+		* @default 0
+		*/
+		public static LEFT_BUTTON: number = 0;
 
-        /**
-        * The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
-        * @property _cursor
-        * @type Kiwi.Input.MouseCursor
-        * @private
-        */
-        private _cursor: Kiwi.Input.MouseCursor;
+		/**  
+		* The numeric value for the MIDDLE button.
+		* @property MIDDLE_BUTTON
+		* @type Number
+		* @static
+		* @public 
+		* @final
+		* @default 1
+		*/
+		public static MIDDLE_BUTTON: number = 1;
 
-        /**
-        * Returns the MouseCursor that is being used on the stage. This is READ ONLY.
-        * @property cursor
-        * @type Kiwi.Input.MouseCursor
-        * @private
-        */
-        public get cursor(): Kiwi.Input.MouseCursor {
-            return this._cursor;
-        }
+		/**  
+		* The numeric value for the RIGHT button.
+		* @property RIGHT_BUTTON
+		* @type Number
+		* @static
+		* @public
+		* @final 
+		* @default 2
+		*/
+		public static RIGHT_BUTTON: number = 2;
 
-        /** 
-        * This method is executed when the DOM has finished loading and thus the MouseManager can start listening for events.
-        * @method boot
-        * @public
-        */
-        public boot() {
+		/**
+		* A Signal that dispatches events when the mouse is pressed down on the stage.
+		* @property onDown 
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onDown: Kiwi.Signal;
 
-            this._domElement = this._game.stage.container;
+		/**
+		* A Signal that dispatches events when the mouse is released from being down on the stage.
+		* @property onUp 
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onUp: Kiwi.Signal;
 
-            this._cursor = new Kiwi.Input.MouseCursor(this._game);
-            this._cursor.active = true;
-            this._cursor.id = 1;
-            
-            this.onDown = new Kiwi.Signal();
-            this.onUp = new Kiwi.Signal();
-            this.onWheel = new Kiwi.Signal();
+		/**
+		* A Signal that dispatches events mouse wheel moves.
+		* @property onWheel 
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onWheel: Kiwi.Signal;
 
-            this.start();
-        }
+		/**
+		* The MouseCursor that is on the stage. This contains the coordinates and information about the cursor.
+		* @property _cursor
+		* @type Kiwi.Input.MouseCursor
+		* @private
+		*/
+		private _cursor: Kiwi.Input.MouseCursor;
 
-        /**
-        * Indicates whether or not the cursor is currently down. This is READ ONLY.
-        * @property isDown
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public get isDown(): boolean {
-            return this._cursor.isDown;
-        }
+		/**
+		* Returns the MouseCursor that is being used on the stage. This is READ ONLY.
+		* @property cursor
+		* @type Kiwi.Input.MouseCursor
+		* @private
+		*/
+		public get cursor(): Kiwi.Input.MouseCursor {
+			return this._cursor;
+		}
 
-        /**
-        * Indicates whether or not the cursor is currently up. This is READ ONLY.
-        * @property isUp
-        * @type boolean
-        * @default true
-        * @public
-        */
-        public get isUp(): boolean {
-            return this._cursor.isUp;
-        }
+		/** 
+		* This method is executed when the DOM has finished loading and thus the MouseManager can start listening for events.
+		* @method boot
+		* @public
+		*/
+		public boot() {
 
-        /**
-        * Gets the duration in Milliseconds that the mouse cursor has either been up or down for.
-        * @property duration
-        * @type number
-        * @public
-        */
-        public get duration(): number {
-            return this._cursor.duration;
-        }
-        
-        /**
-        * Gets the x coordinate of the mouse cursor.
-        * @property x
-        * @type number
-        * @public
-        */
-        public get x(): number {
-            return this._cursor.x;
-        }
-        
-        /**
-        * Gets the y coordinate of the mouse cursor.
-        * @property y
-        * @type number
-        * @public
-        */
-        public get y(): number {
-            return this._cursor.y;
-        }
+			this._domElement = this._game.stage.container;
 
-        /**
-        * Gets the wheelDeltaX coordinate of the mouse cursors wheel.
-        * @property wheelDeltaX
-        * @type number
-        * @public
-        */
-        public get wheelDeltaX(): number {
-            return this._cursor.wheelDeltaX;
-        }
+			this._cursor = new Kiwi.Input.MouseCursor(this._game);
+			this._cursor.active = true;
+			this._cursor.id = 1;
+			
+			this.onDown = new Kiwi.Signal();
+			this.onUp = new Kiwi.Signal();
+			this.onWheel = new Kiwi.Signal();
 
-        /**
-        * Gets the wheelDeltaY coordinate of the mouse cursors wheel.
-        * @property wheelDeltaY
-        * @type number
-        * @public
-        */
-        public get wheelDeltaY(): number {
-            return this._cursor.wheelDeltaY;
-        }
+			this.start();
+		}
 
-        /**
-        * Indicates if the ctrl key is down.
-        * @property ctrlKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public get ctrlKey(): boolean {
-            return this._cursor.ctrlKey;
-        }
+		/**
+		* Indicates whether or not the cursor is currently down. This is READ ONLY.
+		* @property isDown
+		* @type boolean
+		* @default false
+		* @public
+		*/
+		public get isDown(): boolean {
+			return this._cursor.isDown;
+		}
 
-        /**
-        * Indicates if the shift key is down.
-        * @property shiftKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public get shiftKey(): boolean {
-            return this._cursor.shiftKey;
-        }
+		/**
+		* Indicates whether or not the cursor is currently up. This is READ ONLY.
+		* @property isUp
+		* @type boolean
+		* @default true
+		* @public
+		*/
+		public get isUp(): boolean {
+			return this._cursor.isUp;
+		}
 
-        /**
-        * Indicates if the alt key is down.
-        * @property altKey
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public get altKey(): boolean {
-            return this._cursor.altKey;
-        }
+		/**
+		* Gets the duration in Milliseconds that the mouse cursor has either been up or down for.
+		* @property duration
+		* @type number
+		* @public
+		*/
+		public get duration(): number {
+			return this._cursor.duration;
+		}
 
-        /**
-        * Returns a number indicating the button that was used. This can be used with the STATIC button properties.
-        * @property button
-        * @type number
-        * @public
-        */
-        public get button(): number {
-            return this._cursor.button;
-        }
-         
-        /**
-        * The update loop for the cursor.
-        * @method update
-        * @public
-        */
-        public update() { 
-            this._cursor.update();
-        }
+		/**
+		* Gets the x coordinate of the mouse cursor.
+		* @property x
+		* @type number
+		* @public
+		*/
+		public get x(): number {
+			return this._cursor.x;
+		}
 
-        /**  
-        * Start the mouse event listeners on the game. Automatically called by the boot.
-        * @method start 
-        * @public
-        */
-        public start() {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                if (Kiwi.DEVICE.ie &amp;&amp; Kiwi.DEVICE.ieVersion &lt; 9) { //remove possibably?
-                    this._domElement.attachEvent(&#x27;onmousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event));
-                    this._domElement.attachEvent(&#x27;onmousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event));
-                    this._domElement.attachEvent(&#x27;onmouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event));
-                    this._domElement.attachEvent(&#x27;onmousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event));
-                } else {
-                    this._domElement.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
-                    this._domElement.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
-                    this._domElement.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
-                    this._domElement.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-                    this._domElement.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-                }
-            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                this._game.stage.canvas.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
-                this._game.stage.canvas.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
-                this._game.stage.canvas.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
-                this._game.stage.canvas.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-                this._game.stage.canvas.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-            }
-        }
+		/**
+		* Gets the y coordinate of the mouse cursor.
+		* @property y
+		* @type number
+		* @public
+		*/
+		public get y(): number {
+			return this._cursor.y;
+		}
 
-        /**  
-        * Stops the mouse event listeners from working. Useful if you no longer want the mouse to &#x27;work&#x27;/be listened to.
-        * @method stop 
-        * @public
-        */
-        public stop() {
-            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                this._domElement.removeEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), false);
-                this._domElement.removeEventListener(&#x27;mousedown&#x27;, this.onMouseDown, false);
-                this._domElement.removeEventListener(&#x27;mousemove&#x27;, this.onMouseMove, false);
-                this._domElement.removeEventListener(&#x27;mouseup&#x27;, this.onMouseUp, false);
-                this._domElement.removeEventListener(&#x27;mousewheel&#x27;, this.onMouseWheel, false);
-                this._domElement.removeEventListener(&#x27;DOMMouseScroll&#x27;, this.onMouseWheel, false);
-            }
-        }
+		/**
+		* Gets the wheelDeltaX coordinate of the mouse cursors wheel.
+		* @property wheelDeltaX
+		* @type number
+		* @public
+		*/
+		public get wheelDeltaX(): number {
+			return this._cursor.wheelDeltaX;
+		}
 
-        /**  
-        * Method that gets fired when the mouse is pressed on the stage.
-        * @method onMouseDown
-        * @param {MouseEvent} event. 
-        * @private
-        */
-        private onMouseDown(event: MouseEvent) { 
-            this._cursor.start(event); 
-            this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
-        }
+		/**
+		* Gets the wheelDeltaY coordinate of the mouse cursors wheel.
+		* @property wheelDeltaY
+		* @type number
+		* @public
+		*/
+		public get wheelDeltaY(): number {
+			return this._cursor.wheelDeltaY;
+		}
 
-        /**  
-        * Method that gets fired when the mouse moves anywhere on the stage.
-        * @method onMouseMove
-        * @param {MouseEvent} event. 
-        * @private
-        */
-        private onMouseMove(event: MouseEvent) {
-            event.preventDefault();
-            this._cursor.move(event);
-        }
+		/**
+		* Indicates if the ctrl key is down.
+		* @property ctrlKey
+		* @type boolean
+		* @default false
+		* @public
+		*/
+		public get ctrlKey(): boolean {
+			return this._cursor.ctrlKey;
+		}
 
-        /**  
-        * Method that gets fired when the mouse is released on the stage.
-        * @method onMouseUp
-        * @param {MouseEvent} event. 
-        * @private
-        */
-        private onMouseUp(event: MouseEvent) {
-            this._cursor.stop(event);
-            this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
-        }
-        
-        /**  
-        * Method that gets fired when the mousewheel is moved.
-        * @method onMouseWheel
-        * @param {MouseEvent} event. 
-        * @private
-        */
-        private onMouseWheel(event: WheelEvent) {
-            this._cursor.wheel(event);
-            this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
-        }
+		/**
+		* Indicates if the shift key is down.
+		* @property shiftKey
+		* @type boolean
+		* @default false
+		* @public
+		*/
+		public get shiftKey(): boolean {
+			return this._cursor.shiftKey;
+		}
 
-        /**  
-        * Returns a boolean indicating if the mouse was &#x27;justPressed&#x27; within a certain timeframe. The default timeframe is 200 milliseconds.
-        * @method justPressed
-        * @param [duration=200] {Number} The timeframe that it could have occured in. 
-        * @return {boolean}
-        * @public
-        */
-        public justPressed(duration: number = this._cursor.justPressedRate): boolean { 
-            return this._cursor.justPressed(duration);
-        }
+		/**
+		* Indicates if the alt key is down.
+		* @property altKey
+		* @type boolean
+		* @default false
+		* @public
+		*/
+		public get altKey(): boolean {
+			return this._cursor.altKey;
+		}
 
-        /**  
-        * Returns a boolean indicating if the mouse was &#x27;justReleased&#x27; within a certain timeframe. The default timeframe is 200 milliseconds.
-        * @method justReleased
-        * @param [duration=200] {Number} The timeframe that it could have occured in.. 
-        * @return {boolean}
-        * @public
-        */
-        public justReleased(duration: number = this._cursor.justReleasedRate): boolean { 
-            return this._cursor.justReleased(duration); 
-        }
+		/**
+		* Returns a number indicating the button that was used. This can be used with the STATIC button properties.
+		* @property button
+		* @type number
+		* @public
+		*/
+		public get button(): number {
+			return this._cursor.button;
+		}
 
-        /** 
-        * Runs the Reset method on the MouseCursor.
-        * @method reset
-        * @public
-        */
-        public reset() {
-            this._cursor.reset();
-        }
+		/**
+		* The update loop for the cursor.
+		* @method update
+		* @public
+		*/
+		public update() { 
+			this._cursor.update();
+		}
 
-    }
+		/**  
+		* Start the mouse event listeners on the game. Automatically called by the boot.
+		* @method start 
+		* @public
+		*/
+		public start() {
+			if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+				if (Kiwi.DEVICE.ie &amp;&amp; Kiwi.DEVICE.ieVersion &lt; 9) { //remove possibably?
+					this._domElement.attachEvent(&#x27;onmousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event));
+					this._domElement.attachEvent(&#x27;onmousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event));
+					this._domElement.attachEvent(&#x27;onmouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event));
+					this._domElement.attachEvent(&#x27;onmousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event));
+				} else {
+					this._domElement.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
+					this._domElement.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
+					this._domElement.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
+					this._domElement.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
+					this._domElement.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
+				}
+			} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+				this._game.stage.canvas.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
+				this._game.stage.canvas.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
+				this._game.stage.canvas.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
+				this._game.stage.canvas.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
+				this._game.stage.canvas.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
+			}
+		}
+
+		/**  
+		* Stops the mouse event listeners from working. Useful if you no longer want the mouse to &#x27;work&#x27;/be listened to.
+		* @method stop 
+		* @public
+		*/
+		public stop() {
+			if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+				this._domElement.removeEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), false);
+				this._domElement.removeEventListener(&#x27;mousedown&#x27;, this.onMouseDown, false);
+				this._domElement.removeEventListener(&#x27;mousemove&#x27;, this.onMouseMove, false);
+				this._domElement.removeEventListener(&#x27;mouseup&#x27;, this.onMouseUp, false);
+				this._domElement.removeEventListener(&#x27;mousewheel&#x27;, this.onMouseWheel, false);
+				this._domElement.removeEventListener(&#x27;DOMMouseScroll&#x27;, this.onMouseWheel, false);
+			}
+		}
+
+		/**  
+		* Method that gets fired when the mouse is pressed on the stage.
+		* @method onMouseDown
+		* @param {MouseEvent} event. 
+		* @private
+		*/
+		private onMouseDown(event: MouseEvent) { 
+			this._cursor.start(event); 
+			this.onDown.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
+		}
+
+		/**  
+		* Method that gets fired when the mouse moves anywhere on the stage.
+		* @method onMouseMove
+		* @param {MouseEvent} event. 
+		* @private
+		*/
+		private onMouseMove(event: MouseEvent) {
+			event.preventDefault();
+			this._cursor.move(event);
+		}
+
+		/**  
+		* Method that gets fired when the mouse is released on the stage.
+		* @method onMouseUp
+		* @param {MouseEvent} event. 
+		* @private
+		*/
+		private onMouseUp(event: MouseEvent) {
+			this._cursor.stop(event);
+			this.onUp.dispatch(this._cursor.x, this._cursor.y, this._cursor.timeDown, this._cursor.timeUp, this.duration, this._cursor); 
+		}
+
+		/**  
+		* Method that gets fired when the mousewheel is moved.
+		* @method onMouseWheel
+		* @param {MouseEvent} event. 
+		* @private
+		*/
+		private onMouseWheel(event: WheelEvent) {
+			this._cursor.wheel(event);
+			this.onWheel.dispatch(this._cursor.wheelDeltaX, this._cursor.wheelDeltaY, this._cursor);
+		}
+
+		/**  
+		* Returns a boolean indicating if the mouse was &#x27;justPressed&#x27; within a certain timeframe. The default timeframe is 200 milliseconds.
+		* @method justPressed
+		* @param [duration=200] {Number} The timeframe that it could have occured in. 
+		* @return {boolean}
+		* @public
+		*/
+		public justPressed(duration: number = this._cursor.justPressedRate): boolean { 
+			return this._cursor.justPressed(duration);
+		}
+
+		/**  
+		* Returns a boolean indicating if the mouse was &#x27;justReleased&#x27; within a certain timeframe. The default timeframe is 200 milliseconds.
+		* @method justReleased
+		* @param [duration=200] {Number} The timeframe that it could have occured in.. 
+		* @return {boolean}
+		* @public
+		*/
+		public justReleased(duration: number = this._cursor.justReleasedRate): boolean { 
+			return this._cursor.justReleased(duration); 
+		}
+
+		/** 
+		* Runs the Reset method on the MouseCursor.
+		* @method reset
+		* @public
+		*/
+		public reset() {
+			this._cursor.reset();
+		}
+
+	}
 
 }
+
     </pre>
 </div>
 

@@ -12,5 +12,5 @@ TemplateGame.Intro = new Kiwi.State('Intro');
 
 
 TemplateGame.Intro.create = function () {
-    game.states.switchState("Play");
+	game.states.switchState("Play");
 }

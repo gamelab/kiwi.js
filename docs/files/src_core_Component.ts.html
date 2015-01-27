@@ -372,119 +372,117 @@
 
 module Kiwi {
 
-    /**
-    * The base class that all components extend from. It contains all of the common functionality that is required of every Component.
-    * Any object  
-    *
-    * @class Component
-    * @namespace Kiwi
-    * @constructor
-    * @param owner {Object} The object that this component belongs to. 
-    * @param componentName {String} The name of this component.
-    * @return {Kiwi.Component}
-    */ 
-    export class Component {
-         
-        constructor (owner:Kiwi.IChild, name:string) {
+	/**
+	* The base class that all components extend from. It contains all of the common functionality that is required of every Component.
+	* Any object  
+	*
+	* @class Component
+	* @namespace Kiwi
+	* @constructor
+	* @param owner {Object} The object that this component belongs to. 
+	* @param componentName {String} The name of this component.
+	* @return {Kiwi.Component}
+	*/
+	export class Component {
 
-            this.owner = owner; 
-            this.game = this.owner.game;
-            this.name = name;
-            this.active = true;
+		constructor (owner:Kiwi.IChild, name:string) {
 
-        }
+			this.owner = owner; 
+			this.game = this.owner.game;
+			this.name = name;
+			this.active = true;
 
-        /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} &quot;Component&quot;
-        * @public
-        */
-        public objType():string {
-            return &quot;Component&quot;;
-        }
-        
-        /**
-        * The object that owns this entity
-        * @property owner
-        * @type Object
-        * @public
-        */
-        public owner: Kiwi.IChild;
+		}
 
-        /**
-        * The game this Component belongs to
-        * @property game
-        * @type Game
-        * @public
-	    */
-        public game: Kiwi.Game;
-
-        /**
-        * The name of this component.
-        * @property name
-        * @type string
-        * @public 
-        */
-        public name: string;
-         
-        /**
-		* An active Component is one that has its update method called by its parent.
-        * @property active
-        * @type boolean
-        * @default true
+		/**
+		* Returns the type of this object
+		* @method objType
+		* @return {String} &quot;Component&quot;
 		* @public
-        */
-        public active: boolean = true;
+		*/
+		public objType():string {
+			return &quot;Component&quot;;
+		}
 
-        /**
-        * The state of this component. 
-        * @property dirty
-        * @type boolean
-        * @default false
-        * @deprecated
-        * @public
-        */
-        public dirty: boolean = false;
+		/**
+		* The object that owns this entity
+		* @property owner
+		* @type Object
+		* @public
+		*/
+		public owner: Kiwi.IChild;
 
-        /**
-        * Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.
-        * @method preUpdate
-        * @public
-        */
-        public preUpdate() { }
+		/**
+		* The game this Component belongs to
+		* @property game
+		* @type Game
+		* @public
+		*/
+		public game: Kiwi.Game;
 
-        /**
-        * If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
-        * @method update
-        * @public
-        */
-        public update() { }
+		/**
+		* The name of this component.
+		* @property name
+		* @type string
+		* @public 
+		*/
+		public name: string;
 
-        /**
-        * Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
-        * @method postUpdate
-        * @public
-        */
-        public postUpdate() { }
+		/**
+		* An active Component is one that has its update method called by its parent.
+		* @property active
+		* @type boolean
+		* @default true
+		* @public
+		*/
+		public active: boolean = true;
 
-        /**
-        * Destroys this component and all of the properties that exist on it.
-        * @method destroy
-        * @public
-        */
-        public destroy() {
+		/**
+		* The state of this component. 
+		* @property dirty
+		* @type boolean
+		* @default false
+		* @deprecated
+		* @public
+		*/
+		public dirty: boolean = false;
 
-            this.active = false;
-            delete this.game;
-            delete this.owner;
+		/**
+		* Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.
+		* @method preUpdate
+		* @public
+		*/
+		public preUpdate() { }
 
-            this.name = &#x27;&#x27;;
+		/**
+		* If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
+		* @method update
+		* @public
+		*/
+		public update() { }
 
-        }
-        
-    }
+		/**
+		* Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
+		* @method postUpdate
+		* @public
+		*/
+		public postUpdate() { }
 
+		/**
+		* Destroys this component and all of the properties that exist on it.
+		* @method destroy
+		* @public
+		*/
+		public destroy() {
+
+			this.active = false;
+			delete this.game;
+			delete this.owner;
+
+			this.name = &#x27;&#x27;;
+
+		}
+	}
 }
 
     </pre>

@@ -10044,8 +10044,6 @@ declare module Kiwi.Renderers {
 }
 declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
 /**
-*
-*
 * @module Kiwi
 * @submodule Renderers
 * @main Renderers
@@ -10147,6 +10145,12 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _maxItems;
+        /**
+        * Camera matrix used on graphics card
+        * @property camMatrix
+        * @type Float32Array
+        * @public
+        */
         camMatrix: Float32Array;
         /**
         * The most recently bound texture atlas.
@@ -10379,11 +10383,11 @@ declare module Kiwi.Shaders {
     class ShaderManager {
         constructor();
         /**
-       * An object containing a set of properties each of which references a ShaderPair.
-       * @property _shaderPairs
-       * @type Object
-       * @private
-       */
+        * An object containing a set of properties each of which references a ShaderPair.
+        * @property _shaderPairs
+        * @type Object
+        * @private
+        */
         private _shaderPairs;
         /**
         * The shader program that is currently set to be used useing gl.useProgram.
@@ -10506,11 +10510,17 @@ declare module Kiwi.Renderers {
         texture: WebGLTexture;
         /**
         * The image wrapped by this wrapper.
+        * @property _image
+        * @type HTMLImageElement
+        * @private
+        */
+        private _image;
+        /**
+        * The image wrapped by this wrapper.
         * @property image
         * @type HTMLImageElement
         * @public
         */
-        private _image;
         image: HTMLImageElement;
         /**
         * Creates a webgl texture object
@@ -11044,15 +11054,15 @@ declare module Kiwi.Renderers {
 declare module Kiwi.Renderers {
     class Renderer {
         /**
-         * Base class for WebGL Renderers. Not for instantiation.
-         * @class Renderer
-         * @constructor
-         * @namespace Kiwi.Renderers
-         * @param gl {WebGLRenderingContext}
-           * @param shaderManager {Kiwi.Shaders.ShaderManager}
-         * @param [params=null] {object}
-         * @return {Kiwi.Renderers.Renderer}
-         */
+        * Base class for WebGL Renderers. Not for instantiation.
+        * @class Renderer
+        * @constructor
+        * @namespace Kiwi.Renderers
+        * @param gl {WebGLRenderingContext}
+        * @param shaderManager {Kiwi.Shaders.ShaderManager}
+        * @param [params=null] {object}
+        * @return {Kiwi.Renderers.Renderer}
+        */
         constructor(gl: WebGLRenderingContext, shaderManager: Kiwi.Shaders.ShaderManager, isBatchRenderer?: boolean);
         /**
         * Identifier for this renderer
@@ -11421,12 +11431,12 @@ declare module Kiwi.Shaders {
         */
         applyUniforms(gl: WebGLRenderingContext): void;
         /**
-       * Applies a single uniforms to the uploaded program
-       * @method applyUniform
-       * @param gl {WebGLRenderingCotext}
-       * @param name {string}
-       * @public
-       */
+        * Applies a single uniforms to the uploaded program
+        * @method applyUniform
+        * @param gl {WebGLRenderingCotext}
+        * @param name {string}
+        * @public
+        */
         applyUniform(gl: WebGLRenderingContext, name: string): void;
         /**
         * Initialises all uniforms
@@ -18732,6 +18742,12 @@ declare module Kiwi.Sound {
         * @private
         */
         private _locked;
+        /**
+        * Sound buffer
+        * @property _unlockedSource
+        * @type {any}
+        * @private
+        */
         private _unlockedSource;
         /**
         * Returns a boolean indicating whether the device has been touched or not. READ ONLY.

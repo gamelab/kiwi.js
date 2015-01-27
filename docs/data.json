@@ -1561,7 +1561,7 @@
             },
             "tag": "main",
             "file": "src/Kiwi.ts",
-            "line": 307,
+            "line": 306,
             "description": "Module - Kiwi (Core)\nThe top level namespace in which all core classes and modules are defined.",
             "itemtype": "main"
         },
@@ -1634,7 +1634,7 @@
             },
             "module": "Kiwi",
             "file": "src/gameobjects/Textfield.ts",
-            "line": 493,
+            "line": 486,
             "description": "The GameObject namespace holds classes which are designed to be added to a State (either directly, or as an ancestor of a Group) and are the Objects that are used when wanting to render anything visual onto the current State. Each GameObject is a representation of a particular item in a game and as such has information that corresponds to that item (like where they are in the 'GameWorld', the scale of the GameObject, who their parent is, e.t.c). For Example: If you wanted to have a massive background image then you can use the StaticImage GameObject, as that is a relatively light-weight object). Or if you had Player with an Animation, which user's could interactive with, then you would use a Sprite, which is more robust.",
             "tag": "main",
             "itemtype": "main"
@@ -1822,7 +1822,7 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 13,
+            "line": 11,
             "description": "Contains the classes which are related to the rendering of GameObjects.",
             "tag": "main",
             "itemtype": "main"
@@ -1843,7 +1843,7 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src/render/GLShaderManager.ts",
-            "line": 25,
+            "line": 24,
             "description": "GLSL ES Shaders are used for WebGL rendering.\nShaderPair objects encapsulate GLSL ES vertex and fragment shader programs. \n  ShaderPairs contain the GLSL code, provide an interface to uniforms and attributes, and have the ability to link and compile the shaders.\nThe ShaderManager keeps track of each ShaderPair, and controls which one is bound for use at any particular time.\n  Only the ShaderManager can create ShaderPairs. When a renderer (see note on renderes below) requests a ShaderPair the ShaderManager will either\n      1) Return a reference to an already instantiated ShaderPair, and set the GL state to use the shader program or\n      2) Return a reference to a new ShaderPair, which will be linked and compiled and bound for use.\n  All ShaderPairs must be housed as properties of the Kiwi.Shaders object. \n\nKiwi.Renderer objects use a ShaderPair to draw.\n  They must request a ShaderPair from the ShaderManager.\n  Many renderers may use the same ShaderPair.\n  Some renderers may at different times use multiple ShaderPairs (only one is possible at any given time)",
             "tag": "main",
             "itemtype": "main"
@@ -3843,7 +3843,7 @@
             "submodule": "GameObjects",
             "namespace": "Kiwi.GameObjects",
             "file": "src/gameobjects/Textfield.ts",
-            "line": 493,
+            "line": 486,
             "description": "Alias of the \"Kiwi.GameObjects.Textfield\". \nThis will continue to be an alias until we can deprecate the existing version.",
             "extends": "Kiwi.GameObjects.Textfield"
         },
@@ -5195,7 +5195,7 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/renderers/Renderer.ts",
-            "line": 14,
+            "line": 13,
             "description": "Base class for WebGL Renderers. Not for instantiation.",
             "is_constructor": 1,
             "params": [
@@ -5234,7 +5234,7 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 13,
+            "line": 12,
             "description": "The Renderer object for rendering Texture Atlases",
             "is_constructor": 1,
             "extends": "Kiwi.Renderers.Renderer",
@@ -5465,7 +5465,7 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLRenderManager.ts",
-            "line": 18,
+            "line": 13,
             "description": "Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix\nDirectly manages renderer objects, including factory methods for their creation. \nCreates manager objects for shaders and textures.\nManages gl state at game initialisation, at state start and end, and per frame.\nRuns the recursive scene graph rendering sequence every frame.",
             "extends": "IRenderer",
             "is_constructor": 1,
@@ -5493,7 +5493,7 @@
             "submodule": "Shaders",
             "namespace": "Kiwi.Shaders",
             "file": "src/render/GLShaderManager.ts",
-            "line": 25,
+            "line": 24,
             "description": "Manages all WebGL Shaders. Maintains a list of ShaderPairs \n \nProvides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.\nRenderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.\nThis Manager ensures only one compiled instance of each program is created",
             "extends": "IRenderer",
             "is_constructor": 1,
@@ -5514,7 +5514,7 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLTextureManager.ts",
-            "line": 13,
+            "line": 12,
             "description": "Manages GL Texture objects, including creation, uploading, destruction and memory management",
             "is_constructor": 1,
             "return": {
@@ -5534,7 +5534,7 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 13,
+            "line": 11,
             "description": "Wraps a webGL texture object",
             "is_constructor": 1,
             "params": [
@@ -6311,7 +6311,7 @@
             "module": "Kiwi",
             "namespace": "Kiwi",
             "file": "src/Kiwi.ts",
-            "line": 307,
+            "line": 306,
             "description": "The GameManager is used to maintain mulitple instances of Kiwi games within a single document.",
             "static": 1
         }
@@ -9674,7 +9674,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 654,
+            "line": 652,
             "description": "Separates a GameObjects from an Array of Tiles on the x-axis.",
             "itemtype": "method",
             "name": "separateTilesX",
@@ -9709,7 +9709,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 742,
+            "line": 740,
             "description": "Separates a GameObject from a tiles on the y-axis.",
             "itemtype": "method",
             "name": "separateTilesY",
@@ -9744,7 +9744,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 835,
+            "line": 833,
             "description": "A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.\nIf seperateObjects is true it will seperate the two entities based on their bounding box.\nONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.\nNote: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.",
             "itemtype": "method",
             "name": "overlapsTiles",
@@ -9782,7 +9782,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 865,
+            "line": 863,
             "description": "A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.\nIf seperateObjects is true it will seperate the two entities based on their bounding box.\nNote: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component. \nAlso: Not to be used for separation from tiles.",
             "itemtype": "method",
             "name": "overlaps",
@@ -9813,7 +9813,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 900,
+            "line": 898,
             "description": "A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.",
             "itemtype": "method",
             "name": "overlapsGroup",
@@ -9844,7 +9844,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 935,
+            "line": 933,
             "description": "A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.",
             "itemtype": "method",
             "name": "overlapsArray",
@@ -9875,7 +9875,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 982,
+            "line": 980,
             "description": "Computes the velocity based on the parameters passed.",
             "itemtype": "method",
             "name": "computeVelocity",
@@ -9921,7 +9921,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1016,
+            "line": 1014,
             "description": "Updates the position of this object. Automatically called if the 'moves' parameter is true.  \nThis called each frame during the update method.",
             "itemtype": "method",
             "name": "updateMotion",
@@ -9934,7 +9934,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1051,
+            "line": 1049,
             "description": "The Update loop of the physics component",
             "itemtype": "method",
             "name": "update",
@@ -9947,7 +9947,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1073,
+            "line": 1071,
             "description": "Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.",
             "itemtype": "method",
             "name": "destroy",
@@ -9960,7 +9960,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1088,
+            "line": 1086,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -9977,7 +9977,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1113,
+            "line": 1111,
             "description": "A Static method to check to see if two objects collide or not. Returns a boolean indicating whether they overlaped or not.",
             "itemtype": "method",
             "name": "collide",
@@ -10014,7 +10014,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1129,
+            "line": 1127,
             "description": "A Static method to check to see if a single entity collides with a group of entities. Returns a boolean indicating whether they overlaped or not.",
             "itemtype": "method",
             "name": "collideGroup",
@@ -10051,7 +10051,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1147,
+            "line": 1145,
             "description": "A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating whether they overlaped or not.",
             "itemtype": "method",
             "name": "collideGroupGroup",
@@ -10088,7 +10088,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1171,
+            "line": 1169,
             "description": "A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.",
             "itemtype": "method",
             "name": "overlaps",
@@ -10125,7 +10125,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1189,
+            "line": 1187,
             "description": "A Static method to that checks to see if a single object overlaps with a group of entities. Returns a boolean indicating whether they did or not.",
             "itemtype": "method",
             "name": "overlapsObjectGroup",
@@ -10162,7 +10162,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1207,
+            "line": 1205,
             "description": "A Static method that checks to see if any objects in one group overlap with objects in another group.",
             "itemtype": "method",
             "name": "overlaps",
@@ -10199,7 +10199,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1239,
+            "line": 1237,
             "description": "A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.",
             "itemtype": "method",
             "name": "overlapsArrayGroup",
@@ -10234,7 +10234,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1280,
+            "line": 1278,
             "description": "How often the motion should be updated.",
             "itemtype": "property",
             "name": "updateInterval",
@@ -10250,7 +10250,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1291,
+            "line": 1289,
             "description": "Generic value for \"left\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "LEFT",
@@ -10266,7 +10266,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1302,
+            "line": 1300,
             "description": "Generic value for \"right\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "RIGHT",
@@ -10282,7 +10282,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1313,
+            "line": 1311,
             "description": "Generic value for \"up\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "UP",
@@ -10298,7 +10298,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1324,
+            "line": 1322,
             "description": "Generic value for \"down\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "DOWN",
@@ -10314,7 +10314,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1335,
+            "line": 1333,
             "description": "Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "NONE",
@@ -10330,7 +10330,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1346,
+            "line": 1344,
             "description": "Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "CEILING",
@@ -10346,7 +10346,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1357,
+            "line": 1355,
             "description": "Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "FLOOR",
@@ -10362,7 +10362,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1368,
+            "line": 1366,
             "description": "Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "WALL",
@@ -10378,7 +10378,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1379,
+            "line": 1377,
             "description": "Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "ANY",
@@ -10394,7 +10394,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1390,
+            "line": 1388,
             "description": "Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).",
             "itemtype": "property",
             "name": "OVERLAP_BIAS",
@@ -10626,7 +10626,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 275,
+            "line": 274,
             "description": "Returns the raw center point of the box.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawCenter",
@@ -10640,7 +10640,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 290,
+            "line": 289,
             "description": "Contains the center point after the box has been transformed.",
             "itemtype": "property",
             "name": "_transformedCenter",
@@ -10654,7 +10654,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 299,
+            "line": 298,
             "description": "Returns the center point for the box after it has been transformed.\nWorld coordinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "center",
@@ -10668,7 +10668,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 320,
+            "line": 319,
             "description": "Contains the transformed or 'normal' bounds for this entity.",
             "itemtype": "property",
             "name": "_transformedBounds",
@@ -10682,7 +10682,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 329,
+            "line": 328,
             "description": "The 'world' transformed bounds for this entity.",
             "itemtype": "property",
             "name": "_worldBounds",
@@ -10696,7 +10696,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 338,
+            "line": 337,
             "description": "Returns the 'transformed' or 'normal' bounds for this box. \nThis is READ ONLY.",
             "itemtype": "property",
             "name": "bounds",
@@ -10710,7 +10710,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 351,
+            "line": 350,
             "description": "Returns the 'transformed' bounds for this entity using the world coodinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "worldBounds",
@@ -10724,7 +10724,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 364,
+            "line": 363,
             "description": "Private internal method only. Used to calculate the transformed bounds after rotation/scale.",
             "itemtype": "method",
             "name": "_rotateRect",
@@ -10755,7 +10755,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 394,
+            "line": 393,
             "description": "A private method that is used to calculate the transformed hitbox's coordinates after rotation.",
             "itemtype": "method",
             "name": "_rotateHitbox",
@@ -10786,7 +10786,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 425,
+            "line": 424,
             "description": "Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.",
             "itemtype": "method",
             "name": "draw",
@@ -10812,7 +10812,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 464,
+            "line": 463,
             "description": "Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.\nThe points passed can be maybe in any order, as the are checked for validity first.",
             "itemtype": "method",
             "name": "extents",
@@ -10848,7 +10848,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 488,
+            "line": 487,
             "description": "Destroys this component and all of the links it may have to other objects.",
             "itemtype": "method",
             "name": "destroy",
@@ -11586,7 +11586,7 @@
         },
         {
             "file": "src/components/Input.ts",
-            "line": 756,
+            "line": 755,
             "description": "Destroys the input.",
             "itemtype": "method",
             "name": "destory",
@@ -12171,7 +12171,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 83,
+            "line": 82,
             "description": "Creates a new Camera and adds it to the collection of cameras.",
             "params": [
                 {
@@ -12212,7 +12212,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 105,
+            "line": 103,
             "description": "Removes the given camera, if it is present in the camera managers camera collection.",
             "itemtype": "method",
             "name": "remove",
@@ -12235,7 +12235,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 125,
+            "line": 122,
             "description": "Calls update on all the cameras.",
             "itemtype": "method",
             "name": "update",
@@ -12247,7 +12247,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 142,
+            "line": 139,
             "description": "Calls the render method on all the cameras",
             "itemtype": "method",
             "name": "render",
@@ -12259,7 +12259,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 160,
+            "line": 157,
             "description": "Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.",
             "itemtype": "method",
             "name": "removeAll",
@@ -12271,7 +12271,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 169,
+            "line": 166,
             "description": "Returns all cameras to origin. Called when starting a new state.",
             "itemtype": "method",
             "name": "zeroAllCameras",
@@ -12284,7 +12284,7 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 183,
+            "line": 180,
             "description": "Returns camera to origin.",
             "itemtype": "method",
             "name": "zeroCamera",
@@ -12732,7 +12732,7 @@
         },
         {
             "file": "src/core/ComponentManager.ts",
-            "line": 270,
+            "line": 269,
             "description": "Renders all active Components",
             "itemtype": "method",
             "name": "render",
@@ -12744,7 +12744,7 @@
         },
         {
             "file": "src/core/ComponentManager.ts",
-            "line": 285,
+            "line": 283,
             "description": "Calls postRender on all active Components",
             "itemtype": "method",
             "name": "postRender",
@@ -15389,7 +15389,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1302,
+            "line": 1301,
             "description": "A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.",
             "itemtype": "property",
             "name": "_destroyRemoveChildren",
@@ -15883,7 +15883,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 46,
+            "line": 45,
             "description": "An array of objects represetning all available plugins, each containing the name and version number of an available plugin",
             "itemtype": "property",
             "name": "getAvailablePlugins",
@@ -15897,7 +15897,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 63,
+            "line": 61,
             "description": "Registers a plugin object as available. Any game instance can choose to use the plugin.\nPlugins need only be registered once per webpage. If registered a second time it will be ignored.\nTwo plugins with the same names cannot be reigstered simultaneously, even if different versions.",
             "itemtype": "method",
             "name": "register",
@@ -15917,7 +15917,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 96,
+            "line": 94,
             "description": "Identifies the object as a PluginManager.",
             "itemtype": "property",
             "name": "objType",
@@ -15930,7 +15930,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 106,
+            "line": 104,
             "description": "A reference to the game instance that owns the PluginManager.",
             "itemtype": "property",
             "name": "objType",
@@ -15943,7 +15943,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 114,
+            "line": 112,
             "description": "An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.",
             "itemtype": "property",
             "name": "_plugins",
@@ -15956,7 +15956,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 122,
+            "line": 120,
             "description": "An array of objects that contain a boot function, each of which will be called when PluginManager.boot is invoked.",
             "itemtype": "property",
             "name": "_bootObjects",
@@ -15969,7 +15969,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 130,
+            "line": 128,
             "description": "Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object  \nis checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.\nThis will ignore plugin that are registered but not used by the game instance.",
             "itemtype": "method",
             "name": "validatePlugins",
@@ -15981,7 +15981,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 208,
+            "line": 206,
             "description": "Returns whether a valid minimum version of a plugin exists.",
             "itemtype": "method",
             "name": "validMinimumPluginVersionExists",
@@ -16008,7 +16008,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 225,
+            "line": 223,
             "description": "Returns true if a plugin identified by the supplied pluginName is registered.",
             "itemtype": "method",
             "name": "pluginIsRegistered",
@@ -16027,7 +16027,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 241,
+            "line": 239,
             "description": "Called after all other core objects and services created by the Kiwi.Game constructor are created.\nAttempts to find a \"create\" function on each plugin and calls it if it exists.\nThe create function may return an object on which a boot function exists - to be called during boot process.",
             "itemtype": "method",
             "name": "_createPlugins",
@@ -16039,7 +16039,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 261,
+            "line": 256,
             "description": "Calls the boot functions on any objects that plugins used by the game instance have designated during creation.",
             "itemtype": "method",
             "name": "boot",
@@ -16051,7 +16051,7 @@
         },
         {
             "file": "src/core/PluginManager.ts",
-            "line": 277,
+            "line": 272,
             "description": "Calls the update functions on any objects that plugins used by the game instance have designated during creation.",
             "itemtype": "method",
             "name": "update",
@@ -17383,7 +17383,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 699,
+            "line": 697,
             "description": "Set the stage width and height for rendering purposes.\nThis will not effect that \"scaleType\" that it has been set to.",
             "itemtype": "method",
             "name": "resize",
@@ -17407,7 +17407,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 722,
+            "line": 720,
             "description": "Sets the background color of the stage through component RGB colour values. \nEach parameter is a number between 0 and 255.\nThis method also returns an Object Literal with \"r\", \"g\", \"b\" properties.",
             "itemtype": "method",
             "name": "setRGBColor",
@@ -17440,7 +17440,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 740,
+            "line": 738,
             "description": "Creates a debug canvas and adds it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. \nThe context for rendering can be access via the \"dctx\" property and you can use the \"clearDebugCanvas\" method to clear the canvas.",
             "itemtype": "method",
             "name": "createDebugCanvas",
@@ -17452,7 +17452,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 774,
+            "line": 771,
             "description": "Clears the debug canvas and fills with either the color passed. \nIf not colour is passed then Red at 20% opacity is used.",
             "itemtype": "method",
             "name": "clearDebugCanvas",
@@ -17473,7 +17473,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 788,
+            "line": 785,
             "description": "Toggles the visibility of the debug canvas.",
             "itemtype": "method",
             "name": "toggleDebugCanvas",
@@ -17485,7 +17485,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 797,
+            "line": 794,
             "description": "Handles the scaling/sizing based upon the scaleType property.",
             "itemtype": "method",
             "name": "_scaleContainer",
@@ -17645,7 +17645,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 156,
+            "line": 155,
             "description": "Gets executed when the state has been initalised and gets switched to for the first time.\nThis method only ever gets called once and it is before the preload method.\nCan have parameters passed to it by the previous state that switched to it.",
             "itemtype": "method",
             "name": "init",
@@ -17665,7 +17665,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 166,
+            "line": 165,
             "description": "This method is where you would load of all the assets that are requried for this state or in the entire game.",
             "itemtype": "method",
             "name": "preload",
@@ -17677,7 +17677,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 174,
+            "line": 173,
             "description": "This method is progressively called whilst loading files and is executed each time a file has been loaded.\nThis can be used to create a 'progress' bar during the loading stage of a game.",
             "itemtype": "method",
             "name": "loadProgress",
@@ -17706,7 +17706,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 185,
+            "line": 184,
             "description": "Gets executed when the game is finished loading and it is about to 'create' the state.",
             "itemtype": "method",
             "name": "loadComplete",
@@ -17718,7 +17718,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 192,
+            "line": 191,
             "description": "The game loop that gets executed while the game is loading.",
             "itemtype": "method",
             "name": "loadUpdate",
@@ -17730,7 +17730,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 208,
+            "line": 206,
             "description": "Is executed once all of the assets have loaded and the game is ready to be 'created'.",
             "itemtype": "method",
             "name": "create",
@@ -17751,7 +17751,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 216,
+            "line": 214,
             "description": "Is called every frame before the update loop. When overriding make sure you include a super call.",
             "itemtype": "method",
             "name": "preUpdate",
@@ -17763,7 +17763,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 227,
+            "line": 223,
             "description": "The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.",
             "itemtype": "method",
             "name": "update",
@@ -17775,7 +17775,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 252,
+            "line": 247,
             "description": "The post update loop is executed every frame after the update method. \nWhen overriding make sure you include a super call at the end of the method.",
             "itemtype": "method",
             "name": "postUpdate",
@@ -17787,7 +17787,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 264,
+            "line": 257,
             "description": "Called after all of the layers have rendered themselves, useful for debugging.",
             "itemtype": "method",
             "name": "postRender",
@@ -17799,7 +17799,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 271,
+            "line": 264,
             "description": "Called just before this State is going to be Shut Down and another one is going to be switched too.",
             "itemtype": "method",
             "name": "shutDown",
@@ -17811,7 +17811,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 286,
+            "line": 279,
             "description": "Adds a new image file that is be loaded when the state gets up to the loading all of the assets.",
             "itemtype": "method",
             "name": "addImage",
@@ -17866,7 +17866,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 303,
+            "line": 296,
             "description": "Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.",
             "itemtype": "method",
             "name": "addSpriteSheet",
@@ -17953,7 +17953,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 327,
+            "line": 319,
             "description": "Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.",
             "itemtype": "method",
             "name": "addTextureAtlas",
@@ -17996,7 +17996,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 344,
+            "line": 336,
             "description": "Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.",
             "itemtype": "method",
             "name": "addJSON",
@@ -18027,7 +18027,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 358,
+            "line": 350,
             "description": "Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.",
             "itemtype": "method",
             "name": "addAudio",
@@ -18056,7 +18056,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 380,
+            "line": 372,
             "description": "Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.\nUseful for keeping track of sprites that are not used any more and need to be destroyed.",
             "itemtype": "property",
             "name": "trackingList",
@@ -18069,7 +18069,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 389,
+            "line": 381,
             "description": "Adds a new Objects to the tracking list. \nThis is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.",
             "itemtype": "method",
             "name": "addToTrackingList",
@@ -18088,7 +18088,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 403,
+            "line": 395,
             "description": "Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.\nThis is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.",
             "itemtype": "method",
             "name": "removeFromTrackingList",
@@ -18107,7 +18107,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 418,
+            "line": 410,
             "description": "Destroys all of Objects in the tracking list that are not currently on stage. \nAll that currently don't have this STATE as an ancestor.\nReturns the number of Objects removed.",
             "itemtype": "method",
             "name": "destroyUnused",
@@ -18123,7 +18123,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 441,
+            "line": 433,
             "description": "Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.",
             "itemtype": "method",
             "name": "destroy",
@@ -18143,7 +18143,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 466,
+            "line": 458,
             "description": "Recursively goes through a child given and runs the destroy method on all that are passed.",
             "itemtype": "method",
             "name": "_destroyChildren",
@@ -18645,7 +18645,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 395,
+            "line": 394,
             "description": "Executed when the preloading has completed. Then executes the loadComplete and create methods of the new State.",
             "itemtype": "method",
             "name": "onLoadComplete",
@@ -18657,7 +18657,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 413,
+            "line": 412,
             "description": "Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.",
             "itemtype": "method",
             "name": "rebuildLibraries",
@@ -18669,7 +18669,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 428,
+            "line": 427,
             "description": "The update loop that is accessible on the StateManager.",
             "itemtype": "method",
             "name": "update",
@@ -18681,7 +18681,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 457,
+            "line": 456,
             "description": "PostRender - Called after all of the rendering has been executed in a frame.",
             "itemtype": "method",
             "name": "postRender",
@@ -22585,7 +22585,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 238,
+            "line": 237,
             "description": "Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.\nThis is an INTERNAL method, which is used when the createFromFileStore method is executed.",
             "itemtype": "method",
             "name": "_generateTypesFromTileset",
@@ -22615,7 +22615,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 290,
+            "line": 289,
             "description": "Method to set the default TileMap properties. Useful when wanting to create tilemaps programmatically.",
             "itemtype": "method",
             "name": "setTo",
@@ -22650,7 +22650,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 306,
+            "line": 305,
             "description": "-----------------------\n Creation of Tile Types\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22659,7 +22659,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 312,
+            "line": 311,
             "description": "Generates a single new TileType. Returns the TileType that was generated.",
             "itemtype": "method",
             "name": "createTileType",
@@ -22685,7 +22685,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 326,
+            "line": 325,
             "description": "Creates a new TileType for each cell that you pass.",
             "itemtype": "method",
             "name": "createTileTypes",
@@ -22709,7 +22709,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 343,
+            "line": 342,
             "description": "Used to create a number of TileTypes based starting cell number and how many you want from there.",
             "itemtype": "method",
             "name": "createTileTypesByRange",
@@ -22736,7 +22736,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 361,
+            "line": 360,
             "description": "-----------------------\n Cell Modifications\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22745,7 +22745,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 367,
+            "line": 366,
             "description": "Changes a single cellIndex that a TileType is to use when it is rendered.",
             "itemtype": "method",
             "name": "setCell",
@@ -22770,7 +22770,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 378,
+            "line": 377,
             "description": "Changes a range of cellIndexs for Tiles the same range of TileTypes.",
             "itemtype": "method",
             "name": "setCellsByRange",
@@ -22800,7 +22800,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 395,
+            "line": 394,
             "description": "-----------------------\n Creation of Tilemap Layers\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22809,7 +22809,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 401,
+            "line": 400,
             "description": "Creates a new TileMapLayer with the details that are provided. \nIf no width/height/tileWidth/tileHeight parameters are passed then the values will be what this TileMap has.\nIf no 'data' is provided then the map will be automatically filled with empty Types of Tiles.\nReturns the new TileMapLayer that was created.",
             "itemtype": "method",
             "name": "createNewLayer",
@@ -22885,7 +22885,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 441,
+            "line": 440,
             "description": "Eventually will create a new object layer. Currently does nothing.",
             "itemtype": "method",
             "name": "createNewObjectLayer",
@@ -22898,7 +22898,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 451,
+            "line": 450,
             "description": "Eventually will create a new image layer. Currently does nothing.",
             "itemtype": "method",
             "name": "createNewObjectLayer",
@@ -22911,7 +22911,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 460,
+            "line": 459,
             "description": "-----------------------\n TileMapLayer Management Functions\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22920,7 +22920,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 466,
+            "line": 465,
             "description": "Get a layer by the name that it was given upon creation.\nReturns null if no layer with that name was found.",
             "itemtype": "method",
             "name": "getLayerByName",
@@ -22944,7 +22944,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 483,
+            "line": 482,
             "description": "Returns the layer with the number associated with it in the layers array.",
             "itemtype": "method",
             "name": "getLayer",
@@ -22968,7 +22968,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 495,
+            "line": 494,
             "description": "The type of object that it is.",
             "itemtype": "method",
             "name": "objType",
@@ -23770,7 +23770,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 610,
+            "line": 609,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23779,7 +23779,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 616,
+            "line": 615,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -23793,7 +23793,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 625,
+            "line": 624,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -23807,7 +23807,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 634,
+            "line": 633,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -23821,7 +23821,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 643,
+            "line": 642,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -23835,7 +23835,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 652,
+            "line": 651,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -23849,7 +23849,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 660,
+            "line": 659,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner1",
@@ -23864,7 +23864,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 668,
+            "line": 667,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner2",
@@ -23879,7 +23879,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 676,
+            "line": 675,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner3",
@@ -23894,7 +23894,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 684,
+            "line": 683,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner4",
@@ -23909,7 +23909,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 693,
+            "line": 692,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -23934,7 +23934,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 757,
+            "line": 756,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -23968,7 +23968,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 774,
+            "line": 773,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -24002,7 +24002,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 792,
+            "line": 791,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -24022,7 +24022,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 34,
+            "line": 33,
             "description": "The collision information for this type of tile. \nIt's values are the same as the Static properties inside of the ArcadePhysics Component.",
             "itemtype": "property",
             "name": "allowCollisions",
@@ -24037,7 +24037,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 44,
+            "line": 43,
             "description": "The properties associated with this type of tile. \nThese are set when loading a JSON file that had properties associated with a TileType.",
             "itemtype": "property",
             "name": "properties",
@@ -24051,7 +24051,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 53,
+            "line": 52,
             "description": "The offset of this tile for rendering purposes. \nDoes not affect regular collision detection.",
             "itemtype": "property",
             "name": "offset",
@@ -24065,7 +24065,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 63,
+            "line": 62,
             "description": "A reference to the tilemap this tile object belongs to.",
             "itemtype": "property",
             "name": "tilemap",
@@ -24079,7 +24079,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 71,
+            "line": 70,
             "description": "The index of this tile type in the core map data.\nFor example, if your map only has 16 different types of tiles in it, this will be one of those tiles and thus a number between 1 and 16.",
             "itemtype": "property",
             "name": "index",
@@ -24093,7 +24093,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 80,
+            "line": 79,
             "description": "A number relating to the cell that should be when rendering a Tile that uses this TileType.\nA cellIndex of -1 means this type of tile will not be rendered.",
             "itemtype": "property",
             "name": "cellIndex",
@@ -24107,7 +24107,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileType.ts",
-            "line": 89,
+            "line": 88,
             "description": "The type of object that it is.",
             "itemtype": "method",
             "name": "objType",
@@ -24230,7 +24230,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 164,
+            "line": 162,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -24532,7 +24532,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 212,
+            "line": 211,
             "description": "The font family that is being used to render the text.",
             "itemtype": "property",
             "name": "fontFamily",
@@ -24546,7 +24546,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 227,
+            "line": 225,
             "description": "A static property that contains the string to center align the text.",
             "itemtype": "property",
             "name": "TEXT_ALIGN_CENTER",
@@ -24562,7 +24562,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 237,
+            "line": 235,
             "description": "A static property that contains the string to right align the text.",
             "itemtype": "property",
             "name": "TEXT_ALIGN_RIGHT",
@@ -24578,7 +24578,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 247,
+            "line": 245,
             "description": "A static property that contains the string to left align the text.",
             "itemtype": "property",
             "name": "TEXT_ALIGN_LEFT",
@@ -24594,7 +24594,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 257,
+            "line": 255,
             "description": "Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",
             "itemtype": "property",
             "name": "textAlign",
@@ -24608,7 +24608,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 272,
+            "line": 270,
             "description": "The canvas element which the text is rendered onto.",
             "itemtype": "property",
             "name": "_canvas",
@@ -24622,7 +24622,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 280,
+            "line": 278,
             "description": "The context for the canvas element. Used whilst rendering text.",
             "itemtype": "property",
             "name": "_ctx",
@@ -24636,7 +24636,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 288,
+            "line": 286,
             "description": "If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.",
             "itemtype": "property",
             "name": "_tempDirty",
@@ -24650,7 +24650,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 296,
+            "line": 294,
             "description": "Hitbox component",
             "itemtype": "property",
             "name": "box",
@@ -24665,7 +24665,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 306,
+            "line": 304,
             "description": "This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). \nThis is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.",
             "itemtype": "method",
             "name": "_renderText",
@@ -24678,7 +24678,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 379,
+            "line": 377,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -24698,7 +24698,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 429,
+            "line": 425,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -28592,7 +28592,7 @@
         },
         {
             "file": "src/geom/Ray.ts",
-            "line": 200,
+            "line": 197,
             "description": "Get a string representation of the ray.",
             "itemtype": "method",
             "name": "toString",
@@ -37921,7 +37921,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 468,
+            "line": 467,
             "description": "This method is in charge of cancelling (removing) a \"finger\".\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_cancelFinger",
@@ -37946,7 +37946,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 495,
+            "line": 493,
             "description": "This method is in charge of creating and assigning (removing) a \"finger\" when it has entered the dom element.\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_enterFinger",
@@ -37971,7 +37971,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 516,
+            "line": 514,
             "description": "This method is in charge of removing an assigned \"finger\" when it has left the DOM Elemetn.\nYou have to pass this method a id which is used to idenfied the finger that left.",
             "itemtype": "method",
             "name": "_leaveFinger",
@@ -37996,7 +37996,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 533,
+            "line": 531,
             "description": "This method is in charge of updating the coordinates of a \"finger\" when it has moved..\nYou have to pass this method a id which is used to idenfied the finger that moved.",
             "itemtype": "method",
             "name": "_moveFinger",
@@ -38021,7 +38021,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 552,
+            "line": 550,
             "description": "-------------------\n Touch Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -38030,7 +38030,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 559,
+            "line": 557,
             "description": "This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchStart",
@@ -38050,7 +38050,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 577,
+            "line": 575,
             "description": "Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.\nhttp://www.w3.org/TR/touch-events/#dfn-touchcancel",
             "itemtype": "method",
             "name": "onTouchCancel",
@@ -38070,7 +38070,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 594,
+            "line": 592,
             "description": "Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.",
             "itemtype": "method",
             "name": "onTouchEnter",
@@ -38090,7 +38090,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 612,
+            "line": 610,
             "description": "Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.     \nWould be handly for when an finger 'leaves' the stage.",
             "itemtype": "method",
             "name": "onTouchLeave",
@@ -38110,7 +38110,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 631,
+            "line": 629,
             "description": "When a touch pointer moves. This method updates the appropriate pointer.",
             "itemtype": "method",
             "name": "onTouchMove",
@@ -38130,7 +38130,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 648,
+            "line": 646,
             "description": "When a touch event gets released.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchEnd",
@@ -38150,7 +38150,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 667,
+            "line": 664,
             "description": "-------------------\n Pointer Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -38159,7 +38159,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 674,
+            "line": 671,
             "description": "Event that is fired when a pointer is initially pressed.",
             "itemtype": "method",
             "name": "onPointerStart",
@@ -38179,7 +38179,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 686,
+            "line": 683,
             "description": "Event that is fired by a pointer event listener upon a pointer canceling for some reason.",
             "itemtype": "method",
             "name": "onPointerCancel",
@@ -38199,7 +38199,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 698,
+            "line": 695,
             "description": "Event that is fired by a pointer event listener upon a pointer entering the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerEnter",
@@ -38219,7 +38219,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 710,
+            "line": 707,
             "description": "Event that is fired by a pointer event listener upon a pointer being leaving the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerLeave",
@@ -38239,7 +38239,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 722,
+            "line": 719,
             "description": "Event that is fired by a pointer event listener upon a pointer moving.",
             "itemtype": "method",
             "name": "onPointerMove",
@@ -38257,7 +38257,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 733,
+            "line": 730,
             "description": "Event that is fired by a pointer event listener upon a pointer being released.",
             "itemtype": "method",
             "name": "onPointerEnd",
@@ -38277,7 +38277,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 746,
+            "line": 743,
             "description": "-----------------\n Normal Methods \n-----------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -38286,7 +38286,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 753,
+            "line": 750,
             "description": "The update loop fro the touch manager.",
             "itemtype": "method",
             "name": "update",
@@ -38299,7 +38299,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 771,
+            "line": 768,
             "description": "This method removes all of the event listeners and thus 'stops' the touch manager.",
             "itemtype": "method",
             "name": "stop",
@@ -38312,7 +38312,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 800,
+            "line": 797,
             "description": "Resets all of the fingers/pointers to their default states.",
             "itemtype": "method",
             "name": "reset",
@@ -38325,7 +38325,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 31,
+            "line": 30,
             "description": "Identifier for this renderer",
             "itemtype": "property",
             "name": "RENDERER_ID",
@@ -38340,7 +38340,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 40,
+            "line": 39,
             "description": "The camera matrix",
             "itemtype": "property",
             "name": "camMatrix",
@@ -38354,7 +38354,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 48,
+            "line": 47,
             "itemtype": "property",
             "name": "loaded",
             "type": "Array",
@@ -38367,7 +38367,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 56,
+            "line": 55,
             "description": "Reference to the shaderManager - used for requesting shaders.",
             "itemtype": "property",
             "name": "shaderManager",
@@ -38381,7 +38381,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 64,
+            "line": 63,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
             "name": "enable",
@@ -38408,7 +38408,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 75,
+            "line": 74,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
             "name": "disable",
@@ -38435,7 +38435,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 86,
+            "line": 85,
             "description": "Enables the renderer (for override)",
             "itemtype": "method",
             "name": "clear",
@@ -38462,7 +38462,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 96,
+            "line": 95,
             "description": "Draw to the draw or frame buffer (for override)",
             "itemtype": "method",
             "name": "draw",
@@ -38482,7 +38482,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 105,
+            "line": 104,
             "description": "Updates the stage resolution uniforms (for override)",
             "itemtype": "method",
             "name": "updateStageResolution",
@@ -38507,7 +38507,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 115,
+            "line": 114,
             "description": "Updates the texture size uniforms (for override)",
             "itemtype": "method",
             "name": "updateTextureSize",
@@ -38532,7 +38532,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 126,
+            "line": 125,
             "description": "The shader pair used by the renderer",
             "itemtype": "property",
             "name": "shaderPair",
@@ -38546,7 +38546,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 135,
+            "line": 134,
             "description": "This renderer's blend mode data.",
             "itemtype": "property",
             "name": "blendMode",
@@ -38561,7 +38561,7 @@
         },
         {
             "file": "src/render/renderers/Renderer.ts",
-            "line": 145,
+            "line": 144,
             "description": "Returns whether this is a batch renderer.",
             "itemtype": "property",
             "name": "isBatchRenderer",
@@ -38575,7 +38575,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 34,
+            "line": 33,
             "description": "The identifier for this renderer.",
             "itemtype": "property",
             "name": "RENDERER_ID",
@@ -38590,7 +38590,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 43,
+            "line": 42,
             "description": "The shaderPair that this renderer uses.",
             "itemtype": "property",
             "name": "shaderPair",
@@ -38604,7 +38604,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 51,
+            "line": 50,
             "description": "The reference to the shaderPair.",
             "itemtype": "property",
             "name": "_shaderPairName",
@@ -38619,7 +38619,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 60,
+            "line": 59,
             "description": "The maximum number of items that can be rendered by the renderer (not enforced)",
             "itemtype": "property",
             "name": "_maxItems",
@@ -38633,7 +38633,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 68,
+            "line": 67,
             "description": "The Vertex Buffer",
             "itemtype": "property",
             "name": "_vertexBuffer",
@@ -38647,7 +38647,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 76,
+            "line": 75,
             "description": "The Index Buffer",
             "itemtype": "property",
             "name": "_indexBuffer",
@@ -38661,7 +38661,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 84,
+            "line": 83,
             "description": "Enables the renderer ready for drawing",
             "itemtype": "method",
             "name": "enable",
@@ -38688,7 +38688,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 104,
+            "line": 103,
             "description": "Disables the renderer",
             "itemtype": "method",
             "name": "disable",
@@ -38708,7 +38708,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 115,
+            "line": 114,
             "description": "Clears the vertex buffer.",
             "itemtype": "method",
             "name": "clear",
@@ -38728,7 +38728,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 126,
+            "line": 125,
             "description": "Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).",
             "itemtype": "method",
             "name": "draw",
@@ -38748,7 +38748,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 146,
+            "line": 144,
             "description": "Generates quad indices",
             "itemtype": "method",
             "name": "_generateIndices",
@@ -38768,7 +38768,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 161,
+            "line": 159,
             "description": "Updates the stage resolution uniforms",
             "itemtype": "method",
             "name": "updateStageResolution",
@@ -38793,7 +38793,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 172,
+            "line": 170,
             "description": "Updates the texture size uniforms",
             "itemtype": "method",
             "name": "updateTextureSize",
@@ -38818,7 +38818,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 183,
+            "line": 181,
             "description": "Sets shader pair by name",
             "itemtype": "method",
             "name": "setShaderPair",
@@ -38839,7 +38839,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 195,
+            "line": 193,
             "description": "Collates all xy and uv coordinates into a buffer ready for upload to video memory",
             "itemtype": "method",
             "name": "addToBatch",
@@ -38869,7 +38869,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 230,
+            "line": 228,
             "description": "Adds an array of precalculated xyuv values to the item array",
             "itemtype": "method",
             "name": "concatBatch",
@@ -38889,7 +38889,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 24,
+            "line": 22,
             "itemtype": "property",
             "name": "RENDERER_ID",
             "type": "string",
@@ -38903,7 +38903,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 33,
+            "line": 31,
             "description": "Initialise the shader pair.",
             "itemtype": "method",
             "name": "init",
@@ -38923,7 +38923,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 47,
+            "line": 44,
             "description": "Returns whether the shader pair has been loaded and compiled.",
             "itemtype": "property",
             "name": "loaded",
@@ -38937,7 +38937,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 55,
+            "line": 52,
             "description": "Vertex shader",
             "itemtype": "property",
             "name": "vertShader",
@@ -38951,7 +38951,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 63,
+            "line": 60,
             "description": "Fragment shader",
             "itemtype": "property",
             "name": "fragShader",
@@ -38965,7 +38965,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 71,
+            "line": 68,
             "description": "The WebGl shader program",
             "itemtype": "property",
             "name": "shaderProgram",
@@ -38979,7 +38979,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 79,
+            "line": 76,
             "description": "Attaches the shaders to the program and links them",
             "itemtype": "method",
             "name": "attach",
@@ -39013,7 +39013,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 96,
+            "line": 93,
             "description": "Compiles the shaders",
             "itemtype": "method",
             "name": "compile",
@@ -39047,7 +39047,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 116,
+            "line": 113,
             "description": "Uniform descriptors",
             "itemtype": "property",
             "name": "uniforms",
@@ -39061,7 +39061,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 124,
+            "line": 121,
             "description": "Attribute descriptors",
             "itemtype": "property",
             "name": "attributes",
@@ -39075,7 +39075,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 133,
+            "line": 130,
             "description": "Shader frag source (for override)",
             "itemtype": "property",
             "name": "texture2DFrag",
@@ -39089,7 +39089,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 141,
+            "line": 138,
             "description": "Shader vert source (for override)",
             "itemtype": "property",
             "name": "texture2DVert",
@@ -39103,7 +39103,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 149,
+            "line": 146,
             "description": "Sets a single uniform value and marks it as dirty.",
             "itemtype": "method",
             "name": "setParam",
@@ -39128,7 +39128,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 161,
+            "line": 158,
             "description": "Applies all uniforms to the uploaded program",
             "itemtype": "method",
             "name": "applyUniforms",
@@ -39148,7 +39148,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 173,
+            "line": 170,
             "description": "Applies a single uniforms to the uploaded program",
             "itemtype": "method",
             "name": "applyUniform",
@@ -39173,7 +39173,7 @@
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
-            "line": 188,
+            "line": 185,
             "description": "Initialises all uniforms",
             "itemtype": "method",
             "name": "initUniforms",
@@ -39950,7 +39950,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 41,
+            "line": 35,
             "description": "Initialises all WebGL rendering services",
             "itemtype": "method",
             "name": "boot",
@@ -39963,7 +39963,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 54,
+            "line": 48,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -39980,7 +39980,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 64,
+            "line": 58,
             "description": "The game that this renderer is used with.",
             "itemtype": "property",
             "name": "_game",
@@ -39994,7 +39994,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 72,
+            "line": 66,
             "description": "The texture manager object used to allocate GL Textures.",
             "itemtype": "property",
             "name": "_textureManager",
@@ -40008,7 +40008,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 80,
+            "line": 74,
             "description": "The shader manager object used to allocate GL Shaders.",
             "itemtype": "property",
             "name": "_shaderManager",
@@ -40022,7 +40022,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 91,
+            "line": 85,
             "description": "The stage resolution in pixels",
             "itemtype": "property",
             "name": "_stageResolution",
@@ -40036,7 +40036,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 99,
+            "line": 93,
             "description": "The renderer object that is in use during a rendering batch.",
             "itemtype": "property",
             "name": "_currentRenderer",
@@ -40050,7 +40050,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 107,
+            "line": 101,
             "description": "The current blend mode.",
             "itemtype": "property",
             "name": "_currentBlendMode",
@@ -40065,7 +40065,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 116,
+            "line": 110,
             "description": "Tally of number of entities rendered per frame",
             "itemtype": "property",
             "name": "_entityCount",
@@ -40080,7 +40080,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 125,
+            "line": 119,
             "description": "Tally of number of draw calls per frame",
             "itemtype": "property",
             "name": "numDrawCalls",
@@ -40095,7 +40095,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 134,
+            "line": 128,
             "description": "Maximum allowable sprites to render per frame\nNote:Not currently used  - candidate for deletion",
             "itemtype": "property",
             "name": "_maxItems",
@@ -40110,7 +40110,21 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 148,
+            "line": 138,
+            "description": "Camera matrix used on graphics card",
+            "itemtype": "property",
+            "name": "camMatrix",
+            "type": "Float32Array",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLRenderManager.ts",
+            "line": 146,
             "description": "The most recently bound texture atlas.",
             "itemtype": "property",
             "name": "_currentTextureAtlas",
@@ -40124,7 +40138,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 156,
+            "line": 154,
             "description": "Adds a texture to the Texture Manager.",
             "itemtype": "method",
             "name": "addTexture",
@@ -40149,7 +40163,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 167,
+            "line": 165,
             "description": "An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer\ninstance and add rendering info to a batch rather than rendering individually. \nThis means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the\nsame renderer/shader combination and be drawn as part of the same batch.\nCustom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer\ncapabilities.",
             "itemtype": "property",
             "name": "_sharedRenderers",
@@ -40163,7 +40177,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 182,
+            "line": 180,
             "description": "Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.",
             "itemtype": "method",
             "name": "addSharedRenderer",
@@ -40192,7 +40206,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 206,
+            "line": 204,
             "description": "Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.\n\nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.",
             "itemtype": "method",
             "name": "addSharedRendererClone",
@@ -40227,7 +40241,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 235,
+            "line": 233,
             "description": "Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.",
             "itemtype": "method",
             "name": "requestSharedRenderer",
@@ -40256,7 +40270,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 261,
+            "line": 259,
             "description": "Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. \nThe rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit\nbatch rendering use this technique.",
             "itemtype": "method",
             "name": "requestRendererInstance",
@@ -40285,7 +40299,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 294,
+            "line": 292,
             "description": "Performs initialisation required for single game instance - happens once, at bootup\nSets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (TextureAtlasRenderer)",
             "itemtype": "method",
             "name": "_init",
@@ -40298,7 +40312,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 347,
+            "line": 345,
             "description": "Scales the viewport according to a scale mode and space dimensions.\n\nThis is used internally for compatibility with CocoonJS and should not be called.",
             "itemtype": "method",
             "name": "scaleViewport",
@@ -40334,7 +40348,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 395,
+            "line": 393,
             "description": "Performs initialisation required when switching to a different state. Called when a state has been switched to.\nThe textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
@@ -40347,7 +40361,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 407,
+            "line": 405,
             "description": "Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "endState",
@@ -40367,7 +40381,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 419,
+            "line": 417,
             "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and camera offset.\nClears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
@@ -40387,7 +40401,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 492,
+            "line": 490,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -40400,7 +40414,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 503,
+            "line": 501,
             "description": "Adds a child to the render sequence (may be a group with children of it's own)",
             "itemtype": "method",
             "name": "collateChild",
@@ -40413,7 +40427,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 528,
+            "line": 526,
             "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -40426,7 +40440,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 557,
+            "line": 555,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -40451,7 +40465,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 569,
+            "line": 567,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -40481,7 +40495,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 605,
+            "line": 603,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -40513,7 +40527,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 618,
+            "line": 616,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -40535,7 +40549,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 630,
+            "line": 628,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -40560,7 +40574,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 643,
+            "line": 641,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -40585,7 +40599,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 655,
+            "line": 653,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
@@ -40611,7 +40625,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 43,
+            "line": 40,
             "description": "An object containing a set of properties each of which references a ShaderPair.",
             "itemtype": "property",
             "name": "_shaderPairs",
@@ -40625,7 +40639,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 51,
+            "line": 48,
             "description": "The shader program that is currently set to be used useing gl.useProgram.",
             "itemtype": "property",
             "name": "currentShader",
@@ -40639,7 +40653,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 64,
+            "line": 61,
             "description": "Sets up a default shaderPair.",
             "itemtype": "method",
             "name": "init",
@@ -40664,7 +40678,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 76,
+            "line": 73,
             "description": "Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,\notherwise it will be loaded, then returned.\n\nIf the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair\nwill be instantiated, loaded, and set for use.",
             "itemtype": "method",
             "name": "requestShader",
@@ -40698,7 +40712,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 118,
+            "line": 115,
             "description": "Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)",
             "itemtype": "method",
             "name": "shaderExists",
@@ -40727,7 +40741,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 130,
+            "line": 127,
             "description": "Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object",
             "itemtype": "method",
             "name": "_addShader",
@@ -40756,7 +40770,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 143,
+            "line": 140,
             "description": "Tells a ShaderPair to load (compile and link)",
             "itemtype": "method",
             "name": "_loadShader",
@@ -40781,7 +40795,7 @@
         },
         {
             "file": "src/render/GLShaderManager.ts",
-            "line": 154,
+            "line": 151,
             "description": "Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use",
             "itemtype": "method",
             "name": "_useShader",
@@ -40806,7 +40820,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 28,
+            "line": 27,
             "description": "The default maximum amount of texture memory to use before swapping textures",
             "itemtype": "property",
             "name": "DEFAULT_MAX_TEX_MEM_MB",
@@ -40821,7 +40835,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 37,
+            "line": 36,
             "description": "The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB",
             "itemtype": "property",
             "name": "maxTextureMem",
@@ -40835,7 +40849,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 45,
+            "line": 44,
             "description": "The amount of texture memory currently uplaoded",
             "itemtype": "property",
             "name": "usedTextureMem",
@@ -40849,7 +40863,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 56,
+            "line": 55,
             "description": "The number of textures currently uplaoded",
             "itemtype": "property",
             "name": "usedTextureMem",
@@ -40863,7 +40877,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 67,
+            "line": 66,
             "description": "The number of textures uploads in the last frame",
             "itemtype": "property",
             "name": "numTextureWrites",
@@ -40877,7 +40891,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 76,
+            "line": 75,
             "description": "An array of references to all texture wrappers",
             "itemtype": "property",
             "name": "_textureWrapperCache",
@@ -40891,7 +40905,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 84,
+            "line": 83,
             "description": "Adds a texture wrapper to the cache",
             "itemtype": "method",
             "name": "_addTextureToCache",
@@ -40911,7 +40925,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 94,
+            "line": 93,
             "description": "Deletes a texture from memory and removes the wrapper from the cache",
             "itemtype": "method",
             "name": "_deleteTexture",
@@ -40936,7 +40950,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 108,
+            "line": 107,
             "description": "Uploads a texture to video memory",
             "itemtype": "method",
             "name": "_uploadTexture",
@@ -40964,7 +40978,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 129,
+            "line": 128,
             "description": "Uploads a texture library to video memory",
             "itemtype": "method",
             "name": "uploadTextureLibrary",
@@ -40989,7 +41003,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 144,
+            "line": 143,
             "description": "Uploads a single texture to video memory",
             "itemtype": "method",
             "name": "uploadTexture",
@@ -41014,7 +41028,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 155,
+            "line": 154,
             "description": "Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.",
             "itemtype": "method",
             "name": "registerTextureWrapper",
@@ -41040,7 +41054,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 171,
+            "line": 170,
             "description": "Removes all textures from video memory and clears the wrapper cache",
             "itemtype": "method",
             "name": "clearTextures",
@@ -41060,7 +41074,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 189,
+            "line": 187,
             "description": "Binds the texture ready for use, uploads it if it isn't already",
             "itemtype": "method",
             "name": "useTexture",
@@ -41095,7 +41109,7 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 230,
+            "line": 228,
             "description": "Attempts to free space in video memory.\n\nThis removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.\n\nIf there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.\n\nThis behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.",
             "itemtype": "method",
             "name": "_freeSpace",
@@ -41123,7 +41137,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 32,
+            "line": 30,
             "description": "The textureAtlas used by the GLTexture",
             "itemtype": "property",
             "name": "textureAtlas",
@@ -41135,7 +41149,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 40,
+            "line": 38,
             "description": "The number of bytes in the texture",
             "itemtype": "property",
             "name": "numBytes",
@@ -41147,7 +41161,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 51,
+            "line": 49,
             "description": "Returns whether the texture has been created",
             "itemtype": "property",
             "name": "created",
@@ -41159,7 +41173,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 61,
+            "line": 59,
             "description": "Returns whether the texture has been uploaded to video memory",
             "itemtype": "property",
             "name": "uploaded",
@@ -41171,7 +41185,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 71,
+            "line": 69,
             "itemtype": "property",
             "name": "texture",
             "type": "WebGLTexture",
@@ -41184,7 +41198,21 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 79,
+            "line": 77,
+            "description": "The image wrapped by this wrapper.",
+            "itemtype": "property",
+            "name": "_image",
+            "type": "HTMLImageElement",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLTextureWrapper",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLTextureWrapper.ts",
+            "line": 85,
             "description": "The image wrapped by this wrapper.",
             "itemtype": "property",
             "name": "image",
@@ -41198,7 +41226,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 98,
+            "line": 101,
             "description": "Creates a webgl texture object",
             "itemtype": "method",
             "name": "createTexture",
@@ -41218,7 +41246,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 111,
+            "line": 114,
             "description": "Uploads a webgl texture object to video memory",
             "itemtype": "method",
             "name": "uploadTexture",
@@ -41238,7 +41266,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 145,
+            "line": 148,
             "description": "Re-uploads a webgl texture object to video memory",
             "itemtype": "method",
             "name": "refreshTexture",
@@ -41258,7 +41286,7 @@
         },
         {
             "file": "src/render/GLTextureWrapper.ts",
-            "line": 156,
+            "line": 159,
             "description": "Deletes a webgl texture",
             "itemtype": "method",
             "name": "deleteTexture",
@@ -41846,7 +41874,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 523,
+            "line": 522,
             "description": "Mutes the sound and makes it 'silent'. \nThis will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.",
             "itemtype": "property",
             "name": "mute",
@@ -41860,7 +41888,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 553,
+            "line": 552,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -41897,7 +41925,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 567,
+            "line": 566,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -41917,7 +41945,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 585,
+            "line": 584,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -41945,7 +41973,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 669,
+            "line": 668,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -41958,7 +41986,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 697,
+            "line": 696,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -41971,7 +41999,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 710,
+            "line": 709,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -41984,7 +42012,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 747,
+            "line": 746,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -41997,7 +42025,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 814,
+            "line": 813,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",
@@ -42300,7 +42328,21 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 142,
+            "line": 141,
+            "description": "Sound buffer",
+            "itemtype": "property",
+            "name": "_unlockedSource",
+            "type": "{any}",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Sound.AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound",
+            "namespace": "Kiwi.Sound"
+        },
+        {
+            "file": "src/sound/AudioManager.ts",
+            "line": 149,
             "description": "Returns a boolean indicating whether the device has been touched or not. READ ONLY.",
             "itemtype": "property",
             "name": "locked",
@@ -42314,7 +42356,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 152,
+            "line": 159,
             "description": "The boot method is executed when all of the DOM elements needed for the game are loaded and the game is ready to 'start' up.",
             "itemtype": "method",
             "name": "boot",
@@ -42327,7 +42369,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 211,
+            "line": 218,
             "description": "Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.",
             "itemtype": "method",
             "name": "_unlocked",
@@ -42340,7 +42382,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 234,
+            "line": 241,
             "description": "Used to mute the audio on the device, or to check to see if the device is muted.\nThis will not stop audio from being played, will just mean that the audio is silent.",
             "itemtype": "property",
             "name": "mute",
@@ -42355,7 +42397,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 281,
+            "line": 287,
             "description": "Global setting and getting of the volume.\nA number between 0 (silence) and 1 (full volume).",
             "itemtype": "property",
             "name": "volume",
@@ -42370,7 +42412,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 319,
+            "line": 325,
             "description": "Indicates whether or not an Audio Object is registered with this Audio Manager or not. For Kiwi Internal use only.",
             "itemtype": "method",
             "name": "isRegistered",
@@ -42394,7 +42436,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 336,
+            "line": 342,
             "description": "Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.",
             "itemtype": "method",
             "name": "registerSound",
@@ -42418,7 +42460,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 352,
+            "line": 358,
             "description": "Used to create a new sound on the audio manager. Returns the newly created sound.",
             "itemtype": "method",
             "name": "add",
@@ -42456,7 +42498,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 371,
+            "line": 377,
             "description": "Removes the passed sound from the AudioManager.\nIf you remove a Audio Object from the AudioManager, then that Audio Object will not have a update loop.",
             "itemtype": "method",
             "name": "remove",
@@ -42482,7 +42524,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 400,
+            "line": 406,
             "description": "Plays all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "playAll",
@@ -42495,7 +42537,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 415,
+            "line": 421,
             "description": "Stops all of the sounds that are listed in the AudioManager from playing.",
             "itemtype": "method",
             "name": "stopAll",
@@ -42508,7 +42550,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 432,
+            "line": 438,
             "description": "Pauses all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "pauseAll",
@@ -42521,7 +42563,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 450,
+            "line": 455,
             "description": "Resumes all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "resumeAll",
@@ -42534,7 +42576,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 468,
+            "line": 472,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -51243,7 +51285,7 @@
         },
         {
             "file": "src/Kiwi.ts",
-            "line": 316,
+            "line": 315,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -51259,7 +51301,7 @@
         },
         {
             "file": "src/Kiwi.ts",
-            "line": 326,
+            "line": 325,
             "description": "A list of all of the games that are currently on this document.",
             "itemtype": "property",
             "name": "_games",
@@ -51273,7 +51315,7 @@
         },
         {
             "file": "src/Kiwi.ts",
-            "line": 335,
+            "line": 334,
             "description": "Used to register a new Game with this manager. Returns the new number of games that have been registered.",
             "itemtype": "method",
             "name": "register",
@@ -51295,7 +51337,7 @@
         },
         {
             "file": "src/Kiwi.ts",
-            "line": 348,
+            "line": 347,
             "description": "Returns the total number of game that are currently registered with this GameManager.",
             "itemtype": "method",
             "name": "total",
@@ -51325,7 +51367,7 @@
         },
         {
             "message": "param name missing: {Kiwi.Camera}",
-            "line": " src/gameobjects/Textfield.ts:379"
+            "line": " src/gameobjects/Textfield.ts:377"
         },
         {
             "message": "replacing incorrect tag: propery with property",
@@ -51357,7 +51399,7 @@
         },
         {
             "message": "Missing item type\nCreates a new Camera and adds it to the collection of cameras.",
-            "line": " src/core/CameraManager.ts:83"
+            "line": " src/core/CameraManager.ts:82"
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
@@ -51453,19 +51495,19 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:306"
+            "line": " src/gameobjects/tilemap/TileMap.ts:305"
         },
         {
             "message": "Missing item type\n-----------------------\n Cell Modifications\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:361"
+            "line": " src/gameobjects/tilemap/TileMap.ts:360"
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tilemap Layers\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:395"
+            "line": " src/gameobjects/tilemap/TileMap.ts:394"
         },
         {
             "message": "Missing item type\n-----------------------\n TileMapLayer Management Functions\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:460"
+            "line": " src/gameobjects/tilemap/TileMap.ts:459"
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
@@ -51485,7 +51527,7 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:610"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:609"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nDistance\n-------------------------------------------------------------------------------------------",
@@ -51533,15 +51575,15 @@
         },
         {
             "message": "Missing item type\n-------------------\n Touch Events\n-------------------",
-            "line": " src/input/Touch.ts:552"
+            "line": " src/input/Touch.ts:550"
         },
         {
             "message": "Missing item type\n-------------------\n Pointer Events\n-------------------",
-            "line": " src/input/Touch.ts:667"
+            "line": " src/input/Touch.ts:664"
         },
         {
             "message": "Missing item type\n-----------------\n Normal Methods \n-----------------",
-            "line": " src/input/Touch.ts:746"
+            "line": " src/input/Touch.ts:743"
         },
         {
             "message": "Missing item type\nGet the number of rows.",

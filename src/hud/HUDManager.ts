@@ -9,284 +9,283 @@
 
 module Kiwi.HUD {
 
-    /**
-    * This class manages all of the various HUDDisplays that are currently used on this Managers game.
-    * Using this class you can create/add and remove HUDDisplays from this game,
-    * change the HUDDisplay that is currently being display (also known as the currentHUD) and show/hide the currentHUD.
-    * Each HUDManager also has at least one HUDDisplay which is called the 'defaultHUD' you cannot remove,
-    * but you can reassign the defaultHUD to be a different HUDDisplay if you want. 
-    * 
-    *
-    * @class HUDManager
-    * @namespace Kiwi.HUD
-    * @constructor
-    * @param game {Kiwi.Game} game
-    * @return {Kiwi.HUD.HUDManager}
-    */
-    export class HUDManager {
-        
-        constructor(game: Kiwi.Game) {
-            this._game = game;
-            this._device = this._game.deviceTargetOption;
-        }
+	/**
+	* This class manages all of the various HUDDisplays that are currently used on this Managers game.
+	* Using this class you can create/add and remove HUDDisplays from this game,
+	* change the HUDDisplay that is currently being display (also known as the currentHUD) and show/hide the currentHUD.
+	* Each HUDManager also has at least one HUDDisplay which is called the 'defaultHUD' you cannot remove,
+	* but you can reassign the defaultHUD to be a different HUDDisplay if you want. 
+	* 
+	*
+	* @class HUDManager
+	* @namespace Kiwi.HUD
+	* @constructor
+	* @param game {Kiwi.Game} game
+	* @return {Kiwi.HUD.HUDManager}
+	*/
+	export class HUDManager {
 
-        /**
-        * The game that this HUDManager belongs to.
-        * @property _game
-        * @type Kiwi.Game
-        * @private
-        */
-        private _game: Kiwi.Game;
+		constructor(game: Kiwi.Game) {
+			this._game = game;
+			this._device = this._game.deviceTargetOption;
+		}
 
-        /**
-        * The device that this game is being target at. The same as the deviceTargetOption property on the root Game.
-        * This is needed as it detirmines if HUD is supported on the device or not and if so, how it is implemented. 
-        * @property _device
-        * @type number
-        * @private
-        */
-        private _device: number;
+		/**
+		* The game that this HUDManager belongs to.
+		* @property _game
+		* @type Kiwi.Game
+		* @private
+		*/
+		private _game: Kiwi.Game;
 
-        /**
-        * If the HUD is supported on the DEVICE that is being targeted. Gets set during the BOOT sequence.
-        * @property _supported
-        * @type boolean
-        * @private
-        */
-        private _supported: boolean;
+		/**
+		* The device that this game is being target at. The same as the deviceTargetOption property on the root Game.
+		* This is needed as it detirmines if HUD is supported on the device or not and if so, how it is implemented. 
+		* @property _device
+		* @type number
+		* @private
+		*/
+		private _device: number;
 
-        /**
-        * Returns the _supported property indicating whether HUD is supported or not.
-        * @property supported
-        * @type boolean
-        * @public
-        */
-        public get supported():boolean {
-            return this._supported;
-        }
+		/**
+		* If the HUD is supported on the DEVICE that is being targeted. Gets set during the BOOT sequence.
+		* @property _supported
+		* @type boolean
+		* @private
+		*/
+		private _supported: boolean;
 
-        /**
-        * The HTMLDivElement that is being used as the container for the whole manager.
-        * @property _hudContainer
-        * @type HTMLDivElement
-        * @private
-        */
-        private _hudContainer: HTMLDivElement;
+		/**
+		* Returns the _supported property indicating whether HUD is supported or not.
+		* @property supported
+		* @type boolean
+		* @public
+		*/
+		public get supported():boolean {
+			return this._supported;
+		}
 
-        /**
-        * The DOM is ready, so if the current state is pending we can boot up the HUD now.
-        * @method boot
-        * @public
-        */
-        public boot() {
+		/**
+		* The HTMLDivElement that is being used as the container for the whole manager.
+		* @property _hudContainer
+		* @type HTMLDivElement
+		* @private
+		*/
+		private _hudContainer: HTMLDivElement;
 
-            if (this._device === Kiwi.TARGET_BROWSER) {
-                this._supported = true;
+		/**
+		* The DOM is ready, so if the current state is pending we can boot up the HUD now.
+		* @method boot
+		* @public
+		*/
+		public boot() {
 
-                this._hudContainer = <HTMLDivElement>document.createElement("div");
-                this._hudContainer.id = "HUDContainer";
-                this._hudContainer.style.position = "absolute";
-                this._hudContainer.style.width = "100%";
-                this._hudContainer.style.height = "100%";
-                this._hudContainer.style.top = '0';
-                this._hudContainer.style.left = '0';
-                this._game.stage.container.appendChild(this._hudContainer);
+			if (this._device === Kiwi.TARGET_BROWSER) {
+				this._supported = true;
 
-                this._huds = new Array<HUDDisplay>();
+				this._hudContainer = <HTMLDivElement>document.createElement("div");
+				this._hudContainer.id = "HUDContainer";
+				this._hudContainer.style.position = "absolute";
+				this._hudContainer.style.width = "100%";
+				this._hudContainer.style.height = "100%";
+				this._hudContainer.style.top = '0';
+				this._hudContainer.style.left = '0';
+				this._game.stage.container.appendChild(this._hudContainer);
 
-                this._defaultHUD = this.createHUD("defaultHUD");
-                this._currentHUD = this._defaultHUD;
-                this.setHUD(this._defaultHUD);
+				this._huds = new Array<HUDDisplay>();
 
-            } else {
-                this._supported = false;
-            }
+				this._defaultHUD = this.createHUD("defaultHUD");
+				this._currentHUD = this._defaultHUD;
+				this.setHUD(this._defaultHUD);
 
-        }
+			} else {
+				this._supported = false;
+			}
 
-        /**
-        * Returns the type of object this is.
-        * @method objType
-        * @return {String} "HUDManager"
-        * @public
-        */
-        public objType():string {
-            return "HUDManager";
-        }
+		}
 
-        /**
-        * An array containing all of the HUDDisplays that are currently active on this HUDManager.
-        * @property _huds
-        * @type Array
-        * @private
-        */
-        private _huds: Kiwi.HUD.HUDDisplay[];
+		/**
+		* Returns the type of object this is.
+		* @method objType
+		* @return {String} "HUDManager"
+		* @public
+		*/
+		public objType():string {
+			return "HUDManager";
+		}
 
-        /**
-        * The defaultHUD that is being used.
-        * The defaultHUD cannot be removed, but can be swapped out for another HUDDisplay.
-        * @property _defaultHUD
-        * @type Kiwi.HUD.HUDDisplay
-        * @private
-        */
-        private _defaultHUD: Kiwi.HUD.HUDDisplay;
+		/**
+		* An array containing all of the HUDDisplays that are currently active on this HUDManager.
+		* @property _huds
+		* @type Array
+		* @private
+		*/
+		private _huds: Kiwi.HUD.HUDDisplay[];
 
-        /**
-        * The currentHUD that is in use. Can be the same as the defaultHUD.
-        * @property _currentHUD
-        * @type Kiwi.HUD.HUDDisplay
-        * @private
-        */
-        private _currentHUD: Kiwi.HUD.HUDDisplay;
+		/**
+		* The defaultHUD that is being used.
+		* The defaultHUD cannot be removed, but can be swapped out for another HUDDisplay.
+		* @property _defaultHUD
+		* @type Kiwi.HUD.HUDDisplay
+		* @private
+		*/
+		private _defaultHUD: Kiwi.HUD.HUDDisplay;
 
-        /**
-        * The default HUDDisplay that is to be used.
-        * The defaultHUD cannot be removed, and a game (that supports HUDS) will always contain the defaultHUD.
-        *
-        * @property defaultHUD
-        * @type Kiwi.HUD.HUDDisplay
-        * @public
-        */
-        public set defaultHUD(value: Kiwi.HUD.HUDDisplay) {
-            if (this._currentHUD === this._defaultHUD) {
-                this._currentHUD = value;
-                this.setHUD(this._currentHUD);
-            }
-            this._defaultHUD = value;
-        }
-        public get defaultHUD(): Kiwi.HUD.HUDDisplay {
-            return this._defaultHUD;
-        }
+		/**
+		* The currentHUD that is in use. Can be the same as the defaultHUD.
+		* @property _currentHUD
+		* @type Kiwi.HUD.HUDDisplay
+		* @private
+		*/
+		private _currentHUD: Kiwi.HUD.HUDDisplay;
 
-        /**
-        * Changes the currentHUD that is being displayed to one that is passed.
-        * @method setHUD
-        * @param hud {Kiwi.HUD.HUDDisplay} The HUD you want to display. 
-        * @public
-        */
-        public setHUD(hud: Kiwi.HUD.HUDDisplay) {
-            if (this.supported) {
-                this.hideHUD();
-                this._currentHUD = hud;
-                this.showHUD();
-            }
-        }
+		/**
+		* The default HUDDisplay that is to be used.
+		* The defaultHUD cannot be removed, and a game (that supports HUDS) will always contain the defaultHUD.
+		*
+		* @property defaultHUD
+		* @type Kiwi.HUD.HUDDisplay
+		* @public
+		*/
+		public set defaultHUD(value: Kiwi.HUD.HUDDisplay) {
+			if (this._currentHUD === this._defaultHUD) {
+				this._currentHUD = value;
+				this.setHUD(this._currentHUD);
+			}
+			this._defaultHUD = value;
+		}
+		public get defaultHUD(): Kiwi.HUD.HUDDisplay {
+			return this._defaultHUD;
+		}
 
-        /**
-        * Shows the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
-        * @method showHUD
-        * @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to show. Defaults to the currentHUD if nothing is passed.
-        * @public
-        */
-        public showHUD(hud:Kiwi.HUD.HUDDisplay=this._currentHUD) {
-            hud.show();
-        }
+		/**
+		* Changes the currentHUD that is being displayed to one that is passed.
+		* @method setHUD
+		* @param hud {Kiwi.HUD.HUDDisplay} The HUD you want to display. 
+		* @public
+		*/
+		public setHUD(hud: Kiwi.HUD.HUDDisplay) {
+			if (this.supported) {
+				this.hideHUD();
+				this._currentHUD = hud;
+				this.showHUD();
+			}
+		}
 
-        /**
-        * Hides the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
-        * @method hideHUD 
-        * @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to hude. Defaults to the currentHUD if nothing is passed.
-        * @public
-        */
-        public hideHUD(hud:Kiwi.HUD.HUDDisplay=this._currentHUD) {
-            hud.hide();
-        }
+		/**
+		* Shows the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
+		* @method showHUD
+		* @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to show. Defaults to the currentHUD if nothing is passed.
+		* @public
+		*/
+		public showHUD(hud:Kiwi.HUD.HUDDisplay=this._currentHUD) {
+			hud.show();
+		}
 
-        /**
-        * Creates a new HUDDisplay on this HUDManager.
-        * 
-        * @method createHUD
-        * @param name {string} Name of the new HUDDisplay that is being creates.
-        * @param [switchTo=false] {boolean} Switch to the new HUD that was created. DE
-        * @return {Kiwi.HUD.HUDDisplay} The HUDDisplay that was created.
-        * @public
-        */
-        public createHUD(name: string, switchTo:boolean=false): Kiwi.HUD.HUDDisplay {
-            
-            if (this.supported) {
+		/**
+		* Hides the currentHUD (if nothing is passed) or shows a HUDDisplay that is passed.
+		* @method hideHUD 
+		* @param [hud=currentHUD] {Kiwi.HUD.HUDDisplay} The HUDDisplay you want to hude. Defaults to the currentHUD if nothing is passed.
+		* @public
+		*/
+		public hideHUD(hud:Kiwi.HUD.HUDDisplay=this._currentHUD) {
+			hud.hide();
+		}
 
-                var hud: Kiwi.HUD.HUDDisplay = new Kiwi.HUD.HUDDisplay(this._game, name);
-                hud.hide();
-                this.addToContainer(hud);
-                this._huds.push(hud);
-                
-                if(switchTo === true) this.setHUD(hud);
+		/**
+		* Creates a new HUDDisplay on this HUDManager.
+		* 
+		* @method createHUD
+		* @param name {string} Name of the new HUDDisplay that is being creates.
+		* @param [switchTo=false] {boolean} Switch to the new HUD that was created. DE
+		* @return {Kiwi.HUD.HUDDisplay} The HUDDisplay that was created.
+		* @public
+		*/
+		public createHUD(name: string, switchTo:boolean=false): Kiwi.HUD.HUDDisplay {
+			
+			if (this.supported) {
 
-                return hud;
+				var hud: Kiwi.HUD.HUDDisplay = new Kiwi.HUD.HUDDisplay(this._game, name);
+				hud.hide();
+				this.addToContainer(hud);
+				this._huds.push(hud);
+				
+				if(switchTo === true) this.setHUD(hud);
 
-            }
-        }
+				return hud;
 
-        /**
-        * Removes a HUDDisplay off this manager. Returns a boolean indicating whether or not this method was a success.
-        *
-        * @method removeHUD
-        * @param hud {Kiwi.HUD.HUDDisplay} The hud you want to remove.
-        * @returns {boolean} If this method succeeded or not.
-        * @public
-        */
-        public removeHUD(hud: Kiwi.HUD.HUDDisplay):boolean {
-            if (this.supported) {
-                if (hud === this._defaultHUD) {
-                    return false;
-                }
+			}
+		}
 
-                if (this._currentHUD === hud) {
-                    this.setHUD(this._defaultHUD);
-                }
+		/**
+		* Removes a HUDDisplay off this manager. Returns a boolean indicating whether or not this method was a success.
+		*
+		* @method removeHUD
+		* @param hud {Kiwi.HUD.HUDDisplay} The hud you want to remove.
+		* @returns {boolean} If this method succeeded or not.
+		* @public
+		*/
+		public removeHUD(hud: Kiwi.HUD.HUDDisplay):boolean {
+			if (this.supported) {
+				if (hud === this._defaultHUD) {
+					return false;
+				}
 
-                this.removeFromContainer(hud);
+				if (this._currentHUD === hud) {
+					this.setHUD(this._defaultHUD);
+				}
 
-                var i = this._huds.indexOf(hud);
+				this.removeFromContainer(hud);
 
-                if (i !== -1) {
-                    this._huds.splice(i, 1);
-                }
+				var i = this._huds.indexOf(hud);
 
-                return true;
-            }
-        }
+				if (i !== -1) {
+					this._huds.splice(i, 1);
+				}
 
-        /**
-        * Adds a HUDDisplays HTMLDivElement to this HUDManagers container element.
-        * @method addToContainer
-        * @param hud {Kiwi.HUD.HUDDisplay} The HUDDisplay that is to be added.
-        * @private
-        */
-        private addToContainer(hud:Kiwi.HUD.HUDDisplay) {
-            if (this._device == Kiwi.TARGET_BROWSER) {
-                this._hudContainer.appendChild(hud.container);
-            }
-        }
+				return true;
+			}
+		}
 
-        /**
-        * Removes the hud that is passed from this HUD Manager. Checks to see if that hud has this container as a parent first.
-        * @method removeFromContainer
-        * @param hud {Kiwi.HUD.HUDDisplay} The hud to be removed
-        * @private
-        */
-        private removeFromContainer(hud: Kiwi.HUD.HUDDisplay) {
-            if (this._device == Kiwi.TARGET_BROWSER) {
-                if (this._hudContainer.contains(hud.container)) {
-                    this._hudContainer.removeChild(hud.container);
-                }
-            }
+		/**
+		* Adds a HUDDisplays HTMLDivElement to this HUDManagers container element.
+		* @method addToContainer
+		* @param hud {Kiwi.HUD.HUDDisplay} The HUDDisplay that is to be added.
+		* @private
+		*/
+		private addToContainer(hud:Kiwi.HUD.HUDDisplay) {
+			if (this._device == Kiwi.TARGET_BROWSER) {
+				this._hudContainer.appendChild(hud.container);
+			}
+		}
 
-        }
+		/**
+		* Removes the hud that is passed from this HUD Manager. Checks to see if that hud has this container as a parent first.
+		* @method removeFromContainer
+		* @param hud {Kiwi.HUD.HUDDisplay} The hud to be removed
+		* @private
+		*/
+		private removeFromContainer(hud: Kiwi.HUD.HUDDisplay) {
+			if (this._device == Kiwi.TARGET_BROWSER) {
+				if (this._hudContainer.contains(hud.container)) {
+					this._hudContainer.removeChild(hud.container);
+				}
+			}
 
-        /**
-        * Game loop
-        * @method update
-        * @public
-        */
-        public update() {
-            if (this._supported) {
-                for (var i = 0; i < this._huds.length; i++) {
-                    this._huds[i].update();
-                }
-            }
-        }
+		}
 
-    }
+		/**
+		* Game loop
+		* @method update
+		* @public
+		*/
+		public update() {
+			if (this._supported) {
+				for (var i = 0; i < this._huds.length; i++) {
+					this._huds[i].update();
+				}
+			}
+		}
+
+	}
 }
-

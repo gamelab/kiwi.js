@@ -1,4 +1,3 @@
-
 /**
 * GLSL ES Shaders are used for WebGL rendering.
 * ShaderPair objects encapsulate GLSL ES vertex and fragment shader programs. 
@@ -18,154 +17,151 @@
 * @submodule Shaders 
 * @main Shaders
 * @namespace Kiwi.Shaders
-*/ 
+*/
 
 module Kiwi.Shaders {
 
-    /**
-    * Manages all WebGL Shaders. Maintains a list of ShaderPairs 
-    *  
-    * Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
-    * Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
-    * This Manager ensures only one compiled instance of each program is created
-    * @class ShaderManager
-    * @extends IRenderer
-    * @constructor
-    * @return {Kiwi.Shaders.ShaderManager}
-    */
-    export class ShaderManager {
+	/**
+	* Manages all WebGL Shaders. Maintains a list of ShaderPairs 
+	*  
+	* Provides an interface for using a specific ShaderPair, adding new ShaderPairs, and requesting a reference to a ShaderPair instance.
+	* Renderes use shaderPairs to draw. Multiple renderers may use the same compiled shader program.
+	* This Manager ensures only one compiled instance of each program is created
+	* @class ShaderManager
+	* @extends IRenderer
+	* @constructor
+	* @return {Kiwi.Shaders.ShaderManager}
+	*/
+	export class ShaderManager {
 
-        constructor() {
-            
-        }
-        
-
-         /**
-        * An object containing a set of properties each of which references a ShaderPair. 
-        * @property _shaderPairs
-        * @type Object
-        * @private
-        */
-        private _shaderPairs: any = {};
-
-        /**
-        * The shader program that is currently set to be used useing gl.useProgram.
-        * @property currentShader
-        * @type Array
-        * @private
-        */
-
-        public get currentShader(): ShaderPair {
-            return this._currentShader;
-        }
-        private _currentShader: ShaderPair;
+		constructor() {}
 
 
-        /**
-	    * Sets up a default shaderPair.
-	    * @method init
-        * @param {WebGLRenderingContext} gl
-        * @param {String} defaultShaderID
-        * @public
-	    */
-        public init(gl: WebGLRenderingContext, defaultShaderID: string) {
-            this._currentShader = this.requestShader(gl, defaultShaderID);
-        }
+		/**
+		* An object containing a set of properties each of which references a ShaderPair. 
+		* @property _shaderPairs
+		* @type Object
+		* @private
+		*/
+		private _shaderPairs: any = {};
+
+		/**
+		* The shader program that is currently set to be used useing gl.useProgram.
+		* @property currentShader
+		* @type Array
+		* @private
+		*/
+
+		public get currentShader(): ShaderPair {
+			return this._currentShader;
+		}
+		private _currentShader: ShaderPair;
 
 
-        /**
-	    * Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
-        * otherwise it will be loaded, then returned.
-        *
-        * If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
-        * will be instantiated, loaded, and set for use.
-
-	    * @method requestShader
-        * @param {WebGLRenderingContext} gl
-        * @param {String} shaderID
-        * @param {boolean} use
-        * @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
-        * @public
-	    */
-        public requestShader(gl: WebGLRenderingContext,shaderID: string,use:boolean = true):ShaderPair {
-
-            var shader: ShaderPair;
-            //in list already?
-            if (shaderID in this._shaderPairs) {
-                shader = this._shaderPairs[shaderID];
-                if (!shader.loaded) {
-                    this._loadShader(gl, shader);
-                }
-                if(use)
-                    this._useShader(gl, shader);
-                return shader;
-            } else {
-                //not in list, does it exist?
-                if ( this.shaderExists(gl, shaderID) ) {
-                    shader = this._addShader(gl, shaderID);
-                    this._loadShader(gl, shader);
-                    if(use)
-                        this._useShader(gl, shader);
-                    return shader;
-                } else {
-                    Kiwi.Log.log("Shader " + shaderID + " does not exist.", '#renderer', '#webgl');
-                }
-            }
-            //unsuccessful request
-            return null;
-        }
-
-        /**
-	    * Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
-	    * @method shaderExists
-        * @param {WebGLRenderingContext} gl
-        * @param {String} shaderID
-        * @return {Boolean} success
-        * @public
-	    */
-        public shaderExists(gl: WebGLRenderingContext, shaderID: string):boolean {
-            return shaderID in Kiwi.Shaders;
-        }
-
-        /**
-	    * Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object
-	    * @method _addShader
-        * @param {WebGLRenderingContext} gl
-        * @param {String} shaderID
-        * @return {Kiwi.Shaders.ShaderPair} 
-        * @private
-	    */
-        private _addShader(gl: WebGLRenderingContext, shaderID: string):ShaderPair {
-            this._shaderPairs[shaderID] = new Kiwi.Shaders[shaderID]();
-            return this._shaderPairs[shaderID];
-        }
-
-        /**
-	    * Tells a ShaderPair to load (compile and link)
-	    * @method _loadShader
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Shaders.ShaderPair} shader
-        * @private
-	    */
-        private _loadShader(gl: WebGLRenderingContext,shader:ShaderPair) {
-            shader.init(gl);
-        }
-
-        /**
-	    * Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
-	    * @method _useShader
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Shaders.ShaderPair} shader
-        * @private
-	    */
-        private _useShader(gl: WebGLRenderingContext, shader: ShaderPair) {
-            if (shader !== this._currentShader) {
-                this._currentShader = shader;
-            }
-            gl.useProgram(shader.shaderProgram);
-        }
+		/**
+		* Sets up a default shaderPair.
+		* @method init
+		* @param {WebGLRenderingContext} gl
+		* @param {String} defaultShaderID
+		* @public
+		*/
+		public init(gl: WebGLRenderingContext, defaultShaderID: string) {
+			this._currentShader = this.requestShader(gl, defaultShaderID);
+		}
 
 
-    }
+		/**
+		* Provides a reference to a ShaderPair. If the requested ShaderPair exists as a property on the _shaderPairs object it will be returned if already loaded,
+		* otherwise it will be loaded, then returned.
+		*
+		* If the request is not on the list, the Kiwi.Shaders object will  be checked for a property name that matches shaderID and a new ShaderPair
+		* will be instantiated, loaded, and set for use.
+
+		* @method requestShader
+		* @param {WebGLRenderingContext} gl
+		* @param {String} shaderID
+		* @param {boolean} use
+		* @return {Kiwi.Shaders.ShaderPair} a ShaderPair instance - null on fail
+		* @public
+		*/
+		public requestShader(gl: WebGLRenderingContext,shaderID: string,use:boolean = true):ShaderPair {
+
+			var shader: ShaderPair;
+			//in list already?
+			if (shaderID in this._shaderPairs) {
+				shader = this._shaderPairs[shaderID];
+				if (!shader.loaded) {
+					this._loadShader(gl, shader);
+				}
+				if(use)
+					this._useShader(gl, shader);
+				return shader;
+			} else {
+				//not in list, does it exist?
+				if ( this.shaderExists(gl, shaderID) ) {
+					shader = this._addShader(gl, shaderID);
+					this._loadShader(gl, shader);
+					if(use)
+						this._useShader(gl, shader);
+					return shader;
+				} else {
+					Kiwi.Log.log("Shader " + shaderID + " does not exist.", '#renderer', '#webgl');
+				}
+			}
+			//unsuccessful request
+			return null;
+		}
+
+		/**
+		* Tests to see if a ShaderPair property named ShaderID exists on Kiwi.Shaders. Can be used to test for the availability of specific shaders (for fallback)
+		* @method shaderExists
+		* @param {WebGLRenderingContext} gl
+		* @param {String} shaderID
+		* @return {Boolean} success
+		* @public
+		*/
+		public shaderExists(gl: WebGLRenderingContext, shaderID: string):boolean {
+			return shaderID in Kiwi.Shaders;
+		}
+
+		/**
+		* Creates a new instance of a ShaderPair and adds a reference to the _shaderPairs object
+		* @method _addShader
+		* @param {WebGLRenderingContext} gl
+		* @param {String} shaderID
+		* @return {Kiwi.Shaders.ShaderPair} 
+		* @private
+		*/
+		private _addShader(gl: WebGLRenderingContext, shaderID: string):ShaderPair {
+			this._shaderPairs[shaderID] = new Kiwi.Shaders[shaderID]();
+			return this._shaderPairs[shaderID];
+		}
+
+		/**
+		* Tells a ShaderPair to load (compile and link)
+		* @method _loadShader
+		* @param {WebGLRenderingContext} gl
+		* @param {Kiwi.Shaders.ShaderPair} shader
+		* @private
+		*/
+		private _loadShader(gl: WebGLRenderingContext,shader:ShaderPair) {
+			shader.init(gl);
+		}
+
+		/**
+		* Changes gl state so that the shaderProgram contined in a ShaderPir is bound for use
+		* @method _useShader
+		* @param {WebGLRenderingContext} gl
+		* @param {Kiwi.Shaders.ShaderPair} shader
+		* @private
+		*/
+		private _useShader(gl: WebGLRenderingContext, shader: ShaderPair) {
+			if (shader !== this._currentShader) {
+				this._currentShader = shader;
+			}
+			gl.useProgram(shader.shaderProgram);
+		}
+
+	}
 
 }

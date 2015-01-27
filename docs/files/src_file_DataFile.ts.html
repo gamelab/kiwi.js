@@ -370,198 +370,199 @@
 * @submodule Files 
 * 
 */
- 
+
 module Kiwi.Files {
-    
-    /**
-    * DataFile which contains settings, loading, and processing details for Data files to be used. 
-    * There is no tag loader support for this method of loading.
-    * 
-    * @class DataFile
-    * @namespace Kiwi.Files
-    * @extends Kiwi.Files.File
-    * @since 1.2.0
-    * @constructor
-    * @param game {Kiwi.Game} The game that this file is for
-    * @param params {Object} Options for this file.
-    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store. 
-    *   @param params.url {String} Location of the file to be loaded.
-    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file. 
-    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-    *   @param [params.type=UNKNOWN] {Number} The type of file this is. 
-    *   @param [params.tags] {Array} Any tags to be associated with this file.
-    *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. Only used with JSON and XML types of Data files.
-    * @return {Kiwi.Files.DataFile} 
-    *
-    */
-    export class DataFile extends Kiwi.Files.File {
 
-        constructor(game: Kiwi.Game, params: {} = {}) {
-            super(game, params);
+	/**
+	* DataFile which contains settings, loading, and processing details for Data files to be used. 
+	* There is no tag loader support for this method of loading.
+	* 
+	* @class DataFile
+	* @namespace Kiwi.Files
+	* @extends Kiwi.Files.File
+	* @since 1.2.0
+	* @constructor
+	* @param game {Kiwi.Game} The game that this file is for
+	* @param params {Object} Options for this file.
+	*   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store. 
+	*   @param params.url {String} Location of the file to be loaded.
+	*   @param {Object} [params.metadata={}] Any metadata to be associated with the file. 
+	*   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+	*   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+	*   @param [params.type=UNKNOWN] {Number} The type of file this is. 
+	*   @param [params.tags] {Array} Any tags to be associated with this file.
+	*   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. Only used with JSON and XML types of Data files.
+	* @return {Kiwi.Files.DataFile} 
+	*
+	*/
+	export class DataFile extends Kiwi.Files.File {
 
-            this.useTagLoader = false;
-            this._loadInParallel = false;
+		constructor(game: Kiwi.Game, params: {} = {}) {
+			super(game, params);
 
-        }
-        
-        /**
-        * Sets properties for this instance based on an object literal passed. Used when the class is being created.
-        *
-        * @method parseParams
-        * @param [params] {Object}
-        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file. 
-        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-        *   @param [params.type=UNKNOWN] {Number} The type of file this is. 
-        *   @param [params.tags] {Array} Any tags to be associated with this file.
-        *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. 
-        * @protected 
-        */
-        protected parseParams(params: any) {
-            super.parseParams(params);
+			this.useTagLoader = false;
+			this._loadInParallel = false;
 
-            if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
-                this.parse = params.parse;
-            }
+		}
 
-        }
+		/**
+		* Sets properties for this instance based on an object literal passed. Used when the class is being created.
+		*
+		* @method parseParams
+		* @param [params] {Object}
+		*   @param [params.metadata={}] {Object} Any metadata to be associated with the file. 
+		*   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+		*   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+		*   @param [params.type=UNKNOWN] {Number} The type of file this is. 
+		*   @param [params.tags] {Array} Any tags to be associated with this file.
+		*   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. 
+		* @protected 
+		*/
+		protected parseParams(params: any) {
+			super.parseParams(params);
 
+			if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
+				this.parse = params.parse;
+			}
 
-        /**
-        * If the response should be parsed (using the appropriate method) after loading.
-        * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call. 
-        *
-        * @property parse
-        * @type boolean
-        * @default false
-        * @public
-        */
-        public parse: boolean = false;
-
-        //this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
-
-        /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} &quot;DataFile&quot;
-        * @public
-        */
-        public objType() {
-            return &quot;DataFile&quot;;
-        }
+		}
 
 
-        /**
-        * Increments the counter, and calls the approprate loading method.
-        * @method _load
-        * @protected
-        */
-        protected _load() {
+		/**
+		* If the response should be parsed (using the appropriate method) after loading.
+		* Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call. 
+		*
+		* @property parse
+		* @type boolean
+		* @default false
+		* @public
+		*/
+		public parse: boolean = false;
 
-            this.attemptCounter++;
+		//this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
 
-            //Special check for binary data. Change the loading type
-            if ( this.dataType === Kiwi.Files.File.BINARY_DATA ) {
-                this.xhrLoader(&#x27;GET&#x27;, &#x27;arraybuffer&#x27;);
-            } else {
-                this.xhrLoader(&#x27;GET&#x27;, &#x27;text&#x27;);
-            }
-
-        }
-
-        /**
-        * Handles decoding the arraybuffer into audio data.
-        * @method processXhr
-        * @param response
-        * @protected
-        */
-        protected processXhr(response: any) {
-
-            if (!this.parse) {
-                this.data = response;
-                this.loadSuccess();
-                return;
-            }
-
-            switch (this.dataType) {
-
-                case Kiwi.Files.File.JSON:
-                    this.processJSON(response);
-                    break;
-
-                case Kiwi.Files.File.XML:
-                    this.parseXML(response);
-                    break;
-
-                case Kiwi.Files.File.TEXT_DATA:
-                case Kiwi.Files.File.BINARY_DATA:
-                default:
-                    this.data = response;
-                    break;
-            }
+		/**
+		* Returns the type of this object
+		* @method objType
+		* @return {String} &quot;DataFile&quot;
+		* @public
+		*/
+		public objType() {
+			return &quot;DataFile&quot;;
+		}
 
 
-        }
+		/**
+		* Increments the counter, and calls the approprate loading method.
+		* @method _load
+		* @protected
+		*/
+		protected _load() {
 
-        /**
-        * Attempts to parse a string which is assumed to be XML. Called when &#x27;parse&#x27; is set to true. 
-        * If valid &#x27;loadSuccess&#x27; is called, otherwise &#x27;loadError&#x27; is executed
-        *  
-        * @method parseXML
-        * @param data {String}
-        * @private 
-        */
-        private parseXML(data: string) {
+			this.attemptCounter++;
 
-            Kiwi.Log.log(&#x27;Kiwi.Files.DataFile: Data loaded is being parsed as XML.&#x27;, &#x27;#loading&#x27;, &#x27;#parsing&#x27;);
+			//Special check for binary data. Change the loading type
+			if ( this.dataType === Kiwi.Files.File.BINARY_DATA ) {
+				this.xhrLoader(&#x27;GET&#x27;, &#x27;arraybuffer&#x27;);
+			} else {
+				this.xhrLoader(&#x27;GET&#x27;, &#x27;text&#x27;);
+			}
 
-            if (window[&#x27;DOMParser&#x27;]) {
+		}
 
-                var parser = new DOMParser();
-                this.data = parser.parseFromString(data, &quot;text/xml&quot;);
+		/**
+		* Handles decoding the arraybuffer into audio data.
+		* @method processXhr
+		* @param response
+		* @protected
+		*/
+		protected processXhr(response: any) {
 
-            } else {
+			if (!this.parse) {
+				this.data = response;
+				this.loadSuccess();
+				return;
+			}
 
-                this.data = new ActiveXObject(&quot;Microsoft.XMLDOM&quot;);
-                this.data.async = &quot;false&quot;;
-                this.data.loadXML(data);
+			switch (this.dataType) {
 
-            }
+				case Kiwi.Files.File.JSON:
+					this.processJSON(response);
+					break;
 
-            if (!this.data || !this.data.documentElement || this.data.getElementsByTagName(&quot;parsererror&quot;).length) {
-                this.loadError(&#x27;XML parse error.&#x27;);
-            } else {
-                this.loadSuccess();
-            }
-        }
-        
-        /**
-        * Attempts to parse a string which is assumed to be JSON. Called when &#x27;parse&#x27; is set to true. 
-        * If valid &#x27;loadSuccess&#x27; is called, otherwise &#x27;loadError&#x27; is executed
-        *  
-        * @method processJSON
-        * @param data {String}
-        * @private 
-        */
-        private processJSON( data:string ) {
+				case Kiwi.Files.File.XML:
+					this.parseXML(response);
+					break;
 
-            Kiwi.Log.log(&#x27;Kiwi.Files.DataFile: Data loaded is being parsed as JSON.&#x27;, &#x27;#loading&#x27;, &#x27;#parsing&#x27;);
+				case Kiwi.Files.File.TEXT_DATA:
+				case Kiwi.Files.File.BINARY_DATA:
+				default:
+					this.data = response;
+					break;
+			}
 
-            try {
-                this.data = JSON.parse(data);
-                this.loadSuccess();
 
-            } catch (e) {
-                this.loadError(e);
+		}
 
-            }
+		/**
+		* Attempts to parse a string which is assumed to be XML. Called when &#x27;parse&#x27; is set to true. 
+		* If valid &#x27;loadSuccess&#x27; is called, otherwise &#x27;loadError&#x27; is executed
+		*  
+		* @method parseXML
+		* @param data {String}
+		* @private 
+		*/
+		private parseXML(data: string) {
 
-        }
+			Kiwi.Log.log(&#x27;Kiwi.Files.DataFile: Data loaded is being parsed as XML.&#x27;, &#x27;#loading&#x27;, &#x27;#parsing&#x27;);
 
-    }
+			if (window[&#x27;DOMParser&#x27;]) {
 
-}  
+				var parser = new DOMParser();
+				this.data = parser.parseFromString(data, &quot;text/xml&quot;);
+
+			} else {
+
+				this.data = new ActiveXObject(&quot;Microsoft.XMLDOM&quot;);
+				this.data.async = &quot;false&quot;;
+				this.data.loadXML(data);
+
+			}
+
+			if (!this.data || !this.data.documentElement || this.data.getElementsByTagName(&quot;parsererror&quot;).length) {
+				this.loadError(&#x27;XML parse error.&#x27;);
+			} else {
+				this.loadSuccess();
+			}
+		}
+
+		/**
+		* Attempts to parse a string which is assumed to be JSON. Called when &#x27;parse&#x27; is set to true. 
+		* If valid &#x27;loadSuccess&#x27; is called, otherwise &#x27;loadError&#x27; is executed
+		*  
+		* @method processJSON
+		* @param data {String}
+		* @private 
+		*/
+		private processJSON( data:string ) {
+
+			Kiwi.Log.log(&#x27;Kiwi.Files.DataFile: Data loaded is being parsed as JSON.&#x27;, &#x27;#loading&#x27;, &#x27;#parsing&#x27;);
+
+			try {
+				this.data = JSON.parse(data);
+				this.loadSuccess();
+
+			} catch (e) {
+				this.loadError(e);
+
+			}
+
+		}
+
+	}
+
+}
+
     </pre>
 </div>
 

@@ -5,741 +5,741 @@
 */
 module Kiwi.Utils {
 
-    /**
-    * Adds a set of extra Math functions and extends a few commonly used ones.
-    * Includes some methods written by Dylan Engelman.
-    *
-    * @class GameMath
-    * @namespace Kiwi.Utils
-    * @static
-    *
-    * @author Richard Davey
-    * @author Dylan Engelman
-    */
-    export class GameMath {
+	/**
+	* Adds a set of extra Math functions and extends a few commonly used ones.
+	* Includes some methods written by Dylan Engelman.
+	*
+	* @class GameMath
+	* @namespace Kiwi.Utils
+	* @static
+	*
+	* @author Richard Davey
+	* @author Dylan Engelman
+	*/
+	export class GameMath {
 
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String} "GameMath"
-        * @public
-        */
-        public objType() {
-            return "GameMath";
-        }
-
-        /**
-        * Holds the value for PI. Only up to 16 significant figures.
-        * @property PI
-        * @type number
-        * @default 3.141592653589793
-        * @static
-        * @final
-        * @public
-        */
-        public static PI: number = 3.141592653589793; //number pi
-
-        /**
-        * Holds the value for PI / 2 OR 90 degrees. Only up to 17 significant figures. 
-        * @property PI_2
-        * @type number
-        * @default 1.5707963267948965
-        * @static
-        * @final
-        * @public
-        */
-        public static PI_2: number = 1.5707963267948965; //PI / 2 OR 90 deg
-
-        /**
-        * Holds the value for PI / 4 OR 45 degrees. Only up to 16 significant figures.
-        * @property PI_4
-        * @type number
-        * @default 0.7853981633974483
-        * @static
-        * @final
-        * @public
-        */
-        public static PI_4: number = 0.7853981633974483; //PI / 4 OR 45 deg
-
-        /**
-        * Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 significant figures.
-        * @property PI_8
-        * @type number
-        * @default 0.39269908169872413
-        * @static
-        * @final
-        * @public
-        */
-        public static PI_8: number = 0.39269908169872413; //PI / 8 OR 22.5 deg
-
-        /**
-        * Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 significant figures.
-        * @property PI_16
-        * @type number
-        * @default 0.19634954084936206
-        * @static
-        * @final
-        * @public
-        */
-        public static PI_16: number = 0.19634954084936206; //PI / 16 OR 11.25 deg
-
-        /**
-        * Holds the value for 2 * PI OR 180 degrees. Only up to 15 significant figures.
-        * @property TWO_PI
-        * @type number
-        * @default 6.283185307179586
-        * @static
-        * @final
-        * @public
-        */
-        public static TWO_PI: number = 6.283185307179586; //2 * PI OR 180 deg
-
-        /**
-        * Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 significant figures.
-        * @property THREE_PI_2
-        * @type number
-        * @default 4.7123889803846895
-        * @static
-        * @final
-        * @public
-        */
-        public static THREE_PI_2: number = 4.7123889803846895; //3 * PI_2 OR 270 deg
-
-        /**
-        * Holds the value for "e": Euler's number or Napier's constant, to 15 significant figures. This is a mathematically useful number.
-        * @property E
-        * @type number
-        * @default 2.71828182845905
-        * @static
-        * @final
-        * @public
-        */
-        public static E: number = 2.71828182845905; //number e
-
-        /**
-        * Holds the value for the natural logarithm of 10: ln(10). Accurate to 16 significant figures.
-        * @property LN10
-        * @type number
-        * @default 2.302585092994046
-        * @static
-        * @final
-        * @public
-        */
-        public static LN10: number = 2.302585092994046; //ln(10)
-
-        /**
-        * Holds the value for the natural logarithm of 2: ln(10). Accurate to 16 significant figures.
-        * @property LN2
-        * @type number
-        * @default 0.6931471805599453
-        * @static
-        * @final
-        * @public
-        */
-        public static LN2: number = 0.6931471805599453; //ln(2)
-
-        /**
-        * Holds the value for the base 10 logarithm of e (Euler's number). Accurate to 16 significant figures.
-        * @property LOG10E
-        * @type number
-        * @default 0.4342944819032518
-        * @static
-        * @final
-        * @public
-        */
-        public static LOG10E: number = 0.4342944819032518; //logB10(e)
-
-        /**
-        * Holds the value for the base 2 logarithm of e (Euler's number). Accurate to 19 significant figures.
-        * @property LOG2E
-        * @type number
-        * @default 1.442695040888963387
-        * @static
-        * @final
-        * @public
-        */
-        public static LOG2E: number = 1.442695040888963387; //logB2(e)
-
-        /**
-        * Holds the value for the square root of 0.5 (1/2). Accurate to 16 significant figures.
-        * @property SQRT1_2
-        * @type number
-        * @default 0.7071067811865476
-        * @static
-        * @final
-        * @public
-        */
-        public static SQRT1_2: number = 0.7071067811865476; //sqrt( 1 / 2 )
-
-        /**
-        * Holds the value for the square root of 2. Accurate to 17 significant figures. This is the diagonal distance across a square with side length of 1.
-        * @property SQRT2
-        * @type number
-        * @default 1.4142135623730951
-        * @static
-        * @final
-        * @public
-        */
-        public static SQRT2: number = 1.4142135623730951; //sqrt( 2 )
-
-        /**
-        * Holds the value for PI / 180 which is used to convert degrees to radians.
-        * @property DEG_TO_RAD
-        * @type  number
-        * @default 0.017453292519943294444444444444444
-        * @static
-        * @final
-        * @public
-        */
-        public static DEG_TO_RAD: number = 0.017453292519943294444444444444444; //PI / 180;
-
-        /**
-        * Holds the value for 180 / PI which is used to convert radians to degrees.
-        * @property RAD_TO_DEG
-        * @type number
-        * @default 57.295779513082325225835265587527
-        * @static
-        * @final
-        * @public
-        */
-        public static RAD_TO_DEG: number = 57.295779513082325225835265587527; // 180.0 / PI;
-        
-
-        /**
-        * Holds the value for 2 to the power of 16 (2^16 = 65536). This is the number of values available in 2 bytes.
-        * @property B_16
-        * @type number
-        * @default 65536
-        * @static
-        * @final
-        * @public
-        */
-        public static B_16: number = 65536;//2^16
-
-        /**
-        * Holds the value for 2 to the power of 31 (2^31 = 2147483648). This is the number of values available to 31-bit memory addressing.
-        * @property B_31
-        * @type number
-        * @default 2147483648
-        * @static
-        * @final
-        * @public
-        */
-        public static B_31: number = 2147483648;//2^31
-
-        /**
-        * Holds the value for 2 to the power of 32 (2^32 = 4294967296). This is the number of values available in 4 bytes, such as certain forms of RGBA colour.
-        * @property B_32
-        * @type number
-        * @default 4294967296
-        * @static
-        * @final
-        * @public
-        */
-        public static B_32: number = 4294967296;//2^32
-
-        /**
-        * Holds the value for 2 to the power of 48 (2^48 = 281474976710656). 48-bit colour has 16 bits per channel.
-        * @property B_48
-        * @type number
-        * @default 281474976710656
-        * @static
-        * @final
-        * @public
-        */
-        public static B_48: number = 281474976710656;//2^48
-
-        /**
-        * Holds the value for 2 to the power of 53 (2^53 = 9007199254740992). This is the largest accurate double-precision floating point whole number.
-        * @property B_53
-        * @type number
-        * @default 9007199254740992
-        * @static
-        * @final
-        * @public
-        */
-        public static B_53: number = 9007199254740992;//2^53 !!NOTE!! largest accurate double floating point whole value
-
-        /**
-        * Holds the value for 2 to the power of 64 (2^64 = 18446744073709551616). This number cannot be accurately represented as a double-precision floating point whole number as it is greater than Kiwi.Utils.GameMath.B_53. It is represented as 18446744073709552000 in memory.
-        * @property B_64
-        * @type number
-        * @default 18446744073709551616
-        * @static
-        * @final
-        * @public
-        */
-        public static B_64: number = 18446744073709551616;//2^64 !!NOTE!! Not accurate see B_53
-        
-
-        /**
-        * Holds the value for the fraction 1 / 3 as a number.
-        * @property ONE_THIRD
-        * @type number
-        * @default 0.333333333333333333333333333333333
-        * @static
-        * @final
-        * @public
-        */
-        public static ONE_THIRD: number = 0.333333333333333333333333333333333; // 1.0/3.0;
-
-        /**
-        * Holds the value for the fraction 2 / 3 as a number.
-        * @property TWO_THIRDS
-        * @type number
-        * @default 0.666666666666666666666666666666666
-        * @static
-        * @final
-        * @public
-        */
-        public static TWO_THIRDS: number = 0.666666666666666666666666666666666; // 2.0/3.0;
-
-        /**
-        * Holds the value for the fraction 1 / 6 as a number
-        * @property ONE_SIXTH
-        * @type number
-        * @default 0.166666666666666666666666666666666
-        * @static
-        * @final
-        * @public
-        */
-        public static ONE_SIXTH: number = 0.166666666666666666666666666666666; // 1.0/6.0;
-        
-        /**
-        * Holds the value of cos(pi / 3). This is the length of the shortest side of a triangle with angles in degrees 30, 60, and 90.
-        * @property COS_PI_3
-        * @type number
-        * @default 0.86602540378443864676372317075294
-        * @static
-        * @final
-        * @public
-        */
-        public static COS_PI_3: number = 0.86602540378443864676372317075294;//COS( PI / 3 )
-
-        /**
-        * Holds the value of sin(2 * pi / 3). This is the length of the second-shortest side of a triangle with andles in degrees 30, 60, and 90.
-        * @property SIN_2PI_3
-        * @type number
-        * @default 0.03654595
-        * @static
-        * @final
-        * @public
-        */
-        public static SIN_2PI_3: number = 0.03654595;// SIN( 2*PI/3 )
-        
-        /**
-        * Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0 (approximately 0.5522847).
-        *
-        * This is useful for making circular arcs with Bezier curves. For an arc segment of 90 degrees (PI / 2 radians) or less, you can construct a nice approximation using CIRCLE_ALPHA. If the magic number k = CIRCLE_ALPHA, construct an arc using the following points: [1,0], [1,k], [k,1], [0,1].
-        *
-        * For angles that are smaller by scale n, scale k by n, and displace k along tangents of the arc. For more information, see this article by Hans Muller: http://hansmuller-flex.blogspot.com/2011/04/approximating-circular-arc-with-cubic.html
-        * @property CIRCLE_ALPHA
-        * @type number
-        * @default 0.5522847498307933984022516322796
-        * @static
-        * @final
-        * @public
-        */
-        public static CIRCLE_ALPHA: number = 0.5522847498307933984022516322796; //4*(Math.sqrt(2)-1)/3.0;
-        
-        /**
-        * A boolean that is true.
-        * @property ON
-        * @type boolean
-        * @default true
-        * @static
-        * @final
-        * @public
-        */
-        public static ON: boolean = true;
-
-        /**
-        * A boolean that is false.
-        * @property OFF
-        * @type boolean
-        * @default false
-        * @static
-        * @final
-        * @public
-        */
-        public static OFF: boolean = false;
-        
-
-        /**
-        * Maximum relative error for integers.
-        * @property SHORT_EPSILON
-        * @type number
-        * @default 0.1
-        * @static
-        * @final
-        * @public
-        */
-        public static SHORT_EPSILON: number = 0.1;//round integer epsilon
-
-        /**
-        * Maximum relative error for percentages (where 1% == 0.01).
-        * @property PERC_EPSILON
-        * @type number
-        * @default 0.001
-        * @static
-        * @final
-        * @public
-        */
-        public static PERC_EPSILON: number = 0.001;//percentage epsilon
-
-        /**
-        * Average relative error for single float values.
-        * @property EPSILON
-        * @type number
-        * @default 0.0001
-        * @static
-        * @final
-        * @public
-        */
-        public static EPSILON: number = 0.0001;//single float average epsilon
-
-        /**
-        * Maximum relative error for 8-digit decimal values.
-        * @property LONG_EPSILON
-        * @type number
-        * @default 0.00000001
-        * @static
-        * @final
-        * @public
-        */
-        public static LONG_EPSILON: number = 0.00000001;//arbitrary 8 digit epsilon
-
-        /**
-        * Computes the maximum relative error for this machine.
-        * @method computeMachineEpsilon
-        * @return {Number}
-        * @static
-        * @public
-        */
-        public static computeMachineEpsilon(): number {
-            // Machine epsilon ala Eispack
-            var fourThirds: number = 4.0 / 3.0;
-            var third: number = fourThirds - 1.0;
-            var one: number = third + third + third;
-            return Math.abs(1.0 - one);
-        }
-
-        /**
-        * Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.
-        * @method fuzzyEqual
-        * @param a {number}
-        * @param b {number}
-        * @param [epsilon=0.0001] {number}
-        * @return {boolean}
-        * @static
-        * @public
-        */
-        public static fuzzyEqual(a: number, b: number, epsilon: number = 0.0001): boolean {
-            return Math.abs(a - b) < epsilon;
-        }
-
-        /**
-        * Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
-        * @method fuzzyLessThan
-        * @param a {number}
-        * @param b {number}
-        * @param [epsilon=0.0001] {number}
-        * @return {boolean}
-        * @static
-        * @public
-        */
-        public static fuzzyLessThan(a: number, b: number, epsilon: number = 0.0001): boolean {
-            return a < b + epsilon;
-        }
-
-        /**
-        * Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
-        * @method fuzzyGreaterThan
-        * @param a {number}
-        * @param b {number}
-        * @param [epsilon=0.0001] {number}
-        * @return {boolean}
-        * @static
-        * @public
-        */
-        public static fuzzyGreaterThan(a: number, b: number, epsilon: number = 0.0001): boolean {
-            return a > b - epsilon;
-        }
-
-        /**
-        * Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.
-        * @method fuzzyCeil
-        * @param val {number}
-        * @param [epsilon=0.0001] {number}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        public static fuzzyCeil(val: number, epsilon: number = 0.0001): number {
-            return Math.ceil(val - epsilon);
-        }
-
-        /**
-        * Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.
-        * @method fuzzyFloor
-        * @param val {number}
-        * @param [epsilion=0.0001] {number}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        public static fuzzyFloor(val: number, epsilon: number = 0.0001): number {
-            return Math.floor(val + epsilon);
-        }
-
-        /**
-        * Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.
-        * @method average
-        * @param [args]* {Any[]}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        public static average(...args: any[]): number {
-            var avg: number = 0;
-
-            for (var i = 0; i < args.length; i++)
-            {
-                avg += args[i];
-            }
-
-            return avg / args.length;
-        }
-
-        /**
-        * Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.
-        *
-        * In other words, slam prevents the target from exceeding epsilon.
-        * @method slam
-        * @param value {number}
-        * @param target {number}
-        * @param [epsilon=0.0001] {number}
-        * @return {Number}
-        * @static
-        * @public
-        */
-        public static slam(value: number, target: number, epsilon: number = 0.0001): number {
-            return (Math.abs(value - target) < epsilon) ? target : value;
-        }
-
-        /**
-		* Ratio of value to a range.
-        * @method percentageMinMax
-        * @param val {number}
-        * @param max {number}
-        * @param [min=0] {number}
-        * @return {number}
-        * @static
-        * @public
+		/**
+		* The type of object that this is.
+		* @method objType
+		* @return {String} "GameMath"
+		* @public
 		*/
-        public static percentageMinMax(val: number, max: number, min: number = 0): number {
-            val -= min;
-            max -= min;
+		public objType() {
+			return "GameMath";
+		}
 
-            if (!max) return 0;
-            else return val / max;
-        }
+		/**
+		* Holds the value for PI. Only up to 16 significant figures.
+		* @property PI
+		* @type number
+		* @default 3.141592653589793
+		* @static
+		* @final
+		* @public
+		*/
+		public static PI: number = 3.141592653589793; //number pi
 
-        /**
+		/**
+		* Holds the value for PI / 2 OR 90 degrees. Only up to 17 significant figures. 
+		* @property PI_2
+		* @type number
+		* @default 1.5707963267948965
+		* @static
+		* @final
+		* @public
+		*/
+		public static PI_2: number = 1.5707963267948965; //PI / 2 OR 90 deg
+
+		/**
+		* Holds the value for PI / 4 OR 45 degrees. Only up to 16 significant figures.
+		* @property PI_4
+		* @type number
+		* @default 0.7853981633974483
+		* @static
+		* @final
+		* @public
+		*/
+		public static PI_4: number = 0.7853981633974483; //PI / 4 OR 45 deg
+
+		/**
+		* Holds the value for PI / 8 OR 22.5 degrees. Only up to 17 significant figures.
+		* @property PI_8
+		* @type number
+		* @default 0.39269908169872413
+		* @static
+		* @final
+		* @public
+		*/
+		public static PI_8: number = 0.39269908169872413; //PI / 8 OR 22.5 deg
+
+		/**
+		* Holds the value for PI / 16 OR 11.25 degrees. Only up to 17 significant figures.
+		* @property PI_16
+		* @type number
+		* @default 0.19634954084936206
+		* @static
+		* @final
+		* @public
+		*/
+		public static PI_16: number = 0.19634954084936206; //PI / 16 OR 11.25 deg
+
+		/**
+		* Holds the value for 2 * PI OR 180 degrees. Only up to 15 significant figures.
+		* @property TWO_PI
+		* @type number
+		* @default 6.283185307179586
+		* @static
+		* @final
+		* @public
+		*/
+		public static TWO_PI: number = 6.283185307179586; //2 * PI OR 180 deg
+
+		/**
+		* Holds the value for 3 * PI_2 OR 270 degrees. Only up to 17 significant figures.
+		* @property THREE_PI_2
+		* @type number
+		* @default 4.7123889803846895
+		* @static
+		* @final
+		* @public
+		*/
+		public static THREE_PI_2: number = 4.7123889803846895; //3 * PI_2 OR 270 deg
+
+		/**
+		* Holds the value for "e": Euler's number or Napier's constant, to 15 significant figures. This is a mathematically useful number.
+		* @property E
+		* @type number
+		* @default 2.71828182845905
+		* @static
+		* @final
+		* @public
+		*/
+		public static E: number = 2.71828182845905; //number e
+
+		/**
+		* Holds the value for the natural logarithm of 10: ln(10). Accurate to 16 significant figures.
+		* @property LN10
+		* @type number
+		* @default 2.302585092994046
+		* @static
+		* @final
+		* @public
+		*/
+		public static LN10: number = 2.302585092994046; //ln(10)
+
+		/**
+		* Holds the value for the natural logarithm of 2: ln(10). Accurate to 16 significant figures.
+		* @property LN2
+		* @type number
+		* @default 0.6931471805599453
+		* @static
+		* @final
+		* @public
+		*/
+		public static LN2: number = 0.6931471805599453; //ln(2)
+
+		/**
+		* Holds the value for the base 10 logarithm of e (Euler's number). Accurate to 16 significant figures.
+		* @property LOG10E
+		* @type number
+		* @default 0.4342944819032518
+		* @static
+		* @final
+		* @public
+		*/
+		public static LOG10E: number = 0.4342944819032518; //logB10(e)
+
+		/**
+		* Holds the value for the base 2 logarithm of e (Euler's number). Accurate to 19 significant figures.
+		* @property LOG2E
+		* @type number
+		* @default 1.442695040888963387
+		* @static
+		* @final
+		* @public
+		*/
+		public static LOG2E: number = 1.442695040888963387; //logB2(e)
+
+		/**
+		* Holds the value for the square root of 0.5 (1/2). Accurate to 16 significant figures.
+		* @property SQRT1_2
+		* @type number
+		* @default 0.7071067811865476
+		* @static
+		* @final
+		* @public
+		*/
+		public static SQRT1_2: number = 0.7071067811865476; //sqrt( 1 / 2 )
+
+		/**
+		* Holds the value for the square root of 2. Accurate to 17 significant figures. This is the diagonal distance across a square with side length of 1.
+		* @property SQRT2
+		* @type number
+		* @default 1.4142135623730951
+		* @static
+		* @final
+		* @public
+		*/
+		public static SQRT2: number = 1.4142135623730951; //sqrt( 2 )
+
+		/**
+		* Holds the value for PI / 180 which is used to convert degrees to radians.
+		* @property DEG_TO_RAD
+		* @type  number
+		* @default 0.017453292519943294444444444444444
+		* @static
+		* @final
+		* @public
+		*/
+		public static DEG_TO_RAD: number = 0.017453292519943294444444444444444; //PI / 180;
+
+		/**
+		* Holds the value for 180 / PI which is used to convert radians to degrees.
+		* @property RAD_TO_DEG
+		* @type number
+		* @default 57.295779513082325225835265587527
+		* @static
+		* @final
+		* @public
+		*/
+		public static RAD_TO_DEG: number = 57.295779513082325225835265587527; // 180.0 / PI;
+		
+
+		/**
+		* Holds the value for 2 to the power of 16 (2^16 = 65536). This is the number of values available in 2 bytes.
+		* @property B_16
+		* @type number
+		* @default 65536
+		* @static
+		* @final
+		* @public
+		*/
+		public static B_16: number = 65536;//2^16
+
+		/**
+		* Holds the value for 2 to the power of 31 (2^31 = 2147483648). This is the number of values available to 31-bit memory addressing.
+		* @property B_31
+		* @type number
+		* @default 2147483648
+		* @static
+		* @final
+		* @public
+		*/
+		public static B_31: number = 2147483648;//2^31
+
+		/**
+		* Holds the value for 2 to the power of 32 (2^32 = 4294967296). This is the number of values available in 4 bytes, such as certain forms of RGBA colour.
+		* @property B_32
+		* @type number
+		* @default 4294967296
+		* @static
+		* @final
+		* @public
+		*/
+		public static B_32: number = 4294967296;//2^32
+
+		/**
+		* Holds the value for 2 to the power of 48 (2^48 = 281474976710656). 48-bit colour has 16 bits per channel.
+		* @property B_48
+		* @type number
+		* @default 281474976710656
+		* @static
+		* @final
+		* @public
+		*/
+		public static B_48: number = 281474976710656;//2^48
+
+		/**
+		* Holds the value for 2 to the power of 53 (2^53 = 9007199254740992). This is the largest accurate double-precision floating point whole number.
+		* @property B_53
+		* @type number
+		* @default 9007199254740992
+		* @static
+		* @final
+		* @public
+		*/
+		public static B_53: number = 9007199254740992;//2^53 !!NOTE!! largest accurate double floating point whole value
+
+		/**
+		* Holds the value for 2 to the power of 64 (2^64 = 18446744073709551616). This number cannot be accurately represented as a double-precision floating point whole number as it is greater than Kiwi.Utils.GameMath.B_53. It is represented as 18446744073709552000 in memory.
+		* @property B_64
+		* @type number
+		* @default 18446744073709551616
+		* @static
+		* @final
+		* @public
+		*/
+		public static B_64: number = 18446744073709551616;//2^64 !!NOTE!! Not accurate see B_53
+		
+
+		/**
+		* Holds the value for the fraction 1 / 3 as a number.
+		* @property ONE_THIRD
+		* @type number
+		* @default 0.333333333333333333333333333333333
+		* @static
+		* @final
+		* @public
+		*/
+		public static ONE_THIRD: number = 0.333333333333333333333333333333333; // 1.0/3.0;
+
+		/**
+		* Holds the value for the fraction 2 / 3 as a number.
+		* @property TWO_THIRDS
+		* @type number
+		* @default 0.666666666666666666666666666666666
+		* @static
+		* @final
+		* @public
+		*/
+		public static TWO_THIRDS: number = 0.666666666666666666666666666666666; // 2.0/3.0;
+
+		/**
+		* Holds the value for the fraction 1 / 6 as a number
+		* @property ONE_SIXTH
+		* @type number
+		* @default 0.166666666666666666666666666666666
+		* @static
+		* @final
+		* @public
+		*/
+		public static ONE_SIXTH: number = 0.166666666666666666666666666666666; // 1.0/6.0;
+		
+		/**
+		* Holds the value of cos(pi / 3). This is the length of the shortest side of a triangle with angles in degrees 30, 60, and 90.
+		* @property COS_PI_3
+		* @type number
+		* @default 0.86602540378443864676372317075294
+		* @static
+		* @final
+		* @public
+		*/
+		public static COS_PI_3: number = 0.86602540378443864676372317075294;//COS( PI / 3 )
+
+		/**
+		* Holds the value of sin(2 * pi / 3). This is the length of the second-shortest side of a triangle with andles in degrees 30, 60, and 90.
+		* @property SIN_2PI_3
+		* @type number
+		* @default 0.03654595
+		* @static
+		* @final
+		* @public
+		*/
+		public static SIN_2PI_3: number = 0.03654595;// SIN( 2*PI/3 )
+		
+		/**
+		* Holds the value for 4 * (Math.sqrt(2) - 1) / 3.0 (approximately 0.5522847).
+		*
+		* This is useful for making circular arcs with Bezier curves. For an arc segment of 90 degrees (PI / 2 radians) or less, you can construct a nice approximation using CIRCLE_ALPHA. If the magic number k = CIRCLE_ALPHA, construct an arc using the following points: [1,0], [1,k], [k,1], [0,1].
+		*
+		* For angles that are smaller by scale n, scale k by n, and displace k along tangents of the arc. For more information, see this article by Hans Muller: http://hansmuller-flex.blogspot.com/2011/04/approximating-circular-arc-with-cubic.html
+		* @property CIRCLE_ALPHA
+		* @type number
+		* @default 0.5522847498307933984022516322796
+		* @static
+		* @final
+		* @public
+		*/
+		public static CIRCLE_ALPHA: number = 0.5522847498307933984022516322796; //4*(Math.sqrt(2)-1)/3.0;
+		
+		/**
+		* A boolean that is true.
+		* @property ON
+		* @type boolean
+		* @default true
+		* @static
+		* @final
+		* @public
+		*/
+		public static ON: boolean = true;
+
+		/**
+		* A boolean that is false.
+		* @property OFF
+		* @type boolean
+		* @default false
+		* @static
+		* @final
+		* @public
+		*/
+		public static OFF: boolean = false;
+		
+
+		/**
+		* Maximum relative error for integers.
+		* @property SHORT_EPSILON
+		* @type number
+		* @default 0.1
+		* @static
+		* @final
+		* @public
+		*/
+		public static SHORT_EPSILON: number = 0.1;//round integer epsilon
+
+		/**
+		* Maximum relative error for percentages (where 1% == 0.01).
+		* @property PERC_EPSILON
+		* @type number
+		* @default 0.001
+		* @static
+		* @final
+		* @public
+		*/
+		public static PERC_EPSILON: number = 0.001;//percentage epsilon
+
+		/**
+		* Average relative error for single float values.
+		* @property EPSILON
+		* @type number
+		* @default 0.0001
+		* @static
+		* @final
+		* @public
+		*/
+		public static EPSILON: number = 0.0001;//single float average epsilon
+
+		/**
+		* Maximum relative error for 8-digit decimal values.
+		* @property LONG_EPSILON
+		* @type number
+		* @default 0.00000001
+		* @static
+		* @final
+		* @public
+		*/
+		public static LONG_EPSILON: number = 0.00000001;//arbitrary 8 digit epsilon
+
+		/**
+		* Computes the maximum relative error for this machine.
+		* @method computeMachineEpsilon
+		* @return {Number}
+		* @static
+		* @public
+		*/
+		public static computeMachineEpsilon(): number {
+			// Machine epsilon ala Eispack
+			var fourThirds: number = 4.0 / 3.0;
+			var third: number = fourThirds - 1.0;
+			var one: number = third + third + third;
+			return Math.abs(1.0 - one);
+		}
+
+		/**
+		* Computes whether two numbers are identical to the limits of the computer's precision, as specified by the epsilon value.
+		* @method fuzzyEqual
+		* @param a {number}
+		* @param b {number}
+		* @param [epsilon=0.0001] {number}
+		* @return {boolean}
+		* @static
+		* @public
+		*/
+		public static fuzzyEqual(a: number, b: number, epsilon: number = 0.0001): boolean {
+			return Math.abs(a - b) < epsilon;
+		}
+
+		/**
+		* Computes whether the first parameter is less than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
+		* @method fuzzyLessThan
+		* @param a {number}
+		* @param b {number}
+		* @param [epsilon=0.0001] {number}
+		* @return {boolean}
+		* @static
+		* @public
+		*/
+		public static fuzzyLessThan(a: number, b: number, epsilon: number = 0.0001): boolean {
+			return a < b + epsilon;
+		}
+
+		/**
+		* Computes whether the first parameter is greater than the second parameter, to the limits of the computer's precision, as specified by the epsilon value.
+		* @method fuzzyGreaterThan
+		* @param a {number}
+		* @param b {number}
+		* @param [epsilon=0.0001] {number}
+		* @return {boolean}
+		* @static
+		* @public
+		*/
+		public static fuzzyGreaterThan(a: number, b: number, epsilon: number = 0.0001): boolean {
+			return a > b - epsilon;
+		}
+
+		/**
+		* Computes the integer ceiling of the first parameter, minus a rounding margin defined by epsilon.
+		* @method fuzzyCeil
+		* @param val {number}
+		* @param [epsilon=0.0001] {number}
+		* @return {Number}
+		* @static
+		* @public
+		*/
+		public static fuzzyCeil(val: number, epsilon: number = 0.0001): number {
+			return Math.ceil(val - epsilon);
+		}
+
+		/**
+		* Computes the integer floor of the first parameter, plus a rounding margin defined by epsilon.
+		* @method fuzzyFloor
+		* @param val {number}
+		* @param [epsilion=0.0001] {number}
+		* @return {Number}
+		* @static
+		* @public
+		*/
+		public static fuzzyFloor(val: number, epsilon: number = 0.0001): number {
+			return Math.floor(val + epsilon);
+		}
+
+		/**
+		* Computes the mean of any number of parameters. For example, average(1,2,3) returns 2.
+		* @method average
+		* @param [args]* {Any[]}
+		* @return {Number}
+		* @static
+		* @public
+		*/
+		public static average(...args: any[]): number {
+			var avg: number = 0;
+
+			for (var i = 0; i < args.length; i++)
+			{
+				avg += args[i];
+			}
+
+			return avg / args.length;
+		}
+
+		/**
+		* Computes whether value and target are sufficiently close as to be within the computer's margin of error, as defined by epsilon. Returns the target if they are sufficiently close; returns the value if they are not.
+		*
+		* In other words, slam prevents the target from exceeding epsilon.
+		* @method slam
+		* @param value {number}
+		* @param target {number}
+		* @param [epsilon=0.0001] {number}
+		* @return {Number}
+		* @static
+		* @public
+		*/
+		public static slam(value: number, target: number, epsilon: number = 0.0001): number {
+			return (Math.abs(value - target) < epsilon) ? target : value;
+		}
+
+		/**
+		* Ratio of value to a range.
+		* @method percentageMinMax
+		* @param val {number}
+		* @param max {number}
+		* @param [min=0] {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static percentageMinMax(val: number, max: number, min: number = 0): number {
+			val -= min;
+			max -= min;
+
+			if (!max) return 0;
+			else return val / max;
+		}
+
+		/**
 		* A value representing the sign of the value.
 		* -1 for negative, +1 for positive, 0 if value is 0
 		* @method sign
-        * @param n {number}
-        * @return {number}
-        * @static
-        * @public
-        */
-        public static sign(n: number): number {
-            if (n) return n / Math.abs(n);
-            else return 0;
-        }
+		* @param n {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static sign(n: number): number {
+			if (n) return n / Math.abs(n);
+			else return 0;
+		}
 
-        /**
-        * Truncates a value by removing all decimal data.
-        * @method truncate
-        * @param n {number}
-        * @return {number}
-        * @static
-        * @public
-        */
-        public static truncate(n: number): number {
-            return (n > 0) ? Math.floor(n) : Math.ceil(n);
-        }
+		/**
+		* Truncates a value by removing all decimal data.
+		* @method truncate
+		* @param n {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static truncate(n: number): number {
+			return (n > 0) ? Math.floor(n) : Math.ceil(n);
+		}
 
-        /**
-        * Removes all non-decimal data from the value.
-        * @method shear
-        * @param n {number}
-        * @return {number}
-        * @static
-        * @public
-        */
-        public static shear(n: number): number {
-            return n % 1;
-        }
+		/**
+		* Removes all non-decimal data from the value.
+		* @method shear
+		* @param n {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static shear(n: number): number {
+			return n % 1;
+		}
 
-        /**
+		/**
 		* Wrap a value around a range, similar to modulus with a floating minimum
 		* @method wrap
-        * @param val {number}
-        * @param max {number}
-        * @param [min=0] {number}
-        * @return {number}
-        * @static
-        * @public
-        */
-        public static wrap(val: number, max: number, min: number = 0): number {
-            val -= min;
-            max -= min;
-            if (max == 0) return min;
-            val %= max;
-            val += min;
-            while (val < min)
-                val += max;
+		* @param val {number}
+		* @param max {number}
+		* @param [min=0] {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static wrap(val: number, max: number, min: number = 0): number {
+			val -= min;
+			max -= min;
+			if (max == 0) return min;
+			val %= max;
+			val += min;
+			while (val < min)
+				val += max;
 
-            return val;
-        }
+			return val;
+		}
 
-        /**
+		/**
 		* Arithmetic version of wrap.
 		* @method arithWrap
-        * @param val {number}
-        * @param max {number}
-        * @param [min=0] {number}
-        * @return {number}
-        * @static
-        * @public
-        */
-        public static arithWrap(value: number, max: number, min: number = 0): number {
-            max -= min;
-            if (max == 0) return min;
-            return value - max * Math.floor((value - min) / max);
-        }
+		* @param val {number}
+		* @param max {number}
+		* @param [min=0] {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static arithWrap(value: number, max: number, min: number = 0): number {
+			max -= min;
+			if (max == 0) return min;
+			return value - max * Math.floor((value - min) / max);
+		}
 
-        /**
+		/**
 		* Force a value within the boundaries of two values
 		* If max < min, min is returned.
 		* @method clamp
-        * @param input {number}
-        * @param max {number}
-        * @param [min=0] {number}
-        * @return {number}
-        * @static
-        * @public
-        */
-        public static clamp(input: number, max: number, min: number = 0): number {
-            return Math.max(min, Math.min(max, input));
-        }
+		* @param input {number}
+		* @param max {number}
+		* @param [min=0] {number}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static clamp(input: number, max: number, min: number = 0): number {
+			return Math.max(min, Math.min(max, input));
+		}
 
-        /**
+		/**
 		* Snap a value to nearest grid slice, using rounding.
 		* Example if you have an interval gap of 5 and a position of 12... you will snap to 10. Where as 14 will snap to 15
 		* 
-        * @method snapTo
+		* @method snapTo
 		* @param input {number} The value to snap
 		* @param gap {number} The interval gap of the grid
 		* @param [start=0] {number} Optional starting offset for gap
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static snapTo(input: number, gap: number, start: number = 0): number {
-            if (gap == 0) return input;
+		* @static
+		* @public
+		*/
+		public static snapTo(input: number, gap: number, start: number = 0): number {
+			if (gap == 0) return input;
 
-            input -= start;
-            input = gap * Math.round(input / gap);
-            return start + input;
-        }
+			input -= start;
+			input = gap * Math.round(input / gap);
+			return start + input;
+		}
 
-        /**
+		/**
 		* Snap a value to nearest grid slice, using floor.
 		* Example if you have an interval gap of 5 and a position of 12... you will snap to 10. As will 14 snap to 10... but 16 will snap to 15
 		* 
-        * @method snapToFloor
+		* @method snapToFloor
 		* @param input {number} The value to snap
 		* @param gap {number} The interval gap of the grid
 		* @param [start=0] {number} Optional starting offset for gap
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static snapToFloor(input: number, gap: number, start: number = 0): number {
-            if (gap == 0) return input;
+		* @static
+		* @public
+		*/
+		public static snapToFloor(input: number, gap: number, start: number = 0): number {
+			if (gap == 0) return input;
 
-            input -= start;
-            input = gap * Math.floor(input / gap);
-            return start + input;
-        }
+			input -= start;
+			input = gap * Math.floor(input / gap);
+			return start + input;
+		}
 
-        /**
+		/**
 		* Snap a value to nearest grid slice, using ceil.
 		* Example if you have an interval gap of 5 and a position of 12... you will snap to 15. As will 14 will snap to 15... but 16 will snap to 20
 		* 
-        * @method snapToCeil
+		* @method snapToCeil
 		* @param input {number} The value to snap
 		* @param gap {number} The interval gap of the grid
 		* @param [start=0] {number} optional starting offset for gap
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static snapToCeil(input: number, gap: number, start: number = 0): number {
-            if (gap == 0) return input;
+		public static snapToCeil(input: number, gap: number, start: number = 0): number {
+			if (gap == 0) return input;
 
-            input -= start;
-            input = gap * Math.ceil(input / gap);
-            return start + input;
-        }
+			input -= start;
+			input = gap * Math.ceil(input / gap);
+			return start + input;
+		}
 
-        /**
+		/**
 		* Snaps a value to the nearest value in an array.
-        * @method snapToInArray
-        * @param input {number}
-        * @param arr {number[]}
-        * @param [sort=true] {boolean}
+		* @method snapToInArray
+		* @param input {number}
+		* @param arr {number[]}
+		* @param [sort=true] {boolean}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static snapToInArray(input: number, arr: number[], sort: boolean = true): number {
+		public static snapToInArray(input: number, arr: number[], sort: boolean = true): number {
 
-            if (sort) arr.sort();
-            if (input < arr[0]) return arr[0];
+			if (sort) arr.sort();
+			if (input < arr[0]) return arr[0];
 
-            var i: number = 1;
+			var i: number = 1;
 
-            while (arr[i] < input)
-                i++;
+			while (arr[i] < input)
+				i++;
 
-            var low: number = arr[i - 1];
-            var high: number = (i < arr.length) ? arr[i] : Number.POSITIVE_INFINITY;
+			var low: number = arr[i - 1];
+			var high: number = (i < arr.length) ? arr[i] : Number.POSITIVE_INFINITY;
 
-            return ((high - input) <= (input - low)) ? high : low;
-        }
+			return ((high - input) <= (input - low)) ? high : low;
+		}
 
-        /**
+		/**
 		* Round to some place comparative to a 'base', default is 10 for decimal place.
 		* 'place' is represented by the power applied to 'base' to get that place
 		* 
-        * @method roundTo
+		* @method roundTo
 		* @param value {number} The value to round
 		* @param [place=0] {number} The place to round to
 		* @param [base=10] {number} The base to round in... default is 10 for decimal
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static roundTo(value: number, place: number = 0, base: number = 10): number {
-            var p: number = Math.pow(base, -place);
-            return Math.round(value * p) / p;
-        }
+		* @static
+		* @public
+		*/
+		public static roundTo(value: number, place: number = 0, base: number = 10): number {
+			var p: number = Math.pow(base, -place);
+			return Math.round(value * p) / p;
+		}
 
-        /*
+		/*
 		* E.g.
 		* 
 		* 2000/7 ~= 285.714285714285714285714 ~= (bin)100011101.1011011011011011
@@ -768,214 +768,214 @@ module Kiwi.Utils {
 		* because we are rounding 100011.1011011011011011 which rounds up.
 		*/
 
-        /**
-        * Round down to some place comparative to a 'base', default is 10 for decimal place.
-        * 'place' is represented by the power applied to 'base' to get that place
-        * @method floorTo
-        * @param value {number}
-        * @param [place=0] {number}
-        * @param [base=10] {number}
+		/**
+		* Round down to some place comparative to a 'base', default is 10 for decimal place.
+		* 'place' is represented by the power applied to 'base' to get that place
+		* @method floorTo
+		* @param value {number}
+		* @param [place=0] {number}
+		* @param [base=10] {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static floorTo(value: number, place: number = 0, base: number = 10): number {
-            var p: number = Math.pow(base, -place);
-            return Math.floor(value * p) / p;
-        }
+		* @static
+		* @public
+		*/
+		public static floorTo(value: number, place: number = 0, base: number = 10): number {
+			var p: number = Math.pow(base, -place);
+			return Math.floor(value * p) / p;
+		}
 
-        /**
-        * Round down to some place comparative to a 'base', default is 10 for decimal place.
-        * 'place' is represented by the power applied to 'base' to get that place
-        * @method ceilTo
-        * @param value {number}
-        * @param [place=0] {number}
-        * @param [base=10] {number}
+		/**
+		* Round down to some place comparative to a 'base', default is 10 for decimal place.
+		* 'place' is represented by the power applied to 'base' to get that place
+		* @method ceilTo
+		* @param value {number}
+		* @param [place=0] {number}
+		* @param [base=10] {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static ceilTo(value: number, place: number = 0, base: number = 10): number {
-            var p: number = Math.pow(base, -place);
-            return Math.ceil(value * p) / p;
-        }
+		* @static
+		* @public
+		*/
+		public static ceilTo(value: number, place: number = 0, base: number = 10): number {
+			var p: number = Math.pow(base, -place);
+			return Math.ceil(value * p) / p;
+		}
 
-        /**
+		/**
 		* A one dimensional linear interpolation of a value.
 		* @method interpolateFloat
-        * @param a {number}
-        * @param b {number}
-        * @param weight {number}
+		* @param a {number}
+		* @param b {number}
+		* @param weight {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static interpolateFloat(a: number, b: number, weight: number): number {
-            return (b - a) * weight + a;
-        }
+		* @static
+		* @public
+		*/
+		public static interpolateFloat(a: number, b: number, weight: number): number {
+			return (b - a) * weight + a;
+		}
 
-        /**
+		/**
 		* Convert radians to degrees
 		* @method radiansToDegrees
-        * @param angle {number}
+		* @param angle {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static radiansToDegrees(angle: number): number {
-            return angle * GameMath.RAD_TO_DEG;
-        }
+		* @static
+		* @public
+		*/
+		public static radiansToDegrees(angle: number): number {
+			return angle * GameMath.RAD_TO_DEG;
+		}
 
-        /**
+		/**
 		* Convert degrees to radians
 		* @method degreesToRadians
-        * @param angle {number}
+		* @param angle {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static degreesToRadians(angle: number): number {
-            return angle * GameMath.DEG_TO_RAD;
-        }
-
-        /**
-		* Find the angle of a segment from (x1, y1) -> (x2, y2 )
-        * @method angleBetween
-        * @param x1 {number}
-        * @param y1 {number}
-        * @param x2 {number}
-        * @param y2 {number}
-		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static angleBetween(x1: number, y1: number, x2: number, y2: number): number {
-            return Math.atan2(y2 - y1, x2 - x1);
-        }
+		public static degreesToRadians(angle: number): number {
+			return angle * GameMath.DEG_TO_RAD;
+		}
 
-
-        /**
-        * Set an angle with in the bounds of -PI to PI
-        * @method normalizeAngle
-        * @param angle {number}
-        * @param [radians=true] {boolean}
+		/**
+		* Find the angle of a segment from (x1, y1) -> (x2, y2 )
+		* @method angleBetween
+		* @param x1 {number}
+		* @param y1 {number}
+		* @param x2 {number}
+		* @param y2 {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static normalizeAngle(angle: number, radians: boolean = true): number {
-            var rd: number = (radians) ? GameMath.PI : 180;
-            return GameMath.wrap(angle, rd, -rd);
-        }
+		* @static
+		* @public
+		*/
+		public static angleBetween(x1: number, y1: number, x2: number, y2: number): number {
+			return Math.atan2(y2 - y1, x2 - x1);
+		}
 
-        /**
-        * Closest angle between two angles from a1 to a2
-        * absolute value the return for exact angle.
-        * @method nearestAngleBetween 
-        * @param a1 {number}
-        * @param a2 {number}
-        * @param [radians=true] {boolean}
+
+		/**
+		* Set an angle with in the bounds of -PI to PI
+		* @method normalizeAngle
+		* @param angle {number}
+		* @param [radians=true] {boolean}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static nearestAngleBetween(a1: number, a2: number, radians: boolean = true): number {
+		* @static
+		* @public
+		*/
+		public static normalizeAngle(angle: number, radians: boolean = true): number {
+			var rd: number = (radians) ? GameMath.PI : 180;
+			return GameMath.wrap(angle, rd, -rd);
+		}
 
-            var rd: number = (radians) ? GameMath.PI : 180;
-
-            a1 = GameMath.normalizeAngle(a1, radians);
-            a2 = GameMath.normalizeAngle(a2, radians);
-
-            if (a1 < -rd / 2 && a2 > rd / 2) a1 += rd * 2;
-            if (a2 < -rd / 2 && a1 > rd / 2) a2 += rd * 2;
-
-            return a2 - a1;
-        }
-
-        /**
-        * Normalizes independent and then sets dep to the nearest value respective to independent.
-        * For instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170
-        * @method normalizeAngleToAnother
-        * @param dep {number}
-        * @param ind {number}
-        * @param [radians=true] {boolean}
+		/**
+		* Closest angle between two angles from a1 to a2
+		* absolute value the return for exact angle.
+		* @method nearestAngleBetween 
+		* @param a1 {number}
+		* @param a2 {number}
+		* @param [radians=true] {boolean}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static normalizeAngleToAnother(dep: number, ind: number, radians: boolean = true): number {
-            return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
-        }
+		* @static
+		* @public
+		*/
+		public static nearestAngleBetween(a1: number, a2: number, radians: boolean = true): number {
 
-        /**
-        * Normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent.
-        * For instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170
-        * @method normalizeAngleAfterAnother
-        * @param dep {number}
-        * @param ind {number}
-        * @param [radians=true] {boolean}
+			var rd: number = (radians) ? GameMath.PI : 180;
+
+			a1 = GameMath.normalizeAngle(a1, radians);
+			a2 = GameMath.normalizeAngle(a2, radians);
+
+			if (a1 < -rd / 2 && a2 > rd / 2) a1 += rd * 2;
+			if (a2 < -rd / 2 && a1 > rd / 2) a2 += rd * 2;
+
+			return a2 - a1;
+		}
+
+		/**
+		* Normalizes independent and then sets dep to the nearest value respective to independent.
+		* For instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170
+		* @method normalizeAngleToAnother
+		* @param dep {number}
+		* @param ind {number}
+		* @param [radians=true] {boolean}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static normalizeAngleAfterAnother(dep: number, ind: number, radians: boolean = true): number {
+		* @static
+		* @public
+		*/
+		public static normalizeAngleToAnother(dep: number, ind: number, radians: boolean = true): number {
+			return ind + Kiwi.Utils.GameMath.nearestAngleBetween(ind, dep, radians);
+		}
 
-            dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
-            return ind + dep;
-        }
-
-        /**
-        * Normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent.
-        * For instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190
-        * @method normalizeAngleBeforeAnother
-        * @param dep {number}
-        * @param ind {number}
-        * @param [radians=true] {boolean}
+		/**
+		* Normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent.
+		* For instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170
+		* @method normalizeAngleAfterAnother
+		* @param dep {number}
+		* @param ind {number}
+		* @param [radians=true] {boolean}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static normalizeAngleBeforeAnother(dep: number, ind: number, radians: boolean = true): number {
+		* @static
+		* @public
+		*/
+		public static normalizeAngleAfterAnother(dep: number, ind: number, radians: boolean = true): number {
 
-            dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
-            return ind - dep;
-        }
+			dep = Kiwi.Utils.GameMath.normalizeAngle(dep - ind, radians);
+			return ind + dep;
+		}
 
-        /**
-        * Interpolate across the shortest arc between two angles.
-        * @method interpolateAngles
-        * @param a1 {number}
-        * @param a2 {number}
-        * @param weight {number}
-        * @param [radians=true] {boolean}
-        * @param [ease=null] {any}
+		/**
+		* Normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent.
+		* For instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190
+		* @method normalizeAngleBeforeAnother
+		* @param dep {number}
+		* @param ind {number}
+		* @param [radians=true] {boolean}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static interpolateAngles(a1: number, a2: number, weight: number, radians: boolean = true, ease = null): number {
+		* @static
+		* @public
+		*/
+		public static normalizeAngleBeforeAnother(dep: number, ind: number, radians: boolean = true): number {
 
-            a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
-            a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
+			dep = Kiwi.Utils.GameMath.normalizeAngle(ind - dep, radians);
+			return ind - dep;
+		}
 
-            return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
-        }
+		/**
+		* Interpolate across the shortest arc between two angles.
+		* @method interpolateAngles
+		* @param a1 {number}
+		* @param a2 {number}
+		* @param weight {number}
+		* @param [radians=true] {boolean}
+		* @param [ease=null] {any}
+		* @return {number}
+		* @static
+		* @public
+		*/
+		public static interpolateAngles(a1: number, a2: number, weight: number, radians: boolean = true, ease = null): number {
 
-        /**
+			a1 = Kiwi.Utils.GameMath.normalizeAngle(a1, radians);
+			a2 = Kiwi.Utils.GameMath.normalizeAngleToAnother(a2, a1, radians);
+
+			return (typeof ease === 'function') ? ease(weight, a1, a2 - a1, 1) : Kiwi.Utils.GameMath.interpolateFloat(a1, a2, weight);
+		}
+
+		/**
 		* Compute the logarithm of any value of any base.
 		* A logarithm is the exponent that some constant (base) would have to be raised to 
 		* to be equal to value.
 		* @method logBaseOf
-        * @param value {number}
-        * @param base {number}
+		* @param value {number}
+		* @param base {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static logBaseOf(value: number, base: number): number {
-            return Math.log(value) / Math.log(base);
-        }
-        /* 
+		* @static
+		* @public
+		*/
+		public static logBaseOf(value: number, base: number): number {
+			return Math.log(value) / Math.log(base);
+		}
+		/* 
 		* i.e.
 		* 4 ^ x = 16
 		* can be rewritten as to solve for x
@@ -986,345 +986,345 @@ module Kiwi.Utils {
 		* which would return 2, because 4^2 = 16
 		*/
 
-        /**
+		/**
 		* Greatest Common Denominator using Euclid's algorithm.
-        * @method GCD
-        * @param m {number}
-        * @param n {number}
+		* @method GCD
+		* @param m {number}
+		* @param n {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static GCD(m: number, n: number): number {
-            var r: number;
+		public static GCD(m: number, n: number): number {
+			var r: number;
 
-            //make sure positive, GCD is always positive
-            m = Math.abs(m);
-            n = Math.abs(n);
+			//make sure positive, GCD is always positive
+			m = Math.abs(m);
+			n = Math.abs(n);
 
-            //m must be >= n
-            if (m < n)
-            {
-                r = m;
-                m = n;
-                n = r;
-            }
+			//m must be >= n
+			if (m < n)
+			{
+				r = m;
+				m = n;
+				n = r;
+			}
 
-            //now start loop
-            while (true)
-            {
-                r = m % n;
-                if (!r) return n;
-                m = n;
-                n = r;
-            }
+			//now start loop
+			while (true)
+			{
+				r = m % n;
+				if (!r) return n;
+				m = n;
+				n = r;
+			}
 
-            return 1;
-        }
+			return 1;
+		}
 
-        /**
+		/**
 		* Lowest Common Multiple
-        * @method LCM
-        * @param m {number}
-        * @param n {number}
+		* @method LCM
+		* @param m {number}
+		* @param n {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static LCM(m: number, n: number): number {
-            return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
-        }
+		public static LCM(m: number, n: number): number {
+			return (m * n) / Kiwi.Utils.GameMath.GCD(m, n);
+		}
 
-        /**
+		/**
 		* Factorial - N! Simple product series. By definition:
 		* 0! == 1
-        * @method factorial
-        * @param value {number}
+		* @method factorial
+		* @param value {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static factorial(value: number): number {
-            if (value == 0) return 1;
+		public static factorial(value: number): number {
+			if (value == 0) return 1;
 
-            var res: number = value;
+			var res: number = value;
 
-            while (--value)
-            {
-                res *= value;
-            }
+			while (--value)
+			{
+				res *= value;
+			}
 
-            return res;
-        }
+			return res;
+		}
 
-        /**
+		/**
 		* Gamma function. Defined: gamma(N) == (N - 1)!
 		* @method gammaFunction
 		* @param value {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static gammaFunction(value: number): number {
-            return Kiwi.Utils.GameMath.factorial(value - 1);
-        }
+		public static gammaFunction(value: number): number {
+			return Kiwi.Utils.GameMath.factorial(value - 1);
+		}
 
-        /**
+		/**
 		* Falling factorial. Defined: (N)! / (N - x)!
 		* Written subscript: (N)x OR (base)exp
 		* @method fallingFactorial
 		* @param base {number}
 		* @param exp {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static fallingFactorial(base: number, exp: number): number {
-            return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
-        }
+		public static fallingFactorial(base: number, exp: number): number {
+			return Kiwi.Utils.GameMath.factorial(base) / Kiwi.Utils.GameMath.factorial(base - exp);
+		}
 
-        /**
+		/**
 		* Rising factorial. Defined: (N + x - 1)! / (N - 1)!
 		* Written superscript N^(x) OR base^(exp) 
 		* @method risingFactorial
 		* @param base {number}
 		* @param exp {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static risingFactorial(base: number, exp: number): number {
-            //expanded from gammaFunction for speed
-            return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
-        }
+		public static risingFactorial(base: number, exp: number): number {
+			//expanded from gammaFunction for speed
+			return Kiwi.Utils.GameMath.factorial(base + exp - 1) / Kiwi.Utils.GameMath.factorial(base - 1);
+		}
 
-        /**
+		/**
 		* Binomial coefficient.
 		* @method binCoef
-        * @param n {number}
-        * @param k {number}
+		* @param n {number}
+		* @param k {number}
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static binCoef(n: number, k: number): number {
-            return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
-        }
-        /*
+		* @static
+		* @public
+		*/
+		public static binCoef(n: number, k: number): number {
+			return Kiwi.Utils.GameMath.fallingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
+		}
+		/*
 		* defined: N! / (k!(N-k)!)
 		* reduced: N! / (N-k)! == (N)k (fallingfactorial)
 		* reduced: (N)k / k!
 		*/
 
-        /**
+		/**
 		* Rising binomial coefficient.
 		* As one can notice in the analysis of binCoef(...) that 
 		* binCoef is the (N)k divided by k!. Similarly rising binCoef 
 		* is merely N^(k) / k! 
-        * @method risingBinCoef
-        * @param n {number}
-        * @param k {number}
+		* @method risingBinCoef
+		* @param n {number}
+		* @param k {number}
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static risingBinCoef(n: number, k: number): number {
-            return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
-        }
+		public static risingBinCoef(n: number, k: number): number {
+			return Kiwi.Utils.GameMath.risingFactorial(n, k) / Kiwi.Utils.GameMath.factorial(k);
+		}
 
-        /**
-        * Generate a random boolean result based on the chance value.
-        * Returns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance
-        * of getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.
-        * 
-        * @method changeRoll
-        * @param [chance=50] {number} The chance of receiving the value. A number between 0 and 100 (effectively 0% to 100%)
-        * @return {boolean} true if the roll passed, or false
-        * @static
-        * @public
-        */
-        public static chanceRoll(chance: number = 50): boolean {
+		/**
+		* Generate a random boolean result based on the chance value.
+		* Returns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance
+		* of getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.
+		* 
+		* @method changeRoll
+		* @param [chance=50] {number} The chance of receiving the value. A number between 0 and 100 (effectively 0% to 100%)
+		* @return {boolean} true if the roll passed, or false
+		* @static
+		* @public
+		*/
+		public static chanceRoll(chance: number = 50): boolean {
 
-            if (chance <= 0)
-            {
-                return false;
-            }
-            else if (chance >= 100)
-            {
-                return true;
-            }
-            else
-            {
-                if (Math.random() * 100 >= chance)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
+			if (chance <= 0)
+			{
+				return false;
+			}
+			else if (chance >= 100)
+			{
+				return true;
+			}
+			else
+			{
+				if (Math.random() * 100 >= chance)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
 
-        }
+		}
 
-        /**
+		/**
 		* Adds the given amount to the value, but never lets the value go over the specified maximum.
 		* 
-        * @method maxAdd
+		* @method maxAdd
 		* @param value {number} The value to add the amount to
 		* @param amount {number} The amount to add to the value
 		* @param max {number} The maximum the value is allowed to be
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static maxAdd(value: number, amount: number, max: number): number {
+		public static maxAdd(value: number, amount: number, max: number): number {
 
-            value += amount;
+			value += amount;
 
-            if (value > max)
-            {
-                value = max;
-            }
+			if (value > max)
+			{
+				value = max;
+			}
 
-            return value;
+			return value;
 
-        }
+		}
 
-        /**
+		/**
 		* Subtracts the given amount from the value, but never lets the value go below the specified minimum.
 		* 
-        * @method minSub
+		* @method minSub
 		* @param value {number} The base value
 		* @param amount {number} The amount to subtract from the base value
 		* @param min {number} The minimum the value is allowed to be
 		* @return {number}
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static minSub(value: number, amount: number, min: number): number {
+		public static minSub(value: number, amount: number, min: number): number {
 
-            value -= amount;
+			value -= amount;
 
-            if (value < min)
-            {
-                value = min;
-            }
+			if (value < min)
+			{
+				value = min;
+			}
 
-            return value;
-        }
+			return value;
+		}
 
-        /**
+		/**
 		* Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.
 		* Values must be positive integers, and are passed through Math.abs
 		*
-        * @method wrapValue 
+		* @method wrapValue 
 		* @param value {number} The value to add the amount to
 		* @param amount {number} The amount to add to the value
 		* @param max {number} The maximum the value is allowed to be
 		* @return {number} The wrapped value
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static wrapValue(value: number, amount: number, max: number): number {
+		public static wrapValue(value: number, amount: number, max: number): number {
 
-            var diff: number;
+			var diff: number;
 
-            value = Math.abs(value);
-            amount = Math.abs(amount);
-            max = Math.abs(max);
+			value = Math.abs(value);
+			amount = Math.abs(amount);
+			max = Math.abs(max);
 
-            diff = (value + amount) % max;
+			diff = (value + amount) % max;
 
-            return diff;
+			return diff;
 
-        }
+		}
 
-        /**
+		/**
 		* Randomly returns either a 1 or -1
 		* @method randomSign
 		* @return {number} Either 1 or -1.
-        * @static
-        * @public
+		* @static
+		* @public
 		*/
-        public static randomSign(): number {
-            return (Math.random() > 0.5) ? 1 : -1;
-        }
+		public static randomSign(): number {
+			return (Math.random() > 0.5) ? 1 : -1;
+		}
 
-        /**
-        * Returns true if the number given is odd.
-        * @method isOdd
-        * @param n {number} The number to check
-        * @return {boolean} True if the given number is odd. False if the given number is even.
-        * @static
-        * @public
-        */
-        public static isOdd(n: number): boolean {
+		/**
+		* Returns true if the number given is odd.
+		* @method isOdd
+		* @param n {number} The number to check
+		* @return {boolean} True if the given number is odd. False if the given number is even.
+		* @static
+		* @public
+		*/
+		public static isOdd(n: number): boolean {
 
-            if (n & 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+			if (n & 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 
-        }
+		}
 
-        /**
-        * Returns true if the number given is even.
-        * @method isEven
-        * @param n {number} The number to check
-        * @return {boolean} True if the given number is even. False if the given number is odd.
-        * @static
-        * @public
-        */
-        public static isEven(n: number): boolean {
+		/**
+		* Returns true if the number given is even.
+		* @method isEven
+		* @param n {number} The number to check
+		* @return {boolean} True if the given number is even. False if the given number is odd.
+		* @static
+		* @public
+		*/
+		public static isEven(n: number): boolean {
 
-            if (n & 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+			if (n & 1)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 
-        }
+		}
 
-        /**
+		/**
 		* Keeps an angle value between -180 and +180.
 		* Should be called whenever the angle is updated on the Sprite to stop it from going insane.
 		* @method wrapAngle
 		* @param angle {number} The angle value to check
 		* @return {number} The new angle value, returns the same as the input angle if it was within bounds
 		* @static
-        * @public
-        */
-        public static wrapAngle(angle: number): number {
+		* @public
+		*/
+		public static wrapAngle(angle: number): number {
 
-            var result: number = angle;
+			var result: number = angle;
 
-            //  Nothing needs to change
-            if (angle >= -180 && angle <= 180)
-            {
-                return angle;
-            }
+			//  Nothing needs to change
+			if (angle >= -180 && angle <= 180)
+			{
+				return angle;
+			}
 
-            //  Else normalise it to -180, 180
-            result = (angle + 180) % 360;
+			//  Else normalise it to -180, 180
+			result = (angle + 180) % 360;
 
-            if (result < 0)
-            {
-                result += 360;
-            }
+			if (result < 0)
+			{
+				result += 360;
+			}
 
-            return result - 180;
+			return result - 180;
 
-        }
+		}
 
-        /**
+		/**
 		* Keeps an angle value between the given min and max values.
 		* @method angleLimit
 		* @param angle {number} The angle value to check. Must be between -180 and +180
@@ -1332,167 +1332,167 @@ module Kiwi.Utils {
 		* @param max {number} The maximum angle that is allowed (must be 180 or less)
 		* @return {number} The new angle value, returns the same as the input angle if it was within bounds
 		* @static
-        * @public
-        */
-        public static angleLimit(angle: number, min: number, max: number): number {
+		* @public
+		*/
+		public static angleLimit(angle: number, min: number, max: number): number {
 
-            var result: number = angle;
+			var result: number = angle;
 
-            if (angle > max)
-            {
-                result = max;
-            }
-            else if (angle < min)
-            {
-                result = min;
-            }
+			if (angle > max)
+			{
+				result = max;
+			}
+			else if (angle < min)
+			{
+				result = min;
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        /**
-        * Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
-        * @method linearInterpolation
-        * @param v {Array} An array of values through which to interpolate
-        * @param k {number} The position to interpolate, in the range 0-1
+		/**
+		* Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.
+		* @method linearInterpolation
+		* @param v {Array} An array of values through which to interpolate
+		* @param k {number} The position to interpolate, in the range 0-1
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static linearInterpolation(v, k):number {
+		* @static
+		* @public
+		*/
+		public static linearInterpolation(v, k):number {
 
-            var m = v.length - 1;
-            var f = m * k;
-            var i = Math.floor(f);
+			var m = v.length - 1;
+			var f = m * k;
+			var i = Math.floor(f);
 
-            if (k < 0) return Kiwi.Utils.GameMath.linear(v[0], v[1], f);
-            if (k > 1) return Kiwi.Utils.GameMath.linear(v[m], v[m - 1], m - f);
+			if (k < 0) return Kiwi.Utils.GameMath.linear(v[0], v[1], f);
+			if (k > 1) return Kiwi.Utils.GameMath.linear(v[m], v[m - 1], m - f);
 
-            return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
+			return Kiwi.Utils.GameMath.linear(v[i], v[i + 1 > m ? m : i + 1], f - i);
 
-        }
+		}
 
-        /**
-        * Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
-        * @method bezierInterpolation
-        * @param v {Array} An array of values through which to interpolate
-        * @param k {number} The position to interpolate, in the range 0-1
+		/**
+		* Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.
+		* @method bezierInterpolation
+		* @param v {Array} An array of values through which to interpolate
+		* @param k {number} The position to interpolate, in the range 0-1
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static bezierInterpolation(v, k):number {
+		* @static
+		* @public
+		*/
+		public static bezierInterpolation(v, k):number {
 
-            var b = 0;
-            var n = v.length - 1;
+			var b = 0;
+			var n = v.length - 1;
 
-            for (var i = 0; i <= n; i++)
-            {
-                b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * Kiwi.Utils.GameMath.bernstein(n, i);
-            }
+			for (var i = 0; i <= n; i++)
+			{
+				b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * Kiwi.Utils.GameMath.bernstein(n, i);
+			}
 
-            return b;
+			return b;
 
-        }
+		}
 
-        /**
-        * Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
-        * @method catmullRomInterpolation
-        * @param v {Array} An array of values through which to interpolate
-        * @param k {Number} The position to interpolate, in the range 0-1
+		/**
+		* Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.
+		* @method catmullRomInterpolation
+		* @param v {Array} An array of values through which to interpolate
+		* @param k {Number} The position to interpolate, in the range 0-1
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static catmullRomInterpolation(v, k):number {
+		* @static
+		* @public
+		*/
+		public static catmullRomInterpolation(v, k):number {
 
-            var m = v.length - 1;
-            var f = m * k;
-            var i = Math.floor(f);
+			var m = v.length - 1;
+			var f = m * k;
+			var i = Math.floor(f);
 
-            if (v[0] === v[m])
-            {
-                if (k < 0) i = Math.floor(f = m * (1 + k));
+			if (v[0] === v[m])
+			{
+				if (k < 0) i = Math.floor(f = m * (1 + k));
 
-                return Kiwi.Utils.GameMath.catmullRom(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+				return Kiwi.Utils.GameMath.catmullRom(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
 
-            }
-            else
-            {
-                if (k < 0) return v[0] - (Kiwi.Utils.GameMath.catmullRom(v[0], v[0], v[1], v[1], -f) - v[0]);
+			}
+			else
+			{
+				if (k < 0) return v[0] - (Kiwi.Utils.GameMath.catmullRom(v[0], v[0], v[1], v[1], -f) - v[0]);
 
-                if (k > 1) return v[m] - (Kiwi.Utils.GameMath.catmullRom(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+				if (k > 1) return v[m] - (Kiwi.Utils.GameMath.catmullRom(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
 
-                return Kiwi.Utils.GameMath.catmullRom(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
-            }
+				return Kiwi.Utils.GameMath.catmullRom(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+			}
 
-        }
+		}
 
-        /**
-        * Simple linear interpolation, identical to interpolateFloat.
-        * @method linear
-        * @param {Any} p0
-        * @param {Any} p1
-        * @param {Any} t
+		/**
+		* Simple linear interpolation, identical to interpolateFloat.
+		* @method linear
+		* @param {Any} p0
+		* @param {Any} p1
+		* @param {Any} t
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static linear(p0, p1, t):number {
+		* @static
+		* @public
+		*/
+		public static linear(p0, p1, t):number {
 
-            return (p1 - p0) * t + p0;
+			return (p1 - p0) * t + p0;
 
-        }
+		}
 
-        /**
-        * Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
-        * @method bernstein
-        * @param {Any} n
-        * @param {Any} i
+		/**
+		* Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!
+		* @method bernstein
+		* @param {Any} n
+		* @param {Any} i
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static bernstein(n, i) :number {
+		* @static
+		* @public
+		*/
+		public static bernstein(n, i) :number {
 
-            return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
+			return Kiwi.Utils.GameMath.factorial(n) / Kiwi.Utils.GameMath.factorial(i) / Kiwi.Utils.GameMath.factorial(n - i);
 
-        }
+		}
 
-        /**
-        * Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
-        * @method catmullRom
-        * @param {Any} p0
-        * @param {Any} p1
-        * @param {Any} p2
-        * @param {Any} p3
-        * @param {Any} t
+		/**
+		* Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()
+		* @method catmullRom
+		* @param {Any} p0
+		* @param {Any} p1
+		* @param {Any} p2
+		* @param {Any} p3
+		* @param {Any} t
 		* @return {number}
-        * @static
-        * @public
-        */
-        public static catmullRom(p0, p1, p2, p3, t) {
+		* @static
+		* @public
+		*/
+		public static catmullRom(p0, p1, p2, p3, t) {
 
-            var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
-            return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+			var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t, t3 = t * t2;
+			return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
 
-        }
+		}
 
-        /**
-        * Returns the difference between a and b.
-        * @method difference
-        * @param a {number}
-        * @param b {number}
+		/**
+		* Returns the difference between a and b.
+		* @method difference
+		* @param a {number}
+		* @param b {number}
 		* @return {number}
-        * @static
-        * @public
-        */ 
-        public static difference(a: number, b: number): number {
+		* @static
+		* @public
+		*/ 
+		public static difference(a: number, b: number): number {
 
-            return Math.abs(a - b);
+			return Math.abs(a - b);
 
-        }
+		}
 
-    }
+	}
 
 }

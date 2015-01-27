@@ -140,232 +140,230 @@
 */
 
 module Kiwi {
-    
-    /**
-    * 
-    * @property Log
-    * @static
-    * @type Kiwi.Utils.Log
-    * @public
-    */
-    export var Log: Kiwi.Utils.Log = new Kiwi.Utils.Log();
-    
-    /**
-    * The version of Kiwi that is currently being used.
-    * @property VERSION
-    * @static
-    * @type string
-    * @public
-    */
-    export var VERSION: string = "1.2.0";
-    
-    //DIFFERENT RENDERER STATIC VARIABLES
-    /**
-    * A Static property that contains the number associated with the CANVAS RENDERER.
-    * @property RENDERER_CANVAS
-    * @static
-    * @type number
-    * @default 0
-    * @public
-    */
-    export var RENDERER_CANVAS: number = 0;
-    
-    /**
-    * A Static property that contains the number associated with the WEBGL RENDERER.
-    * @property RENDERER_WEBGL
-    * @static 
-    * @type number
-    * @default 1
-    * @public
-    */
-    export var RENDERER_WEBGL: number = 1;
 
-    /**
-    * A Static property that contains the number associated with RENDERER AUTODETECTION
-    * @property RENDERER_AUTO
-    * @static
-    * @type number
-    * @default 2
-    * @public
-    * @since 1.1.0
-    */
-    export var RENDERER_AUTO: number = 2;
-    
-    // DEVICE TARGET STATIC VARIABLES
-    /**
-    * Contains the number associated with the targetting of browsers. 
-    * @property TARGET_BROWSER
-    * @static
-    * @type number
-    * @default 0
-    * @public
-    */
-    export var TARGET_BROWSER: number = 0;
-    
-    /**
-    * Contains the number associated with the targetting of CocoonJS.
-    * @property TARGET_COCOON
-    * @static
-    * @type number
-    * @default 1
-    * @public
-    */
-    export var TARGET_COCOON: number = 1;
-    
-    //DEBUG OPTION STATIC VARIABLES
-    /**
-    * Contains the number that is used to turn the Debug options on.
-    * @property DEBUG_ON
-    * @static
-    * @type number
-    * @default 0
-    * @public
-    */
-    export var DEBUG_ON: number = 0;
-    
-    /**
-    * Contains the number that is used to turn the Debug options off.
-    * @property DEBUG_OFF
-    * @static
-    * @type number
-    * @default 1
-    * @public
-    */
-    export var DEBUG_OFF: number = 1;
-    
-    /**
-    * Contains the Device class that is used to determine which features are supported by the users browser.
-    * @property DEVICE
-    * @static
-    * @type Device
-    * @public
-    */
-    export var DEVICE: Kiwi.System.Device = null;
-    
-    //STATIC PROPERTIES FOR GENERAL OBJECT TYPE DETECTION
-    /**
-    * Contains a number that is used to identify objects that are a State.
-    * @property STATE
-    * @static
-    * @type number
-    * @default 0
-    * @public
-    */
-    export var STATE: number = 0;
- 
-    /**
-    * Contains a number that is used to identify objects that are a Group.
-    * @property GROUP
-    * @static
-    * @type number
-    * @default 2
-    * @public
-    */
-    export var GROUP: number = 2;
-    
-    /**
-    * Contains a number that is used to identify objects that are a Entity.
-    * @property ENTITY
-    * @static
-    * @type number
-    * @default 3
-    * @public
-    */
-    export var ENTITY: number = 3;
-    
-    /**
-    * Contains a number that is used to identify objects that are a Camera.
-    * @property CAMERA
-    * @static
-    * @type number 
-    * @default 4
-    * @public
-    */
-    export var CAMERA: number = 4;
+	/**
+	* 
+	* @property Log
+	* @static
+	* @type Kiwi.Utils.Log
+	* @public
+	*/
+	export var Log: Kiwi.Utils.Log = new Kiwi.Utils.Log();
 
-    /**
-    * Contains a number that is used to identify objects that are a HUD Widget.
-    * @property HUD_WIDGET
-    * @static
-    * @type number
-    * @default 5
-    * @public
-    */
-    export var HUD_WIDGET: number = 5;
+	/**
+	* The version of Kiwi that is currently being used.
+	* @property VERSION
+	* @static
+	* @type string
+	* @public
+	*/
+	export var VERSION: string = "1.2.0";
 
-    /**
-    * Contains a number that is used to identify objects that are a TILE_LAYER.
-    * @property TILE_LAYER
-    * @static
-    * @type number
-    * @default 6
-    * @public
-    */
-    export var TILE_LAYER: number = 6;
+	//DIFFERENT RENDERER STATIC VARIABLES
+	/**
+	* A Static property that contains the number associated with the CANVAS RENDERER.
+	* @property RENDERER_CANVAS
+	* @static
+	* @type number
+	* @default 0
+	* @public
+	*/
+	export var RENDERER_CANVAS: number = 0;
 
-    
-    /**
-    * The GameManager is used to maintain mulitple instances of Kiwi games within a single document.
-    *  
-    * @class GameManager
-    * @namespace Kiwi
-    * @static
-    */
-    export class GameManager {
+	/**
+	* A Static property that contains the number associated with the WEBGL RENDERER.
+	* @property RENDERER_WEBGL
+	* @static 
+	* @type number
+	* @default 1
+	* @public
+	*/
+	export var RENDERER_WEBGL: number = 1;
 
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String} "GameManager"
-        * @public
-        */
-        public objType() {
-            return "GameManager";
-        }
+	/**
+	* A Static property that contains the number associated with RENDERER AUTODETECTION
+	* @property RENDERER_AUTO
+	* @static
+	* @type number
+	* @default 2
+	* @public
+	* @since 1.1.0
+	*/
+	export var RENDERER_AUTO: number = 2;
+	
+	// DEVICE TARGET STATIC VARIABLES
+	/**
+	* Contains the number associated with the targetting of browsers. 
+	* @property TARGET_BROWSER
+	* @static
+	* @type number
+	* @default 0
+	* @public
+	*/
+	export var TARGET_BROWSER: number = 0;
 
-        /**
-        * A list of all of the games that are currently on this document.
-        * @property _games
-        * @static
-        * @type Game[]
-        * @private
-        */
-        private static _games: Kiwi.Game[] = [];
+	/**
+	* Contains the number associated with the targetting of CocoonJS.
+	* @property TARGET_COCOON
+	* @static
+	* @type number
+	* @default 1
+	* @public
+	*/
+	export var TARGET_COCOON: number = 1;
 
-        /**
-        * Used to register a new Game with this manager. Returns the new number of games that have been registered.
-        * @method register
-        * @param game {Game} The game you are wanting to register.
-        * @return {Number] The new number of games registered.
-        * @public
-        */
-        public static register(game: Kiwi.Game): number {
+	//DEBUG OPTION STATIC VARIABLES
+	/**
+	* Contains the number that is used to turn the Debug options on.
+	* @property DEBUG_ON
+	* @static
+	* @type number
+	* @default 0
+	* @public
+	*/
+	export var DEBUG_ON: number = 0;
 
-            return Kiwi.GameManager._games.push(game);
+	/**
+	* Contains the number that is used to turn the Debug options off.
+	* @property DEBUG_OFF
+	* @static
+	* @type number
+	* @default 1
+	* @public
+	*/
+	export var DEBUG_OFF: number = 1;
 
-        }
+	/**
+	* Contains the Device class that is used to determine which features are supported by the users browser.
+	* @property DEVICE
+	* @static
+	* @type Device
+	* @public
+	*/
+	export var DEVICE: Kiwi.System.Device = null;
 
-        /**
-        * Returns the total number of game that are currently registered with this GameManager.
-        * @method total
-        * @return {Number} Total number of registered games.
-        * @public
-        */
-        public static total(): number {
-            return Kiwi.GameManager._games.length;
-        }
+	//STATIC PROPERTIES FOR GENERAL OBJECT TYPE DETECTION
+	/**
+	* Contains a number that is used to identify objects that are a State.
+	* @property STATE
+	* @static
+	* @type number
+	* @default 0
+	* @public
+	*/
+	export var STATE: number = 0;
 
-    }
+	/**
+	* Contains a number that is used to identify objects that are a Group.
+	* @property GROUP
+	* @static
+	* @type number
+	* @default 2
+	* @public
+	*/
+	export var GROUP: number = 2;
+
+	/**
+	* Contains a number that is used to identify objects that are a Entity.
+	* @property ENTITY
+	* @static
+	* @type number
+	* @default 3
+	* @public
+	*/
+	export var ENTITY: number = 3;
+
+	/**
+	* Contains a number that is used to identify objects that are a Camera.
+	* @property CAMERA
+	* @static
+	* @type number 
+	* @default 4
+	* @public
+	*/
+	export var CAMERA: number = 4;
+
+	/**
+	* Contains a number that is used to identify objects that are a HUD Widget.
+	* @property HUD_WIDGET
+	* @static
+	* @type number
+	* @default 5
+	* @public
+	*/
+	export var HUD_WIDGET: number = 5;
+
+	/**
+	* Contains a number that is used to identify objects that are a TILE_LAYER.
+	* @property TILE_LAYER
+	* @static
+	* @type number
+	* @default 6
+	* @public
+	*/
+	export var TILE_LAYER: number = 6;
+
+	/**
+	* The GameManager is used to maintain mulitple instances of Kiwi games within a single document.
+	*  
+	* @class GameManager
+	* @namespace Kiwi
+	* @static
+	*/
+	export class GameManager {
+
+		/**
+		* The type of object that this is.
+		* @method objType
+		* @return {String} "GameManager"
+		* @public
+		*/
+		public objType() {
+			return "GameManager";
+		}
+
+		/**
+		* A list of all of the games that are currently on this document.
+		* @property _games
+		* @static
+		* @type Game[]
+		* @private
+		*/
+		private static _games: Kiwi.Game[] = [];
+
+		/**
+		* Used to register a new Game with this manager. Returns the new number of games that have been registered.
+		* @method register
+		* @param game {Game} The game you are wanting to register.
+		* @return {Number] The new number of games registered.
+		* @public
+		*/
+		public static register(game: Kiwi.Game): number {
+
+			return Kiwi.GameManager._games.push(game);
+
+		}
+
+		/**
+		* Returns the total number of game that are currently registered with this GameManager.
+		* @method total
+		* @return {Number} Total number of registered games.
+		* @public
+		*/
+		public static total(): number {
+			return Kiwi.GameManager._games.length;
+		}
+
+	}
 
 
-    export var Plugins = {};
+	export var Plugins = {};
 
-    export var extend:Function = function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        function __() { this.constructor = d; }
-        __.prototype = b.prototype;
-        d.prototype = new __();
-    };
-    
+	export var extend:Function = function (d, b) {
+		for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+		function __() { this.constructor = d; }
+		__.prototype = b.prototype;
+		d.prototype = new __();
+	};
+
 }
-

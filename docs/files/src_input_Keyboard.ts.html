@@ -369,309 +369,309 @@
 * @module Kiwi
 * @submodule Input
 * 
-*/ 
+*/
 
 module Kiwi.Input {
-    
-    /**
-    * Handles and Manages the dispatching of keyboard events. When the user press&#x27;s a button a new Key object is created.
-    *
-    * @class Keyboard
-    * @constructor
-    * @namespace Kiwi.Input
-    * @param game {Kiwi.Game}
-    * @return {Kiwi.Input.Keyboard} This object.
-    *
-    */
-    export class Keyboard {
-         
-        constructor (game: Kiwi.Game) {
 
-            this.game = game;
+	/**
+	* Handles and Manages the dispatching of keyboard events. When the user press&#x27;s a button a new Key object is created.
+	*
+	* @class Keyboard
+	* @constructor
+	* @namespace Kiwi.Input
+	* @param game {Kiwi.Game}
+	* @return {Kiwi.Input.Keyboard} This object.
+	*
+	*/
+	export class Keyboard {
 
-        }
+		constructor (game: Kiwi.Game) {
 
-        /**
-        * The type of object that this is.
-        * @method objType
-        * @return {String} &quot;Keyboard&quot;
-        * @public
-        */
-        public objType() {
-            return &quot;Keyboard&quot;;
-        }
+			this.game = game;
 
-        /** 
-        * The game that this Keyboard belongs to.
-        * @property game
-        * @type Kiwi.Game
-        * @public
-        */
-        public game: Kiwi.Game;
-         
-        /** 
-        * Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
-        * @property _keys
-        * @type Key[]
-        * @private
-        */
-        private _keys:Key[] = [];
+		}
 
-        /**
-        * Returns all of the Key objects that currently exist. This is READ ONLY.
-        * @property keys
-        * @type Keys[]
-        * @public
-        */
-        public get keys():Key[] {
-            return this._keys;
-        }
+		/**
+		* The type of object that this is.
+		* @method objType
+		* @return {String} &quot;Keyboard&quot;
+		* @public
+		*/
+		public objType() {
+			return &quot;Keyboard&quot;;
+		}
 
-        /** 
-        * The time in milliseconds which determines if a key was just pressed or not.
-        * @property justPressedRate
-        * @type Number
-        * @default 200
-        * @public
-        */
-        public justPressedRate: number = 200;
-        
-        /** 
-        * The time in milliseconds which determines if a key was just released or not.
-        * @property justReleasedRate
-        * @type Number
-        * @default 200
-        * @public
-        */
-        public justReleasedRate: number = 200;
+		/** 
+		* The game that this Keyboard belongs to.
+		* @property game
+		* @type Kiwi.Game
+		* @public
+		*/
+		public game: Kiwi.Game;
 
-        /** 
-        * Is executed when the DOMElements that are need to get the game going are loaded and thus the game can &#x27;boot&#x27;
-        * @method boot
-        * @public
-        */
-        public boot() {
-            this.onKeyUp = new Kiwi.Signal;
-            this.onKeyDown = new Kiwi.Signal;
-            this.onKeyDownOnce = new Kiwi.Signal;
-            this.start();
-        }
+		/** 
+		* Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
+		* @property _keys
+		* @type Key[]
+		* @private
+		*/
+		private _keys:Key[] = [];
 
-        /** 
-        * The update loop that is executed every frame.
-        * @method update
-        * @public
-        */
-        public update() {
+		/**
+		* Returns all of the Key objects that currently exist. This is READ ONLY.
+		* @property keys
+		* @type Keys[]
+		* @public
+		*/
+		public get keys():Key[] {
+			return this._keys;
+		}
 
-        }
-        
-        /**
-        * A Signal that dispatches events when a key is released/is now up.
-        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-        * 1) KeyCode - The keyCode of the key that was just released.
-        * 2) Key - The key object for that keycode.
-        * @property onKeyUp
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onKeyUp: Kiwi.Signal;
-        
-        /**
-        * A Signal that dispatches events when a key is pressed/is down.
-        * This mimics the natural &#x27;keydown&#x27; event listener, so it will keep dispatching events if the user holds the key down. 
-        * Note: This fires after the &#x27;onKeyDownOnce&#x27; signal.
-        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-        * 1) KeyCode - The keyCode of the key that was just released.
-        * 2) Key - The key object for that keycode.
-        *
-        * @property onKeyDown
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onKeyDown: Kiwi.Signal;
+		/** 
+		* The time in milliseconds which determines if a key was just pressed or not.
+		* @property justPressedRate
+		* @type Number
+		* @default 200
+		* @public
+		*/
+		public justPressedRate: number = 200;
 
-        /**
-        * A Signal that dispatches events when a key is pressed/is down initially. 
-        * This event only fires the first time that the key is pressed, so it won&#x27;t dispatch events if the user is holding the key down.
-        * Note: This fires before the &#x27;onKeyDown&#x27; signal;
-        * Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-        * 1) KeyCode - The keyCode of the key that was just released.
-        * 2) Key - The key object for that keycode.
-        *
-        * @property onKeyDownOnce
-        * @type Kiwi.Signal
-        * @public
-        */
-        public onKeyDownOnce: Kiwi.Signal;
+		/** 
+		* The time in milliseconds which determines if a key was just released or not.
+		* @property justReleasedRate
+		* @type Number
+		* @default 200
+		* @public
+		*/
+		public justReleasedRate: number = 200;
 
-        /** 
-        * Adds the event listeners to the browser to listen for key events.
-        * @method start
-        * @public 
-        */
-        public start() {
-            if (this.game.deviceTargetOption=== Kiwi.TARGET_BROWSER) {
-                //this._domElement.addEventListener(&#x27;keydown&#x27;, (event:KeyboardEvent) =&gt; this.onKeyDown(event), false);
-                //this._domElement.addEventListener(&#x27;keyup&#x27;, (event:KeyboardEvent) =&gt; this.onKeyUp(event), false);
-                document.body.addEventListener(&#x27;keydown&#x27;, (event: KeyboardEvent) =&gt; this._keyPressed(event), false);
-                document.body.addEventListener(&#x27;keyup&#x27;, (event: KeyboardEvent) =&gt; this._keyReleased(event), false);
-            }
-        }
+		/** 
+		* Is executed when the DOMElements that are need to get the game going are loaded and thus the game can &#x27;boot&#x27;
+		* @method boot
+		* @public
+		*/
+		public boot() {
+			this.onKeyUp = new Kiwi.Signal;
+			this.onKeyDown = new Kiwi.Signal;
+			this.onKeyDownOnce = new Kiwi.Signal;
+			this.start();
+		}
 
-        /** 
-        * Removes the event listeners and so effectively &#x27;stops&#x27; all keyboard events.
-        * @method stop
-        * @public
-        */
-        public stop() {
-            if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                //this._domElement.removeEventListener(&#x27;keydown&#x27;, (event:KeyboardEvent) =&gt; this.onKeyDown(event), false);
-                //this._domElement.removeEventListener(&#x27;keyup&#x27;, (event:KeyboardEvent) =&gt; this.onKeyUp(event), false);
-                document.body.removeEventListener(&#x27;keydown&#x27;, (event: KeyboardEvent) =&gt; this._keyPressed(event), false);
-                document.body.removeEventListener(&#x27;keyup&#x27;, (event: KeyboardEvent) =&gt; this._keyReleased(event), false);
-            }
-        }
+		/** 
+		* The update loop that is executed every frame.
+		* @method update
+		* @public
+		*/
+		public update() {
 
-        /** 
-        * Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, 
-        * or it updates the key that was pressed (if one does exist). 
-        * @method onKeyDown
-        * @param {KeyboardEvent} event.
-        * @private
-        */
-        private _keyPressed(event:KeyboardEvent) {
+		}
 
-            if (this._keys[event.keyCode]) {
-                this._keys[event.keyCode].update(event);
+		/**
+		* A Signal that dispatches events when a key is released/is now up.
+		* Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+		* 1) KeyCode - The keyCode of the key that was just released.
+		* 2) Key - The key object for that keycode.
+		* @property onKeyUp
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onKeyUp: Kiwi.Signal;
 
-            } else {
-                this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
+		/**
+		* A Signal that dispatches events when a key is pressed/is down.
+		* This mimics the natural &#x27;keydown&#x27; event listener, so it will keep dispatching events if the user holds the key down. 
+		* Note: This fires after the &#x27;onKeyDownOnce&#x27; signal.
+		* Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+		* 1) KeyCode - The keyCode of the key that was just released.
+		* 2) Key - The key object for that keycode.
+		*
+		* @property onKeyDown
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onKeyDown: Kiwi.Signal;
 
-            }
+		/**
+		* A Signal that dispatches events when a key is pressed/is down initially. 
+		* This event only fires the first time that the key is pressed, so it won&#x27;t dispatch events if the user is holding the key down.
+		* Note: This fires before the &#x27;onKeyDown&#x27; signal;
+		* Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
+		* 1) KeyCode - The keyCode of the key that was just released.
+		* 2) Key - The key object for that keycode.
+		*
+		* @property onKeyDownOnce
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onKeyDownOnce: Kiwi.Signal;
 
-            if (this._keys[event.keyCode].repeats == 0) this.onKeyDownOnce.dispatch(event.keyCode, this._keys[event.keyCode]);
+		/** 
+		* Adds the event listeners to the browser to listen for key events.
+		* @method start
+		* @public 
+		*/
+		public start() {
+			if (this.game.deviceTargetOption=== Kiwi.TARGET_BROWSER) {
+				//this._domElement.addEventListener(&#x27;keydown&#x27;, (event:KeyboardEvent) =&gt; this.onKeyDown(event), false);
+				//this._domElement.addEventListener(&#x27;keyup&#x27;, (event:KeyboardEvent) =&gt; this.onKeyUp(event), false);
+				document.body.addEventListener(&#x27;keydown&#x27;, (event: KeyboardEvent) =&gt; this._keyPressed(event), false);
+				document.body.addEventListener(&#x27;keyup&#x27;, (event: KeyboardEvent) =&gt; this._keyReleased(event), false);
+			}
+		}
 
-            this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
-        }
+		/** 
+		* Removes the event listeners and so effectively &#x27;stops&#x27; all keyboard events.
+		* @method stop
+		* @public
+		*/
+		public stop() {
+			if (this.game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+				//this._domElement.removeEventListener(&#x27;keydown&#x27;, (event:KeyboardEvent) =&gt; this.onKeyDown(event), false);
+				//this._domElement.removeEventListener(&#x27;keyup&#x27;, (event:KeyboardEvent) =&gt; this.onKeyUp(event), false);
+				document.body.removeEventListener(&#x27;keydown&#x27;, (event: KeyboardEvent) =&gt; this._keyPressed(event), false);
+				document.body.removeEventListener(&#x27;keyup&#x27;, (event: KeyboardEvent) =&gt; this._keyReleased(event), false);
+			}
+		}
 
-        /** 
-        * Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, 
-        * or it updates the key that was released (if one does exist). 
-        * @method onKeyUp
-        * @param {KeyboardEvent} event.
-        * @private
-        */
-        private _keyReleased(event:KeyboardEvent) {
+		/** 
+		* Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, 
+		* or it updates the key that was pressed (if one does exist). 
+		* @method onKeyDown
+		* @param {KeyboardEvent} event.
+		* @private
+		*/
+		private _keyPressed(event:KeyboardEvent) {
 
-            if (this._keys[event.keyCode]) {
-                this._keys[event.keyCode].update(event);
+			if (this._keys[event.keyCode]) {
+				this._keys[event.keyCode].update(event);
 
-            } else {
-                this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
+			} else {
+				this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
 
-            }
-            this.onKeyUp.dispatch(event.keyCode, this._keys[event.keyCode]);
-        }
+			}
 
-        /** 
-        * Creates a new Key object for a keycode that is specified.
-        * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
-        * and choosing whether to prevent that keys any default action.
-        * @method addKey
-        * @param keycode {Number} The keycode of the key that you want to add. 
-        * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
-        * @return {Kiwi.Input.Key}
-        * @public
-        */
-        public addKey(keycode: number, preventDefault:boolean = false): Key {
+			if (this._keys[event.keyCode].repeats == 0) this.onKeyDownOnce.dispatch(event.keyCode, this._keys[event.keyCode]);
 
-            var key = new Kiwi.Input.Key(this, keycode);
-            key.preventDefault = preventDefault;
+			this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
+		}
 
-            return this._keys[keycode] = key;
+		/** 
+		* Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, 
+		* or it updates the key that was released (if one does exist). 
+		* @method onKeyUp
+		* @param {KeyboardEvent} event.
+		* @private
+		*/
+		private _keyReleased(event:KeyboardEvent) {
 
-        }
+			if (this._keys[event.keyCode]) {
+				this._keys[event.keyCode].update(event);
 
-        /** 
-        * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not. 
-        * @method justPressed
-        * @param keycode {Number} The keycode of the key that you would like to check against.
-        * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was &#x27;just&#x27; pressed or not. If not specified defaults to the justPressedRate
-        * @public
-        */
-        public justPressed(keycode, duration:number=this.justPressedRate):boolean {
+			} else {
+				this._keys[event.keyCode] = new Kiwi.Input.Key(this, event.keyCode, event);
 
-            if (this._keys[keycode]) {
-                return this._keys[keycode].justPressed(duration);
-            } 
+			}
+			this.onKeyUp.dispatch(event.keyCode, this._keys[event.keyCode]);
+		}
 
-            return false;
-        }
+		/** 
+		* Creates a new Key object for a keycode that is specified.
+		* Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
+		* and choosing whether to prevent that keys any default action.
+		* @method addKey
+		* @param keycode {Number} The keycode of the key that you want to add. 
+		* @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
+		* @return {Kiwi.Input.Key}
+		* @public
+		*/
+		public addKey(keycode: number, preventDefault:boolean = false): Key {
 
-        
-        /** 
-        * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not. 
-        * @method justReleased
-        * @param keycode {Number} The keycode of the key that you would like to check against.
-        * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was &#x27;just&#x27; released or not. If not specified defaults to the justReleasedRate
-        * @public
-        */
-        public justReleased(keycode, duration:number=this.justReleasedRate):boolean {
+			var key = new Kiwi.Input.Key(this, keycode);
+			key.preventDefault = preventDefault;
 
-            if (this._keys[keycode]) {
-                return this._keys[keycode].justReleased(duration);
-            }
+			return this._keys[keycode] = key;
 
-            return false;
-        }
+		}
 
-        /** 
-        * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
-        * @method isDown
-        * @param keycode {Number} The keycode of the key that you are checking.
-        * @return {boolean}
-        * @public
-        */
-        public isDown(keycode: number): boolean {
+		/** 
+		* Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not. 
+		* @method justPressed
+		* @param keycode {Number} The keycode of the key that you would like to check against.
+		* @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was &#x27;just&#x27; pressed or not. If not specified defaults to the justPressedRate
+		* @public
+		*/
+		public justPressed(keycode, duration:number=this.justPressedRate):boolean {
 
-            if (this._keys[keycode]) {
-                return this._keys[keycode].isDown;
-            } else {
-                return false;
-            }
+			if (this._keys[keycode]) {
+				return this._keys[keycode].justPressed(duration);
+			} 
 
-        }
+			return false;
+		}
 
-        /** 
-        * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
-        * @method isUp
-        * @param keycode {Number} The keycode of the key that you are checking.
-        * @return {boolean}
-        * @public
-        */
-        public isUp(keycode: number): boolean {
 
-            if (this._keys[keycode]) {
-                return this._keys[keycode].isUp;
-            } else {
-                return false;
-            }
+		/** 
+		* Returns a boolean indicating if a key (that you pass via a keycode) was just released or not. 
+		* @method justReleased
+		* @param keycode {Number} The keycode of the key that you would like to check against.
+		* @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was &#x27;just&#x27; released or not. If not specified defaults to the justReleasedRate
+		* @public
+		*/
+		public justReleased(keycode, duration:number=this.justReleasedRate):boolean {
 
-        }
-        
-        /**
-        * Executes the reset method on every Key that currently exists.
-        * @method reset
-        * @public
-        */
-        public reset() {
-            for (var index in this._keys) {
-                this._keys[index].reset();
-            }
-        }
+			if (this._keys[keycode]) {
+				return this._keys[keycode].justReleased(duration);
+			}
 
-    }
+			return false;
+		}
+
+		/** 
+		* Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
+		* @method isDown
+		* @param keycode {Number} The keycode of the key that you are checking.
+		* @return {boolean}
+		* @public
+		*/
+		public isDown(keycode: number): boolean {
+
+			if (this._keys[keycode]) {
+				return this._keys[keycode].isDown;
+			} else {
+				return false;
+			}
+
+		}
+
+		/** 
+		* Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
+		* @method isUp
+		* @param keycode {Number} The keycode of the key that you are checking.
+		* @return {boolean}
+		* @public
+		*/
+		public isUp(keycode: number): boolean {
+
+			if (this._keys[keycode]) {
+				return this._keys[keycode].isUp;
+			} else {
+				return false;
+			}
+
+		}
+
+		/**
+		* Executes the reset method on every Key that currently exists.
+		* @method reset
+		* @public
+		*/
+		public reset() {
+			for (var index in this._keys) {
+				this._keys[index].reset();
+			}
+		}
+
+	}
 
 }
 

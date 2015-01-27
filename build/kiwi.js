@@ -14663,8 +14663,6 @@ var Kiwi;
     })(Renderers = Kiwi.Renderers || (Kiwi.Renderers = {}));
 })(Kiwi || (Kiwi = {}));
 /**
-*
-*
 * @module Kiwi
 * @submodule Renderers
 * @main Renderers
@@ -14928,8 +14926,8 @@ var Kiwi;
                     }
                 }, this);
                 /* if (this.filtersEnabled && !this.filters.isEmpty) {
-                     this.filters.enableFrameBuffers(gl);
-                 }*/
+                    this.filters.enableFrameBuffers(gl);
+                }*/
             };
             /**
             * Scales the viewport according to a scale mode and space dimensions.
@@ -15255,11 +15253,11 @@ var Kiwi;
         var ShaderManager = (function () {
             function ShaderManager() {
                 /**
-               * An object containing a set of properties each of which references a ShaderPair.
-               * @property _shaderPairs
-               * @type Object
-               * @private
-               */
+                * An object containing a set of properties each of which references a ShaderPair.
+                * @property _shaderPairs
+                * @type Object
+                * @private
+                */
                 this._shaderPairs = {};
             }
             Object.defineProperty(ShaderManager.prototype, "currentShader", {
@@ -15442,6 +15440,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(GLTextureWrapper.prototype, "image", {
+                /**
+                * The image wrapped by this wrapper.
+                * @property image
+                * @type HTMLImageElement
+                * @public
+                */
                 get: function () {
                     return (this._image);
                 },
@@ -15453,7 +15457,6 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            //force : if true then other textures will be removed until there is room.
             /**
             * Creates a webgl texture object
             * @method createTexture
@@ -16273,15 +16276,15 @@ var Kiwi;
     (function (Renderers) {
         var Renderer = (function () {
             /**
-             * Base class for WebGL Renderers. Not for instantiation.
-             * @class Renderer
-             * @constructor
-             * @namespace Kiwi.Renderers
-             * @param gl {WebGLRenderingContext}
-               * @param shaderManager {Kiwi.Shaders.ShaderManager}
-             * @param [params=null] {object}
-             * @return {Kiwi.Renderers.Renderer}
-             */
+            * Base class for WebGL Renderers. Not for instantiation.
+            * @class Renderer
+            * @constructor
+            * @namespace Kiwi.Renderers
+            * @param gl {WebGLRenderingContext}
+            * @param shaderManager {Kiwi.Shaders.ShaderManager}
+            * @param [params=null] {object}
+            * @return {Kiwi.Renderers.Renderer}
+            */
             function Renderer(gl, shaderManager, isBatchRenderer) {
                 if (isBatchRenderer === void 0) { isBatchRenderer = false; }
                 /**
@@ -16664,12 +16667,12 @@ var Kiwi;
                 }
             };
             /**
-           * Applies a single uniforms to the uploaded program
-           * @method applyUniform
-           * @param gl {WebGLRenderingCotext}
-           * @param name {string}
-           * @public
-           */
+            * Applies a single uniforms to the uploaded program
+            * @method applyUniform
+            * @param gl {WebGLRenderingCotext}
+            * @param name {string}
+            * @public
+            */
             ShaderPair.prototype.applyUniform = function (gl, name) {
                 var u = this.uniforms[name];
                 if (this.uniforms[name].dirty) {
@@ -26686,6 +26689,12 @@ var Kiwi;
                 * @public
                 */
                 this.masterGain = null;
+                /**
+                * Sound buffer
+                * @property _unlockedSource
+                * @type {any}
+                * @private
+                */
                 this._unlockedSource = null;
                 this._game = game;
             }

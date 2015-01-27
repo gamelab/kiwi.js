@@ -369,161 +369,161 @@
 * @module Kiwi
 * @submodule Input
 * 
-*/ 
+*/
 
 module Kiwi.Input {
-    
-    /**
-    * Holds the information about a Mouse Cursor, such as the position of the
-    * cursor, the mouse wheel&#x27;s delta, the button that was used, e.t.c.
-    * Note: A mouse cursor is always active.
-    *
-    * @class MouseCursor
-    * @namespace Kiwi.Input
-    * @extends Pointer
-    */
-    export class MouseCursor extends Pointer {
 
-        /**
-        * The type of object this class is.
-        * @method objType
-        * @return {string} &quot;MouseCursor&quot;
-        * @public
-        */
-        public objType(): string {
-            return &quot;MouseCursor&quot;;
-        }
+	/**
+	* Holds the information about a Mouse Cursor, such as the position of the
+	* cursor, the mouse wheel&#x27;s delta, the button that was used, e.t.c.
+	* Note: A mouse cursor is always active.
+	*
+	* @class MouseCursor
+	* @namespace Kiwi.Input
+	* @extends Pointer
+	*/
+	export class MouseCursor extends Pointer {
 
-        /**
-        * The offset of the mouse wheel on the X axis.
-        * @property wheelDeltaX
-        * @type number
-        * @default 0 
-        * @public
-        */
-        public wheelDeltaX: number = 0;
+		/**
+		* The type of object this class is.
+		* @method objType
+		* @return {string} &quot;MouseCursor&quot;
+		* @public
+		*/
+		public objType(): string {
+			return &quot;MouseCursor&quot;;
+		}
 
-        /**
-        * The offset of the mouse wheel on the Y axis.
-        * @property wheelDeltaY
-        * @type number
-        * @default 0 
-        * @public
-        */
-        public wheelDeltaY: number = 0;
+		/**
+		* The offset of the mouse wheel on the X axis.
+		* @property wheelDeltaX
+		* @type number
+		* @default 0 
+		* @public
+		*/
+		public wheelDeltaX: number = 0;
 
-        /**
-        * If the ctrl key is down.
-        * @property ctrlKey
-        * @type boolean
-        * @public
-        */
-        public ctrlKey: boolean;
+		/**
+		* The offset of the mouse wheel on the Y axis.
+		* @property wheelDeltaY
+		* @type number
+		* @default 0 
+		* @public
+		*/
+		public wheelDeltaY: number = 0;
 
-        /**
-        * If the shift key is down.
-        * @property shiftKey
-        * @type boolean
-        * @public
-        */
-        public shiftKey: boolean;
+		/**
+		* If the ctrl key is down.
+		* @property ctrlKey
+		* @type boolean
+		* @public
+		*/
+		public ctrlKey: boolean;
 
-        /**
-        * If the alt key is down.
-        * @property altKey
-        * @type boolean
-        * @public
-        */
-        public altKey: boolean;
+		/**
+		* If the shift key is down.
+		* @property shiftKey
+		* @type boolean
+		* @public
+		*/
+		public shiftKey: boolean;
 
-        /**
-        * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
-        * @property button
-        * @type number
-        * @public
-        */
-        public button: number;
+		/**
+		* If the alt key is down.
+		* @property altKey
+		* @type boolean
+		* @public
+		*/
+		public altKey: boolean;
 
-        /**
-        * Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;down&#x27; mouse event occurs.
-        * @property preventDown
-        * @type boolean
-        * @public
-        */
-        public preventDown: boolean = true;
+		/**
+		* The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
+		* @property button
+		* @type number
+		* @public
+		*/
+		public button: number;
 
-        /**
-        * Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;up&#x27; mouse event occurs.
-        * @property preventUp
-        * @type boolean
-        * @public
-        */
-        public preventUp: boolean = true;
+		/**
+		* Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;down&#x27; mouse event occurs.
+		* @property preventDown
+		* @type boolean
+		* @public
+		*/
+		public preventDown: boolean = true;
 
-        /**
-        * Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;wheel&#x27; mouse event occurs.
-        * @property preventWheel
-        * @type boolean
-        * @public
-        */
-        public preventWheel: boolean = true;
+		/**
+		* Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;up&#x27; mouse event occurs.
+		* @property preventUp
+		* @type boolean
+		* @public
+		*/
+		public preventUp: boolean = true;
 
-        /**
-        * Gets executed when the mouse cursor gets initally pressed.
-        * @method start
-        * @param {event} event
-        * @public
-        */
-        public start(event) {
+		/**
+		* Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#x27;wheel&#x27; mouse event occurs.
+		* @property preventWheel
+		* @type boolean
+		* @public
+		*/
+		public preventWheel: boolean = true;
 
-            if (this.preventDown)  event.preventDefault();
-            
-            this.ctrlKey = event.ctrlKey;
-            this.shiftKey = event.shiftKey;
-            this.altKey = event.altKey;
-            this.button = event.button;
+		/**
+		* Gets executed when the mouse cursor gets initally pressed.
+		* @method start
+		* @param {event} event
+		* @public
+		*/
+		public start(event) {
 
-            super.start(event);
-        }
-        
-        /**
-        * Gets executed when the mouse cursor gets initally released.
-        * @method stop
-        * @param {event} event
-        * @public
-        */
-        public stop(event) {
+			if (this.preventDown)  event.preventDefault();
 
-            if (this.preventUp)  event.preventDefault();
+			this.ctrlKey = event.ctrlKey;
+			this.shiftKey = event.shiftKey;
+			this.altKey = event.altKey;
+			this.button = event.button;
 
-            this.move(event);
-            super.stop(event);
-        }
+			super.start(event);
+		}
 
-        /**
-        * When the mouse wheel event fires and the mouse&#x27;s delta changes.
-        * @method wheel
-        * @param {event} event
-        * @public
-        */
-        public wheel(event) { 
+		/**
+		* Gets executed when the mouse cursor gets initally released.
+		* @method stop
+		* @param {event} event
+		* @public
+		*/
+		public stop(event) {
 
-            if (this.preventWheel)  event.preventDefault();
+			if (this.preventUp)  event.preventDefault();
 
-            if (event[&#x27;wheelDeltaX&#x27;]) {
-                this.wheelDeltaX = event[&#x27;wheelDeltaX&#x27;];
-            } else {
-                this.wheelDeltaX = event.deltaX;
-            }
+			this.move(event);
+			super.stop(event);
+		}
 
-            if (event[&#x27;wheelDeltaY&#x27;]) {
-                this.wheelDeltaY = event[&#x27;wheelDeltaY&#x27;];
-            } else {
-                this.wheelDeltaY = event.deltaY;
-            }
-        }
+		/**
+		* When the mouse wheel event fires and the mouse&#x27;s delta changes.
+		* @method wheel
+		* @param {event} event
+		* @public
+		*/
+		public wheel(event) { 
 
-    }
+			if (this.preventWheel)  event.preventDefault();
+
+			if (event[&#x27;wheelDeltaX&#x27;]) {
+				this.wheelDeltaX = event[&#x27;wheelDeltaX&#x27;];
+			} else {
+				this.wheelDeltaX = event.deltaX;
+			}
+
+			if (event[&#x27;wheelDeltaY&#x27;]) {
+				this.wheelDeltaY = event[&#x27;wheelDeltaY&#x27;];
+			} else {
+				this.wheelDeltaY = event.deltaY;
+			}
+		}
+
+	}
 
 }
 

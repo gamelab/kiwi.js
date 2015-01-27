@@ -25,15 +25,15 @@ var TemplateGame = TemplateGame || {};
 TemplateGame.Loading = new KiwiLoadingScreen('Loading', 'Intro', 'assets/img/loading/');
 
 TemplateGame.Loading.preload = function () {
-    
-    //Make sure to call the super at the top.
-    //Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
-    KiwiLoadingScreen.prototype.preload.call(this);
 
-    /**
-    * Replace with your own in-assets to load.
-    **/
-    this.addImage('kiwiName', 'assets/img/kiwijs-name.png');
-    this.addSpriteSheet('icons', 'assets/img/kiwijs-icons.png', 100, 90);
+	//Make sure to call the super at the top.
+	//Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
+	KiwiLoadingScreen.prototype.preload.call(this);
+
+	/**
+	* Replace with your own in-assets to load.
+	**/
+	this.addImage('kiwiName', 'assets/img/kiwijs-name.png');
+	this.addSpriteSheet('icons', 'assets/img/kiwijs-icons.png', 100, 90);
 
 };
