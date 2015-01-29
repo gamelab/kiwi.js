@@ -327,7 +327,7 @@ module Kiwi.Animations {
 		*/
 		public play() {
 			//if the animation is at the last frame then start it at the beginning
-			if (this._frameIndex === this.length - 1) this.frameIndex = 0; 
+			if (this._frameIndex >= this.length - 1) this.frameIndex = 0; 
 			
 			this.playAt(this._frameIndex);
 		}
@@ -406,8 +406,8 @@ module Kiwi.Animations {
 			if ( this._isPlaying ) {
 
 				// How many frames do we move, ahead or behind?
-				frameDelta = ( this.clock.elapsed() -
-					this._lastFrameElapsed ) / this._speed;
+				frameDelta = ( ( this.clock.elapsed() -
+					this._lastFrameElapsed ) / this._speed ) % this.length;
 				if ( this._reverse ) {
 					frameDelta *= -1;
 				}
@@ -425,13 +425,15 @@ module Kiwi.Animations {
 
 					// Loop check
 					if ( this._loop ) {
-						if ( this._frameIndex > this.length - 1 ) {
-							while ( this._frameIndex > this.length - 1 ) {
+                        if (this._frameIndex > this.length - 1) {
+
+                            while (this._frameIndex > this.length - 1) {
 								this._frameIndex -= this.length;
 								if ( this._onLoop != null ) {
 									this._onLoop.dispatch();
-								}
-							}
+                                }
+                            }
+
 						} else if ( this._frameIndex < 0 ) {
 							while ( this._frameIndex < 0 ) {
 								this._frameIndex += this.length;
