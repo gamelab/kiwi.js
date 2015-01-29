@@ -12,7 +12,7 @@ module Kiwi.HUD.Widget {
 	* @class MenuItem
 	* @extends Kiwi.HUD.Widget.Button
 	* @namespace Kiwi.HUD.Widget
-	* @contructor
+	* @constructor
 	* @param game {Kiwi.Game} The game that this MenuItem belongs to.
 	* @param text {string} The text that is to be inside the menuitem.
 	* @param x {number} The position of this menu item on the x-axis.

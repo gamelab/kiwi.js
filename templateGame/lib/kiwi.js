@@ -5386,13 +5386,23 @@ var Kiwi;
     var GameObjects;
     (function (GameObjects) {
         /**
-        * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
+        * TextField is a GameObject that is used when you are wanting to render
+        * text onto the current State.
         *
-        * @class Textfield
+        * TextField has width/height and a hitbox, but because text is difficult
+        * to measure, these may not be 100% accurate. It does not have an
+        * "Input" component either, although you may choose to add one. Be aware
+        * of these limitations.
+        *
+        * Note that there also exists a "Textfield" object. This is simply a
+        * legacy alias of "TextField", which was renamed in v1.2.0 for naming
+        * standardization purposes.
+        *
+        * @class TextField
         * @namespace Kiwi.GameObjects
         * @extends Kiwi.Entity
         * @constructor
-        * @param state {Kiwi.State} The state that this Textfield belongs to
+        * @param state {Kiwi.State} The state that this TextField belongs to
         * @param text {String} The text that is contained within this textfield.
         * @param [x=0] {Number} The new x coordinate from the Position component
         * @param [y=0] {Number} The new y coordinate from the Position component
@@ -5400,11 +5410,11 @@ var Kiwi;
         * @param [size=32] {Number} The size of the text in pixels.
         * @param [weight="normal"] {String} The weight of the text.
         * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
-        * @return {Textfield} This Game Object.
+        * @return {TextField} This Game Object.
         */
-        var Textfield = (function (_super) {
-            __extends(Textfield, _super);
-            function Textfield(state, text, x, y, color, size, weight, fontFamily) {
+        var TextField = (function (_super) {
+            __extends(TextField, _super);
+            function TextField(state, text, x, y, color, size, weight, fontFamily) {
                 if (x === void 0) { x = 0; }
                 if (y === void 0) { y = 0; }
                 if (color === void 0) { color = "#000000"; }
@@ -5445,15 +5455,19 @@ var Kiwi;
                 this.box = this.components.add(new Kiwi.Components.Box(this, x, y, this.width, this.height));
             }
             /**
-            * Returns the type of object that this is
+            * Returns the type of object that this is.
+            *
+            * Note: This is not camel-cased because of an error in early development.
+            * To preserve API compatibility, all 1.x.x releases retail this form.
+            * This will be fixed in v2.
             * @method objType
             * @return {string} "Textfield"
             * @public
             */
-            Textfield.prototype.objType = function () {
+            TextField.prototype.objType = function () {
                 return "Textfield";
             };
-            Object.defineProperty(Textfield.prototype, "text", {
+            Object.defineProperty(TextField.prototype, "text", {
                 get: function () {
                     return this._text;
                 },
@@ -5470,7 +5484,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Textfield.prototype, "color", {
+            Object.defineProperty(TextField.prototype, "color", {
                 get: function () {
                     return "#" + this._fontColor.getHex();
                 },
@@ -5493,7 +5507,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Textfield.prototype, "fontWeight", {
+            Object.defineProperty(TextField.prototype, "fontWeight", {
                 get: function () {
                     return this._fontWeight;
                 },
@@ -5510,7 +5524,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Textfield.prototype, "fontSize", {
+            Object.defineProperty(TextField.prototype, "fontSize", {
                 get: function () {
                     return this._fontSize;
                 },
@@ -5527,7 +5541,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Textfield.prototype, "fontFamily", {
+            Object.defineProperty(TextField.prototype, "fontFamily", {
                 get: function () {
                     return this._fontFamily;
                 },
@@ -5544,7 +5558,7 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Textfield.prototype, "textAlign", {
+            Object.defineProperty(TextField.prototype, "textAlign", {
                 get: function () {
                     return this._textAlign;
                 },
@@ -5568,7 +5582,7 @@ var Kiwi;
             * @method _renderText
             * @private
             */
-            Textfield.prototype._renderText = function () {
+            TextField.prototype._renderText = function () {
                 //Get/Set the width
                 this._ctx.font = this._fontWeight + " " + this._fontSize + "px " + this._fontFamily;
                 // Get the size of the text.
@@ -5612,7 +5626,7 @@ var Kiwi;
                     w: this._canvas.width,
                     h: this._canvas.height,
                     hitboxes: [{
-                        x: this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
+                        x: this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
                         y: 0,
                         w: this.width,
                         h: this.height
@@ -5627,7 +5641,7 @@ var Kiwi;
             * @param {Kiwi.Camera}
             * @public
             */
-            Textfield.prototype.render = function (camera) {
+            TextField.prototype.render = function (camera) {
                 if (this.alpha > 0 && this.visible) {
                     //render on stage
                     var ctx = this.game.stage.ctx;
@@ -5642,13 +5656,13 @@ var Kiwi;
                     //Align the text
                     var x = 0;
                     switch (this._textAlign) {
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                        case Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT:
                             x = 0;
                             break;
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                        case Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER:
                             x = this._alignWidth * 0.5;
                             break;
-                        case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                        case Kiwi.GameObjects.TextField.TEXT_ALIGN_RIGHT:
                             x = this._alignWidth;
                             break;
                     }
@@ -5667,7 +5681,7 @@ var Kiwi;
             * @param {Object} params
             * @public
             */
-            Textfield.prototype.renderGL = function (gl, camera, params) {
+            TextField.prototype.renderGL = function (gl, camera, params) {
                 if (params === void 0) { params = null; }
                 //Does the text need re-rendering
                 if (this._tempDirty)
@@ -5680,13 +5694,13 @@ var Kiwi;
                 //See where the text should be.
                 var x = 0;
                 switch (this._textAlign) {
-                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+                    case Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT:
                         x = 0;
                         break;
-                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+                    case Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER:
                         x = -(this._alignWidth * 0.5);
                         break;
-                    case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+                    case Kiwi.GameObjects.TextField.TEXT_ALIGN_RIGHT:
                         x = -(this._alignWidth);
                         break;
                 }
@@ -5713,7 +5727,7 @@ var Kiwi;
             * @final
             * @public
             */
-            Textfield.TEXT_ALIGN_CENTER = "center";
+            TextField.TEXT_ALIGN_CENTER = "center";
             /**
             * A static property that contains the string to right align the text.
             * @property TEXT_ALIGN_RIGHT
@@ -5722,7 +5736,7 @@ var Kiwi;
             * @final
             * @public
             */
-            Textfield.TEXT_ALIGN_RIGHT = "right";
+            TextField.TEXT_ALIGN_RIGHT = "right";
             /**
             * A static property that contains the string to left align the text.
             * @property TEXT_ALIGN_LEFT
@@ -5731,19 +5745,12 @@ var Kiwi;
             * @final
             * @public
             */
-            Textfield.TEXT_ALIGN_LEFT = "left";
-            return Textfield;
+            TextField.TEXT_ALIGN_LEFT = "left";
+            return TextField;
         })(Kiwi.Entity);
-        GameObjects.Textfield = Textfield;
-        /**
-        * Alias of the "Kiwi.GameObjects.Textfield".
-        * This will continue to be an alias until we can deprecate the existing version.
-        *
-        * @class TextField
-        * @namespace Kiwi.GameObjects
-        * @extends Kiwi.GameObjects.Textfield
-        */
-        GameObjects.TextField = Kiwi.GameObjects.Textfield;
+        GameObjects.TextField = TextField;
+        // Alias and reiteration for YuiDoc purposes
+        GameObjects.Textfield = Kiwi.GameObjects.TextField;
     })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
 })(Kiwi || (Kiwi = {}));
 /**
@@ -17196,14 +17203,12 @@ var Kiwi;
                         // Loop check
                         if (this._loop) {
                             if (this._frameIndex > this.length - 1) {
-                                console.log(Date.now() + '---------------', frameDelta, this.clock.elapsed() - this._lastFrameElapsed);
                                 while (this._frameIndex > this.length - 1) {
                                     this._frameIndex -= this.length;
                                     if (this._onLoop != null) {
                                         this._onLoop.dispatch();
                                     }
                                 }
-                                console.log('---------------' + Date.now(), this._frameIndex);
                             }
                             else if (this._frameIndex < 0) {
                                 while (this._frameIndex < 0) {
@@ -26020,7 +26025,7 @@ var Kiwi;
             * @class MenuItem
             * @extends Kiwi.HUD.Widget.Button
             * @namespace Kiwi.HUD.Widget
-            * @contructor
+            * @constructor
             * @param game {Kiwi.Game} The game that this MenuItem belongs to.
             * @param text {string} The text that is to be inside the menuitem.
             * @param x {number} The position of this menu item on the x-axis.
@@ -27821,10 +27826,9 @@ var Kiwi;
                 * An internal reference to the state of the elapsed timer
                 * @property _elapsedState
                 * @type Number
-                * @default 0
                 * @private
                 */
-                this._elapsedState = 0;
+                this._elapsedState = Kiwi.Time.Clock._RUNNING;
                 /**
                 * The time manager that this clock belongs to.
                 * @property manager
@@ -27978,7 +27982,7 @@ var Kiwi;
             /**
             * Add an existing Timer to the Clock.
             * @method addTimer
-            * @param timer {Timer} The Timer object instance to be added to ths Clock.
+            * @param timer {Timer} Timer object instance to be added to this Clock.
             * @return {Kiwi.Time.Clock} This Clock object.
             * @public
             */
@@ -28089,17 +28093,20 @@ var Kiwi;
                 // Compute difference between last master value and this
                 // Scale that difference by timeScale
                 // If clock is running, add that value to the current time
+                // Set "rate" as per running type
                 this._lastMasterElapsed = this._currentMasterElapsed;
                 this._currentMasterElapsed = this.master.elapsed();
-                if (this._elapsedState === 0 || this._elapsedState === 2) {
+                if (this._elapsedState === Kiwi.Time.Clock._RUNNING || this._elapsedState === Kiwi.Time.Clock._RESUMED) {
                     this._elapsed += this.timeScale * frameLength / this.units;
+                    this.rate = this.timeScale * frameLength / this.master.idealDelta;
                 }
-                else if (this._elapsedState === 1) {
+                else if (this._elapsedState === Kiwi.Time.Clock._PAUSED) {
                     this._totalPaused += frameLength;
+                    this.rate = 0;
                 }
-                // Compute time governance properties
-                // These should really be properties hereafter
-                this.rate = this.timeScale * frameLength / this.master.idealDelta;
+                else if (this._elapsedState === Kiwi.Time.Clock._STOPPED) {
+                    this.rate = 0;
+                }
             };
             /**
             * Start the clock. This resets the clock and starts it running.
@@ -28116,7 +28123,7 @@ var Kiwi;
                 this._isRunning = true;
                 this._isPaused = false;
                 this._isStopped = false;
-                this._elapsedState = 0;
+                this._elapsedState = Kiwi.Time.Clock._RUNNING;
                 return this;
             };
             /**
@@ -28131,7 +28138,7 @@ var Kiwi;
                     this._isRunning = false;
                     this._isPaused = true;
                     this._isStopped = false;
-                    this._elapsedState = 1;
+                    this._elapsedState = Kiwi.Time.Clock._PAUSED;
                 }
                 return this;
             };
@@ -28148,7 +28155,7 @@ var Kiwi;
                     this._isRunning = true;
                     this._isPaused = false;
                     this._isStopped = false;
-                    this._elapsedState = 2;
+                    this._elapsedState = Kiwi.Time.Clock._RESUMED;
                 }
                 return this;
             };
@@ -28167,7 +28174,7 @@ var Kiwi;
                     this._isRunning = false;
                     this._isPaused = false;
                     this._isStopped = true;
-                    this._elapsedState = 3;
+                    this._elapsedState = Kiwi.Time.Clock._STOPPED;
                 }
                 return this;
             };
@@ -28255,6 +28262,44 @@ var Kiwi;
                 timer.start();
                 return timer;
             };
+            /**
+            * Constant indicating that the Clock is running
+            * (and has not yet been paused and resumed)
+            * @property _RUNNING
+            * @static
+            * @type number
+            * @default 0
+            * @private
+            */
+            Clock._RUNNING = 0;
+            /**
+            * Constant indicating that the Clock is paused
+            * @property _PAUSED
+            * @static
+            * @type number
+            * @default 1
+            * @private
+            */
+            Clock._PAUSED = 1;
+            /**
+            * Constant indicating that the Clock is running
+            * (and has been paused then resumed)
+            * @property _RESUMED
+            * @static
+            * @type number
+            * @default 2
+            * @private
+            */
+            Clock._RESUMED = 2;
+            /**
+            * Constant indicating that the Clock is stopped
+            * @property _STOPPED
+            * @static
+            * @type number
+            * @default 3
+            * @private
+            */
+            Clock._STOPPED = 3;
             return Clock;
         })();
         Time.Clock = Clock;
@@ -32906,7 +32951,7 @@ var Kiwi;
 /// <reference path="core/SignalBinding.ts" />
 /// <reference path="gameobjects/Sprite.ts" />
 /// <reference path="gameobjects/StaticImage.ts" />
-/// <reference path="gameobjects/Textfield.ts" />
+/// <reference path="gameobjects/TextField.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
@@ -33027,7 +33072,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.2.0";
+    Kiwi.VERSION = "1.2.1";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.

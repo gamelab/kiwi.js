@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.0</em>
+            <em>API Docs for: 1.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -114,8 +114,6 @@
                 <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
-            
-                <li><a href="../classes/Kiwi.GameObjects.Textfield.html">Kiwi.GameObjects.Textfield</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
@@ -366,13 +364,13 @@
 
     
         <div class="extends">
-            Extends <a href="../classes/Kiwi.GameObjects.Textfield.html" class="crosslink">Kiwi.GameObjects.Textfield</a>
+            Extends <a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a>
         </div>
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_gameobjects_Textfield.ts.html#l486"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:486</code></a>
+            Defined in: <a href="../files/src_gameobjects_TextField.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;TextField.ts:10</code></a>
         </div>
     
 
@@ -389,11 +387,287 @@
 
 
 <div class="box intro">
-    <p>Alias of the &quot;Kiwi.GameObjects.Textfield&quot;. 
-This will continue to be an alias until we can deprecate the existing version.</p>
+    <p>TextField is a GameObject that is used when you are wanting to render
+text onto the current State.</p>
+<p>TextField has width/height and a hitbox, but because text is difficult
+to measure, these may not be 100% accurate. It does not have an
+&quot;Input&quot; component either, although you may choose to add one. Be aware
+of these limitations.</p>
+<p>Note that there also exists a &quot;Textfield&quot; object. This is simply a
+legacy alias of &quot;TextField&quot;, which was renamed in v1.2.0 for naming
+standardization purposes.</p>
 
 </div>
 
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Kiwi.GameObjects.TextField" class="method item">
+    <h3 class="name"><code>Kiwi.GameObjects.TextField</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>state</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>text</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[x=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[y=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[color=&quot;#000000&quot;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[size=32]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[weight=&quot;normal&quot;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[fontFamily=&quot;sans-serif&quot;]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">TextField</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_TextField.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;TextField.ts:10</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">state</code>
+                        <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The state that this TextField belongs to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">text</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The text that is contained within this textfield.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[x=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The new x coordinate from the Position component</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[y=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The new y coordinate from the Position component</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[color=&quot;#000000&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The color of the text.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[size=32]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The size of the text in pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[weight=&quot;normal&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The weight of the text.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[fontFamily=&quot;sans-serif&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The font family that is to be used when rendering.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">TextField</span>:
+                    
+                    <p>This Game Object.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+    </div>
 
 
 <div id="classdocs" class="tabview">
@@ -420,7 +694,7 @@ This will continue to be an alias until we can deprecate the existing version.</
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method private inherited">
+                            <li class="index-item method private">
                                 <a href="#method__renderText">_renderText</a>
 
                                 
@@ -455,7 +729,7 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item method public inherited inherited">
+                            <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
                                 
@@ -469,14 +743,14 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item method public inherited inherited">
+                            <li class="index-item method public inherited">
                                 <a href="#method_render">render</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method public inherited inherited">
+                            <li class="index-item method public inherited">
                                 <a href="#method_renderGL">renderGL</a>
 
                                 
@@ -521,7 +795,7 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__alignWidth">_alignWidth</a>
 
                                 
@@ -535,14 +809,14 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__baseline">_baseline</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__canvas">_canvas</a>
 
                                 
@@ -563,7 +837,7 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__ctx">_ctx</a>
 
                                 
@@ -584,28 +858,28 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__fontColor">_fontColor</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__fontFamily">_fontFamily</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__fontSize">_fontSize</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__fontWeight">_fontWeight</a>
 
                                 
@@ -633,21 +907,21 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__tempDirty">_tempDirty</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__text">_text</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property private inherited">
+                            <li class="index-item property private">
                                 <a href="#property__textAlign">_textAlign</a>
 
                                 
@@ -705,7 +979,7 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
                                 <a href="#property_box">box</a>
 
                                 
@@ -726,7 +1000,7 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
                                 <a href="#property_color">color</a>
 
                                 
@@ -754,21 +1028,21 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
                                 <a href="#property_fontFamily">fontFamily</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
                                 <a href="#property_fontSize">fontSize</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
                                 <a href="#property_fontWeight">fontWeight</a>
 
                                 
@@ -866,14 +1140,41 @@ This will continue to be an alias until we can deprecate the existing version.</
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
                                 <a href="#property_text">text</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item property public inherited">
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_ALIGN_CENTER">TEXT_ALIGN_CENTER</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_ALIGN_LEFT">TEXT_ALIGN_LEFT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_ALIGN_RIGHT">TEXT_ALIGN_RIGHT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_textAlign">textAlign</a>
 
                                 
@@ -952,7 +1253,7 @@ This will continue to be an alias until we can deprecate the existing version.</
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__renderText" class="method item private inherited">
+                    <div id="method__renderText" class="method item private">
     <h3 class="name"><code>_renderText</code></h3>
 
     
@@ -978,12 +1279,15 @@ This will continue to be an alias until we can deprecate the existing version.</
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#method__renderText">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l304"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:304</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l318"><code>src&#x2F;gameobjects&#x2F;TextField.ts:318</code></a>
         
         </p>
 
@@ -1323,7 +1627,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
                     
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -1351,7 +1655,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
-                    <div id="method_objType" class="method item public inherited">
+                    <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
     
@@ -1389,7 +1693,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l67"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:67</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l77"><code>src&#x2F;gameobjects&#x2F;TextField.ts:77</code></a>
         
         </p>
 
@@ -1400,7 +1704,10 @@ that &quot;destroy&quot; is called at a convenient time.</p>
     </div>
 
     <div class="description">
-        <p>Returns the type of object that this is</p>
+        <p>Returns the type of object that this is.</p>
+<p>Note: This is not camel-cased because of an error in early development.
+To preserve API compatibility, all 1.x.x releases retail this form.
+This will be fixed in v2.</p>
 
     </div>
 
@@ -1516,7 +1823,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
-                    <div id="method_render" class="method item public inherited">
+                    <div id="method_render" class="method item public">
     <h3 class="name"><code>render</code></h3>
 
     
@@ -1560,7 +1867,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l377"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:377</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l391"><code>src&#x2F;gameobjects&#x2F;TextField.ts:391</code></a>
         
         </p>
 
@@ -1590,7 +1897,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
                     
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -1606,7 +1913,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
-                    <div id="method_renderGL" class="method item public inherited">
+                    <div id="method_renderGL" class="method item public">
     <h3 class="name"><code>renderGL</code></h3>
 
     
@@ -1662,7 +1969,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l425"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:425</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l439"><code>src&#x2F;gameobjects&#x2F;TextField.ts:439</code></a>
         
         </p>
 
@@ -1692,7 +1999,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
                     
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -1707,7 +2014,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
                     
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -1722,7 +2029,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
                     
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -2027,7 +2334,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__alignWidth" class="property item private inherited">
+                    <div id="property__alignWidth" class="property item private">
     <h3 class="name"><code>_alignWidth</code></h3>
     <span class="type">Number</span>
 
@@ -2044,12 +2351,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__alignWidth">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l129"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:129</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l143"><code>src&#x2F;gameobjects&#x2F;TextField.ts:143</code></a>
         
         </p>
 
@@ -2119,7 +2429,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__baseline" class="property item private inherited">
+                    <div id="property__baseline" class="property item private">
     <h3 class="name"><code>_baseline</code></h3>
     <span class="type">String</span>
 
@@ -2136,12 +2446,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__baseline">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l139"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:139</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l153"><code>src&#x2F;gameobjects&#x2F;TextField.ts:153</code></a>
         
         </p>
 
@@ -2163,7 +2476,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__canvas" class="property item private inherited">
+                    <div id="property__canvas" class="property item private">
     <h3 class="name"><code>_canvas</code></h3>
     <span class="type">HTMLCanvasElement.</span>
 
@@ -2180,12 +2493,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__canvas">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l270"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:270</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l284"><code>src&#x2F;gameobjects&#x2F;TextField.ts:284</code></a>
         
         </p>
 
@@ -2297,7 +2613,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__ctx" class="property item private inherited">
+                    <div id="property__ctx" class="property item private">
     <h3 class="name"><code>_ctx</code></h3>
     <span class="type">CanvasRenderingContext2D</span>
 
@@ -2314,12 +2630,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__ctx">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l278"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:278</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l292"><code>src&#x2F;gameobjects&#x2F;TextField.ts:292</code></a>
         
         </p>
 
@@ -2429,7 +2748,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__fontColor" class="property item private inherited">
+                    <div id="property__fontColor" class="property item private">
     <h3 class="name"><code>_fontColor</code></h3>
     <span class="type"><a href="../classes/Kiwi.Utils.Color.html" class="crosslink">Kiwi.Utils.Color</a></span>
 
@@ -2446,12 +2765,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__fontColor">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l103"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:103</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l117"><code>src&#x2F;gameobjects&#x2F;TextField.ts:117</code></a>
         
         </p>
 
@@ -2473,7 +2795,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__fontFamily" class="property item private inherited">
+                    <div id="property__fontFamily" class="property item private">
     <h3 class="name"><code>_fontFamily</code></h3>
     <span class="type">String</span>
 
@@ -2490,12 +2812,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__fontFamily">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l111"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:111</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l125"><code>src&#x2F;gameobjects&#x2F;TextField.ts:125</code></a>
         
         </p>
 
@@ -2519,7 +2844,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__fontSize" class="property item private inherited">
+                    <div id="property__fontSize" class="property item private">
     <h3 class="name"><code>_fontSize</code></h3>
     <span class="type">Number</span>
 
@@ -2536,12 +2861,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__fontSize">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l94"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:94</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l108"><code>src&#x2F;gameobjects&#x2F;TextField.ts:108</code></a>
         
         </p>
 
@@ -2565,7 +2893,7 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
 </div>
 
                 
-                    <div id="property__fontWeight" class="property item private inherited">
+                    <div id="property__fontWeight" class="property item private">
     <h3 class="name"><code>_fontWeight</code></h3>
     <span class="type">String</span>
 
@@ -2582,12 +2910,15 @@ Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loo
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__fontWeight">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l85"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:85</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l99"><code>src&#x2F;gameobjects&#x2F;TextField.ts:99</code></a>
         
         </p>
 
@@ -2746,7 +3077,7 @@ By default Entitys contain no tags.</p>
 </div>
 
                 
-                    <div id="property__tempDirty" class="property item private inherited">
+                    <div id="property__tempDirty" class="property item private">
     <h3 class="name"><code>_tempDirty</code></h3>
     <span class="type">Boolean</span>
 
@@ -2763,12 +3094,15 @@ By default Entitys contain no tags.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__tempDirty">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l286"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:286</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l300"><code>src&#x2F;gameobjects&#x2F;TextField.ts:300</code></a>
         
         </p>
 
@@ -2790,7 +3124,7 @@ By default Entitys contain no tags.</p>
 </div>
 
                 
-                    <div id="property__text" class="property item private inherited">
+                    <div id="property__text" class="property item private">
     <h3 class="name"><code>_text</code></h3>
     <span class="type">String</span>
 
@@ -2807,12 +3141,15 @@ By default Entitys contain no tags.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__text">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l77"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:77</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l91"><code>src&#x2F;gameobjects&#x2F;TextField.ts:91</code></a>
         
         </p>
 
@@ -2834,7 +3171,7 @@ By default Entitys contain no tags.</p>
 </div>
 
                 
-                    <div id="property__textAlign" class="property item private inherited">
+                    <div id="property__textAlign" class="property item private">
     <h3 class="name"><code>_textAlign</code></h3>
     <span class="type">String</span>
 
@@ -2851,12 +3188,15 @@ By default Entitys contain no tags.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property__textAlign">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l120"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:120</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l134"><code>src&#x2F;gameobjects&#x2F;TextField.ts:134</code></a>
         
         </p>
 
@@ -3201,7 +3541,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
 </div>
 
                 
-                    <div id="property_box" class="property item public inherited">
+                    <div id="property_box" class="property item public">
     <h3 class="name"><code>box</code></h3>
     <span class="type"><a href="../classes/Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>
 
@@ -3218,12 +3558,15 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_box">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l294"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:294</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l308"><code>src&#x2F;gameobjects&#x2F;TextField.ts:308</code></a>
         
         </p>
 
@@ -3338,7 +3681,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
 </div>
 
                 
-                    <div id="property_color" class="property item public inherited">
+                    <div id="property_color" class="property item public">
     <h3 class="name"><code>color</code></h3>
     <span class="type">String</span>
 
@@ -3355,12 +3698,15 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_color">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l162"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:162</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l176"><code>src&#x2F;gameobjects&#x2F;TextField.ts:176</code></a>
         
         </p>
 
@@ -3517,7 +3863,7 @@ Returns a hex string prepended with &quot;#&quot;.</p>
 </div>
 
                 
-                    <div id="property_fontFamily" class="property item public inherited">
+                    <div id="property_fontFamily" class="property item public">
     <h3 class="name"><code>fontFamily</code></h3>
     <span class="type">String</span>
 
@@ -3534,12 +3880,15 @@ Returns a hex string prepended with &quot;#&quot;.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_fontFamily">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l211"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:211</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l225"><code>src&#x2F;gameobjects&#x2F;TextField.ts:225</code></a>
         
         </p>
 
@@ -3561,7 +3910,7 @@ Returns a hex string prepended with &quot;#&quot;.</p>
 </div>
 
                 
-                    <div id="property_fontSize" class="property item public inherited">
+                    <div id="property_fontSize" class="property item public">
     <h3 class="name"><code>fontSize</code></h3>
     <span class="type">Number</span>
 
@@ -3578,12 +3927,15 @@ Returns a hex string prepended with &quot;#&quot;.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_fontSize">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l197"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:197</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l211"><code>src&#x2F;gameobjects&#x2F;TextField.ts:211</code></a>
         
         </p>
 
@@ -3605,7 +3957,7 @@ Returns a hex string prepended with &quot;#&quot;.</p>
 </div>
 
                 
-                    <div id="property_fontWeight" class="property item public inherited">
+                    <div id="property_fontWeight" class="property item public">
     <h3 class="name"><code>fontWeight</code></h3>
     <span class="type">String</span>
 
@@ -3622,12 +3974,15 @@ Returns a hex string prepended with &quot;#&quot;.</p>
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_fontWeight">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l183"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:183</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l197"><code>src&#x2F;gameobjects&#x2F;TextField.ts:197</code></a>
         
         </p>
 
@@ -3927,7 +4282,7 @@ This method should be over-ridden to handle specific game object implementations
                 
 
                 <div class="param-description">
-                    
+                     
                 </div>
 
                 
@@ -4248,7 +4603,7 @@ This method should be over-ridden to handle specific game object implementations
 </div>
 
                 
-                    <div id="property_text" class="property item public inherited">
+                    <div id="property_text" class="property item public">
     <h3 class="name"><code>text</code></h3>
     <span class="type">String</span>
 
@@ -4265,12 +4620,15 @@ This method should be over-ridden to handle specific game object implementations
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_text">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l147"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:147</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l161"><code>src&#x2F;gameobjects&#x2F;TextField.ts:161</code></a>
         
         </p>
 
@@ -4292,8 +4650,8 @@ This method should be over-ridden to handle specific game object implementations
 </div>
 
                 
-                    <div id="property_textAlign" class="property item public inherited">
-    <h3 class="name"><code>textAlign</code></h3>
+                    <div id="property_TEXT_ALIGN_CENTER" class="property item public">
+    <h3 class="name"><code>TEXT_ALIGN_CENTER</code></h3>
     <span class="type">String</span>
 
     
@@ -4303,18 +4661,25 @@ This method should be over-ridden to handle specific game object implementations
     
 
     
+        <span class="flag final">final</span>
+    
 
+    
+        <span class="flag static">static</span>
     
 
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.GameObjects.Textfield.html#property_textAlign">Kiwi.GameObjects.Textfield</a>:
+                
+                <p>
+                
+                Defined in
+                
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l255"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:255</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l239"><code>src&#x2F;gameobjects&#x2F;TextField.ts:239</code></a>
         
         </p>
 
@@ -4324,7 +4689,7 @@ This method should be over-ridden to handle specific game object implementations
     </div>
 
     <div class="description">
-        <p>Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.</p>
+        <p>A static property that contains the string to center align the text.</p>
 
     </div>
 
@@ -4336,9 +4701,9 @@ This method should be over-ridden to handle specific game object implementations
 </div>
 
                 
-                    <div id="property_transform" class="property item public inherited">
-    <h3 class="name"><code>transform</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+                    <div id="property_TEXT_ALIGN_LEFT" class="property item public">
+    <h3 class="name"><code>TEXT_ALIGN_LEFT</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -4347,393 +4712,25 @@ This method should be over-ridden to handle specific game object implementations
     
 
     
+        <span class="flag final">final</span>
+    
 
+    
+        <span class="flag static">static</span>
     
 
     <div class="meta">
         
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_transform">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l46"><code>src&#x2F;core&#x2F;Entity.ts:46</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Represents the position, scale, rotation and registration of this Entity.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
                 
-                    <div id="property_visible" class="property item public inherited">
-    <h3 class="name"><code>visible</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_visible">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l274"><code>src&#x2F;core&#x2F;Entity.ts:274</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Set the visibility of this entity. True or False.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
+                <p>
                 
-                    <div id="property_width" class="property item public inherited">
-    <h3 class="name"><code>width</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_width">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l288"><code>src&#x2F;core&#x2F;Entity.ts:288</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The width of the entity in pixels, pre-transform.</p>
-<p>To obtain the actual width, multiply width by scaleX.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> 0</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_willRender" class="property item public deprecated inherited">
-    <h3 class="name"><code>willRender</code></h3>
-    <span class="type">Boolean</span>
-
-    
-        <span class="flag deprecated" title="Use visible instead">deprecated</span>
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_willRender">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l553"><code>src&#x2F;core&#x2F;Entity.ts:553</code></a>
-        
-        </p>
-
-        
-            <p>Deprecated: Use visible instead</p>
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Toggles if this Entity will be rendered.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_worldX" class="property item public inherited">
-    <h3 class="name"><code>worldX</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_worldX">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l104"><code>src&#x2F;core&#x2F;Entity.ts:104</code></a>
-        
-        </p>
-
-        
-
-        
-            <p>Available since 1.1.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_worldY" class="property item public inherited">
-    <h3 class="name"><code>worldY</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_worldY">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l115"><code>src&#x2F;core&#x2F;Entity.ts:115</code></a>
-        
-        </p>
-
-        
-
-        
-            <p>Available since 1.1.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_x" class="property item public inherited">
-    <h3 class="name"><code>x</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_x">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l77"><code>src&#x2F;core&#x2F;Entity.ts:77</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>X coordinate of this Entity. This is just aliased to the transform property.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_y" class="property item public inherited">
-    <h3 class="name"><code>y</code></h3>
-    <span class="type">Number</span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Entity.html#property_y">Kiwi.Entity</a>:
-            
-        
-        
-        <a href="../files/src_core_Entity.ts.html#l90"><code>src&#x2F;core&#x2F;Entity.ts:90</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Y coordinate of this Entity. This is just aliased to the transform property.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
-        
-    </div>
-</div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="../assets/vendor/prettify/prettify-min.js"></script>
-<script>prettyPrint();</script>
-<script src="../assets/js/yui-prettify.js"></script>
-<script src="../assets/../api.js"></script>
-<script src="../assets/js/api-filter.js"></script>
-<script src="../assets/js/api-list.js"></script>
-<script src="../assets/js/api-search.js"></script>
-<script src="../assets/js/apidocs.js"></script>
-</body>
-</html>
-            Defined in
+                Defined in
                 
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l245"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:245</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l259"><code>src&#x2F;gameobjects&#x2F;TextField.ts:259</code></a>
         
         </p>
 
@@ -4784,7 +4781,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l235"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:235</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l249"><code>src&#x2F;gameobjects&#x2F;TextField.ts:249</code></a>
         
         </p>
 
@@ -4831,7 +4828,7 @@ This method should be over-ridden to handle specific game object implementations
             
         
         
-        <a href="../files/src_gameobjects_Textfield.ts.html#l255"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:255</code></a>
+        <a href="../files/src_gameobjects_TextField.ts.html#l269"><code>src&#x2F;gameobjects&#x2F;TextField.ts:269</code></a>
         
         </p>
 

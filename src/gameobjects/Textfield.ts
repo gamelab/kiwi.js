@@ -8,13 +8,23 @@
 module Kiwi.GameObjects {
 
 	/**
-	* Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
+	* TextField is a GameObject that is used when you are wanting to render
+	* text onto the current State.
 	*
-	* @class Textfield
+	* TextField has width/height and a hitbox, but because text is difficult
+	* to measure, these may not be 100% accurate. It does not have an
+	* "Input" component either, although you may choose to add one. Be aware
+	* of these limitations.
+	*
+	* Note that there also exists a "Textfield" object. This is simply a
+	* legacy alias of "TextField", which was renamed in v1.2.0 for naming
+	* standardization purposes.
+	*
+	* @class TextField
 	* @namespace Kiwi.GameObjects
 	* @extends Kiwi.Entity
 	* @constructor
-	* @param state {Kiwi.State} The state that this Textfield belongs to
+	* @param state {Kiwi.State} The state that this TextField belongs to
 	* @param text {String} The text that is contained within this textfield.
 	* @param [x=0] {Number} The new x coordinate from the Position component
 	* @param [y=0] {Number} The new y coordinate from the Position component
@@ -22,9 +32,9 @@ module Kiwi.GameObjects {
 	* @param [size=32] {Number} The size of the text in pixels.
 	* @param [weight="normal"] {String} The weight of the text.
 	* @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
-	* @return {Textfield} This Game Object.
+	* @return {TextField} This Game Object.
 	*/
-	export class Textfield extends Kiwi.Entity {
+	export class TextField extends Kiwi.Entity {
 
 		constructor(state: Kiwi.State, text: string, x: number = 0, y: number = 0, color: string = "#000000", size: number = 32, weight: string = "normal", fontFamily: string = "sans-serif") {
 
@@ -65,7 +75,11 @@ module Kiwi.GameObjects {
 		}
 
 		/**
-		* Returns the type of object that this is
+		* Returns the type of object that this is.
+		*
+		* Note: This is not camel-cased because of an error in early development.
+		* To preserve API compatibility, all 1.x.x releases retail this form.
+		* This will be fixed in v2.
 		* @method objType
 		* @return {string} "Textfield"
 		* @public
@@ -363,8 +377,8 @@ module Kiwi.GameObjects {
 				w: this._canvas.width,
 				h: this._canvas.height,
 				hitboxes: [ {
-					x: this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT ? 0 :
-						this._textAlign === Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER ?
+					x: this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT ? 0 :
+						this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER ?
 						-this._alignWidth * 0.5 : -this._alignWidth,
 					y: 0,
 					w: this.width,
@@ -399,13 +413,13 @@ module Kiwi.GameObjects {
 				//Align the text
 				var x = 0;
 				switch (this._textAlign) {
-					case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+					case Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT:
 						x = 0;
 						break;
-					case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+					case Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER:
 						x = this._alignWidth * 0.5;
 						break;
-					case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+					case Kiwi.GameObjects.TextField.TEXT_ALIGN_RIGHT:
 						x = this._alignWidth;
 						break;
 				}
@@ -445,13 +459,13 @@ module Kiwi.GameObjects {
 			//See where the text should be.
 			var x = 0;
 			switch (this._textAlign) {
-				case Kiwi.GameObjects.Textfield.TEXT_ALIGN_LEFT:
+				case Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT:
 					x = 0;
 					break;
-				case Kiwi.GameObjects.Textfield.TEXT_ALIGN_CENTER:
+				case Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER:
 					x = -(this._alignWidth * 0.5);
 					break;
-				case Kiwi.GameObjects.Textfield.TEXT_ALIGN_RIGHT:
+				case Kiwi.GameObjects.TextField.TEXT_ALIGN_RIGHT:
 					x = -(this._alignWidth);
 					break;
 			}
@@ -483,14 +497,7 @@ module Kiwi.GameObjects {
 		}
 	}
 
-	/**
-	* Alias of the "Kiwi.GameObjects.Textfield". 
-	* This will continue to be an alias until we can deprecate the existing version.
-	*
-	* @class TextField
-	* @namespace Kiwi.GameObjects
-	* @extends Kiwi.GameObjects.Textfield
-	*/
-	export var TextField = Kiwi.GameObjects.Textfield;
+	// Alias and reiteration for YuiDoc purposes
+	export var Textfield = Kiwi.GameObjects.TextField;
 
 }

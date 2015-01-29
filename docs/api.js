@@ -38,7 +38,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.GameObjects.Sprite",
         "Kiwi.GameObjects.StaticImage",
         "Kiwi.GameObjects.TextField",
-        "Kiwi.GameObjects.Textfield",
         "Kiwi.GameObjects.Tilemap.TileMap",
         "Kiwi.GameObjects.Tilemap.TileMapLayer",
         "Kiwi.GameObjects.Tilemap.TileType",

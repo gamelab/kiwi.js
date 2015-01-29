@@ -3801,13 +3801,23 @@ declare module Kiwi.GameObjects {
 */
 declare module Kiwi.GameObjects {
     /**
-    * Textfield is a GameObject that is used when you are wanting to render text onto the current State. The Textfield is not designed to have any interaction with other GameObjects and as such it does not have many (if any) components or even a width/height.
+    * TextField is a GameObject that is used when you are wanting to render
+    * text onto the current State.
     *
-    * @class Textfield
+    * TextField has width/height and a hitbox, but because text is difficult
+    * to measure, these may not be 100% accurate. It does not have an
+    * "Input" component either, although you may choose to add one. Be aware
+    * of these limitations.
+    *
+    * Note that there also exists a "Textfield" object. This is simply a
+    * legacy alias of "TextField", which was renamed in v1.2.0 for naming
+    * standardization purposes.
+    *
+    * @class TextField
     * @namespace Kiwi.GameObjects
     * @extends Kiwi.Entity
     * @constructor
-    * @param state {Kiwi.State} The state that this Textfield belongs to
+    * @param state {Kiwi.State} The state that this TextField belongs to
     * @param text {String} The text that is contained within this textfield.
     * @param [x=0] {Number} The new x coordinate from the Position component
     * @param [y=0] {Number} The new y coordinate from the Position component
@@ -3815,12 +3825,16 @@ declare module Kiwi.GameObjects {
     * @param [size=32] {Number} The size of the text in pixels.
     * @param [weight="normal"] {String} The weight of the text.
     * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
-    * @return {Textfield} This Game Object.
+    * @return {TextField} This Game Object.
     */
-    class Textfield extends Kiwi.Entity {
+    class TextField extends Kiwi.Entity {
         constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
         /**
-        * Returns the type of object that this is
+        * Returns the type of object that this is.
+        *
+        * Note: This is not camel-cased because of an error in early development.
+        * To preserve API compatibility, all 1.x.x releases retail this form.
+        * This will be fixed in v2.
         * @method objType
         * @return {string} "Textfield"
         * @public
@@ -4014,15 +4028,7 @@ declare module Kiwi.GameObjects {
         */
         renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
     }
-    /**
-    * Alias of the "Kiwi.GameObjects.Textfield".
-    * This will continue to be an alias until we can deprecate the existing version.
-    *
-    * @class TextField
-    * @namespace Kiwi.GameObjects
-    * @extends Kiwi.GameObjects.Textfield
-    */
-    var TextField: typeof Textfield;
+    var Textfield: typeof TextField;
 }
 /**
 *
@@ -18188,7 +18194,7 @@ declare module Kiwi.HUD.Widget {
     * @class MenuItem
     * @extends Kiwi.HUD.Widget.Button
     * @namespace Kiwi.HUD.Widget
-    * @contructor
+    * @constructor
     * @param game {Kiwi.Game} The game that this MenuItem belongs to.
     * @param text {string} The text that is to be inside the menuitem.
     * @param x {number} The position of this menu item on the x-axis.
@@ -19561,7 +19567,6 @@ declare module Kiwi.Time {
         * An internal reference to the state of the elapsed timer
         * @property _elapsedState
         * @type Number
-        * @default 0
         * @private
         */
         private _elapsedState;
@@ -19595,9 +19600,47 @@ declare module Kiwi.Time {
         */
         units: number;
         /**
+        * Constant indicating that the Clock is running
+        * (and has not yet been paused and resumed)
+        * @property _RUNNING
+        * @static
+        * @type number
+        * @default 0
+        * @private
+        */
+        private static _RUNNING;
+        /**
+        * Constant indicating that the Clock is paused
+        * @property _PAUSED
+        * @static
+        * @type number
+        * @default 1
+        * @private
+        */
+        private static _PAUSED;
+        /**
+        * Constant indicating that the Clock is running
+        * (and has been paused then resumed)
+        * @property _RESUMED
+        * @static
+        * @type number
+        * @default 2
+        * @private
+        */
+        private static _RESUMED;
+        /**
+        * Constant indicating that the Clock is stopped
+        * @property _STOPPED
+        * @static
+        * @type number
+        * @default 3
+        * @private
+        */
+        private static _STOPPED;
+        /**
         * Add an existing Timer to the Clock.
         * @method addTimer
-        * @param timer {Timer} The Timer object instance to be added to ths Clock.
+        * @param timer {Timer} Timer object instance to be added to this Clock.
         * @return {Kiwi.Time.Clock} This Clock object.
         * @public
         */
