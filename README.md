@@ -1,4 +1,4 @@
-Kiwi.js 1.2.0
+Kiwi.js 1.2.1
 =============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg)
@@ -7,7 +7,7 @@ Kiwi.js is the world's easiest to use Open Source HTML5 game framework for makin
 
 Our focus is blazingly fast WebGL rendering and complementary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation.
 
-Version: 1.2.0 "Williams"
+Version: 1.2.1 "Williams"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
