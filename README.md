@@ -37,6 +37,14 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
+### v1.2.1 "Williams"
+
+#### Bug Fixes
+
+* `Animation` could, under certain circumstances, freeze for a few seconds before playing. This was due to accidentally starting in 1970 and scrambling to catch up. This is no longer possible.
+* `Clock.rate` will now equal 0 if the clock is paused or stopped.
+* Correct documentation for `TextField` and `Kiwi.HUD.Widget.MenuItem` to show proper constructor information.
+
 ### v1.2.0 "Williams"
 
 #### New Features
