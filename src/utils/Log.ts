@@ -63,7 +63,11 @@ module Kiwi.Utils {
 
 			if (!Kiwi.Utils.Common.isUndefined(params.maxRecordings)) {
 				this.maxRecordings = params.maxRecordings;
-			}
+            }
+
+            if (Kiwi.Utils.Common.isArray(params.tagFilters)) {
+                this.tagFilters = params.tagFilters;
+            }
 
 		}
 
@@ -97,7 +101,18 @@ module Kiwi.Utils {
 		* @default true 
 		* @public
 		*/
-		public display: boolean = true;
+        public display: boolean = true;
+
+        /**
+        * A list of tags which any message recorded needs to match in-order to be displayed.
+        * This helps when debugging systems with lots of messages, without removing every log. 
+        * 
+        * @property tagFilters
+        * @type Array
+        * @since 1.3.0
+        * @public
+        */
+        public tagFilters: string[] = [];
 		
 		/**
 		* The maximum number of recordings to be kept at once.
@@ -218,23 +233,55 @@ module Kiwi.Utils {
 		* @return {Array} Elements of the array considered as tags
 		* @public
 		*/
-		public getTagsFromArray(array: string[]) {
+        public getTagsFromArray(array: string[]) {
 
-			var i = 0,
-				tags = [];
+            var i = 0,
+                tags = [];
 
-			while ( i < array.length ) {
-				if ( typeof array[ i ] === "string" ) {
-					if ( array[ i ].charAt( 0 ) === "#" ) {
-						tags.push( array[ i ] );
-					}
-				}
-				i++;
-			}
+            while (i < array.length) {
+                if (typeof array[i] === "string") {
+                    if (array[i].charAt(0) === "#") {
+                        tags.push(array[i]);
+                    }
+                }
+                i++;
+            }
 
-			return tags;
+            return tags;
 
-		}
+        }
+
+        /**
+        * Returns true if the all of the tags passed also occur in the tag filters. 
+        * This is used to filter out messages by their tags.
+        *
+        * @method _filterTags
+        * @param tags {Array} A list of tags, which need to occur in the tag filters
+        * @param [tagFilters=this.tagFilters] {Array} A list of tags. Tags need to 
+        * @return {Boolean} Tags match the tag filters, and so if the message would be allowed to execute.
+        * @since 1.3.0
+        * @private
+        */
+        private _filterTags(tags: string[], tagFilters:string[] = this.tagFilters): boolean {
+
+            //No filters, then allow
+            if (tagFilters.length === 0) {
+                return true;
+            }
+            
+            var i = 0;
+            while (i < tags.length) {
+
+                //If the tag does not appear in the filter list 
+                if (tagFilters.indexOf(tags[i]) === -1) {
+                    return false;
+                }
+
+                i++;
+            }
+
+            return true;
+        }
 		
 		/**
 		* Logs a message using the 'console.log' method.
@@ -250,8 +297,12 @@ module Kiwi.Utils {
 				return;
 			}
 
-			this.record(args, this.getTagsFromArray(args), console.log);
-			this._execute(console.log, console, args);
+            var tags = this.getTagsFromArray(args);
+            this.record(args, tags, console.log);
+
+            if (this._filterTags(tags)) {
+                this._execute(console.log, console, args);
+            }
 
 		}
 		
@@ -270,8 +321,12 @@ module Kiwi.Utils {
 				return;
 			}
 
-			this.record(args, this.getTagsFromArray(args), console.warn);
-			this._execute(console.warn, console, args);
+            var tags = this.getTagsFromArray(args);
+            this.record(args, tags, console.warn);
+
+            if (this._filterTags(tags)) {
+                this._execute(console.warn, console, args);
+            }
 
 		}
 		
@@ -289,8 +344,12 @@ module Kiwi.Utils {
 				return;
 			}
 
-			this.record(args, this.getTagsFromArray(args), console.error);
-			this._execute(console.error, console, args);
+            var tags = this.getTagsFromArray(args);
+            this.record(args, tags, console.error);
+
+            if (this._filterTags(tags)) {
+                this._execute(console.error, console, args);
+            }
 
 		}
 
@@ -328,6 +387,7 @@ module Kiwi.Utils {
 
 		/**
 		* Displays the last recording matching the tags passed.
+        * Ignores the tag filters.
 		* 
 		* @method showLast
 		* @param [...args] {Any} Any tags that the recordings must have.
@@ -346,6 +406,7 @@ module Kiwi.Utils {
 
 		/**
 		* Displays all recordings.
+        * Ignores the tag filters.
 		* 
 		* @method showAll
 		* @param [...args] {Any} Any tags that the recordings must have.
@@ -360,6 +421,7 @@ module Kiwi.Utils {
 
 		/**
 		* Displays all logs recorded.
+        * Ignores the tag filters.
 		* 
 		* @method showLogs
 		* @param [...args] {Any} Any tags that the recordings must have.
@@ -376,6 +438,7 @@ module Kiwi.Utils {
 
 		/**
 		* Displays all errors recorded.
+        * Ignores the tag filters.
 		* 
 		* @method showErrors
 		* @param [...args] {Any} Any tags that the recordings must have.
@@ -392,6 +455,7 @@ module Kiwi.Utils {
 
 		/**
 		* Displays all warnings recorded.
+        * Ignores the tag filters.
 		*
 		* @method showWarnings
 		* @param [...args] {Any} Any tags that the recordings must have.
@@ -407,7 +471,8 @@ module Kiwi.Utils {
 
 		/**
 		* Displays a series of recordings within a time period passed. 
-		* Time recorded is in milliseconds
+		* Time recorded is in milliseconds.
+        * Ignores the tag filters.
 		* 
 		* @method showTimePeriod
 		* @param [start=0] {Number}
@@ -429,7 +494,46 @@ module Kiwi.Utils {
 				}
 			}
 
-		}
+        }
+
+        /**
+        * Adds a tag to the list of tag filters.
+        * Any messages that do not have the tags in the tagFilters list will not be displayed.
+        * 
+        * @method addFilter
+		* @param [...args] {Any} Tags to add to the filters list.
+        * @since 1.3.0
+        * @public
+        */
+        public addFilter(...args: any[]) {
+            this.tagFilters = this.tagFilters.concat(args);
+        }
+
+        /**
+        * Removes a tag to the list of tag filters.
+        * Any messages that do not have the tags in the tagFilters list will not be displayed.
+        * 
+        * @method addFilter
+		* @param [...args] {Any} Tags to be remove from the filters list.
+        * @since 1.3.0
+        * @public
+        */
+        public removeFilter(...args: any[]) {
+
+            var i = 0,
+                index;
+
+            while (i < args.length) {
+
+                index = this.tagFilters.indexOf(args[i]);
+                if (index !== -1) {
+                    this.tagFilters.splice(index, 1);
+                }
+                
+                i++;
+            }
+
+        }
 
 	}
 

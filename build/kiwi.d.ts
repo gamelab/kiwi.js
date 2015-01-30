@@ -22450,6 +22450,16 @@ declare module Kiwi.Utils {
         */
         display: boolean;
         /**
+        * A list of tags which any message recorded needs to match in-order to be displayed.
+        * This helps when debugging systems with lots of messages, without removing every log.
+        *
+        * @property tagFilters
+        * @type Array
+        * @since 1.3.0
+        * @public
+        */
+        tagFilters: string[];
+        /**
         * The maximum number of recordings to be kept at once.
         *
         * @property maxRecordings
@@ -22528,6 +22538,18 @@ declare module Kiwi.Utils {
         */
         getTagsFromArray(array: string[]): any[];
         /**
+        * Returns true if the all of the tags passed also occur in the tag filters.
+        * This is used to filter out messages by their tags.
+        *
+        * @method _filterTags
+        * @param tags {Array} A list of tags, which need to occur in the tag filters
+        * @param [tagFilters=this.tagFilters] {Array} A list of tags. Tags need to
+        * @return {Boolean} Tags match the tag filters, and so if the message would be allowed to execute.
+        * @since 1.3.0
+        * @private
+        */
+        private _filterTags(tags, tagFilters?);
+        /**
         * Logs a message using the 'console.log' method.
         * Arguments starting with a '#' symbol are given that value as a tag.
         *
@@ -22566,6 +22588,7 @@ declare module Kiwi.Utils {
         private _show(recording, tags);
         /**
         * Displays the last recording matching the tags passed.
+        * Ignores the tag filters.
         *
         * @method showLast
         * @param [...args] {Any} Any tags that the recordings must have.
@@ -22574,6 +22597,7 @@ declare module Kiwi.Utils {
         showLast(...args: any[]): void;
         /**
         * Displays all recordings.
+        * Ignores the tag filters.
         *
         * @method showAll
         * @param [...args] {Any} Any tags that the recordings must have.
@@ -22582,6 +22606,7 @@ declare module Kiwi.Utils {
         showAll(...args: any[]): void;
         /**
         * Displays all logs recorded.
+        * Ignores the tag filters.
         *
         * @method showLogs
         * @param [...args] {Any} Any tags that the recordings must have.
@@ -22590,6 +22615,7 @@ declare module Kiwi.Utils {
         showLogs(...args: any[]): void;
         /**
         * Displays all errors recorded.
+        * Ignores the tag filters.
         *
         * @method showErrors
         * @param [...args] {Any} Any tags that the recordings must have.
@@ -22598,6 +22624,7 @@ declare module Kiwi.Utils {
         showErrors(...args: any[]): void;
         /**
         * Displays all warnings recorded.
+        * Ignores the tag filters.
         *
         * @method showWarnings
         * @param [...args] {Any} Any tags that the recordings must have.
@@ -22606,7 +22633,8 @@ declare module Kiwi.Utils {
         showWarnings(...args: any[]): void;
         /**
         * Displays a series of recordings within a time period passed.
-        * Time recorded is in milliseconds
+        * Time recorded is in milliseconds.
+        * Ignores the tag filters.
         *
         * @method showTimePeriod
         * @param [start=0] {Number}
@@ -22615,6 +22643,26 @@ declare module Kiwi.Utils {
         * @public
         */
         showTimePeriod(start?: number, end?: number, tags?: string[]): void;
+        /**
+        * Adds a tag to the list of tag filters.
+        * Any messages that do not have the tags in the tagFilters list will not be displayed.
+        *
+        * @method addFilter
+        * @param [...args] {Any} Tags to add to the filters list.
+        * @since 1.3.0
+        * @public
+        */
+        addFilter(...args: any[]): void;
+        /**
+        * Removes a tag to the list of tag filters.
+        * Any messages that do not have the tags in the tagFilters list will not be displayed.
+        *
+        * @method addFilter
+        * @param [...args] {Any} Tags to be remove from the filters list.
+        * @since 1.3.0
+        * @public
+        */
+        removeFilter(...args: any[]): void;
     }
 }
 /**
