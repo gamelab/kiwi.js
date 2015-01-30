@@ -40,7 +40,11 @@ module Kiwi.Sound {
 			this._muteVolume = volume;
 			this._muted = this._game.audio.mute;
 			this._loop = loop;
-			this.key = key;
+            this.key = key;
+
+            if ( !Kiwi.Utils.Common.isString(this.key) && (<any>this.key).isAudio ) {
+                this.key = (<any>this.key).key;
+            }
 
 			//If audio isn't supported OR the file does not exist
 			if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {

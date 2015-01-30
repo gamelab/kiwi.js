@@ -161,7 +161,11 @@ module Kiwi.GameObjects.Tilemap {
 		*/
 		public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
 
-			var json = null;
+            var json = null;
+
+            if (Kiwi.Utils.Common.isString(atlas)) {
+                atlas = this.state.textures[<any>atlas];
+            }
 
 			//Does the JSON exist?
 			switch (typeof tileMapData) {
@@ -174,8 +178,21 @@ module Kiwi.GameObjects.Tilemap {
 					json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
 					break;
 
-				case 'object':
-					json = tileMapData;
+                case 'object':
+                    
+                    //Is it a KiwiJS file?
+                    if (tileMapData.isData && tileMapData.dataType === Kiwi.Files.File.JSON) {
+
+                        if ( Kiwi.Utils.Common.isString(tileMapData.parse) ) {
+                            json = JSON.parse(tileMapData.data);
+                        } else {
+                            json = tileMapData.data;
+                        }
+
+                    } else {
+                        json = tileMapData;
+                    }
+
 					break;
 
 				default:

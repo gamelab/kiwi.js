@@ -36,7 +36,11 @@ module Kiwi.GameObjects.Tilemap {
 			//Request the Shared Texture Atlas renderer.
 			if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
 				this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
-			}
+            }
+
+            if (Kiwi.Utils.Common.isString(atlas)) {
+                atlas = this.state.textures[<any>atlas];
+            }
 
 			this.name = name;
 			this.atlas = atlas;

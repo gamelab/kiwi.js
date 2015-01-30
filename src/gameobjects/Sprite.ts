@@ -25,7 +25,11 @@ module Kiwi.GameObjects {
 
 		constructor(state: Kiwi.State, atlas: Kiwi.Textures.TextureAtlas, x: number = 0, y: number = 0, enableInput: boolean = false) {
 
-			super(state, x, y);
+            super(state, x, y);
+
+            if (Kiwi.Utils.Common.isString(atlas)) {
+                atlas = this.state.textures[ <any>atlas ];
+            }
 
 			//Texture atlas error check
 			if (typeof atlas == "undefined") {

@@ -30,6 +30,10 @@ module Kiwi.GameObjects {
 				this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
 			}
 
+            if (Kiwi.Utils.Common.isString(atlas)) {
+                atlas = this.state.textures[<any>atlas];
+            }
+
 			//Texture atlas error check.
 			if (typeof atlas == "undefined") {
 				Kiwi.Log.error('A Texture Atlas was not passed when instantiating a new Static Image.', '#static-image', '#texture');

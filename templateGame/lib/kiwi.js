@@ -5184,6 +5184,9 @@ var Kiwi;
                 if (y === void 0) { y = 0; }
                 if (enableInput === void 0) { enableInput = false; }
                 _super.call(this, state, x, y);
+                if (Kiwi.Utils.Common.isString(atlas)) {
+                    atlas = this.state.textures[atlas];
+                }
                 //Texture atlas error check
                 if (typeof atlas == "undefined") {
                     Kiwi.Log.error('A Texture Atlas was not passed when instantiating a new Sprite.', '#sprite', '#texture');
@@ -5308,6 +5311,9 @@ var Kiwi;
                 _super.call(this, state, x, y);
                 if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                     this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                }
+                if (Kiwi.Utils.Common.isString(atlas)) {
+                    atlas = this.state.textures[atlas];
                 }
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
@@ -5940,6 +5946,9 @@ var Kiwi;
                 TileMap.prototype.createFromFileStore = function (tileMapData, atlas, startingCell) {
                     if (startingCell === void 0) { startingCell = 0; }
                     var json = null;
+                    if (Kiwi.Utils.Common.isString(atlas)) {
+                        atlas = this.state.textures[atlas];
+                    }
                     switch (typeof tileMapData) {
                         case 'string':
                             if (this.game.fileStore.exists(tileMapData) == false) {
@@ -5949,7 +5958,18 @@ var Kiwi;
                             json = JSON.parse(this.game.fileStore.getFile(tileMapData).data);
                             break;
                         case 'object':
-                            json = tileMapData;
+                            //Is it a KiwiJS file?
+                            if (tileMapData.isData && tileMapData.dataType === Kiwi.Files.File.JSON) {
+                                if (Kiwi.Utils.Common.isString(tileMapData.parse)) {
+                                    json = JSON.parse(tileMapData.data);
+                                }
+                                else {
+                                    json = tileMapData.data;
+                                }
+                            }
+                            else {
+                                json = tileMapData;
+                            }
                             break;
                         default:
                             Kiwi.Log.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.', '#tilemap');
@@ -6284,6 +6304,9 @@ var Kiwi;
                     //Request the Shared Texture Atlas renderer.
                     if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                         this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                    }
+                    if (Kiwi.Utils.Common.isString(atlas)) {
+                        atlas = this.state.textures[atlas];
                     }
                     this.name = name;
                     this.atlas = atlas;
@@ -22612,7 +22635,7 @@ var Kiwi;
             };
             /**
             * Get the angle from this Point object to given X,Y coordinates.
-            * @method angleTo
+            * @method angleToXY
             * @param x {Number} x value.
             * @param y {Number} y value.
             * @return {Number} angle to point.
@@ -27111,6 +27134,9 @@ var Kiwi;
                 this._muted = this._game.audio.mute;
                 this._loop = loop;
                 this.key = key;
+                if (!Kiwi.Utils.Common.isString(this.key) && this.key.isAudio) {
+                    this.key = this.key.key;
+                }
                 //If audio isn't supported OR the file does not exist
                 if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
                     Kiwi.Log.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore.', '#audio', '#notfound');
