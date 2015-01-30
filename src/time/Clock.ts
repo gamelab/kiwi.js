@@ -340,10 +340,9 @@ module Kiwi.Time {
 		* An internal reference to the state of the elapsed timer
 		* @property _elapsedState
 		* @type Number
-		* @default 0
 		* @private
 		*/
-		private _elapsedState: number = 0;
+		private _elapsedState: number = Kiwi.Time.Clock._RUNNING;
 
 		/**
 		* The time manager that this clock belongs to.
@@ -379,9 +378,51 @@ module Kiwi.Time {
 		public units: number = 0;
 
 		/**
+		* Constant indicating that the Clock is running
+		* (and has not yet been paused and resumed)
+		* @property _RUNNING
+		* @static
+		* @type number
+		* @default 0
+		* @private
+		*/
+		private static _RUNNING: number = 0;
+
+		/**
+		* Constant indicating that the Clock is paused
+		* @property _PAUSED
+		* @static
+		* @type number
+		* @default 1
+		* @private
+		*/
+		private static _PAUSED: number = 1;
+
+		/**
+		* Constant indicating that the Clock is running
+		* (and has been paused then resumed)
+		* @property _RESUMED
+		* @static
+		* @type number
+		* @default 2
+		* @private
+		*/
+		private static _RESUMED: number = 2;
+
+		/**
+		* Constant indicating that the Clock is stopped
+		* @property _STOPPED
+		* @static
+		* @type number
+		* @default 3
+		* @private
+		*/
+		private static _STOPPED: number = 3;
+
+		/**
 		* Add an existing Timer to the Clock.
 		* @method addTimer
-		* @param timer {Timer} The Timer object instance to be added to ths Clock.
+		* @param timer {Timer} Timer object instance to be added to this Clock.
 		* @return {Kiwi.Time.Clock} This Clock object.
 		* @public
 		*/
@@ -513,17 +554,18 @@ module Kiwi.Time {
 			// Compute difference between last master value and this
 			// Scale that difference by timeScale
 			// If clock is running, add that value to the current time
+			// Set "rate" as per running type
 			this._lastMasterElapsed = this._currentMasterElapsed;
 			this._currentMasterElapsed = this.master.elapsed();
-			if ( this._elapsedState === 0 || this._elapsedState === 2 ) {
+			if ( this._elapsedState === Kiwi.Time.Clock._RUNNING || this._elapsedState === Kiwi.Time.Clock._RESUMED ) {
 				this._elapsed += this.timeScale * frameLength / this.units;
-			} else if ( this._elapsedState === 1 ) {
+				this.rate = this.timeScale * frameLength / this.master.idealDelta;
+			} else if ( this._elapsedState === Kiwi.Time.Clock._PAUSED ) {
 				this._totalPaused += frameLength;
+				this.rate = 0;
+			} else if ( this._elapsedState === Kiwi.Time.Clock._STOPPED ) {
+				this.rate = 0;
 			}
-
-			// Compute time governance properties
-			// These should really be properties hereafter
-			this.rate = this.timeScale * frameLength / this.master.idealDelta;
 		}
 
 		/**
@@ -546,7 +588,7 @@ module Kiwi.Time {
 			this._isPaused = false;
 			this._isStopped = false;
 
-			this._elapsedState = 0;
+			this._elapsedState = Kiwi.Time.Clock._RUNNING;
 
 			return this;
 
@@ -567,7 +609,7 @@ module Kiwi.Time {
 				this._isPaused = true;
 				this._isStopped = false;
 
-				this._elapsedState = 1;
+				this._elapsedState = Kiwi.Time.Clock._PAUSED;
 			}
 
 			return this;
@@ -589,7 +631,7 @@ module Kiwi.Time {
 				this._isPaused = false;
 				this._isStopped = false;
 
-				this._elapsedState = 2;
+				this._elapsedState = Kiwi.Time.Clock._RESUMED;
 			}
 
 			return this;
@@ -617,7 +659,7 @@ module Kiwi.Time {
 				this._isPaused = false;
 				this._isStopped = true;
 
-				this._elapsedState = 3;
+				this._elapsedState = Kiwi.Time.Clock._STOPPED;
 			}
 
 			return this;

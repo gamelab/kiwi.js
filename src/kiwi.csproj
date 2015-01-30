@@ -110,7 +110,7 @@
     <Content Include="gameobjects\StaticImage.ts" />
     <Content Include="gameobjects\Sprite.ts" />
     <Content Include="geom\AABB.ts" />
-    <Content Include="gameobjects\Textfield.ts" />
+    <Content Include="gameobjects\TextField.ts" />
     <Content Include="gameobjects\tilemap\TileType.ts" />
     <Content Include="gameobjects\tilemap\TileMap.ts" />
     <Content Include="gameobjects\tilemap\TileMapLayer.ts" />
