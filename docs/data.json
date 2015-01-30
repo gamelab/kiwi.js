@@ -45228,7 +45228,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 30,
+            "line": 31,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -45245,7 +45245,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 40,
+            "line": 41,
             "description": "The time when the MasterClock was started.",
             "itemtype": "property",
             "name": "_started",
@@ -45259,7 +45259,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 48,
+            "line": 49,
             "description": "The current time. This is updated every frame but AFTER the delta is calculated.",
             "itemtype": "property",
             "name": "time",
@@ -45273,7 +45273,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 56,
+            "line": 57,
             "description": "The current time, this is straight from the Date.now() method and is updated every frame BEFORE the delta.",
             "itemtype": "property",
             "name": "now",
@@ -45287,7 +45287,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 64,
+            "line": 65,
             "description": "The time it takes for the time to update. Using this you can calculate the fps.",
             "itemtype": "property",
             "name": "delta",
@@ -45301,7 +45301,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 72,
+            "line": 73,
             "description": "The rate at which ideal frames are passing. Multiply per-frame iterations by this factor to create smooth movement. For example, if the ideal fps is 60, but you're only getting 45, rate will equal 1.333.",
             "itemtype": "property",
             "name": "rate",
@@ -45316,7 +45316,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 81,
+            "line": 82,
             "description": "The ideal frame delta in milliseconds. This is automatically adjusted when the game sets a new frameRate.",
             "itemtype": "property",
             "name": "idealDelta",
@@ -45331,7 +45331,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 90,
+            "line": 91,
             "description": "The time that has elapsed since the game started. In milliseconds.",
             "itemtype": "method",
             "name": "elapsed",
@@ -45348,7 +45348,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 102,
+            "line": 103,
             "description": "The time that has elapsed since the game started but in seconds.",
             "itemtype": "method",
             "name": "totalElapsedSeconds",
@@ -45365,7 +45365,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 114,
+            "line": 115,
             "description": "The update loop that should be executed every frame. Used to update the time.",
             "itemtype": "method",
             "name": "update",
@@ -45378,7 +45378,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 134,
+            "line": 135,
             "description": "Used to calculate the elapsed time from a point that is specified. This is returned in Milliseconds.",
             "itemtype": "method",
             "name": "elapsedSince",
@@ -45402,7 +45402,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 147,
+            "line": 148,
             "description": "Used to calculate the elapsed time from a point that is specified BUT this is in seconds.",
             "itemtype": "method",
             "name": "elapsedSecondsSince",
@@ -45426,7 +45426,7 @@
         },
         {
             "file": "src/time/MasterClock.ts",
-            "line": 160,
+            "line": 161,
             "description": "Resets the MasterClocks time.",
             "itemtype": "method",
             "name": "reset",

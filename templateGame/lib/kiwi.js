@@ -28509,6 +28509,7 @@ var Kiwi;
                 */
                 this.idealDelta = 1000 / 60.0;
                 this._started = Date.now();
+                this.now = Date.now();
                 this.time = this._started;
             }
             /**
