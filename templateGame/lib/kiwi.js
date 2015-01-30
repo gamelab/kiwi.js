@@ -17196,14 +17196,12 @@ var Kiwi;
                         // Loop check
                         if (this._loop) {
                             if (this._frameIndex > this.length - 1) {
-                                console.log(Date.now() + '---------------', frameDelta, this.clock.elapsed() - this._lastFrameElapsed);
                                 while (this._frameIndex > this.length - 1) {
                                     this._frameIndex -= this.length;
                                     if (this._onLoop != null) {
                                         this._onLoop.dispatch();
                                     }
                                 }
-                                console.log('---------------' + Date.now(), this._frameIndex);
                             }
                             else if (this._frameIndex < 0) {
                                 while (this._frameIndex < 0) {
