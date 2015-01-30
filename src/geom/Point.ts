@@ -226,7 +226,7 @@ module Kiwi.Geom {
 
 		/**
 		* Get the angle from this Point object to given X,Y coordinates.
-		* @method angleTo
+		* @method angleToXY
 		* @param x {Number} x value.
 		* @param y {Number} y value.
 		* @return {Number} angle to point.
