@@ -22612,7 +22612,7 @@ var Kiwi;
             };
             /**
             * Get the angle from this Point object to given X,Y coordinates.
-            * @method angleTo
+            * @method angleToXY
             * @param x {Number} x value.
             * @param y {Number} y value.
             * @return {Number} angle to point.
@@ -33391,9 +33391,20 @@ var Kiwi;
             AudioFile.prototype.processXhr = function (response) {
                 this.data = {
                     raw: response,
+                    sync: 0,
+                    retry: 0,
                     decoded: false,
                     buffer: null
                 };
+                this._decodeAudio();
+            };
+            /**
+            * Attempts to decode the audio data loaded via XHR + arraybuffer.
+            *
+            * @method _decodeAudio
+            * @private
+            */
+            AudioFile.prototype._decodeAudio = function () {
                 var _this = this;
                 this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
                     if (buffer) {
@@ -33401,6 +33412,9 @@ var Kiwi;
                         _this.data.decoded = true;
                         _this.loadSuccess();
                     }
+                }, function (error) {
+                    Kiwi.Log.error('Kiwi.Files.AudioFile: Error decoding audio data.', '#loading', '#decoding');
+                    _this.loadError(error);
                 });
             };
             return AudioFile;

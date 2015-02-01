@@ -144,22 +144,40 @@ module Kiwi.Files {
 		protected processXhr(response:any) {
 
 			this.data = {
-				raw: response,
+                raw: response,
 				decoded: false,
 				buffer: null
 			};
 
-			var _this: any = this;
+            this._decodeAudio();
 
-			this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
-				if (buffer) {
-					_this.data.buffer = buffer;
-					_this.data.decoded = true;
-					_this.loadSuccess();
-				}
-			});
+        }
 
-		}
+        /**
+        * Attempts to decode the audio data loaded via XHR + arraybuffer. 
+        * 
+        * @method _decodeAudio
+        * @private
+        */
+        private _decodeAudio() {
+
+            var _this: any = this;
+
+            this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                if (buffer) {
+                    _this.data.buffer = buffer;
+                    _this.data.decoded = true;
+                    _this.loadSuccess();
+                }
+            }, function (error) {
+
+                Kiwi.Log.error('Kiwi.Files.AudioFile: Error decoding audio data.', '#loading', '#decoding');
+                _this.loadError(error);
+
+            });
+
+        }
+
 
 	}
 
