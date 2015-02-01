@@ -9618,8 +9618,8 @@ var Kiwi;
                     if (this._calculateBytes) {
                         this._loadingList[i].onProgress.add(this._updateFileListInformation, this);
                     }
-                    this._loadingList[i].onComplete.addOnce(this._fileQueueUpdate, this);
                     this._sortFile(this._loadingList[i]);
+                    this._loadingList[i].onComplete.addOnce(this._fileQueueUpdate, this);
                     i++;
                 }
                 this._queueLoading = true;
@@ -9814,7 +9814,7 @@ var Kiwi;
                     return false;
                 }
                 //Attempt to load the file!
-                this._loadingQueue[0].onComplete.addOnce(this._queueFileComplete, this);
+                this._loadingQueue[0].onComplete.addOnce(this._queueFileComplete, this, 1);
                 this._loadingQueue[0].load();
                 return true;
             };
@@ -9847,7 +9847,7 @@ var Kiwi;
             */
             Loader.prototype._startLoadingParallel = function (file) {
                 if (!file.loading) {
-                    file.onComplete.add(this._parallelFileComplete, this);
+                    file.onComplete.add(this._parallelFileComplete, this, 1);
                     file.load();
                 }
             };
@@ -33391,8 +33391,6 @@ var Kiwi;
             AudioFile.prototype.processXhr = function (response) {
                 this.data = {
                     raw: response,
-                    sync: 0,
-                    retry: 0,
                     decoded: false,
                     buffer: null
                 };
