@@ -23,6 +23,7 @@ module Kiwi.Time {
 		constructor () {
 
 			this._started = Date.now();
+			this.now = Date.now();
 			this.time = this._started;
 
 		}

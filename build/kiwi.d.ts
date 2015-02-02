@@ -22969,6 +22969,13 @@ declare module Kiwi.Files {
         * @protected
         */
         protected processXhr(response: any): void;
+        /**
+        * Attempts to decode the audio data loaded via XHR + arraybuffer.
+        *
+        * @method _decodeAudio
+        * @private
+        */
+        private _decodeAudio();
     }
 }
 /**

@@ -245,9 +245,9 @@ module Kiwi.Files {
 					this._loadingList[i].onProgress.add(this._updateFileListInformation, this);
 				}
 
-				this._loadingList[i].onComplete.addOnce(this._fileQueueUpdate, this);
+                this._sortFile(this._loadingList[i]);
 
-				this._sortFile(this._loadingList[i]);
+                this._loadingList[i].onComplete.addOnce(this._fileQueueUpdate, this);
 
 				i++;
 			}
@@ -493,7 +493,7 @@ module Kiwi.Files {
 			}
 
 			//Attempt to load the file!
-			this._loadingQueue[0].onComplete.addOnce(this._queueFileComplete, this);
+			this._loadingQueue[0].onComplete.addOnce(this._queueFileComplete, this, 1);
 			this._loadingQueue[0].load();
 			return true;
 		}
@@ -532,7 +532,7 @@ module Kiwi.Files {
 		private _startLoadingParallel( file: Kiwi.Files.File) {
 
 			if (!file.loading) {
-				file.onComplete.add(this._parallelFileComplete, this);
+                file.onComplete.add(this._parallelFileComplete, this, 1);
 				file.load();
 			}
 
@@ -571,7 +571,7 @@ module Kiwi.Files {
 			if (index === -1) {
 				Kiwi.Log.warn("Something has gone wrong? The file which executed this method doesn't exist in the loadingParallel.", '#loading', '#error');
 				return;
-			}
+            }
 
 			this._loadingParallel.splice(index, 1);
 		}
