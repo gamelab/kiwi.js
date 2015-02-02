@@ -537,8 +537,8 @@
                 "Kiwi.GameObjects": 1
             }
         },
-        "src/gameobjects/TextField.ts": {
-            "name": "src/gameobjects/TextField.ts",
+        "src/gameobjects/Textfield.ts": {
+            "name": "src/gameobjects/Textfield.ts",
             "modules": {},
             "classes": {
                 "Kiwi.GameObjects.TextField": 1
@@ -1630,7 +1630,7 @@
                 "Kiwi.GameObjects": 1
             },
             "module": "Kiwi",
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 10,
             "description": "The GameObject namespace holds classes which are designed to be added to a State (either directly, or as an ancestor of a Group) and are the Objects that are used when wanting to render anything visual onto the current State. Each GameObject is a representation of a particular item in a game and as such has information that corresponds to that item (like where they are in the 'GameWorld', the scale of the GameObject, who their parent is, e.t.c). For Example: If you wanted to have a massive background image then you can use the StaticImage GameObject, as that is a relatively light-weight object). Or if you had Player with an Animation, which user's could interactive with, then you would use a Sprite, which is more robust.",
             "tag": "main",
@@ -3764,7 +3764,7 @@
             "module": "Kiwi",
             "submodule": "GameObjects",
             "namespace": "Kiwi.GameObjects",
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 10,
             "description": "TextField is a GameObject that is used when you are wanting to render\ntext onto the current State.\n\nTextField has width/height and a hitbox, but because text is difficult\nto measure, these may not be 100% accurate. It does not have an\n\"Input\" component either, although you may choose to add one. Be aware\nof these limitations.\n\nNote that there also exists a \"Textfield\" object. This is simply a\nlegacy alias of \"TextField\", which was renamed in v1.2.0 for naming\nstandardization purposes.",
             "extends": "Kiwi.Entity",
@@ -18750,6 +18750,19 @@
             "namespace": "Kiwi.Files"
         },
         {
+            "file": "src/file/AudioFile.ts",
+            "line": 156,
+            "description": "Attempts to decode the audio data loaded via XHR + arraybuffer.",
+            "itemtype": "method",
+            "name": "_decodeAudio",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.AudioFile",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
             "file": "src/file/DataFile.ts",
             "line": 42,
             "description": "Sets properties for this instance based on an object literal passed. Used when the class is being created.",
@@ -24321,7 +24334,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 77,
             "description": "Returns the type of object that this is.\n\nNote: This is not camel-cased because of an error in early development.\nTo preserve API compatibility, all 1.x.x releases retail this form.\nThis will be fixed in v2.",
             "itemtype": "method",
@@ -24338,7 +24351,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 91,
             "description": "The text that is to be rendered.",
             "itemtype": "property",
@@ -24352,7 +24365,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 99,
             "description": "The weight of the font.",
             "itemtype": "property",
@@ -24367,7 +24380,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 108,
             "description": "The size of the font.",
             "itemtype": "property",
@@ -24382,7 +24395,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 117,
             "description": "The color of the text.",
             "itemtype": "property",
@@ -24396,7 +24409,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 125,
             "description": "The font family that is to be rendered.",
             "itemtype": "property",
@@ -24411,7 +24424,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 134,
             "description": "The alignment of the text. This can either be \"left\", \"right\" or \"center\"",
             "itemtype": "property",
@@ -24426,7 +24439,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 143,
             "description": "The pixel width of the text. Used internally for alignment purposes.",
             "itemtype": "property",
@@ -24442,7 +24455,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 153,
             "description": "The baseline of the text to be rendered.",
             "itemtype": "property",
@@ -24456,7 +24469,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 161,
             "description": "The text that you would like to appear in this textfield.",
             "itemtype": "property",
@@ -24470,7 +24483,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 176,
             "description": "The color of the font that is contained in this textfield.\nMay be set with a string, or an array of any valid\nKiwi.Utils.Color arguments.\nReturns a hex string prepended with \"#\".",
             "itemtype": "property",
@@ -24484,7 +24497,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 197,
             "description": "The weight of the font.",
             "itemtype": "property",
@@ -24498,7 +24511,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 211,
             "description": "The size on font when being displayed onscreen.",
             "itemtype": "property",
@@ -24512,7 +24525,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 225,
             "description": "The font family that is being used to render the text.",
             "itemtype": "property",
@@ -24526,7 +24539,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 239,
             "description": "A static property that contains the string to center align the text.",
             "itemtype": "property",
@@ -24542,7 +24555,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 249,
             "description": "A static property that contains the string to right align the text.",
             "itemtype": "property",
@@ -24558,7 +24571,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 259,
             "description": "A static property that contains the string to left align the text.",
             "itemtype": "property",
@@ -24574,7 +24587,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 269,
             "description": "Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.",
             "itemtype": "property",
@@ -24588,7 +24601,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 284,
             "description": "The canvas element which the text is rendered onto.",
             "itemtype": "property",
@@ -24602,7 +24615,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 292,
             "description": "The context for the canvas element. Used whilst rendering text.",
             "itemtype": "property",
@@ -24616,7 +24629,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 300,
             "description": "If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.",
             "itemtype": "property",
@@ -24630,7 +24643,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 308,
             "description": "Hitbox component",
             "itemtype": "property",
@@ -24645,7 +24658,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 318,
             "description": "This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). \nThis is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.",
             "itemtype": "method",
@@ -24658,7 +24671,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 391,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
@@ -24678,7 +24691,7 @@
             "namespace": "Kiwi.GameObjects"
         },
         {
-            "file": "src/gameobjects/TextField.ts",
+            "file": "src/gameobjects/Textfield.ts",
             "line": 439,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
@@ -27958,7 +27971,7 @@
             "line": 227,
             "description": "Get the angle from this Point object to given X,Y coordinates.",
             "itemtype": "method",
-            "name": "angleTo",
+            "name": "angleToXY",
             "params": [
                 {
                     "name": "x",
@@ -51411,7 +51424,7 @@
         },
         {
             "message": "param name missing: {Kiwi.Camera}",
-            "line": " src/gameobjects/TextField.ts:391"
+            "line": " src/gameobjects/Textfield.ts:391"
         },
         {
             "message": "replacing incorrect tag: propery with property",
