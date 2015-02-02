@@ -41,9 +41,14 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
 #### Bug Fixes
 
-* `Animation` could, under certain circumstances, freeze for a few seconds before playing. This was due to accidentally starting in 1970 and scrambling to catch up. This is no longer possible.
-* `Clock.rate` will now equal 0 if the clock is paused or stopped.
-* Correct documentation for `TextField` and `Kiwi.HUD.Widget.MenuItem` to show proper constructor information.
+* `Animation` could, under certain circumstances, freeze for a few seconds before playing. This was due to accidentally starting in 1970 and scrambling to catch up. This is no longer possible. (#150)
+* `Clock.rate` will now equal 0 if the clock is paused or stopped. (#152)
+* Correct documentation for `TextField` and `Kiwi.HUD.Widget.MenuItem` to show proper constructor information. (#155, #154)
+* Non-looping animations now refer to the correct cells when played a second time. (#149)
+* `State.create` now fires after file loading is complete. Logs no longer overlap between loading and creating. (#157)
+* `MasterClock` now starts today, rather than 1970, avoiding anomalous results on first frame. (#158)
+
+More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.1 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.1)
 
 ### v1.2.0 "Williams"
 
