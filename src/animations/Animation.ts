@@ -206,7 +206,8 @@ module Kiwi.Animations {
 		* @property _tick
 		* @type number
 		* @private
-		*/ 
+		* @deprecated Different private time management systems implemented in v1.2.0
+		*/
 		private _tick: number;
 
 		/**
@@ -232,63 +233,100 @@ module Kiwi.Animations {
 		* A Kiwi.Signal that dispatches an event when the animation has stopped playing.
 		* @property _onStop
 		* @type Signal
-		* @public
+		* @private
 		*/
 		private _onStop: Kiwi.Signal = null;
-		
+
+		/**
+		* A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+		* @property onStop
+		* @type Signal
+		* @public
+		*/
 		public get onStop(): Kiwi.Signal {
 			if (this._onStop == null) this._onStop = new Kiwi.Signal; 
 			return this._onStop;
 		}
 
+
 		/**
 		* A Kiwi.Signal that dispatches an event when the animation has started playing.
 		* @property _onPlay
 		* @type Kiwi.Signal
-		* @public
+		* @private
 		*/
 		private _onPlay: Kiwi.Signal = null;
-		
+
+		/**
+		* A Kiwi.Signal that dispatches an event when the animation has started playing.
+		* @property onPlay
+		* @type Kiwi.Signal
+		* @public
+		*/
 		public get onPlay(): Kiwi.Signal {
 			if (this._onPlay == null) this._onPlay = new Kiwi.Signal;
 			return this._onPlay;
 		}
 
+
 		/**
 		* A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
 		* @property _onUpdate
 		* @type Kiwi.Signal
-		* @public
+		* @private
 		*/
 		private _onUpdate: Kiwi.Signal = null;
-		
+
+		/**
+		* A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+		* @property onUpdate
+		* @type Kiwi.Signal
+		* @public
+		*/
 		public get onUpdate(): Kiwi.Signal {
 			if (this._onUpdate == null) this._onUpdate = new Kiwi.Signal;
 			return this._onUpdate;
 		}
 
+
 		/**
 		* A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
 		* @property _onLoop
 		* @type Kiwi.Signal
-		* @public
+		* @private
 		*/
 		private _onLoop: Kiwi.Signal = null;
-		
+
+		/**
+		* A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+		* @property onLoop
+		* @type Kiwi.Signal
+		* @public
+		*/
 		public get onLoop(): Kiwi.Signal {
 			if (this._onLoop == null) this._onLoop = new Kiwi.Signal;
 			return this._onLoop;
 		}
 
+
 		/**
-		* A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+		* A Kiwi.Signal that dispatches an event when the animation has come to
+		* the end of the animation but is not going to play again.
 		* @property _onComplete
+		* @type Kiwi.Signal
+		* @private
+		* @since 1.2.0
+		*/
+		private _onComplete: Kiwi.Signal = null;
+
+		/**
+		* A Kiwi.Signal that dispatches an event when the animation has come to
+		* the end of the animation but is not going to play again.
+		* @property onComplete
 		* @type Kiwi.Signal
 		* @public
 		* @since 1.2.0
 		*/
-		private _onComplete: Kiwi.Signal = null;
-		
 		public get onComplete(): Kiwi.Signal {
 			if (this._onComplete == null) this._onComplete = new Kiwi.Signal;
 			return this._onComplete;
@@ -316,8 +354,10 @@ module Kiwi.Animations {
 
 			this._isPlaying = true;
 			this._startTime = this.clock.elapsed();
-			this._tick = this._startTime + this._speed;
-			if(this._onPlay !== null) this._onPlay.dispatch();
+			this._lastFrameElapsed = this.clock.elapsed();
+			if ( this._onPlay !== null ) {
+				this._onPlay.dispatch();
+			}
 		}
 
 		/**
@@ -425,14 +465,14 @@ module Kiwi.Animations {
 
 					// Loop check
 					if ( this._loop ) {
-                        if (this._frameIndex > this.length - 1) {
+						if (this._frameIndex > this.length - 1) {
 
-                            while (this._frameIndex > this.length - 1) {
+							while (this._frameIndex > this.length - 1) {
 								this._frameIndex -= this.length;
 								if ( this._onLoop != null ) {
 									this._onLoop.dispatch();
-                                }
-                            }
+								}
+							}
 
 						} else if ( this._frameIndex < 0 ) {
 							while ( this._frameIndex < 0 ) {

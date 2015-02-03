@@ -1,4 +1,4 @@
-Kiwi.js 1.2.1
+Kiwi.js 1.2.2
 =============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg)
@@ -7,7 +7,7 @@ Kiwi.js is the world's easiest to use Open Source HTML5 game framework for makin
 
 Our focus is blazingly fast WebGL rendering and complementary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation.
 
-Version: 1.2.1 "Williams"
+Version: 1.2.2 "Williams"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -36,6 +36,13 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 ## Release Notes for this Version
 
 Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
+
+### v1.2.2 "Williams"
+
+### Bug Fixes
+
+* `Animation` now correctly plays non-looping animations. (#164)
+* `Animation.onPlay`, `.onStop`, `.onupdate`, `.onLoop`, and `.onComplete` now correctly documented in API.
 
 ### v1.2.1 "Williams"
 

@@ -16884,35 +16884,36 @@ var Kiwi;
                 * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
                 * @property _onStop
                 * @type Signal
-                * @public
+                * @private
                 */
                 this._onStop = null;
                 /**
                 * A Kiwi.Signal that dispatches an event when the animation has started playing.
                 * @property _onPlay
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 */
                 this._onPlay = null;
                 /**
                 * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
                 * @property _onUpdate
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 */
                 this._onUpdate = null;
                 /**
                 * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
                 * @property _onLoop
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 */
                 this._onLoop = null;
                 /**
-                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+                * A Kiwi.Signal that dispatches an event when the animation has come to
+                * the end of the animation but is not going to play again.
                 * @property _onComplete
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 * @since 1.2.0
                 */
                 this._onComplete = null;
@@ -17045,6 +17046,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onStop", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+                * @property onStop
+                * @type Signal
+                * @public
+                */
                 get: function () {
                     if (this._onStop == null)
                         this._onStop = new Kiwi.Signal;
@@ -17054,6 +17061,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onPlay", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has started playing.
+                * @property onPlay
+                * @type Kiwi.Signal
+                * @public
+                */
                 get: function () {
                     if (this._onPlay == null)
                         this._onPlay = new Kiwi.Signal;
@@ -17063,6 +17076,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onUpdate", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+                * @property onUpdate
+                * @type Kiwi.Signal
+                * @public
+                */
                 get: function () {
                     if (this._onUpdate == null)
                         this._onUpdate = new Kiwi.Signal;
@@ -17072,6 +17091,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onLoop", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+                * @property onLoop
+                * @type Kiwi.Signal
+                * @public
+                */
                 get: function () {
                     if (this._onLoop == null)
                         this._onLoop = new Kiwi.Signal;
@@ -17081,6 +17106,14 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onComplete", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to
+                * the end of the animation but is not going to play again.
+                * @property onComplete
+                * @type Kiwi.Signal
+                * @public
+                * @since 1.2.0
+                */
                 get: function () {
                     if (this._onComplete == null)
                         this._onComplete = new Kiwi.Signal;
@@ -17102,9 +17135,10 @@ var Kiwi;
                 }
                 this._isPlaying = true;
                 this._startTime = this.clock.elapsed();
-                this._tick = this._startTime + this._speed;
-                if (this._onPlay !== null)
+                this._lastFrameElapsed = this.clock.elapsed();
+                if (this._onPlay !== null) {
                     this._onPlay.dispatch();
+                }
             };
             /**
             * Plays the animation.
@@ -33073,7 +33107,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.2.1";
+    Kiwi.VERSION = "1.2.2";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.
