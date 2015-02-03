@@ -3762,6 +3762,50 @@ var Kiwi;
             return children;
         };
         /**
+        * Returns the first child which contains the tag passed.
+        * @method getFirstChildByTag
+        * @param tag {String}
+        * @return {IChild}
+        * @public
+        * @since 1.3.0
+        */
+        Group.prototype.getFirstChildByTag = function (tag) {
+            for (var i = 0; i < this.members.length; i++) {
+                if (this.members[i].hasTag(tag)) {
+                    return this.members[i];
+                }
+                if (this.members[i].childType() == Kiwi.GROUP) {
+                    var child = (this.members[i].getFirstChildByTag(tag));
+                    if (child) {
+                        return child;
+                    }
+                }
+            }
+            return null;
+        };
+        /**
+        * Returns the last child which contains the tag passed.
+        * @method getLastChildByTag
+        * @param tag {String}
+        * @return {IChild}
+        * @public
+        * @since 1.3.0
+        */
+        Group.prototype.getLastChildByTag = function (tag) {
+            for (var i = this.members.length - 1; i >= 0; i--) {
+                if (this.members[i].hasTag(tag)) {
+                    return this.members[i];
+                }
+                if (this.members[i].childType() == Kiwi.GROUP) {
+                    var child = (this.members[i].getLastChildByTag(tag));
+                    if (child) {
+                        return child;
+                    }
+                }
+            }
+            return null;
+        };
+        /**
         * --------------------
         * Child Depth Sorting Methods
         * --------------------
@@ -33193,7 +33237,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.2.1";
+    Kiwi.VERSION = "1.3.0";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.

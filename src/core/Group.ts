@@ -781,25 +781,82 @@ module Kiwi {
 		* @public
 		* @since 1.1.0
 		*/
-		public getChildrenByTag(tag: string): IChild[]{
+        public getChildrenByTag(tag: string): IChild[] {
 
-			var children = [];
+            var children = [];
 
-			for (var i = 0; i < this.members.length; i++) {
+            for (var i = 0; i < this.members.length; i++) {
 
-				if (this.members[i].hasTag(tag)) {
-					children.push(this.members[i]);
-				}
+                if (this.members[i].hasTag(tag)) {
+                    children.push(this.members[i]);
+                }
 
-				if (this.members[i].childType() == Kiwi.GROUP) {
-					children = children.concat( (<Kiwi.Group>this.members[i] ).getChildrenByTag(tag) );
-				}
+                if (this.members[i].childType() == Kiwi.GROUP) {
+                    children = children.concat((<Kiwi.Group>this.members[i]).getChildrenByTag(tag));
+                }
 
-			}
+            }
 
-			return children;
-		}
+            return children;
+        }
 
+        /**
+        * Returns the first child which contains the tag passed.
+        * @method getFirstChildByTag
+        * @param tag {String}
+        * @return {IChild}
+        * @public
+        * @since 1.3.0
+        */
+        public getFirstChildByTag(tag: string): IChild {
+
+            for (var i = 0; i < this.members.length; i++) {
+
+                if ( this.members[i].hasTag(tag) ) {
+                    return this.members[i];
+                }
+
+                if ( this.members[i].childType() == Kiwi.GROUP ) {
+                    var child = ((<Kiwi.Group>this.members[i]).getFirstChildByTag(tag));
+
+                    if (child) {
+                        return child;
+                    }
+                }
+
+            }
+            
+            return null;   
+        }
+
+        /**
+        * Returns the last child which contains the tag passed.
+        * @method getLastChildByTag
+        * @param tag {String}
+        * @return {IChild}
+        * @public
+        * @since 1.3.0
+        */
+        public getLastChildByTag(tag: string): IChild {
+
+            for (var i = this.members.length - 1; i >= 0; i--) {
+
+                if (this.members[i].hasTag(tag)) {
+                    return this.members[i];
+                }
+
+                if (this.members[i].childType() == Kiwi.GROUP) {
+                    var child = ((<Kiwi.Group>this.members[i]).getLastChildByTag(tag));
+
+                    if (child) {
+                        return child;
+                    }
+                }
+
+            }
+
+            return null;
+        }
 
 		/**
 		* --------------------

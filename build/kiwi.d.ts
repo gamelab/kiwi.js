@@ -2613,6 +2613,24 @@ declare module Kiwi {
         */
         getChildrenByTag(tag: string): IChild[];
         /**
+        * Returns the first child which contains the tag passed.
+        * @method getFirstChildByTag
+        * @param tag {String}
+        * @return {IChild}
+        * @public
+        * @since 1.3.0
+        */
+        getFirstChildByTag(tag: string): IChild;
+        /**
+        * Returns the last child which contains the tag passed.
+        * @method getLastChildByTag
+        * @param tag {String}
+        * @return {IChild}
+        * @public
+        * @since 1.3.0
+        */
+        getLastChildByTag(tag: string): IChild;
+        /**
         * --------------------
         * Child Depth Sorting Methods
         * --------------------
