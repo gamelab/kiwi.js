@@ -21578,9 +21578,34 @@ var Kiwi;
             */
             Intersect.circleToRectangle = function (circle, rect, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
-                var inflatedRect = rect.clone();
-                inflatedRect.inflate(circle.radius, circle.radius);
-                output.result = inflatedRect.contains(circle.x, circle.y);
+                var cornerDistX, cornerDistY, circleRelativeX, circleRelativeY, halfRectWidth, halfRectHeight, rectRangeX, rectRangeY;
+                // If circle is not in the rect X range, it can't overlap.
+                halfRectWidth = rect.width / 2;
+                circleRelativeX = Math.abs(circle.x - rect.x - halfRectWidth);
+                rectRangeX = circle.radius + halfRectWidth;
+                if (circleRelativeX > rectRangeX) {
+                    output.result = false;
+                    return output;
+                }
+                // If circle is not in the rect Y range, it can't overlap.
+                halfRectHeight = rect.height / 2;
+                circleRelativeY = Math.abs(circle.y - rect.y - halfRectHeight);
+                rectRangeY = circle.radius + halfRectHeight;
+                if (circleRelativeY > rectRangeY) {
+                    output.result = false;
+                    return output;
+                }
+                // If circle centroid is within the rect, it overlaps.
+                if (circleRelativeX <= halfRectWidth || circleRelativeY <= rect.height / 2) {
+                    output.result = true;
+                    return output;
+                }
+                // Because relative coordinates are normalized, we can consider
+                // a single ideal corner. If the circle centroid is within its
+                // own radius of this ideal corner, it overlaps.
+                cornerDistX = circleRelativeX - halfRectWidth;
+                cornerDistY = circleRelativeY - halfRectHeight;
+                output.result = cornerDistX * cornerDistX + cornerDistY * cornerDistY <= circle.radius * circle.radius;
                 return output;
             };
             /**

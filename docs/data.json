@@ -26209,7 +26209,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 571,
+            "line": 603,
             "description": "Check if the given Point is found within the given Circle.",
             "itemtype": "method",
             "name": "circleContainsPoint",
@@ -26245,7 +26245,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 590,
+            "line": 622,
             "description": "-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26254,7 +26254,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 596,
+            "line": 628,
             "description": "Determines whether the specified point is contained within a given Rectangle object.",
             "itemtype": "method",
             "name": "pointToRectangle",
@@ -26290,7 +26290,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 617,
+            "line": 649,
             "description": "Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.",
             "itemtype": "method",
             "name": "rectangleToRectangle",
@@ -51677,7 +51677,7 @@
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:590"
+            "line": " src/geom/Intersect.ts:622"
         },
         {
             "message": "Missing item type\nCreates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.",
