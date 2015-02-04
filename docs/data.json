@@ -25984,7 +25984,7 @@
             "line": 395,
             "description": "Check if the Line Segment intersects with any side of a Rectangle.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
-            "name": "lineSegmentToCircle",
+            "name": "lineSegmentToRectangle",
             "params": [
                 {
                     "name": "seg",

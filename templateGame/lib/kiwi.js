@@ -21450,7 +21450,7 @@ var Kiwi;
             * Check if the Line Segment intersects with any side of a Rectangle.
             * Note: The Line only exists between its two points.
             *
-            * @method lineSegmentToCircle
+            * @method lineSegmentToRectangle
             * @param seg {Kiwi.Geom.Line} The Line object to check.
             * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
             * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.

@@ -471,15 +471,6 @@ instead of having new IntersectResults created.</p>
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_lineSegmentToCircle">lineSegmentToCircle</a>
-
-                                
-                                    <span class="flag static">static</span>
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
                                 <a href="#method_lineSegmentToLineSegment">lineSegmentToLineSegment</a>
 
                                 
@@ -490,6 +481,15 @@ instead of having new IntersectResults created.</p>
                         
                             <li class="index-item method public">
                                 <a href="#method_lineSegmentToRay">lineSegmentToRay</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_lineSegmentToRectangle">lineSegmentToRectangle</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -1447,163 +1447,6 @@ instead of having new IntersectResults created.</p>
             
                 <li class="arg">
                     
-                        <code>rect</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[output]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_geom_Intersect.ts.html#l395"><code>src&#x2F;geom&#x2F;Intersect.ts:395</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Check if the Line Segment intersects with any side of a Rectangle.
-Note: The Line only exists between its two points.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">seg</code>
-                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The Line object to check.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">rect</code>
-                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The Rectangle object to check.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[output]</code>
-                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
-                    
-                    <p>An IntersectResult object containing the results of this intersection in x/y.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_lineSegmentToCircle" class="method item public">
-    <h3 class="name"><code>lineSegmentToCircle</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>seg</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
                         <code>circle</code>
                     
                 </li>
@@ -2050,6 +1893,163 @@ Note: The Line only exists between its two points.</p>
                         <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
                     <p>An IntersectResult object containing the results of this intersection in x/y</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_lineSegmentToRectangle" class="method item public">
+    <h3 class="name"><code>lineSegmentToRectangle</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>seg</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>rect</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[output]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Intersect.ts.html#l395"><code>src&#x2F;geom&#x2F;Intersect.ts:395</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Check if the Line Segment intersects with any side of a Rectangle.
+Note: The Line only exists between its two points.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">seg</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Line object to check.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">rect</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Rectangle.html" class="crosslink">Kiwi.Geom.Rectangle</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The Rectangle object to check.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                    
+                    <p>An IntersectResult object containing the results of this intersection in x/y.</p>
 
                 
             </div>
