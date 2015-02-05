@@ -25625,7 +25625,7 @@
         {
             "file": "src/geom/Intersect.ts",
             "line": 72,
-            "description": "-------------------------------------------------------------------------------------------\nLines\n-------------------------------------------------------------------------------------------",
+            "description": "---------------------------------------------------------------------\nLines\n---------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
             "submodule": "Geom",
@@ -25650,13 +25650,13 @@
                 },
                 {
                     "name": "output",
-                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "description": "An optional\n\t\t\tIntersectResult object to store the intersection values in. One is\n\t\t\tcreated if none given.",
                     "type": "Kiwi.Geom.IntersectResult",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "An IntersectResult object containing the results of this intersection in x/y",
+                "description": "An IntersectResult object\n\t\t\tcontaining the results of this intersection in x/y",
                 "type": "Kiwi.Geom.IntersectResult"
             },
             "access": "public",
@@ -25669,7 +25669,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 104,
+            "line": 114,
             "description": "Check to see if a Line and a Line Segment intersect at any point. \nNote: The first line passed is treated as if it extends infinately though space, \nThe second is treated as if it only exists between its two points.",
             "itemtype": "method",
             "name": "lineToLineSegment",
@@ -25705,14 +25705,14 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 143,
+            "line": 155,
             "description": "Checks to see if a Line that is passed, intersects at any point with a Line that is made by passing a set of coordinates to this method. \nNote: The first line will extend infinately through space. \nAnd the second line will only exist between the two points passed.",
             "itemtype": "method",
             "name": "lineToRawSegment",
             "params": [
                 {
                     "name": "line",
-                    "description": "The line object that extends infinatly through space.",
+                    "description": "The line object that extends infinitely through space.",
                     "type": "Kiwi.Geom.Line"
                 },
                 {
@@ -25756,7 +25756,58 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 184,
+            "line": 197,
+            "description": "Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method. \nNote: The lines will only exist between the two points passed.",
+            "itemtype": "method",
+            "name": "lineSegmentToRawSegment",
+            "params": [
+                {
+                    "name": "line",
+                    "description": "The line object that extends infinitely through space.",
+                    "type": "Kiwi.Geom.Line"
+                },
+                {
+                    "name": "x1",
+                    "description": "The x coordinate of the first point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y1",
+                    "description": "The y coordinate of the first point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x2",
+                    "description": "The x coordinate of the second point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y2",
+                    "description": "The y coordinate of the second point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "output",
+                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "type": "Kiwi.Geom.IntersectResult",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "An IntersectResult object containing the results of this intersection in x/y",
+                "type": "Kiwi.Geom.IntersectResult"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Geom.Intersect",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Intersect.ts",
+            "line": 234,
             "description": "Checks to see if a Line and Ray object intersects at any point. \nNote: The line in this case extends infinately through space.",
             "itemtype": "method",
             "name": "lineToRay",
@@ -25792,7 +25843,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 221,
+            "line": 273,
             "description": "Checks to see if a Line and a Circle intersect at any point.\nNote: The line passed is assumed to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToCircle",
@@ -25828,7 +25879,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 245,
+            "line": 299,
             "description": "Check if the Line intersects with each side of a Rectangle.\nNote: The Line is assumned to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToRectangle",
@@ -25864,7 +25915,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 290,
+            "line": 346,
             "description": "-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -25873,7 +25924,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 296,
+            "line": 352,
             "description": "Checks to see if two Line Segments intersect at any point in space. \nNote: Both lines are treated as if they only exist between their two line coordinates.",
             "itemtype": "method",
             "name": "lineSegmentToLineSegment",
@@ -25909,7 +25960,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 324,
+            "line": 382,
             "description": "Check if the Line Segment intersects with the Ray.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRay",
@@ -25945,7 +25996,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 353,
+            "line": 413,
             "description": "Check if the Line Segment intersects with the Circle.\nNote the Line only exists between its point points.",
             "itemtype": "method",
             "name": "lineSegmentToCircle",
@@ -25981,8 +26032,8 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 395,
-            "description": "Check if the Line Segment intersects with any side of a Rectangle.\nNote: The Line only exists between its two points.",
+            "line": 455,
+            "description": "Check if the Line Segment intersects with any side of a Rectangle,\nor is entirely within the Rectangle.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRectangle",
             "params": [
@@ -26017,7 +26068,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 450,
+            "line": 508,
             "description": "-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26026,7 +26077,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 456,
+            "line": 514,
             "description": "Check to see if a Ray intersects at any point with a Rectangle.",
             "itemtype": "method",
             "name": "rayToRectangle",
@@ -26062,7 +26113,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 476,
+            "line": 536,
             "description": "Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "rayToLineSegment",
@@ -26128,7 +26179,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 523,
+            "line": 585,
             "description": "-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26137,7 +26188,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 529,
+            "line": 591,
             "description": "Check if the two given Circle objects intersect at any point.",
             "itemtype": "method",
             "name": "circleToCircle",
@@ -26173,7 +26224,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 548,
+            "line": 612,
             "description": "Check if a Circle and a Rectangle intersect with each other at any point.",
             "itemtype": "method",
             "name": "circleToRectangle",
@@ -26209,7 +26260,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 603,
+            "line": 669,
             "description": "Check if the given Point is found within the given Circle.",
             "itemtype": "method",
             "name": "circleContainsPoint",
@@ -26245,7 +26296,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 622,
+            "line": 690,
             "description": "-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26254,7 +26305,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 628,
+            "line": 696,
             "description": "Determines whether the specified point is contained within a given Rectangle object.",
             "itemtype": "method",
             "name": "pointToRectangle",
@@ -26290,7 +26341,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 649,
+            "line": 719,
             "description": "Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.",
             "itemtype": "method",
             "name": "rectangleToRectangle",
@@ -26933,7 +26984,7 @@
         },
         {
             "file": "src/geom/Line.ts",
-            "line": 305,
+            "line": 317,
             "description": "Get a string representation of the line.",
             "itemtype": "method",
             "name": "toString",
@@ -51660,24 +51711,24 @@
             "line": " src/geom/Intersect.ts:35"
         },
         {
-            "message": "Missing item type\n-------------------------------------------------------------------------------------------\nLines\n-------------------------------------------------------------------------------------------",
+            "message": "Missing item type\n---------------------------------------------------------------------\nLines\n---------------------------------------------------------------------",
             "line": " src/geom/Intersect.ts:72"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:290"
+            "line": " src/geom/Intersect.ts:346"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:450"
+            "line": " src/geom/Intersect.ts:508"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:523"
+            "line": " src/geom/Intersect.ts:585"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:622"
+            "line": " src/geom/Intersect.ts:690"
         },
         {
             "message": "Missing item type\nCreates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.",

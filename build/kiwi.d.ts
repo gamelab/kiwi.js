@@ -14929,9 +14929,9 @@ declare module Kiwi.Geom {
         */
         static distanceSquared(x1: number, y1: number, x2: number, y2: number): number;
         /**
-        * -------------------------------------------------------------------------------------------
+        * ---------------------------------------------------------------------
         * Lines
-        * -------------------------------------------------------------------------------------------
+        * ---------------------------------------------------------------------
         **/
         /**
         * Check to see if any two Lines intersect at any point.
@@ -14940,8 +14940,11 @@ declare module Kiwi.Geom {
         * @method lineToLine
         * @param line1 {Kiwi.Geom.Line} The first line object to check.
         * @param line2 {Kiwi.Geom.Line} The second line object to check.
-        * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+        * @param [output] {Kiwi.Geom.IntersectResult} An optional
+            IntersectResult object to store the intersection values in. One is
+            created if none given.
+        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+            containing the results of this intersection in x/y
         * @public
         * @static
         */
@@ -14966,7 +14969,7 @@ declare module Kiwi.Geom {
         * And the second line will only exist between the two points passed.
         *
         * @method lineToRawSegment
-        * @param line {Kiwi.Geom.Line} The line object that extends infinatly through space.
+        * @param line {Kiwi.Geom.Line} The line object that extends infinitely through space.
         * @param x1 {number} The x coordinate of the first point in the second line.
         * @param y1 {number} The y coordinate of the first point in the second line.
         * @param x2 {number} The x coordinate of the second point in the second line.
@@ -14977,6 +14980,22 @@ declare module Kiwi.Geom {
         * @public
         */
         static lineToRawSegment(line: Line, x1: number, y1: number, x2: number, y2: number, output?: IntersectResult): IntersectResult;
+        /**
+        * Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method.
+        * Note: The lines will only exist between the two points passed.
+        *
+        * @method lineSegmentToRawSegment
+        * @param line {Kiwi.Geom.Line} The line object that extends infinitely through space.
+        * @param x1 {number} The x coordinate of the first point in the second line.
+        * @param y1 {number} The y coordinate of the first point in the second line.
+        * @param x2 {number} The x coordinate of the second point in the second line.
+        * @param y2 {number} The y coordinate of the second point in the second line.
+        * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
+        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+        * @static
+        * @public
+        */
+        static lineSegmentToRawSegment(line: Line, x1: number, y1: number, x2: number, y2: number, output?: IntersectResult): IntersectResult;
         /**
         * Checks to see if a Line and Ray object intersects at any point.
         * Note: The line in this case extends infinately through space.
@@ -15061,7 +15080,8 @@ declare module Kiwi.Geom {
         */
         static lineSegmentToCircle(seg: Line, circle: Circle, output?: IntersectResult): IntersectResult;
         /**
-        * Check if the Line Segment intersects with any side of a Rectangle.
+        * Check if the Line Segment intersects with any side of a Rectangle,
+        * or is entirely within the Rectangle.
         * Note: The Line only exists between its two points.
         *
         * @method lineSegmentToRectangle

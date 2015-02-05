@@ -480,6 +480,15 @@ instead of having new IntersectResults created.</p>
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_lineSegmentToRawSegment">lineSegmentToRawSegment</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_lineSegmentToRay">lineSegmentToRay</a>
 
                                 
@@ -672,7 +681,7 @@ instead of having new IntersectResults created.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l603"><code>src&#x2F;geom&#x2F;Intersect.ts:603</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l669"><code>src&#x2F;geom&#x2F;Intersect.ts:669</code></a>
         
         </p>
 
@@ -828,7 +837,7 @@ instead of having new IntersectResults created.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l529"><code>src&#x2F;geom&#x2F;Intersect.ts:529</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l591"><code>src&#x2F;geom&#x2F;Intersect.ts:591</code></a>
         
         </p>
 
@@ -984,7 +993,7 @@ instead of having new IntersectResults created.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l548"><code>src&#x2F;geom&#x2F;Intersect.ts:548</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l612"><code>src&#x2F;geom&#x2F;Intersect.ts:612</code></a>
         
         </p>
 
@@ -1494,7 +1503,7 @@ instead of having new IntersectResults created.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l353"><code>src&#x2F;geom&#x2F;Intersect.ts:353</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l413"><code>src&#x2F;geom&#x2F;Intersect.ts:413</code></a>
         
         </p>
 
@@ -1651,7 +1660,7 @@ Note the Line only exists between its point points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l296"><code>src&#x2F;geom&#x2F;Intersect.ts:296</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l352"><code>src&#x2F;geom&#x2F;Intersect.ts:352</code></a>
         
         </p>
 
@@ -1746,6 +1755,229 @@ Note: Both lines are treated as if they only exist between their two line coordi
 </div>
 
                 
+                    <div id="method_lineSegmentToRawSegment" class="method item public">
+    <h3 class="name"><code>lineSegmentToRawSegment</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>line</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>x1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>x2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y2</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[output]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_geom_Intersect.ts.html#l197"><code>src&#x2F;geom&#x2F;Intersect.ts:197</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method. 
+Note: The lines will only exist between the two points passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">line</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.Line.html" class="crosslink">Kiwi.Geom.Line</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The line object that extends infinitely through space.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">x1</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The x coordinate of the first point in the second line.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y1</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The y coordinate of the first point in the second line.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">x2</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The x coordinate of the second point in the second line.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y2</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The y coordinate of the second point in the second line.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[output]</code>
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
+                    
+                    <p>An IntersectResult object containing the results of this intersection in x/y</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_lineSegmentToRay" class="method item public">
     <h3 class="name"><code>lineSegmentToRay</code></h3>
 
@@ -1808,7 +2040,7 @@ Note: Both lines are treated as if they only exist between their two line coordi
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l324"><code>src&#x2F;geom&#x2F;Intersect.ts:324</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l382"><code>src&#x2F;geom&#x2F;Intersect.ts:382</code></a>
         
         </p>
 
@@ -1965,7 +2197,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l395"><code>src&#x2F;geom&#x2F;Intersect.ts:395</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l455"><code>src&#x2F;geom&#x2F;Intersect.ts:455</code></a>
         
         </p>
 
@@ -1976,7 +2208,8 @@ Note: The Line only exists between its two points.</p>
     </div>
 
     <div class="description">
-        <p>Check if the Line Segment intersects with any side of a Rectangle.
+        <p>Check if the Line Segment intersects with any side of a Rectangle,
+or is entirely within the Rectangle.
 Note: The Line only exists between its two points.</p>
 
     </div>
@@ -2122,7 +2355,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l221"><code>src&#x2F;geom&#x2F;Intersect.ts:221</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l273"><code>src&#x2F;geom&#x2F;Intersect.ts:273</code></a>
         
         </p>
 
@@ -2343,7 +2576,9 @@ Both lines are treated as if they extend infintely through space.</p>
                     
 
                     <div class="param-description">
-                        <p>An optional IntersectResult object to store the intersection values in. One is created if none given.</p>
+                        <p>An optional
+            IntersectResult object to store the intersection values in. One is
+            created if none given.</p>
 
                     </div>
 
@@ -2363,7 +2598,8 @@ Both lines are treated as if they extend infintely through space.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Geom.IntersectResult.html" class="crosslink">Kiwi.Geom.IntersectResult</a></span>:
                     
-                    <p>An IntersectResult object containing the results of this intersection in x/y</p>
+                    <p>An IntersectResult object
+            containing the results of this intersection in x/y</p>
 
                 
             </div>
@@ -2436,7 +2672,7 @@ Both lines are treated as if they extend infintely through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l104"><code>src&#x2F;geom&#x2F;Intersect.ts:104</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l114"><code>src&#x2F;geom&#x2F;Intersect.ts:114</code></a>
         
         </p>
 
@@ -2612,7 +2848,7 @@ The second is treated as if it only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l143"><code>src&#x2F;geom&#x2F;Intersect.ts:143</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l155"><code>src&#x2F;geom&#x2F;Intersect.ts:155</code></a>
         
         </p>
 
@@ -2644,7 +2880,7 @@ And the second line will only exist between the two points passed.</p>
                     
 
                     <div class="param-description">
-                        <p>The line object that extends infinatly through space.</p>
+                        <p>The line object that extends infinitely through space.</p>
 
                     </div>
 
@@ -2818,7 +3054,7 @@ And the second line will only exist between the two points passed.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l184"><code>src&#x2F;geom&#x2F;Intersect.ts:184</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l234"><code>src&#x2F;geom&#x2F;Intersect.ts:234</code></a>
         
         </p>
 
@@ -2975,7 +3211,7 @@ Note: The line in this case extends infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l245"><code>src&#x2F;geom&#x2F;Intersect.ts:245</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l299"><code>src&#x2F;geom&#x2F;Intersect.ts:299</code></a>
         
         </p>
 
@@ -3207,7 +3443,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l628"><code>src&#x2F;geom&#x2F;Intersect.ts:628</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l696"><code>src&#x2F;geom&#x2F;Intersect.ts:696</code></a>
         
         </p>
 
@@ -3399,7 +3635,7 @@ Note: The Line is assumned to extend infinately through space.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l476"><code>src&#x2F;geom&#x2F;Intersect.ts:476</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l536"><code>src&#x2F;geom&#x2F;Intersect.ts:536</code></a>
         
         </p>
 
@@ -3652,7 +3888,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l456"><code>src&#x2F;geom&#x2F;Intersect.ts:456</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l514"><code>src&#x2F;geom&#x2F;Intersect.ts:514</code></a>
         
         </p>
 
@@ -3808,7 +4044,7 @@ Note: The Line only exists between its two points.</p>
             
         
         
-        <a href="../files/src_geom_Intersect.ts.html#l649"><code>src&#x2F;geom&#x2F;Intersect.ts:649</code></a>
+        <a href="../files/src_geom_Intersect.ts.html#l719"><code>src&#x2F;geom&#x2F;Intersect.ts:719</code></a>
         
         </p>
 
