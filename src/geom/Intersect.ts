@@ -87,7 +87,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineToLine(line1: Line, line2: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineToLine(line1: Line, line2: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
 
@@ -114,7 +116,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineToLineSegment(line1: Line, seg: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineToLineSegment(line1: Line, seg: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
 
@@ -156,7 +160,9 @@ module Kiwi.Geom {
 		* @static
 		* @public
 		*/
-		static lineToRawSegment(line: Line, x1: number, y1: number, x2: number, y2: number, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineToRawSegment(line: Line, x1: number, y1: number, x2: number, y2: number, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var denom = (line.x1 - line.x2) * (y1 - y2) - (line.y1 - line.y2) * (x1 - x2);
 
@@ -193,7 +199,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineToRay(line1: Line, ray: Ray, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineToRay(line1: Line, ray: Ray, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var denom = (line1.x1 - line1.x2) * (ray.y1 - ray.y2) - (line1.y1 - line1.y2) * (ray.x1 - ray.x2);
 
@@ -230,7 +238,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineToCircle(line: Line, circle: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineToCircle(line: Line, circle: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			//  Get a perpendicular line running to the center of the circle
 			if (line.perp(circle.x, circle.y).length <= circle.radius)
@@ -254,7 +264,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineToRectangle(line: any, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineToRectangle(line: any, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			//  Top of the Rectangle vs the Line
 			Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right, rect.y, output);
@@ -305,7 +317,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineSegmentToLineSegment(line1: Line, line2: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineSegmentToLineSegment(line1: Line, line2: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			Intersect.lineToLineSegment(line1, line2, output);
 
@@ -333,7 +347,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineSegmentToRay(line1: Line, ray: Ray, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineSegmentToRay(line1: Line, ray: Ray, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			Intersect.lineToRay(line1, ray, output);
 
@@ -362,7 +378,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineSegmentToCircle(seg: Line, circle: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineSegmentToCircle(seg: Line, circle: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var perp = seg.perp(circle.x, circle.y);
 
@@ -404,7 +422,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static lineSegmentToRectangle(seg: Line, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static lineSegmentToRectangle(seg: Line, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2))
 			{
@@ -464,7 +484,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static rayToRectangle(ray: Ray, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static rayToRectangle(ray: Ray, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			//  Currently just finds first intersection - might not be closest to ray pt1
 			Intersect.lineToRectangle(ray, rect, output);
@@ -491,7 +513,9 @@ module Kiwi.Geom {
 		* @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection stored in x
 		* @public
 		*/
-		static rayToLineSegment(rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output: IntersectResult = new IntersectResult): IntersectResult {
+        static rayToLineSegment(rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var r, s, d;
 
@@ -537,7 +561,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static circleToCircle(circle1: Circle, circle2: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static circleToCircle(circle1: Circle, circle2: Circle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
 
@@ -556,7 +582,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static circleToRectangle(circle: Circle, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static circleToRectangle(circle: Circle, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var cornerDistX, cornerDistY,
 				circleRelativeX, circleRelativeY,
@@ -611,7 +639,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static circleContainsPoint(circle: Circle, point: Point, output: IntersectResult = new IntersectResult): IntersectResult {
+        static circleContainsPoint(circle: Circle, point: Point, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
 
@@ -636,7 +666,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static pointToRectangle(point: Point, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static pointToRectangle(point: Point, rect: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			output.setTo(point.x, point.y);
 
@@ -657,7 +689,9 @@ module Kiwi.Geom {
 		* @public
 		* @static
 		*/
-		static rectangleToRectangle(rect1: Rectangle, rect2: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+        static rectangleToRectangle(rect1: Rectangle, rect2: Rectangle, output: IntersectResult = new IntersectResult): IntersectResult {
+
+            output.result = false;
 
 			var leftX = Math.max(rect1.x, rect2.x);
 			var rightX = Math.min(rect1.right, rect2.right);
