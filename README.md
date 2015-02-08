@@ -43,6 +43,10 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
 * `Animation` now correctly plays non-looping animations. (#164)
 * `Animation.onPlay`, `.onStop`, `.onupdate`, `.onLoop`, and `.onComplete` now correctly documented in API.
+* `Geom.Intersect.circleToRectangle()` and `Geom.Intersect.lineToRawSegment()` now work correctly in all cases. (#163, #166)
+* `Geom.Intersect.lineSegmentToRectangle()` is now named correctly in API docs. (#165)
+* `Geom.Line.perp()` can now deal with points at (0,0) and other edge cases. (#167)
+* Added method `Geom.Intersect.lineSegmentToRawSegment()` to allow `lineSegmentToRectangle()` to function correctly.
 
 ### v1.2.1 "Williams"
 
