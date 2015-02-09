@@ -31098,7 +31098,7 @@ var Kiwi;
                 return Math.atan2(y2 - y1, x2 - x1);
             };
             /**
-            * Set an angle with in the bounds of -PI to PI
+            * Set an angle with in the bounds of -PI (inclusive) to PI (exclusive).
             * @method normalizeAngle
             * @param angle {number}
             * @param [radians=true] {boolean}
@@ -31112,8 +31112,8 @@ var Kiwi;
                 return GameMath.wrap(angle, rd, -rd);
             };
             /**
-            * Closest angle between two angles from a1 to a2
-            * absolute value the return for exact angle.
+            * Closest angle between two angles from a1 to a2.
+            * This will be a normalized angle between -PI and PI.
             * @method nearestAngleBetween
             * @param a1 {number}
             * @param a2 {number}
@@ -31131,7 +31131,7 @@ var Kiwi;
                     a1 += rd * 2;
                 if (a2 < -rd / 2 && a1 > rd / 2)
                     a2 += rd * 2;
-                return a2 - a1;
+                return GameMath.normalizeAngle(a2 - a1, radians);
             };
             /**
             * Normalizes independent and then sets dep to the nearest value respective to independent.

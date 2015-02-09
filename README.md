@@ -48,6 +48,7 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 * `Geom.Line.perp()` can now deal with points at (0,0) and other edge cases. (#167)
 * Added method `Geom.Intersect.lineSegmentToRawSegment()` to allow `lineSegmentToRectangle()` to function correctly.
 * `Animation` now correctly plays 1 frame animations and dispatches signals appropriately. (#174)
+* `Utils.GameMath.nearestAngleBetween()` now returns normalized angles so results are truly nearest. (#175)
 
 ### v1.2.1 "Williams"
 

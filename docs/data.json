@@ -48949,7 +48949,7 @@
         {
             "file": "src/utils/GameMath.ts",
             "line": 857,
-            "description": "Set an angle with in the bounds of -PI to PI",
+            "description": "Set an angle with in the bounds of -PI (inclusive) to PI (exclusive).",
             "itemtype": "method",
             "name": "normalizeAngle",
             "params": [
@@ -48981,7 +48981,7 @@
         {
             "file": "src/utils/GameMath.ts",
             "line": 871,
-            "description": "Closest angle between two angles from a1 to a2\nabsolute value the return for exact angle.",
+            "description": "Closest angle between two angles from a1 to a2.\nThis will be a normalized angle between -PI and PI.",
             "itemtype": "method",
             "name": "nearestAngleBetween",
             "params": [
