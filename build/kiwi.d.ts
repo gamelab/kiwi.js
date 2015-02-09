@@ -21759,7 +21759,8 @@ declare module Kiwi.Utils {
         */
         static angleBetween(x1: number, y1: number, x2: number, y2: number): number;
         /**
-        * Set an angle with in the bounds of -PI (inclusive) to PI (exclusive).
+        * Returns an equivalent angle within the bounds of -PI (inclusive)
+        * to PI (exclusive).
         * @method normalizeAngle
         * @param angle {number}
         * @param [radians=true] {boolean}
@@ -21769,7 +21770,8 @@ declare module Kiwi.Utils {
         */
         static normalizeAngle(angle: number, radians?: boolean): number;
         /**
-        * Closest angle between two angles from a1 to a2.
+        * Closest angle between two angles a1 and a2. In other words, the angle
+        * you must turn to go from facing a1 to facing a2.
         * This will be a normalized angle between -PI and PI.
         * @method nearestAngleBetween
         * @param a1 {number}

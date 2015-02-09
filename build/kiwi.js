@@ -31098,7 +31098,8 @@ var Kiwi;
                 return Math.atan2(y2 - y1, x2 - x1);
             };
             /**
-            * Set an angle with in the bounds of -PI (inclusive) to PI (exclusive).
+            * Returns an equivalent angle within the bounds of -PI (inclusive)
+            * to PI (exclusive).
             * @method normalizeAngle
             * @param angle {number}
             * @param [radians=true] {boolean}
@@ -31112,7 +31113,8 @@ var Kiwi;
                 return GameMath.wrap(angle, rd, -rd);
             };
             /**
-            * Closest angle between two angles from a1 to a2.
+            * Closest angle between two angles a1 and a2. In other words, the angle
+            * you must turn to go from facing a1 to facing a2.
             * This will be a normalized angle between -PI and PI.
             * @method nearestAngleBetween
             * @param a1 {number}
