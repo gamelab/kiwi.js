@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.1</em>
+            <em>API Docs for: 1.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -525,7 +525,11 @@ module Kiwi.GameObjects.Tilemap {
 		*/
 		public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
 
-			var json = null;
+            var json = null;
+
+            if (Kiwi.Utils.Common.isString(atlas)) {
+                atlas = this.state.textures[&lt;any&gt;atlas];
+            }
 
 			//Does the JSON exist?
 			switch (typeof tileMapData) {
@@ -538,8 +542,21 @@ module Kiwi.GameObjects.Tilemap {
 					json = JSON.parse( this.game.fileStore.getFile(tileMapData).data );
 					break;
 
-				case &#x27;object&#x27;:
-					json = tileMapData;
+                case &#x27;object&#x27;:
+                    
+                    //Is it a KiwiJS file?
+                    if (tileMapData.isData &amp;&amp; tileMapData.dataType === Kiwi.Files.File.JSON) {
+
+                        if ( Kiwi.Utils.Common.isString(tileMapData.parse) ) {
+                            json = JSON.parse(tileMapData.data);
+                        } else {
+                            json = tileMapData.data;
+                        }
+
+                    } else {
+                        json = tileMapData;
+                    }
+
 					break;
 
 				default:

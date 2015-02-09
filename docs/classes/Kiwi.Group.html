@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.1</em>
+            <em>API Docs for: 1.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -699,12 +699,26 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_getFirstChildByTag">getFirstChildByTag</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public deprecated">
                                 <a href="#method_getFirstDead">getFirstDead</a>
 
                                 
                                 
                                     <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_getLastChildByTag">getLastChildByTag</a>
+
+                                
                                 
                             </li>
                         
@@ -1601,7 +1615,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1203"><code>src&#x2F;core&#x2F;Group.ts:1203</code></a>
+        <a href="../files/src_core_Group.ts.html#l1260"><code>src&#x2F;core&#x2F;Group.ts:1260</code></a>
         
         </p>
 
@@ -1707,7 +1721,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l977"><code>src&#x2F;core&#x2F;Group.ts:977</code></a>
+        <a href="../files/src_core_Group.ts.html#l1034"><code>src&#x2F;core&#x2F;Group.ts:1034</code></a>
         
         </p>
 
@@ -1820,7 +1834,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1125"><code>src&#x2F;core&#x2F;Group.ts:1125</code></a>
+        <a href="../files/src_core_Group.ts.html#l1182"><code>src&#x2F;core&#x2F;Group.ts:1182</code></a>
         
         </p>
 
@@ -2226,7 +2240,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1105"><code>src&#x2F;core&#x2F;Group.ts:1105</code></a>
+        <a href="../files/src_core_Group.ts.html#l1162"><code>src&#x2F;core&#x2F;Group.ts:1162</code></a>
         
         </p>
 
@@ -2299,7 +2313,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1085"><code>src&#x2F;core&#x2F;Group.ts:1085</code></a>
+        <a href="../files/src_core_Group.ts.html#l1142"><code>src&#x2F;core&#x2F;Group.ts:1142</code></a>
         
         </p>
 
@@ -2384,7 +2398,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1259"><code>src&#x2F;core&#x2F;Group.ts:1259</code></a>
+        <a href="../files/src_core_Group.ts.html#l1316"><code>src&#x2F;core&#x2F;Group.ts:1316</code></a>
         
         </p>
 
@@ -2505,7 +2519,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l921"><code>src&#x2F;core&#x2F;Group.ts:921</code></a>
+        <a href="../files/src_core_Group.ts.html#l978"><code>src&#x2F;core&#x2F;Group.ts:978</code></a>
         
         </p>
 
@@ -2643,7 +2657,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l937"><code>src&#x2F;core&#x2F;Group.ts:937</code></a>
+        <a href="../files/src_core_Group.ts.html#l994"><code>src&#x2F;core&#x2F;Group.ts:994</code></a>
         
         </p>
 
@@ -3519,6 +3533,114 @@ You can pass multiple strings to add multiple tags.</p>
 </div>
 
                 
+                    <div id="method_getFirstChildByTag" class="method item public">
+    <h3 class="name"><code>getFirstChildByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">IChild</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l803"><code>src&#x2F;core&#x2F;Group.ts:803</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the first child which contains the tag passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">IChild</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_getFirstDead" class="method item public deprecated">
     <h3 class="name"><code>getFirstDead</code></h3>
 
@@ -3596,6 +3718,114 @@ You can pass multiple strings to add multiple tags.</p>
 </div>
 
                 
+                    <div id="method_getLastChildByTag" class="method item public">
+    <h3 class="name"><code>getLastChildByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">IChild</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l832"><code>src&#x2F;core&#x2F;Group.ts:832</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns the last child which contains the tag passed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">IChild</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_hasTag" class="method item public">
     <h3 class="name"><code>hasTag</code></h3>
 
@@ -3644,7 +3874,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1238"><code>src&#x2F;core&#x2F;Group.ts:1238</code></a>
+        <a href="../files/src_core_Group.ts.html#l1295"><code>src&#x2F;core&#x2F;Group.ts:1295</code></a>
         
         </p>
 
@@ -4404,7 +4634,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1222"><code>src&#x2F;core&#x2F;Group.ts:1222</code></a>
+        <a href="../files/src_core_Group.ts.html#l1279"><code>src&#x2F;core&#x2F;Group.ts:1279</code></a>
         
         </p>
 
@@ -4499,7 +4729,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1073"><code>src&#x2F;core&#x2F;Group.ts:1073</code></a>
+        <a href="../files/src_core_Group.ts.html#l1130"><code>src&#x2F;core&#x2F;Group.ts:1130</code></a>
         
         </p>
 
@@ -4600,7 +4830,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l888"><code>src&#x2F;core&#x2F;Group.ts:888</code></a>
+        <a href="../files/src_core_Group.ts.html#l945"><code>src&#x2F;core&#x2F;Group.ts:945</code></a>
         
         </p>
 
@@ -4733,7 +4963,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l957"><code>src&#x2F;core&#x2F;Group.ts:957</code></a>
+        <a href="../files/src_core_Group.ts.html#l1014"><code>src&#x2F;core&#x2F;Group.ts:1014</code></a>
         
         </p>
 
@@ -4866,7 +5096,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l811"><code>src&#x2F;core&#x2F;Group.ts:811</code></a>
+        <a href="../files/src_core_Group.ts.html#l868"><code>src&#x2F;core&#x2F;Group.ts:868</code></a>
         
         </p>
 
@@ -4997,7 +5227,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l832"><code>src&#x2F;core&#x2F;Group.ts:832</code></a>
+        <a href="../files/src_core_Group.ts.html#l889"><code>src&#x2F;core&#x2F;Group.ts:889</code></a>
         
         </p>
 
@@ -5128,7 +5358,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l860"><code>src&#x2F;core&#x2F;Group.ts:860</code></a>
+        <a href="../files/src_core_Group.ts.html#l917"><code>src&#x2F;core&#x2F;Group.ts:917</code></a>
         
         </p>
 
@@ -5239,7 +5469,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l997"><code>src&#x2F;core&#x2F;Group.ts:997</code></a>
+        <a href="../files/src_core_Group.ts.html#l1054"><code>src&#x2F;core&#x2F;Group.ts:1054</code></a>
         
         </p>
 
@@ -5295,7 +5525,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1048"><code>src&#x2F;core&#x2F;Group.ts:1048</code></a>
+        <a href="../files/src_core_Group.ts.html#l1105"><code>src&#x2F;core&#x2F;Group.ts:1105</code></a>
         
         </p>
 
@@ -5344,7 +5574,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1301"><code>src&#x2F;core&#x2F;Group.ts:1301</code></a>
+        <a href="../files/src_core_Group.ts.html#l1358"><code>src&#x2F;core&#x2F;Group.ts:1358</code></a>
         
         </p>
 
@@ -5485,7 +5715,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1193"><code>src&#x2F;core&#x2F;Group.ts:1193</code></a>
+        <a href="../files/src_core_Group.ts.html#l1250"><code>src&#x2F;core&#x2F;Group.ts:1250</code></a>
         
         </p>
 
@@ -5535,7 +5765,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1160"><code>src&#x2F;core&#x2F;Group.ts:1160</code></a>
+        <a href="../files/src_core_Group.ts.html#l1217"><code>src&#x2F;core&#x2F;Group.ts:1217</code></a>
         
         </p>
 
@@ -5588,7 +5818,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1136"><code>src&#x2F;core&#x2F;Group.ts:1136</code></a>
+        <a href="../files/src_core_Group.ts.html#l1193"><code>src&#x2F;core&#x2F;Group.ts:1193</code></a>
         
         </p>
 
@@ -5637,7 +5867,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1057"><code>src&#x2F;core&#x2F;Group.ts:1057</code></a>
+        <a href="../files/src_core_Group.ts.html#l1114"><code>src&#x2F;core&#x2F;Group.ts:1114</code></a>
         
         </p>
 
@@ -5879,7 +6109,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1025"><code>src&#x2F;core&#x2F;Group.ts:1025</code></a>
+        <a href="../files/src_core_Group.ts.html#l1082"><code>src&#x2F;core&#x2F;Group.ts:1082</code></a>
         
         </p>
 
@@ -5926,7 +6156,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1033"><code>src&#x2F;core&#x2F;Group.ts:1033</code></a>
+        <a href="../files/src_core_Group.ts.html#l1090"><code>src&#x2F;core&#x2F;Group.ts:1090</code></a>
         
         </p>
 
@@ -6453,7 +6683,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1170"><code>src&#x2F;core&#x2F;Group.ts:1170</code></a>
+        <a href="../files/src_core_Group.ts.html#l1227"><code>src&#x2F;core&#x2F;Group.ts:1227</code></a>
         
         </p>
 
@@ -6506,7 +6736,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1145"><code>src&#x2F;core&#x2F;Group.ts:1145</code></a>
+        <a href="../files/src_core_Group.ts.html#l1202"><code>src&#x2F;core&#x2F;Group.ts:1202</code></a>
         
         </p>
 

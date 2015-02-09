@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.2.1",
+        "version": "1.3.0",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -8250,6 +8250,8 @@
             "type": "number",
             "access": "private",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "Different private time management systems implemented in v1.2.0",
             "class": "Kiwi.Animations.Animation",
             "module": "Kiwi",
             "submodule": "Animations",
@@ -8257,7 +8259,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 212,
+            "line": 213,
             "description": "Whether the animation is currently playing or not.",
             "itemtype": "property",
             "name": "_isPlaying",
@@ -8272,7 +8274,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 221,
+            "line": 222,
             "description": "Whether the animation is currently playing or not. Read-only.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -8286,10 +8288,24 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 231,
+            "line": 232,
             "description": "A Kiwi.Signal that dispatches an event when the animation has stopped playing.",
             "itemtype": "property",
             "name": "_onStop",
+            "type": "Signal",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Animations.Animation",
+            "module": "Kiwi",
+            "submodule": "Animations",
+            "namespace": "Kiwi.Animations"
+        },
+        {
+            "file": "src/animations/Animation.ts",
+            "line": 240,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has stopped playing.",
+            "itemtype": "property",
+            "name": "onStop",
             "type": "Signal",
             "access": "public",
             "tagname": "",
@@ -8300,11 +8316,25 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 244,
+            "line": 252,
             "description": "A Kiwi.Signal that dispatches an event when the animation has started playing.",
             "itemtype": "property",
             "name": "_onPlay",
             "type": "Kiwi.Signal",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Animations.Animation",
+            "module": "Kiwi",
+            "submodule": "Animations",
+            "namespace": "Kiwi.Animations"
+        },
+        {
+            "file": "src/animations/Animation.ts",
+            "line": 260,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has started playing.",
+            "itemtype": "property",
+            "name": "onPlay",
+            "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Animations.Animation",
@@ -8314,12 +8344,12 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 257,
+            "line": 272,
             "description": "A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.",
             "itemtype": "property",
             "name": "_onUpdate",
             "type": "Kiwi.Signal",
-            "access": "public",
+            "access": "private",
             "tagname": "",
             "class": "Kiwi.Animations.Animation",
             "module": "Kiwi",
@@ -8328,10 +8358,10 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 270,
-            "description": "A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.",
+            "line": 280,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.",
             "itemtype": "property",
-            "name": "_onLoop",
+            "name": "onUpdate",
             "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
@@ -8342,10 +8372,53 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 283,
-            "description": "A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.",
+            "line": 292,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.",
+            "itemtype": "property",
+            "name": "_onLoop",
+            "type": "Kiwi.Signal",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Animations.Animation",
+            "module": "Kiwi",
+            "submodule": "Animations",
+            "namespace": "Kiwi.Animations"
+        },
+        {
+            "file": "src/animations/Animation.ts",
+            "line": 300,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.",
+            "itemtype": "property",
+            "name": "onLoop",
+            "type": "Kiwi.Signal",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Animations.Animation",
+            "module": "Kiwi",
+            "submodule": "Animations",
+            "namespace": "Kiwi.Animations"
+        },
+        {
+            "file": "src/animations/Animation.ts",
+            "line": 312,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has come to\nthe end of the animation but is not going to play again.",
             "itemtype": "property",
             "name": "_onComplete",
+            "type": "Kiwi.Signal",
+            "access": "private",
+            "tagname": "",
+            "since": "1.2.0",
+            "class": "Kiwi.Animations.Animation",
+            "module": "Kiwi",
+            "submodule": "Animations",
+            "namespace": "Kiwi.Animations"
+        },
+        {
+            "file": "src/animations/Animation.ts",
+            "line": 322,
+            "description": "A Kiwi.Signal that dispatches an event when the animation has come to\nthe end of the animation but is not going to play again.",
+            "itemtype": "property",
+            "name": "onComplete",
             "type": "Kiwi.Signal",
             "access": "public",
             "tagname": "",
@@ -8357,7 +8430,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 297,
+            "line": 335,
             "description": "Clock time on last frame, used to compute current animation frame.",
             "itemtype": "property",
             "name": "_lastFrameElapsed",
@@ -8372,7 +8445,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 306,
+            "line": 344,
             "description": "An Internal method used to start the animation.",
             "itemtype": "method",
             "name": "_start",
@@ -8394,7 +8467,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 323,
+            "line": 363,
             "description": "Plays the animation.",
             "itemtype": "method",
             "name": "play",
@@ -8407,7 +8480,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 335,
+            "line": 375,
             "description": "Plays the animation at a particular frame",
             "itemtype": "method",
             "name": "playAt",
@@ -8427,7 +8500,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 345,
+            "line": 385,
             "description": "Pauses the current animation.",
             "itemtype": "method",
             "name": "pause",
@@ -8440,7 +8513,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 354,
+            "line": 394,
             "description": "Resumes the current animation after stopping.",
             "itemtype": "method",
             "name": "resume",
@@ -8453,7 +8526,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 365,
+            "line": 405,
             "description": "Stops the current animation from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -8466,7 +8539,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 377,
+            "line": 417,
             "description": "Makes the animation go to the next frame. If the animation is at the end it goes back to the start.",
             "itemtype": "method",
             "name": "nextFrame",
@@ -8479,7 +8552,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 387,
+            "line": 427,
             "description": "Makes the animation go to the previous frame. If the animation is at the first frame it goes to the end.",
             "itemtype": "method",
             "name": "prevFrame",
@@ -8492,7 +8565,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 397,
+            "line": 437,
             "description": "The update loop.",
             "itemtype": "method",
             "name": "update",
@@ -8505,7 +8578,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 463,
+            "line": 503,
             "description": "An internal method used to check to see if frame passed is valid or not",
             "itemtype": "method",
             "name": "_validateFrame",
@@ -8525,7 +8598,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 473,
+            "line": 513,
             "description": "Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.",
             "itemtype": "property",
             "name": "length",
@@ -8539,7 +8612,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 483,
+            "line": 523,
             "description": "Destroys the anim and all of the properties that exist on it.",
             "itemtype": "method",
             "name": "destroy",
@@ -14822,7 +14895,55 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 804,
+            "line": 803,
+            "description": "Returns the first child which contains the tag passed.",
+            "itemtype": "method",
+            "name": "getFirstChildByTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IChild"
+            },
+            "access": "public",
+            "tagname": "",
+            "since": "1.3.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 832,
+            "description": "Returns the last child which contains the tag passed.",
+            "itemtype": "method",
+            "name": "getLastChildByTag",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IChild"
+            },
+            "access": "public",
+            "tagname": "",
+            "since": "1.3.0",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Group.ts",
+            "line": 861,
             "description": "--------------------\nChild Depth Sorting Methods\n--------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14830,7 +14951,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 811,
+            "line": 868,
             "description": "Sets a new position of an existing Entity within the Group.",
             "itemtype": "method",
             "name": "setChildIndex",
@@ -14858,7 +14979,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 832,
+            "line": 889,
             "description": "Swaps the position of two existing Entities that are a direct child of this group.",
             "itemtype": "method",
             "name": "swapChildren",
@@ -14886,7 +15007,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 860,
+            "line": 917,
             "description": "Swaps the position of two existing Entities within the Group based on their index.",
             "itemtype": "method",
             "name": "swapChildrenAt",
@@ -14914,7 +15035,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 888,
+            "line": 945,
             "description": "Replaces a child Entity in this Group with a new one.",
             "itemtype": "method",
             "name": "replaceChild",
@@ -14942,7 +15063,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 921,
+            "line": 978,
             "description": "Loops through each member in the group and run a method on for each one.",
             "itemtype": "method",
             "name": "forEach",
@@ -14973,7 +15094,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 937,
+            "line": 994,
             "description": "Loop through each member of the groups that is alive.",
             "itemtype": "method",
             "name": "forEachAlive",
@@ -15004,7 +15125,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 957,
+            "line": 1014,
             "description": "Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "setAll",
@@ -15033,7 +15154,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 977,
+            "line": 1034,
             "description": "Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "callAll",
@@ -15062,7 +15183,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 997,
+            "line": 1054,
             "description": "The update loop for this group.",
             "itemtype": "method",
             "name": "update",
@@ -15074,7 +15195,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1025,
+            "line": 1082,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "exists",
@@ -15087,7 +15208,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1033,
+            "line": 1090,
             "description": "Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool\nThis method should be over-ridden to handle specific canvas/webgl implementations.",
             "itemtype": "property",
             "name": "exists",
@@ -15100,7 +15221,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1048,
+            "line": 1105,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -15114,7 +15235,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1057,
+            "line": 1114,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -15128,7 +15249,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1073,
+            "line": 1130,
             "description": "The render method that is required by the IChild. \nThis method never gets called as the render is only worried about rendering entities.",
             "itemtype": "method",
             "name": "render",
@@ -15148,7 +15269,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1085,
+            "line": 1142,
             "description": "Returns the number of member which are marked as 'alive'",
             "itemtype": "method",
             "name": "countLiving",
@@ -15164,7 +15285,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1105,
+            "line": 1162,
             "description": "Returns the number of member which are not marked as 'alive'",
             "itemtype": "method",
             "name": "countDead",
@@ -15180,7 +15301,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1125,
+            "line": 1182,
             "description": "Clear all children from this Group",
             "itemtype": "method",
             "name": "clear",
@@ -15192,7 +15313,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1136,
+            "line": 1193,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -15207,7 +15328,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1145,
+            "line": 1202,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "willRender",
@@ -15226,7 +15347,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1160,
+            "line": 1217,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -15241,7 +15362,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1170,
+            "line": 1227,
             "description": "Set the visibility of this entity. True or False.",
             "itemtype": "property",
             "name": "visible",
@@ -15256,7 +15377,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1186,
+            "line": 1243,
             "description": "---------------\nTagging System\n---------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -15264,7 +15385,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1193,
+            "line": 1250,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -15278,7 +15399,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1203,
+            "line": 1260,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTag",
@@ -15298,7 +15419,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1222,
+            "line": 1279,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -15318,7 +15439,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1238,
+            "line": 1295,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -15342,7 +15463,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1259,
+            "line": 1316,
             "description": "Removes all children and destroys the Group.",
             "itemtype": "method",
             "name": "destroy",
@@ -15370,7 +15491,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1301,
+            "line": 1358,
             "description": "A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.",
             "itemtype": "property",
             "name": "_destroyRemoveChildren",
@@ -22579,7 +22700,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 237,
+            "line": 254,
             "description": "Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.\nThis is an INTERNAL method, which is used when the createFromFileStore method is executed.",
             "itemtype": "method",
             "name": "_generateTypesFromTileset",
@@ -22609,7 +22730,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 289,
+            "line": 306,
             "description": "Method to set the default TileMap properties. Useful when wanting to create tilemaps programmatically.",
             "itemtype": "method",
             "name": "setTo",
@@ -22644,7 +22765,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 305,
+            "line": 322,
             "description": "-----------------------\n Creation of Tile Types\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22653,7 +22774,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 311,
+            "line": 328,
             "description": "Generates a single new TileType. Returns the TileType that was generated.",
             "itemtype": "method",
             "name": "createTileType",
@@ -22679,7 +22800,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 325,
+            "line": 342,
             "description": "Creates a new TileType for each cell that you pass.",
             "itemtype": "method",
             "name": "createTileTypes",
@@ -22703,7 +22824,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 342,
+            "line": 359,
             "description": "Used to create a number of TileTypes based starting cell number and how many you want from there.",
             "itemtype": "method",
             "name": "createTileTypesByRange",
@@ -22730,7 +22851,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 360,
+            "line": 377,
             "description": "-----------------------\n Cell Modifications\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22739,7 +22860,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 366,
+            "line": 383,
             "description": "Changes a single cellIndex that a TileType is to use when it is rendered.",
             "itemtype": "method",
             "name": "setCell",
@@ -22764,7 +22885,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 377,
+            "line": 394,
             "description": "Changes a range of cellIndexs for Tiles the same range of TileTypes.",
             "itemtype": "method",
             "name": "setCellsByRange",
@@ -22794,7 +22915,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 394,
+            "line": 411,
             "description": "-----------------------\n Creation of Tilemap Layers\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22803,7 +22924,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 400,
+            "line": 417,
             "description": "Creates a new TileMapLayer with the details that are provided. \nIf no width/height/tileWidth/tileHeight parameters are passed then the values will be what this TileMap has.\nIf no 'data' is provided then the map will be automatically filled with empty Types of Tiles.\nReturns the new TileMapLayer that was created.",
             "itemtype": "method",
             "name": "createNewLayer",
@@ -22879,7 +23000,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 440,
+            "line": 457,
             "description": "Eventually will create a new object layer. Currently does nothing.",
             "itemtype": "method",
             "name": "createNewObjectLayer",
@@ -22892,7 +23013,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 450,
+            "line": 467,
             "description": "Eventually will create a new image layer. Currently does nothing.",
             "itemtype": "method",
             "name": "createNewObjectLayer",
@@ -22905,7 +23026,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 459,
+            "line": 476,
             "description": "-----------------------\n TileMapLayer Management Functions\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMap",
             "module": "GameObjects",
@@ -22914,7 +23035,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 465,
+            "line": 482,
             "description": "Get a layer by the name that it was given upon creation.\nReturns null if no layer with that name was found.",
             "itemtype": "method",
             "name": "getLayerByName",
@@ -22938,7 +23059,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 482,
+            "line": 499,
             "description": "Returns the layer with the number associated with it in the layers array.",
             "itemtype": "method",
             "name": "getLayer",
@@ -22962,7 +23083,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMap.ts",
-            "line": 494,
+            "line": 511,
             "description": "The type of object that it is.",
             "itemtype": "method",
             "name": "objType",
@@ -22979,7 +23100,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 59,
+            "line": 63,
             "description": "The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.\nNote: That tilemap layers a immovable and collisions with tiles are set on the individual TileTypes that are contained on the TileMap.",
             "itemtype": "property",
             "name": "physics",
@@ -22993,7 +23114,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 68,
+            "line": 72,
             "description": "Returns the type of child that this is.",
             "type": "Number",
             "return": {
@@ -23009,7 +23130,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 78,
+            "line": 82,
             "description": "The type of object that it is.",
             "itemtype": "method",
             "name": "objType",
@@ -23026,7 +23147,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 88,
+            "line": 92,
             "description": "The tilemap that this TileMapLayer is a part of.",
             "itemtype": "property",
             "name": "tilemap",
@@ -23040,7 +23161,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 96,
+            "line": 100,
             "description": "Properties about that this TileMapLayer has when it was created from a JSON file.",
             "itemtype": "property",
             "name": "properties",
@@ -23054,7 +23175,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 104,
+            "line": 108,
             "description": "The width of this TileMap in tiles.",
             "itemtype": "property",
             "name": "width",
@@ -23068,7 +23189,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 112,
+            "line": 116,
             "description": "The height of this TileMap in tiles.",
             "itemtype": "property",
             "name": "height",
@@ -23082,7 +23203,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 120,
+            "line": 124,
             "description": "The width of a single tile.",
             "itemtype": "property",
             "name": "tileWidth",
@@ -23096,7 +23217,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 128,
+            "line": 132,
             "description": "The height of a single tile.",
             "itemtype": "property",
             "name": "tileHeight",
@@ -23110,7 +23231,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 136,
+            "line": 140,
             "description": "The texture atlas that should be used when rendering.",
             "itemtype": "property",
             "name": "atlas",
@@ -23124,7 +23245,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 144,
+            "line": 148,
             "description": "The width of the layer in pixels. This property is READ ONLY.",
             "itemtype": "property",
             "name": "widthInPixels",
@@ -23138,7 +23259,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 154,
+            "line": 158,
             "description": "The height of the layer in pixels. This property is READ ONLY.",
             "itemtype": "property",
             "name": "heightInPixels",
@@ -23152,7 +23273,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 164,
+            "line": 168,
             "description": "Override function to prevent unwanted inherited behaviour. Do not call.\n\nBecause TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.",
             "itemtype": "property",
             "name": "cellIndex",
@@ -23169,7 +23290,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 191,
+            "line": 195,
             "description": "A list containing all the types of tiles found on this TileMapLayer.",
             "itemtype": "property",
             "name": "_data",
@@ -23183,7 +23304,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 199,
+            "line": 203,
             "description": "Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.",
             "itemtype": "method",
             "name": "countTiles",
@@ -23208,7 +23329,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 218,
+            "line": 222,
             "description": "The orientation of the of tilemap. \nTileMaps can be either 'orthogonal' (normal) or 'isometric'.",
             "itemtype": "property",
             "name": "orientation",
@@ -23223,7 +23344,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 229,
+            "line": 233,
             "description": "-----------------------\n Getting Tiles\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23232,7 +23353,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 236,
+            "line": 240,
             "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
             "itemtype": "property",
             "name": "tileData",
@@ -23246,7 +23367,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 246,
+            "line": 250,
             "description": "Returns the index of the tile based on the x and y coordinates of the tile passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in tiles not pixels.",
             "itemtype": "method",
             "name": "getIndexFromXY",
@@ -23275,7 +23396,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 264,
+            "line": 268,
             "description": "Returns the TileType for a tile that is at a particular set of coordinates passed. \nIf no tile is found the null is returned instead.\nCoordinates passed are in tiles.",
             "itemtype": "method",
             "name": "getTileFromXY",
@@ -23304,7 +23425,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 279,
+            "line": 283,
             "description": "Returns the index of the tile based on the x and y pixel coordinates that are passed. \nIf no tile is a the coordinates given then -1 is returned instead.\nCoordinates are in pixels not tiles and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getIndexFromCoords",
@@ -23333,7 +23454,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 305,
+            "line": 309,
             "description": "Returns the TileType for a tile that is at a particular coordinate passed. \nIf no tile is found then null is returned instead.\nCoordinates passed are in pixels and use the world coordinates of the tilemap.\nNote: Currently only working for ORTHOGONAL TileMaps.",
             "itemtype": "method",
             "name": "getTileFromCoords",
@@ -23362,7 +23483,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 322,
+            "line": 326,
             "description": "Returns the indexes of every tile of a type you pass.",
             "itemtype": "method",
             "name": "getIndexsByType",
@@ -23386,7 +23507,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 338,
+            "line": 342,
             "description": "-----------------------\n Tiles Manipulation\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23395,7 +23516,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 344,
+            "line": 348,
             "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTile",
@@ -23429,7 +23550,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 365,
+            "line": 369,
             "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTileByIndex",
@@ -23454,7 +23575,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 377,
+            "line": 381,
             "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
             "itemtype": "method",
             "name": "randomizeTiles",
@@ -23503,7 +23624,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 409,
+            "line": 413,
             "description": "Makes all of the tiles in the area specified a single type that is passed.",
             "itemtype": "method",
             "name": "fill",
@@ -23551,7 +23672,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 432,
+            "line": 436,
             "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "replaceTiles",
@@ -23604,7 +23725,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 456,
+            "line": 460,
             "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "swapTiles",
@@ -23657,7 +23778,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 482,
+            "line": 486,
             "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23666,7 +23787,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 488,
+            "line": 492,
             "description": "Returns the tiles which overlap with a provided entities hitbox component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.\nNote: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.",
             "itemtype": "method",
             "name": "getOverlappingTiles",
@@ -23697,7 +23818,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 542,
+            "line": 546,
             "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
             "itemtype": "method",
             "name": "getCollidableTiles",
@@ -23751,7 +23872,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 600,
+            "line": 604,
             "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
             "itemtype": "method",
             "name": "update",
@@ -23764,7 +23885,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 609,
+            "line": 613,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23773,7 +23894,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 615,
+            "line": 619,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -23787,7 +23908,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 624,
+            "line": 628,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -23801,7 +23922,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 633,
+            "line": 637,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -23815,7 +23936,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 642,
+            "line": 646,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -23829,7 +23950,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 651,
+            "line": 655,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -23843,7 +23964,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 659,
+            "line": 663,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner1",
@@ -23858,7 +23979,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 667,
+            "line": 671,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner2",
@@ -23873,7 +23994,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 675,
+            "line": 679,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner3",
@@ -23888,7 +24009,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 683,
+            "line": 687,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner4",
@@ -23903,7 +24024,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 692,
+            "line": 696,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -23928,7 +24049,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 756,
+            "line": 760,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -23962,7 +24083,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 773,
+            "line": 777,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -23996,7 +24117,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 791,
+            "line": 795,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -24118,7 +24239,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 69,
+            "line": 73,
             "description": "Returns the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -24135,7 +24256,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 79,
+            "line": 83,
             "description": "Indicates whether or not this sprite is animated or not. \nThis sprite will not be animated if the texture used is a SINGLE_IMAGE.",
             "itemtype": "property",
             "name": "_isAnimated",
@@ -24149,7 +24270,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 88,
+            "line": 92,
             "description": "The animation component that allows you to create a animation with spritesheets/texture atlas's. \nNote: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.",
             "itemtype": "property",
             "name": "animation",
@@ -24163,7 +24284,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 97,
+            "line": 101,
             "description": "The box component that controls the bounding box around this Game Object",
             "itemtype": "property",
             "name": "box",
@@ -24177,7 +24298,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 105,
+            "line": 109,
             "description": "The Input component controls the user interaction with this Game Object",
             "itemtype": "property",
             "name": "input",
@@ -24191,7 +24312,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 113,
+            "line": 117,
             "description": "Called by parent when its update loop gets executed.",
             "itemtype": "method",
             "name": "update",
@@ -24204,7 +24325,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 130,
+            "line": 134,
             "description": "Renders the GameObject using Canvas.",
             "itemtype": "method",
             "name": "render",
@@ -24224,7 +24345,7 @@
         },
         {
             "file": "src/gameobjects/Sprite.ts",
-            "line": 162,
+            "line": 166,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -24254,7 +24375,7 @@
         },
         {
             "file": "src/gameobjects/StaticImage.ts",
-            "line": 53,
+            "line": 57,
             "description": "Returns the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -24271,7 +24392,7 @@
         },
         {
             "file": "src/gameobjects/StaticImage.ts",
-            "line": 63,
+            "line": 67,
             "description": "The Bounds component that controls the bounding box around this Game Object",
             "itemtype": "property",
             "name": "box",
@@ -24285,7 +24406,7 @@
         },
         {
             "file": "src/gameobjects/StaticImage.ts",
-            "line": 71,
+            "line": 75,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -24305,7 +24426,7 @@
         },
         {
             "file": "src/gameobjects/StaticImage.ts",
-            "line": 105,
+            "line": 109,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -25552,7 +25673,7 @@
         {
             "file": "src/geom/Intersect.ts",
             "line": 72,
-            "description": "-------------------------------------------------------------------------------------------\nLines\n-------------------------------------------------------------------------------------------",
+            "description": "---------------------------------------------------------------------\nLines\n---------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
             "submodule": "Geom",
@@ -25577,13 +25698,13 @@
                 },
                 {
                     "name": "output",
-                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "description": "An optional\n\t\t\tIntersectResult object to store the intersection values in. One is\n\t\t\tcreated if none given.",
                     "type": "Kiwi.Geom.IntersectResult",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "An IntersectResult object containing the results of this intersection in x/y",
+                "description": "An IntersectResult object\n\t\t\tcontaining the results of this intersection in x/y",
                 "type": "Kiwi.Geom.IntersectResult"
             },
             "access": "public",
@@ -25596,7 +25717,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 104,
+            "line": 114,
             "description": "Check to see if a Line and a Line Segment intersect at any point. \nNote: The first line passed is treated as if it extends infinately though space, \nThe second is treated as if it only exists between its two points.",
             "itemtype": "method",
             "name": "lineToLineSegment",
@@ -25632,14 +25753,14 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 143,
+            "line": 155,
             "description": "Checks to see if a Line that is passed, intersects at any point with a Line that is made by passing a set of coordinates to this method. \nNote: The first line will extend infinately through space. \nAnd the second line will only exist between the two points passed.",
             "itemtype": "method",
             "name": "lineToRawSegment",
             "params": [
                 {
                     "name": "line",
-                    "description": "The line object that extends infinatly through space.",
+                    "description": "The line object that extends infinitely through space.",
                     "type": "Kiwi.Geom.Line"
                 },
                 {
@@ -25683,7 +25804,58 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 184,
+            "line": 197,
+            "description": "Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method. \nNote: The lines will only exist between the two points passed.",
+            "itemtype": "method",
+            "name": "lineSegmentToRawSegment",
+            "params": [
+                {
+                    "name": "line",
+                    "description": "The line object that extends infinitely through space.",
+                    "type": "Kiwi.Geom.Line"
+                },
+                {
+                    "name": "x1",
+                    "description": "The x coordinate of the first point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y1",
+                    "description": "The y coordinate of the first point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x2",
+                    "description": "The x coordinate of the second point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y2",
+                    "description": "The y coordinate of the second point in the second line.",
+                    "type": "Number"
+                },
+                {
+                    "name": "output",
+                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "type": "Kiwi.Geom.IntersectResult",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "An IntersectResult object containing the results of this intersection in x/y",
+                "type": "Kiwi.Geom.IntersectResult"
+            },
+            "static": 1,
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Geom.Intersect",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Intersect.ts",
+            "line": 234,
             "description": "Checks to see if a Line and Ray object intersects at any point. \nNote: The line in this case extends infinately through space.",
             "itemtype": "method",
             "name": "lineToRay",
@@ -25719,7 +25891,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 221,
+            "line": 273,
             "description": "Checks to see if a Line and a Circle intersect at any point.\nNote: The line passed is assumed to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToCircle",
@@ -25755,7 +25927,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 245,
+            "line": 299,
             "description": "Check if the Line intersects with each side of a Rectangle.\nNote: The Line is assumned to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToRectangle",
@@ -25791,7 +25963,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 290,
+            "line": 346,
             "description": "-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -25800,7 +25972,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 296,
+            "line": 352,
             "description": "Checks to see if two Line Segments intersect at any point in space. \nNote: Both lines are treated as if they only exist between their two line coordinates.",
             "itemtype": "method",
             "name": "lineSegmentToLineSegment",
@@ -25836,7 +26008,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 324,
+            "line": 382,
             "description": "Check if the Line Segment intersects with the Ray.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRay",
@@ -25872,7 +26044,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 353,
+            "line": 413,
             "description": "Check if the Line Segment intersects with the Circle.\nNote the Line only exists between its point points.",
             "itemtype": "method",
             "name": "lineSegmentToCircle",
@@ -25908,10 +26080,10 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 395,
-            "description": "Check if the Line Segment intersects with any side of a Rectangle.\nNote: The Line only exists between its two points.",
+            "line": 455,
+            "description": "Check if the Line Segment intersects with any side of a Rectangle,\nor is entirely within the Rectangle.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
-            "name": "lineSegmentToCircle",
+            "name": "lineSegmentToRectangle",
             "params": [
                 {
                     "name": "seg",
@@ -25944,7 +26116,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 450,
+            "line": 508,
             "description": "-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -25953,7 +26125,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 456,
+            "line": 514,
             "description": "Check to see if a Ray intersects at any point with a Rectangle.",
             "itemtype": "method",
             "name": "rayToRectangle",
@@ -25989,7 +26161,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 476,
+            "line": 536,
             "description": "Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "rayToLineSegment",
@@ -26055,7 +26227,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 523,
+            "line": 585,
             "description": "-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26064,7 +26236,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 529,
+            "line": 591,
             "description": "Check if the two given Circle objects intersect at any point.",
             "itemtype": "method",
             "name": "circleToCircle",
@@ -26100,7 +26272,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 548,
+            "line": 612,
             "description": "Check if a Circle and a Rectangle intersect with each other at any point.",
             "itemtype": "method",
             "name": "circleToRectangle",
@@ -26136,7 +26308,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 571,
+            "line": 669,
             "description": "Check if the given Point is found within the given Circle.",
             "itemtype": "method",
             "name": "circleContainsPoint",
@@ -26172,7 +26344,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 590,
+            "line": 690,
             "description": "-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26181,7 +26353,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 596,
+            "line": 696,
             "description": "Determines whether the specified point is contained within a given Rectangle object.",
             "itemtype": "method",
             "name": "pointToRectangle",
@@ -26217,7 +26389,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 617,
+            "line": 719,
             "description": "Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.",
             "itemtype": "method",
             "name": "rectangleToRectangle",
@@ -26860,7 +27032,7 @@
         },
         {
             "file": "src/geom/Line.ts",
-            "line": 305,
+            "line": 317,
             "description": "Get a string representation of the line.",
             "itemtype": "method",
             "name": "toString",
@@ -41300,7 +41472,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 103,
+            "line": 107,
             "description": "A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.",
             "itemtype": "property",
             "name": "id",
@@ -41314,7 +41486,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 111,
+            "line": 115,
             "description": "A flag that indicates whether the sound is ready to be played or not.\nIf not then this indicates that we are awaiting a user event.",
             "itemtype": "property",
             "name": "_playable",
@@ -41328,7 +41500,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 120,
+            "line": 124,
             "description": "Returns whether or not the sound is 'playable' or not. \nThe only time the sound would be not 'playable' is on iOS devices when a mouse/touch event has not fired.\nDevs should treat this property as READ ONLY.",
             "itemtype": "property",
             "name": "playable",
@@ -41342,7 +41514,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 146,
+            "line": 150,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -41359,7 +41531,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 156,
+            "line": 160,
             "description": "The game that this sound belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -41373,7 +41545,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 164,
+            "line": 168,
             "description": "Web Audio API ONLY - A reference to the audio context that the game's audio manager has.",
             "itemtype": "property",
             "name": "context",
@@ -41387,7 +41559,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 172,
+            "line": 176,
             "description": "Web Audio API ONLY - A reference to the master gain node on the audio manager.",
             "itemtype": "property",
             "name": "masterGainNode",
@@ -41401,7 +41573,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 180,
+            "line": 184,
             "description": "Web Audio API ONLY - This sounds local gainNode that it uses.",
             "itemtype": "property",
             "name": "gainNode",
@@ -41415,7 +41587,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 188,
+            "line": 192,
             "description": "A boolean indicating whether or not that audio tags are being used to generate sounds.",
             "itemtype": "property",
             "name": "_usingAudioTag",
@@ -41429,7 +41601,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 196,
+            "line": 200,
             "description": "A boolean indicating whether or not the webAuduio api is being used.",
             "itemtype": "property",
             "name": "_usingWebAudio",
@@ -41443,7 +41615,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 204,
+            "line": 208,
             "description": "A private indicator of whether this audio is currently muted or not.",
             "itemtype": "property",
             "name": "_muted",
@@ -41458,7 +41630,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 213,
+            "line": 217,
             "description": "A number between 0 and 1 representing the current volume of this audio piece.",
             "itemtype": "property",
             "name": "_volume",
@@ -41473,7 +41645,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 222,
+            "line": 226,
             "description": "A boolean indicating whether this piece of audio should loop or not.",
             "itemtype": "property",
             "name": "_loop",
@@ -41487,7 +41659,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 230,
+            "line": 234,
             "description": "READ ONLY: Returns a boolean indicating if the current audio marker playing is/will loop.",
             "itemtype": "property",
             "name": "loop",
@@ -41502,7 +41674,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 241,
+            "line": 245,
             "description": "The key that was used to get the audio from the AudioLibrary.",
             "itemtype": "property",
             "name": "key",
@@ -41516,7 +41688,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 249,
+            "line": 253,
             "description": "The property containing the file information about the audio.",
             "itemtype": "property",
             "name": "_file",
@@ -41530,7 +41702,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 257,
+            "line": 261,
             "description": "This is the piece of audio that either method will use to play audio. E.g.\nIn the case of the Web Audio API this is the sound buffer source, in which the audio plays from. \nIn the case of Audio Tags this is the Audio Tag itself.",
             "itemtype": "property",
             "name": "_sound",
@@ -41544,7 +41716,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 267,
+            "line": 271,
             "description": "A boolean that controls/knows if the audio is ready to be played or not.\nThis is just an indicator of if the file has been retrieved successfully from the file store or not.",
             "itemtype": "property",
             "name": "ready",
@@ -41558,7 +41730,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 276,
+            "line": 280,
             "description": "The total duration of the audio in seconds.",
             "itemtype": "property",
             "name": "totalDuration",
@@ -41572,7 +41744,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 284,
+            "line": 288,
             "description": "The current duration of the section of audio that is being played. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -41586,7 +41758,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 292,
+            "line": 296,
             "description": "Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.",
             "itemtype": "property",
             "name": "_buffer",
@@ -41600,7 +41772,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 300,
+            "line": 304,
             "description": "Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.",
             "itemtype": "property",
             "name": "_decoded",
@@ -41615,7 +41787,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 309,
+            "line": 313,
             "description": "A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.",
             "itemtype": "property",
             "name": "_muteVolume",
@@ -41629,7 +41801,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 317,
+            "line": 321,
             "description": "Indicates whether or not the sound is currently playing.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -41644,7 +41816,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 326,
+            "line": 330,
             "description": "A indicator of if the sound is currently paused.",
             "itemtype": "property",
             "name": "paused",
@@ -41659,7 +41831,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 335,
+            "line": 339,
             "description": "If the sound needs to be played but we are waiting on particular condition.\nIn the case of CocoonJS, we generally are waiting for the audio 'length' property to have a value.",
             "itemtype": "property",
             "name": "_pending",
@@ -41673,7 +41845,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 344,
+            "line": 348,
             "description": "When the audio started playing. In milliseconds",
             "itemtype": "property",
             "name": "_startTime",
@@ -41687,7 +41859,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 352,
+            "line": 356,
             "description": "When the audio is playing, this is the current time we are at with it playing. In milliseconds",
             "itemtype": "property",
             "name": "_currentTime",
@@ -41701,7 +41873,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 360,
+            "line": 364,
             "description": "The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.",
             "itemtype": "property",
             "name": "_stopTime",
@@ -41715,7 +41887,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 368,
+            "line": 372,
             "description": "An array of all of the markers that are on this piece of audio.",
             "itemtype": "property",
             "name": "_markers",
@@ -41729,7 +41901,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 376,
+            "line": 380,
             "description": "The current marker that is being used.",
             "itemtype": "property",
             "name": "_currentMarker",
@@ -41744,7 +41916,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 385,
+            "line": 389,
             "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -41758,7 +41930,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 393,
+            "line": 397,
             "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -41772,7 +41944,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 401,
+            "line": 405,
             "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
             "itemtype": "property",
             "name": "onPause",
@@ -41786,7 +41958,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 409,
+            "line": 413,
             "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
             "itemtype": "property",
             "name": "onResume",
@@ -41800,7 +41972,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 417,
+            "line": 421,
             "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
             "itemtype": "property",
             "name": "onLoop",
@@ -41814,7 +41986,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 425,
+            "line": 429,
             "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
             "itemtype": "property",
             "name": "onMute",
@@ -41828,7 +42000,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 433,
+            "line": 437,
             "description": "Retrieves the audio data from the file store.",
             "itemtype": "method",
             "name": "_setAudio",
@@ -41841,7 +42013,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 463,
+            "line": 467,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -41854,7 +42026,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 488,
+            "line": 492,
             "description": "Used to control the current volume for this sound. 0 is silent, 1 is full volume.",
             "itemtype": "property",
             "name": "volume",
@@ -41868,7 +42040,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 522,
+            "line": 526,
             "description": "Mutes the sound and makes it 'silent'. \nThis will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.",
             "itemtype": "property",
             "name": "mute",
@@ -41882,7 +42054,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 552,
+            "line": 556,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -41919,7 +42091,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 566,
+            "line": 570,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -41939,7 +42111,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 584,
+            "line": 588,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -41967,7 +42139,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 668,
+            "line": 672,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -41980,7 +42152,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 696,
+            "line": 700,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -41993,7 +42165,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 709,
+            "line": 713,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -42006,7 +42178,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 746,
+            "line": 750,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -42019,7 +42191,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 813,
+            "line": 817,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",
@@ -48825,7 +48997,7 @@
         {
             "file": "src/utils/GameMath.ts",
             "line": 857,
-            "description": "Set an angle with in the bounds of -PI to PI",
+            "description": "Returns an equivalent angle within the bounds of -PI (inclusive)\nto PI (exclusive).",
             "itemtype": "method",
             "name": "normalizeAngle",
             "params": [
@@ -48856,8 +49028,8 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 871,
-            "description": "Closest angle between two angles from a1 to a2\nabsolute value the return for exact angle.",
+            "line": 872,
+            "description": "Closest angle between two angles a1 and a2. In other words, the angle\nyou must turn to go from facing a1 to facing a2.\nThis will be a normalized angle between -PI and PI.",
             "itemtype": "method",
             "name": "nearestAngleBetween",
             "params": [
@@ -48893,7 +49065,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 895,
+            "line": 897,
             "description": "Normalizes independent and then sets dep to the nearest value respective to independent.\nFor instance if dep=-170 and ind=170 then 190 will be returned as an alternative to -170",
             "itemtype": "method",
             "name": "normalizeAngleToAnother",
@@ -48930,7 +49102,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 910,
+            "line": 912,
             "description": "Normalize independent and dependent and then set dependent to an angle relative to 'after/clockwise' independent.\nFor instance dep=-170 and ind=170, then 190 will be reutrned as alternative to -170",
             "itemtype": "method",
             "name": "normalizeAngleAfterAnother",
@@ -48967,7 +49139,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 927,
+            "line": 929,
             "description": "Normalizes indendent and dependent and then sets dependent to an angle relative to 'before/counterclockwise' independent.\nFor instance dep = 190 and ind = 170, then -170 will be returned as an alternative to 190",
             "itemtype": "method",
             "name": "normalizeAngleBeforeAnother",
@@ -49004,7 +49176,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 944,
+            "line": 946,
             "description": "Interpolate across the shortest arc between two angles.",
             "itemtype": "method",
             "name": "interpolateAngles",
@@ -49053,7 +49225,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 964,
+            "line": 966,
             "description": "Compute the logarithm of any value of any base.\nA logarithm is the exponent that some constant (base) would have to be raised to \nto be equal to value.",
             "itemtype": "method",
             "name": "logBaseOf",
@@ -49083,7 +49255,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 989,
+            "line": 991,
             "description": "Greatest Common Denominator using Euclid's algorithm.",
             "itemtype": "method",
             "name": "GCD",
@@ -49113,7 +49285,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1025,
+            "line": 1027,
             "description": "Lowest Common Multiple",
             "itemtype": "method",
             "name": "LCM",
@@ -49143,7 +49315,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1038,
+            "line": 1040,
             "description": "Factorial - N! Simple product series. By definition:\n0! == 1",
             "itemtype": "method",
             "name": "factorial",
@@ -49168,7 +49340,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1060,
+            "line": 1062,
             "description": "Gamma function. Defined: gamma(N) == (N - 1)!",
             "itemtype": "method",
             "name": "gammaFunction",
@@ -49193,7 +49365,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1072,
+            "line": 1074,
             "description": "Falling factorial. Defined: (N)! / (N - x)!\nWritten subscript: (N)x OR (base)exp",
             "itemtype": "method",
             "name": "fallingFactorial",
@@ -49223,7 +49395,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1086,
+            "line": 1088,
             "description": "Rising factorial. Defined: (N + x - 1)! / (N - 1)!\nWritten superscript N^(x) OR base^(exp)",
             "itemtype": "method",
             "name": "risingFactorial",
@@ -49253,7 +49425,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1101,
+            "line": 1103,
             "description": "Binomial coefficient.",
             "itemtype": "method",
             "name": "binCoef",
@@ -49283,7 +49455,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1119,
+            "line": 1121,
             "description": "Rising binomial coefficient.\nAs one can notice in the analysis of binCoef(...) that \nbinCoef is the (N)k divided by k!. Similarly rising binCoef \nis merely N^(k) / k!",
             "itemtype": "method",
             "name": "risingBinCoef",
@@ -49313,7 +49485,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1135,
+            "line": 1137,
             "description": "Generate a random boolean result based on the chance value.\nReturns true or false based on the chance value (default 50%). For example if you wanted a player to have a 30% chance\nof getting a bonus, call chanceRoll(30) - true means the chance passed, false means it failed.",
             "itemtype": "method",
             "name": "changeRoll",
@@ -49340,7 +49512,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1170,
+            "line": 1172,
             "description": "Adds the given amount to the value, but never lets the value go over the specified maximum.",
             "itemtype": "method",
             "name": "maxAdd",
@@ -49375,7 +49547,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1194,
+            "line": 1196,
             "description": "Subtracts the given amount from the value, but never lets the value go below the specified minimum.",
             "itemtype": "method",
             "name": "minSub",
@@ -49410,7 +49582,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1217,
+            "line": 1219,
             "description": "Adds value to amount and ensures that the result always stays between 0 and max, by wrapping the value around.\nValues must be positive integers, and are passed through Math.abs",
             "itemtype": "method",
             "name": "wrapValue",
@@ -49445,7 +49617,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1243,
+            "line": 1245,
             "description": "Randomly returns either a 1 or -1",
             "itemtype": "method",
             "name": "randomSign",
@@ -49463,7 +49635,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1254,
+            "line": 1256,
             "description": "Returns true if the number given is odd.",
             "itemtype": "method",
             "name": "isOdd",
@@ -49488,7 +49660,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1275,
+            "line": 1277,
             "description": "Returns true if the number given is even.",
             "itemtype": "method",
             "name": "isEven",
@@ -49513,7 +49685,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1296,
+            "line": 1298,
             "description": "Keeps an angle value between -180 and +180.\nShould be called whenever the angle is updated on the Sprite to stop it from going insane.",
             "itemtype": "method",
             "name": "wrapAngle",
@@ -49538,7 +49710,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1327,
+            "line": 1329,
             "description": "Keeps an angle value between the given min and max values.",
             "itemtype": "method",
             "name": "angleLimit",
@@ -49573,7 +49745,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1353,
+            "line": 1355,
             "description": "Interpolates between neighbouring values in an array using linear interpolation only. For example, linearInterpolation( [ 1,5,4 ], 0.5 ) = 5, and linearInterpolation( [ 1, 2 ], 0.3 ) = 1.3.",
             "itemtype": "method",
             "name": "linearInterpolation",
@@ -49603,7 +49775,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1375,
+            "line": 1377,
             "description": "Interpolates between values in an array using Bezier curves. This treats the values in the array as control points on a spline. Unlike Catmull-Rom splines, the value is not guaranteed to intersect precisely with these points.",
             "itemtype": "method",
             "name": "bezierInterpolation",
@@ -49633,7 +49805,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1398,
+            "line": 1400,
             "description": "Interpolates between values in an array using Catmull-Rom splines. This treats the values in the array as control points on a spline. Unlike Bezier curves, the value will intersect with every point in the array.",
             "itemtype": "method",
             "name": "catmullRomInterpolation",
@@ -49663,7 +49835,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1431,
+            "line": 1433,
             "description": "Simple linear interpolation, identical to interpolateFloat.",
             "itemtype": "method",
             "name": "linear",
@@ -49698,7 +49870,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1447,
+            "line": 1449,
             "description": "Bernstein polynomial for constructing Bezier curves. Returns n! / i! / (n-i)!",
             "itemtype": "method",
             "name": "bernstein",
@@ -49728,7 +49900,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1462,
+            "line": 1464,
             "description": "Function used to construct a Catmull-Rom interpolation: see catmullRomInterpolation()",
             "itemtype": "method",
             "name": "catmullRom",
@@ -49773,7 +49945,7 @@
         },
         {
             "file": "src/utils/GameMath.ts",
-            "line": 1481,
+            "line": 1483,
             "description": "Returns the difference between a and b.",
             "itemtype": "method",
             "name": "difference",
@@ -49852,7 +50024,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 70,
+            "line": 74,
             "description": "If the log, warn, or error messages should function at all.\nWhen set to false messages won't display or be recorded.",
             "itemtype": "property",
             "name": "enabled",
@@ -49867,7 +50039,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 81,
+            "line": 85,
             "description": "If messages should be recorded or not.",
             "itemtype": "property",
             "name": "record",
@@ -49882,7 +50054,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 91,
+            "line": 95,
             "description": "If the log, warn, and error methods should display when executed or not.\nYou may want to set this to 'false' when releasing a game.",
             "itemtype": "property",
             "name": "display",
@@ -49897,7 +50069,22 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 102,
+            "line": 106,
+            "description": "A list of tags which any message recorded needs to match in-order to be displayed.\nThis helps when debugging systems with lots of messages, without removing every log.",
+            "itemtype": "property",
+            "name": "tagFilters",
+            "type": "Array",
+            "since": "1.3.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Utils.Log",
+            "module": "Kiwi",
+            "submodule": "Utils.",
+            "namespace": "Kiwi.Utils"
+        },
+        {
+            "file": "src/utils/Log.ts",
+            "line": 117,
             "description": "The maximum number of recordings to be kept at once.",
             "itemtype": "property",
             "name": "maxRecordings",
@@ -49912,7 +50099,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 112,
+            "line": 127,
             "description": "A list containing all messages recorded.",
             "itemtype": "property",
             "name": "recordings",
@@ -49926,7 +50113,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 121,
+            "line": 136,
             "description": "The time (in milliseconds) of the last recording.",
             "itemtype": "property",
             "name": "lastMessageTime",
@@ -49941,7 +50128,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 136,
+            "line": 151,
             "description": "The number of recordings that have been saved.\nSame as the recordings length, and won't go above the 'maxRecordings'.",
             "itemtype": "property",
             "name": "numRecordings",
@@ -49956,7 +50143,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 150,
+            "line": 165,
             "description": "Saves a message to the 'recordings' array.\nThat message can then be retrieved later using the 'show' methods.",
             "itemtype": "method",
             "name": "recordMessage",
@@ -49990,7 +50177,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 179,
+            "line": 194,
             "description": "Removes recordings from the list. Goes from the oldest to newest. \nBy not passing any parameters, the entire log will be cleared.",
             "itemtype": "method",
             "name": "clearRecordings",
@@ -50018,7 +50205,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 194,
+            "line": 209,
             "description": "Executes a particular array of messages using a method passed.\nTakes into account the 'display' property before executing.",
             "itemtype": "method",
             "name": "_execute",
@@ -50055,7 +50242,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 213,
+            "line": 228,
             "description": "Accepts an array of strings and returns a new array consisting of all elements considered as a tag.",
             "itemtype": "method",
             "name": "getTagsFromArray",
@@ -50079,7 +50266,39 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 239,
+            "line": 254,
+            "description": "Returns true if the all of the tags passed also occur in the tag filters. \nThis is used to filter out messages by their tags.",
+            "itemtype": "method",
+            "name": "_filterTags",
+            "params": [
+                {
+                    "name": "tags",
+                    "description": "A list of tags, which need to occur in the tag filters",
+                    "type": "Array"
+                },
+                {
+                    "name": "tagFilters",
+                    "description": "A list of tags. Tags need to",
+                    "type": "Array",
+                    "optional": true,
+                    "optdefault": "this.tagFilters"
+                }
+            ],
+            "return": {
+                "description": "Tags match the tag filters, and so if the message would be allowed to execute.",
+                "type": "Boolean"
+            },
+            "since": "1.3.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Utils.Log",
+            "module": "Kiwi",
+            "submodule": "Utils.",
+            "namespace": "Kiwi.Utils"
+        },
+        {
+            "file": "src/utils/Log.ts",
+            "line": 286,
             "description": "Logs a message using the 'console.log' method.\nArguments starting with a '#' symbol are given that value as a tag.",
             "itemtype": "method",
             "name": "log",
@@ -50100,7 +50319,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 259,
+            "line": 310,
             "description": "Logs a message using the 'console.warn' method.\nArguments starting with a '#' symbol are given that value as a tag.",
             "itemtype": "method",
             "name": "warn",
@@ -50121,7 +50340,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 278,
+            "line": 333,
             "description": "Logs a message using the 'console.error' method.\nArguments starting with a '#' symbol are given that value as a tag.",
             "itemtype": "method",
             "name": "error",
@@ -50142,7 +50361,7 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 298,
+            "line": 357,
             "description": "Method that displays a particular recording passed.",
             "itemtype": "method",
             "name": "_show",
@@ -50171,8 +50390,8 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 329,
-            "description": "Displays the last recording matching the tags passed.",
+            "line": 388,
+            "description": "Displays the last recording matching the tags passed.\nIgnores the tag filters.",
             "itemtype": "method",
             "name": "showLast",
             "params": [
@@ -50192,8 +50411,8 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 347,
-            "description": "Displays all recordings.",
+            "line": 407,
+            "description": "Displays all recordings.\nIgnores the tag filters.",
             "itemtype": "method",
             "name": "showAll",
             "params": [
@@ -50213,8 +50432,8 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 361,
-            "description": "Displays all logs recorded.",
+            "line": 422,
+            "description": "Displays all logs recorded.\nIgnores the tag filters.",
             "itemtype": "method",
             "name": "showLogs",
             "params": [
@@ -50234,8 +50453,8 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 377,
-            "description": "Displays all errors recorded.",
+            "line": 439,
+            "description": "Displays all errors recorded.\nIgnores the tag filters.",
             "itemtype": "method",
             "name": "showErrors",
             "params": [
@@ -50255,8 +50474,8 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 393,
-            "description": "Displays all warnings recorded.",
+            "line": 456,
+            "description": "Displays all warnings recorded.\nIgnores the tag filters.",
             "itemtype": "method",
             "name": "showWarnings",
             "params": [
@@ -50276,8 +50495,8 @@
         },
         {
             "file": "src/utils/Log.ts",
-            "line": 408,
-            "description": "Displays a series of recordings within a time period passed. \nTime recorded is in milliseconds",
+            "line": 472,
+            "description": "Displays a series of recordings within a time period passed. \nTime recorded is in milliseconds.\nIgnores the tag filters.",
             "itemtype": "method",
             "name": "showTimePeriod",
             "params": [
@@ -50302,6 +50521,50 @@
                     "optional": true
                 }
             ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Utils.Log",
+            "module": "Kiwi",
+            "submodule": "Utils.",
+            "namespace": "Kiwi.Utils"
+        },
+        {
+            "file": "src/utils/Log.ts",
+            "line": 499,
+            "description": "Adds a tag to the list of tag filters.\nAny messages that do not have the tags in the tagFilters list will not be displayed.",
+            "itemtype": "method",
+            "name": "addFilter",
+            "params": [
+                {
+                    "name": "...args",
+                    "description": "Tags to add to the filters list.",
+                    "type": "Any",
+                    "optional": true
+                }
+            ],
+            "since": "1.3.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Utils.Log",
+            "module": "Kiwi",
+            "submodule": "Utils.",
+            "namespace": "Kiwi.Utils"
+        },
+        {
+            "file": "src/utils/Log.ts",
+            "line": 512,
+            "description": "Removes a tag to the list of tag filters.\nAny messages that do not have the tags in the tagFilters list will not be displayed.",
+            "itemtype": "method",
+            "name": "addFilter",
+            "params": [
+                {
+                    "name": "...args",
+                    "description": "Tags to be remove from the filters list.",
+                    "type": "Any",
+                    "optional": true
+                }
+            ],
+            "since": "1.3.0",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Utils.Log",
@@ -51476,11 +51739,11 @@
         },
         {
             "message": "Missing item type\n--------------------\nChild Depth Sorting Methods\n--------------------",
-            "line": " src/core/Group.ts:804"
+            "line": " src/core/Group.ts:861"
         },
         {
             "message": "Missing item type\n---------------\nTagging System\n---------------",
-            "line": " src/core/Group.ts:1186"
+            "line": " src/core/Group.ts:1243"
         },
         {
             "message": "Missing item type\nCurrently unused.",
@@ -51548,63 +51811,63 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:305"
+            "line": " src/gameobjects/tilemap/TileMap.ts:322"
         },
         {
             "message": "Missing item type\n-----------------------\n Cell Modifications\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:360"
+            "line": " src/gameobjects/tilemap/TileMap.ts:377"
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tilemap Layers\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:394"
+            "line": " src/gameobjects/tilemap/TileMap.ts:411"
         },
         {
             "message": "Missing item type\n-----------------------\n TileMapLayer Management Functions\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMap.ts:459"
+            "line": " src/gameobjects/tilemap/TileMap.ts:476"
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:68"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:72"
         },
         {
             "message": "Missing item type\n-----------------------\n Getting Tiles\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:229"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:233"
         },
         {
             "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:338"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:342"
         },
         {
             "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:482"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:486"
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:609"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:613"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nDistance\n-------------------------------------------------------------------------------------------",
             "line": " src/geom/Intersect.ts:35"
         },
         {
-            "message": "Missing item type\n-------------------------------------------------------------------------------------------\nLines\n-------------------------------------------------------------------------------------------",
+            "message": "Missing item type\n---------------------------------------------------------------------\nLines\n---------------------------------------------------------------------",
             "line": " src/geom/Intersect.ts:72"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:290"
+            "line": " src/geom/Intersect.ts:346"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:450"
+            "line": " src/geom/Intersect.ts:508"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:523"
+            "line": " src/geom/Intersect.ts:585"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:590"
+            "line": " src/geom/Intersect.ts:690"
         },
         {
             "message": "Missing item type\nCreates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.",

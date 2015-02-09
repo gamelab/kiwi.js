@@ -16951,35 +16951,36 @@ var Kiwi;
                 * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
                 * @property _onStop
                 * @type Signal
-                * @public
+                * @private
                 */
                 this._onStop = null;
                 /**
                 * A Kiwi.Signal that dispatches an event when the animation has started playing.
                 * @property _onPlay
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 */
                 this._onPlay = null;
                 /**
                 * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
                 * @property _onUpdate
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 */
                 this._onUpdate = null;
                 /**
                 * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
                 * @property _onLoop
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 */
                 this._onLoop = null;
                 /**
-                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+                * A Kiwi.Signal that dispatches an event when the animation has come to
+                * the end of the animation but is not going to play again.
                 * @property _onComplete
                 * @type Kiwi.Signal
-                * @public
+                * @private
                 * @since 1.2.0
                 */
                 this._onComplete = null;
@@ -17112,6 +17113,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onStop", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+                * @property onStop
+                * @type Signal
+                * @public
+                */
                 get: function () {
                     if (this._onStop == null)
                         this._onStop = new Kiwi.Signal;
@@ -17121,6 +17128,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onPlay", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has started playing.
+                * @property onPlay
+                * @type Kiwi.Signal
+                * @public
+                */
                 get: function () {
                     if (this._onPlay == null)
                         this._onPlay = new Kiwi.Signal;
@@ -17130,6 +17143,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onUpdate", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+                * @property onUpdate
+                * @type Kiwi.Signal
+                * @public
+                */
                 get: function () {
                     if (this._onUpdate == null)
                         this._onUpdate = new Kiwi.Signal;
@@ -17139,6 +17158,12 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onLoop", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+                * @property onLoop
+                * @type Kiwi.Signal
+                * @public
+                */
                 get: function () {
                     if (this._onLoop == null)
                         this._onLoop = new Kiwi.Signal;
@@ -17148,6 +17173,14 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Animation.prototype, "onComplete", {
+                /**
+                * A Kiwi.Signal that dispatches an event when the animation has come to
+                * the end of the animation but is not going to play again.
+                * @property onComplete
+                * @type Kiwi.Signal
+                * @public
+                * @since 1.2.0
+                */
                 get: function () {
                     if (this._onComplete == null)
                         this._onComplete = new Kiwi.Signal;
@@ -17169,9 +17202,10 @@ var Kiwi;
                 }
                 this._isPlaying = true;
                 this._startTime = this.clock.elapsed();
-                this._tick = this._startTime + this._speed;
-                if (this._onPlay !== null)
+                this._lastFrameElapsed = this.clock.elapsed();
+                if (this._onPlay !== null) {
                     this._onPlay.dispatch();
+                }
             };
             /**
             * Plays the animation.
@@ -17253,7 +17287,7 @@ var Kiwi;
                 var frameDelta;
                 if (this._isPlaying) {
                     // How many frames do we move, ahead or behind?
-                    frameDelta = ((this.clock.elapsed() - this._lastFrameElapsed) / this._speed) % this.length;
+                    frameDelta = ((this.clock.elapsed() - this._lastFrameElapsed) / this._speed) % (this.length + 1);
                     if (this._reverse) {
                         frameDelta *= -1;
                     }
@@ -17269,8 +17303,8 @@ var Kiwi;
                         this._lastFrameElapsed = this.clock.elapsed();
                         // Loop check
                         if (this._loop) {
-                            if (this._frameIndex > this.length - 1) {
-                                while (this._frameIndex > this.length - 1) {
+                            if (this._frameIndex >= this.length) {
+                                while (this._frameIndex >= this.length) {
                                     this._frameIndex -= this.length;
                                     if (this._onLoop != null) {
                                         this._onLoop.dispatch();
@@ -21228,9 +21262,9 @@ var Kiwi;
                 return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
             };
             /**
-            * -------------------------------------------------------------------------------------------
+            * ---------------------------------------------------------------------
             * Lines
-            * -------------------------------------------------------------------------------------------
+            * ---------------------------------------------------------------------
             **/
             /**
             * Check to see if any two Lines intersect at any point.
@@ -21239,13 +21273,17 @@ var Kiwi;
             * @method lineToLine
             * @param line1 {Kiwi.Geom.Line} The first line object to check.
             * @param line2 {Kiwi.Geom.Line} The second line object to check.
-            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional
+                IntersectResult object to store the intersection values in. One is
+                created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+                containing the results of this intersection in x/y
             * @public
             * @static
             */
             Intersect.lineToLine = function (line1, line2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
                 if (denom !== 0) {
                     output.result = true;
@@ -21269,6 +21307,7 @@ var Kiwi;
             */
             Intersect.lineToLineSegment = function (line1, seg, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
                 if (denom !== 0) {
                     output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (seg.x1 - seg.x2) - (line1.x1 - line1.x2) * (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
@@ -21290,7 +21329,7 @@ var Kiwi;
             * And the second line will only exist between the two points passed.
             *
             * @method lineToRawSegment
-            * @param line {Kiwi.Geom.Line} The line object that extends infinatly through space.
+            * @param line {Kiwi.Geom.Line} The line object that extends infinitely through space.
             * @param x1 {number} The x coordinate of the first point in the second line.
             * @param y1 {number} The y coordinate of the first point in the second line.
             * @param x2 {number} The x coordinate of the second point in the second line.
@@ -21302,6 +21341,7 @@ var Kiwi;
             */
             Intersect.lineToRawSegment = function (line, x1, y1, x2, y2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var denom = (line.x1 - line.x2) * (y1 - y2) - (line.y1 - line.y2) * (x1 - x2);
                 if (denom !== 0) {
                     output.x = ((line.x1 * line.y2 - line.y1 * line.x2) * (x1 - x2) - (line.x1 - line.x2) * (x1 * y2 - y1 * x2)) / denom;
@@ -21310,10 +21350,41 @@ var Kiwi;
                     var minX = Math.min(x1, x2);
                     var maxY = Math.max(y1, y2);
                     var minY = Math.min(y1, y2);
-                    if ((output.x <= maxX && output.x >= minX) === true || (output.y <= maxY && output.y >= minY) === true) {
+                    if (output.x <= maxX && output.x >= minX && output.y <= maxY && output.y >= minY) {
                         output.result = true;
                     }
                 }
+                return output;
+            };
+            /**
+            * Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method.
+            * Note: The lines will only exist between the two points passed.
+            *
+            * @method lineSegmentToRawSegment
+            * @param line {Kiwi.Geom.Line} The line object that extends infinitely through space.
+            * @param x1 {number} The x coordinate of the first point in the second line.
+            * @param y1 {number} The y coordinate of the first point in the second line.
+            * @param x2 {number} The x coordinate of the second point in the second line.
+            * @param y2 {number} The y coordinate of the second point in the second line.
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+            * @static
+            * @public
+            */
+            Intersect.lineSegmentToRawSegment = function (line, x1, y1, x2, y2, output) {
+                if (output === void 0) { output = new Geom.IntersectResult; }
+                // Determine whether the line intersects the raw segment
+                output = Intersect.lineToRawSegment(line, x1, y1, x2, y2, output);
+                // Determine whether the intersection point is within the line segment
+                var maxX = Math.max(line.x1, line.x2);
+                var minX = Math.min(line.x1, line.x2);
+                var maxY = Math.max(line.y1, line.y2);
+                var minY = Math.min(line.y1, line.y2);
+                if (output.x <= maxX && output.x >= minX && output.y <= maxY && output.y >= minY) {
+                    return output;
+                }
+                // Intersection point isn't within the line segment
+                output.result = false;
                 return output;
             };
             /**
@@ -21330,6 +21401,7 @@ var Kiwi;
             */
             Intersect.lineToRay = function (line1, ray, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var denom = (line1.x1 - line1.x2) * (ray.y1 - ray.y2) - (line1.y1 - line1.y2) * (ray.x1 - ray.x2);
                 if (denom !== 0) {
                     output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (ray.x1 - ray.x2) - (line1.x1 - line1.x2) * (ray.x1 * ray.y2 - ray.y1 * ray.x2)) / denom;
@@ -21358,6 +21430,7 @@ var Kiwi;
             */
             Intersect.lineToCircle = function (line, circle, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 //  Get a perpendicular line running to the center of the circle
                 if (line.perp(circle.x, circle.y).length <= circle.radius) {
                     output.result = true;
@@ -21378,6 +21451,7 @@ var Kiwi;
             */
             Intersect.lineToRectangle = function (line, rect, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 //  Top of the Rectangle vs the Line
                 Intersect.lineToRawSegment(line, rect.x, rect.y, rect.right, rect.y, output);
                 if (output.result === true) {
@@ -21416,6 +21490,7 @@ var Kiwi;
             */
             Intersect.lineSegmentToLineSegment = function (line1, line2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 Intersect.lineToLineSegment(line1, line2, output);
                 if (output.result === true) {
                     if (!(output.x >= Math.min(line1.x1, line1.x2) && output.x <= Math.max(line1.x1, line1.x2) && output.y >= Math.min(line1.y1, line1.y2) && output.y <= Math.max(line1.y1, line1.y2))) {
@@ -21438,6 +21513,7 @@ var Kiwi;
             */
             Intersect.lineSegmentToRay = function (line1, ray, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 Intersect.lineToRay(line1, ray, output);
                 if (output.result === true) {
                     if (!(output.x >= Math.min(line1.x1, line1.x2) && output.x <= Math.max(line1.x1, line1.x2) && output.y >= Math.min(line1.y1, line1.y2) && output.y <= Math.max(line1.y1, line1.y2))) {
@@ -21460,6 +21536,7 @@ var Kiwi;
             */
             Intersect.lineSegmentToCircle = function (seg, circle, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var perp = seg.perp(circle.x, circle.y);
                 if (perp.length <= circle.radius) {
                     //  Line intersects circle - check if segment does
@@ -21472,7 +21549,7 @@ var Kiwi;
                     }
                     else {
                         //  Worst case - segment doesn't traverse center, so no perpendicular connection.
-                        if (Intersect.circleContainsPoint(circle, { x: seg.x1, y: seg.y1 }) || Intersect.circleContainsPoint(circle, { x: seg.x2, y: seg.y2 })) {
+                        if (Intersect.circleContainsPoint(circle, { x: seg.x1, y: seg.y1 }).result || Intersect.circleContainsPoint(circle, { x: seg.x2, y: seg.y2 }).result) {
                             output.result = true;
                         }
                     }
@@ -21480,10 +21557,11 @@ var Kiwi;
                 return output;
             };
             /**
-            * Check if the Line Segment intersects with any side of a Rectangle.
+            * Check if the Line Segment intersects with any side of a Rectangle,
+            * or is entirely within the Rectangle.
             * Note: The Line only exists between its two points.
             *
-            * @method lineSegmentToCircle
+            * @method lineSegmentToRectangle
             * @param seg {Kiwi.Geom.Line} The Line object to check.
             * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
             * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
@@ -21493,28 +21571,31 @@ var Kiwi;
             */
             Intersect.lineSegmentToRectangle = function (seg, rect, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 if (rect.contains(seg.x1, seg.y1) && rect.contains(seg.x2, seg.y2)) {
+                    // Rectangle completely encloses Line; report back line centroid
+                    output.x = (seg.x1 + seg.x2) / 2;
+                    output.y = (seg.y1 + seg.y2) / 2;
                     output.result = true;
                 }
                 else {
                     //  Top of the Rectangle vs the Line
-                    Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.right, rect.bottom, output);
+                    Intersect.lineSegmentToRawSegment(seg, rect.x, rect.y, rect.right, rect.y, output);
                     if (output.result === true) {
                         return output;
                     }
                     //  Left of the Rectangle vs the Line
-                    Intersect.lineToRawSegment(seg, rect.x, rect.y, rect.x, rect.bottom, output);
+                    Intersect.lineSegmentToRawSegment(seg, rect.x, rect.y, rect.x, rect.bottom, output);
                     if (output.result === true) {
                         return output;
                     }
                     //  Bottom of the Rectangle vs the Line
-                    Intersect.lineToRawSegment(seg, rect.x, rect.bottom, rect.right, rect.bottom, output);
+                    Intersect.lineSegmentToRawSegment(seg, rect.x, rect.bottom, rect.right, rect.bottom, output);
                     if (output.result === true) {
                         return output;
                     }
                     //  Right of the Rectangle vs the Line
-                    Intersect.lineToRawSegment(seg, rect.right, rect.y, rect.right, rect.bottom, output);
-                    return output;
+                    Intersect.lineSegmentToRawSegment(seg, rect.right, rect.y, rect.right, rect.bottom, output);
                 }
                 return output;
             };
@@ -21536,6 +21617,7 @@ var Kiwi;
             */
             Intersect.rayToRectangle = function (ray, rect, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 //  Currently just finds first intersection - might not be closest to ray pt1
                 Intersect.lineToRectangle(ray, rect, output);
                 return output;
@@ -21560,6 +21642,7 @@ var Kiwi;
             */
             Intersect.rayToLineSegment = function (rayx1, rayy1, rayx2, rayy2, linex1, liney1, linex2, liney2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var r, s, d;
                 // Check lines are not parallel
                 if ((rayy2 - rayy1) / (rayx2 - rayx1) != (liney2 - liney1) / (linex2 - linex1)) {
@@ -21595,6 +21678,7 @@ var Kiwi;
             */
             Intersect.circleToCircle = function (circle1, circle2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 output.result = ((circle1.radius + circle2.radius) * (circle1.radius + circle2.radius)) >= Intersect.distanceSquared(circle1.x, circle1.y, circle2.x, circle2.y);
                 return output;
             };
@@ -21611,9 +21695,35 @@ var Kiwi;
             */
             Intersect.circleToRectangle = function (circle, rect, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
-                var inflatedRect = rect.clone();
-                inflatedRect.inflate(circle.radius, circle.radius);
-                output.result = inflatedRect.contains(circle.x, circle.y);
+                output.result = false;
+                var cornerDistX, cornerDistY, circleRelativeX, circleRelativeY, halfRectWidth, halfRectHeight, rectRangeX, rectRangeY;
+                // If circle is not in the rect X range, it can't overlap.
+                halfRectWidth = rect.width / 2;
+                circleRelativeX = Math.abs(circle.x - rect.x - halfRectWidth);
+                rectRangeX = circle.radius + halfRectWidth;
+                if (circleRelativeX > rectRangeX) {
+                    output.result = false;
+                    return output;
+                }
+                // If circle is not in the rect Y range, it can't overlap.
+                halfRectHeight = rect.height / 2;
+                circleRelativeY = Math.abs(circle.y - rect.y - halfRectHeight);
+                rectRangeY = circle.radius + halfRectHeight;
+                if (circleRelativeY > rectRangeY) {
+                    output.result = false;
+                    return output;
+                }
+                // If circle centroid is within the rect, it overlaps.
+                if (circleRelativeX <= halfRectWidth || circleRelativeY <= rect.height / 2) {
+                    output.result = true;
+                    return output;
+                }
+                // Because relative coordinates are normalized, we can consider
+                // a single ideal corner. If the circle centroid is within its
+                // own radius of this ideal corner, it overlaps.
+                cornerDistX = circleRelativeX - halfRectWidth;
+                cornerDistY = circleRelativeY - halfRectHeight;
+                output.result = cornerDistX * cornerDistX + cornerDistY * cornerDistY <= circle.radius * circle.radius;
                 return output;
             };
             /**
@@ -21629,6 +21739,7 @@ var Kiwi;
             */
             Intersect.circleContainsPoint = function (circle, point, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 output.result = circle.radius * circle.radius >= Intersect.distanceSquared(circle.x, circle.y, point.x, point.y);
                 return output;
             };
@@ -21650,6 +21761,7 @@ var Kiwi;
             */
             Intersect.pointToRectangle = function (point, rect, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 output.setTo(point.x, point.y);
                 output.result = rect.containsPoint(point);
                 return output;
@@ -21667,6 +21779,7 @@ var Kiwi;
             */
             Intersect.rectangleToRectangle = function (rect1, rect2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
+                output.result = false;
                 var leftX = Math.max(rect1.x, rect2.x);
                 var rightX = Math.min(rect1.right, rect2.right);
                 var topY = Math.max(rect1.y, rect2.y);
@@ -22025,11 +22138,24 @@ var Kiwi;
             */
             Line.prototype.perp = function (x, y, output) {
                 if (output === void 0) { output = new Line; }
+                var pt;
+                // For a horizontal line, the output is a vertical line.
                 if (this.y1 === this.y2) {
                     output.setTo(x, y, x, this.y1);
+                    return output;
+                }
+                // For a vertical line, the output is a horizontal line.
+                if (this.x1 === this.x2) {
+                    output.setTo(x, y, this.x1, y);
+                    return output;
                 }
                 var yInt = (y - this.perpSlope * x);
-                var pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
+                if (x !== 0) {
+                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
+                }
+                else {
+                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 1, y2: yInt + this.perpSlope });
+                }
                 output.setTo(x, y, pt.x, pt.y);
                 return output;
             };
@@ -31042,7 +31168,8 @@ var Kiwi;
                 return Math.atan2(y2 - y1, x2 - x1);
             };
             /**
-            * Set an angle with in the bounds of -PI to PI
+            * Returns an equivalent angle within the bounds of -PI (inclusive)
+            * to PI (exclusive).
             * @method normalizeAngle
             * @param angle {number}
             * @param [radians=true] {boolean}
@@ -31056,8 +31183,9 @@ var Kiwi;
                 return GameMath.wrap(angle, rd, -rd);
             };
             /**
-            * Closest angle between two angles from a1 to a2
-            * absolute value the return for exact angle.
+            * Closest angle between two angles a1 and a2. In other words, the angle
+            * you must turn to go from facing a1 to facing a2.
+            * This will be a normalized angle between -PI and PI.
             * @method nearestAngleBetween
             * @param a1 {number}
             * @param a2 {number}
@@ -31075,7 +31203,7 @@ var Kiwi;
                     a1 += rd * 2;
                 if (a2 < -rd / 2 && a1 > rd / 2)
                     a2 += rd * 2;
-                return a2 - a1;
+                return GameMath.normalizeAngle(a2 - a1, radians);
             };
             /**
             * Normalizes independent and then sets dep to the nearest value respective to independent.

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.1</em>
+            <em>API Docs for: 1.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -404,7 +404,11 @@ module Kiwi.Sound {
 			this._muteVolume = volume;
 			this._muted = this._game.audio.mute;
 			this._loop = loop;
-			this.key = key;
+            this.key = key;
+
+            if ( !Kiwi.Utils.Common.isString(this.key) &amp;&amp; (&lt;any&gt;this.key).isAudio ) {
+                this.key = (&lt;any&gt;this.key).key;
+            }
 
 			//If audio isn&#x27;t supported OR the file does not exist
 			if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {

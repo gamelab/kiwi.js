@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.1</em>
+            <em>API Docs for: 1.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -393,6 +393,10 @@ module Kiwi.GameObjects {
 			if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
 				this.glRenderer = this.game.renderer.requestSharedRenderer(&quot;TextureAtlasRenderer&quot;);
 			}
+
+            if (Kiwi.Utils.Common.isString(atlas)) {
+                atlas = this.state.textures[&lt;any&gt;atlas];
+            }
 
 			//Texture atlas error check.
 			if (typeof atlas == &quot;undefined&quot;) {

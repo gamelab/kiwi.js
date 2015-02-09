@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.1</em>
+            <em>API Docs for: 1.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -612,7 +612,28 @@ You can use this class by either creating a new instance, or using the instance 
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method__filterTags">_filterTags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__show">_show</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_addFilter">addFilter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_addFilter">addFilter</a>
 
                                 
                                 
@@ -768,6 +789,13 @@ You can use this class by either creating a new instance, or using the instance 
                                 
                             </li>
                         
+                            <li class="index-item property public">
+                                <a href="#property_tagFilters">tagFilters</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -844,7 +872,7 @@ You can use this class by either creating a new instance, or using the instance 
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l194"><code>src&#x2F;utils&#x2F;Log.ts:194</code></a>
+        <a href="../files/src_utils_Log.ts.html#l209"><code>src&#x2F;utils&#x2F;Log.ts:209</code></a>
         
         </p>
 
@@ -939,6 +967,141 @@ Takes into account the &#39;display&#39; property before executing.</p>
 </div>
 
                 
+                    <div id="method__filterTags" class="method item private">
+    <h3 class="name"><code>_filterTags</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tags</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[tagFilters=this.tagFilters]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Log.ts.html#l254"><code>src&#x2F;utils&#x2F;Log.ts:254</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Returns true if the all of the tags passed also occur in the tag filters. 
+This is used to filter out messages by their tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tags</code>
+                        <span class="type">Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A list of tags, which need to occur in the tag filters</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[tagFilters=this.tagFilters]</code>
+                        <span class="type">Array</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A list of tags. Tags need to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Tags match the tag filters, and so if the message would be allowed to execute.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method__show" class="method item private">
     <h3 class="name"><code>_show</code></h3>
 
@@ -993,7 +1156,7 @@ Takes into account the &#39;display&#39; property before executing.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l298"><code>src&#x2F;utils&#x2F;Log.ts:298</code></a>
+        <a href="../files/src_utils_Log.ts.html#l357"><code>src&#x2F;utils&#x2F;Log.ts:357</code></a>
         
         </p>
 
@@ -1068,6 +1231,196 @@ Takes into account the &#39;display&#39; property before executing.</p>
 </div>
 
                 
+                    <div id="method_addFilter" class="method item public">
+    <h3 class="name"><code>addFilter</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[...args]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Log.ts.html#l512"><code>src&#x2F;utils&#x2F;Log.ts:512</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a tag to the list of tag filters.
+Any messages that do not have the tags in the tagFilters list will not be displayed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[...args]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tags to be remove from the filters list.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_addFilter" class="method item public">
+    <h3 class="name"><code>addFilter</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[...args]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Log.ts.html#l499"><code>src&#x2F;utils&#x2F;Log.ts:499</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Adds a tag to the list of tag filters.
+Any messages that do not have the tags in the tagFilters list will not be displayed.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[...args]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tags to add to the filters list.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_clearRecordings" class="method item public">
     <h3 class="name"><code>clearRecordings</code></h3>
 
@@ -1118,7 +1471,7 @@ Takes into account the &#39;display&#39; property before executing.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l179"><code>src&#x2F;utils&#x2F;Log.ts:179</code></a>
+        <a href="../files/src_utils_Log.ts.html#l194"><code>src&#x2F;utils&#x2F;Log.ts:194</code></a>
         
         </p>
 
@@ -1226,7 +1579,7 @@ By not passing any parameters, the entire log will be cleared.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l278"><code>src&#x2F;utils&#x2F;Log.ts:278</code></a>
+        <a href="../files/src_utils_Log.ts.html#l333"><code>src&#x2F;utils&#x2F;Log.ts:333</code></a>
         
         </p>
 
@@ -1323,7 +1676,7 @@ Arguments starting with a &#39;#&#39; symbol are given that value as a tag.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l213"><code>src&#x2F;utils&#x2F;Log.ts:213</code></a>
+        <a href="../files/src_utils_Log.ts.html#l228"><code>src&#x2F;utils&#x2F;Log.ts:228</code></a>
         
         </p>
 
@@ -1427,7 +1780,7 @@ Arguments starting with a &#39;#&#39; symbol are given that value as a tag.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l239"><code>src&#x2F;utils&#x2F;Log.ts:239</code></a>
+        <a href="../files/src_utils_Log.ts.html#l286"><code>src&#x2F;utils&#x2F;Log.ts:286</code></a>
         
         </p>
 
@@ -1532,7 +1885,7 @@ Arguments starting with a &#39;#&#39; symbol are given that value as a tag.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l150"><code>src&#x2F;utils&#x2F;Log.ts:150</code></a>
+        <a href="../files/src_utils_Log.ts.html#l165"><code>src&#x2F;utils&#x2F;Log.ts:165</code></a>
         
         </p>
 
@@ -1840,7 +2193,7 @@ gameoptions passed at game creation.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l347"><code>src&#x2F;utils&#x2F;Log.ts:347</code></a>
+        <a href="../files/src_utils_Log.ts.html#l407"><code>src&#x2F;utils&#x2F;Log.ts:407</code></a>
         
         </p>
 
@@ -1851,7 +2204,8 @@ gameoptions passed at game creation.</p>
     </div>
 
     <div class="description">
-        <p>Displays all recordings.</p>
+        <p>Displays all recordings.
+Ignores the tag filters.</p>
 
     </div>
 
@@ -1932,7 +2286,7 @@ gameoptions passed at game creation.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l377"><code>src&#x2F;utils&#x2F;Log.ts:377</code></a>
+        <a href="../files/src_utils_Log.ts.html#l439"><code>src&#x2F;utils&#x2F;Log.ts:439</code></a>
         
         </p>
 
@@ -1943,7 +2297,8 @@ gameoptions passed at game creation.</p>
     </div>
 
     <div class="description">
-        <p>Displays all errors recorded.</p>
+        <p>Displays all errors recorded.
+Ignores the tag filters.</p>
 
     </div>
 
@@ -2024,7 +2379,7 @@ gameoptions passed at game creation.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l329"><code>src&#x2F;utils&#x2F;Log.ts:329</code></a>
+        <a href="../files/src_utils_Log.ts.html#l388"><code>src&#x2F;utils&#x2F;Log.ts:388</code></a>
         
         </p>
 
@@ -2035,7 +2390,8 @@ gameoptions passed at game creation.</p>
     </div>
 
     <div class="description">
-        <p>Displays the last recording matching the tags passed.</p>
+        <p>Displays the last recording matching the tags passed.
+Ignores the tag filters.</p>
 
     </div>
 
@@ -2116,7 +2472,7 @@ gameoptions passed at game creation.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l361"><code>src&#x2F;utils&#x2F;Log.ts:361</code></a>
+        <a href="../files/src_utils_Log.ts.html#l422"><code>src&#x2F;utils&#x2F;Log.ts:422</code></a>
         
         </p>
 
@@ -2127,7 +2483,8 @@ gameoptions passed at game creation.</p>
     </div>
 
     <div class="description">
-        <p>Displays all logs recorded.</p>
+        <p>Displays all logs recorded.
+Ignores the tag filters.</p>
 
     </div>
 
@@ -2220,7 +2577,7 @@ gameoptions passed at game creation.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l408"><code>src&#x2F;utils&#x2F;Log.ts:408</code></a>
+        <a href="../files/src_utils_Log.ts.html#l472"><code>src&#x2F;utils&#x2F;Log.ts:472</code></a>
         
         </p>
 
@@ -2232,7 +2589,8 @@ gameoptions passed at game creation.</p>
 
     <div class="description">
         <p>Displays a series of recordings within a time period passed. 
-Time recorded is in milliseconds</p>
+Time recorded is in milliseconds.
+Ignores the tag filters.</p>
 
     </div>
 
@@ -2345,7 +2703,7 @@ Time recorded is in milliseconds</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l393"><code>src&#x2F;utils&#x2F;Log.ts:393</code></a>
+        <a href="../files/src_utils_Log.ts.html#l456"><code>src&#x2F;utils&#x2F;Log.ts:456</code></a>
         
         </p>
 
@@ -2356,7 +2714,8 @@ Time recorded is in milliseconds</p>
     </div>
 
     <div class="description">
-        <p>Displays all warnings recorded.</p>
+        <p>Displays all warnings recorded.
+Ignores the tag filters.</p>
 
     </div>
 
@@ -2437,7 +2796,7 @@ Time recorded is in milliseconds</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l259"><code>src&#x2F;utils&#x2F;Log.ts:259</code></a>
+        <a href="../files/src_utils_Log.ts.html#l310"><code>src&#x2F;utils&#x2F;Log.ts:310</code></a>
         
         </p>
 
@@ -2519,7 +2878,7 @@ Arguments starting with a &#39;#&#39; symbol are given that value as a tag.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l91"><code>src&#x2F;utils&#x2F;Log.ts:91</code></a>
+        <a href="../files/src_utils_Log.ts.html#l95"><code>src&#x2F;utils&#x2F;Log.ts:95</code></a>
         
         </p>
 
@@ -2569,7 +2928,7 @@ You may want to set this to &#39;false&#39; when releasing a game.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l70"><code>src&#x2F;utils&#x2F;Log.ts:70</code></a>
+        <a href="../files/src_utils_Log.ts.html#l74"><code>src&#x2F;utils&#x2F;Log.ts:74</code></a>
         
         </p>
 
@@ -2619,7 +2978,7 @@ When set to false messages won&#39;t display or be recorded.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l121"><code>src&#x2F;utils&#x2F;Log.ts:121</code></a>
+        <a href="../files/src_utils_Log.ts.html#l136"><code>src&#x2F;utils&#x2F;Log.ts:136</code></a>
         
         </p>
 
@@ -2666,7 +3025,7 @@ When set to false messages won&#39;t display or be recorded.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l102"><code>src&#x2F;utils&#x2F;Log.ts:102</code></a>
+        <a href="../files/src_utils_Log.ts.html#l117"><code>src&#x2F;utils&#x2F;Log.ts:117</code></a>
         
         </p>
 
@@ -2715,7 +3074,7 @@ When set to false messages won&#39;t display or be recorded.</p>
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l136"><code>src&#x2F;utils&#x2F;Log.ts:136</code></a>
+        <a href="../files/src_utils_Log.ts.html#l151"><code>src&#x2F;utils&#x2F;Log.ts:151</code></a>
         
         </p>
 
@@ -2763,7 +3122,7 @@ Same as the recordings length, and won&#39;t go above the &#39;maxRecordings&#39
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l81"><code>src&#x2F;utils&#x2F;Log.ts:81</code></a>
+        <a href="../files/src_utils_Log.ts.html#l85"><code>src&#x2F;utils&#x2F;Log.ts:85</code></a>
         
         </p>
 
@@ -2812,7 +3171,7 @@ Same as the recordings length, and won&#39;t go above the &#39;maxRecordings&#39
             
         
         
-        <a href="../files/src_utils_Log.ts.html#l112"><code>src&#x2F;utils&#x2F;Log.ts:112</code></a>
+        <a href="../files/src_utils_Log.ts.html#l127"><code>src&#x2F;utils&#x2F;Log.ts:127</code></a>
         
         </p>
 
@@ -2823,6 +3182,56 @@ Same as the recordings length, and won&#39;t go above the &#39;maxRecordings&#39
 
     <div class="description">
         <p>A list containing all messages recorded.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_tagFilters" class="property item public">
+    <h3 class="name"><code>tagFilters</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_utils_Log.ts.html#l106"><code>src&#x2F;utils&#x2F;Log.ts:106</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>A list of tags which any message recorded needs to match in-order to be displayed.
+This helps when debugging systems with lots of messages, without removing every log.</p>
 
     </div>
 

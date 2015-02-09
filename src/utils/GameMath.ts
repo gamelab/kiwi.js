@@ -855,7 +855,8 @@ module Kiwi.Utils {
 
 
 		/**
-		* Set an angle with in the bounds of -PI to PI
+		* Returns an equivalent angle within the bounds of -PI (inclusive)
+		* to PI (exclusive).
 		* @method normalizeAngle
 		* @param angle {number}
 		* @param [radians=true] {boolean}
@@ -869,8 +870,9 @@ module Kiwi.Utils {
 		}
 
 		/**
-		* Closest angle between two angles from a1 to a2
-		* absolute value the return for exact angle.
+		* Closest angle between two angles a1 and a2. In other words, the angle
+		* you must turn to go from facing a1 to facing a2.
+		* This will be a normalized angle between -PI and PI.
 		* @method nearestAngleBetween 
 		* @param a1 {number}
 		* @param a2 {number}
@@ -889,7 +891,7 @@ module Kiwi.Utils {
 			if (a1 < -rd / 2 && a2 > rd / 2) a1 += rd * 2;
 			if (a2 < -rd / 2 && a1 > rd / 2) a2 += rd * 2;
 
-			return a2 - a1;
+			return GameMath.normalizeAngle( a2 - a1, radians );
 		}
 
 		/**

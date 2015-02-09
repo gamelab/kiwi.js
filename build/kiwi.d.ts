@@ -11672,6 +11672,7 @@ declare module Kiwi.Animations {
         * @property _tick
         * @type number
         * @private
+        * @deprecated Different private time management systems implemented in v1.2.0
         */
         private _tick;
         /**
@@ -11693,42 +11694,75 @@ declare module Kiwi.Animations {
         * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
         * @property _onStop
         * @type Signal
-        * @public
+        * @private
         */
         private _onStop;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has stopped playing.
+        * @property onStop
+        * @type Signal
+        * @public
+        */
         onStop: Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has started playing.
         * @property _onPlay
         * @type Kiwi.Signal
-        * @public
+        * @private
         */
         private _onPlay;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has started playing.
+        * @property onPlay
+        * @type Kiwi.Signal
+        * @public
+        */
         onPlay: Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
         * @property _onUpdate
         * @type Kiwi.Signal
-        * @public
+        * @private
         */
         private _onUpdate;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has updated/changed frameIndexs.
+        * @property onUpdate
+        * @type Kiwi.Signal
+        * @public
+        */
         onUpdate: Kiwi.Signal;
         /**
         * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
         * @property _onLoop
         * @type Kiwi.Signal
-        * @public
+        * @private
         */
         private _onLoop;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation and is going to play again.
+        * @property onLoop
+        * @type Kiwi.Signal
+        * @public
+        */
         onLoop: Kiwi.Signal;
         /**
-        * A Kiwi.Signal that dispatches an event when the animation has come to the end of the animation but is not going to play again.
+        * A Kiwi.Signal that dispatches an event when the animation has come to
+        * the end of the animation but is not going to play again.
         * @property _onComplete
+        * @type Kiwi.Signal
+        * @private
+        * @since 1.2.0
+        */
+        private _onComplete;
+        /**
+        * A Kiwi.Signal that dispatches an event when the animation has come to
+        * the end of the animation but is not going to play again.
+        * @property onComplete
         * @type Kiwi.Signal
         * @public
         * @since 1.2.0
         */
-        private _onComplete;
         onComplete: Kiwi.Signal;
         /**
         * Clock time on last frame, used to compute current animation frame.
@@ -14913,9 +14947,9 @@ declare module Kiwi.Geom {
         */
         static distanceSquared(x1: number, y1: number, x2: number, y2: number): number;
         /**
-        * -------------------------------------------------------------------------------------------
+        * ---------------------------------------------------------------------
         * Lines
-        * -------------------------------------------------------------------------------------------
+        * ---------------------------------------------------------------------
         **/
         /**
         * Check to see if any two Lines intersect at any point.
@@ -14924,8 +14958,11 @@ declare module Kiwi.Geom {
         * @method lineToLine
         * @param line1 {Kiwi.Geom.Line} The first line object to check.
         * @param line2 {Kiwi.Geom.Line} The second line object to check.
-        * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+        * @param [output] {Kiwi.Geom.IntersectResult} An optional
+            IntersectResult object to store the intersection values in. One is
+            created if none given.
+        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+            containing the results of this intersection in x/y
         * @public
         * @static
         */
@@ -14950,7 +14987,7 @@ declare module Kiwi.Geom {
         * And the second line will only exist between the two points passed.
         *
         * @method lineToRawSegment
-        * @param line {Kiwi.Geom.Line} The line object that extends infinatly through space.
+        * @param line {Kiwi.Geom.Line} The line object that extends infinitely through space.
         * @param x1 {number} The x coordinate of the first point in the second line.
         * @param y1 {number} The y coordinate of the first point in the second line.
         * @param x2 {number} The x coordinate of the second point in the second line.
@@ -14961,6 +14998,22 @@ declare module Kiwi.Geom {
         * @public
         */
         static lineToRawSegment(line: Line, x1: number, y1: number, x2: number, y2: number, output?: IntersectResult): IntersectResult;
+        /**
+        * Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method.
+        * Note: The lines will only exist between the two points passed.
+        *
+        * @method lineSegmentToRawSegment
+        * @param line {Kiwi.Geom.Line} The line object that extends infinitely through space.
+        * @param x1 {number} The x coordinate of the first point in the second line.
+        * @param y1 {number} The y coordinate of the first point in the second line.
+        * @param x2 {number} The x coordinate of the second point in the second line.
+        * @param y2 {number} The y coordinate of the second point in the second line.
+        * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
+        * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y
+        * @static
+        * @public
+        */
+        static lineSegmentToRawSegment(line: Line, x1: number, y1: number, x2: number, y2: number, output?: IntersectResult): IntersectResult;
         /**
         * Checks to see if a Line and Ray object intersects at any point.
         * Note: The line in this case extends infinately through space.
@@ -15045,10 +15098,11 @@ declare module Kiwi.Geom {
         */
         static lineSegmentToCircle(seg: Line, circle: Circle, output?: IntersectResult): IntersectResult;
         /**
-        * Check if the Line Segment intersects with any side of a Rectangle.
+        * Check if the Line Segment intersects with any side of a Rectangle,
+        * or is entirely within the Rectangle.
         * Note: The Line only exists between its two points.
         *
-        * @method lineSegmentToCircle
+        * @method lineSegmentToRectangle
         * @param seg {Kiwi.Geom.Line} The Line object to check.
         * @param rect {Kiwi.Geom.Rectangle} The Rectangle object to check.
         * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
@@ -21723,7 +21777,8 @@ declare module Kiwi.Utils {
         */
         static angleBetween(x1: number, y1: number, x2: number, y2: number): number;
         /**
-        * Set an angle with in the bounds of -PI to PI
+        * Returns an equivalent angle within the bounds of -PI (inclusive)
+        * to PI (exclusive).
         * @method normalizeAngle
         * @param angle {number}
         * @param [radians=true] {boolean}
@@ -21733,8 +21788,9 @@ declare module Kiwi.Utils {
         */
         static normalizeAngle(angle: number, radians?: boolean): number;
         /**
-        * Closest angle between two angles from a1 to a2
-        * absolute value the return for exact angle.
+        * Closest angle between two angles a1 and a2. In other words, the angle
+        * you must turn to go from facing a1 to facing a2.
+        * This will be a normalized angle between -PI and PI.
         * @method nearestAngleBetween
         * @param a1 {number}
         * @param a2 {number}
