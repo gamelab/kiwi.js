@@ -444,10 +444,9 @@ module Kiwi.Animations {
 			var frameDelta;
 
 			if ( this._isPlaying ) {
-
 				// How many frames do we move, ahead or behind?
 				frameDelta = ( ( this.clock.elapsed() -
-					this._lastFrameElapsed ) / this._speed ) % this.length;
+					this._lastFrameElapsed ) / this._speed ) % ( this.length + 1 );
 				if ( this._reverse ) {
 					frameDelta *= -1;
 				}
@@ -460,14 +459,15 @@ module Kiwi.Animations {
 				}
 
 				if ( frameDelta !== 0 ) {
+
 					this._frameIndex += frameDelta;
 					this._lastFrameElapsed = this.clock.elapsed();
 
 					// Loop check
 					if ( this._loop ) {
-						if (this._frameIndex > this.length - 1) {
+						if ( this._frameIndex >= this.length ) {
 
-							while (this._frameIndex > this.length - 1) {
+							while ( this._frameIndex >= this.length ) {
 								this._frameIndex -= this.length;
 								if ( this._onLoop != null ) {
 									this._onLoop.dispatch();
