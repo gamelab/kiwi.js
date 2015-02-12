@@ -6467,7 +6467,7 @@ var Kiwi;
                     /**
                     * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
                     * @property tileData
-                    * @type number[]
+                    * @type Array
                     * @public
                     */
                     get: function () {
@@ -6501,7 +6501,7 @@ var Kiwi;
                 * @method getTileFromXY
                 * @param x {Number}
                 * @param y {Number}
-                * @return {Number} The tile
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
                 * @public
                 */
                 TileMapLayer.prototype.getTileFromXY = function (x, y) {
@@ -6538,7 +6538,7 @@ var Kiwi;
                 * @method getTileFromCoords
                 * @param x {Number}
                 * @param y {Number}
-                * @return {Number} The tile
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
                 * @public
                 */
                 TileMapLayer.prototype.getTileFromCoords = function (x, y) {
@@ -6559,6 +6559,18 @@ var Kiwi;
                             tiles.push(i);
                     }
                     return tiles;
+                };
+                /**
+                * Returns the TileType of a tile by an index passed.
+                * Thanks to @rydairegames
+                *
+                * @method getTileFromIndex
+                * @param index {Number}
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromIndex = function (index) {
+                    return (index !== -1) ? this.tilemap.tileTypes[this._data[index]] : null;
                 };
                 /**
                 *-----------------------

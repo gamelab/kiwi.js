@@ -240,7 +240,7 @@ module Kiwi.GameObjects.Tilemap {
 		/**
 		* A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
 		* @property tileData
-		* @type number[]
+		* @type Array
 		* @public
 		*/
 		public get tileData(): number[] {
@@ -272,7 +272,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @method getTileFromXY
 		* @param x {Number}
 		* @param y {Number}
-		* @return {Number} The tile
+		* @return {Kiwi.GameObjects.Tilemap.TileType}
 		* @public
 		*/
 		public getTileFromXY(x: number, y: number): TileType {
@@ -315,7 +315,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @method getTileFromCoords
 		* @param x {Number}
 		* @param y {Number}
-		* @return {Number} The tile
+		* @return {Kiwi.GameObjects.Tilemap.TileType} 
 		* @public
 		*/
 		public getTileFromCoords(x: number, y: number): TileType {
@@ -330,14 +330,26 @@ module Kiwi.GameObjects.Tilemap {
 		* @return {Number[]}
 		* @public
 		*/
-		public getIndexesByType(type:number):number[] {
-			var tiles = [];
-			for (var i = 0; i < this._data.length; i++) {
-				if (this._data[i] == type) tiles.push(i);
-			}
-			return tiles;
-		}
+        public getIndexesByType(type: number): number[] {
+            var tiles = [];
+            for (var i = 0; i < this._data.length; i++) {
+                if (this._data[i] == type) tiles.push(i);
+            }
+            return tiles;
+        }
 
+        /**
+        * Returns the TileType of a tile by an index passed.
+        * Thanks to @rydairegames 
+        * 
+        * @method getTileFromIndex
+        * @param index {Number}
+        * @return {Kiwi.GameObjects.Tilemap.TileType} 
+        * @public
+        */
+        public getTileFromIndex( index: number ):TileType {
+            return (index !== -1) ? this.tilemap.tileTypes[ this._data[ index ] ] : null;
+        }
 
 		/**
 		*-----------------------

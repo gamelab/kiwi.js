@@ -4555,7 +4555,7 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
         * @property tileData
-        * @type number[]
+        * @type Array
         * @public
         */
         tileData: number[];
@@ -4577,7 +4577,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @method getTileFromXY
         * @param x {Number}
         * @param y {Number}
-        * @return {Number} The tile
+        * @return {Kiwi.GameObjects.Tilemap.TileType}
         * @public
         */
         getTileFromXY(x: number, y: number): TileType;
@@ -4603,7 +4603,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @method getTileFromCoords
         * @param x {Number}
         * @param y {Number}
-        * @return {Number} The tile
+        * @return {Kiwi.GameObjects.Tilemap.TileType}
         * @public
         */
         getTileFromCoords(x: number, y: number): TileType;
@@ -4615,6 +4615,16 @@ declare module Kiwi.GameObjects.Tilemap {
         * @public
         */
         getIndexesByType(type: number): number[];
+        /**
+        * Returns the TileType of a tile by an index passed.
+        * Thanks to @rydairegames
+        *
+        * @method getTileFromIndex
+        * @param index {Number}
+        * @return {Kiwi.GameObjects.Tilemap.TileType}
+        * @public
+        */
+        getTileFromIndex(index: number): TileType;
         /**
         *-----------------------
         * Tiles Manipulation
