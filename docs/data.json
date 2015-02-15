@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -5892,35 +5892,35 @@
             "submodule": "Time",
             "namespace": "Kiwi.Time",
             "file": "src/time/Clock.ts",
-            "line": 10,
-            "description": "The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.\n- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.\n- An instance of a clock is used to track time in arbitrary units (milliseconds by default)\n- A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.\n- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.\n- If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)\n- Animations and TweenManagers can use any Clock.",
+            "line": 8,
+            "description": "The Clock class offers a way of tracking time within a game.\nWhen creating a new Clock you should NOT directly instantiate this class\nbut instead use the addClock method on a ClockManager.\n- The MasterClock is a property of the Kiwi.Time.Manager class and tracks\n  real world time in milliseconds elapsed since the application started.\n  This happens automatically and there is no need to do anything to set\n  this up.\n- An instance of a clock is used to track time in arbitrary units\n  (milliseconds by default)\n- A clock can be started, paused, unpaused and stopped. Once stopped,\n  re-starting the clock again will reset it. It can also have its time\n  scale freely transformed.\n- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer\n  class for timer details.\n- If the clock is paused, any timers attached to the clock will take this\n  into account and not continue to fire events until the clock is\n  unpaused. (Note that this is not the same as pausing timers, which can\n  be done manually and needs to be undone manually.)\n- Animations and TweenManagers can use any Clock.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "manager",
-                    "description": "The ClockManager that this clock belongs to.",
+                    "description": "ClockManager that this clock belongs to",
                     "type": "ClockManager"
                 },
                 {
                     "name": "master",
-                    "description": "The MasterClock that it is getting the time in relation to.",
+                    "description": "MasterClock that this is getting\n\tthe time in relation to",
                     "type": "Kiwi.Time.MasterClock"
                 },
                 {
                     "name": "name",
-                    "description": "The name of the clock.",
+                    "description": "Name of the clock",
                     "type": "String"
                 },
                 {
                     "name": "units",
-                    "description": "The units that this clock is to operate in per second.",
+                    "description": "Units that this clock is to operate in\n\tper second",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1000"
                 }
             ],
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             }
         },
@@ -25670,29 +25670,29 @@
         {
             "file": "src/geom/Intersect.ts",
             "line": 114,
-            "description": "Check to see if a Line and a Line Segment intersect at any point. \nNote: The first line passed is treated as if it extends infinately though space, \nThe second is treated as if it only exists between its two points.",
+            "description": "Check to see if a Line and a Line Segment intersect at any point. \nNote: The first line passed is treated as if it extends infinitely\nthough space. The second is treated as if it only exists between\nits two points.",
             "itemtype": "method",
             "name": "lineToLineSegment",
             "params": [
                 {
                     "name": "line1",
-                    "description": "The first line to check. This is the one that will extend through space infinately.",
+                    "description": "The first line to check.\n\t\t\tThis is the one that will extend through space infinately.",
                     "type": "Kiwi.Geom.Line"
                 },
                 {
                     "name": "seg",
-                    "description": "The second line to check. This is the one that will only exist between its two coordinates.",
+                    "description": "The second line to check.\n\t\t\tThis is the one that will only exist between its two coordinates.",
                     "type": "Kiwi.Geom.Line"
                 },
                 {
                     "name": "output",
-                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "description": "An optional\n\t\t\tIntersectResult object to store the intersection values in. One is\n\t\t\tcreated if none given.",
                     "type": "Kiwi.Geom.IntersectResult",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "An IntersectResult object containing the results of this intersection.",
+                "description": "An IntersectResult object\n\t\t\tcontaining the results of this intersection.",
                 "type": "Kiwi.Geom.IntersectResult"
             },
             "access": "public",
@@ -25705,7 +25705,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 155,
+            "line": 163,
             "description": "Checks to see if a Line that is passed, intersects at any point with a Line that is made by passing a set of coordinates to this method. \nNote: The first line will extend infinately through space. \nAnd the second line will only exist between the two points passed.",
             "itemtype": "method",
             "name": "lineToRawSegment",
@@ -25756,7 +25756,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 197,
+            "line": 205,
             "description": "Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method. \nNote: The lines will only exist between the two points passed.",
             "itemtype": "method",
             "name": "lineSegmentToRawSegment",
@@ -25807,7 +25807,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 234,
+            "line": 242,
             "description": "Checks to see if a Line and Ray object intersects at any point. \nNote: The line in this case extends infinately through space.",
             "itemtype": "method",
             "name": "lineToRay",
@@ -25843,7 +25843,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 273,
+            "line": 281,
             "description": "Checks to see if a Line and a Circle intersect at any point.\nNote: The line passed is assumed to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToCircle",
@@ -25879,7 +25879,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 299,
+            "line": 307,
             "description": "Check if the Line intersects with each side of a Rectangle.\nNote: The Line is assumned to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToRectangle",
@@ -25915,8 +25915,8 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 346,
-            "description": "-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
+            "line": 354,
+            "description": "---------------------------------------------------------------------\nLine Segment\n---------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
             "submodule": "Geom",
@@ -25924,8 +25924,8 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 352,
-            "description": "Checks to see if two Line Segments intersect at any point in space. \nNote: Both lines are treated as if they only exist between their two line coordinates.",
+            "line": 360,
+            "description": "Checks to see if two Line Segments intersect at any point in space. \nNote: Both lines are treated as if they only exist between their two\nline coordinates.",
             "itemtype": "method",
             "name": "lineSegmentToLineSegment",
             "params": [
@@ -25941,13 +25941,13 @@
                 },
                 {
                     "name": "output",
-                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "description": "An optional\n\t\t\tIntersectResult object to store the intersection values in.\n\t\t\tOne is created if none given.",
                     "type": "Kiwi.Geom.IntersectResult",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "An IntersectResult object containing the results of this intersection in x/y.",
+                "description": "An IntersectResult object\n\t\t\tcontaining the results of this intersection in x/y.",
                 "type": "Kiwi.Geom.IntersectResult"
             },
             "access": "public",
@@ -25960,7 +25960,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 382,
+            "line": 394,
             "description": "Check if the Line Segment intersects with the Ray.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRay",
@@ -25996,7 +25996,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 413,
+            "line": 425,
             "description": "Check if the Line Segment intersects with the Circle.\nNote the Line only exists between its point points.",
             "itemtype": "method",
             "name": "lineSegmentToCircle",
@@ -26032,7 +26032,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 455,
+            "line": 467,
             "description": "Check if the Line Segment intersects with any side of a Rectangle,\nor is entirely within the Rectangle.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRectangle",
@@ -26068,7 +26068,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 508,
+            "line": 520,
             "description": "-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26077,7 +26077,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 514,
+            "line": 526,
             "description": "Check to see if a Ray intersects at any point with a Rectangle.",
             "itemtype": "method",
             "name": "rayToRectangle",
@@ -26113,7 +26113,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 536,
+            "line": 548,
             "description": "Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "rayToLineSegment",
@@ -26179,7 +26179,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 585,
+            "line": 597,
             "description": "-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26188,7 +26188,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 591,
+            "line": 603,
             "description": "Check if the two given Circle objects intersect at any point.",
             "itemtype": "method",
             "name": "circleToCircle",
@@ -26224,7 +26224,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 612,
+            "line": 624,
             "description": "Check if a Circle and a Rectangle intersect with each other at any point.",
             "itemtype": "method",
             "name": "circleToRectangle",
@@ -26260,7 +26260,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 669,
+            "line": 681,
             "description": "Check if the given Point is found within the given Circle.",
             "itemtype": "method",
             "name": "circleContainsPoint",
@@ -26296,7 +26296,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 690,
+            "line": 702,
             "description": "-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26305,7 +26305,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 696,
+            "line": 708,
             "description": "Determines whether the specified point is contained within a given Rectangle object.",
             "itemtype": "method",
             "name": "pointToRectangle",
@@ -26341,7 +26341,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 719,
+            "line": 731,
             "description": "Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.",
             "itemtype": "method",
             "name": "rectangleToRectangle",
@@ -44227,8 +44227,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 46,
-            "description": "The type of object that this is.",
+            "line": 58,
+            "description": "The type of object that this is",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -44244,8 +44244,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 56,
-            "description": "A collection of Timer objects using this clock.",
+            "line": 68,
+            "description": "Collection of Timer objects using this clock",
             "itemtype": "property",
             "name": "timers",
             "type": "Timer[]",
@@ -44258,8 +44258,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 64,
-            "description": "The time the clock was first started relative to the master clock.",
+            "line": 76,
+            "description": "Time the clock was first started relative to the master clock",
             "itemtype": "property",
             "name": "_timeFirstStarted",
             "type": "Number",
@@ -44273,12 +44273,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 73,
-            "description": "The number of clock units elapsed since the clock was first started.",
+            "line": 85,
+            "description": "Number of clock units elapsed since the clock was first started",
             "itemtype": "method",
-            "name": "elapsedSinceFirstStarted.",
+            "name": "elapsedSinceFirstStarted",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units elapsed",
                 "type": "Number"
             },
             "access": "public",
@@ -44290,8 +44290,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 85,
-            "description": "The time the clock was most recently started relative to the master clock.",
+            "line": 97,
+            "description": "Most recent time the clock was started relative to the master clock",
             "itemtype": "property",
             "name": "_timeLastStarted",
             "type": "Number",
@@ -44305,12 +44305,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 94,
-            "description": "Get the most recent time the clock was started relative to the master clock.",
+            "line": 106,
+            "description": "Most recent time the clock was started relative to the master clock",
             "itemtype": "method",
             "name": "started",
             "return": {
-                "description": "milliseconds.",
+                "description": "Milliseconds",
                 "type": "Number"
             },
             "access": "public",
@@ -44322,8 +44322,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 107,
-            "description": "Rate at which time passes on this clock.\n1 is normal speed. 0 is no speed. -1 is backwards.\nThis mostly affects timers, animations and tweens.",
+            "line": 119,
+            "description": "Rate at which time passes on this clock.\n1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.\nThis mostly affects timers, animations and tweens.",
             "itemtype": "property",
             "name": "timeScale",
             "type": "number",
@@ -44338,7 +44338,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 119,
+            "line": 131,
             "description": "Clock units elapsed since the clock was most recently started,\nnot including paused time.",
             "itemtype": "property",
             "name": "_elapsed",
@@ -44353,7 +44353,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 129,
+            "line": 141,
             "description": "Master time on last frame",
             "itemtype": "property",
             "name": "_lastMasterElapsed",
@@ -44368,7 +44368,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 138,
+            "line": 150,
             "description": "Master time on current frame",
             "itemtype": "property",
             "name": "_currentMasterElapsed",
@@ -44383,7 +44383,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 148,
+            "line": 160,
             "description": "Rate of time passage, as modified by time scale and frame rate.\nUnder ideal conditions this should be 1.\nIf the frame rate drops, this will rise. Multiply transformations\nby rate to get smooth change over time.",
             "itemtype": "property",
             "name": "rate",
@@ -44398,7 +44398,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 160,
+            "line": 172,
             "description": "Maximum frame duration. If a frame takes longer than this to render,\nthe clock will only advance this far, in effect slowing down time.\nIf this value is 0 or less, it will not be checked and frames can\ntake any amount of time to render.",
             "itemtype": "property",
             "name": "_maxFrameDuration",
@@ -44413,7 +44413,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 172,
+            "line": 184,
             "description": "Maximum frame duration. If a frame takes longer than this to render,\nthe clock will only advance this far, in effect slowing down time.\nIf this value is 0 or less, it will not be checked and frames can\ntake any amount of time to render.",
             "itemtype": "property",
             "name": "maxFrameDuration",
@@ -44428,12 +44428,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 191,
-            "description": "The number of clock units elapsed since the clock was most recently started (not including time spent paused)",
+            "line": 203,
+            "description": "Number of clock units elapsed since the clock was most recently\nstarted (not including time spent paused)",
             "itemtype": "method",
             "name": "elapsed",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44445,8 +44445,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 201,
-            "description": "The time the clock was most recently stopped relative to the master clock.",
+            "line": 214,
+            "description": "Time the clock was most recently stopped relative to the\nmaster clock.",
             "itemtype": "property",
             "name": "_timeLastStopped",
             "type": "Number",
@@ -44460,12 +44460,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 210,
-            "description": "The number of clock units elapsed since the clock was most recently stopped.",
+            "line": 224,
+            "description": "Number of clock units elapsed since the clock was most recently\nstopped.",
             "itemtype": "method",
-            "name": "elapsedSinceLastStopped.",
+            "name": "elapsedSinceLastStopped",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44477,8 +44477,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 222,
-            "description": "The time the clock was most receently paused relative to the master clock.",
+            "line": 237,
+            "description": "Time the clock was most receently paused relative to the\nmaster clock.",
             "itemtype": "property",
             "name": "_timeLastPaused",
             "access": "private",
@@ -44492,12 +44492,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 232,
-            "description": "The number of clock units elapsed since the clock was most recently paused.",
+            "line": 248,
+            "description": "Number of clock units elapsed since the clock was most recently paused.",
             "itemtype": "method",
-            "name": "elapsedSinceLastPaused.",
+            "name": "elapsedSinceLastPaused",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44509,8 +44509,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 244,
-            "description": "The time the clock was most recently unpaused relative to the master clock.",
+            "line": 260,
+            "description": "Time the clock was most recently unpaused relative to the\nmaster clock.",
             "itemtype": "property",
             "name": "_timeLastUnpaused",
             "access": "private",
@@ -44524,12 +44524,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 254,
-            "description": "The number of clock units elapsed since the clock was most recently unpaused.",
+            "line": 271,
+            "description": "Number of clock units elapsed since the clock was most recently\nunpaused.",
             "itemtype": "method",
-            "name": "elapsedSinceLastUnpaused.",
+            "name": "elapsedSinceLastUnpaused",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44541,8 +44541,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 266,
-            "description": "The total number of milliseconds the clock has been paused since it was last started.",
+            "line": 284,
+            "description": "Total number of milliseconds the clock has been paused\nsince it was last started",
             "itemtype": "property",
             "name": "_totalPaused",
             "access": "private",
@@ -44556,8 +44556,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 276,
-            "description": "Whether the clock is in a running state.",
+            "line": 295,
+            "description": "Whether the clock is in a running state",
             "itemtype": "property",
             "name": "_isRunning",
             "type": "boolean",
@@ -44571,12 +44571,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 285,
-            "description": "Check if the clock is currently running.",
+            "line": 304,
+            "description": "Check if the clock is currently running",
             "itemtype": "method",
             "name": "isRunning",
             "return": {
-                "description": "true if running.",
+                "description": "`true` if running",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44588,8 +44588,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 297,
-            "description": "Whether the clock is in a stopped state.",
+            "line": 316,
+            "description": "Whether the clock is in a stopped state",
             "itemtype": "property",
             "name": "_isStopped",
             "type": "boolean",
@@ -44603,12 +44603,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 306,
-            "description": "Check if the clock is in the stopped state.",
+            "line": 325,
+            "description": "Check if the clock is in the stopped state",
             "itemtype": "method",
             "name": "isStopped",
             "return": {
-                "description": "true if stopped.",
+                "description": "`true` if stopped",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44620,8 +44620,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 318,
-            "description": "Whether the clock is in a paused state.",
+            "line": 337,
+            "description": "Whether the clock is in a paused state",
             "itemtype": "property",
             "name": "_isPaused",
             "type": "boolean",
@@ -44635,12 +44635,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 327,
-            "description": "Check if the clock is in the paused state.",
+            "line": 346,
+            "description": "Check if the clock is in the paused state",
             "itemtype": "method",
             "name": "isPaused",
             "return": {
-                "description": "true if paused.",
+                "description": "`true` if paused",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44652,8 +44652,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 339,
-            "description": "An internal reference to the state of the elapsed timer",
+            "line": 358,
+            "description": "Internal reference to the state of the elapsed timer",
             "itemtype": "property",
             "name": "_elapsedState",
             "type": "Number",
@@ -44666,8 +44666,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 347,
-            "description": "The time manager that this clock belongs to.",
+            "line": 366,
+            "description": "Time manager that this clock belongs to",
             "itemtype": "property",
             "name": "manager",
             "type": "ClockManager",
@@ -44680,8 +44680,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 355,
-            "description": "The master clock.",
+            "line": 374,
+            "description": "Master clock from which time is derived",
             "itemtype": "property",
             "name": "master",
             "type": "Kiwi.Time.MasterClock",
@@ -44694,7 +44694,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 363,
+            "line": 382,
             "description": "Name of the clock",
             "itemtype": "property",
             "name": "name",
@@ -44708,8 +44708,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 371,
-            "description": "The number of milliseconds counted as one unit of time by the clock.",
+            "line": 390,
+            "description": "Number of milliseconds counted as one unit of time by the clock",
             "itemtype": "property",
             "name": "units",
             "type": "Number",
@@ -44723,7 +44723,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 380,
+            "line": 399,
             "description": "Constant indicating that the Clock is running\n(and has not yet been paused and resumed)",
             "itemtype": "property",
             "name": "_RUNNING",
@@ -44739,7 +44739,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 391,
+            "line": 410,
             "description": "Constant indicating that the Clock is paused",
             "itemtype": "property",
             "name": "_PAUSED",
@@ -44755,7 +44755,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 401,
+            "line": 420,
             "description": "Constant indicating that the Clock is running\n(and has been paused then resumed)",
             "itemtype": "property",
             "name": "_RESUMED",
@@ -44771,7 +44771,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 412,
+            "line": 431,
             "description": "Constant indicating that the Clock is stopped",
             "itemtype": "property",
             "name": "_STOPPED",
@@ -44787,19 +44787,19 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 422,
+            "line": 441,
             "description": "Add an existing Timer to the Clock.",
             "itemtype": "method",
             "name": "addTimer",
             "params": [
                 {
                     "name": "timer",
-                    "description": "Timer object instance to be added to this Clock.",
+                    "description": "Timer object instance to be added to this Clock",
                     "type": "Timer"
                 }
             ],
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -44811,40 +44811,40 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 436,
-            "description": "Creates a new Timer and adds it to this Clock.",
+            "line": 455,
+            "description": "Create a new Timer and add it to this Clock.",
             "itemtype": "method",
             "name": "createTimer",
             "params": [
                 {
                     "name": "name",
-                    "description": "The name of the Timer (must be unique on this Clock).",
+                    "description": "Name of the Timer (must be unique on this Clock)",
                     "type": "String"
                 },
                 {
                     "name": "delay",
-                    "description": "The number of clock units to wait between firing events (default 1)",
+                    "description": "Number of clock units to wait between\n\tfiring events",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1"
                 },
                 {
                     "name": "repeatCount",
-                    "description": "The number of times to repeat this Timer (default 0)",
+                    "description": "Number of times to repeat the Timer \n\t(default 0)",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "start",
-                    "description": "If the timer should start.",
+                    "description": "If the timer should start",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "The newly created Timer.",
+                "description": "The newly created Timer",
                 "type": "Kiwi.Time.Timer"
             },
             "access": "public",
@@ -44856,28 +44856,28 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 458,
-            "description": "Remove a Timer from this Clock based on either the Timer object or its name.",
+            "line": 479,
+            "description": "Remove a Timer from this Clock based on either the Timer object\nor its name.",
             "itemtype": "method",
             "name": "removeTimer",
             "params": [
                 {
                     "name": "timer",
-                    "description": "The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.",
+                    "description": "Timer object you wish to remove.\n\tIf you wish to delete by Timer Name set this to null.",
                     "type": "Timer",
                     "optional": true,
                     "optdefault": "null"
                 },
                 {
                     "name": "timerName",
-                    "description": "The name of the Timer object to remove.",
+                    "description": "Name of the Timer object to remove",
                     "type": "String",
                     "optional": true,
                     "optdefault": "''"
                 }
             ],
             "return": {
-                "description": "True if the Timer was successfully removed, false if not.",
+                "description": "`true` if the Timer was successfully removed",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44889,19 +44889,19 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 488,
-            "description": "Check if the Timer already exists on this Clock",
+            "line": 511,
+            "description": "Check if the Timer already exists on this Clock.",
             "itemtype": "method",
             "name": "checkExists",
             "params": [
                 {
                     "name": "name",
-                    "description": "The name of the Timer.",
+                    "description": "Name of the Timer",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "true if the Timer exists, false if not.",
+                "description": "`true` if the Timer exists",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44913,12 +44913,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 508,
+            "line": 531,
             "description": "Stop all timers attached to the clock.",
             "itemtype": "method",
             "name": "stopAllTimers",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Clock"
             },
             "access": "public",
@@ -44930,19 +44930,19 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 525,
+            "line": 548,
             "description": "Convert a number to milliseconds based on clock units.",
             "itemtype": "method",
-            "name": "toMilliseconds.",
+            "name": "toMilliseconds",
             "params": [
                 {
                     "name": "time",
-                    "description": "seconds",
+                    "description": "Seconds",
                     "type": "Number"
                 }
             ],
             "return": {
-                "description": "milliseconds.",
+                "description": "Milliseconds",
                 "type": "Number"
             },
             "access": "public",
@@ -44954,8 +44954,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 538,
-            "description": "Updates all Timers linked to this Clock.",
+            "line": 561,
+            "description": "Update all Timers linked to this Clock.",
             "itemtype": "method",
             "name": "update",
             "access": "public",
@@ -44967,12 +44967,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 571,
+            "line": 594,
             "description": "Start the clock. This resets the clock and starts it running.",
             "itemtype": "method",
             "name": "start",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Clock"
             },
             "access": "public",
@@ -44984,12 +44984,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 597,
-            "description": "Pause the clock. The clock can only be paused if it is already running.",
+            "line": 624,
+            "description": "Pause the clock. This can only be paused if it is already running.",
             "itemtype": "method",
             "name": "pause",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -45001,12 +45001,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 618,
-            "description": "Resume the clock. The clock can only be resumed if it is already paused.",
+            "line": 645,
+            "description": "Resume the clock. This can only be resumed if it is already paused.",
             "itemtype": "method",
             "name": "resume",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -45018,12 +45018,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 641,
-            "description": "Stop the clock. Clock can only be stopped if it is already running or is paused.",
+            "line": 668,
+            "description": "Stop the clock. This can only be stopped if it is already running\n\tor is paused.",
             "itemtype": "method",
             "name": "stop",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -45035,12 +45035,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 669,
-            "description": "Returns a string representation of this object.",
+            "line": 697,
+            "description": "Return a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
             "return": {
-                "description": "a string representation of the instance.",
+                "description": "String representation of the instance",
                 "type": "String"
             },
             "access": "public",
@@ -45052,8 +45052,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 682,
-            "description": "Set a function to execute after a certain time interval.\nEmulates window.setTimeout, except attached to a Kiwi.Time.Clock.\nThis allows you to pause and manipulate time, and the timeout will respect\nthe clock on which it is created.\n\nNo clearTimeout is provided; you should use Kiwi.Time.Timer functions\nto achieve further control.\n\nAny parameters after \"context\" will be passed as parameters to the\ncallback function. Note that you must specify \"context\" in order for\nthis to work. You may specify \"null\", in which case it will default\nto the global scope \"window\".",
+            "line": 710,
+            "description": "Set a function to execute after a certain time interval.\nEmulates `window.setTimeout`, except attached to a `Kiwi.Time.Clock`.\nThis allows you to pause and manipulate time, and the timeout will\nrespect the clock on which it is created.\n\nNo `clearTimeout` is provided; you should use `Kiwi.Time.Timer`\nfunctions to achieve further control.\n\nAny parameters after `context` will be passed as parameters to the\ncallback function. Note that you must specify `context` in order for\nthis to work. You may specify `null`, in which case it will default\nto the global scope `window`.",
             "itemtype": "method",
             "name": "setTimeout",
             "params": [
@@ -45069,13 +45069,13 @@
                 },
                 {
                     "name": "context",
-                    "description": "Object to be \"this\" for the callback",
+                    "description": "Object to be `this` for the callback",
                     "type": "Object",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "Kiwi.Time.Timer object which can be used to further\n  manipulate the timer",
+                "description": "Kiwi.Time.Timer object which can be used\n\tto further manipulate the timer",
                 "type": "Kiwi.Time.Timer"
             },
             "access": "public",
@@ -45087,8 +45087,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 725,
-            "description": "Set a function to repeatedly execute at fixed time intervals.\nEmulates window.setInterval, except attached to a Kiwi.Time.Clock.\nThis allows you to pause and manipulate time, and the timeout will respect\nthe clock on which it is created.\n\nNo clearInterval is provided; you should use Kiwi.Time.Timer functions\nto achieve further control.\n\nAny parameters after \"context\" will be passed as parameters to the\ncallback function. Note that you must specify \"context\" in order for\nthis to work. You may specify \"null\", in which case it will default\nto the global scope \"window\".",
+            "line": 753,
+            "description": "Set a function to repeatedly execute at fixed time intervals.\nEmulates `window.setInterval`, except attached to a `Kiwi.Time.Clock`.\nThis allows you to pause and manipulate time, and the timeout will\nrespect the clock on which it is created.\n\nNo `clearInterval` is provided; you should use `Kiwi.Time.Timer`\nfunctions to achieve further control.\n\nAny parameters after `context` will be passed as parameters to the\ncallback function. Note that you must specify `context` in order for\nthis to work. You may specify `null`, in which case it will default\nto the global scope `window`.",
             "itemtype": "method",
             "name": "setInterval",
             "params": [
@@ -45104,7 +45104,7 @@
                 },
                 {
                     "name": "context",
-                    "description": "Object to be \"this\" for the callback",
+                    "description": "Object to be `this` for the callback",
                     "type": "Object",
                     "optional": true,
                     "optdefault": "window"
@@ -51715,20 +51715,20 @@
             "line": " src/geom/Intersect.ts:72"
         },
         {
-            "message": "Missing item type\n-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:346"
+            "message": "Missing item type\n---------------------------------------------------------------------\nLine Segment\n---------------------------------------------------------------------",
+            "line": " src/geom/Intersect.ts:354"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:508"
+            "line": " src/geom/Intersect.ts:520"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:585"
+            "line": " src/geom/Intersect.ts:597"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:690"
+            "line": " src/geom/Intersect.ts:702"
         },
         {
             "message": "Missing item type\nCreates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.",

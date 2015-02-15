@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.2.2</em>
+            <em>API Docs for: 1.2.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -477,43 +477,51 @@ module Kiwi.Geom {
 
 		/**
 		* Check to see if a Line and a Line Segment intersect at any point. 
-		* Note: The first line passed is treated as if it extends infinately though space, 
-		* The second is treated as if it only exists between its two points.
+		* Note: The first line passed is treated as if it extends infinitely
+		* though space. The second is treated as if it only exists between
+		* its two points.
 		*
 		* @method lineToLineSegment
-		* @param line1 {Kiwi.Geom.Line} The first line to check. This is the one that will extend through space infinately.
-		* @param seg {Kiwi.Geom.Line} The second line to check. This is the one that will only exist between its two coordinates.
-		* @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-		* @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection.
+		* @param line1 {Kiwi.Geom.Line} The first line to check.
+			This is the one that will extend through space infinately.
+		* @param seg {Kiwi.Geom.Line} The second line to check.
+			This is the one that will only exist between its two coordinates.
+		* @param [output] {Kiwi.Geom.IntersectResult} An optional
+			IntersectResult object to store the intersection values in. One is
+			created if none given.
+		* @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+			containing the results of this intersection.
 		* @public
 		* @static
 		*/
-		static lineToLineSegment(line1: Line, seg: Line, output: IntersectResult = new IntersectResult): IntersectResult {
+		static lineToLineSegment( line1: Line, seg: Line, output: IntersectResult = new IntersectResult ): IntersectResult {
 
 			output.result = false;
 
-			var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
+			var denom = ( line1.x1 - line1.x2 ) * ( seg.y1 - seg.y2 ) -
+				( line1.y1 - line1.y2 ) * ( seg.x1 - seg.x2 );
 
-			if (denom !== 0)
-			{
-				output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (seg.x1 - seg.x2) - (line1.x1 - line1.x2) * (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
-				output.y = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
+			if ( denom !== 0 ) {
+				output.x = ( ( line1.x1 * line1.y2 - line1.y1 * line1.x2 ) *
+					( seg.x1 - seg.x2 ) - ( line1.x1 - line1.x2 ) *
+					( seg.x1 * seg.y2 - seg.y1 * seg.x2 ) ) / denom;
+				output.y = ( ( line1.x1 * line1.y2 - line1.y1 * line1.x2 ) *
+					( seg.y1 - seg.y2 ) - (line1.y1 - line1.y2 ) *
+					( seg.x1 * seg.y2 - seg.y1 * seg.x2 ) ) / denom;
 
-				var maxX = Math.max(seg.x1, seg.x2);
-				var minX = Math.min(seg.x1, seg.x2);
-				var maxY = Math.max(seg.y1, seg.y2);
-				var minY = Math.min(seg.y1, seg.y2);
+				var maxX = Math.max( seg.x1, seg.x2 );
+				var minX = Math.min( seg.x1, seg.x2 );
+				var maxY = Math.max( seg.y1, seg.y2 );
+				var minY = Math.min( seg.y1, seg.y2 );
 
-				//if (!(output.x &lt;= maxX &amp;&amp; output.x &gt;= minX) || !(output.y &lt;= maxY &amp;&amp; output.y &gt;= minY))
-				if ((output.x &lt;= maxX &amp;&amp; output.x &gt;= minX) === true || (output.y &lt;= maxY &amp;&amp; output.y &gt;= minY) === true)
-				{
+				if ( ( output.x &lt;= maxX &amp;&amp; output.x &gt;= minX ) === true &amp;&amp;
+					( output.y &lt;= maxY &amp;&amp; output.y &gt;= minY ) === true ) {
 					output.result = true;
 				}
 
 			}
 
 			return output;
-
 		}
 
 		/**
@@ -708,20 +716,24 @@ module Kiwi.Geom {
 		}
 
 		/**
-		* -------------------------------------------------------------------------------------------
+		* ---------------------------------------------------------------------
 		* Line Segment
-		* -------------------------------------------------------------------------------------------
+		* ---------------------------------------------------------------------
 		**/
 
 		/**
 		* Checks to see if two Line Segments intersect at any point in space. 
-		* Note: Both lines are treated as if they only exist between their two line coordinates.
+		* Note: Both lines are treated as if they only exist between their two
+		* line coordinates.
 		* 
 		* @method lineSegmentToLineSegment
 		* @param line1 {Kiwi.Geom.Line} The first line object to check.
 		* @param line2 {Kiwi.Geom.Line} The second line object to check.
-		* @param [output]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-		* @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+		* @param [output]{Kiwi.Geom.IntersectResult} An optional
+			IntersectResult object to store the intersection values in.
+			One is created if none given.
+		* @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+			containing the results of this intersection in x/y.
 		* @public
 		* @static
 		*/
@@ -729,13 +741,13 @@ module Kiwi.Geom {
 
 			output.result = false;
 
-			Intersect.lineToLineSegment(line1, line2, output);
+			Intersect.lineToLineSegment( line1, line2, output );
 
-			if (output.result === true)
-			{
-				if (!(output.x &gt;= Math.min(line1.x1, line1.x2) &amp;&amp; output.x &lt;= Math.max(line1.x1, line1.x2)
-					&amp;&amp; output.y &gt;= Math.min(line1.y1, line1.y2) &amp;&amp; output.y &lt;= Math.max(line1.y1, line1.y2)))
-				{
+			if ( output.result === true ) {
+				if ( !( output.x &gt;= Math.min( line1.x1, line1.x2 ) &amp;&amp;
+						output.x &lt;= Math.max( line1.x1, line1.x2 ) &amp;&amp;
+						output.y &gt;= Math.min( line1.y1, line1.y2 ) &amp;&amp;
+						output.y &lt;= Math.max( line1.y1, line1.y2 ) ) ) {
 					output.result = false;
 				}
 			}

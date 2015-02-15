@@ -1,29 +1,41 @@
 /**
-* 
 * @module Kiwi
 * @submodule Time
-*
 */
 
 module Kiwi.Time {
 
 	/**
-	* The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
-	* - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
-	* - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-	* - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.
-	* - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-	* - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+	* The Clock class offers a way of tracking time within a game.
+	* When creating a new Clock you should NOT directly instantiate this class
+	* but instead use the addClock method on a ClockManager.
+	* - The MasterClock is a property of the Kiwi.Time.Manager class and tracks
+	*   real world time in milliseconds elapsed since the application started.
+	*   This happens automatically and there is no need to do anything to set
+	*   this up.
+	* - An instance of a clock is used to track time in arbitrary units
+	*   (milliseconds by default)
+	* - A clock can be started, paused, unpaused and stopped. Once stopped,
+	*   re-starting the clock again will reset it. It can also have its time
+	*   scale freely transformed.
+	* - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer
+	*   class for timer details.
+	* - If the clock is paused, any timers attached to the clock will take this
+	*   into account and not continue to fire events until the clock is
+	*   unpaused. (Note that this is not the same as pausing timers, which can
+	*   be done manually and needs to be undone manually.)
 	* - Animations and TweenManagers can use any Clock.
 	* 
 	* @class Clock
 	* @namespace Kiwi.Time
 	* @constructor
-	* @param manager {ClockManager} The ClockManager that this clock belongs to.
-	* @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
-	* @param name {String} The name of the clock.
-	* @param [units=1000] {Number} The units that this clock is to operate in per second.
-	* @return {Kiwi.Time.Clock} This Clock object.
+	* @param manager {ClockManager} ClockManager that this clock belongs to
+	* @param master {Kiwi.Time.MasterClock} MasterClock that this is getting
+	*	the time in relation to
+	* @param name {String} Name of the clock
+	* @param [units=1000] {Number} Units that this clock is to operate in
+	*	per second
+	* @return {Kiwi.Time.Clock} This Clock object
 	*/
 	export class Clock {
 
@@ -44,7 +56,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* The type of object that this is.
+		* The type of object that this is
 		* @method objType
 		* @return {String} "Clock"
 		* @public
@@ -54,7 +66,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* A collection of Timer objects using this clock.
+		* Collection of Timer objects using this clock
 		* @property timers
 		* @type Timer[]
 		* @private
@@ -62,7 +74,7 @@ module Kiwi.Time {
 		private timers: Kiwi.Time.Timer[];
 
 		/**
-		* The time the clock was first started relative to the master clock.
+		* Time the clock was first started relative to the master clock
 		* @property _timeFirstStarted
 		* @type Number
 		* @default null
@@ -71,9 +83,9 @@ module Kiwi.Time {
 		private _timeFirstStarted: number = null;
 
 		/**
-		* The number of clock units elapsed since the clock was first started.
-		* @method elapsedSinceFirstStarted.
-		* @return {Number} number of clock units.
+		* Number of clock units elapsed since the clock was first started
+		* @method elapsedSinceFirstStarted
+		* @return {Number} Number of clock units elapsed
 		* @public
 		*/
 		public elapsedSinceFirstStarted(): number {
@@ -83,7 +95,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* The time the clock was most recently started relative to the master clock.
+		* Most recent time the clock was started relative to the master clock
 		* @property _timeLastStarted
 		* @type Number
 		* @default null
@@ -92,9 +104,9 @@ module Kiwi.Time {
 		private _timeLastStarted: number = null;
 
 		/**
-		* Get the most recent time the clock was started relative to the master clock.
+		* Most recent time the clock was started relative to the master clock
 		* @method started
-		* @return {Number} milliseconds.
+		* @return {Number} Milliseconds
 		* @public
 		*/
 		public started(): number {
@@ -106,7 +118,7 @@ module Kiwi.Time {
 
 		/**
 		* Rate at which time passes on this clock.
-		* 1 is normal speed. 0 is no speed. -1 is backwards.
+		* 1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.
 		* This mostly affects timers, animations and tweens.
 		* @property timeScale
 		* @type number
@@ -189,9 +201,10 @@ module Kiwi.Time {
 
 
 		/**
-		* The number of clock units elapsed since the clock was most recently started (not including time spent paused)
+		* Number of clock units elapsed since the clock was most recently
+		* started (not including time spent paused)
 		* @method elapsed
-		* @return {Number} number of clock units.
+		* @return {Number} Number of clock units
 		* @public
 		*/
 		public elapsed(): number {
@@ -199,7 +212,8 @@ module Kiwi.Time {
 		}
 
 		/**
-		* The time the clock was most recently stopped relative to the master clock.
+		* Time the clock was most recently stopped relative to the
+		* master clock.
 		* @property _timeLastStopped
 		* @type Number
 		* @default null
@@ -208,9 +222,10 @@ module Kiwi.Time {
 		private _timeLastStopped: number = null;
 
 		/**
-		* The number of clock units elapsed since the clock was most recently stopped.
-		* @method elapsedSinceLastStopped.
-		* @return {Number} number of clock units.
+		* Number of clock units elapsed since the clock was most recently
+		* stopped.
+		* @method elapsedSinceLastStopped
+		* @return {Number} Number of clock units
 		* @public
 		*/
 		public elapsedSinceLastStopped(): number {
@@ -220,7 +235,8 @@ module Kiwi.Time {
 		}
 
 		/**
-		* The time the clock was most receently paused relative to the master clock.
+		* Time the clock was most receently paused relative to the
+		* master clock.
 		* @property _timeLastPaused
 		* @private
 		* @type Number
@@ -230,9 +246,9 @@ module Kiwi.Time {
 		private _timeLastPaused: number = null;
 
 		/**
-		* The number of clock units elapsed since the clock was most recently paused.
-		* @method elapsedSinceLastPaused.
-		* @return {Number} number of clock units.
+		* Number of clock units elapsed since the clock was most recently paused.
+		* @method elapsedSinceLastPaused
+		* @return {Number} Number of clock units
 		* @public
 		*/
 		public elapsedSinceLastPaused(): number {
@@ -242,7 +258,8 @@ module Kiwi.Time {
 		}
 
 		/**
-		* The time the clock was most recently unpaused relative to the master clock.
+		* Time the clock was most recently unpaused relative to the
+		* master clock.
 		* @property _timeLastUnpaused
 		* @private
 		* @type Number
@@ -252,9 +269,10 @@ module Kiwi.Time {
 		private _timeLastUnpaused: number = null;
 
 		/**
-		* The number of clock units elapsed since the clock was most recently unpaused.
-		* @method elapsedSinceLastUnpaused.
-		* @return {Number} number of clock units.
+		* Number of clock units elapsed since the clock was most recently
+		* unpaused.
+		* @method elapsedSinceLastUnpaused
+		* @return {Number} Number of clock units
 		* @public
 		*/
 		public elapsedSinceLastUnpaused(): number {
@@ -264,7 +282,8 @@ module Kiwi.Time {
 		}
 
 		/**
-		* The total number of milliseconds the clock has been paused since it was last started.
+		* Total number of milliseconds the clock has been paused
+		* since it was last started
 		* @property _totalPaused
 		* @private
 		* @type Number
@@ -274,7 +293,7 @@ module Kiwi.Time {
 		private _totalPaused: number = 0;
 
 		/**
-		* Whether the clock is in a running state.
+		* Whether the clock is in a running state
 		* @property _isRunning
 		* @type boolean
 		* @default false
@@ -283,9 +302,9 @@ module Kiwi.Time {
 		private _isRunning: boolean = false;
 
 		/**
-		* Check if the clock is currently running.
+		* Check if the clock is currently running
 		* @method isRunning
-		* @return {boolean} true if running.
+		* @return {boolean} `true` if running
 		* @public
 		*/
 		public isRunning(): boolean {
@@ -295,7 +314,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Whether the clock is in a stopped state.
+		* Whether the clock is in a stopped state
 		* @property _isStopped
 		* @type boolean
 		* @default true
@@ -304,9 +323,9 @@ module Kiwi.Time {
 		private _isStopped: boolean = true;
 
 		/**
-		* Check if the clock is in the stopped state.
+		* Check if the clock is in the stopped state
 		* @method isStopped
-		* @return {boolean} true if stopped.
+		* @return {boolean} `true` if stopped
 		* @public
 		*/
 		public isStopped(): boolean {
@@ -316,7 +335,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Whether the clock is in a paused state.
+		* Whether the clock is in a paused state
 		* @property _isPaused
 		* @type boolean
 		* @default false
@@ -325,9 +344,9 @@ module Kiwi.Time {
 		private _isPaused: boolean = false;
 
 		/**
-		* Check if the clock is in the paused state.
+		* Check if the clock is in the paused state
 		* @method isPaused
-		* @return {boolean} true if paused.
+		* @return {boolean} `true` if paused
 		* @public
 		*/
 		public isPaused(): boolean {
@@ -337,7 +356,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* An internal reference to the state of the elapsed timer
+		* Internal reference to the state of the elapsed timer
 		* @property _elapsedState
 		* @type Number
 		* @private
@@ -345,7 +364,7 @@ module Kiwi.Time {
 		private _elapsedState: number = Kiwi.Time.Clock._RUNNING;
 
 		/**
-		* The time manager that this clock belongs to.
+		* Time manager that this clock belongs to
 		* @property manager
 		* @type ClockManager 
 		* @public
@@ -353,7 +372,7 @@ module Kiwi.Time {
 		public manager: Kiwi.Time.ClockManager = null;
 
 		/**
-		* The master clock.
+		* Master clock from which time is derived
 		* @property master
 		* @type Kiwi.Time.MasterClock
 		* @public
@@ -369,7 +388,7 @@ module Kiwi.Time {
 		public name: string = null;
 
 		/**
-		* The number of milliseconds counted as one unit of time by the clock.
+		* Number of milliseconds counted as one unit of time by the clock
 		* @property units
 		* @type Number
 		* @default 0
@@ -422,8 +441,8 @@ module Kiwi.Time {
 		/**
 		* Add an existing Timer to the Clock.
 		* @method addTimer
-		* @param timer {Timer} Timer object instance to be added to this Clock.
-		* @return {Kiwi.Time.Clock} This Clock object.
+		* @param timer {Timer} Timer object instance to be added to this Clock
+		* @return {Kiwi.Time.Clock} This Clock object
 		* @public
 		*/
 		public addTimer(timer: Timer): Clock {
@@ -434,13 +453,15 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Creates a new Timer and adds it to this Clock.
+		* Create a new Timer and add it to this Clock.
 		* @method createTimer
-		* @param name {string} The name of the Timer (must be unique on this Clock).
-		* @param [delay=1] {Number} The number of clock units to wait between firing events (default 1)
-		* @param [repeatCount=0] {Number} The number of times to repeat this Timer (default 0)
-		* @param [start=true] {Boolean} If the timer should start.
-		* @return {Kiwi.Time.Timer} The newly created Timer.
+		* @param name {string} Name of the Timer (must be unique on this Clock)
+		* @param [delay=1] {Number} Number of clock units to wait between
+		*	firing events
+		* @param [repeatCount=0] {Number} Number of times to repeat the Timer 
+		*	(default 0)
+		* @param [start=true] {Boolean} If the timer should start
+		* @return {Kiwi.Time.Timer} The newly created Timer
 		* @public
 		*/
 		public createTimer(name: string, delay: number = 1, repeatCount: number = 0, start: boolean=true): Timer {
@@ -456,11 +477,13 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Remove a Timer from this Clock based on either the Timer object or its name.
+		* Remove a Timer from this Clock based on either the Timer object
+		* or its name.
 		* @method removeTimer
-		* @param [timer=null] {Timer} The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.
-		* @param [timerName=''] {string} The name of the Timer object to remove.
-		* @return {boolean} True if the Timer was successfully removed, false if not.
+		* @param [timer=null] {Timer} Timer object you wish to remove.
+		*	If you wish to delete by Timer Name set this to null.
+		* @param [timerName=''] {string} Name of the Timer object to remove
+		* @return {boolean} `true` if the Timer was successfully removed
 		* @public
 		*/
 		public removeTimer(timer: Timer = null, timerName:string = ""): boolean {
@@ -486,10 +509,10 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Check if the Timer already exists on this Clock
+		* Check if the Timer already exists on this Clock.
 		* @method checkExists
-		* @param name {string} The name of the Timer.
-		* @return {boolean} true if the Timer exists, false if not.
+		* @param name {string} Name of the Timer
+		* @return {boolean} `true` if the Timer exists
 		* @public
 		*/
 		public checkExists(name: string): boolean {
@@ -508,7 +531,7 @@ module Kiwi.Time {
 		/**
 		* Stop all timers attached to the clock.
 		* @method stopAllTimers
-		* @return {Clock} This Clock object.
+		* @return {Clock} This Clock object
 		* @public
 		*/
 		public stopAllTimers(): Clock {
@@ -524,9 +547,9 @@ module Kiwi.Time {
 
 		/**
 		* Convert a number to milliseconds based on clock units.
-		* @method toMilliseconds.
-		* @param time {number} seconds
-		* @return {Number} milliseconds.
+		* @method toMilliseconds
+		* @param time {number} Seconds
+		* @return {Number} Milliseconds
 		* @public
 		*/
 		public convertToMilliseconds(time: number): number {
@@ -536,7 +559,7 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Updates all Timers linked to this Clock.
+		* Update all Timers linked to this Clock.
 		* @method update
 		* @public
 		*/
@@ -571,7 +594,7 @@ module Kiwi.Time {
 		/**
 		* Start the clock. This resets the clock and starts it running.
 		* @method start
-		* @return {Clock} This Clock object.
+		* @return {Clock} This Clock object
 		* @public
 		*/
 		public start(): Clock {
@@ -599,9 +622,9 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Pause the clock. The clock can only be paused if it is already running.
+		* Pause the clock. This can only be paused if it is already running.
 		* @method pause
-		* @return {Kiwi.Time.Clock} This Clock object.
+		* @return {Kiwi.Time.Clock} This Clock object
 		* @public
 		*/
 		public pause(): Clock {
@@ -620,9 +643,9 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Resume the clock. The clock can only be resumed if it is already paused.
+		* Resume the clock. This can only be resumed if it is already paused.
 		* @method resume
-		* @return {Kiwi.Time.Clock} This Clock object.
+		* @return {Kiwi.Time.Clock} This Clock object
 		* @public
 		*/
 		public resume(): Clock {
@@ -643,9 +666,10 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Stop the clock. Clock can only be stopped if it is already running or is paused.
+		* Stop the clock. This can only be stopped if it is already running
+		*	or is paused.
 		* @method stop
-		* @return {Kiwi.Time.Clock} This Clock object.
+		* @return {Kiwi.Time.Clock} This Clock object
 		* @public
 		*/
 		public stop(): Clock {
@@ -671,9 +695,9 @@ module Kiwi.Time {
 		}
 
 		/**
-		* Returns a string representation of this object.
+		* Return a string representation of this object.
 		* @method toString
-		* @return {string} a string representation of the instance.
+		* @return {string} String representation of the instance
 		* @public
 		*/
 		public toString(): string {
@@ -685,24 +709,24 @@ module Kiwi.Time {
 
 		/**
 		* Set a function to execute after a certain time interval.
-		* Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
-		* This allows you to pause and manipulate time, and the timeout will respect
-		* the clock on which it is created.
+		* Emulates `window.setTimeout`, except attached to a `Kiwi.Time.Clock`.
+		* This allows you to pause and manipulate time, and the timeout will
+		* respect the clock on which it is created.
 		*
-		* No clearTimeout is provided; you should use Kiwi.Time.Timer functions
-		* to achieve further control.
+		* No `clearTimeout` is provided; you should use `Kiwi.Time.Timer`
+		* functions to achieve further control.
 		*
-		* Any parameters after "context" will be passed as parameters to the
-		* callback function. Note that you must specify "context" in order for
-		* this to work. You may specify "null", in which case it will default
-		* to the global scope "window".
+		* Any parameters after `context` will be passed as parameters to the
+		* callback function. Note that you must specify `context` in order for
+		* this to work. You may specify `null`, in which case it will default
+		* to the global scope `window`.
 		*
 		* @method setTimeout
 		* @param callback {function} Function to execute
 		* @param timeout {number} Milliseconds before execution
-		* @param [context] {object} Object to be "this" for the callback
-		* @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used to further
-		*   manipulate the timer
+		* @param [context] {object} Object to be `this` for the callback
+		* @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used
+		*	to further manipulate the timer
 		* @public
 		*/
 		public setTimeout( callback, timeout: number, context, ...args ): Timer {
@@ -728,22 +752,22 @@ module Kiwi.Time {
 
 		/**
 		* Set a function to repeatedly execute at fixed time intervals.
-		* Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
-		* This allows you to pause and manipulate time, and the timeout will respect
-		* the clock on which it is created.
+		* Emulates `window.setInterval`, except attached to a `Kiwi.Time.Clock`.
+		* This allows you to pause and manipulate time, and the timeout will
+		* respect the clock on which it is created.
 		*
-		* No clearInterval is provided; you should use Kiwi.Time.Timer functions
-		* to achieve further control.
+		* No `clearInterval` is provided; you should use `Kiwi.Time.Timer`
+		* functions to achieve further control.
 		*
-		* Any parameters after "context" will be passed as parameters to the
-		* callback function. Note that you must specify "context" in order for
-		* this to work. You may specify "null", in which case it will default
-		* to the global scope "window".
+		* Any parameters after `context` will be passed as parameters to the
+		* callback function. Note that you must specify `context` in order for
+		* this to work. You may specify `null`, in which case it will default
+		* to the global scope `window`.
 		*
 		* @method setInterval
 		* @param callback {function} Function to execute
 		* @param timeout {number} Milliseconds between executions
-		* @param [context=window] {object} Object to be "this" for the callback
+		* @param [context=window] {object} Object to be `this` for the callback
 		* @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
 		*   which can be used to further manipulate the timer
 		* @public

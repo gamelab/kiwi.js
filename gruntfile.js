@@ -96,7 +96,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( "full", [
 		"ts:build", "tslint", "concat:build", "uglify:build",
 		"yuidoc:compile", "copy:templateGame",
-		"copy:doclogo", "copy:docstyles" ] );
+		"copy:doclogo", "copy:docstyles", "copy:docfavicon" ] );
 	grunt.registerTask( "docs", [
 		"yuidoc:compile", "copy:doclogo",
 		"copy:docstyles", "copy:docfavicon" ] );
