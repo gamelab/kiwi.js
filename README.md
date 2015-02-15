@@ -39,7 +39,10 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
 ### v1.2.3 "Williams"
 
+### Bug Fixes
 
+* `Clock.elapsed()` now resets to 0 after `start()` is called. (#177)
+* `Geom.Intersect.lineToLineSegment` and `lineSegmentToLineSegment` now work correctly. (#172)
 
 ### v1.2.2 "Williams"
 

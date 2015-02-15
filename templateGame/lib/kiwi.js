@@ -21227,14 +21227,20 @@ var Kiwi;
             };
             /**
             * Check to see if a Line and a Line Segment intersect at any point.
-            * Note: The first line passed is treated as if it extends infinately though space,
-            * The second is treated as if it only exists between its two points.
+            * Note: The first line passed is treated as if it extends infinitely
+            * though space. The second is treated as if it only exists between
+            * its two points.
             *
             * @method lineToLineSegment
-            * @param line1 {Kiwi.Geom.Line} The first line to check. This is the one that will extend through space infinately.
-            * @param seg {Kiwi.Geom.Line} The second line to check. This is the one that will only exist between its two coordinates.
-            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection.
+            * @param line1 {Kiwi.Geom.Line} The first line to check.
+                This is the one that will extend through space infinately.
+            * @param seg {Kiwi.Geom.Line} The second line to check.
+                This is the one that will only exist between its two coordinates.
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional
+                IntersectResult object to store the intersection values in. One is
+                created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+                containing the results of this intersection.
             * @public
             * @static
             */
@@ -21249,8 +21255,7 @@ var Kiwi;
                     var minX = Math.min(seg.x1, seg.x2);
                     var maxY = Math.max(seg.y1, seg.y2);
                     var minY = Math.min(seg.y1, seg.y2);
-                    //if (!(output.x <= maxX && output.x >= minX) || !(output.y <= maxY && output.y >= minY))
-                    if ((output.x <= maxX && output.x >= minX) === true || (output.y <= maxY && output.y >= minY) === true) {
+                    if ((output.x <= maxX && output.x >= minX) === true && (output.y <= maxY && output.y >= minY) === true) {
                         output.result = true;
                     }
                 }
@@ -21405,19 +21410,23 @@ var Kiwi;
                 return output;
             };
             /**
-            * -------------------------------------------------------------------------------------------
+            * ---------------------------------------------------------------------
             * Line Segment
-            * -------------------------------------------------------------------------------------------
+            * ---------------------------------------------------------------------
             **/
             /**
             * Checks to see if two Line Segments intersect at any point in space.
-            * Note: Both lines are treated as if they only exist between their two line coordinates.
+            * Note: Both lines are treated as if they only exist between their two
+            * line coordinates.
             *
             * @method lineSegmentToLineSegment
             * @param line1 {Kiwi.Geom.Line} The first line object to check.
             * @param line2 {Kiwi.Geom.Line} The second line object to check.
-            * @param [output]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @param [output]{Kiwi.Geom.IntersectResult} An optional
+                IntersectResult object to store the intersection values in.
+                One is created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+                containing the results of this intersection in x/y.
             * @public
             * @static
             */
