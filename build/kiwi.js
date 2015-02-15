@@ -28250,6 +28250,9 @@ var Kiwi;
                 this._isPaused = false;
                 this._isStopped = false;
                 this._elapsedState = Kiwi.Time.Clock._RUNNING;
+                this._elapsed = 0;
+                this._lastMasterElapsed = this.master.elapsed();
+                this._currentMasterElapsed = this.master.elapsed();
                 return this;
             };
             /**
@@ -33201,7 +33204,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.2.2";
+    Kiwi.VERSION = "1.2.3";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.

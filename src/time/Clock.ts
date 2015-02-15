@@ -590,6 +590,10 @@ module Kiwi.Time {
 
 			this._elapsedState = Kiwi.Time.Clock._RUNNING;
 
+			this._elapsed = 0;
+			this._lastMasterElapsed = this.master.elapsed();
+			this._currentMasterElapsed = this.master.elapsed();
+
 			return this;
 
 		}
