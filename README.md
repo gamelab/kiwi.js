@@ -48,6 +48,8 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
 * `Entity.inputEnabled` wasn't used by anything, and is now officially deprecated.
 
+More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.3 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.3)
+
 ### v1.2.2 "Williams"
 
 ### Bug Fixes
