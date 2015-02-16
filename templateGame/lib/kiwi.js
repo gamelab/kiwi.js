@@ -8658,6 +8658,17 @@ var Kiwi;
                 this._callbackFunction = callbackFunction;
                 this._callbackContext = callbackContext;
             };
+            /**
+            * Sets the parents rotation to be equal to the trajectory of the velocity of the physics component.
+            * @method rotateToVelocity
+            * @return { Number }
+            * @public
+            */
+            ArcadePhysics.prototype.rotateToVelocity = function () {
+                var result = Math.atan2(this.velocity.y, this.velocity.x);
+                this.transform.rotation = result;
+                return result;
+            };
             /*
             *---------------
             * Seperation Code

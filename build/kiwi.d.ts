@@ -6137,6 +6137,13 @@ declare module Kiwi.Components {
         */
         parent: Kiwi.Entity;
         /**
+        * Sets the parents rotation to be equal to the trajectory of the velocity of the physics component.
+        * @method rotateToVelocity
+        * @return { Number }
+        * @public
+        */
+        rotateToVelocity(): number;
+        /**
         * A static method for seperating two normal GameObjects on both the X and Y Axis's.
         * Both objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.
         * This method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.

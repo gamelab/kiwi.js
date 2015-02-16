@@ -326,6 +326,22 @@ module Kiwi.Components {
 		*/
 		public parent: Kiwi.Entity;
 
+		/**
+		* Sets the parents rotation to be equal to the trajectory of the velocity of the physics component. 
+		* @method rotateToVelocity
+		* @return { Number }
+		* @public
+		*/
+		public rotateToVelocity (): number {
+
+			var result: number = Math.atan2( this.velocity.y, this.velocity.x );
+
+			this.transform.rotation = result;
+
+			return result;
+
+		}
+
 
 		/*
 		*---------------
