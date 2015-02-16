@@ -327,10 +327,13 @@ module Kiwi.Components {
 		public parent: Kiwi.Entity;
 
 		/**
-		* Sets the parents rotation to be equal to the trajectory of the velocity of the physics component. 
+		* Sets the parent's rotation to be equal to the trajectory of the
+		* velocity of the physics component. Note that rotation 0 corresponds
+		* to pointing directly to the right.
 		* @method rotateToVelocity
-		* @return { Number }
+		* @return {number} New rotation value
 		* @public
+		* @since 1.3.0
 		*/
 		public rotateToVelocity (): number {
 
