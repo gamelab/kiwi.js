@@ -2811,6 +2811,7 @@ var Kiwi;
             * @property inputEnabled
             * @type boolean
             * @public
+            * @deprecated As of 1.2.3, nothing was found to use this.
             */
             set: function (value) {
                 this._inputEnabled = value;

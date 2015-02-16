@@ -2065,6 +2065,7 @@ declare module Kiwi {
         * @property _inputEnabled
         * @type boolean
         * @private
+        * @deprecated As of 1.2.3, nothing was found to use this.
         */
         private _inputEnabled;
         /**
@@ -2073,6 +2074,7 @@ declare module Kiwi {
         * @property inputEnabled
         * @type boolean
         * @public
+        * @deprecated As of 1.2.3, nothing was found to use this.
         */
         inputEnabled: boolean;
         /**
