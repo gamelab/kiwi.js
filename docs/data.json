@@ -5892,35 +5892,35 @@
             "submodule": "Time",
             "namespace": "Kiwi.Time",
             "file": "src/time/Clock.ts",
-            "line": 10,
-            "description": "The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.\n- The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.\n- An instance of a clock is used to track time in arbitrary units (milliseconds by default)\n- A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.\n- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.\n- If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)\n- Animations and TweenManagers can use any Clock.",
+            "line": 8,
+            "description": "The Clock class offers a way of tracking time within a game.\nWhen creating a new Clock you should NOT directly instantiate this class\nbut instead use the addClock method on a ClockManager.\n- The MasterClock is a property of the Kiwi.Time.Manager class and tracks\n  real world time in milliseconds elapsed since the application started.\n  This happens automatically and there is no need to do anything to set\n  this up.\n- An instance of a clock is used to track time in arbitrary units\n  (milliseconds by default)\n- A clock can be started, paused, unpaused and stopped. Once stopped,\n  re-starting the clock again will reset it. It can also have its time\n  scale freely transformed.\n- Any number of timers can be attached to a clock. See the Kiwi.Time.Timer\n  class for timer details.\n- If the clock is paused, any timers attached to the clock will take this\n  into account and not continue to fire events until the clock is\n  unpaused. (Note that this is not the same as pausing timers, which can\n  be done manually and needs to be undone manually.)\n- Animations and TweenManagers can use any Clock.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "manager",
-                    "description": "The ClockManager that this clock belongs to.",
+                    "description": "ClockManager that this clock belongs to",
                     "type": "ClockManager"
                 },
                 {
                     "name": "master",
-                    "description": "The MasterClock that it is getting the time in relation to.",
+                    "description": "MasterClock that this is getting\n\tthe time in relation to",
                     "type": "Kiwi.Time.MasterClock"
                 },
                 {
                     "name": "name",
-                    "description": "The name of the clock.",
+                    "description": "Name of the clock",
                     "type": "String"
                 },
                 {
                     "name": "units",
-                    "description": "The units that this clock is to operate in per second.",
+                    "description": "Units that this clock is to operate in\n\tper second",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1000"
                 }
             ],
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             }
         },
@@ -9519,7 +9519,7 @@
             "line": 270,
             "description": "Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.\nUse the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.",
             "itemtype": "method",
-            "name": "touching",
+            "name": "isTouching",
             "params": [
                 {
                     "name": "value",
@@ -9603,7 +9603,25 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 337,
+            "line": 329,
+            "description": "Sets the parent's rotation to be equal to the trajectory of the\nvelocity of the physics component. Note that rotation 0 corresponds\nto pointing directly to the right.",
+            "itemtype": "method",
+            "name": "rotateToVelocity",
+            "return": {
+                "description": "New rotation value",
+                "type": "Number"
+            },
+            "access": "public",
+            "tagname": "",
+            "since": "1.3.0",
+            "class": "Kiwi.Components.ArcadePhysics",
+            "module": "Kiwi",
+            "submodule": "Components",
+            "namespace": "Kiwi.Components"
+        },
+        {
+            "file": "src/components/ArcadePhysics.ts",
+            "line": 356,
             "description": "A static method for seperating two normal GameObjects on both the X and Y Axis's. \nBoth objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.\nThis method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.",
             "itemtype": "method",
             "name": "seperate",
@@ -9633,7 +9651,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 357,
+            "line": 376,
             "description": "Separates two passed GameObjects on the x-axis.\nBoth objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.\nThis method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.",
             "itemtype": "method",
             "name": "seperateX",
@@ -9663,7 +9681,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 479,
+            "line": 498,
             "description": "Separates two GameObject on the y-axis. This method is executed from the 'separate' method.\nBoth objects need to have both an ArcadePhysics Component and a Box component in order for the separate process to succeed.\nThis method is not recommended to be directly used but instead use a 'collide/overlaps' method instead.",
             "itemtype": "method",
             "name": "seperateY",
@@ -9693,7 +9711,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 615,
+            "line": 634,
             "description": "Separates a GameObject from a series of passed Tiles that lie on a TileMapLayer. \nThe gameobject needs to have a Box Component and an ArcadePhysics Component. \nThis method is not recommended to be directly used but instead use the 'overlapsTiles' method instead.",
             "itemtype": "method",
             "name": "separateTiles",
@@ -9728,7 +9746,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 652,
+            "line": 671,
             "description": "Separates a GameObjects from an Array of Tiles on the x-axis.",
             "itemtype": "method",
             "name": "separateTilesX",
@@ -9763,7 +9781,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 740,
+            "line": 759,
             "description": "Separates a GameObject from a tiles on the y-axis.",
             "itemtype": "method",
             "name": "separateTilesY",
@@ -9798,7 +9816,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 833,
+            "line": 852,
             "description": "A method to check to see if any Tiles with in this parent TileMapLayer overlaps with a GameObject passed.\nIf seperateObjects is true it will seperate the two entities based on their bounding box.\nONLY works if the parent of the ArcadePhysics component which is calling this method is a TileMapLayer.\nNote: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component.",
             "itemtype": "method",
             "name": "overlapsTiles",
@@ -9836,7 +9854,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 863,
+            "line": 882,
             "description": "A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.\nIf seperateObjects is true it will seperate the two entities based on their bounding box.\nNote: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component. \nAlso: Not to be used for separation from tiles.",
             "itemtype": "method",
             "name": "overlaps",
@@ -9867,7 +9885,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 898,
+            "line": 917,
             "description": "A method to check to see if the parent of this physics component overlaps with another individual in a Kiwi Group.",
             "itemtype": "method",
             "name": "overlapsGroup",
@@ -9898,7 +9916,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 933,
+            "line": 952,
             "description": "A method to check to see if the parent of this physics component overlaps with any Entities that are held in an Array which is passed.",
             "itemtype": "method",
             "name": "overlapsArray",
@@ -9929,7 +9947,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 980,
+            "line": 999,
             "description": "Computes the velocity based on the parameters passed.",
             "itemtype": "method",
             "name": "computeVelocity",
@@ -9975,7 +9993,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1014,
+            "line": 1033,
             "description": "Updates the position of this object. Automatically called if the 'moves' parameter is true.  \nThis called each frame during the update method.",
             "itemtype": "method",
             "name": "updateMotion",
@@ -9988,7 +10006,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1049,
+            "line": 1068,
             "description": "The Update loop of the physics component",
             "itemtype": "method",
             "name": "update",
@@ -10001,7 +10019,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1071,
+            "line": 1090,
             "description": "Removes all properties that refer to other objects or outside of this class in order to flag this object for garbage collection.",
             "itemtype": "method",
             "name": "destroy",
@@ -10014,7 +10032,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1086,
+            "line": 1105,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -10031,7 +10049,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1111,
+            "line": 1130,
             "description": "A Static method to check to see if two objects collide or not. Returns a boolean indicating whether they overlaped or not.",
             "itemtype": "method",
             "name": "collide",
@@ -10068,7 +10086,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1127,
+            "line": 1146,
             "description": "A Static method to check to see if a single entity collides with a group of entities. Returns a boolean indicating whether they overlaped or not.",
             "itemtype": "method",
             "name": "collideGroup",
@@ -10105,7 +10123,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1145,
+            "line": 1164,
             "description": "A Static method to check to see if a group of entities overlap with another group of entities. Returns a boolean indicating whether they overlaped or not.",
             "itemtype": "method",
             "name": "collideGroupGroup",
@@ -10142,7 +10160,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1169,
+            "line": 1188,
             "description": "A Static method to that checks to see if two objects overlap. Returns a boolean indicating whether they did or not.",
             "itemtype": "method",
             "name": "overlaps",
@@ -10179,7 +10197,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1187,
+            "line": 1206,
             "description": "A Static method to that checks to see if a single object overlaps with a group of entities. Returns a boolean indicating whether they did or not.",
             "itemtype": "method",
             "name": "overlapsObjectGroup",
@@ -10216,7 +10234,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1205,
+            "line": 1224,
             "description": "A Static method that checks to see if any objects in one group overlap with objects in another group.",
             "itemtype": "method",
             "name": "overlaps",
@@ -10253,7 +10271,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1237,
+            "line": 1256,
             "description": "A Static method that checks to see if any objects from an Array collide with a Kiwi Group members.",
             "itemtype": "method",
             "name": "overlapsArrayGroup",
@@ -10288,7 +10306,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1278,
+            "line": 1297,
             "description": "How often the motion should be updated.",
             "itemtype": "property",
             "name": "updateInterval",
@@ -10304,7 +10322,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1289,
+            "line": 1308,
             "description": "Generic value for \"left\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "LEFT",
@@ -10320,7 +10338,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1300,
+            "line": 1319,
             "description": "Generic value for \"right\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "RIGHT",
@@ -10336,7 +10354,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1311,
+            "line": 1330,
             "description": "Generic value for \"up\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "UP",
@@ -10352,7 +10370,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1322,
+            "line": 1341,
             "description": "Generic value for \"down\" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.",
             "itemtype": "property",
             "name": "DOWN",
@@ -10368,7 +10386,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1333,
+            "line": 1352,
             "description": "Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "NONE",
@@ -10384,7 +10402,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1344,
+            "line": 1363,
             "description": "Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "CEILING",
@@ -10400,7 +10418,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1355,
+            "line": 1374,
             "description": "Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "FLOOR",
@@ -10416,7 +10434,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1366,
+            "line": 1385,
             "description": "Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "WALL",
@@ -10432,7 +10450,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1377,
+            "line": 1396,
             "description": "Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.",
             "itemtype": "property",
             "name": "ANY",
@@ -10448,7 +10466,7 @@
         },
         {
             "file": "src/components/ArcadePhysics.ts",
-            "line": 1388,
+            "line": 1407,
             "description": "Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).",
             "itemtype": "property",
             "name": "OVERLAP_BIAS",
@@ -13444,26 +13462,30 @@
             "type": "boolean",
             "access": "private",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "As of 1.2.3, nothing was found to use this.",
             "class": "Kiwi.Entity",
             "module": "Kiwi",
             "namespace": "Kiwi"
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 576,
+            "line": 577,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)\nThis method should be over-ridden to handle specific game object implementations.",
             "itemtype": "property",
             "name": "inputEnabled",
             "type": "boolean",
             "access": "public",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "As of 1.2.3, nothing was found to use this.",
             "class": "Kiwi.Entity",
             "module": "Kiwi",
             "namespace": "Kiwi"
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 590,
+            "line": 592,
             "description": "The clock that this entity use's for time based calculations. This generated by the state on instatiation.",
             "itemtype": "property",
             "name": "_clock",
@@ -13476,7 +13498,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 598,
+            "line": 600,
             "description": "The Clock used to update this all of this Entities components (defaults to the Game MasterClock)",
             "itemtype": "property",
             "name": "clock",
@@ -13489,7 +13511,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 611,
+            "line": 613,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "_dirty",
@@ -13502,7 +13524,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 619,
+            "line": 621,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -13515,7 +13537,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 634,
+            "line": 636,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -13531,7 +13553,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 644,
+            "line": 646,
             "description": "This isn't called until the Entity has been added to a Group or a State.\nNote: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.",
             "itemtype": "method",
             "name": "update",
@@ -13543,7 +13565,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 658,
+            "line": 660,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "render",
@@ -13562,7 +13584,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 670,
+            "line": 672,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "renderGL",
@@ -13593,7 +13615,7 @@
         },
         {
             "file": "src/core/Entity.ts",
-            "line": 684,
+            "line": 686,
             "description": "Used to completely destroy this entity and of its components.\nUsed for garbage collection and developers can also use it as needed.\nIt is more reliable to use \"exists = false\", as this will ensure\nthat \"destroy\" is called at a convenient time.",
             "itemtype": "method",
             "name": "destroy",
@@ -23357,7 +23379,7 @@
             "description": "A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.",
             "itemtype": "property",
             "name": "tileData",
-            "type": "number[]",
+            "type": "Array",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
@@ -23413,8 +23435,8 @@
                 }
             ],
             "return": {
-                "description": "The tile",
-                "type": "Number"
+                "description": "",
+                "type": "Kiwi.GameObjects.Tilemap.TileType"
             },
             "access": "public",
             "tagname": "",
@@ -23471,8 +23493,8 @@
                 }
             ],
             "return": {
-                "description": "The tile",
-                "type": "Number"
+                "description": "",
+                "type": "Kiwi.GameObjects.Tilemap.TileType"
             },
             "access": "public",
             "tagname": "",
@@ -23507,7 +23529,31 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 342,
+            "line": 341,
+            "description": "Returns the TileType of a tile by an index passed.\nThanks to @rydairegames",
+            "itemtype": "method",
+            "name": "getTileFromIndex",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Kiwi.GameObjects.Tilemap.TileType"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
+            "module": "GameObjects",
+            "submodule": "Tilemap",
+            "namespace": "Kiwi.GameObjects.Tilemap"
+        },
+        {
+            "file": "src/gameobjects/tilemap/TileMapLayer.ts",
+            "line": 354,
             "description": "-----------------------\n Tiles Manipulation\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23516,7 +23562,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 348,
+            "line": 360,
             "description": "Sets the tile to be used at the coordinates provided. \nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTile",
@@ -23550,7 +23596,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 369,
+            "line": 381,
             "description": "Sets the tile to be used at the index provided.\nCan be used to override a tile that may already exist at the location.",
             "itemtype": "method",
             "name": "setTileByIndex",
@@ -23575,7 +23621,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 381,
+            "line": 393,
             "description": "Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.\nDefault tile types used are everyone avaiable.",
             "itemtype": "method",
             "name": "randomizeTiles",
@@ -23624,7 +23670,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 413,
+            "line": 425,
             "description": "Makes all of the tiles in the area specified a single type that is passed.",
             "itemtype": "method",
             "name": "fill",
@@ -23672,7 +23718,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 436,
+            "line": 448,
             "description": "Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "replaceTiles",
@@ -23725,7 +23771,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 460,
+            "line": 472,
             "description": "Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.",
             "itemtype": "method",
             "name": "swapTiles",
@@ -23778,7 +23824,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 486,
+            "line": 498,
             "description": "-----------------------\n Get Tiles By Collision Methods\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23787,7 +23833,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 492,
+            "line": 504,
             "description": "Returns the tiles which overlap with a provided entities hitbox component. \nOnly collidable tiles on ANY side will be returned unless you pass a particular side.\nNote: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.",
             "itemtype": "method",
             "name": "getOverlappingTiles",
@@ -23818,7 +23864,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 546,
+            "line": 558,
             "description": "Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.\nBy default the area is the whole tilemap.",
             "itemtype": "method",
             "name": "getCollidableTiles",
@@ -23872,7 +23918,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 604,
+            "line": 616,
             "description": "The update loop that is executed when this TileMapLayer is add to the Stage.",
             "itemtype": "method",
             "name": "update",
@@ -23885,7 +23931,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 613,
+            "line": 625,
             "description": "-----------------------\n Temp Properties used During Rendering\n-----------------------",
             "class": "Kiwi.GameObjects.Tilemap.TileMapLayer",
             "module": "GameObjects",
@@ -23894,7 +23940,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 619,
+            "line": 631,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxX",
@@ -23908,7 +23954,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 628,
+            "line": 640,
             "description": "Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_maxY",
@@ -23922,7 +23968,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 637,
+            "line": 649,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the X axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startX",
@@ -23936,7 +23982,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 646,
+            "line": 658,
             "description": "Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.\nIs updated each frame, via the _calculateBoundaries method.",
             "itemtype": "property",
             "name": "_startY",
@@ -23950,7 +23996,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 655,
+            "line": 667,
             "description": "Temporary property that holds the tileType of the current tile being rendered.",
             "itemtype": "property",
             "name": "_temptype",
@@ -23964,7 +24010,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 663,
+            "line": 675,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner1",
@@ -23979,7 +24025,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 671,
+            "line": 683,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner2",
@@ -23994,7 +24040,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 679,
+            "line": 691,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner3",
@@ -24009,7 +24055,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 687,
+            "line": 699,
             "description": "Corner values used internally.",
             "itemtype": "property",
             "name": "corner4",
@@ -24024,7 +24070,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 696,
+            "line": 708,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -24049,7 +24095,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 760,
+            "line": 772,
             "description": "ChartToScreen maps a point in the game tile coordinates into screen pixel\ncoordinates that indicate where the tile should be drawn.\nNote: This is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "chartToScreen",
@@ -24083,7 +24129,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 777,
+            "line": 789,
             "description": "ScreenToChart maps a point in screen coordinates into the game tile chart\ncoordinates for the tile on which the screen point falls on.\nThis is for use in ISOMETRIC Tilemaps.",
             "itemtype": "method",
             "name": "screenToChart",
@@ -24117,7 +24163,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayer.ts",
-            "line": 795,
+            "line": 807,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -25718,29 +25764,29 @@
         {
             "file": "src/geom/Intersect.ts",
             "line": 114,
-            "description": "Check to see if a Line and a Line Segment intersect at any point. \nNote: The first line passed is treated as if it extends infinately though space, \nThe second is treated as if it only exists between its two points.",
+            "description": "Check to see if a Line and a Line Segment intersect at any point. \nNote: The first line passed is treated as if it extends infinitely\nthough space. The second is treated as if it only exists between\nits two points.",
             "itemtype": "method",
             "name": "lineToLineSegment",
             "params": [
                 {
                     "name": "line1",
-                    "description": "The first line to check. This is the one that will extend through space infinately.",
+                    "description": "The first line to check.\n\t\t\tThis is the one that will extend through space infinately.",
                     "type": "Kiwi.Geom.Line"
                 },
                 {
                     "name": "seg",
-                    "description": "The second line to check. This is the one that will only exist between its two coordinates.",
+                    "description": "The second line to check.\n\t\t\tThis is the one that will only exist between its two coordinates.",
                     "type": "Kiwi.Geom.Line"
                 },
                 {
                     "name": "output",
-                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "description": "An optional\n\t\t\tIntersectResult object to store the intersection values in. One is\n\t\t\tcreated if none given.",
                     "type": "Kiwi.Geom.IntersectResult",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "An IntersectResult object containing the results of this intersection.",
+                "description": "An IntersectResult object\n\t\t\tcontaining the results of this intersection.",
                 "type": "Kiwi.Geom.IntersectResult"
             },
             "access": "public",
@@ -25753,7 +25799,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 155,
+            "line": 163,
             "description": "Checks to see if a Line that is passed, intersects at any point with a Line that is made by passing a set of coordinates to this method. \nNote: The first line will extend infinately through space. \nAnd the second line will only exist between the two points passed.",
             "itemtype": "method",
             "name": "lineToRawSegment",
@@ -25804,7 +25850,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 197,
+            "line": 205,
             "description": "Checks to see if a Line that is passed intersects with a Line that is made by passing a set of coordinates to this method. \nNote: The lines will only exist between the two points passed.",
             "itemtype": "method",
             "name": "lineSegmentToRawSegment",
@@ -25855,7 +25901,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 234,
+            "line": 242,
             "description": "Checks to see if a Line and Ray object intersects at any point. \nNote: The line in this case extends infinately through space.",
             "itemtype": "method",
             "name": "lineToRay",
@@ -25891,7 +25937,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 273,
+            "line": 281,
             "description": "Checks to see if a Line and a Circle intersect at any point.\nNote: The line passed is assumed to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToCircle",
@@ -25927,7 +25973,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 299,
+            "line": 307,
             "description": "Check if the Line intersects with each side of a Rectangle.\nNote: The Line is assumned to extend infinately through space.",
             "itemtype": "method",
             "name": "lineToRectangle",
@@ -25963,8 +26009,8 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 346,
-            "description": "-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
+            "line": 354,
+            "description": "---------------------------------------------------------------------\nLine Segment\n---------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
             "submodule": "Geom",
@@ -25972,8 +26018,8 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 352,
-            "description": "Checks to see if two Line Segments intersect at any point in space. \nNote: Both lines are treated as if they only exist between their two line coordinates.",
+            "line": 360,
+            "description": "Checks to see if two Line Segments intersect at any point in space. \nNote: Both lines are treated as if they only exist between their two\nline coordinates.",
             "itemtype": "method",
             "name": "lineSegmentToLineSegment",
             "params": [
@@ -25989,13 +26035,13 @@
                 },
                 {
                     "name": "output",
-                    "description": "An optional IntersectResult object to store the intersection values in. One is created if none given.",
+                    "description": "An optional\n\t\t\tIntersectResult object to store the intersection values in.\n\t\t\tOne is created if none given.",
                     "type": "Kiwi.Geom.IntersectResult",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "An IntersectResult object containing the results of this intersection in x/y.",
+                "description": "An IntersectResult object\n\t\t\tcontaining the results of this intersection in x/y.",
                 "type": "Kiwi.Geom.IntersectResult"
             },
             "access": "public",
@@ -26008,7 +26054,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 382,
+            "line": 394,
             "description": "Check if the Line Segment intersects with the Ray.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRay",
@@ -26044,7 +26090,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 413,
+            "line": 425,
             "description": "Check if the Line Segment intersects with the Circle.\nNote the Line only exists between its point points.",
             "itemtype": "method",
             "name": "lineSegmentToCircle",
@@ -26080,7 +26126,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 455,
+            "line": 467,
             "description": "Check if the Line Segment intersects with any side of a Rectangle,\nor is entirely within the Rectangle.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "lineSegmentToRectangle",
@@ -26116,7 +26162,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 508,
+            "line": 520,
             "description": "-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26125,7 +26171,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 514,
+            "line": 526,
             "description": "Check to see if a Ray intersects at any point with a Rectangle.",
             "itemtype": "method",
             "name": "rayToRectangle",
@@ -26161,7 +26207,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 536,
+            "line": 548,
             "description": "Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "rayToLineSegment",
@@ -26227,7 +26273,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 585,
+            "line": 597,
             "description": "-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26236,7 +26282,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 591,
+            "line": 603,
             "description": "Check if the two given Circle objects intersect at any point.",
             "itemtype": "method",
             "name": "circleToCircle",
@@ -26272,7 +26318,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 612,
+            "line": 624,
             "description": "Check if a Circle and a Rectangle intersect with each other at any point.",
             "itemtype": "method",
             "name": "circleToRectangle",
@@ -26308,7 +26354,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 669,
+            "line": 681,
             "description": "Check if the given Point is found within the given Circle.",
             "itemtype": "method",
             "name": "circleContainsPoint",
@@ -26344,7 +26390,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 690,
+            "line": 702,
             "description": "-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -26353,7 +26399,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 696,
+            "line": 708,
             "description": "Determines whether the specified point is contained within a given Rectangle object.",
             "itemtype": "method",
             "name": "pointToRectangle",
@@ -26389,7 +26435,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 719,
+            "line": 731,
             "description": "Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.",
             "itemtype": "method",
             "name": "rectangleToRectangle",
@@ -44275,8 +44321,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 46,
-            "description": "The type of object that this is.",
+            "line": 58,
+            "description": "The type of object that this is",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -44292,8 +44338,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 56,
-            "description": "A collection of Timer objects using this clock.",
+            "line": 68,
+            "description": "Collection of Timer objects using this clock",
             "itemtype": "property",
             "name": "timers",
             "type": "Timer[]",
@@ -44306,8 +44352,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 64,
-            "description": "The time the clock was first started relative to the master clock.",
+            "line": 76,
+            "description": "Time the clock was first started relative to the master clock",
             "itemtype": "property",
             "name": "_timeFirstStarted",
             "type": "Number",
@@ -44321,12 +44367,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 73,
-            "description": "The number of clock units elapsed since the clock was first started.",
+            "line": 85,
+            "description": "Number of clock units elapsed since the clock was first started",
             "itemtype": "method",
-            "name": "elapsedSinceFirstStarted.",
+            "name": "elapsedSinceFirstStarted",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units elapsed",
                 "type": "Number"
             },
             "access": "public",
@@ -44338,8 +44384,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 85,
-            "description": "The time the clock was most recently started relative to the master clock.",
+            "line": 97,
+            "description": "Most recent time the clock was started relative to the master clock",
             "itemtype": "property",
             "name": "_timeLastStarted",
             "type": "Number",
@@ -44353,12 +44399,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 94,
-            "description": "Get the most recent time the clock was started relative to the master clock.",
+            "line": 106,
+            "description": "Most recent time the clock was started relative to the master clock",
             "itemtype": "method",
             "name": "started",
             "return": {
-                "description": "milliseconds.",
+                "description": "Milliseconds",
                 "type": "Number"
             },
             "access": "public",
@@ -44370,8 +44416,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 107,
-            "description": "Rate at which time passes on this clock.\n1 is normal speed. 0 is no speed. -1 is backwards.\nThis mostly affects timers, animations and tweens.",
+            "line": 119,
+            "description": "Rate at which time passes on this clock.\n1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.\nThis mostly affects timers, animations and tweens.",
             "itemtype": "property",
             "name": "timeScale",
             "type": "number",
@@ -44386,7 +44432,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 119,
+            "line": 131,
             "description": "Clock units elapsed since the clock was most recently started,\nnot including paused time.",
             "itemtype": "property",
             "name": "_elapsed",
@@ -44401,7 +44447,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 129,
+            "line": 141,
             "description": "Master time on last frame",
             "itemtype": "property",
             "name": "_lastMasterElapsed",
@@ -44416,7 +44462,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 138,
+            "line": 150,
             "description": "Master time on current frame",
             "itemtype": "property",
             "name": "_currentMasterElapsed",
@@ -44431,7 +44477,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 148,
+            "line": 160,
             "description": "Rate of time passage, as modified by time scale and frame rate.\nUnder ideal conditions this should be 1.\nIf the frame rate drops, this will rise. Multiply transformations\nby rate to get smooth change over time.",
             "itemtype": "property",
             "name": "rate",
@@ -44446,7 +44492,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 160,
+            "line": 172,
             "description": "Maximum frame duration. If a frame takes longer than this to render,\nthe clock will only advance this far, in effect slowing down time.\nIf this value is 0 or less, it will not be checked and frames can\ntake any amount of time to render.",
             "itemtype": "property",
             "name": "_maxFrameDuration",
@@ -44461,7 +44507,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 172,
+            "line": 184,
             "description": "Maximum frame duration. If a frame takes longer than this to render,\nthe clock will only advance this far, in effect slowing down time.\nIf this value is 0 or less, it will not be checked and frames can\ntake any amount of time to render.",
             "itemtype": "property",
             "name": "maxFrameDuration",
@@ -44476,12 +44522,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 191,
-            "description": "The number of clock units elapsed since the clock was most recently started (not including time spent paused)",
+            "line": 203,
+            "description": "Number of clock units elapsed since the clock was most recently\nstarted (not including time spent paused)",
             "itemtype": "method",
             "name": "elapsed",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44493,8 +44539,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 201,
-            "description": "The time the clock was most recently stopped relative to the master clock.",
+            "line": 214,
+            "description": "Time the clock was most recently stopped relative to the\nmaster clock.",
             "itemtype": "property",
             "name": "_timeLastStopped",
             "type": "Number",
@@ -44508,12 +44554,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 210,
-            "description": "The number of clock units elapsed since the clock was most recently stopped.",
+            "line": 224,
+            "description": "Number of clock units elapsed since the clock was most recently\nstopped.",
             "itemtype": "method",
-            "name": "elapsedSinceLastStopped.",
+            "name": "elapsedSinceLastStopped",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44525,8 +44571,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 222,
-            "description": "The time the clock was most receently paused relative to the master clock.",
+            "line": 237,
+            "description": "Time the clock was most receently paused relative to the\nmaster clock.",
             "itemtype": "property",
             "name": "_timeLastPaused",
             "access": "private",
@@ -44540,12 +44586,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 232,
-            "description": "The number of clock units elapsed since the clock was most recently paused.",
+            "line": 248,
+            "description": "Number of clock units elapsed since the clock was most recently paused.",
             "itemtype": "method",
-            "name": "elapsedSinceLastPaused.",
+            "name": "elapsedSinceLastPaused",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44557,8 +44603,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 244,
-            "description": "The time the clock was most recently unpaused relative to the master clock.",
+            "line": 260,
+            "description": "Time the clock was most recently unpaused relative to the\nmaster clock.",
             "itemtype": "property",
             "name": "_timeLastUnpaused",
             "access": "private",
@@ -44572,12 +44618,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 254,
-            "description": "The number of clock units elapsed since the clock was most recently unpaused.",
+            "line": 271,
+            "description": "Number of clock units elapsed since the clock was most recently\nunpaused.",
             "itemtype": "method",
-            "name": "elapsedSinceLastUnpaused.",
+            "name": "elapsedSinceLastUnpaused",
             "return": {
-                "description": "number of clock units.",
+                "description": "Number of clock units",
                 "type": "Number"
             },
             "access": "public",
@@ -44589,8 +44635,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 266,
-            "description": "The total number of milliseconds the clock has been paused since it was last started.",
+            "line": 284,
+            "description": "Total number of milliseconds the clock has been paused\nsince it was last started",
             "itemtype": "property",
             "name": "_totalPaused",
             "access": "private",
@@ -44604,8 +44650,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 276,
-            "description": "Whether the clock is in a running state.",
+            "line": 295,
+            "description": "Whether the clock is in a running state",
             "itemtype": "property",
             "name": "_isRunning",
             "type": "boolean",
@@ -44619,12 +44665,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 285,
-            "description": "Check if the clock is currently running.",
+            "line": 304,
+            "description": "Check if the clock is currently running",
             "itemtype": "method",
             "name": "isRunning",
             "return": {
-                "description": "true if running.",
+                "description": "`true` if running",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44636,8 +44682,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 297,
-            "description": "Whether the clock is in a stopped state.",
+            "line": 316,
+            "description": "Whether the clock is in a stopped state",
             "itemtype": "property",
             "name": "_isStopped",
             "type": "boolean",
@@ -44651,12 +44697,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 306,
-            "description": "Check if the clock is in the stopped state.",
+            "line": 325,
+            "description": "Check if the clock is in the stopped state",
             "itemtype": "method",
             "name": "isStopped",
             "return": {
-                "description": "true if stopped.",
+                "description": "`true` if stopped",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44668,8 +44714,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 318,
-            "description": "Whether the clock is in a paused state.",
+            "line": 337,
+            "description": "Whether the clock is in a paused state",
             "itemtype": "property",
             "name": "_isPaused",
             "type": "boolean",
@@ -44683,12 +44729,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 327,
-            "description": "Check if the clock is in the paused state.",
+            "line": 346,
+            "description": "Check if the clock is in the paused state",
             "itemtype": "method",
             "name": "isPaused",
             "return": {
-                "description": "true if paused.",
+                "description": "`true` if paused",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44700,8 +44746,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 339,
-            "description": "An internal reference to the state of the elapsed timer",
+            "line": 358,
+            "description": "Internal reference to the state of the elapsed timer",
             "itemtype": "property",
             "name": "_elapsedState",
             "type": "Number",
@@ -44714,8 +44760,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 347,
-            "description": "The time manager that this clock belongs to.",
+            "line": 366,
+            "description": "Time manager that this clock belongs to",
             "itemtype": "property",
             "name": "manager",
             "type": "ClockManager",
@@ -44728,8 +44774,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 355,
-            "description": "The master clock.",
+            "line": 374,
+            "description": "Master clock from which time is derived",
             "itemtype": "property",
             "name": "master",
             "type": "Kiwi.Time.MasterClock",
@@ -44742,7 +44788,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 363,
+            "line": 382,
             "description": "Name of the clock",
             "itemtype": "property",
             "name": "name",
@@ -44756,8 +44802,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 371,
-            "description": "The number of milliseconds counted as one unit of time by the clock.",
+            "line": 390,
+            "description": "Number of milliseconds counted as one unit of time by the clock",
             "itemtype": "property",
             "name": "units",
             "type": "Number",
@@ -44771,7 +44817,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 380,
+            "line": 399,
             "description": "Constant indicating that the Clock is running\n(and has not yet been paused and resumed)",
             "itemtype": "property",
             "name": "_RUNNING",
@@ -44787,7 +44833,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 391,
+            "line": 410,
             "description": "Constant indicating that the Clock is paused",
             "itemtype": "property",
             "name": "_PAUSED",
@@ -44803,7 +44849,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 401,
+            "line": 420,
             "description": "Constant indicating that the Clock is running\n(and has been paused then resumed)",
             "itemtype": "property",
             "name": "_RESUMED",
@@ -44819,7 +44865,7 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 412,
+            "line": 431,
             "description": "Constant indicating that the Clock is stopped",
             "itemtype": "property",
             "name": "_STOPPED",
@@ -44835,19 +44881,19 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 422,
+            "line": 441,
             "description": "Add an existing Timer to the Clock.",
             "itemtype": "method",
             "name": "addTimer",
             "params": [
                 {
                     "name": "timer",
-                    "description": "Timer object instance to be added to this Clock.",
+                    "description": "Timer object instance to be added to this Clock",
                     "type": "Timer"
                 }
             ],
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -44859,40 +44905,40 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 436,
-            "description": "Creates a new Timer and adds it to this Clock.",
+            "line": 455,
+            "description": "Create a new Timer and add it to this Clock.",
             "itemtype": "method",
             "name": "createTimer",
             "params": [
                 {
                     "name": "name",
-                    "description": "The name of the Timer (must be unique on this Clock).",
+                    "description": "Name of the Timer (must be unique on this Clock)",
                     "type": "String"
                 },
                 {
                     "name": "delay",
-                    "description": "The number of clock units to wait between firing events (default 1)",
+                    "description": "Number of clock units to wait between\n\tfiring events",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1"
                 },
                 {
                     "name": "repeatCount",
-                    "description": "The number of times to repeat this Timer (default 0)",
+                    "description": "Number of times to repeat the Timer \n\t(default 0)",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "start",
-                    "description": "If the timer should start.",
+                    "description": "If the timer should start",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "The newly created Timer.",
+                "description": "The newly created Timer",
                 "type": "Kiwi.Time.Timer"
             },
             "access": "public",
@@ -44904,28 +44950,28 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 458,
-            "description": "Remove a Timer from this Clock based on either the Timer object or its name.",
+            "line": 479,
+            "description": "Remove a Timer from this Clock based on either the Timer object\nor its name.",
             "itemtype": "method",
             "name": "removeTimer",
             "params": [
                 {
                     "name": "timer",
-                    "description": "The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.",
+                    "description": "Timer object you wish to remove.\n\tIf you wish to delete by Timer Name set this to null.",
                     "type": "Timer",
                     "optional": true,
                     "optdefault": "null"
                 },
                 {
                     "name": "timerName",
-                    "description": "The name of the Timer object to remove.",
+                    "description": "Name of the Timer object to remove",
                     "type": "String",
                     "optional": true,
                     "optdefault": "''"
                 }
             ],
             "return": {
-                "description": "True if the Timer was successfully removed, false if not.",
+                "description": "`true` if the Timer was successfully removed",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44937,19 +44983,19 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 488,
-            "description": "Check if the Timer already exists on this Clock",
+            "line": 511,
+            "description": "Check if the Timer already exists on this Clock.",
             "itemtype": "method",
             "name": "checkExists",
             "params": [
                 {
                     "name": "name",
-                    "description": "The name of the Timer.",
+                    "description": "Name of the Timer",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "true if the Timer exists, false if not.",
+                "description": "`true` if the Timer exists",
                 "type": "Boolean"
             },
             "access": "public",
@@ -44961,12 +45007,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 508,
+            "line": 531,
             "description": "Stop all timers attached to the clock.",
             "itemtype": "method",
             "name": "stopAllTimers",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Clock"
             },
             "access": "public",
@@ -44978,19 +45024,19 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 525,
+            "line": 548,
             "description": "Convert a number to milliseconds based on clock units.",
             "itemtype": "method",
-            "name": "toMilliseconds.",
+            "name": "toMilliseconds",
             "params": [
                 {
                     "name": "time",
-                    "description": "seconds",
+                    "description": "Seconds",
                     "type": "Number"
                 }
             ],
             "return": {
-                "description": "milliseconds.",
+                "description": "Milliseconds",
                 "type": "Number"
             },
             "access": "public",
@@ -45002,8 +45048,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 538,
-            "description": "Updates all Timers linked to this Clock.",
+            "line": 561,
+            "description": "Update all Timers linked to this Clock.",
             "itemtype": "method",
             "name": "update",
             "access": "public",
@@ -45015,12 +45061,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 571,
+            "line": 594,
             "description": "Start the clock. This resets the clock and starts it running.",
             "itemtype": "method",
             "name": "start",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Clock"
             },
             "access": "public",
@@ -45032,12 +45078,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 597,
-            "description": "Pause the clock. The clock can only be paused if it is already running.",
+            "line": 624,
+            "description": "Pause the clock. This can only be paused if it is already running.",
             "itemtype": "method",
             "name": "pause",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -45049,12 +45095,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 618,
-            "description": "Resume the clock. The clock can only be resumed if it is already paused.",
+            "line": 645,
+            "description": "Resume the clock. This can only be resumed if it is already paused.",
             "itemtype": "method",
             "name": "resume",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -45066,12 +45112,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 641,
-            "description": "Stop the clock. Clock can only be stopped if it is already running or is paused.",
+            "line": 668,
+            "description": "Stop the clock. This can only be stopped if it is already running\n\tor is paused.",
             "itemtype": "method",
             "name": "stop",
             "return": {
-                "description": "This Clock object.",
+                "description": "This Clock object",
                 "type": "Kiwi.Time.Clock"
             },
             "access": "public",
@@ -45083,12 +45129,12 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 669,
-            "description": "Returns a string representation of this object.",
+            "line": 697,
+            "description": "Return a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
             "return": {
-                "description": "a string representation of the instance.",
+                "description": "String representation of the instance",
                 "type": "String"
             },
             "access": "public",
@@ -45100,8 +45146,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 682,
-            "description": "Set a function to execute after a certain time interval.\nEmulates window.setTimeout, except attached to a Kiwi.Time.Clock.\nThis allows you to pause and manipulate time, and the timeout will respect\nthe clock on which it is created.\n\nNo clearTimeout is provided; you should use Kiwi.Time.Timer functions\nto achieve further control.\n\nAny parameters after \"context\" will be passed as parameters to the\ncallback function. Note that you must specify \"context\" in order for\nthis to work. You may specify \"null\", in which case it will default\nto the global scope \"window\".",
+            "line": 710,
+            "description": "Set a function to execute after a certain time interval.\nEmulates `window.setTimeout`, except attached to a `Kiwi.Time.Clock`.\nThis allows you to pause and manipulate time, and the timeout will\nrespect the clock on which it is created.\n\nNo `clearTimeout` is provided; you should use `Kiwi.Time.Timer`\nfunctions to achieve further control.\n\nAny parameters after `context` will be passed as parameters to the\ncallback function. Note that you must specify `context` in order for\nthis to work. You may specify `null`, in which case it will default\nto the global scope `window`.",
             "itemtype": "method",
             "name": "setTimeout",
             "params": [
@@ -45117,13 +45163,13 @@
                 },
                 {
                     "name": "context",
-                    "description": "Object to be \"this\" for the callback",
+                    "description": "Object to be `this` for the callback",
                     "type": "Object",
                     "optional": true
                 }
             ],
             "return": {
-                "description": "Kiwi.Time.Timer object which can be used to further\n  manipulate the timer",
+                "description": "Kiwi.Time.Timer object which can be used\n\tto further manipulate the timer",
                 "type": "Kiwi.Time.Timer"
             },
             "access": "public",
@@ -45135,8 +45181,8 @@
         },
         {
             "file": "src/time/Clock.ts",
-            "line": 725,
-            "description": "Set a function to repeatedly execute at fixed time intervals.\nEmulates window.setInterval, except attached to a Kiwi.Time.Clock.\nThis allows you to pause and manipulate time, and the timeout will respect\nthe clock on which it is created.\n\nNo clearInterval is provided; you should use Kiwi.Time.Timer functions\nto achieve further control.\n\nAny parameters after \"context\" will be passed as parameters to the\ncallback function. Note that you must specify \"context\" in order for\nthis to work. You may specify \"null\", in which case it will default\nto the global scope \"window\".",
+            "line": 753,
+            "description": "Set a function to repeatedly execute at fixed time intervals.\nEmulates `window.setInterval`, except attached to a `Kiwi.Time.Clock`.\nThis allows you to pause and manipulate time, and the timeout will\nrespect the clock on which it is created.\n\nNo `clearInterval` is provided; you should use `Kiwi.Time.Timer`\nfunctions to achieve further control.\n\nAny parameters after `context` will be passed as parameters to the\ncallback function. Note that you must specify `context` in order for\nthis to work. You may specify `null`, in which case it will default\nto the global scope `window`.",
             "itemtype": "method",
             "name": "setInterval",
             "params": [
@@ -45152,7 +45198,7 @@
                 },
                 {
                     "name": "context",
-                    "description": "Object to be \"this\" for the callback",
+                    "description": "Object to be `this` for the callback",
                     "type": "Object",
                     "optional": true,
                     "optdefault": "window"
@@ -51835,15 +51881,15 @@
         },
         {
             "message": "Missing item type\n-----------------------\n Tiles Manipulation\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:342"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:354"
         },
         {
             "message": "Missing item type\n-----------------------\n Get Tiles By Collision Methods\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:486"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:498"
         },
         {
             "message": "Missing item type\n-----------------------\n Temp Properties used During Rendering\n-----------------------",
-            "line": " src/gameobjects/tilemap/TileMapLayer.ts:613"
+            "line": " src/gameobjects/tilemap/TileMapLayer.ts:625"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nDistance\n-------------------------------------------------------------------------------------------",
@@ -51854,20 +51900,20 @@
             "line": " src/geom/Intersect.ts:72"
         },
         {
-            "message": "Missing item type\n-------------------------------------------------------------------------------------------\nLine Segment\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:346"
+            "message": "Missing item type\n---------------------------------------------------------------------\nLine Segment\n---------------------------------------------------------------------",
+            "line": " src/geom/Intersect.ts:354"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRay\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:508"
+            "line": " src/geom/Intersect.ts:520"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:585"
+            "line": " src/geom/Intersect.ts:597"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:690"
+            "line": " src/geom/Intersect.ts:702"
         },
         {
             "message": "Missing item type\nCreates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.",

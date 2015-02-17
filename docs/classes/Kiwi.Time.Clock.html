@@ -366,7 +366,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_time_Clock.ts.html#l10"><code>src&#x2F;time&#x2F;Clock.ts:10</code></a>
+            Defined in: <a href="../files/src_time_Clock.ts.html#l8"><code>src&#x2F;time&#x2F;Clock.ts:8</code></a>
         </div>
     
 
@@ -383,13 +383,25 @@
 
 
 <div class="box intro">
-    <p>The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.</p>
+    <p>The Clock class offers a way of tracking time within a game.
+When creating a new Clock you should NOT directly instantiate this class
+but instead use the addClock method on a ClockManager.</p>
 <ul>
-<li>The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.</li>
-<li>An instance of a clock is used to track time in arbitrary units (milliseconds by default)</li>
-<li>A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.</li>
-<li>Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.</li>
-<li>If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)</li>
+<li>The MasterClock is a property of the Kiwi.Time.Manager class and tracks
+real world time in milliseconds elapsed since the application started.
+This happens automatically and there is no need to do anything to set
+this up.</li>
+<li>An instance of a clock is used to track time in arbitrary units
+(milliseconds by default)</li>
+<li>A clock can be started, paused, unpaused and stopped. Once stopped,
+re-starting the clock again will reset it. It can also have its time
+scale freely transformed.</li>
+<li>Any number of timers can be attached to a clock. See the Kiwi.Time.Timer
+class for timer details.</li>
+<li>If the clock is paused, any timers attached to the clock will take this
+into account and not continue to fire events until the clock is
+unpaused. (Note that this is not the same as pausing timers, which can
+be done manually and needs to be undone manually.)</li>
 <li>Animations and TweenManagers can use any Clock.</li>
 </ul>
 
@@ -462,7 +474,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l10"><code>src&#x2F;time&#x2F;Clock.ts:10</code></a>
+        <a href="../files/src_time_Clock.ts.html#l8"><code>src&#x2F;time&#x2F;Clock.ts:8</code></a>
         
         </p>
 
@@ -491,7 +503,7 @@
                     
 
                     <div class="param-description">
-                        <p>The ClockManager that this clock belongs to.</p>
+                        <p>ClockManager that this clock belongs to</p>
 
                     </div>
 
@@ -507,7 +519,8 @@
                     
 
                     <div class="param-description">
-                        <p>The MasterClock that it is getting the time in relation to.</p>
+                        <p>MasterClock that this is getting
+    the time in relation to</p>
 
                     </div>
 
@@ -523,7 +536,7 @@
                     
 
                     <div class="param-description">
-                        <p>The name of the clock.</p>
+                        <p>Name of the clock</p>
 
                     </div>
 
@@ -540,7 +553,8 @@
                     
 
                     <div class="param-description">
-                        <p>The units that this clock is to operate in per second.</p>
+                        <p>Units that this clock is to operate in
+    per second</p>
 
                     </div>
 
@@ -560,7 +574,7 @@
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -626,28 +640,28 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_elapsedSinceFirstStarted.">elapsedSinceFirstStarted.</a>
+                                <a href="#method_elapsedSinceFirstStarted">elapsedSinceFirstStarted</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_elapsedSinceLastPaused.">elapsedSinceLastPaused.</a>
+                                <a href="#method_elapsedSinceLastPaused">elapsedSinceLastPaused</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_elapsedSinceLastStopped.">elapsedSinceLastStopped.</a>
+                                <a href="#method_elapsedSinceLastStopped">elapsedSinceLastStopped</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_elapsedSinceLastUnpaused.">elapsedSinceLastUnpaused.</a>
+                                <a href="#method_elapsedSinceLastUnpaused">elapsedSinceLastUnpaused</a>
 
                                 
                                 
@@ -745,7 +759,7 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_toMilliseconds.">toMilliseconds.</a>
+                                <a href="#method_toMilliseconds">toMilliseconds</a>
 
                                 
                                 
@@ -1027,7 +1041,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l422"><code>src&#x2F;time&#x2F;Clock.ts:422</code></a>
+        <a href="../files/src_time_Clock.ts.html#l441"><code>src&#x2F;time&#x2F;Clock.ts:441</code></a>
         
         </p>
 
@@ -1057,7 +1071,7 @@
                     
 
                     <div class="param-description">
-                        <p>Timer object instance to be added to this Clock.</p>
+                        <p>Timer object instance to be added to this Clock</p>
 
                     </div>
 
@@ -1077,7 +1091,7 @@
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -1136,7 +1150,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l488"><code>src&#x2F;time&#x2F;Clock.ts:488</code></a>
+        <a href="../files/src_time_Clock.ts.html#l511"><code>src&#x2F;time&#x2F;Clock.ts:511</code></a>
         
         </p>
 
@@ -1147,7 +1161,7 @@
     </div>
 
     <div class="description">
-        <p>Check if the Timer already exists on this Clock</p>
+        <p>Check if the Timer already exists on this Clock.</p>
 
     </div>
 
@@ -1166,7 +1180,7 @@
                     
 
                     <div class="param-description">
-                        <p>The name of the Timer.</p>
+                        <p>Name of the Timer</p>
 
                     </div>
 
@@ -1186,7 +1200,7 @@
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if the Timer exists, false if not.</p>
+                    <p><code>true</code> if the Timer exists</p>
 
                 
             </div>
@@ -1263,7 +1277,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l436"><code>src&#x2F;time&#x2F;Clock.ts:436</code></a>
+        <a href="../files/src_time_Clock.ts.html#l455"><code>src&#x2F;time&#x2F;Clock.ts:455</code></a>
         
         </p>
 
@@ -1274,7 +1288,7 @@
     </div>
 
     <div class="description">
-        <p>Creates a new Timer and adds it to this Clock.</p>
+        <p>Create a new Timer and add it to this Clock.</p>
 
     </div>
 
@@ -1293,7 +1307,7 @@
                     
 
                     <div class="param-description">
-                        <p>The name of the Timer (must be unique on this Clock).</p>
+                        <p>Name of the Timer (must be unique on this Clock)</p>
 
                     </div>
 
@@ -1310,7 +1324,8 @@
                     
 
                     <div class="param-description">
-                        <p>The number of clock units to wait between firing events (default 1)</p>
+                        <p>Number of clock units to wait between
+    firing events</p>
 
                     </div>
 
@@ -1327,7 +1342,8 @@
                     
 
                     <div class="param-description">
-                        <p>The number of times to repeat this Timer (default 0)</p>
+                        <p>Number of times to repeat the Timer 
+    (default 0)</p>
 
                     </div>
 
@@ -1344,7 +1360,7 @@
                     
 
                     <div class="param-description">
-                        <p>If the timer should start.</p>
+                        <p>If the timer should start</p>
 
                     </div>
 
@@ -1364,7 +1380,7 @@
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Timer.html" class="crosslink">Kiwi.Time.Timer</a></span>:
                     
-                    <p>The newly created Timer.</p>
+                    <p>The newly created Timer</p>
 
                 
             </div>
@@ -1413,7 +1429,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l191"><code>src&#x2F;time&#x2F;Clock.ts:191</code></a>
+        <a href="../files/src_time_Clock.ts.html#l203"><code>src&#x2F;time&#x2F;Clock.ts:203</code></a>
         
         </p>
 
@@ -1424,7 +1440,8 @@
     </div>
 
     <div class="description">
-        <p>The number of clock units elapsed since the clock was most recently started (not including time spent paused)</p>
+        <p>Number of clock units elapsed since the clock was most recently
+started (not including time spent paused)</p>
 
     </div>
 
@@ -1439,7 +1456,7 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>number of clock units.</p>
+                    <p>Number of clock units</p>
 
                 
             </div>
@@ -1450,8 +1467,8 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceFirstStarted." class="method item public">
-    <h3 class="name"><code>elapsedSinceFirstStarted.</code></h3>
+                    <div id="method_elapsedSinceFirstStarted" class="method item public">
+    <h3 class="name"><code>elapsedSinceFirstStarted</code></h3>
 
     
         <span class="paren">()</span>
@@ -1488,7 +1505,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l73"><code>src&#x2F;time&#x2F;Clock.ts:73</code></a>
+        <a href="../files/src_time_Clock.ts.html#l85"><code>src&#x2F;time&#x2F;Clock.ts:85</code></a>
         
         </p>
 
@@ -1499,7 +1516,7 @@
     </div>
 
     <div class="description">
-        <p>The number of clock units elapsed since the clock was first started.</p>
+        <p>Number of clock units elapsed since the clock was first started</p>
 
     </div>
 
@@ -1514,7 +1531,7 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>number of clock units.</p>
+                    <p>Number of clock units elapsed</p>
 
                 
             </div>
@@ -1525,8 +1542,8 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceLastPaused." class="method item public">
-    <h3 class="name"><code>elapsedSinceLastPaused.</code></h3>
+                    <div id="method_elapsedSinceLastPaused" class="method item public">
+    <h3 class="name"><code>elapsedSinceLastPaused</code></h3>
 
     
         <span class="paren">()</span>
@@ -1563,7 +1580,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l232"><code>src&#x2F;time&#x2F;Clock.ts:232</code></a>
+        <a href="../files/src_time_Clock.ts.html#l248"><code>src&#x2F;time&#x2F;Clock.ts:248</code></a>
         
         </p>
 
@@ -1574,7 +1591,7 @@
     </div>
 
     <div class="description">
-        <p>The number of clock units elapsed since the clock was most recently paused.</p>
+        <p>Number of clock units elapsed since the clock was most recently paused.</p>
 
     </div>
 
@@ -1589,7 +1606,7 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>number of clock units.</p>
+                    <p>Number of clock units</p>
 
                 
             </div>
@@ -1600,8 +1617,8 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceLastStopped." class="method item public">
-    <h3 class="name"><code>elapsedSinceLastStopped.</code></h3>
+                    <div id="method_elapsedSinceLastStopped" class="method item public">
+    <h3 class="name"><code>elapsedSinceLastStopped</code></h3>
 
     
         <span class="paren">()</span>
@@ -1638,7 +1655,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l210"><code>src&#x2F;time&#x2F;Clock.ts:210</code></a>
+        <a href="../files/src_time_Clock.ts.html#l224"><code>src&#x2F;time&#x2F;Clock.ts:224</code></a>
         
         </p>
 
@@ -1649,7 +1666,8 @@
     </div>
 
     <div class="description">
-        <p>The number of clock units elapsed since the clock was most recently stopped.</p>
+        <p>Number of clock units elapsed since the clock was most recently
+stopped.</p>
 
     </div>
 
@@ -1664,7 +1682,7 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>number of clock units.</p>
+                    <p>Number of clock units</p>
 
                 
             </div>
@@ -1675,8 +1693,8 @@
 </div>
 
                 
-                    <div id="method_elapsedSinceLastUnpaused." class="method item public">
-    <h3 class="name"><code>elapsedSinceLastUnpaused.</code></h3>
+                    <div id="method_elapsedSinceLastUnpaused" class="method item public">
+    <h3 class="name"><code>elapsedSinceLastUnpaused</code></h3>
 
     
         <span class="paren">()</span>
@@ -1713,7 +1731,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l254"><code>src&#x2F;time&#x2F;Clock.ts:254</code></a>
+        <a href="../files/src_time_Clock.ts.html#l271"><code>src&#x2F;time&#x2F;Clock.ts:271</code></a>
         
         </p>
 
@@ -1724,7 +1742,8 @@
     </div>
 
     <div class="description">
-        <p>The number of clock units elapsed since the clock was most recently unpaused.</p>
+        <p>Number of clock units elapsed since the clock was most recently
+unpaused.</p>
 
     </div>
 
@@ -1739,7 +1758,7 @@
                     
                         <span class="type">Number</span>:
                     
-                    <p>number of clock units.</p>
+                    <p>Number of clock units</p>
 
                 
             </div>
@@ -1788,7 +1807,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l327"><code>src&#x2F;time&#x2F;Clock.ts:327</code></a>
+        <a href="../files/src_time_Clock.ts.html#l346"><code>src&#x2F;time&#x2F;Clock.ts:346</code></a>
         
         </p>
 
@@ -1799,7 +1818,7 @@
     </div>
 
     <div class="description">
-        <p>Check if the clock is in the paused state.</p>
+        <p>Check if the clock is in the paused state</p>
 
     </div>
 
@@ -1814,7 +1833,7 @@
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if paused.</p>
+                    <p><code>true</code> if paused</p>
 
                 
             </div>
@@ -1863,7 +1882,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l285"><code>src&#x2F;time&#x2F;Clock.ts:285</code></a>
+        <a href="../files/src_time_Clock.ts.html#l304"><code>src&#x2F;time&#x2F;Clock.ts:304</code></a>
         
         </p>
 
@@ -1874,7 +1893,7 @@
     </div>
 
     <div class="description">
-        <p>Check if the clock is currently running.</p>
+        <p>Check if the clock is currently running</p>
 
     </div>
 
@@ -1889,7 +1908,7 @@
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if running.</p>
+                    <p><code>true</code> if running</p>
 
                 
             </div>
@@ -1938,7 +1957,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l306"><code>src&#x2F;time&#x2F;Clock.ts:306</code></a>
+        <a href="../files/src_time_Clock.ts.html#l325"><code>src&#x2F;time&#x2F;Clock.ts:325</code></a>
         
         </p>
 
@@ -1949,7 +1968,7 @@
     </div>
 
     <div class="description">
-        <p>Check if the clock is in the stopped state.</p>
+        <p>Check if the clock is in the stopped state</p>
 
     </div>
 
@@ -1964,7 +1983,7 @@
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if stopped.</p>
+                    <p><code>true</code> if stopped</p>
 
                 
             </div>
@@ -2013,7 +2032,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l46"><code>src&#x2F;time&#x2F;Clock.ts:46</code></a>
+        <a href="../files/src_time_Clock.ts.html#l58"><code>src&#x2F;time&#x2F;Clock.ts:58</code></a>
         
         </p>
 
@@ -2024,7 +2043,7 @@
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>The type of object that this is</p>
 
     </div>
 
@@ -2088,7 +2107,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l597"><code>src&#x2F;time&#x2F;Clock.ts:597</code></a>
+        <a href="../files/src_time_Clock.ts.html#l624"><code>src&#x2F;time&#x2F;Clock.ts:624</code></a>
         
         </p>
 
@@ -2099,7 +2118,7 @@
     </div>
 
     <div class="description">
-        <p>Pause the clock. The clock can only be paused if it is already running.</p>
+        <p>Pause the clock. This can only be paused if it is already running.</p>
 
     </div>
 
@@ -2114,7 +2133,7 @@
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -2179,7 +2198,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l458"><code>src&#x2F;time&#x2F;Clock.ts:458</code></a>
+        <a href="../files/src_time_Clock.ts.html#l479"><code>src&#x2F;time&#x2F;Clock.ts:479</code></a>
         
         </p>
 
@@ -2190,7 +2209,8 @@
     </div>
 
     <div class="description">
-        <p>Remove a Timer from this Clock based on either the Timer object or its name.</p>
+        <p>Remove a Timer from this Clock based on either the Timer object
+or its name.</p>
 
     </div>
 
@@ -2210,7 +2230,8 @@
                     
 
                     <div class="param-description">
-                        <p>The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.</p>
+                        <p>Timer object you wish to remove.
+    If you wish to delete by Timer Name set this to null.</p>
 
                     </div>
 
@@ -2227,7 +2248,7 @@
                     
 
                     <div class="param-description">
-                        <p>The name of the Timer object to remove.</p>
+                        <p>Name of the Timer object to remove</p>
 
                     </div>
 
@@ -2247,7 +2268,7 @@
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>True if the Timer was successfully removed, false if not.</p>
+                    <p><code>true</code> if the Timer was successfully removed</p>
 
                 
             </div>
@@ -2296,7 +2317,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l618"><code>src&#x2F;time&#x2F;Clock.ts:618</code></a>
+        <a href="../files/src_time_Clock.ts.html#l645"><code>src&#x2F;time&#x2F;Clock.ts:645</code></a>
         
         </p>
 
@@ -2307,7 +2328,7 @@
     </div>
 
     <div class="description">
-        <p>Resume the clock. The clock can only be resumed if it is already paused.</p>
+        <p>Resume the clock. This can only be resumed if it is already paused.</p>
 
     </div>
 
@@ -2322,7 +2343,7 @@
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -2393,7 +2414,7 @@
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l725"><code>src&#x2F;time&#x2F;Clock.ts:725</code></a>
+        <a href="../files/src_time_Clock.ts.html#l753"><code>src&#x2F;time&#x2F;Clock.ts:753</code></a>
         
         </p>
 
@@ -2405,15 +2426,15 @@
 
     <div class="description">
         <p>Set a function to repeatedly execute at fixed time intervals.
-Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
-This allows you to pause and manipulate time, and the timeout will respect
-the clock on which it is created.</p>
-<p>No clearInterval is provided; you should use Kiwi.Time.Timer functions
-to achieve further control.</p>
-<p>Any parameters after &quot;context&quot; will be passed as parameters to the
-callback function. Note that you must specify &quot;context&quot; in order for
-this to work. You may specify &quot;null&quot;, in which case it will default
-to the global scope &quot;window&quot;.</p>
+Emulates <code>window.setInterval</code>, except attached to a <code>Kiwi.Time.Clock</code>.
+This allows you to pause and manipulate time, and the timeout will
+respect the clock on which it is created.</p>
+<p>No <code>clearInterval</code> is provided; you should use <code>Kiwi.Time.Timer</code>
+functions to achieve further control.</p>
+<p>Any parameters after <code>context</code> will be passed as parameters to the
+callback function. Note that you must specify <code>context</code> in order for
+this to work. You may specify <code>null</code>, in which case it will default
+to the global scope <code>window</code>.</p>
 
     </div>
 
@@ -2465,7 +2486,7 @@ to the global scope &quot;window&quot;.</p>
                     
 
                     <div class="param-description">
-                        <p>Object to be &quot;this&quot; for the callback</p>
+                        <p>Object to be <code>this</code> for the callback</p>
 
                     </div>
 
@@ -2557,7 +2578,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l682"><code>src&#x2F;time&#x2F;Clock.ts:682</code></a>
+        <a href="../files/src_time_Clock.ts.html#l710"><code>src&#x2F;time&#x2F;Clock.ts:710</code></a>
         
         </p>
 
@@ -2569,15 +2590,15 @@ to the global scope &quot;window&quot;.</p>
 
     <div class="description">
         <p>Set a function to execute after a certain time interval.
-Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
-This allows you to pause and manipulate time, and the timeout will respect
-the clock on which it is created.</p>
-<p>No clearTimeout is provided; you should use Kiwi.Time.Timer functions
-to achieve further control.</p>
-<p>Any parameters after &quot;context&quot; will be passed as parameters to the
-callback function. Note that you must specify &quot;context&quot; in order for
-this to work. You may specify &quot;null&quot;, in which case it will default
-to the global scope &quot;window&quot;.</p>
+Emulates <code>window.setTimeout</code>, except attached to a <code>Kiwi.Time.Clock</code>.
+This allows you to pause and manipulate time, and the timeout will
+respect the clock on which it is created.</p>
+<p>No <code>clearTimeout</code> is provided; you should use <code>Kiwi.Time.Timer</code>
+functions to achieve further control.</p>
+<p>Any parameters after <code>context</code> will be passed as parameters to the
+callback function. Note that you must specify <code>context</code> in order for
+this to work. You may specify <code>null</code>, in which case it will default
+to the global scope <code>window</code>.</p>
 
     </div>
 
@@ -2629,7 +2650,7 @@ to the global scope &quot;window&quot;.</p>
                     
 
                     <div class="param-description">
-                        <p>Object to be &quot;this&quot; for the callback</p>
+                        <p>Object to be <code>this</code> for the callback</p>
 
                     </div>
 
@@ -2649,8 +2670,8 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Timer.html" class="crosslink">Kiwi.Time.Timer</a></span>:
                     
-                    <p>Kiwi.Time.Timer object which can be used to further
-  manipulate the timer</p>
+                    <p>Kiwi.Time.Timer object which can be used
+    to further manipulate the timer</p>
 
                 
             </div>
@@ -2699,7 +2720,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l571"><code>src&#x2F;time&#x2F;Clock.ts:571</code></a>
+        <a href="../files/src_time_Clock.ts.html#l594"><code>src&#x2F;time&#x2F;Clock.ts:594</code></a>
         
         </p>
 
@@ -2725,7 +2746,7 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type">Clock</span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -2774,7 +2795,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l94"><code>src&#x2F;time&#x2F;Clock.ts:94</code></a>
+        <a href="../files/src_time_Clock.ts.html#l106"><code>src&#x2F;time&#x2F;Clock.ts:106</code></a>
         
         </p>
 
@@ -2785,7 +2806,7 @@ to the global scope &quot;window&quot;.</p>
     </div>
 
     <div class="description">
-        <p>Get the most recent time the clock was started relative to the master clock.</p>
+        <p>Most recent time the clock was started relative to the master clock</p>
 
     </div>
 
@@ -2800,7 +2821,7 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>milliseconds.</p>
+                    <p>Milliseconds</p>
 
                 
             </div>
@@ -2849,7 +2870,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l641"><code>src&#x2F;time&#x2F;Clock.ts:641</code></a>
+        <a href="../files/src_time_Clock.ts.html#l668"><code>src&#x2F;time&#x2F;Clock.ts:668</code></a>
         
         </p>
 
@@ -2860,7 +2881,8 @@ to the global scope &quot;window&quot;.</p>
     </div>
 
     <div class="description">
-        <p>Stop the clock. Clock can only be stopped if it is already running or is paused.</p>
+        <p>Stop the clock. This can only be stopped if it is already running
+    or is paused.</p>
 
     </div>
 
@@ -2875,7 +2897,7 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Time.Clock.html" class="crosslink">Kiwi.Time.Clock</a></span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -2924,7 +2946,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l508"><code>src&#x2F;time&#x2F;Clock.ts:508</code></a>
+        <a href="../files/src_time_Clock.ts.html#l531"><code>src&#x2F;time&#x2F;Clock.ts:531</code></a>
         
         </p>
 
@@ -2950,7 +2972,7 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type">Clock</span>:
                     
-                    <p>This Clock object.</p>
+                    <p>This Clock object</p>
 
                 
             </div>
@@ -2961,8 +2983,8 @@ to the global scope &quot;window&quot;.</p>
 </div>
 
                 
-                    <div id="method_toMilliseconds." class="method item public">
-    <h3 class="name"><code>toMilliseconds.</code></h3>
+                    <div id="method_toMilliseconds" class="method item public">
+    <h3 class="name"><code>toMilliseconds</code></h3>
 
     
         <div class="args">
@@ -3009,7 +3031,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l525"><code>src&#x2F;time&#x2F;Clock.ts:525</code></a>
+        <a href="../files/src_time_Clock.ts.html#l548"><code>src&#x2F;time&#x2F;Clock.ts:548</code></a>
         
         </p>
 
@@ -3039,7 +3061,7 @@ to the global scope &quot;window&quot;.</p>
                     
 
                     <div class="param-description">
-                        <p>seconds</p>
+                        <p>Seconds</p>
 
                     </div>
 
@@ -3059,7 +3081,7 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>milliseconds.</p>
+                    <p>Milliseconds</p>
 
                 
             </div>
@@ -3108,7 +3130,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l669"><code>src&#x2F;time&#x2F;Clock.ts:669</code></a>
+        <a href="../files/src_time_Clock.ts.html#l697"><code>src&#x2F;time&#x2F;Clock.ts:697</code></a>
         
         </p>
 
@@ -3119,7 +3141,7 @@ to the global scope &quot;window&quot;.</p>
     </div>
 
     <div class="description">
-        <p>Returns a string representation of this object.</p>
+        <p>Return a string representation of this object.</p>
 
     </div>
 
@@ -3134,7 +3156,7 @@ to the global scope &quot;window&quot;.</p>
                     
                         <span class="type">String</span>:
                     
-                    <p>a string representation of the instance.</p>
+                    <p>String representation of the instance</p>
 
                 
             </div>
@@ -3179,7 +3201,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l538"><code>src&#x2F;time&#x2F;Clock.ts:538</code></a>
+        <a href="../files/src_time_Clock.ts.html#l561"><code>src&#x2F;time&#x2F;Clock.ts:561</code></a>
         
         </p>
 
@@ -3190,7 +3212,7 @@ to the global scope &quot;window&quot;.</p>
     </div>
 
     <div class="description">
-        <p>Updates all Timers linked to this Clock.</p>
+        <p>Update all Timers linked to this Clock.</p>
 
     </div>
 
@@ -3235,7 +3257,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l138"><code>src&#x2F;time&#x2F;Clock.ts:138</code></a>
+        <a href="../files/src_time_Clock.ts.html#l150"><code>src&#x2F;time&#x2F;Clock.ts:150</code></a>
         
         </p>
 
@@ -3284,7 +3306,7 @@ to the global scope &quot;window&quot;.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l119"><code>src&#x2F;time&#x2F;Clock.ts:119</code></a>
+        <a href="../files/src_time_Clock.ts.html#l131"><code>src&#x2F;time&#x2F;Clock.ts:131</code></a>
         
         </p>
 
@@ -3334,7 +3356,7 @@ not including paused time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l339"><code>src&#x2F;time&#x2F;Clock.ts:339</code></a>
+        <a href="../files/src_time_Clock.ts.html#l358"><code>src&#x2F;time&#x2F;Clock.ts:358</code></a>
         
         </p>
 
@@ -3344,7 +3366,7 @@ not including paused time.</p>
     </div>
 
     <div class="description">
-        <p>An internal reference to the state of the elapsed timer</p>
+        <p>Internal reference to the state of the elapsed timer</p>
 
     </div>
 
@@ -3381,7 +3403,7 @@ not including paused time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l318"><code>src&#x2F;time&#x2F;Clock.ts:318</code></a>
+        <a href="../files/src_time_Clock.ts.html#l337"><code>src&#x2F;time&#x2F;Clock.ts:337</code></a>
         
         </p>
 
@@ -3391,7 +3413,7 @@ not including paused time.</p>
     </div>
 
     <div class="description">
-        <p>Whether the clock is in a paused state.</p>
+        <p>Whether the clock is in a paused state</p>
 
     </div>
 
@@ -3430,7 +3452,7 @@ not including paused time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l276"><code>src&#x2F;time&#x2F;Clock.ts:276</code></a>
+        <a href="../files/src_time_Clock.ts.html#l295"><code>src&#x2F;time&#x2F;Clock.ts:295</code></a>
         
         </p>
 
@@ -3440,7 +3462,7 @@ not including paused time.</p>
     </div>
 
     <div class="description">
-        <p>Whether the clock is in a running state.</p>
+        <p>Whether the clock is in a running state</p>
 
     </div>
 
@@ -3479,7 +3501,7 @@ not including paused time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l297"><code>src&#x2F;time&#x2F;Clock.ts:297</code></a>
+        <a href="../files/src_time_Clock.ts.html#l316"><code>src&#x2F;time&#x2F;Clock.ts:316</code></a>
         
         </p>
 
@@ -3489,7 +3511,7 @@ not including paused time.</p>
     </div>
 
     <div class="description">
-        <p>Whether the clock is in a stopped state.</p>
+        <p>Whether the clock is in a stopped state</p>
 
     </div>
 
@@ -3528,7 +3550,7 @@ not including paused time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l129"><code>src&#x2F;time&#x2F;Clock.ts:129</code></a>
+        <a href="../files/src_time_Clock.ts.html#l141"><code>src&#x2F;time&#x2F;Clock.ts:141</code></a>
         
         </p>
 
@@ -3577,7 +3599,7 @@ not including paused time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l160"><code>src&#x2F;time&#x2F;Clock.ts:160</code></a>
+        <a href="../files/src_time_Clock.ts.html#l172"><code>src&#x2F;time&#x2F;Clock.ts:172</code></a>
         
         </p>
 
@@ -3631,7 +3653,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l391"><code>src&#x2F;time&#x2F;Clock.ts:391</code></a>
+        <a href="../files/src_time_Clock.ts.html#l410"><code>src&#x2F;time&#x2F;Clock.ts:410</code></a>
         
         </p>
 
@@ -3682,7 +3704,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l401"><code>src&#x2F;time&#x2F;Clock.ts:401</code></a>
+        <a href="../files/src_time_Clock.ts.html#l420"><code>src&#x2F;time&#x2F;Clock.ts:420</code></a>
         
         </p>
 
@@ -3734,7 +3756,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l380"><code>src&#x2F;time&#x2F;Clock.ts:380</code></a>
+        <a href="../files/src_time_Clock.ts.html#l399"><code>src&#x2F;time&#x2F;Clock.ts:399</code></a>
         
         </p>
 
@@ -3786,7 +3808,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l412"><code>src&#x2F;time&#x2F;Clock.ts:412</code></a>
+        <a href="../files/src_time_Clock.ts.html#l431"><code>src&#x2F;time&#x2F;Clock.ts:431</code></a>
         
         </p>
 
@@ -3835,7 +3857,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l64"><code>src&#x2F;time&#x2F;Clock.ts:64</code></a>
+        <a href="../files/src_time_Clock.ts.html#l76"><code>src&#x2F;time&#x2F;Clock.ts:76</code></a>
         
         </p>
 
@@ -3845,7 +3867,7 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The time the clock was first started relative to the master clock.</p>
+        <p>Time the clock was first started relative to the master clock</p>
 
     </div>
 
@@ -3884,7 +3906,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l222"><code>src&#x2F;time&#x2F;Clock.ts:222</code></a>
+        <a href="../files/src_time_Clock.ts.html#l237"><code>src&#x2F;time&#x2F;Clock.ts:237</code></a>
         
         </p>
 
@@ -3894,7 +3916,8 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The time the clock was most receently paused relative to the master clock.</p>
+        <p>Time the clock was most receently paused relative to the
+master clock.</p>
 
     </div>
 
@@ -3933,7 +3956,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l85"><code>src&#x2F;time&#x2F;Clock.ts:85</code></a>
+        <a href="../files/src_time_Clock.ts.html#l97"><code>src&#x2F;time&#x2F;Clock.ts:97</code></a>
         
         </p>
 
@@ -3943,7 +3966,7 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The time the clock was most recently started relative to the master clock.</p>
+        <p>Most recent time the clock was started relative to the master clock</p>
 
     </div>
 
@@ -3982,7 +4005,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l201"><code>src&#x2F;time&#x2F;Clock.ts:201</code></a>
+        <a href="../files/src_time_Clock.ts.html#l214"><code>src&#x2F;time&#x2F;Clock.ts:214</code></a>
         
         </p>
 
@@ -3992,7 +4015,8 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The time the clock was most recently stopped relative to the master clock.</p>
+        <p>Time the clock was most recently stopped relative to the
+master clock.</p>
 
     </div>
 
@@ -4031,7 +4055,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l244"><code>src&#x2F;time&#x2F;Clock.ts:244</code></a>
+        <a href="../files/src_time_Clock.ts.html#l260"><code>src&#x2F;time&#x2F;Clock.ts:260</code></a>
         
         </p>
 
@@ -4041,7 +4065,8 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The time the clock was most recently unpaused relative to the master clock.</p>
+        <p>Time the clock was most recently unpaused relative to the
+master clock.</p>
 
     </div>
 
@@ -4080,7 +4105,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l266"><code>src&#x2F;time&#x2F;Clock.ts:266</code></a>
+        <a href="../files/src_time_Clock.ts.html#l284"><code>src&#x2F;time&#x2F;Clock.ts:284</code></a>
         
         </p>
 
@@ -4090,7 +4115,8 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The total number of milliseconds the clock has been paused since it was last started.</p>
+        <p>Total number of milliseconds the clock has been paused
+since it was last started</p>
 
     </div>
 
@@ -4129,7 +4155,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l347"><code>src&#x2F;time&#x2F;Clock.ts:347</code></a>
+        <a href="../files/src_time_Clock.ts.html#l366"><code>src&#x2F;time&#x2F;Clock.ts:366</code></a>
         
         </p>
 
@@ -4139,7 +4165,7 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The time manager that this clock belongs to.</p>
+        <p>Time manager that this clock belongs to</p>
 
     </div>
 
@@ -4176,7 +4202,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l355"><code>src&#x2F;time&#x2F;Clock.ts:355</code></a>
+        <a href="../files/src_time_Clock.ts.html#l374"><code>src&#x2F;time&#x2F;Clock.ts:374</code></a>
         
         </p>
 
@@ -4186,7 +4212,7 @@ take any amount of time to render.</p>
     </div>
 
     <div class="description">
-        <p>The master clock.</p>
+        <p>Master clock from which time is derived</p>
 
     </div>
 
@@ -4223,7 +4249,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l172"><code>src&#x2F;time&#x2F;Clock.ts:172</code></a>
+        <a href="../files/src_time_Clock.ts.html#l184"><code>src&#x2F;time&#x2F;Clock.ts:184</code></a>
         
         </p>
 
@@ -4275,7 +4301,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l363"><code>src&#x2F;time&#x2F;Clock.ts:363</code></a>
+        <a href="../files/src_time_Clock.ts.html#l382"><code>src&#x2F;time&#x2F;Clock.ts:382</code></a>
         
         </p>
 
@@ -4322,7 +4348,7 @@ take any amount of time to render.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l148"><code>src&#x2F;time&#x2F;Clock.ts:148</code></a>
+        <a href="../files/src_time_Clock.ts.html#l160"><code>src&#x2F;time&#x2F;Clock.ts:160</code></a>
         
         </p>
 
@@ -4374,7 +4400,7 @@ by rate to get smooth change over time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l56"><code>src&#x2F;time&#x2F;Clock.ts:56</code></a>
+        <a href="../files/src_time_Clock.ts.html#l68"><code>src&#x2F;time&#x2F;Clock.ts:68</code></a>
         
         </p>
 
@@ -4384,7 +4410,7 @@ by rate to get smooth change over time.</p>
     </div>
 
     <div class="description">
-        <p>A collection of Timer objects using this clock.</p>
+        <p>Collection of Timer objects using this clock</p>
 
     </div>
 
@@ -4421,7 +4447,7 @@ by rate to get smooth change over time.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l107"><code>src&#x2F;time&#x2F;Clock.ts:107</code></a>
+        <a href="../files/src_time_Clock.ts.html#l119"><code>src&#x2F;time&#x2F;Clock.ts:119</code></a>
         
         </p>
 
@@ -4434,7 +4460,7 @@ by rate to get smooth change over time.</p>
 
     <div class="description">
         <p>Rate at which time passes on this clock.
-1 is normal speed. 0 is no speed. -1 is backwards.
+1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.
 This mostly affects timers, animations and tweens.</p>
 
     </div>
@@ -4474,7 +4500,7 @@ This mostly affects timers, animations and tweens.</p>
             
         
         
-        <a href="../files/src_time_Clock.ts.html#l371"><code>src&#x2F;time&#x2F;Clock.ts:371</code></a>
+        <a href="../files/src_time_Clock.ts.html#l390"><code>src&#x2F;time&#x2F;Clock.ts:390</code></a>
         
         </p>
 
@@ -4484,7 +4510,7 @@ This mostly affects timers, animations and tweens.</p>
     </div>
 
     <div class="description">
-        <p>The number of milliseconds counted as one unit of time by the clock.</p>
+        <p>Number of milliseconds counted as one unit of time by the clock</p>
 
     </div>
 

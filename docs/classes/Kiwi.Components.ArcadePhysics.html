@@ -594,6 +594,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 
                             </li>
                         
+                            <li class="index-item method public">
+                                <a href="#method_isTouching">isTouching</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item method public inherited">
                                 <a href="#method_objType">objType</a>
 
@@ -680,6 +687,13 @@ either groups or gameobjects within the same argument, the ported functions one 
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_rotateToVelocity">rotateToVelocity</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_separateTiles">separateTiles</a>
 
                                 
@@ -742,13 +756,6 @@ either groups or gameobjects within the same argument, the ported functions one 
                         
                             <li class="index-item method public">
                                 <a href="#method_solid">solid</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_touching">touching</a>
 
                                 
                                 
@@ -1144,7 +1151,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1111"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1111</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1130"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1130</code></a>
         
         </p>
 
@@ -1298,7 +1305,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1127"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1127</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1146"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1146</code></a>
         
         </p>
 
@@ -1451,7 +1458,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1145"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1145</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1164"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1164</code></a>
         
         </p>
 
@@ -1610,7 +1617,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l980"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:980</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l999"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:999</code></a>
         
         </p>
 
@@ -1756,7 +1763,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1071"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1071</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1090"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1090</code></a>
         
         </p>
 
@@ -1773,6 +1780,116 @@ either groups or gameobjects within the same argument, the ported functions one 
 
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_isTouching" class="method item public">
+    <h3 class="name"><code>isTouching</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l270"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:270</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
+Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>[number] The collision constant of the side you want to check against.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>If the Object is currently colliding on that side or not.</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1817,7 +1934,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1086"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1086</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1105"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1105</code></a>
         
         </p>
 
@@ -1916,7 +2033,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1169"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1169</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1188"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1188</code></a>
         
         </p>
 
@@ -2069,7 +2186,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1205"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1205</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1224"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1224</code></a>
         
         </p>
 
@@ -2215,7 +2332,7 @@ either groups or gameobjects within the same argument, the ported functions one 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l863"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:863</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l882"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:882</code></a>
         
         </p>
 
@@ -2346,7 +2463,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l933"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:933</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l952"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:952</code></a>
         
         </p>
 
@@ -2484,7 +2601,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1237"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1237</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1256"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1256</code></a>
         
         </p>
 
@@ -2630,7 +2747,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l898"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:898</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l917"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:917</code></a>
         
         </p>
 
@@ -2768,7 +2885,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1187"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1187</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1206"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1206</code></a>
         
         </p>
 
@@ -2918,7 +3035,7 @@ Also: Not to be used for separation from tiles.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l833"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:833</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l852"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:852</code></a>
         
         </p>
 
@@ -3124,6 +3241,85 @@ Note: The GameObject passed must contain a box component and only if you want to
 </div>
 
                 
+                    <div id="method_rotateToVelocity" class="method item public">
+    <h3 class="name"><code>rotateToVelocity</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l329"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:329</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the parent&#39;s rotation to be equal to the trajectory of the
+velocity of the physics component. Note that rotation 0 corresponds
+to pointing directly to the right.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>New rotation value</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_separateTiles" class="method item public">
     <h3 class="name"><code>separateTiles</code></h3>
 
@@ -3186,7 +3382,7 @@ Note: The GameObject passed must contain a box component and only if you want to
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l615"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:615</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l634"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:634</code></a>
         
         </p>
 
@@ -3342,7 +3538,7 @@ This method is not recommended to be directly used but instead use the &#39;over
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l652"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:652</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l671"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:671</code></a>
         
         </p>
 
@@ -3497,7 +3693,7 @@ This method is not recommended to be directly used but instead use the &#39;over
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l740"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:740</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l759"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:759</code></a>
         
         </p>
 
@@ -3646,7 +3842,7 @@ This method is not recommended to be directly used but instead use the &#39;over
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l337"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:337</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l356"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:356</code></a>
         
         </p>
 
@@ -3779,7 +3975,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l357"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:357</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l376"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:376</code></a>
         
         </p>
 
@@ -3914,7 +4110,7 @@ This method is not recommended to be directly used but instead use a &#39;collid
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l479"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:479</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l498"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:498</code></a>
         
         </p>
 
@@ -4220,116 +4416,6 @@ and set the value of allowCollisions directly.</p>
 </div>
 
                 
-                    <div id="method_touching" class="method item public">
-    <h3 class="name"><code>touching</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l270"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:270</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
-Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>[number] The collision constant of the side you want to check against.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                    <p>If the Object is currently colliding on that side or not.</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
                     <div id="method_update" class="method item public">
     <h3 class="name"><code>update</code></h3>
 
@@ -4364,7 +4450,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1049"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1049</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1068"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1068</code></a>
         
         </p>
 
@@ -4421,7 +4507,7 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1014"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1014</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1033"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1033</code></a>
         
         </p>
 
@@ -4907,7 +4993,7 @@ The accessor &quot;solid&quot; just flips this variable between NONE and ANY.</p
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1377"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1377</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1396"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1396</code></a>
         
         </p>
 
@@ -5006,7 +5092,7 @@ You can modify the &#39;hitbox&#39; of that component to modify the collision ar
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1344"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1344</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1363"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1363</code></a>
         
         </p>
 
@@ -5105,7 +5191,7 @@ You can modify the &#39;hitbox&#39; of that component to modify the collision ar
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1322"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1322</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1341"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1341</code></a>
         
         </p>
 
@@ -5251,7 +5337,7 @@ when acceleration is not affecting the sprite.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1355"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1355</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1374"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1374</code></a>
         
         </p>
 
@@ -5441,7 +5527,7 @@ Tracks the last location of the Entity. This is set during the time this method 
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1289"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1289</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1308"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1308</code></a>
         
         </p>
 
@@ -5729,7 +5815,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1333"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1333</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1352"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1352</code></a>
         
         </p>
 
@@ -5780,7 +5866,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1388"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1388</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1407"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1407</code></a>
         
         </p>
 
@@ -5922,7 +6008,7 @@ to cap the speed automatically (very useful!).</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1300"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1300</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1319"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1319</code></a>
         
         </p>
 
@@ -6069,7 +6155,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1311"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1311</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1330"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1330</code></a>
         
         </p>
 
@@ -6120,7 +6206,7 @@ You can even use them broadly as boolean values if you&#39;re feeling saucy!</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1278"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1278</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1297"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1297</code></a>
         
         </p>
 
@@ -6219,7 +6305,7 @@ You can modify the values contained inside this Object to change the speed.</p>
             
         
         
-        <a href="../files/src_components_ArcadePhysics.ts.html#l1366"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1366</code></a>
+        <a href="../files/src_components_ArcadePhysics.ts.html#l1385"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:1385</code></a>
         
         </p>
 
