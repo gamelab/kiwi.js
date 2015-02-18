@@ -6200,10 +6200,11 @@ var Kiwi;
                 * @param [y=0] {Number} The position of the tilemap on the y axis. In pixels.
                 * @param [tw=this.tileWidth] {Number} The width of a single tile.
                 * @param [th=this.tileHeight] {Number} The height of a single tile.
+                * @param [orientation] {String} The orientation of the tilemap. Defaults to the same as this TileMap.
                 * @return {TileMapLayer} The TileMapLayer that was created.
                 * @public
                 */
-                TileMap.prototype.createNewLayer = function (name, atlas, data, w, h, x, y, tw, th) {
+                TileMap.prototype.createNewLayer = function (name, atlas, data, w, h, x, y, tw, th, orientation) {
                     if (data === void 0) { data = []; }
                     if (w === void 0) { w = this.width; }
                     if (h === void 0) { h = this.height; }
@@ -6211,6 +6212,7 @@ var Kiwi;
                     if (y === void 0) { y = 0; }
                     if (tw === void 0) { tw = this.tileWidth; }
                     if (th === void 0) { th = this.tileHeight; }
+                    if (orientation === void 0) { orientation = this.orientation; }
                     //Did the user provide enough data?
                     if (data.length < w * h) {
                         //No... So push empty cells instead
@@ -6221,7 +6223,7 @@ var Kiwi;
                     }
                     //Create the new layer
                     var layer;
-                    if (this.orientation == Tilemap.ISOMETRIC) {
+                    if (orientation == Tilemap.ISOMETRIC) {
                         layer = new Kiwi.GameObjects.Tilemap.TileMapLayerIsometric(this, name, atlas, data, tw, th, x, y, w, h);
                     }
                     else {
@@ -6309,11 +6311,12 @@ var Kiwi;
         (function (Tilemap) {
             /**
             * GameObject containing the core functionality for every type of tilemap layer that can be generated.
-            * This class should not be directly created, instead use the TileMap class.
+            * This class should not be directly used. Classes extending this should be used instead.
             *
-            * @class TileMapLayerBase
+            * @class TileMapLayer
             * @extends Kiwi.Entity
             * @namespace Kiwi.GameObjects.Tilemap
+            * @since 1.3.0
             * @constructor
             * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
             * @param name {String} The name of this TileMapLayer.
@@ -6327,9 +6330,9 @@ var Kiwi;
             * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
             * @return {TileMapLayer}
             */
-            var TileMapLayerBase = (function (_super) {
-                __extends(TileMapLayerBase, _super);
-                function TileMapLayerBase(tilemap, name, atlas, data, tw, th, x, y, w, h) {
+            var TileMapLayer = (function (_super) {
+                __extends(TileMapLayer, _super);
+                function TileMapLayer(tilemap, name, atlas, data, tw, th, x, y, w, h) {
                     if (x === void 0) { x = 0; }
                     if (y === void 0) { y = 0; }
                     if (w === void 0) { w = 0; }
@@ -6347,7 +6350,6 @@ var Kiwi;
                     * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
                     * @property orientation
                     * @type String
-                    * @default 'orthogonal'
                     * @public
                     */
                     this.orientation = null;
@@ -6379,7 +6381,7 @@ var Kiwi;
                 * @return {Number} returns the type of child that the entity is
                 * @public
                 */
-                TileMapLayerBase.prototype.childType = function () {
+                TileMapLayer.prototype.childType = function () {
                     return Kiwi.TILE_LAYER;
                 };
                 /**
@@ -6388,10 +6390,10 @@ var Kiwi;
                 * @return {String} "TileMapLayer"
                 * @public
                 */
-                TileMapLayerBase.prototype.objType = function () {
+                TileMapLayer.prototype.objType = function () {
                     return "TileMapLayer";
                 };
-                Object.defineProperty(TileMapLayerBase.prototype, "widthInPixels", {
+                Object.defineProperty(TileMapLayer.prototype, "widthInPixels", {
                     /**
                     * The width of the layer in pixels. This property is READ ONLY.
                     * @property widthInPixels
@@ -6404,7 +6406,7 @@ var Kiwi;
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(TileMapLayerBase.prototype, "heightInPixels", {
+                Object.defineProperty(TileMapLayer.prototype, "heightInPixels", {
                     /**
                     * The height of the layer in pixels. This property is READ ONLY.
                     * @property heightInPixels
@@ -6417,7 +6419,7 @@ var Kiwi;
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(TileMapLayerBase.prototype, "cellIndex", {
+                Object.defineProperty(TileMapLayer.prototype, "cellIndex", {
                     /**
                     * Override function to prevent unwanted inherited behaviour. Do not call.
                     * Because TileMapLayer extends Entity, it has a cellIndex parameter.
@@ -6437,18 +6439,34 @@ var Kiwi;
                     enumerable: true,
                     configurable: true
                 });
-                // Methods altered because TileMapLayer has its own width and height properties:
-                TileMapLayerBase.prototype.scaleToWidth = function (value) {
+                /**
+                * Scales the tilemap to the value passed.
+                * @method scaleToWidth
+                * @param value {Number}
+                * @public
+                */
+                TileMapLayer.prototype.scaleToWidth = function (value) {
                     this.scale = value / this.widthInPixels;
                 };
-                TileMapLayerBase.prototype.scaleToHeight = function (value) {
+                /**
+                * Scales the tilemaps to the value passed.
+                * @method scaleToHeight
+                * @param value {Number}
+                * @public
+                */
+                TileMapLayer.prototype.scaleToHeight = function (value) {
                     this.scale = value / this.heightInPixels;
                 };
-                TileMapLayerBase.prototype.centerAnchorPoint = function () {
+                /**
+                * Centers the anchor point to the middle of the width/height of the tilemap.
+                * @method centerAnchorPoint
+                * @public
+                */
+                TileMapLayer.prototype.centerAnchorPoint = function () {
                     this.anchorPointX = this.widthInPixels * 0.5;
                     this.anchorPointY = this.heightInPixels * 0.5;
                 };
-                Object.defineProperty(TileMapLayerBase.prototype, "data", {
+                Object.defineProperty(TileMapLayer.prototype, "data", {
                     /**
                     * READ ONLY: Returns the raw data for this tilemap.
                     * @property data
@@ -6463,6 +6481,22 @@ var Kiwi;
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(TileMapLayer.prototype, "tileData", {
+                    /**
+                    * READ ONLY: A list containing all of the types of tiles found on this TileMapLayer.
+                    * Same as the `data` property.
+                    *
+                    * @property tileData
+                    * @type Array
+                    * @readOnly
+                    * @public
+                    */
+                    get: function () {
+                        return this._data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 /**
                 * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
                 * @method countTiles
@@ -6470,7 +6504,7 @@ var Kiwi;
                 * @return {Number} The number of tiles on this layer.
                 * @public
                 */
-                TileMapLayerBase.prototype.countTiles = function (type) {
+                TileMapLayer.prototype.countTiles = function (type) {
                     var cnt = 0;
                     for (var i = 0; i < this._data.length; i++) {
                         if (type == undefined && this._data[i] !== 0)
@@ -6480,24 +6514,11 @@ var Kiwi;
                     }
                     return cnt;
                 };
-                Object.defineProperty(TileMapLayerBase.prototype, "tileData", {
-                    /**
-                    *-----------------------
-                    * Getting Tiles
-                    *-----------------------
-                    */
-                    /**
-                    * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
-                    * @property tileData
-                    * @type Array
-                    * @public
-                    */
-                    get: function () {
-                        return this._data;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
+                /**
+                *-----------------------
+                * Getting Tiles
+                *-----------------------
+                */
                 /**
                 * Returns the index of the tile based on the x and y coordinates of the tile passed.
                 * If no tile is a the coordinates given then -1 is returned instead.
@@ -6508,7 +6529,7 @@ var Kiwi;
                 * @return {Number} Either the index of the tile retrieved or -1 if none was found.
                 * @public
                 */
-                TileMapLayerBase.prototype.getIndexFromXY = function (x, y) {
+                TileMapLayer.prototype.getIndexFromXY = function (x, y) {
                     var num = x + y * this.width;
                     //Does the index exist?
                     if (num < 0 || num >= this._data.length)
@@ -6526,37 +6547,9 @@ var Kiwi;
                 * @return {Kiwi.GameObjects.Tilemap.TileType}
                 * @public
                 */
-                TileMapLayerBase.prototype.getTileFromXY = function (x, y) {
+                TileMapLayer.prototype.getTileFromXY = function (x, y) {
                     var t = this.getIndexFromXY(x, y);
                     return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
-                };
-                /**
-                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
-                * If no tile is a the coordinates given then -1 is returned instead.
-                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
-                *
-                * @method getIndexFromCoords
-                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
-                * @public
-                */
-                TileMapLayerBase.prototype.getIndexFromCoords = function (x, y) {
-                    return -1;
-                };
-                /**
-                * Returns the TileType for a tile that is at a particular coordinate passed.
-                * If no tile is found then null is returned instead.
-                * Coordinates passed are in pixels and use the world coordinates of the tilemap.
-                *
-                * @method getTileFromCoords
-                * @param x {Number}
-                * @param y {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
-                * @public
-                */
-                TileMapLayerBase.prototype.getTileFromCoords = function (x, y) {
-                    return null;
                 };
                 /**
                 * Returns the indexes of every tile of a type you pass.
@@ -6565,7 +6558,7 @@ var Kiwi;
                 * @return {Number[]}
                 * @public
                 */
-                TileMapLayerBase.prototype.getIndexesByType = function (type) {
+                TileMapLayer.prototype.getIndexesByType = function (type) {
                     var tiles = [];
                     for (var i = 0; i < this._data.length; i++) {
                         if (this._data[i] == type)
@@ -6582,8 +6575,39 @@ var Kiwi;
                 * @return {Kiwi.GameObjects.Tilemap.TileType}
                 * @public
                 */
-                TileMapLayerBase.prototype.getTileFromIndex = function (index) {
+                TileMapLayer.prototype.getTileFromIndex = function (index) {
                     return (index !== -1) ? this.tilemap.tileTypes[this._data[index]] : null;
+                };
+                /**
+                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+                *
+                * Functionality needs to be added by classes extending this class.
+                *
+                * @method getIndexFromCoords
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayer.prototype.getIndexFromCoords = function (x, y) {
+                    return -1;
+                };
+                /**
+                * Returns the TileType for a tile that is at a particular coordinate passed.
+                * If no tile is found then null is returned instead.
+                * Coordinates passed are in pixels and use the world coordinates of the tilemap.
+                *
+                * @method getTileFromCoords
+                * @param x {Number}
+                * @param y {Number}
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromCoords = function (x, y) {
+                    var t = this.getIndexFromCoords(x, y);
+                    return (t !== -1) ? this.tilemap.tileTypes[this.data[t]] : null;
                 };
                 /**
                 *-----------------------
@@ -6600,7 +6624,7 @@ var Kiwi;
                 * @return {Boolean} If a tile was changed or not.
                 * @public
                 */
-                TileMapLayerBase.prototype.setTile = function (x, y, tileType) {
+                TileMapLayer.prototype.setTile = function (x, y, tileType) {
                     var x = this.getIndexFromXY(x, y);
                     if (x !== -1) {
                         this._data[x] = tileType;
@@ -6616,7 +6640,7 @@ var Kiwi;
                 * @param tileType {Number} The new tile type to be used at that position.
                 * @public
                 */
-                TileMapLayerBase.prototype.setTileByIndex = function (index, tileType) {
+                TileMapLayer.prototype.setTileByIndex = function (index, tileType) {
                     this._data[index] = tileType;
                 };
                 /**
@@ -6630,7 +6654,7 @@ var Kiwi;
                 * @param [height=this.height] {Number} How far down you want to go.
                 * @public
                 */
-                TileMapLayerBase.prototype.randomizeTiles = function (types, x, y, width, height) {
+                TileMapLayer.prototype.randomizeTiles = function (types, x, y, width, height) {
                     if (x === void 0) { x = 0; }
                     if (y === void 0) { y = 0; }
                     if (width === void 0) { width = this.width; }
@@ -6660,7 +6684,7 @@ var Kiwi;
                 * @param [height=this.height] {Number} How far down you want to go.
                 * @public
                 */
-                TileMapLayerBase.prototype.fill = function (type, x, y, width, height) {
+                TileMapLayer.prototype.fill = function (type, x, y, width, height) {
                     if (x === void 0) { x = 0; }
                     if (y === void 0) { y = 0; }
                     if (width === void 0) { width = this.width; }
@@ -6684,7 +6708,7 @@ var Kiwi;
                 * @param [height=this.height] {Number} How far down you want to go.
                 * @public
                 */
-                TileMapLayerBase.prototype.replaceTiles = function (typeA, typeB, x, y, width, height) {
+                TileMapLayer.prototype.replaceTiles = function (typeA, typeB, x, y, width, height) {
                     if (x === void 0) { x = 0; }
                     if (y === void 0) { y = 0; }
                     if (width === void 0) { width = this.width; }
@@ -6708,7 +6732,7 @@ var Kiwi;
                 * @param [height=this.height] {number} How far down you want to go.
                 * @public
                 */
-                TileMapLayerBase.prototype.swapTiles = function (typeA, typeB, x, y, width, height) {
+                TileMapLayer.prototype.swapTiles = function (typeA, typeB, x, y, width, height) {
                     if (x === void 0) { x = 0; }
                     if (y === void 0) { y = 0; }
                     if (width === void 0) { width = this.width; }
@@ -6733,7 +6757,7 @@ var Kiwi;
                 /**
                 * Returns the tiles which overlap with a provided entities hitbox component.
                 * Only collidable tiles on ANY side will be returned unless you pass a particular side.
-                * Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
+                * Note: Classes extending this class need to
                 *
                 * @method getOverlappingTiles
                 * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
@@ -6741,7 +6765,7 @@ var Kiwi;
                 * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
                 * @public
                 */
-                TileMapLayerBase.prototype.getOverlappingTiles = function (entity, collisionType) {
+                TileMapLayer.prototype.getOverlappingTiles = function (entity, collisionType) {
                     if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
                     return [];
                 };
@@ -6758,7 +6782,7 @@ var Kiwi;
                 * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
                 * @public
                 */
-                TileMapLayerBase.prototype.getCollidableTiles = function (x, y, width, height, collisionType) {
+                TileMapLayer.prototype.getCollidableTiles = function (x, y, width, height, collisionType) {
                     if (x === void 0) { x = 0; }
                     if (y === void 0) { y = 0; }
                     if (width === void 0) { width = this.width; }
@@ -6802,7 +6826,7 @@ var Kiwi;
                 * @method update
                 * @public
                 */
-                TileMapLayerBase.prototype.update = function () {
+                TileMapLayer.prototype.update = function () {
                     _super.prototype.update.call(this);
                 };
                 /**
@@ -6814,7 +6838,7 @@ var Kiwi;
                 * @param matrix {Matrix}
                 * @protected
                 */
-                TileMapLayerBase.prototype._calculateBoundaries = function (camera, matrix) {
+                TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
                     this._startX = 0;
                     this._startY = 0;
                     this._maxX = this.width;
@@ -6826,14 +6850,53 @@ var Kiwi;
                 * @param camera {Camera}
                 * @public
                 */
-                TileMapLayerBase.prototype.render = function (camera) {
+                TileMapLayer.prototype.render = function (camera) {
                 };
-                TileMapLayerBase.prototype.renderGL = function (gl, camera, params) {
+                TileMapLayer.prototype.renderGL = function (gl, camera, params) {
                     if (params === void 0) { params = null; }
                 };
-                return TileMapLayerBase;
+                /**
+                * Deprecated on the TileMapLayer class since it is for 'Isometric' maps only.
+                *
+                * @method chartToScreen
+                * @param chartPt {any} A Object containing x/y properties of the tile.
+                * @param [tileW] {Number} The width of the tile
+                * @param [tileH] {Number} The height of the tile
+                * @return {Object} With x/y properties of the location of the map onscreen.
+                * @deprecated
+                * @since 1.3.0
+                * @public
+                */
+                TileMapLayer.prototype.chartToScreen = function (chartPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth / 2; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    return {
+                        x: chartPt.x * tileW - chartPt.y * tileW,
+                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2
+                    };
+                };
+                /**
+                * Deprecated on the TileMapLayer class since it is for 'Isometric' maps only.
+                *
+                * @method screenToChart
+                * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
+                * @param [tileW] {Number} The width of a single tile.
+                * @param [tileH] {Number} The height of a single tile.
+                * @return {Object} With x/y properties of the location of tile on the screen.
+                * @deprecated
+                * @since 1.3.0
+                * @public
+                */
+                TileMapLayer.prototype.screenToChart = function (scrPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth / 2; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    var column = Math.floor(scrPt.x / tileW);
+                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+                    return { x: column + row, y: row };
+                };
+                return TileMapLayer;
             })(Kiwi.Entity);
-            Tilemap.TileMapLayerBase = TileMapLayerBase;
+            Tilemap.TileMapLayer = TileMapLayer;
         })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
     })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
 })(Kiwi || (Kiwi = {}));
@@ -6850,10 +6913,13 @@ var Kiwi;
         var Tilemap;
         (function (Tilemap) {
             /**
+            * Contains the code for managing and rendering Orthogonal types of TileMaps.
+            * This class should not be directly created, but instead should be created via methods on the TileMap class.
             *
-            * @class TileMapLayerBase
-            * @extends Kiwi.GameObjects.TileMapLayerBase
+            * @class TileMapLayerOrthogonal
+            * @extends Kiwi.GameObjects.TileMapLayer
             * @namespace Kiwi.GameObjects.Tilemap
+            * @since 1.3.0
             * @constructor
             * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
             * @param name {String} The name of this TileMapLayer.
@@ -6915,24 +6981,8 @@ var Kiwi;
                     return this.getIndexFromXY(tx, ty);
                 };
                 /**
-                * Returns the TileType for a tile that is at a particular coordinate passed.
-                * If no tile is found then null is returned instead.
-                * Coordinates passed are in pixels and use the world coordinates of the tilemap.
-                *
-                * @method getTileFromCoords
-                * @param x {Number}
-                * @param y {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
-                * @public
-                */
-                TileMapLayerOrthogonal.prototype.getTileFromCoords = function (x, y) {
-                    var t = this.getIndexFromCoords(x, y);
-                    return (t !== -1) ? this.tilemap.tileTypes[this.data[t]] : null;
-                };
-                /**
                 * Returns the tiles which overlap with a provided entities hitbox component.
                 * Only collidable tiles on ANY side will be returned unless you pass a particular side.
-                * Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
                 *
                 * @method getOverlappingTiles
                 * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
@@ -7094,7 +7144,7 @@ var Kiwi;
                     this.glRenderer.concatBatch(vertexItems);
                 };
                 return TileMapLayerOrthogonal;
-            })(Tilemap.TileMapLayerBase);
+            })(Tilemap.TileMapLayer);
             Tilemap.TileMapLayerOrthogonal = TileMapLayerOrthogonal;
         })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
     })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
@@ -7112,10 +7162,14 @@ var Kiwi;
         var Tilemap;
         (function (Tilemap) {
             /**
+            * Contains the code for managing and rendering Isometric types of TileMaps.
+            * This class should not be directly created, but instead should be created via methods on the TileMap class.
+            *
             *
             * @class TileMapLayerIsometric
-            * @extends Kiwi.GameObjects.TileMapLayerBase
+            * @extends Kiwi.GameObjects.TileMapLayer
             * @namespace Kiwi.GameObjects.Tilemap
+            * @since 1.3.0
             * @constructor
             * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
             * @param name {String} The name of this TileMapLayer.
@@ -7157,20 +7211,45 @@ var Kiwi;
                     return "TileMapLayerIsometric";
                 };
                 /**
+                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+                *
+                * Functionality needs to be added by classes extending this class.
+                *
+                * @method getIndexFromCoords
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayerIsometric.prototype.getIndexFromCoords = function (x, y) {
+                    //Not within the bounds?
+                    var halfWidth = this.widthInPixels * 0.5;
+                    if (x > this.x + halfWidth || x < this.x - halfWidth)
+                        return -1;
+                    if (y > this.y + this.heightInPixels || y < this.y)
+                        return -1;
+                    var point = this.screenToChart({ x: x, y: y });
+                    return this.getIndexFromXY(point.x, point.y);
+                };
+                /**
                 * ChartToScreen maps a point in the game tile coordinates into screen pixel
                 * coordinates that indicate where the tile should be drawn.
                 *
                 * @method chartToScreen
                 * @param chartPt {any} A Object containing x/y properties of the tile.
-                * @param tileW {Number} The width of the tile
-                * @param tileH {Number} The height of the tile
+                * @param [tileW] {Number} The width of the tile
+                * @param [tileH] {Number} The height of the tile
                 * @return {Object} With x/y properties of the location of the map onscreen.
                 * @public
                 */
                 TileMapLayerIsometric.prototype.chartToScreen = function (chartPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
                     return {
-                        x: chartPt.x * tileW - chartPt.y * tileW,
-                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2
+                        x: (chartPt.x - chartPt.y) * tileW * 0.5,
+                        y: (chartPt.x + chartPt.y) * tileH * 0.5
                     };
                 };
                 /**
@@ -7179,15 +7258,20 @@ var Kiwi;
                 *
                 * @method screenToChart
                 * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
-                * @param tileW {Number} The width of a single tile.
-                * @param tileH {Number} The height of a single tile.
+                * @param [tileW] {Number} The width of a single tile.
+                * @param [tileH] {Number} The height of a single tile.
                 * @return {Object} With x/y properties of the location of tile on the screen.
                 * @public
                 */
                 TileMapLayerIsometric.prototype.screenToChart = function (scrPt, tileW, tileH) {
-                    var column = Math.floor(scrPt.x / tileW);
+                    if (tileW === void 0) { tileW = this.tileWidth; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    var column = Math.floor(scrPt.x / (tileW * 0.5));
                     var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
-                    return { x: column + row, y: row };
+                    return {
+                        x: column + row,
+                        y: row
+                    };
                 };
                 /**
                 * The render loop which is used when using the Canvas renderer.
@@ -7222,7 +7306,7 @@ var Kiwi;
                                 var h = this.tileHeight * this.height;
                                 // We want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
                                 var shiftX = this.tileWidth / 2;
-                                var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth / 2, this.tileHeight);
+                                var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth, this.tileHeight);
                                 var drawX = screenPos.x + this._temptype.offset.x - shiftX;
                                 var drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
                                 ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
@@ -7257,7 +7341,7 @@ var Kiwi;
                             var h = this.tileHeight * this.height;
                             // We want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
                             var shiftX = this.tileWidth / 2;
-                            var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth / 2, this.tileHeight);
+                            var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth, this.tileHeight);
                             var tx = screenPos.x + this._temptype.offset.x - shiftX;
                             var ty = screenPos.y + this._temptype.offset.y;
                             //Set up the points
@@ -7278,7 +7362,7 @@ var Kiwi;
                     this.glRenderer.concatBatch(vertexItems);
                 };
                 return TileMapLayerIsometric;
-            })(Tilemap.TileMapLayerBase);
+            })(Tilemap.TileMapLayer);
             Tilemap.TileMapLayerIsometric = TileMapLayerIsometric;
         })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
     })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
@@ -33564,7 +33648,7 @@ var Kiwi;
 /// <reference path="gameobjects/TextField.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
-/// <reference path="gameobjects/tilemap/TileMapLayerBase.ts" />
+/// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayerOrthogonal.ts" />
 /// <reference path="gameobjects/tilemap/TileMapLayerIsometric.ts" />
 /// <reference path="components/AnimationManager.ts" />

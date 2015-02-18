@@ -9,10 +9,13 @@ module Kiwi.GameObjects.Tilemap {
 
 
 	/**
-	* 
-	* @class TileMapLayerBase
-	* @extends Kiwi.GameObjects.TileMapLayerBase
+    * Contains the code for managing and rendering Orthogonal types of TileMaps. 
+    * This class should not be directly created, but instead should be created via methods on the TileMap class.
+    * 
+	* @class TileMapLayerOrthogonal
+	* @extends Kiwi.GameObjects.TileMapLayer
 	* @namespace Kiwi.GameObjects.Tilemap
+    * @since 1.3.0
 	* @constructor
 	* @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
 	* @param name {String} The name of this TileMapLayer.
@@ -26,14 +29,13 @@ module Kiwi.GameObjects.Tilemap {
 	* @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
 	* @return {TileMapLayer}
 	*/
-    export class TileMapLayerOrthogonal extends TileMapLayerBase {
+    export class TileMapLayerOrthogonal extends TileMapLayer {
 
         constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x: number = 0, y: number = 0, w: number = 0, h: number = 0) {
 
             super(tilemap, name, atlas, data, tw, th, x, y, w, h);
 
         }
-
 
 		/**
 		* The type of object that it is.
@@ -79,27 +81,10 @@ module Kiwi.GameObjects.Tilemap {
             return this.getIndexFromXY(tx, ty);
         }
 
-		/**
-		* Returns the TileType for a tile that is at a particular coordinate passed. 
-		* If no tile is found then null is returned instead.
-		* Coordinates passed are in pixels and use the world coordinates of the tilemap.
-		* 
-		* @method getTileFromCoords
-		* @param x {Number}
-		* @param y {Number}
-		* @return {Kiwi.GameObjects.Tilemap.TileType} 
-		* @public
-		*/
-        public getTileFromCoords(x: number, y: number): TileType {
-            var t = this.getIndexFromCoords(x, y);
-            return (t !== -1) ? this.tilemap.tileTypes[this.data[t]] : null;
-        }
-
 
 		/**
 		* Returns the tiles which overlap with a provided entities hitbox component. 
 		* Only collidable tiles on ANY side will be returned unless you pass a particular side.
-		* Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
 		* 
 		* @method getOverlappingTiles
 		* @param entity {Kiwi.Entity} The entity you would like to check for the overlap.

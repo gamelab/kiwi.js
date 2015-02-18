@@ -64,7 +64,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @type TileMapLayerBase
 		* @public
 		*/
-		public layers: TileMapLayerBase[];
+        public layers: TileMapLayer[];
 
 		/**
 		* The state that this TileMap exists on.
@@ -398,14 +398,14 @@ module Kiwi.GameObjects.Tilemap {
 		* @param range {number} How many times it should run.
 		* @public
 		*/
-		public setCellsByRange(typeStart: number, cellStart: number, range:number) {
+        public setCellsByRange(typeStart: number, cellStart: number, range: number) {
 
-			for (var i = typeStart; i < typeStart + range; i++) {
-				this.tileTypes[i].cellIndex = cellStart;
-				cellStart++;
-			} 
+            for (var i = typeStart; i < typeStart + range; i++) {
+                this.tileTypes[i].cellIndex = cellStart;
+                cellStart++;
+            }
 
-		}
+        }
 
 		/**
 		*-----------------------
@@ -428,10 +428,11 @@ module Kiwi.GameObjects.Tilemap {
 		* @param [y=0] {Number} The position of the tilemap on the y axis. In pixels.
 		* @param [tw=this.tileWidth] {Number} The width of a single tile.
 		* @param [th=this.tileHeight] {Number} The height of a single tile.
+        * @param [orientation] {String} The orientation of the tilemap. Defaults to the same as this TileMap.
 		* @return {TileMapLayer} The TileMapLayer that was created.
 		* @public
 		*/
-        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[] = [], w: number = this.width, h: number = this.height, x: number = 0, y: number = 0, tw: number = this.tileWidth, th: number = this.tileHeight): TileMapLayerBase {
+        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[] = [], w: number = this.width, h: number = this.height, x: number = 0, y: number = 0, tw: number = this.tileWidth, th: number = this.tileHeight, orientation: string=this.orientation): TileMapLayer {
 
 			//Did the user provide enough data?
 			if (data.length < w * h) {
@@ -444,9 +445,9 @@ module Kiwi.GameObjects.Tilemap {
 			}
 
 			//Create the new layer
-            var layer: TileMapLayerBase;
+            var layer: TileMapLayer;
 
-            if (this.orientation == ISOMETRIC) {
+            if (orientation == ISOMETRIC) {
                 layer = new Kiwi.GameObjects.Tilemap.TileMapLayerIsometric(this, name, atlas, data, tw, th, x, y, w, h);
             } else {
                 layer = new Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal(this, name, atlas, data, tw, th, x, y, w, h);
@@ -492,7 +493,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
 		* @public
 		*/
-        public getLayerByName(name: string): TileMapLayerBase {
+        public getLayerByName(name: string): TileMapLayer {
 			for (var i = 0; i < this.layers.length; i++) {
 				if (this.layers[i].name == name) {
 					return this.layers[i];
@@ -508,7 +509,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @return {TileMapLayer}
 		* @public
 		*/
-        public getLayer(num: number): TileMapLayerBase {
+        public getLayer(num: number): TileMapLayer {
 			return (this.layers[num] !== undefined) ? this.layers[num] : null;
 		}
 
