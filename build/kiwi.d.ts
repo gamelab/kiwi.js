@@ -6103,7 +6103,7 @@ declare module Kiwi.Components {
         /**
         * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
         * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
-        * @method touching
+        * @method isTouching
         * @param value [number] The collision constant of the side you want to check against.
         * @return {boolean} If the Object is currently colliding on that side or not.
         * @public

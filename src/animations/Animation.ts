@@ -460,29 +460,29 @@ module Kiwi.Animations {
 
 				if ( frameDelta !== 0 ) {
 
-					this._frameIndex += frameDelta;
+					this.frameIndex += frameDelta;
 					this._lastFrameElapsed = this.clock.elapsed();
 
 					// Loop check
 					if ( this._loop ) {
-						if ( this._frameIndex >= this.length ) {
+						if ( this.frameIndex >= this.length ) {
 
-							while ( this._frameIndex >= this.length ) {
-								this._frameIndex -= this.length;
+							while ( this.frameIndex >= this.length ) {
+								this.frameIndex -= this.length;
 								if ( this._onLoop != null ) {
 									this._onLoop.dispatch();
 								}
 							}
 
-						} else if ( this._frameIndex < 0 ) {
-							while ( this._frameIndex < 0 ) {
-								this._frameIndex += this.length;
+						} else if ( this.frameIndex < 0 ) {
+							while ( this.frameIndex < 0 ) {
+								this.frameIndex += this.length;
 								if ( this._onLoop != null ) {
 									this._onLoop.dispatch();
 								}
 							}
 						}
-					} else if ( this._frameIndex < 0 || this._frameIndex >= this.length ) {
+					} else if ( this.frameIndex < 0 || this.frameIndex >= this.length ) {
 						if ( this._onComplete != null ) {
 							this._onComplete.dispatch();
 						}

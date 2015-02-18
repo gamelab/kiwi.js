@@ -8618,7 +8618,7 @@ var Kiwi;
             /**
             * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
             * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
-            * @method touching
+            * @method isTouching
             * @param value [number] The collision constant of the side you want to check against.
             * @return {boolean} If the Object is currently colliding on that side or not.
             * @public
@@ -17326,28 +17326,28 @@ var Kiwi;
                         frameDelta = Math.ceil(frameDelta);
                     }
                     if (frameDelta !== 0) {
-                        this._frameIndex += frameDelta;
+                        this.frameIndex += frameDelta;
                         this._lastFrameElapsed = this.clock.elapsed();
                         // Loop check
                         if (this._loop) {
-                            if (this._frameIndex >= this.length) {
-                                while (this._frameIndex >= this.length) {
-                                    this._frameIndex -= this.length;
+                            if (this.frameIndex >= this.length) {
+                                while (this.frameIndex >= this.length) {
+                                    this.frameIndex -= this.length;
                                     if (this._onLoop != null) {
                                         this._onLoop.dispatch();
                                     }
                                 }
                             }
-                            else if (this._frameIndex < 0) {
-                                while (this._frameIndex < 0) {
-                                    this._frameIndex += this.length;
+                            else if (this.frameIndex < 0) {
+                                while (this.frameIndex < 0) {
+                                    this.frameIndex += this.length;
                                     if (this._onLoop != null) {
                                         this._onLoop.dispatch();
                                     }
                                 }
                             }
                         }
-                        else if (this._frameIndex < 0 || this._frameIndex >= this.length) {
+                        else if (this.frameIndex < 0 || this.frameIndex >= this.length) {
                             if (this._onComplete != null) {
                                 this._onComplete.dispatch();
                             }
