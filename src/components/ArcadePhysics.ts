@@ -644,7 +644,7 @@ module Kiwi.Components {
 		* @public
 		* @static
 		*/
-		public static separateTiles(object:Entity, layer:Kiwi.GameObjects.Tilemap.TileMapLayer, tiles:any):boolean {
+        public static separateTiles(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayerBase, tiles:any):boolean {
 
 			//Physics Component Found?
 			if (object.components.hasComponent("ArcadePhysics") == false) return false;
@@ -678,7 +678,7 @@ module Kiwi.Components {
 		* @public
 		* @static
 		*/
-		public static separateTilesX(object:Entity, layer:Kiwi.GameObjects.Tilemap.TileMapLayer, tile):boolean {
+        public static separateTilesX(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayerBase, tile):boolean {
 
 
 			//Get Physics
@@ -867,10 +867,10 @@ module Kiwi.Components {
 			//Are we a tilemaplayer?
 			if (this.parent.childType() !== Kiwi.TILE_LAYER) return false; 
 
-			var tiles = (<Kiwi.GameObjects.Tilemap.TileMapLayer>this.parent).getOverlappingTiles(gameObject, collisionType);
+            var tiles = (<Kiwi.GameObjects.Tilemap.TileMapLayerBase>this.parent).getOverlappingTiles(gameObject, collisionType);
 
 			if (tiles.length > 0) {
-				if (separateObjects) ArcadePhysics.separateTiles(gameObject, <Kiwi.GameObjects.Tilemap.TileMapLayer>this.parent, tiles);
+                if (separateObjects) ArcadePhysics.separateTiles(gameObject, <Kiwi.GameObjects.Tilemap.TileMapLayerBase>this.parent, tiles);
 
 				return true;
 			} else {

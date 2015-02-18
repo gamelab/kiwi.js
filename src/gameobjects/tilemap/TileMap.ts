@@ -61,10 +61,10 @@ module Kiwi.GameObjects.Tilemap {
 		/**
 		* A list of all of the TileMapLayers that exist on the TileMap.
 		* @property layers
-		* @type TileMapLayer
+		* @type TileMapLayerBase
 		* @public
 		*/
-		public layers: TileMapLayer[];
+		public layers: TileMapLayerBase[];
 
 		/**
 		* The state that this TileMap exists on.
@@ -228,7 +228,6 @@ module Kiwi.GameObjects.Tilemap {
 						var h = (layerData.height !== undefined) ? layerData.height : this.height;
 
 						var layer = this.createNewLayer(layerData.name, atlas, layerData.data, w, h, layerData.x * this.tileWidth, layerData.y * this.tileHeight );
-						layer.orientation = this.orientation;
 						
 						//Add the extra data...
 						layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
@@ -432,7 +431,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @return {TileMapLayer} The TileMapLayer that was created.
 		* @public
 		*/
-		public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[]= [], w: number= this.width, h: number=this.height, x: number= 0, y: number= 0, tw:number=this.tileWidth, th:number=this.tileHeight): TileMapLayer {
+        public createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[] = [], w: number = this.width, h: number = this.height, x: number = 0, y: number = 0, tw: number = this.tileWidth, th: number = this.tileHeight): TileMapLayerBase {
 
 			//Did the user provide enough data?
 			if (data.length < w * h) {
@@ -445,7 +444,13 @@ module Kiwi.GameObjects.Tilemap {
 			}
 
 			//Create the new layer
-			var layer = new Kiwi.GameObjects.Tilemap.TileMapLayer(this, name, atlas, data, tw, th, x, y, w, h);
+            var layer: TileMapLayerBase;
+
+            if (this.orientation == ISOMETRIC) {
+                layer = new Kiwi.GameObjects.Tilemap.TileMapLayerIsometric(this, name, atlas, data, tw, th, x, y, w, h);
+            } else {
+                layer = new Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal(this, name, atlas, data, tw, th, x, y, w, h);
+            }
 
 			//Add the new layer to the array
 			this.layers.push(layer);
@@ -487,7 +492,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
 		* @public
 		*/
-		public getLayerByName(name: string):TileMapLayer {
+        public getLayerByName(name: string): TileMapLayerBase {
 			for (var i = 0; i < this.layers.length; i++) {
 				if (this.layers[i].name == name) {
 					return this.layers[i];
@@ -503,7 +508,7 @@ module Kiwi.GameObjects.Tilemap {
 		* @return {TileMapLayer}
 		* @public
 		*/
-		public getLayer(num: number):TileMapLayer {
+        public getLayer(num: number): TileMapLayerBase {
 			return (this.layers[num] !== undefined) ? this.layers[num] : null;
 		}
 

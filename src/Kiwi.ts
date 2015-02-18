@@ -21,7 +21,9 @@
 /// <reference path="gameobjects/TextField.ts" />
 /// <reference path="gameobjects/tilemap/TileType.ts" />
 /// <reference path="gameobjects/tilemap/TileMap.ts" />
-/// <reference path="gameobjects/tilemap/TileMapLayer.ts" />
+/// <reference path="gameobjects/tilemap/TileMapLayerBase.ts" />
+/// <reference path="gameobjects/tilemap/TileMapLayerOrthogonal.ts" />
+/// <reference path="gameobjects/tilemap/TileMapLayerIsometric.ts" />
 
 /// <reference path="components/AnimationManager.ts" />
 /// <reference path="components/Box.ts" />

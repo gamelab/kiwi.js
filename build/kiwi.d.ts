@@ -4172,10 +4172,10 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * A list of all of the TileMapLayers that exist on the TileMap.
         * @property layers
-        * @type TileMapLayer
+        * @type TileMapLayerBase
         * @public
         */
-        layers: TileMapLayer[];
+        layers: TileMapLayerBase[];
         /**
         * The state that this TileMap exists on.
         * @property state
@@ -4351,7 +4351,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileMapLayer} The TileMapLayer that was created.
         * @public
         */
-        createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): TileMapLayer;
+        createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number): TileMapLayerBase;
         /**
         * Eventually will create a new object layer. Currently does nothing.
         * @method createNewObjectLayer
@@ -4377,7 +4377,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileMapLayer} Either the layer with the name passed, or null if no Layer with that name was found.
         * @public
         */
-        getLayerByName(name: string): TileMapLayer;
+        getLayerByName(name: string): TileMapLayerBase;
         /**
         * Returns the layer with the number associated with it in the layers array.
         * @method getLayer
@@ -4385,7 +4385,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @return {TileMapLayer}
         * @public
         */
-        getLayer(num: number): TileMapLayer;
+        getLayer(num: number): TileMapLayerBase;
         /**
         * The type of object that it is.
         * @method objType
@@ -4405,10 +4405,10 @@ declare module Kiwi.GameObjects.Tilemap {
 */
 declare module Kiwi.GameObjects.Tilemap {
     /**
-    * GameObject that contains the information held for a single Layer of Tiles, along with methods to handle the rendering of those Tiles.
-    * A TileMapLayer should not be directly created, but instead should be created through a TileMap object instead.
+    * GameObject containing the core functionality for every type of tilemap layer that can be generated.
+    * This class should not be directly created, instead use the TileMap class.
     *
-    * @class TileMapLayer
+    * @class TileMapLayerBase
     * @extends Kiwi.Entity
     * @namespace Kiwi.GameObjects.Tilemap
     * @constructor
@@ -4424,7 +4424,7 @@ declare module Kiwi.GameObjects.Tilemap {
     * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
     * @return {TileMapLayer}
     */
-    class TileMapLayer extends Kiwi.Entity {
+    class TileMapLayerBase extends Kiwi.Entity {
         constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
         /**
         * The physics component contained on the Tilemap. Use for basic collisions between People and Tiles.
@@ -4513,8 +4513,9 @@ declare module Kiwi.GameObjects.Tilemap {
         heightInPixels: number;
         /**
         * Override function to prevent unwanted inherited behaviour. Do not call.
+        * Because TileMapLayer extends Entity, it has a cellIndex parameter.
+        * However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
         *
-        * Because TileMapLayer extends Entity, it has a cellIndex parameter. However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
         * @property cellIndex
         * @type number
         * @public
@@ -4528,10 +4529,19 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * A list containing all the types of tiles found on this TileMapLayer.
         * @property _data
-        * @type number[]
+        * @type Array
         * @private
         */
         private _data;
+        /**
+        * READ ONLY: Returns the raw data for this tilemap.
+        * @property data
+        * @type Array
+        * @readOnly
+        * @public
+        * @since 1.3.0
+        */
+        data: number[];
         /**
         * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
         * @method countTiles
@@ -4587,7 +4597,6 @@ declare module Kiwi.GameObjects.Tilemap {
         * Returns the index of the tile based on the x and y pixel coordinates that are passed.
         * If no tile is a the coordinates given then -1 is returned instead.
         * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
-        * Note: Currently only working for ORTHOGONAL TileMaps.
         *
         * @method getIndexFromCoords
         * @param x {Number} The x coordinate of the Tile you would like to retrieve.
@@ -4600,7 +4609,6 @@ declare module Kiwi.GameObjects.Tilemap {
         * Returns the TileType for a tile that is at a particular coordinate passed.
         * If no tile is found then null is returned instead.
         * Coordinates passed are in pixels and use the world coordinates of the tilemap.
-        * Note: Currently only working for ORTHOGONAL TileMaps.
         *
         * @method getTileFromCoords
         * @param x {Number}
@@ -4746,72 +4754,72 @@ declare module Kiwi.GameObjects.Tilemap {
         * Is updated each frame, via the _calculateBoundaries method.
         * @property _maxX
         * @type number
-        * @private
+        * @protected
         */
-        private _maxX;
+        protected _maxX: number;
         /**
         * Used whilst rendering to calculate the number of tiles to be rendered on the Y axis.
         * Is updated each frame, via the _calculateBoundaries method.
         * @property _maxY
         * @type number
-        * @private
+        * @protected
         */
-        private _maxY;
+        protected _maxY: number;
         /**
         * Used whilst rendering to calculate which is the first tile to be rendered on the X axis.
         * Is updated each frame, via the _calculateBoundaries method.
         * @property _startX
         * @type number
-        * @private
+        * @protected
         */
-        private _startX;
+        protected _startX: number;
         /**
         * Used whilst rendering to calculate which is the first tile to be rendered on the Y axis.
         * Is updated each frame, via the _calculateBoundaries method.
         * @property _startY
         * @type number
-        * @private
+        * @protected
         */
-        private _startY;
+        protected _startY: number;
         /**
         * Temporary property that holds the tileType of the current tile being rendered.
         * @property _temptype
         * @type TileType
-        * @private
+        * @protected
         */
-        private _temptype;
+        protected _temptype: TileType;
         /**
         * Corner values used internally.
         * @property corner1
         * @type {Kiwi.Geom.Point}
-        * @private
+        * @protected
         * @since 1.1.0
         */
-        private _corner1;
+        protected _corner1: Kiwi.Geom.Point;
         /**
         * Corner values used internally.
         * @property corner2
         * @type {Kiwi.Geom.Point}
-        * @private
+        * @protected
         * @since 1.1.0
         */
-        private _corner2;
+        protected _corner2: Kiwi.Geom.Point;
         /**
         * Corner values used internally.
         * @property corner3
         * @type {Kiwi.Geom.Point}
-        * @private
+        * @protected
         * @since 1.1.0
         */
-        private _corner3;
+        protected _corner3: Kiwi.Geom.Point;
         /**
         * Corner values used internally.
         * @property corner4
         * @type {Kiwi.Geom.Point}
-        * @private
+        * @protected
         * @since 1.1.0
         */
-        private _corner4;
+        protected _corner4: Kiwi.Geom.Point;
         /**
         * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
         * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
@@ -4819,13 +4827,164 @@ declare module Kiwi.GameObjects.Tilemap {
         * @method _calculateBoundaries
         * @param camera {Camera}
         * @param matrix {Matrix}
-        * @private
+        * @protected
         */
-        private _calculateBoundaries(camera, matrix);
+        protected _calculateBoundaries(camera: Kiwi.Camera, matrix: Kiwi.Geom.Matrix): void;
+        /**
+        * The render loop which is used when using the Canvas renderer.
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
+        render(camera: Kiwi.Camera): void;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+    }
+}
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+declare module Kiwi.GameObjects.Tilemap {
+    /**
+    *
+    * @class TileMapLayerBase
+    * @extends Kiwi.GameObjects.TileMapLayerBase
+    * @namespace Kiwi.GameObjects.Tilemap
+    * @constructor
+    * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
+    * @param name {String} The name of this TileMapLayer.
+    * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+    * @param data {Number[]} The information about the tiles.
+    * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+    * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+    * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+    * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+    * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+    * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+    * @return {TileMapLayer}
+    */
+    class TileMapLayerOrthogonal extends TileMapLayerBase {
+        constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String} "TileMapLayerOrthogonal"
+        * @public
+        */
+        objType(): string;
+        /**
+        * The orientation of the of tilemap.
+        * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
+        * @property orientation
+        * @type String
+        * @default 'orthogonal'
+        * @public
+        */
+        orientation: string;
+        /**
+        * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+        * If no tile is a the coordinates given then -1 is returned instead.
+        * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+        *
+        * @method getIndexFromCoords
+        * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+        * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+        * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+        * @public
+        */
+        getIndexFromCoords(x: number, y: number): number;
+        /**
+        * Returns the TileType for a tile that is at a particular coordinate passed.
+        * If no tile is found then null is returned instead.
+        * Coordinates passed are in pixels and use the world coordinates of the tilemap.
+        *
+        * @method getTileFromCoords
+        * @param x {Number}
+        * @param y {Number}
+        * @return {Kiwi.GameObjects.Tilemap.TileType}
+        * @public
+        */
+        getTileFromCoords(x: number, y: number): TileType;
+        /**
+        * Returns the tiles which overlap with a provided entities hitbox component.
+        * Only collidable tiles on ANY side will be returned unless you pass a particular side.
+        * Note: Only designed to work with ORTHOGONAL types of tilemaps, results maybe unexpected for other types of tilemaps.
+        *
+        * @method getOverlappingTiles
+        * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
+        * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
+        * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
+        * @public
+        */
+        getOverlappingTiles(entity: Kiwi.Entity, collisionType?: number): any;
+        /**
+        * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
+        * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+        *
+        * @method _calculateBoundaries
+        * @param camera {Camera}
+        * @param matrix {Matrix}
+        * @protected
+        */
+        protected _calculateBoundaries(camera: Kiwi.Camera, matrix: Kiwi.Geom.Matrix): void;
+        /**
+        * The render loop which is used when using the Canvas renderer.
+        * @method render
+        * @param camera {Camera}
+        * @public
+        */
+        render(camera: Kiwi.Camera): boolean;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+    }
+}
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+declare module Kiwi.GameObjects.Tilemap {
+    /**
+    *
+    * @class TileMapLayerIsometric
+    * @extends Kiwi.GameObjects.TileMapLayerBase
+    * @namespace Kiwi.GameObjects.Tilemap
+    * @constructor
+    * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
+    * @param name {String} The name of this TileMapLayer.
+    * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+    * @param data {Number[]} The information about the tiles.
+    * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+    * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+    * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+    * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+    * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+    * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+    * @return {TileMapLayer}
+    */
+    class TileMapLayerIsometric extends TileMapLayerBase {
+        constructor(tilemap: Kiwi.GameObjects.Tilemap.TileMap, name: string, atlas: Kiwi.Textures.TextureAtlas, data: number[], tw: number, th: number, x?: number, y?: number, w?: number, h?: number);
+        /**
+        * The type of object that it is.
+        * @method objType
+        * @return {String} "TileMapLayerIsometric"
+        * @public
+        */
+        objType(): string;
+        /**
+        * The orientation of the of tilemap.
+        * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
+        * @property orientation
+        * @type String
+        * @default 'isometric'
+        * @public
+        */
+        orientation: string;
         /**
         * ChartToScreen maps a point in the game tile coordinates into screen pixel
         * coordinates that indicate where the tile should be drawn.
-        * Note: This is for use in ISOMETRIC Tilemaps.
         *
         * @method chartToScreen
         * @param chartPt {any} A Object containing x/y properties of the tile.
@@ -4838,7 +4997,6 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * ScreenToChart maps a point in screen coordinates into the game tile chart
         * coordinates for the tile on which the screen point falls on.
-        * This is for use in ISOMETRIC Tilemaps.
         *
         * @method screenToChart
         * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
@@ -6103,7 +6261,7 @@ declare module Kiwi.Components {
         /**
         * Returns a boolean indicating whether the or not the object is currently colliding on a particular side that is passed.
         * Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.
-        * @method touching
+        * @method isTouching
         * @param value [number] The collision constant of the side you want to check against.
         * @return {boolean} If the Object is currently colliding on that side or not.
         * @public
@@ -6200,7 +6358,7 @@ declare module Kiwi.Components {
         * @public
         * @static
         */
-        static separateTiles(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tiles: any): boolean;
+        static separateTiles(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayerBase, tiles: any): boolean;
         /**
         * Separates a GameObjects from an Array of Tiles on the x-axis.
         * @method separateTilesX
@@ -6211,7 +6369,7 @@ declare module Kiwi.Components {
         * @public
         * @static
         */
-        static separateTilesX(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tile: any): boolean;
+        static separateTilesX(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayerBase, tile: any): boolean;
         /**
         * Separates a GameObject from a tiles on the y-axis.
         * @method separateTilesY
