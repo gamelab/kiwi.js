@@ -119,9 +119,10 @@ module Kiwi.Files {
 			
 			this.data = document.createElement('img');
             var blob = new Blob([response], { type: this.type });
-
-            this.data.addEventListener('load',(event) => function (event) {
-                this.loadSuccess();
+    
+            var that = this;
+            this.data.addEventListener('load',  function (event) {
+                that.loadSuccess();
             });
 
 			if (window['URL']) {

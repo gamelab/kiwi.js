@@ -34053,9 +34053,10 @@ var Kiwi;
             TextureFile.prototype.processXhr = function (response) {
                 this.data = document.createElement('img');
                 var blob = new Blob([response], { type: this.type });
-                this.data.addEventListener('load', function (event) { return function (event) {
-                    this.loadSuccess();
-                }; });
+                var that = this;
+                this.data.addEventListener('load', function (event) {
+                    that.loadSuccess();
+                });
                 if (window['URL']) {
                     this.data.src = window['URL'].createObjectURL(blob);
                 }
