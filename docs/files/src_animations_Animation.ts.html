@@ -805,7 +805,7 @@ module Kiwi.Animations {
 		* @public
 		*/
 		public update() {
-			var frameDelta;
+			var frameDelta, i, repeats;
 
 			if ( this._isPlaying ) {
 				// How many frames do we move, ahead or behind?
@@ -831,25 +831,45 @@ module Kiwi.Animations {
 					if ( this._loop ) {
 						if ( this._frameIndex &gt;= this.length ) {
 
-							while ( this._frameIndex &gt;= this.length ) {
-								this._frameIndex -= this.length;
-								if ( this._onLoop != null ) {
+							repeats = Math.floor(
+								this._frameIndex / this.length );
+
+							this._frameIndex = this._frameIndex % this.length;
+
+							if ( this._onLoop != null ) {
+								for ( i = 0; i &lt; repeats; i++ ) {
 									this._onLoop.dispatch();
 								}
 							}
 
 						} else if ( this._frameIndex &lt; 0 ) {
-							while ( this._frameIndex &lt; 0 ) {
-								this._frameIndex += this.length;
-								if ( this._onLoop != null ) {
+
+							repeats = Math.ceil(
+								Math.abs( this._frameIndex ) / this.length );
+
+							this._frameIndex = this.length +
+								this._frameIndex % this.length;
+
+							if ( this._onLoop != null ) {
+								for ( i = 0; i &lt; repeats; i++ ) {
 									this._onLoop.dispatch();
 								}
 							}
 						}
-					} else if ( this._frameIndex &lt; 0 || this._frameIndex &gt;= this.length ) {
+					} else if ( this._frameIndex &lt; 0 ) {
+						this._frameIndex = this.length + this._frameIndex % this.length;
+
+						// Execute the stop on the parent 
+						// to allow the isPlaying boolean to remain consistent
+						this._parent.stop();
+						return;
+					} else if ( this._frameIndex &gt;= this.length ) {
+						this._frameIndex = this._frameIndex % this.length;
+
 						if ( this._onComplete != null ) {
 							this._onComplete.dispatch();
 						}
+
 						// Execute the stop on the parent 
 						// to allow the isPlaying boolean to remain consistent
 						this._parent.stop();

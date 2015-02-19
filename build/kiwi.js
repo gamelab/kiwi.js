@@ -17311,7 +17311,7 @@ var Kiwi;
             * @public
             */
             Animation.prototype.update = function () {
-                var frameDelta;
+                var frameDelta, i, repeats;
                 if (this._isPlaying) {
                     // How many frames do we move, ahead or behind?
                     frameDelta = ((this.clock.elapsed() - this._lastFrameElapsed) / this._speed) % (this.length + 1);
@@ -17326,28 +17326,38 @@ var Kiwi;
                         frameDelta = Math.ceil(frameDelta);
                     }
                     if (frameDelta !== 0) {
-                        this.frameIndex += frameDelta;
+                        this._frameIndex += frameDelta;
                         this._lastFrameElapsed = this.clock.elapsed();
                         // Loop check
                         if (this._loop) {
-                            if (this.frameIndex >= this.length) {
-                                while (this.frameIndex >= this.length) {
-                                    this.frameIndex -= this.length;
-                                    if (this._onLoop != null) {
+                            if (this._frameIndex >= this.length) {
+                                repeats = Math.floor(this._frameIndex / this.length);
+                                this._frameIndex = this._frameIndex % this.length;
+                                if (this._onLoop != null) {
+                                    for (i = 0; i < repeats; i++) {
                                         this._onLoop.dispatch();
                                     }
                                 }
                             }
-                            else if (this.frameIndex < 0) {
-                                while (this.frameIndex < 0) {
-                                    this.frameIndex += this.length;
-                                    if (this._onLoop != null) {
+                            else if (this._frameIndex < 0) {
+                                repeats = Math.ceil(Math.abs(this._frameIndex) / this.length);
+                                this._frameIndex = this.length + this._frameIndex % this.length;
+                                if (this._onLoop != null) {
+                                    for (i = 0; i < repeats; i++) {
                                         this._onLoop.dispatch();
                                     }
                                 }
                             }
                         }
-                        else if (this.frameIndex < 0 || this.frameIndex >= this.length) {
+                        else if (this._frameIndex < 0) {
+                            this._frameIndex = this.length + this._frameIndex % this.length;
+                            // Execute the stop on the parent 
+                            // to allow the isPlaying boolean to remain consistent
+                            this._parent.stop();
+                            return;
+                        }
+                        else if (this._frameIndex >= this.length) {
+                            this._frameIndex = this._frameIndex % this.length;
                             if (this._onComplete != null) {
                                 this._onComplete.dispatch();
                             }
