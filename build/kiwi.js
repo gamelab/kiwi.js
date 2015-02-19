@@ -34053,13 +34053,15 @@ var Kiwi;
             TextureFile.prototype.processXhr = function (response) {
                 this.data = document.createElement('img');
                 var blob = new Blob([response], { type: this.type });
+                this.data.addEventListener('load', function (event) { return function (event) {
+                    this.loadSuccess();
+                }; });
                 if (window['URL']) {
                     this.data.src = window['URL'].createObjectURL(blob);
                 }
                 else if (window['webkitURL']) {
                     this.data.src = window['webkitURL'].createObjectURL(blob);
                 }
-                this.loadSuccess();
             };
             /**
             * Revokes the object url that was added to the window when creating the image.

@@ -118,15 +118,17 @@ module Kiwi.Files {
 		protected processXhr( response:any ) {
 			
 			this.data = document.createElement('img');
-			var blob = new Blob([response], { type: this.type });
-			
+            var blob = new Blob([response], { type: this.type });
+
+            this.data.addEventListener('load',(event) => function (event) {
+                this.loadSuccess();
+            });
+
 			if (window['URL']) {
 				this.data.src = window['URL'].createObjectURL(blob);
 			} else if (window['webkitURL']) {
 				this.data.src = window['webkitURL'].createObjectURL(blob);
 			}
-
-			this.loadSuccess();
 
 		}
 
