@@ -17217,15 +17217,20 @@ var Kiwi;
                 configurable: true
             });
             /**
-            * An Internal method used to start the animation.
+            * Start the animation.
             * @method _start
-            * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
+            * @param [index=null] {number} Index of the frame in the sequence that
+            *	is to play. If left as null it just starts from where it left off.
             * @private
             */
             Animation.prototype._start = function (index) {
                 if (index === void 0) { index = null; }
                 if (index !== null) {
                     this.frameIndex = index;
+                }
+                // If the animation is out of range then start it at the beginning
+                if (this.frameIndex >= this.length - 1 || this.frameIndex < 0) {
+                    this.frameIndex = 0;
                 }
                 this._isPlaying = true;
                 this._startTime = this.clock.elapsed();
@@ -17240,15 +17245,13 @@ var Kiwi;
             * @public
             */
             Animation.prototype.play = function () {
-                //if the animation is at the last frame then start it at the beginning
-                if (this._frameIndex >= this.length - 1)
-                    this.frameIndex = 0;
                 this.playAt(this._frameIndex);
             };
             /**
-            * Plays the animation at a particular frame
+            * Plays the animation at a particular frame.
             * @method playAt
-            * @param index {Number} The index of the cell in the sequence that the animation is to start at.
+            * @param index {number} Index of the cell in the sequence that the
+            *	animation is to start at.
             * @public
             */
             Animation.prototype.playAt = function (index) {
@@ -17341,7 +17344,7 @@ var Kiwi;
                             }
                             else if (this._frameIndex < 0) {
                                 repeats = Math.ceil(Math.abs(this._frameIndex) / this.length);
-                                this._frameIndex = this.length + this._frameIndex % this.length;
+                                this._frameIndex = (this.length + this._frameIndex % this.length) % this.length;
                                 if (this._onLoop != null) {
                                     for (i = 0; i < repeats; i++) {
                                         this._onLoop.dispatch();
@@ -17350,7 +17353,7 @@ var Kiwi;
                             }
                         }
                         else if (this._frameIndex < 0) {
-                            this._frameIndex = this.length + this._frameIndex % this.length;
+                            this._frameIndex = (this.length + this._frameIndex % this.length) % this.length;
                             // Execute the stop on the parent 
                             // to allow the isPlaying boolean to remain consistent
                             this._parent.stop();

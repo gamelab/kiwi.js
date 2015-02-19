@@ -342,14 +342,20 @@ module Kiwi.Animations {
 		private _lastFrameElapsed: number;
 
 		/**
-		* An Internal method used to start the animation.
+		* Start the animation.
 		* @method _start
-		* @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
+		* @param [index=null] {number} Index of the frame in the sequence that
+		*	is to play. If left as null it just starts from where it left off.
 		* @private
 		*/
 		private _start(index: number = null) {
 			if (index !== null) {
 				this.frameIndex = index;
+			}
+
+			// If the animation is out of range then start it at the beginning
+			if ( this.frameIndex >= this.length - 1 || this.frameIndex < 0 ) {
+				this.frameIndex = 0;
 			}
 
 			this._isPlaying = true;
@@ -366,20 +372,18 @@ module Kiwi.Animations {
 		* @public
 		*/
 		public play() {
-			//if the animation is at the last frame then start it at the beginning
-			if (this._frameIndex >= this.length - 1) this.frameIndex = 0; 
-			
-			this.playAt(this._frameIndex);
+			this.playAt( this._frameIndex );
 		}
 
 		/**
-		* Plays the animation at a particular frame
+		* Plays the animation at a particular frame.
 		* @method playAt
-		* @param index {Number} The index of the cell in the sequence that the animation is to start at.
+		* @param index {number} Index of the cell in the sequence that the
+		*	animation is to start at.
 		* @public
 		*/
-		public playAt(index: number) {  
-			this._start(index);
+		public playAt( index: number ) {
+			this._start( index );
 		}
 
 		/**
@@ -483,8 +487,8 @@ module Kiwi.Animations {
 							repeats = Math.ceil(
 								Math.abs( this._frameIndex ) / this.length );
 
-							this._frameIndex = this.length +
-								this._frameIndex % this.length;
+							this._frameIndex = ( this.length +
+								this._frameIndex % this.length ) % this.length;
 
 							if ( this._onLoop != null ) {
 								for ( i = 0; i < repeats; i++ ) {
@@ -493,7 +497,8 @@ module Kiwi.Animations {
 							}
 						}
 					} else if ( this._frameIndex < 0 ) {
-						this._frameIndex = this.length + this._frameIndex % this.length;
+						this._frameIndex = ( this.length +
+							this._frameIndex % this.length ) % this.length;
 
 						// Execute the stop on the parent 
 						// to allow the isPlaying boolean to remain consistent
