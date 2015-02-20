@@ -17361,12 +17361,12 @@ var Kiwi;
                         }
                         else if (this._frameIndex >= this.length) {
                             this._frameIndex = this._frameIndex % this.length;
-                            if (this._onComplete != null) {
-                                this._onComplete.dispatch();
-                            }
                             // Execute the stop on the parent 
                             // to allow the isPlaying boolean to remain consistent
                             this._parent.stop();
+                            if (this._onComplete != null) {
+                                this._onComplete.dispatch();
+                            }
                             return;
                         }
                         this._parent.updateCellIndex();

@@ -503,17 +503,19 @@ module Kiwi.Animations {
 						// Execute the stop on the parent 
 						// to allow the isPlaying boolean to remain consistent
 						this._parent.stop();
+
 						return;
 					} else if ( this._frameIndex >= this.length ) {
 						this._frameIndex = this._frameIndex % this.length;
+
+						// Execute the stop on the parent 
+						// to allow the isPlaying boolean to remain consistent
+						this._parent.stop();
 
 						if ( this._onComplete != null ) {
 							this._onComplete.dispatch();
 						}
 
-						// Execute the stop on the parent 
-						// to allow the isPlaying boolean to remain consistent
-						this._parent.stop();
 						return;
 					}
 
