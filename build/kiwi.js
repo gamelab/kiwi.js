@@ -8944,7 +8944,7 @@ var Kiwi;
                 var obj1rect = new Kiwi.Geom.Rectangle(box1.x - ((obj1delta > 0) ? obj1delta : 0), phys1.last.y + phys1.box.hitboxOffset.y, box1.width + ((obj1delta > 0) ? obj1delta : -obj1delta), box1.height);
                 var obj2rect = new Kiwi.Geom.Rectangle(x - ((obj2delta > 0) ? obj2delta : 0), phys2.last.y + tile.y, layer.tileWidth + ((obj2delta > 0) ? obj2delta : -obj2delta), layer.tileHeight);
                 //Check to see if they overlap
-                if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+                if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y - 1 + obj1rect.height > obj2rect.y) && (obj1rect.y - 1 < obj2rect.y + obj2rect.height)) {
                     //Which way the delta is going
                     if (obj1delta > obj2delta) {
                         overlap = box1.x + box1.width - x;
@@ -34051,6 +34051,7 @@ var Kiwi;
             * @protected
             */
             TextureFile.prototype.processXhr = function (response) {
+                //Careful, Blobs are not supported on CocoonJS Canvas+
                 this.data = document.createElement('img');
                 var blob = new Blob([response], { type: this.type });
                 var that = this;

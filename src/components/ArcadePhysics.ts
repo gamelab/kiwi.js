@@ -715,7 +715,7 @@ module Kiwi.Components {
 
 
 			//Check to see if they overlap
-			if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height)) {
+			if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y - 1 + obj1rect.height > obj2rect.y) && (obj1rect.y - 1 < obj2rect.y + obj2rect.height)) {
 
 				//Which way the delta is going
 				if (obj1delta > obj2delta) {

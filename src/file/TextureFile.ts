@@ -117,6 +117,7 @@ module Kiwi.Files {
 		*/
 		protected processXhr( response:any ) {
 			
+            //Careful, Blobs are not supported on CocoonJS Canvas+
 			this.data = document.createElement('img');
             var blob = new Blob([response], { type: this.type });
     
