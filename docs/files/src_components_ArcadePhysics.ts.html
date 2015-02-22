@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/components/ArcadePhysics.ts - Kiwi.js</title>
+    <title>src\components\ArcadePhysics.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,6 +118,10 @@
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayer.html">Kiwi.GameObjects.Tilemap.TileMapLayer</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayerIsometric.html">Kiwi.GameObjects.Tilemap.TileMapLayerIsometric</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal.html">Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal</a></li>
             
                 <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileType.html">Kiwi.GameObjects.Tilemap.TileType</a></li>
             
@@ -358,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/components/ArcadePhysics.ts</h1>
+                        <h1 class="file-heading">File: src\components\ArcadePhysics.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -1008,7 +1012,7 @@ module Kiwi.Components {
 		* @public
 		* @static
 		*/
-		public static separateTiles(object:Entity, layer:Kiwi.GameObjects.Tilemap.TileMapLayer, tiles:any):boolean {
+        public static separateTiles(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tiles:any):boolean {
 
 			//Physics Component Found?
 			if (object.components.hasComponent(&quot;ArcadePhysics&quot;) == false) return false;
@@ -1042,7 +1046,7 @@ module Kiwi.Components {
 		* @public
 		* @static
 		*/
-		public static separateTilesX(object:Entity, layer:Kiwi.GameObjects.Tilemap.TileMapLayer, tile):boolean {
+        public static separateTilesX(object: Entity, layer: Kiwi.GameObjects.Tilemap.TileMapLayer, tile):boolean {
 
 
 			//Get Physics
@@ -1231,10 +1235,10 @@ module Kiwi.Components {
 			//Are we a tilemaplayer?
 			if (this.parent.childType() !== Kiwi.TILE_LAYER) return false; 
 
-			var tiles = (&lt;Kiwi.GameObjects.Tilemap.TileMapLayer&gt;this.parent).getOverlappingTiles(gameObject, collisionType);
+            var tiles = (&lt;Kiwi.GameObjects.Tilemap.TileMapLayer&gt;this.parent).getOverlappingTiles(gameObject, collisionType);
 
 			if (tiles.length &gt; 0) {
-				if (separateObjects) ArcadePhysics.separateTiles(gameObject, &lt;Kiwi.GameObjects.Tilemap.TileMapLayer&gt;this.parent, tiles);
+                if (separateObjects) ArcadePhysics.separateTiles(gameObject, &lt;Kiwi.GameObjects.Tilemap.TileMapLayer&gt;this.parent, tiles);
 
 				return true;
 			} else {

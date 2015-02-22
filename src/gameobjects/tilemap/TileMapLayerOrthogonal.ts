@@ -13,7 +13,7 @@ module Kiwi.GameObjects.Tilemap {
     * This class should not be directly created, but instead should be created via methods on the TileMap class.
     * 
 	* @class TileMapLayerOrthogonal
-	* @extends Kiwi.GameObjects.TileMapLayer
+	* @extends Kiwi.GameObjects.Tilemap.TileMapLayer
 	* @namespace Kiwi.GameObjects.Tilemap
     * @since 1.3.0
 	* @constructor

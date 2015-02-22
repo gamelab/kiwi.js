@@ -14,7 +14,7 @@ module Kiwi.GameObjects.Tilemap {
     *
 	* 
 	* @class TileMapLayerIsometric
-	* @extends Kiwi.GameObjects.TileMapLayer
+	* @extends Kiwi.GameObjects.Tilemap.TileMapLayer
 	* @namespace Kiwi.GameObjects.Tilemap
     * @since 1.3.0
 	* @constructor
