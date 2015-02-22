@@ -40,6 +40,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Kiwi.GameObjects.TextField",
         "Kiwi.GameObjects.Tilemap.TileMap",
         "Kiwi.GameObjects.Tilemap.TileMapLayer",
+        "Kiwi.GameObjects.Tilemap.TileMapLayerIsometric",
+        "Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal",
         "Kiwi.GameObjects.Tilemap.TileType",
         "Kiwi.Geom.AABB",
         "Kiwi.Geom.Circle",
