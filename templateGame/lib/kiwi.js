@@ -6917,7 +6917,7 @@ var Kiwi;
             * This class should not be directly created, but instead should be created via methods on the TileMap class.
             *
             * @class TileMapLayerOrthogonal
-            * @extends Kiwi.GameObjects.TileMapLayer
+            * @extends Kiwi.GameObjects.Tilemap.TileMapLayer
             * @namespace Kiwi.GameObjects.Tilemap
             * @since 1.3.0
             * @constructor
@@ -7167,7 +7167,7 @@ var Kiwi;
             *
             *
             * @class TileMapLayerIsometric
-            * @extends Kiwi.GameObjects.TileMapLayer
+            * @extends Kiwi.GameObjects.Tilemap.TileMapLayer
             * @namespace Kiwi.GameObjects.Tilemap
             * @since 1.3.0
             * @constructor
@@ -7640,15 +7640,26 @@ var Kiwi;
             *
             * @method _setCurrentAnimation
             * @param name {string} Name of the Animation that is to be switched to.
+            * @param [inheritFromTexture=true] {booelan} If the animation component should look on the texture atlas for a sequence with that name.
             * @private
             */
-            AnimationManager.prototype._setCurrentAnimation = function (name) {
+            AnimationManager.prototype._setCurrentAnimation = function (name, inheritFromTexture) {
+                if (inheritFromTexture === void 0) { inheritFromTexture = true; }
                 if (this.currentAnimation.name !== name) {
                     if (this.currentAnimation !== null)
                         this.currentAnimation.stop();
                     if (this._animations[name]) {
+                        //Switch to the animation if it exists
                         this.currentAnimation = this._animations[name];
                         this.onChange.dispatch(name, this.currentAnimation);
+                    }
+                    else if (inheritFromTexture) {
+                        for (var i = 0; i < this._atlas.sequences.length; i++) {
+                            if (this._atlas.sequences[i].name === name) {
+                                this.currentAnimation = this.createFromSequence(this._atlas.sequences[i], false);
+                                this.onChange.dispatch(name, this.currentAnimation);
+                            }
+                        }
                     }
                 }
             };

@@ -46,12 +46,15 @@ module Kiwi.Components {
 				this.currentAnimation = this._animations['default'];
 
 			//Otherwise create one.
-			} else {
-				var defaultCells = [];
+            } else {
+
+                var defaultCells = [];
+
 				for (var i = 0; i < this._atlas.cells.length; i++) {
 					defaultCells.push(i);
 				}
-				this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
+                this.currentAnimation = this.add('default', defaultCells, 0.1, true, false);
+
 			}
 
 			//Signals
@@ -340,26 +343,46 @@ module Kiwi.Components {
 		* @method prevFrame
 		* @public
 		*/
-		public prevFrame() {
-			this.currentAnimation.prevFrame();
-			this.updateCellIndex();
-		}
+        public prevFrame() {
+            this.currentAnimation.prevFrame();
+            this.updateCellIndex();
+        }
 
 		/**
 		* Internal method that sets the current animation to a Animation passed.
 		*
 		* @method _setCurrentAnimation
 		* @param name {string} Name of the Animation that is to be switched to.
+        * @param [inheritFromTexture=true] {booelan} If the animation component should look on the texture atlas for a sequence with that name.
 		* @private
 		*/
-		private _setCurrentAnimation(name: string) {
-			if (this.currentAnimation.name !== name) {
-				if (this.currentAnimation !== null) this.currentAnimation.stop();
+        private _setCurrentAnimation(name: string, inheritFromTexture: boolean=true) {
 
-				if (this._animations[name]) {
-					this.currentAnimation = this._animations[name];
-					this.onChange.dispatch(name, this.currentAnimation);
-				}
+            if (this.currentAnimation.name !== name) {
+
+				if ( this.currentAnimation !== null ) this.currentAnimation.stop();
+
+                if (this._animations[name]) {
+                    //Switch to the animation if it exists
+                    
+                    this.currentAnimation = this._animations[name];
+                    this.onChange.dispatch(name, this.currentAnimation);
+
+                } else if (inheritFromTexture) {
+                    //Check to see if that animation exists on the atlas.
+                    //If so create a new version of it.
+
+                    for (var i = 0; i < this._atlas.sequences.length; i++) {
+
+                        if (this._atlas.sequences[i].name === name) {
+                            this.currentAnimation = this.createFromSequence(this._atlas.sequences[i], false);
+                            this.onChange.dispatch(name, this.currentAnimation);
+                        }
+
+                    }
+
+                }
+
 			}
 		}
 
