@@ -570,7 +570,7 @@ var Kiwi;
             this._height = height;
             this.color = "ffffff";
             // CocoonJS should be black instead
-            if (game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+            if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 this.color = "000000";
             }
             this._scale = new Kiwi.Geom.Point(1, 1);
@@ -2089,13 +2089,15 @@ var Kiwi;
         * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
         * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
         * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
+        * @param [preloadParams=null] {Object} Any parameters that you would like to pass to the preload method. Since 1.3.0 of Kiwi.JS
         * @return {boolean} Whether the State is going to be switched to or not.
         * @public
         */
-        StateManager.prototype.switchState = function (key, state, initParams, createParams) {
+        StateManager.prototype.switchState = function (key, state, initParams, createParams, preloadParams) {
             if (state === void 0) { state = null; }
             if (initParams === void 0) { initParams = null; }
             if (createParams === void 0) { createParams = null; }
+            if (preloadParams === void 0) { preloadParams = null; }
             //  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
             if (this.current !== null && this.current.config.isReady === false) {
                 Kiwi.Log.error('Kiwi.StateManager: Cannot change to a new state till the current state has finished loading!', '#state');
@@ -2108,15 +2110,19 @@ var Kiwi;
                 }
             }
             // Store the parameters (if any)
-            if (initParams !== null || createParams !== null) {
+            if (initParams !== null || createParams !== null || preloadParams !== null) {
                 var newState = this.getState(key);
                 newState.config.initParams = [];
                 newState.config.createParams = [];
+                newState.config.preloadParams = [];
                 for (var initParameter in initParams) {
                     newState.config.initParams.push(initParams[initParameter]);
                 }
                 for (var createParameter in createParams) {
                     newState.config.createParams.push(createParams[createParameter]);
+                }
+                for (var preloadParameter in preloadParams) {
+                    newState.config.preloadParams.push(preloadParams[preloadParameter]);
                 }
             }
             return this.setCurrentState(key);
@@ -2152,7 +2158,7 @@ var Kiwi;
             this.rebuildLibraries();
             this._game.loader.onQueueProgress.add(this.onLoadProgress, this);
             this._game.loader.onQueueComplete.add(this.onLoadComplete, this);
-            this.current.preload();
+            this.current.preload.apply(this.current, this.current.config.preloadParams);
             this._game.loader.start();
         };
         /**
@@ -2163,13 +2169,7 @@ var Kiwi;
         */
         StateManager.prototype.callCreate = function () {
             Kiwi.Log.log("Kiwi.StateManager: Calling " + this.current.name + ":Create", '#state');
-            //Execute the create with params if there are some there.
-            if (this.current.config.createParams) {
-                this.current.create.apply(this.current, this.current.config.createParams);
-            }
-            else {
-                this.current.create.call(this.current);
-            }
+            this.current.create.apply(this.current, this.current.config.createParams);
             this.current.config.runCount++;
             this.current.config.isCreated = true;
         };
@@ -2184,12 +2184,7 @@ var Kiwi;
                 //Boot the state.
                 this.current.boot();
                 //Execute the Init method with params
-                if (this.current.config.initParams) {
-                    this.current.init.apply(this.current, this.current.config.initParams);
-                }
-                else {
-                    this.current.init.call(this.current);
-                }
+                this.current.init.apply(this.current, this.current.config.initParams);
                 this.current.config.isInitialised = true;
             }
         };

@@ -1242,6 +1242,14 @@ declare module Kiwi {
         */
         createParams: any;
         /**
+        * Stores any parameters that are to be passed to the preload method when the State that this config is on is switched to.
+        * @property preloadParams
+        * @type Array
+        * @since 1.3.0
+        * @public
+        */
+        preloadParams: any;
+        /**
         * Resets the properties contained on this StateConfig object.
         * This is executed when a State is about to be destroyed as so reset's it to be switched to again.
         * @method reset
@@ -1366,10 +1374,11 @@ declare module Kiwi {
         * @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
         * @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
         * @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
+        * @param [preloadParams=null] {Object} Any parameters that you would like to pass to the preload method. Since 1.3.0 of Kiwi.JS
         * @return {boolean} Whether the State is going to be switched to or not.
         * @public
         */
-        switchState(key: string, state?: any, initParams?: any, createParams?: any): boolean;
+        switchState(key: string, state?: any, initParams?: any, createParams?: any, preloadParams?: any): boolean;
         /**
         * Gets a state by the key that is passed.
         * @method getState

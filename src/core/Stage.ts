@@ -41,7 +41,7 @@ module Kiwi {
 			this._height = height;
 			this.color = "ffffff";
 			// CocoonJS should be black instead
-			if(game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+			if( this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
 				this.color = "000000";
 			}
 

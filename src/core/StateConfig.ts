@@ -129,7 +129,16 @@ module Kiwi {
 		* @type Array
 		* @public
 		*/
-		public createParams;
+        public createParams;
+
+        /**
+        * Stores any parameters that are to be passed to the preload method when the State that this config is on is switched to.
+        * @property preloadParams
+        * @type Array
+        * @since 1.3.0
+        * @public
+        */
+        public preloadParams;
 
 		/**
 		* Resets the properties contained on this StateConfig object. 

@@ -202,32 +202,32 @@ module Kiwi {
 		* @method bootNewState
 		* @private
 		*/
-		private bootNewState() {
+        private bootNewState() {
 			
-			// Destroy the current if there is one.
-			if (this.current !== null) {
+            // Destroy the current if there is one.
+            if (this.current !== null) {
 
-				this.current.shutDown();
-
-				
-				this._game.input.reset();   //Reset the input component
-				this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
-				this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
-				this.current.config.reset(); //Reset the config setting
-				this._game.cameras.zeroAllCameras(); // Reset cameras
-			} 
+                this.current.shutDown();
 
 
-			//Set the current state, reset the key
-			this.current = this.getState(this._newStateKey);
-			this._newStateKey = null;
+                this._game.input.reset();   //Reset the input component
+                this.current.destroy(true); //Destroy ALL IChildren ever created on that state.
+                this._game.fileStore.removeStateFiles(this.current); //Clear the fileStore of not global files.
+                this.current.config.reset(); //Reset the config setting
+                this._game.cameras.zeroAllCameras(); // Reset cameras
+            } 
 
 
-			//Initalise the state and execute the preload method?
-			this.checkInit();
-			this.checkPreload();
+            //Set the current state, reset the key
+            this.current = this.getState(this._newStateKey);
+            this._newStateKey = null;
 
-		}
+
+            //Initalise the state and execute the preload method?
+            this.checkInit();
+            this.checkPreload();
+
+        }
 
 		/**
 		* Swaps the current state.
@@ -239,10 +239,11 @@ module Kiwi {
 		* @param [state=null] {Any} The state that you want to switch to. This is only used to create the state if it doesn't exist already.
 		* @param [initParams=null] {Object} Any parameters that you would like to pass to the init method of that new state.
 		* @param [createParams=null] {Object} Any parameters that you would like to pass to the create method of that new state.
+        * @param [preloadParams=null] {Object} Any parameters that you would like to pass to the preload method. Since 1.3.0 of Kiwi.JS
 		* @return {boolean} Whether the State is going to be switched to or not.
 		* @public
 		*/
-		public switchState(key: string, state: any = null, initParams = null, createParams = null): boolean {
+		public switchState(key: string, state: any = null, initParams = null, createParams = null, preloadParams=null): boolean {
 
 			//  If we have a current state that isn't yet ready (preload hasn't finished) then abort now
 			if (this.current !== null && this.current.config.isReady === false) {
@@ -261,11 +262,12 @@ module Kiwi {
 			}
 
 			// Store the parameters (if any)
-			if (initParams !== null || createParams !== null) {
+            if (initParams !== null || createParams !== null || preloadParams !== null) {
 
 				var newState = this.getState(key);
 				newState.config.initParams = [];
-				newState.config.createParams = [];
+                newState.config.createParams = [];
+                newState.config.preloadParams = [];
 
 				for (var initParameter in initParams) {
 					newState.config.initParams.push(initParams[initParameter]);
@@ -273,7 +275,11 @@ module Kiwi {
 
 				for (var createParameter in createParams) {
 					newState.config.createParams.push(createParams[createParameter]);
-				}
+                }
+
+                for (var preloadParameter in preloadParams) {
+                    newState.config.preloadParams.push(preloadParams[preloadParameter]);
+                }
 
 			}
 			
@@ -322,9 +328,11 @@ module Kiwi {
 			this.rebuildLibraries();
 
 			this._game.loader.onQueueProgress.add(this.onLoadProgress, this);
-			this._game.loader.onQueueComplete.add(this.onLoadComplete, this);
-			this.current.preload();
-			this._game.loader.start();
+            this._game.loader.onQueueComplete.add(this.onLoadComplete, this);
+
+            this.current.preload.apply(this.current, this.current.config.preloadParams);
+
+            this._game.loader.start();
 		}
 
 		/**
@@ -337,14 +345,7 @@ module Kiwi {
 
 			Kiwi.Log.log("Kiwi.StateManager: Calling " + this.current.name + ":Create", '#state');
 
-			//Execute the create with params if there are some there.
-			if (this.current.config.createParams) {
-				this.current.create.apply(this.current, this.current.config.createParams);
-
-			//Otherwise just execute the method.
-			} else {
-				this.current.create.call(this.current);
-			}
+			this.current.create.apply(this.current, this.current.config.createParams);
 
 			this.current.config.runCount++;
 			this.current.config.isCreated = true;
@@ -364,15 +365,8 @@ module Kiwi {
 				this.current.boot();
 
 				//Execute the Init method with params
-				if (this.current.config.initParams) {
-					this.current.init.apply(this.current, this.current.config.initParams);
+				this.current.init.apply(this.current, this.current.config.initParams);
 
-				//Execute the Init method with out params
-				} else {
-					this.current.init.call(this.current);
-				}
-
-				
 				this.current.config.isInitialised = true;
 			}
 
