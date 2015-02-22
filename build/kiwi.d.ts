@@ -11795,9 +11795,10 @@ declare module Kiwi.Animations {
         */
         private _lastFrameElapsed;
         /**
-        * An Internal method used to start the animation.
+        * Start the animation.
         * @method _start
-        * @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
+        * @param [index=null] {number} Index of the frame in the sequence that
+        *	is to play. If left as null it just starts from where it left off.
         * @private
         */
         private _start(index?);
@@ -11808,9 +11809,10 @@ declare module Kiwi.Animations {
         */
         play(): void;
         /**
-        * Plays the animation at a particular frame
+        * Plays the animation at a particular frame.
         * @method playAt
-        * @param index {Number} The index of the cell in the sequence that the animation is to start at.
+        * @param index {number} Index of the cell in the sequence that the
+        *	animation is to start at.
         * @public
         */
         playAt(index: number): void;

@@ -8578,7 +8578,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 503,
+            "line": 523,
             "description": "An internal method used to check to see if frame passed is valid or not",
             "itemtype": "method",
             "name": "_validateFrame",
@@ -8598,7 +8598,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 513,
+            "line": 533,
             "description": "Returns the number of frames that in the animation. Thus the animations 'length'. Note this is READ ONLY.",
             "itemtype": "property",
             "name": "length",
@@ -8612,7 +8612,7 @@
         },
         {
             "file": "src/animations/Animation.ts",
-            "line": 523,
+            "line": 543,
             "description": "Destroys the anim and all of the properties that exist on it.",
             "itemtype": "method",
             "name": "destroy",
@@ -22491,7 +22491,7 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 133,
+            "line": 136,
             "description": "Revokes the object url that was added to the window when creating the image. \nAlso tells the File that the loading is now complete.",
             "itemtype": "method",
             "name": "revoke",
@@ -22504,7 +22504,7 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 150,
+            "line": 153,
             "description": "Destroys all external object references on this object.",
             "itemtype": "method",
             "name": "destroy",
