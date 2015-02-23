@@ -105,6 +105,9 @@ module Kiwi.Animations {
 		/**
 		* The current frame index that the animation is currently upto.
 		* Note: A frame index is the index of a particular cell in the Sequence.
+		*
+		* As of v1.3.0, this property will work properly with floating-point
+		* values. They will be rounded down and stored as integers.
 		* @property frameIndex
 		* @type number
 		* @public
@@ -113,6 +116,7 @@ module Kiwi.Animations {
 			return this._frameIndex;
 		}
 		public set frameIndex(val: number) {
+			val = Math.floor( val );
 			if (this._validateFrame(val)) {
 				this._frameIndex = val;
 			}

@@ -1256,7 +1256,14 @@ declare module Kiwi {
         */
         name: string;
         /**
-        * Currently unused.
+        * Not used. Deprecated as of version 1.3.0
+        *
+        * @property isPersistent
+        * @type Boolean
+        * @default false
+        * @deprecated
+        * @since 1.3.0
+        * @public
         */
         isPersistent: boolean;
         /**
@@ -1288,9 +1295,14 @@ declare module Kiwi {
         isReady: boolean;
         /**
         * If the State that this config is on contains a Preloader Method.
+        *
+        * Deprecated as of 1.3.0 of Kiwi as it is not currently in use.
+        *
         * @property hasPreloader
         * @type boolean
         * @default false
+        * @deprecated
+        * @since 1.3.0
         * @public
         */
         hasPreloader: boolean;
@@ -11943,6 +11955,9 @@ declare module Kiwi.Animations {
         /**
         * The current frame index that the animation is currently upto.
         * Note: A frame index is the index of a particular cell in the Sequence.
+        *
+        * As of v1.3.0, this property will work properly with floating-point
+        * values. They will be rounded down and stored as integers.
         * @property frameIndex
         * @type number
         * @public

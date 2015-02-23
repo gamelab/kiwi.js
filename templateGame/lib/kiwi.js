@@ -1904,7 +1904,14 @@ var Kiwi;
             */
             this.name = '';
             /**
-            * Currently unused.
+            * Not used. Deprecated as of version 1.3.0
+            *
+            * @property isPersistent
+            * @type Boolean
+            * @default false
+            * @deprecated
+            * @since 1.3.0
+            * @public
             */
             this.isPersistent = false;
             /**
@@ -1936,9 +1943,14 @@ var Kiwi;
             this.isReady = false;
             /**
             * If the State that this config is on contains a Preloader Method.
+            *
+            * Deprecated as of 1.3.0 of Kiwi as it is not currently in use.
+            *
             * @property hasPreloader
             * @type boolean
             * @default false
+            * @deprecated
+            * @since 1.3.0
             * @public
             */
             this.hasPreloader = false;
@@ -1951,7 +1963,16 @@ var Kiwi;
             */
             this.runCount = 0;
             /*
-            * The type of State this is. Currently Unused.
+            * Not in use.
+            *
+            * Deprecated as of version 1.3.0 since there is only a single type of State currently.
+            *
+            * @property type
+            * @type Number
+            * @default 0
+            * @deprecated
+            * @since 1.3.0
+            * @public
             */
             this.type = 0;
             this._state = parent;
@@ -17494,6 +17515,9 @@ var Kiwi;
                 /**
                 * The current frame index that the animation is currently upto.
                 * Note: A frame index is the index of a particular cell in the Sequence.
+                *
+                * As of v1.3.0, this property will work properly with floating-point
+                * values. They will be rounded down and stored as integers.
                 * @property frameIndex
                 * @type number
                 * @public
@@ -17502,6 +17526,7 @@ var Kiwi;
                     return this._frameIndex;
                 },
                 set: function (val) {
+                    val = Math.floor(val);
                     if (this._validateFrame(val)) {
                         this._frameIndex = val;
                     }
