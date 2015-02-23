@@ -42,11 +42,11 @@ module Kiwi.GameObjects.Tilemap {
 		/**
 		* The type of object that it is.
 		* @method objType
-		* @return {String} "TileMapLayerIsometric"
+		* @return {String} "TileMapLayer"
 		* @public
 		*/
         public objType() {
-            return "TileMapLayerIsometric";
+            return "TileMapLayer";
         }
 
 		/**

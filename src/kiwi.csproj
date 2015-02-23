@@ -113,7 +113,6 @@
     <Content Include="gameobjects\TextField.ts" />
     <Content Include="gameobjects\tilemap\TileType.ts" />
     <Content Include="gameobjects\tilemap\TileMap.ts" />
-    <Content Include="gameobjects\tilemap\TileMapLayerBase.ts" />
     <Content Include="geom\Line.ts" />
     <Content Include="geom\IntersectResult.ts" />
     <Content Include="geom\Intersect.ts" />
@@ -146,6 +145,7 @@
       <DependentUpon>Kiwi.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="file\DataFile.ts" />
+    <TypeScriptCompile Include="gameobjects\tilemap\TileMapLayer.ts" />
     <TypeScriptCompile Include="gameobjects\tilemap\TileMapLayerIsometric.ts" />
     <TypeScriptCompile Include="gameobjects\tilemap\TileMapLayerOrthogonal.ts" />
     <TypeScriptCompile Include="Kiwi.ts" />
@@ -154,6 +154,7 @@
     <Content Include="render\GLBlendMode.ts" />
     <TypeScriptCompile Include="file\AudioFile.ts" />
     <TypeScriptCompile Include="file\TextureFile.ts" />
+    <TypeScriptCompile Include="utils\Color.ts" />
     <TypeScriptCompile Include="utils\Log.ts" />
   </ItemGroup>
   <ItemGroup />

@@ -577,6 +577,9 @@ var Kiwi;
             this._scaleType = scaleType;
             this.onResize = new Kiwi.Signal();
             this.onWindowResize = new Kiwi.Signal();
+            this.onFocus = new Kiwi.Signal();
+            this.onBlur = new Kiwi.Signal();
+            this.onVisibilityChange = new Kiwi.Signal();
             this._renderer = null;
         }
         /**
@@ -861,6 +864,7 @@ var Kiwi;
                 this._x = this.offset.x;
                 this._y = this.offset.y;
                 window.addEventListener("resize", function (event) { return _this._windowResized(event); }, true);
+                this._createFocusEvents();
             }
             this._createCompositeCanvas();
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
@@ -1121,6 +1125,78 @@ var Kiwi;
                         break;
                 }
             }
+        };
+        Object.defineProperty(Stage.prototype, "visible", {
+            /**
+            * A flag indicating if the page is currently visible (using the Visiblity API).
+            * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
+            *
+            * @property visible
+            * @type boolean
+            * @default true
+            * @readOnly
+            * @since 1.3.0
+            * @public
+            */
+            get: function () {
+                if (this._visibility) {
+                    return !document[this._visibility];
+                }
+                return true;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+        * Fired when the page visibility changes, or the page focus/blur events fire.
+        * In charge of firing the appropriate signals.
+        *
+        * @method _checkVisibility
+        * @param event {Any}
+        * @since 1.3.0
+        * @private
+        */
+        Stage.prototype._checkVisibility = function (event) {
+            if (event.type === "focus" || event.type === "pageshow") {
+                this.onFocus.dispatch(event);
+                return;
+            }
+            else if (event.type === "pagehide" || event.type === "blur") {
+                this.onBlur.dispatch(event);
+                return;
+            }
+            if (event.type === "visibilitychange" || event.type === "mozvisibilitychange" || event.type === "webkitvisibilitychange" || event.type === "msvisibilitychange") {
+                this.onVisibilityChange.dispatch();
+                return;
+            }
+        };
+        /**
+        * Adds the focus, blur, and visibility events to the document.
+        *
+        * @method _createFocusEvents
+        * @since 1.3.0
+        * @private
+        */
+        Stage.prototype._createFocusEvents = function () {
+            this._visibility = "hidden";
+            this._visibilityChange = this._checkVisibility.bind(this);
+            if ("hidden" in document) {
+                document.addEventListener("visibilitychange", this._visibilityChange);
+            }
+            else if ((this._visibility = "mozHidden") in document) {
+                document.addEventListener("mozvisibilitychange", this._visibilityChange);
+            }
+            else if ((this._visibility = "webkitHidden") in document) {
+                document.addEventListener("webkitvisibilitychange", this._visibilityChange);
+            }
+            else if ((this._visibility = "msHidden") in document) {
+                document.addEventListener("msvisibilitychange", this._visibilityChange);
+            }
+            else {
+                //Not supported. 
+                this._visibility = null;
+            }
+            window.onpageshow = window.onpagehide = window.onfocus = window.onblur = this._visibilityChange;
         };
         /**
         * The default width of the stage.
@@ -6949,11 +7025,11 @@ var Kiwi;
                 /**
                 * The type of object that it is.
                 * @method objType
-                * @return {String} "TileMapLayerOrthogonal"
+                * @return {String} "TileMapLayer"
                 * @public
                 */
                 TileMapLayerOrthogonal.prototype.objType = function () {
-                    return "TileMapLayerOrthogonal";
+                    return "TileMapLayer";
                 };
                 /**
                 * Returns the index of the tile based on the x and y pixel coordinates that are passed.
@@ -7199,11 +7275,11 @@ var Kiwi;
                 /**
                 * The type of object that it is.
                 * @method objType
-                * @return {String} "TileMapLayerIsometric"
+                * @return {String} "TileMapLayer"
                 * @public
                 */
                 TileMapLayerIsometric.prototype.objType = function () {
-                    return "TileMapLayerIsometric";
+                    return "TileMapLayer";
                 };
                 /**
                 * Returns the index of the tile based on the x and y pixel coordinates that are passed.

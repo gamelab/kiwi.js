@@ -743,6 +743,82 @@ declare module Kiwi {
         * @private
         */
         private _scaleContainer();
+        /**
+        * Dispatches callbacks when the page containing this game gains focus.
+        *
+        * @property onFocus
+        * @type Kiwi.Signal
+        * @since 1.3.0
+        * @public
+        */
+        onFocus: Kiwi.Signal;
+        /**
+        * Dispatches callbacks when this page containing this game loses focus.
+        *
+        * @property onBlur
+        * @type Kiwi.Signal
+        * @since 1.3.0
+        * @public
+        */
+        onBlur: Kiwi.Signal;
+        /**
+        * Dispatches callbacks when the visiblity of the page changes.
+        *
+        * @property onVisibilityChange
+        * @type Kiwi.Signal
+        * @since 1.3.0
+        * @public
+        */
+        onVisibilityChange: Kiwi.Signal;
+        /**
+        * A flag indicating if the page is currently visible (using the Visiblity API).
+        * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
+        *
+        * @property visible
+        * @type boolean
+        * @default true
+        * @readOnly
+        * @since 1.3.0
+        * @public
+        */
+        visible: boolean;
+        /**
+        * Contains string used to access the `hidden` property on the document.
+        *
+        * @property _visibility
+        * @type String
+        * @default 'hidden'
+        * @since 1.3.0
+        * @private
+        */
+        private _visibility;
+        /**
+        * Contains the bound version of the `_checkVisibility` method.
+        *
+        * @property _visibilityChange
+        * @type any
+        * @since 1.3.0
+        * @private
+        */
+        private _visibilityChange;
+        /**
+        * Fired when the page visibility changes, or the page focus/blur events fire.
+        * In charge of firing the appropriate signals.
+        *
+        * @method _checkVisibility
+        * @param event {Any}
+        * @since 1.3.0
+        * @private
+        */
+        private _checkVisibility(event);
+        /**
+        * Adds the focus, blur, and visibility events to the document.
+        *
+        * @method _createFocusEvents
+        * @since 1.3.0
+        * @private
+        */
+        private _createFocusEvents();
     }
 }
 /**
@@ -4931,7 +5007,7 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * The type of object that it is.
         * @method objType
-        * @return {String} "TileMapLayerOrthogonal"
+        * @return {String} "TileMapLayer"
         * @public
         */
         objType(): string;
@@ -5021,7 +5097,7 @@ declare module Kiwi.GameObjects.Tilemap {
         /**
         * The type of object that it is.
         * @method objType
-        * @return {String} "TileMapLayerIsometric"
+        * @return {String} "TileMapLayer"
         * @public
         */
         objType(): string;
