@@ -892,14 +892,14 @@ module Kiwi {
         * A flag indicating if the page is currently visible (using the Visiblity API).
         * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
         *
-        * @property visible
+        * @property visibility
         * @type boolean 
         * @default true
         * @readOnly
         * @since 1.3.0
         * @public
         */
-        public get visible():boolean {
+        public get visibility():boolean {
 
             if (this._visibility) {
                 return !document[this._visibility];

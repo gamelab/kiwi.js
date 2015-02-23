@@ -1126,12 +1126,12 @@ var Kiwi;
                 }
             }
         };
-        Object.defineProperty(Stage.prototype, "visible", {
+        Object.defineProperty(Stage.prototype, "visibility", {
             /**
             * A flag indicating if the page is currently visible (using the Visiblity API).
             * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
             *
-            * @property visible
+            * @property visibility
             * @type boolean
             * @default true
             * @readOnly

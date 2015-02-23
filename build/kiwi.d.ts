@@ -774,14 +774,14 @@ declare module Kiwi {
         * A flag indicating if the page is currently visible (using the Visiblity API).
         * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
         *
-        * @property visible
+        * @property visibility
         * @type boolean
         * @default true
         * @readOnly
         * @since 1.3.0
         * @public
         */
-        visible: boolean;
+        visibility: boolean;
         /**
         * Contains string used to access the `hidden` property on the document.
         *
