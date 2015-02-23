@@ -8407,6 +8407,13 @@ declare module Kiwi.Files {
         */
         removeStateFiles(state: Kiwi.State): void;
         /**
+        * Removes all the files on the FileStore which are not associate with a particular state.
+        * @method removeGlobalFiles
+        * @since 1.3.0
+        * @public
+        */
+        removeGlobalFiles(): void;
+        /**
         * Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.
         * Note: Only returns false if that file did not exist in the first place.
         * @method removeFile
@@ -8415,6 +8422,15 @@ declare module Kiwi.Files {
         * @public
         */
         removeFile(key: string, destroy?: boolean): boolean;
+        /**
+        * Removes all files on the FileStore.
+        * Use this method with caution.
+        *
+        * @method removeAllFiles
+        * @since 1.3.0
+        * @public
+        */
+        removeAllFiles(): void;
     }
 }
 /**

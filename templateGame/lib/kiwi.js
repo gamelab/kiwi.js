@@ -12299,6 +12299,19 @@ var Kiwi;
                 }
             };
             /**
+            * Removes all the files on the FileStore which are not associate with a particular state.
+            * @method removeGlobalFiles
+            * @since 1.3.0
+            * @public
+            */
+            FileStore.prototype.removeGlobalFiles = function () {
+                for (var file in this._files) {
+                    if (!this._files[file].ownerState) {
+                        this.removeFile(file);
+                    }
+                }
+            };
+            /**
             * Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.
             * Note: Only returns false if that file did not exist in the first place.
             * @method removeFile
@@ -12318,6 +12331,19 @@ var Kiwi;
                     return true;
                 }
                 return false;
+            };
+            /**
+            * Removes all files on the FileStore.
+            * Use this method with caution.
+            *
+            * @method removeAllFiles
+            * @since 1.3.0
+            * @public
+            */
+            FileStore.prototype.removeAllFiles = function () {
+                for (var file in this._files) {
+                    this.removeFile(file);
+                }
             };
             return FileStore;
         })();

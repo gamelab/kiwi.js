@@ -198,7 +198,25 @@ module Kiwi.Files {
 					this.removeFile(file);
 				}
 			}
-		}
+
+        }
+
+
+        /**
+        * Removes all the files on the FileStore which are not associate with a particular state.
+        * @method removeGlobalFiles
+        * @since 1.3.0
+        * @public
+        */
+        public removeGlobalFiles() {
+
+            for (var file in this._files) {
+                if (!this._files[file].ownerState) {
+                    this.removeFile(file);
+                }
+            }
+
+        }
 
 		/**
 		* Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.
@@ -225,7 +243,23 @@ module Kiwi.Files {
 
 			return false;
 
-		}
+        }
+
+        /**
+        * Removes all files on the FileStore. 
+        * Use this method with caution.
+        * 
+        * @method removeAllFiles
+        * @since 1.3.0
+        * @public
+        */
+        public removeAllFiles() {
+
+            for (var file in this._files) {
+                this.removeFile(file);
+            }
+
+        }
 
 	}
 
