@@ -58,7 +58,14 @@ module Kiwi {
 		public name: string = '';
 
 		/**
-		* Currently unused.
+		* Not used. Deprecated as of version 1.3.0
+        * 
+        * @property isPersistent
+        * @type Boolean
+        * @default false
+        * @deprecated
+        * @since 1.3.0
+        * @public
 		*/
 		public isPersistent: boolean = false;
 
@@ -94,9 +101,14 @@ module Kiwi {
 
 		/**
 		* If the State that this config is on contains a Preloader Method.
+        * 
+        * Deprecated as of 1.3.0 of Kiwi as it is not currently in use.
+        * 
 		* @property hasPreloader
 		* @type boolean
 		* @default false
+        * @deprecated
+        * @since 1.3.0
 		* @public
 		*/
 		public hasPreloader: boolean = false;
@@ -111,7 +123,16 @@ module Kiwi {
 		public runCount: number = 0;
 
 		/*
-		* The type of State this is. Currently Unused.
+		* Not in use.
+        *  
+        * Deprecated as of version 1.3.0 since there is only a single type of State currently.
+        * 
+        * @property type
+        * @type Number
+        * @default 0
+        * @deprecated
+        * @since 1.3.0
+        * @public
 		*/
 		public type: number = 0;
 
