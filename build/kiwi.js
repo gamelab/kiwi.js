@@ -28957,7 +28957,7 @@ var Kiwi;
                 for (var _i = 3; _i < arguments.length; _i++) {
                     args[_i - 3] = arguments[_i];
                 }
-                var clock = this, timer = this.createTimer("timeoutTimer", timeout / 1000);
+                var clock = this, timer = this.createTimer("timeoutTimer", timeout / this.units);
                 if (!context) {
                     context = this;
                 }
@@ -28995,7 +28995,7 @@ var Kiwi;
                 for (var _i = 3; _i < arguments.length; _i++) {
                     args[_i - 3] = arguments[_i];
                 }
-                var timer = this.createTimer("timeoutTimer", timeout / 1000, -1);
+                var timer = this.createTimer("intervalTimer", timeout / this.units, -1);
                 if (!context) {
                     context = this;
                 }
@@ -29434,12 +29434,12 @@ var Kiwi;
                 this.name = null;
                 /**
                 * The delay, in game clock units, that the timer will wait before firing the event
-                * @property delay
+                * @property _delay
                 * @type Number
-                * @default 0
-                * @public
+                * @default 0.016
+                * @private
                 */
-                this.delay = 0;
+                this._delay = 0.016;
                 /**
                 * The number of times the timer will repeat before stopping.
                 * @property repeatCount
@@ -29509,6 +29509,30 @@ var Kiwi;
             Timer.prototype.isPaused = function () {
                 return this._isPaused;
             };
+            Object.defineProperty(Timer.prototype, "delay", {
+                /**
+                * The delay, in game clock units, that the timer will wait before firing the event
+                *
+                * This property must be greater than 0.
+                * @property delay
+                * @type Number
+                * @default 0.016
+                * @public
+                */
+                get: function () {
+                    return this._delay;
+                },
+                set: function (value) {
+                    if (value > 0) {
+                        this._delay = value;
+                    }
+                    else {
+                        Kiwi.Log.error("Attempted to set timer delay", value, "but value must be greater than 0", "#timer");
+                    }
+                },
+                enumerable: true,
+                configurable: true
+            });
             /**
             * Checks the list of TimerEvents added and processes them based on their type.
             * @method processEvents

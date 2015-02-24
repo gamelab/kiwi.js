@@ -184,12 +184,34 @@ module Kiwi.Time {
 
 		/**
 		* The delay, in game clock units, that the timer will wait before firing the event
+		* @property _delay
+		* @type Number
+		* @default 0.016
+		* @private
+		*/
+		private _delay: number = 0.016;
+
+		/**
+		* The delay, in game clock units, that the timer will wait before firing the event
+		*
+		* This property must be greater than 0.
 		* @property delay
 		* @type Number
-		* @default 0
+		* @default 0.016
 		* @public
 		*/
-		public delay: number = 0;
+		public get delay(): number {
+			return this._delay;
+		}
+		public set delay( value: number ) {
+			if ( value > 0 ) {
+				this._delay = value;
+			} else {
+				Kiwi.Log.error( "Attempted to set timer delay", value,
+					"but value must be greater than 0", "#timer" );
+			}
+		}
+
 
 		/**
 		* The number of times the timer will repeat before stopping.

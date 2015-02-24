@@ -731,7 +731,7 @@ module Kiwi.Time {
 		*/
 		public setTimeout( callback, timeout: number, context, ...args ): Timer {
 			var clock = this,
-				timer = this.createTimer( "timeoutTimer", timeout / 1000 );
+				timer = this.createTimer( "timeoutTimer", timeout / this.units );
 
 			if ( !context ) {
 				context = this;
@@ -773,7 +773,7 @@ module Kiwi.Time {
 		* @public
 		*/
 		public setInterval( callback, timeout: number, context, ...args ): Timer {
-			var timer = this.createTimer( "timeoutTimer", timeout / 1000, -1 );
+			var timer = this.createTimer( "intervalTimer", timeout / this.units, -1 );
 
 			if ( !context ) {
 				context = this;

@@ -20616,9 +20616,19 @@ declare module Kiwi.Time {
         name: string;
         /**
         * The delay, in game clock units, that the timer will wait before firing the event
+        * @property _delay
+        * @type Number
+        * @default 0.016
+        * @private
+        */
+        private _delay;
+        /**
+        * The delay, in game clock units, that the timer will wait before firing the event
+        *
+        * This property must be greater than 0.
         * @property delay
         * @type Number
-        * @default 0
+        * @default 0.016
         * @public
         */
         delay: number;
