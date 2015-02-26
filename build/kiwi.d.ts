@@ -19600,6 +19600,14 @@ declare module Kiwi.Sound {
         */
         onMute: Kiwi.Signal;
         /**
+        * A Kiwi Signal that dispatches a event when the audio completes
+        * and does not loop.
+        * @property onComplete
+        * @type Kiwi.Signal
+        * @public
+        */
+        onComplete: Kiwi.Signal;
+        /**
         * Retrieves the audio data from the file store.
         * @method _setAudio
         * @private

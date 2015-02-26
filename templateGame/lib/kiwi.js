@@ -27871,6 +27871,7 @@ var Kiwi;
                 this.onResume = new Kiwi.Signal();
                 this.onLoop = new Kiwi.Signal();
                 this.onMute = new Kiwi.Signal();
+                this.onComplete = new Kiwi.Signal();
             }
             Object.defineProperty(Audio.prototype, "playable", {
                 /**
@@ -28245,6 +28246,7 @@ var Kiwi;
                                 this.onLoop.dispatch();
                             }
                             else {
+                                this.onComplete.dispatch();
                                 this.stop();
                             }
                         }
@@ -28254,6 +28256,7 @@ var Kiwi;
                                 this.onLoop.dispatch();
                             }
                             else {
+                                this.onComplete.dispatch();
                                 this.stop();
                             }
                         }

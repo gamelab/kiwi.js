@@ -3,7 +3,7 @@
 * @module Kiwi
 * @submodule Sound
 * 
-*/ 
+*/
 
 module Kiwi.Sound {
 
@@ -40,11 +40,11 @@ module Kiwi.Sound {
 			this._muteVolume = volume;
 			this._muted = this._game.audio.mute;
 			this._loop = loop;
-            this.key = key;
+			this.key = key;
 
-            if ( !Kiwi.Utils.Common.isString(this.key) && (<any>this.key).isAudio ) {
-                this.key = (<any>this.key).key;
-            }
+			if ( !Kiwi.Utils.Common.isString(this.key) && (<any>this.key).isAudio ) {
+				this.key = (<any>this.key).key;
+			}
 
 			//If audio isn't supported OR the file does not exist
 			if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
@@ -101,7 +101,7 @@ module Kiwi.Sound {
 			this.onResume = new Kiwi.Signal();
 			this.onLoop = new Kiwi.Signal();
 			this.onMute = new Kiwi.Signal();
-
+			this.onComplete = new Kiwi.Signal();
 		}
 
 		/**
@@ -433,6 +433,15 @@ module Kiwi.Sound {
 		* @public
 		*/
 		public onMute: Kiwi.Signal;
+
+		/**
+		* A Kiwi Signal that dispatches a event when the audio completes
+		* and does not loop.
+		* @property onComplete
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onComplete: Kiwi.Signal;
 
 		/**
 		* Retrieves the audio data from the file store.
@@ -795,6 +804,7 @@ module Kiwi.Sound {
 
 							this.onLoop.dispatch();
 						} else {
+							this.onComplete.dispatch();
 							this.stop();
 						}
 
@@ -805,6 +815,7 @@ module Kiwi.Sound {
 							this.play(this._currentMarker, true);
 							this.onLoop.dispatch();
 						} else {
+							this.onComplete.dispatch();
 							this.stop();
 						}
 
