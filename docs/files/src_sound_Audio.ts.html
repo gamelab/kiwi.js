@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\sound\Audio.ts - Kiwi.js</title>
+    <title>src/sound/Audio.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\sound\Audio.ts</h1>
+                        <h1 class="file-heading">File: src/sound/Audio.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -371,7 +371,7 @@
 * @module Kiwi
 * @submodule Sound
 * 
-*/ 
+*/
 
 module Kiwi.Sound {
 
@@ -408,11 +408,11 @@ module Kiwi.Sound {
 			this._muteVolume = volume;
 			this._muted = this._game.audio.mute;
 			this._loop = loop;
-            this.key = key;
+			this.key = key;
 
-            if ( !Kiwi.Utils.Common.isString(this.key) &amp;&amp; (&lt;any&gt;this.key).isAudio ) {
-                this.key = (&lt;any&gt;this.key).key;
-            }
+			if ( !Kiwi.Utils.Common.isString(this.key) &amp;&amp; (&lt;any&gt;this.key).isAudio ) {
+				this.key = (&lt;any&gt;this.key).key;
+			}
 
 			//If audio isn&#x27;t supported OR the file does not exist
 			if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
@@ -469,7 +469,7 @@ module Kiwi.Sound {
 			this.onResume = new Kiwi.Signal();
 			this.onLoop = new Kiwi.Signal();
 			this.onMute = new Kiwi.Signal();
-
+			this.onComplete = new Kiwi.Signal();
 		}
 
 		/**
@@ -801,6 +801,15 @@ module Kiwi.Sound {
 		* @public
 		*/
 		public onMute: Kiwi.Signal;
+
+		/**
+		* A Kiwi Signal that dispatches a event when the audio completes
+		* and does not loop.
+		* @property onComplete
+		* @type Kiwi.Signal
+		* @public
+		*/
+		public onComplete: Kiwi.Signal;
 
 		/**
 		* Retrieves the audio data from the file store.
@@ -1163,6 +1172,7 @@ module Kiwi.Sound {
 
 							this.onLoop.dispatch();
 						} else {
+							this.onComplete.dispatch();
 							this.stop();
 						}
 
@@ -1173,6 +1183,7 @@ module Kiwi.Sound {
 							this.play(this._currentMarker, true);
 							this.onLoop.dispatch();
 						} else {
+							this.onComplete.dispatch();
 							this.stop();
 						}
 

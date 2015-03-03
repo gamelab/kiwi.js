@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\file\FileStore.ts - Kiwi.js</title>
+    <title>src/file/FileStore.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\file\FileStore.ts</h1>
+                        <h1 class="file-heading">File: src/file/FileStore.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -566,7 +566,25 @@ module Kiwi.Files {
 					this.removeFile(file);
 				}
 			}
-		}
+
+        }
+
+
+        /**
+        * Removes all the files on the FileStore which are not associate with a particular state.
+        * @method removeGlobalFiles
+        * @since 1.3.0
+        * @public
+        */
+        public removeGlobalFiles() {
+
+            for (var file in this._files) {
+                if (!this._files[file].ownerState) {
+                    this.removeFile(file);
+                }
+            }
+
+        }
 
 		/**
 		* Removes a file by the key that is passed. Returns a boolean indicating if a file was removed or not.
@@ -593,7 +611,23 @@ module Kiwi.Files {
 
 			return false;
 
-		}
+        }
+
+        /**
+        * Removes all files on the FileStore. 
+        * Use this method with caution.
+        * 
+        * @method removeAllFiles
+        * @since 1.3.0
+        * @public
+        */
+        public removeAllFiles() {
+
+            for (var file in this._files) {
+                this.removeFile(file);
+            }
+
+        }
 
 	}
 

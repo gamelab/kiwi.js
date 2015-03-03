@@ -20256,7 +20256,16 @@ declare module Kiwi.Time {
 */
 declare module Kiwi.Time {
     /**
-    * Handles the generation and tracking of Clocks and Time related applications for a single game.
+    * Handles the generation and tracking of `Clock` and time related
+    * applications for a single game.
+    *
+    * An instance of `ClockManager` is automatically created as part of
+    * `Kiwi.Game`. This is accessible as the `time` property of any `Game`
+    * object. You should not need to create additional `ClockManager` objects.
+    *
+    * If you do want to create additional `ClockManager` objects, be sure to
+    * call `boot()` after creation to set up properties like the master clock.
+    * You will also need to update this manager every frame.
     *
     * @class ClockManager
     * @namespace Kiwi.Time

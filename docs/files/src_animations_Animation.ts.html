@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animations\Animation.ts - Kiwi.js</title>
+    <title>src/animations/Animation.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\animations\Animation.ts</h1>
+                        <h1 class="file-heading">File: src/animations/Animation.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -473,6 +473,9 @@ module Kiwi.Animations {
 		/**
 		* The current frame index that the animation is currently upto.
 		* Note: A frame index is the index of a particular cell in the Sequence.
+		*
+		* As of v1.3.0, this property will work properly with floating-point
+		* values. They will be rounded down and stored as integers.
 		* @property frameIndex
 		* @type number
 		* @public
@@ -481,6 +484,7 @@ module Kiwi.Animations {
 			return this._frameIndex;
 		}
 		public set frameIndex(val: number) {
+			val = Math.floor( val );
 			if (this._validateFrame(val)) {
 				this._frameIndex = val;
 			}
@@ -710,14 +714,20 @@ module Kiwi.Animations {
 		private _lastFrameElapsed: number;
 
 		/**
-		* An Internal method used to start the animation.
+		* Start the animation.
 		* @method _start
-		* @param [index=null] {number} The index of the frame in the sequence that is to play. If left as null if just starts from where it left off.
+		* @param [index=null] {number} Index of the frame in the sequence that
+		*	is to play. If left as null it just starts from where it left off.
 		* @private
 		*/
 		private _start(index: number = null) {
 			if (index !== null) {
 				this.frameIndex = index;
+			}
+
+			// If the animation is out of range then start it at the beginning
+			if ( this.frameIndex &gt;= this.length - 1 || this.frameIndex &lt; 0 ) {
+				this.frameIndex = 0;
 			}
 
 			this._isPlaying = true;
@@ -734,20 +744,18 @@ module Kiwi.Animations {
 		* @public
 		*/
 		public play() {
-			//if the animation is at the last frame then start it at the beginning
-			if (this._frameIndex &gt;= this.length - 1) this.frameIndex = 0; 
-			
-			this.playAt(this._frameIndex);
+			this.playAt( this._frameIndex );
 		}
 
 		/**
-		* Plays the animation at a particular frame
+		* Plays the animation at a particular frame.
 		* @method playAt
-		* @param index {Number} The index of the cell in the sequence that the animation is to start at.
+		* @param index {number} Index of the cell in the sequence that the
+		*	animation is to start at.
 		* @public
 		*/
-		public playAt(index: number) {  
-			this._start(index);
+		public playAt( index: number ) {
+			this._start( index );
 		}
 
 		/**
@@ -851,8 +859,8 @@ module Kiwi.Animations {
 							repeats = Math.ceil(
 								Math.abs( this._frameIndex ) / this.length );
 
-							this._frameIndex = this.length +
-								this._frameIndex % this.length;
+							this._frameIndex = ( this.length +
+								this._frameIndex % this.length ) % this.length;
 
 							if ( this._onLoop != null ) {
 								for ( i = 0; i &lt; repeats; i++ ) {
@@ -861,22 +869,25 @@ module Kiwi.Animations {
 							}
 						}
 					} else if ( this._frameIndex &lt; 0 ) {
-						this._frameIndex = this.length + this._frameIndex % this.length;
+						this._frameIndex = ( this.length +
+							this._frameIndex % this.length ) % this.length;
 
 						// Execute the stop on the parent 
 						// to allow the isPlaying boolean to remain consistent
 						this._parent.stop();
+
 						return;
 					} else if ( this._frameIndex &gt;= this.length ) {
 						this._frameIndex = this._frameIndex % this.length;
+
+						// Execute the stop on the parent 
+						// to allow the isPlaying boolean to remain consistent
+						this._parent.stop();
 
 						if ( this._onComplete != null ) {
 							this._onComplete.dispatch();
 						}
 
-						// Execute the stop on the parent 
-						// to allow the isPlaying boolean to remain consistent
-						this._parent.stop();
 						return;
 					}
 

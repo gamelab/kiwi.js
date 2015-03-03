@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\components\AnimationManager.ts - Kiwi.js</title>
+    <title>src/components/AnimationManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\components\AnimationManager.ts</h1>
+                        <h1 class="file-heading">File: src/components/AnimationManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -414,12 +414,15 @@ module Kiwi.Components {
 				this.currentAnimation = this._animations[&#x27;default&#x27;];
 
 			//Otherwise create one.
-			} else {
-				var defaultCells = [];
+            } else {
+
+                var defaultCells = [];
+
 				for (var i = 0; i &lt; this._atlas.cells.length; i++) {
 					defaultCells.push(i);
 				}
-				this.currentAnimation = this.add(&#x27;default&#x27;, defaultCells, 0.1, true, false);
+                this.currentAnimation = this.add(&#x27;default&#x27;, defaultCells, 0.1, true, false);
+
 			}
 
 			//Signals
@@ -708,26 +711,46 @@ module Kiwi.Components {
 		* @method prevFrame
 		* @public
 		*/
-		public prevFrame() {
-			this.currentAnimation.prevFrame();
-			this.updateCellIndex();
-		}
+        public prevFrame() {
+            this.currentAnimation.prevFrame();
+            this.updateCellIndex();
+        }
 
 		/**
 		* Internal method that sets the current animation to a Animation passed.
 		*
 		* @method _setCurrentAnimation
 		* @param name {string} Name of the Animation that is to be switched to.
+        * @param [inheritFromTexture=true] {booelan} If the animation component should look on the texture atlas for a sequence with that name.
 		* @private
 		*/
-		private _setCurrentAnimation(name: string) {
-			if (this.currentAnimation.name !== name) {
-				if (this.currentAnimation !== null) this.currentAnimation.stop();
+        private _setCurrentAnimation(name: string, inheritFromTexture: boolean=true) {
 
-				if (this._animations[name]) {
-					this.currentAnimation = this._animations[name];
-					this.onChange.dispatch(name, this.currentAnimation);
-				}
+            if (this.currentAnimation.name !== name) {
+
+				if ( this.currentAnimation !== null ) this.currentAnimation.stop();
+
+                if (this._animations[name]) {
+                    //Switch to the animation if it exists
+                    
+                    this.currentAnimation = this._animations[name];
+                    this.onChange.dispatch(name, this.currentAnimation);
+
+                } else if (inheritFromTexture) {
+                    //Check to see if that animation exists on the atlas.
+                    //If so create a new version of it.
+
+                    for (var i = 0; i &lt; this._atlas.sequences.length; i++) {
+
+                        if (this._atlas.sequences[i].name === name) {
+                            this.currentAnimation = this.createFromSequence(this._atlas.sequences[i], false);
+                            this.onChange.dispatch(name, this.currentAnimation);
+                        }
+
+                    }
+
+                }
+
 			}
 		}
 
