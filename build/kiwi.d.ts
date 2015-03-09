@@ -13847,6 +13847,44 @@ declare module Kiwi.Input {
         * @public
         */
         reset(): void;
+        /**
+        * Dispatches events when the context menu is fired.
+        *
+        * Functions fired from this Signal will have the a single argument
+        * being the event of the 'contextmenu' gives.
+        *
+        * @property onContext
+        * @type Kiwi.Signal
+        * @since 1.3.0
+        * @public
+        */
+        onContext: Kiwi.Signal;
+        /**
+        * Determines whether or not the context menu should appear
+        * when the user 'right clicks' on the stage.
+        *
+        * Only has an effect on games targetting browsers.
+        *
+        * @property preventContextMenu
+        * @type Boolean
+        * @default false
+        * @since 1.3.0
+        * @public
+        */
+        preventContextMenu: boolean;
+        /**
+        * Fired when the context menu event is fired.
+        * Used to prevent the context menu from appearing when the
+        * 'preventContextMenu' property is set to true.
+        *
+        * This event is currently only used when targetting browsers and will not fire for CocoonJS.
+        *
+        * @method onContextMenu
+        * @param event
+        * @since 1.3.0
+        * @private
+        */
+        private onContextMenu(event);
     }
 }
 /**

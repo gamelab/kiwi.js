@@ -139,7 +139,8 @@ module Kiwi.Input {
 			
 			this.onDown = new Kiwi.Signal();
 			this.onUp = new Kiwi.Signal();
-			this.onWheel = new Kiwi.Signal();
+            this.onWheel = new Kiwi.Signal();
+            this.onContext = new Kiwi.Signal();
 
 			this.start();
 		}
@@ -286,15 +287,19 @@ module Kiwi.Input {
 					this._domElement.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
 					this._domElement.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
 					this._domElement.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
-				}
+                }
+
+                this._domElement.addEventListener('contextmenu', (event) => this.onContextMenu(event), true);
+
 			} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
 				this._game.stage.canvas.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
 				this._game.stage.canvas.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
 				this._game.stage.canvas.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
 				this._game.stage.canvas.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
 				this._game.stage.canvas.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
-			}
-		}
+            }
+
+        }
 
 		/**  
 		* Stops the mouse event listeners from working. Useful if you no longer want the mouse to 'work'/be listened to.
@@ -308,9 +313,13 @@ module Kiwi.Input {
 				this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
 				this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
 				this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
-				this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
-			}
-		}
+                this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
+
+                this._domElement.removeEventListener('contextmenu',  this.onContextMenu(event), true);
+            }
+
+        }
+
 
 		/**  
 		* Method that gets fired when the mouse is pressed on the stage.
@@ -385,7 +394,54 @@ module Kiwi.Input {
 		*/
 		public reset() {
 			this._cursor.reset();
-		}
+        }
+
+        /**
+        * Dispatches events when the context menu is fired. 
+        *
+        * Functions fired from this Signal will have the a single argument
+        * being the event of the 'contextmenu' gives. 
+        * 
+        * @property onContext
+        * @type Kiwi.Signal
+        * @since 1.3.0
+        * @public
+        */
+        public onContext: Kiwi.Signal;
+
+        /**
+        * Determines whether or not the context menu should appear 
+        * when the user 'right clicks' on the stage.
+        *
+        * Only has an effect on games targetting browsers.
+        * 
+        * @property preventContextMenu
+        * @type Boolean
+        * @default false
+        * @since 1.3.0
+        * @public
+        */
+        public preventContextMenu: boolean = false;
+
+        /**
+        * Fired when the context menu event is fired. 
+        * Used to prevent the context menu from appearing when the 
+        * 'preventContextMenu' property is set to true.
+        *
+        * This event is currently only used when targetting browsers and will not fire for CocoonJS.
+        * 
+        * @method onContextMenu
+        * @param event 
+        * @since 1.3.0
+        * @private
+        */
+        private onContextMenu(event) {
+            if (this.preventContextMenu) {
+                event.preventDefault();
+            }
+
+            this.onContext.dispatch(event);
+        }
 
 	}
 
