@@ -13885,6 +13885,51 @@ declare module Kiwi.Input {
         * @private
         */
         private onContextMenu(event);
+        /**
+        * The binding of the 'onMouseDown' method.
+        *
+        * @property _onMouseDownBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseDownBind;
+        /**
+        * The binding of the 'onMouseMove' method.
+        *
+        * @property _onMouseMoveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseMoveBind;
+        /**
+        * The binding of the 'onMouseUp' method.
+        *
+        * @property _onMouseUpBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseUpBind;
+        /**
+        * The binding of the 'onMouseWheel' method.
+        *
+        * @property onMouseWheel
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseWheelBind;
+        /**
+        * The binding of the 'onContextMenu' method.
+        *
+        * @property _onContextMenuBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onContextMenuBind;
     }
 }
 /**
@@ -14320,6 +14365,60 @@ declare module Kiwi.Input {
         * @public
         */
         reset(): void;
+        /**
+        * The binding of the 'onTouchStart' method.
+        *
+        * @property _onTouchStartBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchStartBind;
+        /**
+        * The binding of the 'onTouchMove' method.
+        *
+        * @property _onTouchMoveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchMoveBind;
+        /**
+        * The binding of the 'onTouchEnd' method.
+        *
+        * @property _onTouchEndBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchEndBind;
+        /**
+        * The binding of the 'onTouchEnter' method.
+        *
+        * @property _onTouchEnterBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchEnterBind;
+        /**
+        * The binding of the 'onTouchLeave' method.
+        *
+        * @property _onTouchLeaveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchLeaveBind;
+        /**
+        * The binding of the 'onTouchCancel' method.
+        *
+        * @property _onTouchCancelBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchCancelBind;
     }
 }
 /**

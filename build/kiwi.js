@@ -1,1559 +1,6 @@
 /**
 *
 * @module Kiwi
-* @submodule Files
-*
-*/
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var Kiwi;
-(function (Kiwi) {
-    var Files;
-    (function (Files) {
-        /**
-        * AudioFile which contains settings, loading, and processing details for Audio files to be used.
-        *
-        * Uses tag loading for devices not supporting the WebAudioAPI. Otherwise XHR + arraybuffer loading methods are used.
-        *
-        * @class AudioFile
-        * @namespace Kiwi.Files
-        * @extends Kiwi.Files.File
-        * @since 1.2.0
-        * @constructor
-        * @param game {Kiwi.Game} The game that this file is for
-        * @param params {Object} Options for this file.
-        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
-        *   @param params.url {String} Location of the file to be loaded.
-        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
-        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-        *   @param [params.tags] {Array} Any tags to be associated with this file.
-        * @return {Kiwi.Files.AudioFile}
-        */
-        var AudioFile = (function (_super) {
-            __extends(AudioFile, _super);
-            function AudioFile(game, params) {
-                //Add support detection here...
-                if (params === void 0) { params = {}; }
-                _super.call(this, game, params);
-                //this.dataType === File.AUDIO
-                /**
-                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
-                * @property crossOrigin
-                * @type String
-                * @default ''
-                * @public
-                */
-                this.crossOrigin = '';
-                if (this.game.audio.usingAudioTag) {
-                    this.useTagLoader = true;
-                    this._loadInParallel = true;
-                }
-                else {
-                    this.useTagLoader = false;
-                }
-                if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
-                    this.crossOrigin = params.crossOrigin;
-                }
-            }
-            /**
-            * Returns the type of this object
-            * @method objType
-            * @return {String} "AudioFile"
-            * @public
-            */
-            AudioFile.prototype.objType = function () {
-                return "AudioFile";
-            };
-            /**
-            * Initialises a loading method depending on detected device support.
-            * @method _load
-            * @protected
-            */
-            AudioFile.prototype._load = function () {
-                this.attemptCounter++;
-                if (this.useTagLoader) {
-                    this.tagLoader();
-                }
-                else {
-                    this.xhrLoader('GET', 'arraybuffer');
-                }
-            };
-            /**
-            * Handles loading audio in via an audio tag.
-            * @method tagLoader
-            * @public
-            */
-            AudioFile.prototype.tagLoader = function () {
-                this.data = document.createElement('audio');
-                this.data.src = this.URL;
-                this.data.preload = 'auto';
-                if (this.crossOrigin) {
-                    this.data.crossOrigin = this.crossOrigin;
-                }
-                if (this.game.audio.locked) {
-                    //Nothing else to do...
-                    this.loadSuccess();
-                }
-                else {
-                    var _this = this;
-                    var func = function (event) {
-                        _this.data.removeEventListener('canplaythrough', func, false);
-                        _this.data.pause();
-                        _this.data.currentTime = 0;
-                        _this.data.volume = 1;
-                        _this.loadSuccess();
-                    };
-                    this.data.addEventListener('canplaythrough', func, false);
-                    if (this.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                        //If targetting Cocoon we can use the load method to force the audio loading.
-                        this.data.load();
-                    }
-                    else {
-                        //Otherwise we tell the browser to play the audio in 'mute' to force loading. 
-                        this.data.volume = 0;
-                        this.data.play();
-                    }
-                }
-            };
-            /**
-            * Handles decoding the arraybuffer into audio data.
-            * @method processXhr
-            * @param response
-            * @protected
-            */
-            AudioFile.prototype.processXhr = function (response) {
-                this.data = {
-                    raw: response,
-                    decoded: false,
-                    buffer: null
-                };
-                this._decodeAudio();
-            };
-            /**
-            * Attempts to decode the audio data loaded via XHR + arraybuffer.
-            *
-            * @method _decodeAudio
-            * @private
-            */
-            AudioFile.prototype._decodeAudio = function () {
-                var _this = this;
-                this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
-                    if (buffer) {
-                        _this.data.buffer = buffer;
-                        _this.data.decoded = true;
-                        _this.loadSuccess();
-                    }
-                }, function (error) {
-                    Kiwi.Log.error('Kiwi.Files.AudioFile: Error decoding audio data.', '#loading', '#decoding');
-                    _this.loadError(error);
-                });
-            };
-            return AudioFile;
-        })(Kiwi.Files.File);
-        Files.AudioFile = AudioFile;
-    })(Files = Kiwi.Files || (Kiwi.Files = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
-* @submodule Files
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    var Files;
-    (function (Files) {
-        /**
-        * DataFile which contains settings, loading, and processing details for Data files to be used.
-        * There is no tag loader support for this method of loading.
-        *
-        * @class DataFile
-        * @namespace Kiwi.Files
-        * @extends Kiwi.Files.File
-        * @since 1.2.0
-        * @constructor
-        * @param game {Kiwi.Game} The game that this file is for
-        * @param params {Object} Options for this file.
-        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
-        *   @param params.url {String} Location of the file to be loaded.
-        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
-        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-        *   @param [params.tags] {Array} Any tags to be associated with this file.
-        *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. Only used with JSON and XML types of Data files.
-        * @return {Kiwi.Files.DataFile}
-        *
-        */
-        var DataFile = (function (_super) {
-            __extends(DataFile, _super);
-            function DataFile(game, params) {
-                if (params === void 0) { params = {}; }
-                _super.call(this, game, params);
-                /**
-                * If the response should be parsed (using the appropriate method) after loading.
-                * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.
-                *
-                * @property parse
-                * @type boolean
-                * @default false
-                * @public
-                */
-                this.parse = false;
-                this.useTagLoader = false;
-                this._loadInParallel = false;
-            }
-            /**
-            * Sets properties for this instance based on an object literal passed. Used when the class is being created.
-            *
-            * @method parseParams
-            * @param [params] {Object}
-            *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
-            *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-            *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-            *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-            *   @param [params.tags] {Array} Any tags to be associated with this file.
-            *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded.
-            * @protected
-            */
-            DataFile.prototype.parseParams = function (params) {
-                _super.prototype.parseParams.call(this, params);
-                if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
-                    this.parse = params.parse;
-                }
-            };
-            //this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
-            /**
-            * Returns the type of this object
-            * @method objType
-            * @return {String} "DataFile"
-            * @public
-            */
-            DataFile.prototype.objType = function () {
-                return "DataFile";
-            };
-            /**
-            * Increments the counter, and calls the approprate loading method.
-            * @method _load
-            * @protected
-            */
-            DataFile.prototype._load = function () {
-                this.attemptCounter++;
-                //Special check for binary data. Change the loading type
-                if (this.dataType === Kiwi.Files.File.BINARY_DATA) {
-                    this.xhrLoader('GET', 'arraybuffer');
-                }
-                else {
-                    this.xhrLoader('GET', 'text');
-                }
-            };
-            /**
-            * Handles decoding the arraybuffer into audio data.
-            * @method processXhr
-            * @param response
-            * @protected
-            */
-            DataFile.prototype.processXhr = function (response) {
-                if (!this.parse) {
-                    this.data = response;
-                    this.loadSuccess();
-                    return;
-                }
-                switch (this.dataType) {
-                    case Kiwi.Files.File.JSON:
-                        this.processJSON(response);
-                        break;
-                    case Kiwi.Files.File.XML:
-                        this.parseXML(response);
-                        break;
-                    case Kiwi.Files.File.TEXT_DATA:
-                    case Kiwi.Files.File.BINARY_DATA:
-                    default:
-                        this.data = response;
-                        break;
-                }
-            };
-            /**
-            * Attempts to parse a string which is assumed to be XML. Called when 'parse' is set to true.
-            * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
-            *
-            * @method parseXML
-            * @param data {String}
-            * @private
-            */
-            DataFile.prototype.parseXML = function (data) {
-                Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as XML.', '#loading', '#parsing');
-                if (window['DOMParser']) {
-                    var parser = new DOMParser();
-                    this.data = parser.parseFromString(data, "text/xml");
-                }
-                else {
-                    this.data = new ActiveXObject("Microsoft.XMLDOM");
-                    this.data.async = "false";
-                    this.data.loadXML(data);
-                }
-                if (!this.data || !this.data.documentElement || this.data.getElementsByTagName("parsererror").length) {
-                    this.loadError('XML parse error.');
-                }
-                else {
-                    this.loadSuccess();
-                }
-            };
-            /**
-            * Attempts to parse a string which is assumed to be JSON. Called when 'parse' is set to true.
-            * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
-            *
-            * @method processJSON
-            * @param data {String}
-            * @private
-            */
-            DataFile.prototype.processJSON = function (data) {
-                Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as JSON.', '#loading', '#parsing');
-                try {
-                    this.data = JSON.parse(data);
-                    this.loadSuccess();
-                }
-                catch (e) {
-                    this.loadError(e);
-                }
-            };
-            return DataFile;
-        })(Kiwi.Files.File);
-        Files.DataFile = DataFile;
-    })(Files = Kiwi.Files || (Kiwi.Files = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
-* @submodule Files
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    var Files;
-    (function (Files) {
-        /**
-        * TextureFile which contains settings, loading, and processing information for textures/images in Kiwi.
-        *
-        * Contains two methods of loading. XHR + arraybuffer and also tag loading.
-        *
-        * @class TextureFile
-        * @namespace Kiwi.Files
-        * @extends Kiwi.Files.File
-        * @since 1.2.0
-        * @constructor
-        * @param game {Kiwi.Game} The game that this file is for
-        * @param params {Object} Options for this file.
-        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
-        *   @param params.url {String} Location of the file to be loaded.
-        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
-        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-        *   @param [params.tags] {Array} Any tags to be associated with this file.
-        *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading.
-        * @return {Kiwi.Files.TextureFile}
-        *
-        */
-        var TextureFile = (function (_super) {
-            __extends(TextureFile, _super);
-            function TextureFile(game, params) {
-                if (params === void 0) { params = {}; }
-                _super.call(this, game, params);
-                /**
-                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
-                * @property crossOrigin
-                * @type String
-                * @default ''
-                * @public
-                */
-                this.crossOrigin = '';
-                if (params.xhrLoading) {
-                    this.useTagLoader = false;
-                    this._loadInParallel = false;
-                }
-                else {
-                    this.useTagLoader = true;
-                    this._loadInParallel = true;
-                }
-                if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
-                    this.crossOrigin = params.crossOrigin;
-                }
-            }
-            /**
-            * Returns the type of this object
-            * @method objType
-            * @return {String} "TextureFile"
-            * @public
-            */
-            TextureFile.prototype.objType = function () {
-                return "TextureFile";
-            };
-            //this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS
-            /**
-            * Initialises the loading method.
-            * Tagloading is the default but also supports XHR + arraybuffer.
-            * @method _load
-            * @protected
-            */
-            TextureFile.prototype._load = function () {
-                this.attemptCounter++;
-                if (this.useTagLoader) {
-                    this.tagLoader();
-                }
-                else {
-                    this.xhrLoader('GET', 'arraybuffer');
-                }
-            };
-            /**
-            * Contains the functionality for tag loading
-            * @method tagLoader
-            * @private
-            */
-            TextureFile.prototype.tagLoader = function () {
-                var _this = this;
-                this.data = new Image();
-                this.data.src = this.URL;
-                if (this.crossOrigin) {
-                    this.data.crossOrigin = this.crossOrigin;
-                }
-                this.data.onload = function () { return _this.loadSuccess(); };
-                this.data.onerror = function (event) { return _this.loadError(event); };
-            };
-            /**
-            * Gets the response data (which is an arraybuffer), creates a Blob from it
-            * and creates an objectURL from it.
-            *
-            * @method processXhr
-            * @param response {Any} The data stored in the 'xhr.response' tag
-            * @protected
-            */
-            TextureFile.prototype.processXhr = function (response) {
-                //Careful, Blobs are not supported on CocoonJS Canvas+
-                this.data = document.createElement('img');
-                var blob = new Blob([response], { type: this.type });
-                var that = this;
-                this.data.addEventListener('load', function (event) {
-                    that.loadSuccess();
-                });
-                if (window['URL']) {
-                    this.data.src = window['URL'].createObjectURL(blob);
-                }
-                else if (window['webkitURL']) {
-                    this.data.src = window['webkitURL'].createObjectURL(blob);
-                }
-            };
-            /**
-            * Revokes the object url that was added to the window when creating the image.
-            * Also tells the File that the loading is now complete.
-            *
-            * @method revoke
-            * @private
-            */
-            TextureFile.prototype.revoke = function () {
-                if (window['URL']) {
-                    window['URL'].revokeObjectURL(this.data.src);
-                }
-                else if (window['webkitURL']) {
-                    window['webkitURL'].revokeObjectURL(this.data.src);
-                }
-            };
-            /**
-            * Destroys all external object references on this object.
-            * @method destroy
-            * @since 1.2.0
-            * @public
-            */
-            TextureFile.prototype.destroy = function () {
-                if (!this.useTagLoader) {
-                    this.revoke();
-                }
-                _super.prototype.destroy.call(this);
-            };
-            return TextureFile;
-        })(Kiwi.Files.File);
-        Files.TextureFile = TextureFile;
-    })(Files = Kiwi.Files || (Kiwi.Files = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module GameObjects
-* @submodule Tilemap
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    var GameObjects;
-    (function (GameObjects) {
-        var Tilemap;
-        (function (Tilemap) {
-            /**
-            * GameObject containing the core functionality for every type of tilemap layer that can be generated.
-            * This class should not be directly used. Classes extending this should be used instead.
-            *
-            * @class TileMapLayer
-            * @extends Kiwi.Entity
-            * @namespace Kiwi.GameObjects.Tilemap
-            * @since 1.3.0
-            * @constructor
-            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
-            * @param name {String} The name of this TileMapLayer.
-            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
-            * @param data {Number[]} The information about the tiles.
-            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
-            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
-            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-            * @return {TileMapLayer}
-            */
-            var TileMapLayer = (function (_super) {
-                __extends(TileMapLayer, _super);
-                function TileMapLayer(tilemap, name, atlas, data, tw, th, x, y, w, h) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (w === void 0) { w = 0; }
-                    if (h === void 0) { h = 0; }
-                    _super.call(this, tilemap.state, x, y);
-                    /**
-                    * Properties about that this TileMapLayer has when it was created from a JSON file.
-                    * @property properties
-                    * @type Object
-                    * @public
-                    */
-                    this.properties = {};
-                    /**
-                    * The orientation of the of tilemap.
-                    * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
-                    * @property orientation
-                    * @type String
-                    * @public
-                    */
-                    this.orientation = null;
-                    //Request the Shared Texture Atlas renderer.
-                    if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
-                        this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
-                    }
-                    if (Kiwi.Utils.Common.isString(atlas)) {
-                        atlas = this.state.textures[atlas];
-                    }
-                    this.name = name;
-                    this.atlas = atlas;
-                    this.tilemap = tilemap;
-                    this._data = data;
-                    this.tileWidth = tw;
-                    this.tileHeight = th;
-                    this.width = w;
-                    this.height = h;
-                    this._corner1 = new Kiwi.Geom.Point(0, 0);
-                    this._corner2 = new Kiwi.Geom.Point(0, 0);
-                    this._corner3 = new Kiwi.Geom.Point(0, 0);
-                    this._corner4 = new Kiwi.Geom.Point(0, 0);
-                    this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
-                    this.physics.immovable = true;
-                }
-                /**
-                * Returns the type of child that this is.
-                * @type Number
-                * @return {Number} returns the type of child that the entity is
-                * @public
-                */
-                TileMapLayer.prototype.childType = function () {
-                    return Kiwi.TILE_LAYER;
-                };
-                /**
-                * The type of object that it is.
-                * @method objType
-                * @return {String} "TileMapLayer"
-                * @public
-                */
-                TileMapLayer.prototype.objType = function () {
-                    return "TileMapLayer";
-                };
-                Object.defineProperty(TileMapLayer.prototype, "widthInPixels", {
-                    /**
-                    * The width of the layer in pixels. This property is READ ONLY.
-                    * @property widthInPixels
-                    * @type number
-                    * @public
-                    */
-                    get: function () {
-                        return this.width * this.tilemap.tileWidth;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(TileMapLayer.prototype, "heightInPixels", {
-                    /**
-                    * The height of the layer in pixels. This property is READ ONLY.
-                    * @property heightInPixels
-                    * @type number
-                    * @public
-                    */
-                    get: function () {
-                        return this.height * this.tilemap.tileHeight;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(TileMapLayer.prototype, "cellIndex", {
-                    /**
-                    * Override function to prevent unwanted inherited behaviour. Do not call.
-                    * Because TileMapLayer extends Entity, it has a cellIndex parameter.
-                    * However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
-                    *
-                    * @property cellIndex
-                    * @type number
-                    * @public
-                    * @deprecated Not functional on this object.
-                    * @since 1.1.0
-                    */
-                    get: function () {
-                        return null;
-                    },
-                    set: function (val) {
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                /**
-                * Scales the tilemap to the value passed.
-                * @method scaleToWidth
-                * @param value {Number}
-                * @public
-                */
-                TileMapLayer.prototype.scaleToWidth = function (value) {
-                    this.scale = value / this.widthInPixels;
-                };
-                /**
-                * Scales the tilemaps to the value passed.
-                * @method scaleToHeight
-                * @param value {Number}
-                * @public
-                */
-                TileMapLayer.prototype.scaleToHeight = function (value) {
-                    this.scale = value / this.heightInPixels;
-                };
-                /**
-                * Centers the anchor point to the middle of the width/height of the tilemap.
-                * @method centerAnchorPoint
-                * @public
-                */
-                TileMapLayer.prototype.centerAnchorPoint = function () {
-                    this.anchorPointX = this.widthInPixels * 0.5;
-                    this.anchorPointY = this.heightInPixels * 0.5;
-                };
-                Object.defineProperty(TileMapLayer.prototype, "data", {
-                    /**
-                    * READ ONLY: Returns the raw data for this tilemap.
-                    * @property data
-                    * @type Array
-                    * @readOnly
-                    * @public
-                    * @since 1.3.0
-                    */
-                    get: function () {
-                        return this._data;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(TileMapLayer.prototype, "tileData", {
-                    /**
-                    * READ ONLY: A list containing all of the types of tiles found on this TileMapLayer.
-                    * Same as the `data` property.
-                    *
-                    * @property tileData
-                    * @type Array
-                    * @readOnly
-                    * @public
-                    */
-                    get: function () {
-                        return this._data;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                /**
-                * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
-                * @method countTiles
-                * @param [type] {Number} The type of tile you want to count.
-                * @return {Number} The number of tiles on this layer.
-                * @public
-                */
-                TileMapLayer.prototype.countTiles = function (type) {
-                    var cnt = 0;
-                    for (var i = 0; i < this._data.length; i++) {
-                        if (type == undefined && this._data[i] !== 0)
-                            cnt++;
-                        else if (type === this._data[i])
-                            cnt++;
-                    }
-                    return cnt;
-                };
-                /**
-                *-----------------------
-                * Getting Tiles
-                *-----------------------
-                */
-                /**
-                * Returns the index of the tile based on the x and y coordinates of the tile passed.
-                * If no tile is a the coordinates given then -1 is returned instead.
-                * Coordinates are in tiles not pixels.
-                * @method getIndexFromXY
-                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
-                * @public
-                */
-                TileMapLayer.prototype.getIndexFromXY = function (x, y) {
-                    var num = x + y * this.width;
-                    //Does the index exist?
-                    if (num < 0 || num >= this._data.length)
-                        return -1;
-                    else
-                        return num;
-                };
-                /**
-                * Returns the TileType for a tile that is at a particular set of coordinates passed.
-                * If no tile is found the null is returned instead.
-                * Coordinates passed are in tiles.
-                * @method getTileFromXY
-                * @param x {Number}
-                * @param y {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
-                * @public
-                */
-                TileMapLayer.prototype.getTileFromXY = function (x, y) {
-                    var t = this.getIndexFromXY(x, y);
-                    return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
-                };
-                /**
-                * Returns the indexes of every tile of a type you pass.
-                * @method getIndexsByType
-                * @param type {Number}
-                * @return {Number[]}
-                * @public
-                */
-                TileMapLayer.prototype.getIndexesByType = function (type) {
-                    var tiles = [];
-                    for (var i = 0; i < this._data.length; i++) {
-                        if (this._data[i] == type)
-                            tiles.push(i);
-                    }
-                    return tiles;
-                };
-                /**
-                * Returns the TileType of a tile by an index passed.
-                * Thanks to @rydairegames
-                *
-                * @method getTileFromIndex
-                * @param index {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
-                * @public
-                */
-                TileMapLayer.prototype.getTileFromIndex = function (index) {
-                    return (index !== -1) ? this.tilemap.tileTypes[this._data[index]] : null;
-                };
-                /**
-                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
-                * If no tile is a the coordinates given then -1 is returned instead.
-                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
-                *
-                * Functionality needs to be added by classes extending this class.
-                *
-                * @method getIndexFromCoords
-                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
-                * @public
-                */
-                TileMapLayer.prototype.getIndexFromCoords = function (x, y) {
-                    return -1;
-                };
-                /**
-                * Returns the TileType for a tile that is at a particular coordinate passed.
-                * If no tile is found then null is returned instead.
-                * Coordinates passed are in pixels and use the world coordinates of the tilemap.
-                *
-                * @method getTileFromCoords
-                * @param x {Number}
-                * @param y {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
-                * @public
-                */
-                TileMapLayer.prototype.getTileFromCoords = function (x, y) {
-                    var t = this.getIndexFromCoords(x, y);
-                    return (t !== -1) ? this.tilemap.tileTypes[this.data[t]] : null;
-                };
-                /**
-                *-----------------------
-                * Tiles Manipulation
-                *-----------------------
-                */
-                /**
-                * Sets the tile to be used at the coordinates provided.
-                * Can be used to override a tile that may already exist at the location.
-                * @method setTile
-                * @param x {Number} The coordinate of the tile on the x axis.
-                * @param y {Number} The coordinate of the tile on the y axis.
-                * @param tileType {Number} The type of tile that should be now used.
-                * @return {Boolean} If a tile was changed or not.
-                * @public
-                */
-                TileMapLayer.prototype.setTile = function (x, y, tileType) {
-                    var x = this.getIndexFromXY(x, y);
-                    if (x !== -1) {
-                        this._data[x] = tileType;
-                        return true;
-                    }
-                    return false;
-                };
-                /**
-                * Sets the tile to be used at the index provided.
-                * Can be used to override a tile that may already exist at the location.
-                * @method setTileByIndex
-                * @param index {Number} The index of the tile that you want to change.
-                * @param tileType {Number} The new tile type to be used at that position.
-                * @public
-                */
-                TileMapLayer.prototype.setTileByIndex = function (index, tileType) {
-                    this._data[index] = tileType;
-                };
-                /**
-                * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
-                * Default tile types used are everyone avaiable.
-                * @method randomizeTiles
-                * @param [types] {Number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
-                * @param [x=0] {Number} The starting tile on the x axis to fill.
-                * @param [y=0] {Number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {Number} How far across you want to go.
-                * @param [height=this.height] {Number} How far down you want to go.
-                * @public
-                */
-                TileMapLayer.prototype.randomizeTiles = function (types, x, y, width, height) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (width === void 0) { width = this.width; }
-                    if (height === void 0) { height = this.height; }
-                    if (types == undefined) {
-                        types = [];
-                        var i = 0;
-                        while (i++ < this.tilemap.tileTypes.length) {
-                            types.push(i);
-                        }
-                    }
-                    for (var j = y; j < y + height; j++) {
-                        for (var i = x; i < x + width; i++) {
-                            var tile = this.getIndexFromXY(i, j);
-                            if (tile !== -1)
-                                this._data[tile] = this.game.rnd.pick(types);
-                        }
-                    }
-                };
-                /**
-                * Makes all of the tiles in the area specified a single type that is passed.
-                * @method fill
-                * @param type {Number} The type of tile you want to fill in the area with.
-                * @param [x=0] {Number} The starting tile on the x axis to fill.
-                * @param [y=0] {Number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {Number} How far across you want to go.
-                * @param [height=this.height] {Number} How far down you want to go.
-                * @public
-                */
-                TileMapLayer.prototype.fill = function (type, x, y, width, height) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (width === void 0) { width = this.width; }
-                    if (height === void 0) { height = this.height; }
-                    for (var j = y; j < y + height; j++) {
-                        for (var i = x; i < x + width; i++) {
-                            var tile = this.getIndexFromXY(i, j);
-                            if (tile !== -1)
-                                this._data[tile] = type;
-                        }
-                    }
-                };
-                /**
-                * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
-                * @method replaceTiles
-                * @param typeA {Number} The type of tile you want to be replaced.
-                * @param typeB {Number} The type of tile you want to be used instead.
-                * @param [x=0] {Number} The starting tile on the x axis to fill.
-                * @param [y=0] {Number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {Number} How far across you want to go.
-                * @param [height=this.height] {Number} How far down you want to go.
-                * @public
-                */
-                TileMapLayer.prototype.replaceTiles = function (typeA, typeB, x, y, width, height) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (width === void 0) { width = this.width; }
-                    if (height === void 0) { height = this.height; }
-                    for (var j = y; j < y + height; j++) {
-                        for (var i = x; i < x + width; i++) {
-                            var tile = this.getIndexFromXY(i, j);
-                            if (tile !== -1 && this._data[tile] == typeA)
-                                this._data[tile] = typeB;
-                        }
-                    }
-                };
-                /**
-                * Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.
-                * @method swapTiles
-                * @param typeA {number} The type of tile you want to be replaced with typeB.
-                * @param typeB {number} The type of tile you want to be replaced with typeA.
-                * @param [x=0] {number} The starting tile on the x axis to fill.
-                * @param [y=0] {number} The starting tile on the y axis to fill.
-                * @param [width=this.width] {number} How far across you want to go.
-                * @param [height=this.height] {number} How far down you want to go.
-                * @public
-                */
-                TileMapLayer.prototype.swapTiles = function (typeA, typeB, x, y, width, height) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (width === void 0) { width = this.width; }
-                    if (height === void 0) { height = this.height; }
-                    for (var j = y; j < y + height; j++) {
-                        for (var i = x; i < x + width; i++) {
-                            var tile = this.getIndexFromXY(i, j);
-                            if (tile !== -1) {
-                                if (this._data[tile] == typeA)
-                                    this._data[tile] = typeB;
-                                else if (this._data[tile] == typeB)
-                                    this._data[tile] = typeA;
-                            }
-                        }
-                    }
-                };
-                /**
-                *-----------------------
-                * Get Tiles By Collision Methods
-                *-----------------------
-                */
-                /**
-                * Returns the tiles which overlap with a provided entities hitbox component.
-                * Only collidable tiles on ANY side will be returned unless you pass a particular side.
-                * Note: Classes extending this class need to
-                *
-                * @method getOverlappingTiles
-                * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
-                * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
-                * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
-                * @public
-                */
-                TileMapLayer.prototype.getOverlappingTiles = function (entity, collisionType) {
-                    if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
-                    return [];
-                };
-                /**
-                * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
-                * By default the area is the whole tilemap.
-                *
-                * @method getCollidableTiles
-                * @param [x=0] {Number} The x coordinate of the first tile to check.
-                * @param [y=0] {Number} The y coordinate of the first tile to check.
-                * @param [width=widthOfMap] {Number} The width from the x coordinate.
-                * @param [height=heightOfmap] {Number} The height from the y coordinate.
-                * @param [collisionType=ANY] {Number} The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.
-                * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
-                * @public
-                */
-                TileMapLayer.prototype.getCollidableTiles = function (x, y, width, height, collisionType) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (width === void 0) { width = this.width; }
-                    if (height === void 0) { height = this.height; }
-                    if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
-                    var tiles = [];
-                    //Make sure its within the map.
-                    if (x > this.width || y > this.height)
-                        return;
-                    if (x < 0)
-                        x = 0;
-                    if (y < 0)
-                        y = 0;
-                    if (x + width > this.width)
-                        width = this.width - x;
-                    if (y + height > this.height)
-                        height = this.height - y;
-                    for (var j = y; j < y + height; j++) {
-                        for (var i = x; i < x + width; i++) {
-                            //Get the tile index.
-                            var index = this.getIndexFromXY(i, j);
-                            //Does that index exist? Should do but just in case.
-                            if (index === -1)
-                                continue;
-                            var type = this.tileData[index];
-                            //If the collision type matches the one passed. 
-                            if ((this.tilemap.tileTypes[type].allowCollisions & collisionType) !== Kiwi.Components.ArcadePhysics.NONE) {
-                                tiles.push({
-                                    index: index,
-                                    type: type,
-                                    x: i * this.tileWidth,
-                                    y: j * this.tileHeight
-                                });
-                            }
-                        }
-                    }
-                    return tiles;
-                };
-                /**
-                * The update loop that is executed when this TileMapLayer is add to the Stage.
-                * @method update
-                * @public
-                */
-                TileMapLayer.prototype.update = function () {
-                    _super.prototype.update.call(this);
-                };
-                /**
-                * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
-                * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
-                *
-                * @method _calculateBoundaries
-                * @param camera {Camera}
-                * @param matrix {Matrix}
-                * @protected
-                */
-                TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
-                    this._startX = 0;
-                    this._startY = 0;
-                    this._maxX = this.width;
-                    this._maxY = this.height;
-                };
-                /**
-                * The render loop which is used when using the Canvas renderer.
-                * @method render
-                * @param camera {Camera}
-                * @public
-                */
-                TileMapLayer.prototype.render = function (camera) {
-                };
-                TileMapLayer.prototype.renderGL = function (gl, camera, params) {
-                    if (params === void 0) { params = null; }
-                };
-                /**
-                * Deprecated on the TileMapLayer class since it is for 'Isometric' maps only.
-                *
-                * @method chartToScreen
-                * @param chartPt {any} A Object containing x/y properties of the tile.
-                * @param [tileW] {Number} The width of the tile
-                * @param [tileH] {Number} The height of the tile
-                * @return {Object} With x/y properties of the location of the map onscreen.
-                * @deprecated
-                * @since 1.3.0
-                * @public
-                */
-                TileMapLayer.prototype.chartToScreen = function (chartPt, tileW, tileH) {
-                    if (tileW === void 0) { tileW = this.tileWidth / 2; }
-                    if (tileH === void 0) { tileH = this.tileHeight; }
-                    return {
-                        x: chartPt.x * tileW - chartPt.y * tileW,
-                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2
-                    };
-                };
-                /**
-                * Deprecated on the TileMapLayer class since it is for 'Isometric' maps only.
-                *
-                * @method screenToChart
-                * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
-                * @param [tileW] {Number} The width of a single tile.
-                * @param [tileH] {Number} The height of a single tile.
-                * @return {Object} With x/y properties of the location of tile on the screen.
-                * @deprecated
-                * @since 1.3.0
-                * @public
-                */
-                TileMapLayer.prototype.screenToChart = function (scrPt, tileW, tileH) {
-                    if (tileW === void 0) { tileW = this.tileWidth / 2; }
-                    if (tileH === void 0) { tileH = this.tileHeight; }
-                    var column = Math.floor(scrPt.x / tileW);
-                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
-                    return { x: column + row, y: row };
-                };
-                return TileMapLayer;
-            })(Kiwi.Entity);
-            Tilemap.TileMapLayer = TileMapLayer;
-        })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
-    })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module GameObjects
-* @submodule Tilemap
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    var GameObjects;
-    (function (GameObjects) {
-        var Tilemap;
-        (function (Tilemap) {
-            /**
-            * Contains the code for managing and rendering Isometric types of TileMaps.
-            * This class should not be directly created, but instead should be created via methods on the TileMap class.
-            *
-            *
-            * @class TileMapLayerIsometric
-            * @extends Kiwi.GameObjects.Tilemap.TileMapLayer
-            * @namespace Kiwi.GameObjects.Tilemap
-            * @since 1.3.0
-            * @constructor
-            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
-            * @param name {String} The name of this TileMapLayer.
-            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
-            * @param data {Number[]} The information about the tiles.
-            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
-            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
-            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-            * @return {TileMapLayer}
-            */
-            var TileMapLayerIsometric = (function (_super) {
-                __extends(TileMapLayerIsometric, _super);
-                function TileMapLayerIsometric(tilemap, name, atlas, data, tw, th, x, y, w, h) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (w === void 0) { w = 0; }
-                    if (h === void 0) { h = 0; }
-                    _super.call(this, tilemap, name, atlas, data, tw, th, x, y, w, h);
-                    /**
-                    * The orientation of the of tilemap.
-                    * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
-                    * @property orientation
-                    * @type String
-                    * @default 'isometric'
-                    * @public
-                    */
-                    this.orientation = Tilemap.ISOMETRIC;
-                }
-                /**
-                * The type of object that it is.
-                * @method objType
-                * @return {String} "TileMapLayer"
-                * @public
-                */
-                TileMapLayerIsometric.prototype.objType = function () {
-                    return "TileMapLayer";
-                };
-                /**
-                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
-                * If no tile is a the coordinates given then -1 is returned instead.
-                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
-                *
-                * Functionality needs to be added by classes extending this class.
-                *
-                * @method getIndexFromCoords
-                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
-                * @public
-                */
-                TileMapLayerIsometric.prototype.getIndexFromCoords = function (x, y) {
-                    //Not within the bounds?
-                    var halfWidth = this.widthInPixels * 0.5;
-                    if (x > this.x + halfWidth || x < this.x - halfWidth)
-                        return -1;
-                    if (y > this.y + this.heightInPixels || y < this.y)
-                        return -1;
-                    var point = this.screenToChart({ x: x, y: y });
-                    return this.getIndexFromXY(point.x, point.y);
-                };
-                /**
-                * ChartToScreen maps a point in the game tile coordinates into screen pixel
-                * coordinates that indicate where the tile should be drawn.
-                *
-                * @method chartToScreen
-                * @param chartPt {any} A Object containing x/y properties of the tile.
-                * @param [tileW] {Number} The width of the tile
-                * @param [tileH] {Number} The height of the tile
-                * @return {Object} With x/y properties of the location of the map onscreen.
-                * @public
-                */
-                TileMapLayerIsometric.prototype.chartToScreen = function (chartPt, tileW, tileH) {
-                    if (tileW === void 0) { tileW = this.tileWidth; }
-                    if (tileH === void 0) { tileH = this.tileHeight; }
-                    return {
-                        x: (chartPt.x - chartPt.y) * tileW * 0.5,
-                        y: (chartPt.x + chartPt.y) * tileH * 0.5
-                    };
-                };
-                /**
-                * ScreenToChart maps a point in screen coordinates into the game tile chart
-                * coordinates for the tile on which the screen point falls on.
-                *
-                * @method screenToChart
-                * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
-                * @param [tileW] {Number} The width of a single tile.
-                * @param [tileH] {Number} The height of a single tile.
-                * @return {Object} With x/y properties of the location of tile on the screen.
-                * @public
-                */
-                TileMapLayerIsometric.prototype.screenToChart = function (scrPt, tileW, tileH) {
-                    if (tileW === void 0) { tileW = this.tileWidth; }
-                    if (tileH === void 0) { tileH = this.tileHeight; }
-                    var column = Math.floor(scrPt.x / (tileW * 0.5));
-                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
-                    return {
-                        x: column + row,
-                        y: row
-                    };
-                };
-                /**
-                * The render loop which is used when using the Canvas renderer.
-                * @method render
-                * @param camera {Camera}
-                * @public
-                */
-                TileMapLayerIsometric.prototype.render = function (camera) {
-                    //When not to render the map.
-                    if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
-                        return;
-                    }
-                    //Get the context.
-                    var ctx = this.game.stage.ctx;
-                    ctx.save();
-                    //Make the map alphed out.
-                    if (this.alpha > 0 && this.alpha <= 1) {
-                        ctx.globalAlpha = this.alpha;
-                    }
-                    // Transform
-                    var t = this.transform;
-                    var m = t.getConcatenatedMatrix();
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                    this._calculateBoundaries(camera, m);
-                    for (var y = this._startY; y < this._maxY; y++) {
-                        for (var x = this._startX; x < this._maxX; x++) {
-                            if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
-                                var cell = this.atlas.cells[this._temptype.cellIndex];
-                                var offsetX = this._temptype.offset.x;
-                                var offsetY = this._temptype.offset.y;
-                                var w = this.tileWidth * (this.width * 2 - 1);
-                                var h = this.tileHeight * this.height;
-                                // We want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
-                                var shiftX = this.tileWidth / 2;
-                                var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth, this.tileHeight);
-                                var drawX = screenPos.x + this._temptype.offset.x - shiftX;
-                                var drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
-                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
-                            }
-                        }
-                    }
-                    ctx.restore();
-                    return true;
-                };
-                TileMapLayerIsometric.prototype.renderGL = function (gl, camera, params) {
-                    if (params === void 0) { params = null; }
-                    //Setup
-                    var vertexItems = [];
-                    //Transform/Matrix
-                    var t = this.transform;
-                    var m = t.getConcatenatedMatrix();
-                    //Find which ones we need to render.
-                    this._calculateBoundaries(camera, m);
-                    for (var y = this._startY; y < this._maxY; y++) {
-                        for (var x = this._startX; x < this._maxX; x++) {
-                            //Get the tile type
-                            this._temptype = this.getTileFromXY(x, y);
-                            //Skip tiletypes that don't use a cellIndex.
-                            if (this._temptype.cellIndex == -1)
-                                continue;
-                            //Get the cell index
-                            var cell = this.atlas.cells[this._temptype.cellIndex];
-                            // Isometric maps
-                            var offsetX = this._temptype.offset.x;
-                            var offsetY = this._temptype.offset.y;
-                            var w = this.tileWidth * (this.width * 2 - 1);
-                            var h = this.tileHeight * this.height;
-                            // We want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
-                            var shiftX = this.tileWidth / 2;
-                            var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth, this.tileHeight);
-                            var tx = screenPos.x + this._temptype.offset.x - shiftX;
-                            var ty = screenPos.y + this._temptype.offset.y;
-                            //Set up the points
-                            this._corner1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
-                            this._corner2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
-                            this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
-                            this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
-                            //Add on the matrix to the points
-                            this._corner1 = m.transformPoint(this._corner1);
-                            this._corner2 = m.transformPoint(this._corner2);
-                            this._corner3 = m.transformPoint(this._corner3);
-                            this._corner4 = m.transformPoint(this._corner4);
-                            //Append to the xyuv array
-                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
-                        }
-                    }
-                    //Concat points to the Renderer.
-                    this.glRenderer.concatBatch(vertexItems);
-                };
-                return TileMapLayerIsometric;
-            })(Tilemap.TileMapLayer);
-            Tilemap.TileMapLayerIsometric = TileMapLayerIsometric;
-        })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
-    })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module GameObjects
-* @submodule Tilemap
-*
-*/
-var Kiwi;
-(function (Kiwi) {
-    var GameObjects;
-    (function (GameObjects) {
-        var Tilemap;
-        (function (Tilemap) {
-            /**
-            * Contains the code for managing and rendering Orthogonal types of TileMaps.
-            * This class should not be directly created, but instead should be created via methods on the TileMap class.
-            *
-            * @class TileMapLayerOrthogonal
-            * @extends Kiwi.GameObjects.Tilemap.TileMapLayer
-            * @namespace Kiwi.GameObjects.Tilemap
-            * @since 1.3.0
-            * @constructor
-            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
-            * @param name {String} The name of this TileMapLayer.
-            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
-            * @param data {Number[]} The information about the tiles.
-            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
-            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
-            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
-            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
-            * @return {TileMapLayer}
-            */
-            var TileMapLayerOrthogonal = (function (_super) {
-                __extends(TileMapLayerOrthogonal, _super);
-                function TileMapLayerOrthogonal(tilemap, name, atlas, data, tw, th, x, y, w, h) {
-                    if (x === void 0) { x = 0; }
-                    if (y === void 0) { y = 0; }
-                    if (w === void 0) { w = 0; }
-                    if (h === void 0) { h = 0; }
-                    _super.call(this, tilemap, name, atlas, data, tw, th, x, y, w, h);
-                    /**
-                    * The orientation of the of tilemap.
-                    * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
-                    * @property orientation
-                    * @type String
-                    * @default 'orthogonal'
-                    * @public
-                    */
-                    this.orientation = Tilemap.ORTHOGONAL;
-                }
-                /**
-                * The type of object that it is.
-                * @method objType
-                * @return {String} "TileMapLayer"
-                * @public
-                */
-                TileMapLayerOrthogonal.prototype.objType = function () {
-                    return "TileMapLayer";
-                };
-                /**
-                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
-                * If no tile is a the coordinates given then -1 is returned instead.
-                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
-                *
-                * @method getIndexFromCoords
-                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
-                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
-                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
-                * @public
-                */
-                TileMapLayerOrthogonal.prototype.getIndexFromCoords = function (x, y) {
-                    //Not with the bounds?
-                    if (x > this.transform.worldX + this.widthInPixels || y > this.transform.worldY + this.heightInPixels || x < this.transform.worldX || y < this.transform.worldY)
-                        return -1;
-                    //Is so get the tile
-                    var tx = Kiwi.Utils.GameMath.snapToFloor(x - this.transform.worldX, this.tileWidth) / this.tileWidth;
-                    var ty = Kiwi.Utils.GameMath.snapToFloor(y - this.transform.worldY, this.tileHeight) / this.tileHeight;
-                    return this.getIndexFromXY(tx, ty);
-                };
-                /**
-                * Returns the tiles which overlap with a provided entities hitbox component.
-                * Only collidable tiles on ANY side will be returned unless you pass a particular side.
-                *
-                * @method getOverlappingTiles
-                * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
-                * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
-                * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
-                * @public
-                */
-                TileMapLayerOrthogonal.prototype.getOverlappingTiles = function (entity, collisionType) {
-                    if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
-                    //Do they have a box?
-                    if (entity.components.hasComponent("Box") == false)
-                        return [];
-                    //Get the box off them
-                    var b = entity.components.getComponent('Box').worldHitbox;
-                    //Is the person within the map's bounds?    
-                    if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
-                        return [];
-                    var worldX = this.transform.worldX;
-                    var worldY = this.transform.worldY;
-                    var nx = b.x - worldX;
-                    var ny = b.y - worldY;
-                    //Get starting location and now many tiles from there we will check. 
-                    var x = Kiwi.Utils.GameMath.snapToFloor(nx, this.tileWidth) / this.tileWidth;
-                    var y = Kiwi.Utils.GameMath.snapToFloor(ny, this.tileHeight) / this.tileHeight;
-                    var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
-                    var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
-                    //Add one, because we want to include the very end tile.
-                    var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
-                    for (var i = 0; i < tiles.length; i++) {
-                        var t = tiles[i];
-                        if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < t.top) {
-                            tiles.splice(i, 1);
-                            i--;
-                        }
-                    }
-                    return tiles;
-                };
-                /**
-                * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
-                * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
-                *
-                * @method _calculateBoundaries
-                * @param camera {Camera}
-                * @param matrix {Matrix}
-                * @protected
-                */
-                TileMapLayerOrthogonal.prototype._calculateBoundaries = function (camera, matrix) {
-                    //If we are calculating the coordinates for 'regular' then we can do that rather easy
-                    // Account for camera and object transformation
-                    // Initialise corners...
-                    this._corner1.setTo(0, 0);
-                    this._corner2.setTo(this.game.stage.width, 0);
-                    this._corner3.setTo(this.game.stage.width, this.game.stage.height);
-                    this._corner4.setTo(0, this.game.stage.height);
-                    // Transform corners by camera...
-                    this._corner1 = camera.transformPoint(this._corner1);
-                    this._corner2 = camera.transformPoint(this._corner2);
-                    this._corner3 = camera.transformPoint(this._corner3);
-                    this._corner4 = camera.transformPoint(this._corner4);
-                    // Transform corners by object...
-                    var m = matrix.clone();
-                    m.invert();
-                    this._corner1 = m.transformPoint(this._corner1);
-                    this._corner2 = m.transformPoint(this._corner2);
-                    this._corner3 = m.transformPoint(this._corner3);
-                    this._corner4 = m.transformPoint(this._corner4);
-                    // Find min/max values in X and Y...
-                    this._startX = Math.min(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
-                    this._startY = Math.min(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
-                    this._maxX = Math.max(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
-                    this._maxY = Math.max(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
-                    // Convert to tile units...
-                    this._startX /= this.tileWidth;
-                    this._startY /= this.tileHeight;
-                    this._maxX /= this.tileWidth;
-                    this._maxY /= this.tileHeight;
-                    // Truncate units...
-                    this._startX = Math.floor(this._startX);
-                    this._startY = Math.floor(this._startY);
-                    this._maxX = Math.ceil(this._maxX);
-                    this._maxY = Math.ceil(this._maxY);
-                    // Clamp values to tilemap range...
-                    this._startX = Kiwi.Utils.GameMath.clamp(this._startX, this.width);
-                    this._startY = Kiwi.Utils.GameMath.clamp(this._startY, this.height);
-                    this._maxX = Kiwi.Utils.GameMath.clamp(this._maxX, this.width);
-                    this._maxY = Kiwi.Utils.GameMath.clamp(this._maxY, this.height);
-                };
-                /**
-                * The render loop which is used when using the Canvas renderer.
-                * @method render
-                * @param camera {Camera}
-                * @public
-                */
-                TileMapLayerOrthogonal.prototype.render = function (camera) {
-                    //When not to render the map.
-                    if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
-                        return;
-                    }
-                    //Get the context.
-                    var ctx = this.game.stage.ctx;
-                    ctx.save();
-                    //Make the map alphed out.
-                    if (this.alpha > 0 && this.alpha <= 1) {
-                        ctx.globalAlpha = this.alpha;
-                    }
-                    // Transform
-                    var t = this.transform;
-                    var m = t.getConcatenatedMatrix();
-                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                    this._calculateBoundaries(camera, m);
-                    for (var y = this._startY; y < this._maxY; y++) {
-                        for (var x = this._startX; x < this._maxX; x++) {
-                            if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
-                                var cell = this.atlas.cells[this._temptype.cellIndex];
-                                var drawX = x * this.tileWidth + this._temptype.offset.x;
-                                var drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
-                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
-                            }
-                        }
-                    }
-                    ctx.restore();
-                    return true;
-                };
-                TileMapLayerOrthogonal.prototype.renderGL = function (gl, camera, params) {
-                    if (params === void 0) { params = null; }
-                    //Setup
-                    var vertexItems = [];
-                    //Transform/Matrix
-                    var t = this.transform;
-                    var m = t.getConcatenatedMatrix();
-                    //Find which ones we need to render.
-                    this._calculateBoundaries(camera, m);
-                    for (var y = this._startY; y < this._maxY; y++) {
-                        for (var x = this._startX; x < this._maxX; x++) {
-                            //Get the tile type
-                            this._temptype = this.getTileFromXY(x, y);
-                            //Skip tiletypes that don't use a cellIndex.
-                            if (this._temptype.cellIndex == -1)
-                                continue;
-                            //Get the cell index
-                            var cell = this.atlas.cells[this._temptype.cellIndex];
-                            var tx = x * this.tileWidth + this._temptype.offset.x;
-                            var ty = y * this.tileHeight + this._temptype.offset.y;
-                            //Set up the points
-                            this._corner1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
-                            this._corner2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
-                            this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
-                            this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
-                            //Add on the matrix to the points
-                            this._corner1 = m.transformPoint(this._corner1);
-                            this._corner2 = m.transformPoint(this._corner2);
-                            this._corner3 = m.transformPoint(this._corner3);
-                            this._corner4 = m.transformPoint(this._corner4);
-                            //Append to the xyuv array
-                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
-                        }
-                    }
-                    //Concat points to the Renderer.
-                    this.glRenderer.concatBatch(vertexItems);
-                };
-                return TileMapLayerOrthogonal;
-            })(Tilemap.TileMapLayer);
-            Tilemap.TileMapLayerOrthogonal = TileMapLayerOrthogonal;
-        })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
-    })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
 *
 */
 var Kiwi;
@@ -5861,6 +4308,12 @@ var Kiwi;
 * @module Kiwi
 *
 */
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var Kiwi;
 (function (Kiwi) {
     /**
@@ -7933,6 +6386,1076 @@ var Kiwi;
             Tilemap.TileMap = TileMap;
             Tilemap.ISOMETRIC = "isometric";
             Tilemap.ORTHOGONAL = "orthogonal";
+        })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
+    })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    var GameObjects;
+    (function (GameObjects) {
+        var Tilemap;
+        (function (Tilemap) {
+            /**
+            * GameObject containing the core functionality for every type of tilemap layer that can be generated.
+            * This class should not be directly used. Classes extending this should be used instead.
+            *
+            * @class TileMapLayer
+            * @extends Kiwi.Entity
+            * @namespace Kiwi.GameObjects.Tilemap
+            * @since 1.3.0
+            * @constructor
+            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
+            * @param name {String} The name of this TileMapLayer.
+            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+            * @param data {Number[]} The information about the tiles.
+            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @return {TileMapLayer}
+            */
+            var TileMapLayer = (function (_super) {
+                __extends(TileMapLayer, _super);
+                function TileMapLayer(tilemap, name, atlas, data, tw, th, x, y, w, h) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (w === void 0) { w = 0; }
+                    if (h === void 0) { h = 0; }
+                    _super.call(this, tilemap.state, x, y);
+                    /**
+                    * Properties about that this TileMapLayer has when it was created from a JSON file.
+                    * @property properties
+                    * @type Object
+                    * @public
+                    */
+                    this.properties = {};
+                    /**
+                    * The orientation of the of tilemap.
+                    * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
+                    * @property orientation
+                    * @type String
+                    * @public
+                    */
+                    this.orientation = null;
+                    //Request the Shared Texture Atlas renderer.
+                    if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
+                        this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
+                    }
+                    if (Kiwi.Utils.Common.isString(atlas)) {
+                        atlas = this.state.textures[atlas];
+                    }
+                    this.name = name;
+                    this.atlas = atlas;
+                    this.tilemap = tilemap;
+                    this._data = data;
+                    this.tileWidth = tw;
+                    this.tileHeight = th;
+                    this.width = w;
+                    this.height = h;
+                    this._corner1 = new Kiwi.Geom.Point(0, 0);
+                    this._corner2 = new Kiwi.Geom.Point(0, 0);
+                    this._corner3 = new Kiwi.Geom.Point(0, 0);
+                    this._corner4 = new Kiwi.Geom.Point(0, 0);
+                    this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, null));
+                    this.physics.immovable = true;
+                }
+                /**
+                * Returns the type of child that this is.
+                * @type Number
+                * @return {Number} returns the type of child that the entity is
+                * @public
+                */
+                TileMapLayer.prototype.childType = function () {
+                    return Kiwi.TILE_LAYER;
+                };
+                /**
+                * The type of object that it is.
+                * @method objType
+                * @return {String} "TileMapLayer"
+                * @public
+                */
+                TileMapLayer.prototype.objType = function () {
+                    return "TileMapLayer";
+                };
+                Object.defineProperty(TileMapLayer.prototype, "widthInPixels", {
+                    /**
+                    * The width of the layer in pixels. This property is READ ONLY.
+                    * @property widthInPixels
+                    * @type number
+                    * @public
+                    */
+                    get: function () {
+                        return this.width * this.tilemap.tileWidth;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(TileMapLayer.prototype, "heightInPixels", {
+                    /**
+                    * The height of the layer in pixels. This property is READ ONLY.
+                    * @property heightInPixels
+                    * @type number
+                    * @public
+                    */
+                    get: function () {
+                        return this.height * this.tilemap.tileHeight;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(TileMapLayer.prototype, "cellIndex", {
+                    /**
+                    * Override function to prevent unwanted inherited behaviour. Do not call.
+                    * Because TileMapLayer extends Entity, it has a cellIndex parameter.
+                    * However, it does not use a single atlas index, so this parameter is meaningless. It has deliberately been set to do nothing.
+                    *
+                    * @property cellIndex
+                    * @type number
+                    * @public
+                    * @deprecated Not functional on this object.
+                    * @since 1.1.0
+                    */
+                    get: function () {
+                        return null;
+                    },
+                    set: function (val) {
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                /**
+                * Scales the tilemap to the value passed.
+                * @method scaleToWidth
+                * @param value {Number}
+                * @public
+                */
+                TileMapLayer.prototype.scaleToWidth = function (value) {
+                    this.scale = value / this.widthInPixels;
+                };
+                /**
+                * Scales the tilemaps to the value passed.
+                * @method scaleToHeight
+                * @param value {Number}
+                * @public
+                */
+                TileMapLayer.prototype.scaleToHeight = function (value) {
+                    this.scale = value / this.heightInPixels;
+                };
+                /**
+                * Centers the anchor point to the middle of the width/height of the tilemap.
+                * @method centerAnchorPoint
+                * @public
+                */
+                TileMapLayer.prototype.centerAnchorPoint = function () {
+                    this.anchorPointX = this.widthInPixels * 0.5;
+                    this.anchorPointY = this.heightInPixels * 0.5;
+                };
+                Object.defineProperty(TileMapLayer.prototype, "data", {
+                    /**
+                    * READ ONLY: Returns the raw data for this tilemap.
+                    * @property data
+                    * @type Array
+                    * @readOnly
+                    * @public
+                    * @since 1.3.0
+                    */
+                    get: function () {
+                        return this._data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(TileMapLayer.prototype, "tileData", {
+                    /**
+                    * READ ONLY: A list containing all of the types of tiles found on this TileMapLayer.
+                    * Same as the `data` property.
+                    *
+                    * @property tileData
+                    * @type Array
+                    * @readOnly
+                    * @public
+                    */
+                    get: function () {
+                        return this._data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                /**
+                * Returns the total number of tiles. Either for a particular type if passed, otherwise of any type if not passed.
+                * @method countTiles
+                * @param [type] {Number} The type of tile you want to count.
+                * @return {Number} The number of tiles on this layer.
+                * @public
+                */
+                TileMapLayer.prototype.countTiles = function (type) {
+                    var cnt = 0;
+                    for (var i = 0; i < this._data.length; i++) {
+                        if (type == undefined && this._data[i] !== 0)
+                            cnt++;
+                        else if (type === this._data[i])
+                            cnt++;
+                    }
+                    return cnt;
+                };
+                /**
+                *-----------------------
+                * Getting Tiles
+                *-----------------------
+                */
+                /**
+                * Returns the index of the tile based on the x and y coordinates of the tile passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in tiles not pixels.
+                * @method getIndexFromXY
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayer.prototype.getIndexFromXY = function (x, y) {
+                    var num = x + y * this.width;
+                    //Does the index exist?
+                    if (num < 0 || num >= this._data.length)
+                        return -1;
+                    else
+                        return num;
+                };
+                /**
+                * Returns the TileType for a tile that is at a particular set of coordinates passed.
+                * If no tile is found the null is returned instead.
+                * Coordinates passed are in tiles.
+                * @method getTileFromXY
+                * @param x {Number}
+                * @param y {Number}
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromXY = function (x, y) {
+                    var t = this.getIndexFromXY(x, y);
+                    return (t !== -1) ? this.tilemap.tileTypes[this._data[t]] : null;
+                };
+                /**
+                * Returns the indexes of every tile of a type you pass.
+                * @method getIndexsByType
+                * @param type {Number}
+                * @return {Number[]}
+                * @public
+                */
+                TileMapLayer.prototype.getIndexesByType = function (type) {
+                    var tiles = [];
+                    for (var i = 0; i < this._data.length; i++) {
+                        if (this._data[i] == type)
+                            tiles.push(i);
+                    }
+                    return tiles;
+                };
+                /**
+                * Returns the TileType of a tile by an index passed.
+                * Thanks to @rydairegames
+                *
+                * @method getTileFromIndex
+                * @param index {Number}
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromIndex = function (index) {
+                    return (index !== -1) ? this.tilemap.tileTypes[this._data[index]] : null;
+                };
+                /**
+                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+                *
+                * Functionality needs to be added by classes extending this class.
+                *
+                * @method getIndexFromCoords
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayer.prototype.getIndexFromCoords = function (x, y) {
+                    return -1;
+                };
+                /**
+                * Returns the TileType for a tile that is at a particular coordinate passed.
+                * If no tile is found then null is returned instead.
+                * Coordinates passed are in pixels and use the world coordinates of the tilemap.
+                *
+                * @method getTileFromCoords
+                * @param x {Number}
+                * @param y {Number}
+                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @public
+                */
+                TileMapLayer.prototype.getTileFromCoords = function (x, y) {
+                    var t = this.getIndexFromCoords(x, y);
+                    return (t !== -1) ? this.tilemap.tileTypes[this.data[t]] : null;
+                };
+                /**
+                *-----------------------
+                * Tiles Manipulation
+                *-----------------------
+                */
+                /**
+                * Sets the tile to be used at the coordinates provided.
+                * Can be used to override a tile that may already exist at the location.
+                * @method setTile
+                * @param x {Number} The coordinate of the tile on the x axis.
+                * @param y {Number} The coordinate of the tile on the y axis.
+                * @param tileType {Number} The type of tile that should be now used.
+                * @return {Boolean} If a tile was changed or not.
+                * @public
+                */
+                TileMapLayer.prototype.setTile = function (x, y, tileType) {
+                    var x = this.getIndexFromXY(x, y);
+                    if (x !== -1) {
+                        this._data[x] = tileType;
+                        return true;
+                    }
+                    return false;
+                };
+                /**
+                * Sets the tile to be used at the index provided.
+                * Can be used to override a tile that may already exist at the location.
+                * @method setTileByIndex
+                * @param index {Number} The index of the tile that you want to change.
+                * @param tileType {Number} The new tile type to be used at that position.
+                * @public
+                */
+                TileMapLayer.prototype.setTileByIndex = function (index, tileType) {
+                    this._data[index] = tileType;
+                };
+                /**
+                * Randomizes the types of tiles used in an area of the layer. You can choose which types of tiles to use, and the area.
+                * Default tile types used are everyone avaiable.
+                * @method randomizeTiles
+                * @param [types] {Number[]} A list of TileTypes that can be used. Default is every tiletype on the TileMap.
+                * @param [x=0] {Number} The starting tile on the x axis to fill.
+                * @param [y=0] {Number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {Number} How far across you want to go.
+                * @param [height=this.height] {Number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.randomizeTiles = function (types, x, y, width, height) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (width === void 0) { width = this.width; }
+                    if (height === void 0) { height = this.height; }
+                    if (types == undefined) {
+                        types = [];
+                        var i = 0;
+                        while (i++ < this.tilemap.tileTypes.length) {
+                            types.push(i);
+                        }
+                    }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1)
+                                this._data[tile] = this.game.rnd.pick(types);
+                        }
+                    }
+                };
+                /**
+                * Makes all of the tiles in the area specified a single type that is passed.
+                * @method fill
+                * @param type {Number} The type of tile you want to fill in the area with.
+                * @param [x=0] {Number} The starting tile on the x axis to fill.
+                * @param [y=0] {Number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {Number} How far across you want to go.
+                * @param [height=this.height] {Number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.fill = function (type, x, y, width, height) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (width === void 0) { width = this.width; }
+                    if (height === void 0) { height = this.height; }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1)
+                                this._data[tile] = type;
+                        }
+                    }
+                };
+                /**
+                * Replaces all tiles of typeA to typeB in the area specified. If no area is specified then it is on the whole layer.
+                * @method replaceTiles
+                * @param typeA {Number} The type of tile you want to be replaced.
+                * @param typeB {Number} The type of tile you want to be used instead.
+                * @param [x=0] {Number} The starting tile on the x axis to fill.
+                * @param [y=0] {Number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {Number} How far across you want to go.
+                * @param [height=this.height] {Number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.replaceTiles = function (typeA, typeB, x, y, width, height) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (width === void 0) { width = this.width; }
+                    if (height === void 0) { height = this.height; }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1 && this._data[tile] == typeA)
+                                this._data[tile] = typeB;
+                        }
+                    }
+                };
+                /**
+                * Swaps all the tiles that are typeA -> typeB and typeB -> typeA inside the area specified. If no area is specified then it is on the whole layer.
+                * @method swapTiles
+                * @param typeA {number} The type of tile you want to be replaced with typeB.
+                * @param typeB {number} The type of tile you want to be replaced with typeA.
+                * @param [x=0] {number} The starting tile on the x axis to fill.
+                * @param [y=0] {number} The starting tile on the y axis to fill.
+                * @param [width=this.width] {number} How far across you want to go.
+                * @param [height=this.height] {number} How far down you want to go.
+                * @public
+                */
+                TileMapLayer.prototype.swapTiles = function (typeA, typeB, x, y, width, height) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (width === void 0) { width = this.width; }
+                    if (height === void 0) { height = this.height; }
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            var tile = this.getIndexFromXY(i, j);
+                            if (tile !== -1) {
+                                if (this._data[tile] == typeA)
+                                    this._data[tile] = typeB;
+                                else if (this._data[tile] == typeB)
+                                    this._data[tile] = typeA;
+                            }
+                        }
+                    }
+                };
+                /**
+                *-----------------------
+                * Get Tiles By Collision Methods
+                *-----------------------
+                */
+                /**
+                * Returns the tiles which overlap with a provided entities hitbox component.
+                * Only collidable tiles on ANY side will be returned unless you pass a particular side.
+                * Note: Classes extending this class need to
+                *
+                * @method getOverlappingTiles
+                * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
+                * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
+                * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
+                * @public
+                */
+                TileMapLayer.prototype.getOverlappingTiles = function (entity, collisionType) {
+                    if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
+                    return [];
+                };
+                /**
+                * Returns the tiles which can collide with other objects (on ANY side unless otherwise specified) within an area provided.
+                * By default the area is the whole tilemap.
+                *
+                * @method getCollidableTiles
+                * @param [x=0] {Number} The x coordinate of the first tile to check.
+                * @param [y=0] {Number} The y coordinate of the first tile to check.
+                * @param [width=widthOfMap] {Number} The width from the x coordinate.
+                * @param [height=heightOfmap] {Number} The height from the y coordinate.
+                * @param [collisionType=ANY] {Number} The type of collidable tiles that should be return. By default ANY type of collidable tiles will be returned.
+                * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
+                * @public
+                */
+                TileMapLayer.prototype.getCollidableTiles = function (x, y, width, height, collisionType) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (width === void 0) { width = this.width; }
+                    if (height === void 0) { height = this.height; }
+                    if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
+                    var tiles = [];
+                    //Make sure its within the map.
+                    if (x > this.width || y > this.height)
+                        return;
+                    if (x < 0)
+                        x = 0;
+                    if (y < 0)
+                        y = 0;
+                    if (x + width > this.width)
+                        width = this.width - x;
+                    if (y + height > this.height)
+                        height = this.height - y;
+                    for (var j = y; j < y + height; j++) {
+                        for (var i = x; i < x + width; i++) {
+                            //Get the tile index.
+                            var index = this.getIndexFromXY(i, j);
+                            //Does that index exist? Should do but just in case.
+                            if (index === -1)
+                                continue;
+                            var type = this.tileData[index];
+                            //If the collision type matches the one passed. 
+                            if ((this.tilemap.tileTypes[type].allowCollisions & collisionType) !== Kiwi.Components.ArcadePhysics.NONE) {
+                                tiles.push({
+                                    index: index,
+                                    type: type,
+                                    x: i * this.tileWidth,
+                                    y: j * this.tileHeight
+                                });
+                            }
+                        }
+                    }
+                    return tiles;
+                };
+                /**
+                * The update loop that is executed when this TileMapLayer is add to the Stage.
+                * @method update
+                * @public
+                */
+                TileMapLayer.prototype.update = function () {
+                    _super.prototype.update.call(this);
+                };
+                /**
+                * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
+                * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+                *
+                * @method _calculateBoundaries
+                * @param camera {Camera}
+                * @param matrix {Matrix}
+                * @protected
+                */
+                TileMapLayer.prototype._calculateBoundaries = function (camera, matrix) {
+                    this._startX = 0;
+                    this._startY = 0;
+                    this._maxX = this.width;
+                    this._maxY = this.height;
+                };
+                /**
+                * The render loop which is used when using the Canvas renderer.
+                * @method render
+                * @param camera {Camera}
+                * @public
+                */
+                TileMapLayer.prototype.render = function (camera) {
+                };
+                TileMapLayer.prototype.renderGL = function (gl, camera, params) {
+                    if (params === void 0) { params = null; }
+                };
+                /**
+                * Deprecated on the TileMapLayer class since it is for 'Isometric' maps only.
+                *
+                * @method chartToScreen
+                * @param chartPt {any} A Object containing x/y properties of the tile.
+                * @param [tileW] {Number} The width of the tile
+                * @param [tileH] {Number} The height of the tile
+                * @return {Object} With x/y properties of the location of the map onscreen.
+                * @deprecated
+                * @since 1.3.0
+                * @public
+                */
+                TileMapLayer.prototype.chartToScreen = function (chartPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth / 2; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    return {
+                        x: chartPt.x * tileW - chartPt.y * tileW,
+                        y: chartPt.x * tileH / 2 + chartPt.y * tileH / 2
+                    };
+                };
+                /**
+                * Deprecated on the TileMapLayer class since it is for 'Isometric' maps only.
+                *
+                * @method screenToChart
+                * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
+                * @param [tileW] {Number} The width of a single tile.
+                * @param [tileH] {Number} The height of a single tile.
+                * @return {Object} With x/y properties of the location of tile on the screen.
+                * @deprecated
+                * @since 1.3.0
+                * @public
+                */
+                TileMapLayer.prototype.screenToChart = function (scrPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth / 2; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    var column = Math.floor(scrPt.x / tileW);
+                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+                    return { x: column + row, y: row };
+                };
+                return TileMapLayer;
+            })(Kiwi.Entity);
+            Tilemap.TileMapLayer = TileMapLayer;
+        })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
+    })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    var GameObjects;
+    (function (GameObjects) {
+        var Tilemap;
+        (function (Tilemap) {
+            /**
+            * Contains the code for managing and rendering Orthogonal types of TileMaps.
+            * This class should not be directly created, but instead should be created via methods on the TileMap class.
+            *
+            * @class TileMapLayerOrthogonal
+            * @extends Kiwi.GameObjects.Tilemap.TileMapLayer
+            * @namespace Kiwi.GameObjects.Tilemap
+            * @since 1.3.0
+            * @constructor
+            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
+            * @param name {String} The name of this TileMapLayer.
+            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+            * @param data {Number[]} The information about the tiles.
+            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @return {TileMapLayer}
+            */
+            var TileMapLayerOrthogonal = (function (_super) {
+                __extends(TileMapLayerOrthogonal, _super);
+                function TileMapLayerOrthogonal(tilemap, name, atlas, data, tw, th, x, y, w, h) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (w === void 0) { w = 0; }
+                    if (h === void 0) { h = 0; }
+                    _super.call(this, tilemap, name, atlas, data, tw, th, x, y, w, h);
+                    /**
+                    * The orientation of the of tilemap.
+                    * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
+                    * @property orientation
+                    * @type String
+                    * @default 'orthogonal'
+                    * @public
+                    */
+                    this.orientation = Tilemap.ORTHOGONAL;
+                }
+                /**
+                * The type of object that it is.
+                * @method objType
+                * @return {String} "TileMapLayer"
+                * @public
+                */
+                TileMapLayerOrthogonal.prototype.objType = function () {
+                    return "TileMapLayer";
+                };
+                /**
+                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+                *
+                * @method getIndexFromCoords
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayerOrthogonal.prototype.getIndexFromCoords = function (x, y) {
+                    //Not with the bounds?
+                    if (x > this.transform.worldX + this.widthInPixels || y > this.transform.worldY + this.heightInPixels || x < this.transform.worldX || y < this.transform.worldY)
+                        return -1;
+                    //Is so get the tile
+                    var tx = Kiwi.Utils.GameMath.snapToFloor(x - this.transform.worldX, this.tileWidth) / this.tileWidth;
+                    var ty = Kiwi.Utils.GameMath.snapToFloor(y - this.transform.worldY, this.tileHeight) / this.tileHeight;
+                    return this.getIndexFromXY(tx, ty);
+                };
+                /**
+                * Returns the tiles which overlap with a provided entities hitbox component.
+                * Only collidable tiles on ANY side will be returned unless you pass a particular side.
+                *
+                * @method getOverlappingTiles
+                * @param entity {Kiwi.Entity} The entity you would like to check for the overlap.
+                * @param [collisionType=ANY] {Number} The particular type of collidable tiles which you would like to check for.
+                * @return {Object[]} Returns an Array of Objects containing information about the tiles which were found. Index/X/Y information is contained within each Object.
+                * @public
+                */
+                TileMapLayerOrthogonal.prototype.getOverlappingTiles = function (entity, collisionType) {
+                    if (collisionType === void 0) { collisionType = Kiwi.Components.ArcadePhysics.ANY; }
+                    //Do they have a box?
+                    if (entity.components.hasComponent("Box") == false)
+                        return [];
+                    //Get the box off them
+                    var b = entity.components.getComponent('Box').worldHitbox;
+                    //Is the person within the map's bounds?    
+                    if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
+                        return [];
+                    var worldX = this.transform.worldX;
+                    var worldY = this.transform.worldY;
+                    var nx = b.x - worldX;
+                    var ny = b.y - worldY;
+                    //Get starting location and now many tiles from there we will check. 
+                    var x = Kiwi.Utils.GameMath.snapToFloor(nx, this.tileWidth) / this.tileWidth;
+                    var y = Kiwi.Utils.GameMath.snapToFloor(ny, this.tileHeight) / this.tileHeight;
+                    var w = Kiwi.Utils.GameMath.snapToCeil(b.width, this.tileWidth) / this.tileWidth;
+                    var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
+                    //Add one, because we want to include the very end tile.
+                    var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+                    for (var i = 0; i < tiles.length; i++) {
+                        var t = tiles[i];
+                        if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < t.top) {
+                            tiles.splice(i, 1);
+                            i--;
+                        }
+                    }
+                    return tiles;
+                };
+                /**
+                * Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen.
+                * All coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).
+                *
+                * @method _calculateBoundaries
+                * @param camera {Camera}
+                * @param matrix {Matrix}
+                * @protected
+                */
+                TileMapLayerOrthogonal.prototype._calculateBoundaries = function (camera, matrix) {
+                    //If we are calculating the coordinates for 'regular' then we can do that rather easy
+                    // Account for camera and object transformation
+                    // Initialise corners...
+                    this._corner1.setTo(0, 0);
+                    this._corner2.setTo(this.game.stage.width, 0);
+                    this._corner3.setTo(this.game.stage.width, this.game.stage.height);
+                    this._corner4.setTo(0, this.game.stage.height);
+                    // Transform corners by camera...
+                    this._corner1 = camera.transformPoint(this._corner1);
+                    this._corner2 = camera.transformPoint(this._corner2);
+                    this._corner3 = camera.transformPoint(this._corner3);
+                    this._corner4 = camera.transformPoint(this._corner4);
+                    // Transform corners by object...
+                    var m = matrix.clone();
+                    m.invert();
+                    this._corner1 = m.transformPoint(this._corner1);
+                    this._corner2 = m.transformPoint(this._corner2);
+                    this._corner3 = m.transformPoint(this._corner3);
+                    this._corner4 = m.transformPoint(this._corner4);
+                    // Find min/max values in X and Y...
+                    this._startX = Math.min(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                    this._startY = Math.min(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
+                    this._maxX = Math.max(this._corner1.x, this._corner2.x, this._corner3.x, this._corner4.x);
+                    this._maxY = Math.max(this._corner1.y, this._corner2.y, this._corner3.y, this._corner4.y);
+                    // Convert to tile units...
+                    this._startX /= this.tileWidth;
+                    this._startY /= this.tileHeight;
+                    this._maxX /= this.tileWidth;
+                    this._maxY /= this.tileHeight;
+                    // Truncate units...
+                    this._startX = Math.floor(this._startX);
+                    this._startY = Math.floor(this._startY);
+                    this._maxX = Math.ceil(this._maxX);
+                    this._maxY = Math.ceil(this._maxY);
+                    // Clamp values to tilemap range...
+                    this._startX = Kiwi.Utils.GameMath.clamp(this._startX, this.width);
+                    this._startY = Kiwi.Utils.GameMath.clamp(this._startY, this.height);
+                    this._maxX = Kiwi.Utils.GameMath.clamp(this._maxX, this.width);
+                    this._maxY = Kiwi.Utils.GameMath.clamp(this._maxY, this.height);
+                };
+                /**
+                * The render loop which is used when using the Canvas renderer.
+                * @method render
+                * @param camera {Camera}
+                * @public
+                */
+                TileMapLayerOrthogonal.prototype.render = function (camera) {
+                    //When not to render the map.
+                    if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
+                        return;
+                    }
+                    //Get the context.
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+                    //Make the map alphed out.
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
+                    }
+                    // Transform
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    this._calculateBoundaries(camera, m);
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
+                            if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
+                                var cell = this.atlas.cells[this._temptype.cellIndex];
+                                var drawX = x * this.tileWidth + this._temptype.offset.x;
+                                var drawY = y * this.tileHeight - (cell.h - this.tileHeight) + this._temptype.offset.y;
+                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
+                            }
+                        }
+                    }
+                    ctx.restore();
+                    return true;
+                };
+                TileMapLayerOrthogonal.prototype.renderGL = function (gl, camera, params) {
+                    if (params === void 0) { params = null; }
+                    //Setup
+                    var vertexItems = [];
+                    //Transform/Matrix
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+                    //Find which ones we need to render.
+                    this._calculateBoundaries(camera, m);
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
+                            //Get the tile type
+                            this._temptype = this.getTileFromXY(x, y);
+                            //Skip tiletypes that don't use a cellIndex.
+                            if (this._temptype.cellIndex == -1)
+                                continue;
+                            //Get the cell index
+                            var cell = this.atlas.cells[this._temptype.cellIndex];
+                            var tx = x * this.tileWidth + this._temptype.offset.x;
+                            var ty = y * this.tileHeight + this._temptype.offset.y;
+                            //Set up the points
+                            this._corner1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
+                            this._corner2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
+                            this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
+                            this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
+                            //Add on the matrix to the points
+                            this._corner1 = m.transformPoint(this._corner1);
+                            this._corner2 = m.transformPoint(this._corner2);
+                            this._corner3 = m.transformPoint(this._corner3);
+                            this._corner4 = m.transformPoint(this._corner4);
+                            //Append to the xyuv array
+                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
+                        }
+                    }
+                    //Concat points to the Renderer.
+                    this.glRenderer.concatBatch(vertexItems);
+                };
+                return TileMapLayerOrthogonal;
+            })(Tilemap.TileMapLayer);
+            Tilemap.TileMapLayerOrthogonal = TileMapLayerOrthogonal;
+        })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
+    })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module GameObjects
+* @submodule Tilemap
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    var GameObjects;
+    (function (GameObjects) {
+        var Tilemap;
+        (function (Tilemap) {
+            /**
+            * Contains the code for managing and rendering Isometric types of TileMaps.
+            * This class should not be directly created, but instead should be created via methods on the TileMap class.
+            *
+            *
+            * @class TileMapLayerIsometric
+            * @extends Kiwi.GameObjects.Tilemap.TileMapLayer
+            * @namespace Kiwi.GameObjects.Tilemap
+            * @since 1.3.0
+            * @constructor
+            * @param tilemap {Kiwi.GameObjects.Tilemap.TileMap} The TileMap that this layer belongs to.
+            * @param name {String} The name of this TileMapLayer.
+            * @param atlas {Kiwi.Textures.TextureAtlas} The texture atlas that should be used when rendering this TileMapLayer onscreen.
+            * @param data {Number[]} The information about the tiles.
+            * @param tw {Number} The width of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param th {Number} The height of a single tile in pixels. Usually the same as the TileMap unless told otherwise.
+            * @param [x=0] {Number} The x coordinate of the tilemap in pixels.
+            * @param [y=0] {Number} The y coordinate of the tilemap in pixels.
+            * @param [w=0] {Number} The width of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @param [h=0] {Number} The height of the whole tilemap in tiles. Usually the same as the TileMap unless told otherwise.
+            * @return {TileMapLayer}
+            */
+            var TileMapLayerIsometric = (function (_super) {
+                __extends(TileMapLayerIsometric, _super);
+                function TileMapLayerIsometric(tilemap, name, atlas, data, tw, th, x, y, w, h) {
+                    if (x === void 0) { x = 0; }
+                    if (y === void 0) { y = 0; }
+                    if (w === void 0) { w = 0; }
+                    if (h === void 0) { h = 0; }
+                    _super.call(this, tilemap, name, atlas, data, tw, th, x, y, w, h);
+                    /**
+                    * The orientation of the of tilemap.
+                    * TileMaps can be either 'orthogonal' (normal) or 'isometric'.
+                    * @property orientation
+                    * @type String
+                    * @default 'isometric'
+                    * @public
+                    */
+                    this.orientation = Tilemap.ISOMETRIC;
+                }
+                /**
+                * The type of object that it is.
+                * @method objType
+                * @return {String} "TileMapLayer"
+                * @public
+                */
+                TileMapLayerIsometric.prototype.objType = function () {
+                    return "TileMapLayer";
+                };
+                /**
+                * Returns the index of the tile based on the x and y pixel coordinates that are passed.
+                * If no tile is a the coordinates given then -1 is returned instead.
+                * Coordinates are in pixels not tiles and use the world coordinates of the tilemap.
+                *
+                * Functionality needs to be added by classes extending this class.
+                *
+                * @method getIndexFromCoords
+                * @param x {Number} The x coordinate of the Tile you would like to retrieve.
+                * @param y {Number} The y coordinate of the Tile you would like to retrieve.
+                * @return {Number} Either the index of the tile retrieved or -1 if none was found.
+                * @public
+                */
+                TileMapLayerIsometric.prototype.getIndexFromCoords = function (x, y) {
+                    //Not within the bounds?
+                    var halfWidth = this.widthInPixels * 0.5;
+                    if (x > this.x + halfWidth || x < this.x - halfWidth)
+                        return -1;
+                    if (y > this.y + this.heightInPixels || y < this.y)
+                        return -1;
+                    var point = this.screenToChart({ x: x, y: y });
+                    return this.getIndexFromXY(point.x, point.y);
+                };
+                /**
+                * ChartToScreen maps a point in the game tile coordinates into screen pixel
+                * coordinates that indicate where the tile should be drawn.
+                *
+                * @method chartToScreen
+                * @param chartPt {any} A Object containing x/y properties of the tile.
+                * @param [tileW] {Number} The width of the tile
+                * @param [tileH] {Number} The height of the tile
+                * @return {Object} With x/y properties of the location of the map onscreen.
+                * @public
+                */
+                TileMapLayerIsometric.prototype.chartToScreen = function (chartPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    return {
+                        x: (chartPt.x - chartPt.y) * tileW * 0.5,
+                        y: (chartPt.x + chartPt.y) * tileH * 0.5
+                    };
+                };
+                /**
+                * ScreenToChart maps a point in screen coordinates into the game tile chart
+                * coordinates for the tile on which the screen point falls on.
+                *
+                * @method screenToChart
+                * @param scrPt {any} An object containing x/y coordinates of the point on the screen you want to convert to tile coordinates.
+                * @param [tileW] {Number} The width of a single tile.
+                * @param [tileH] {Number} The height of a single tile.
+                * @return {Object} With x/y properties of the location of tile on the screen.
+                * @public
+                */
+                TileMapLayerIsometric.prototype.screenToChart = function (scrPt, tileW, tileH) {
+                    if (tileW === void 0) { tileW = this.tileWidth; }
+                    if (tileH === void 0) { tileH = this.tileHeight; }
+                    var column = Math.floor(scrPt.x / (tileW * 0.5));
+                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+                    return {
+                        x: column + row,
+                        y: row
+                    };
+                };
+                /**
+                * The render loop which is used when using the Canvas renderer.
+                * @method render
+                * @param camera {Camera}
+                * @public
+                */
+                TileMapLayerIsometric.prototype.render = function (camera) {
+                    //When not to render the map.
+                    if (this.visible === false || this.alpha < 0.1 || this.exists === false) {
+                        return;
+                    }
+                    //Get the context.
+                    var ctx = this.game.stage.ctx;
+                    ctx.save();
+                    //Make the map alphed out.
+                    if (this.alpha > 0 && this.alpha <= 1) {
+                        ctx.globalAlpha = this.alpha;
+                    }
+                    // Transform
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+                    ctx.transform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    this._calculateBoundaries(camera, m);
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
+                            if ((this._temptype = this.getTileFromXY(x, y)) && this._temptype.cellIndex !== -1) {
+                                var cell = this.atlas.cells[this._temptype.cellIndex];
+                                var offsetX = this._temptype.offset.x;
+                                var offsetY = this._temptype.offset.y;
+                                var w = this.tileWidth * (this.width * 2 - 1);
+                                var h = this.tileHeight * this.height;
+                                // We want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                                var shiftX = this.tileWidth / 2;
+                                var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth, this.tileHeight);
+                                var drawX = screenPos.x + this._temptype.offset.x - shiftX;
+                                var drawY = screenPos.y - (cell.h - this.tileHeight) + this._temptype.offset.y;
+                                ctx.drawImage(this.atlas.image, cell.x, cell.y, cell.w, cell.h, drawX, drawY, cell.w, cell.h);
+                            }
+                        }
+                    }
+                    ctx.restore();
+                    return true;
+                };
+                TileMapLayerIsometric.prototype.renderGL = function (gl, camera, params) {
+                    if (params === void 0) { params = null; }
+                    //Setup
+                    var vertexItems = [];
+                    //Transform/Matrix
+                    var t = this.transform;
+                    var m = t.getConcatenatedMatrix();
+                    //Find which ones we need to render.
+                    this._calculateBoundaries(camera, m);
+                    for (var y = this._startY; y < this._maxY; y++) {
+                        for (var x = this._startX; x < this._maxX; x++) {
+                            //Get the tile type
+                            this._temptype = this.getTileFromXY(x, y);
+                            //Skip tiletypes that don't use a cellIndex.
+                            if (this._temptype.cellIndex == -1)
+                                continue;
+                            //Get the cell index
+                            var cell = this.atlas.cells[this._temptype.cellIndex];
+                            // Isometric maps
+                            var offsetX = this._temptype.offset.x;
+                            var offsetY = this._temptype.offset.y;
+                            var w = this.tileWidth * (this.width * 2 - 1);
+                            var h = this.tileHeight * this.height;
+                            // We want <0,0>'s horizontal center point to be in the screen center, hence the -tileWidth/2.
+                            var shiftX = this.tileWidth / 2;
+                            var screenPos = this.chartToScreen({ x: x, y: y }, this.tileWidth, this.tileHeight);
+                            var tx = screenPos.x + this._temptype.offset.x - shiftX;
+                            var ty = screenPos.y + this._temptype.offset.y;
+                            //Set up the points
+                            this._corner1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
+                            this._corner2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
+                            this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
+                            this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
+                            //Add on the matrix to the points
+                            this._corner1 = m.transformPoint(this._corner1);
+                            this._corner2 = m.transformPoint(this._corner2);
+                            this._corner3 = m.transformPoint(this._corner3);
+                            this._corner4 = m.transformPoint(this._corner4);
+                            //Append to the xyuv array
+                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
+                        }
+                    }
+                    //Concat points to the Renderer.
+                    this.glRenderer.concatBatch(vertexItems);
+                };
+                return TileMapLayerIsometric;
+            })(Tilemap.TileMapLayer);
+            Tilemap.TileMapLayerIsometric = TileMapLayerIsometric;
         })(Tilemap = GameObjects.Tilemap || (GameObjects.Tilemap = {}));
     })(GameObjects = Kiwi.GameObjects || (Kiwi.GameObjects = {}));
 })(Kiwi || (Kiwi = {}));
@@ -20121,29 +19644,25 @@ var Kiwi;
             * @public
             */
             Mouse.prototype.start = function () {
-                var _this = this;
+                this._onMouseDownBind = this.onMouseDown.bind(this);
+                this._onMouseMoveBind = this.onMouseMove.bind(this);
+                this._onMouseUpBind = this.onMouseUp.bind(this);
+                this._onMouseWheelBind = this.onMouseWheel.bind(this);
+                this._onContextMenuBind = this.onContextMenu.bind(this);
                 if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9) {
-                        this._domElement.attachEvent('onmousedown', function (event) { return _this.onMouseDown(event); });
-                        this._domElement.attachEvent('onmousemove', function (event) { return _this.onMouseMove(event); });
-                        this._domElement.attachEvent('onmouseup', function (event) { return _this.onMouseUp(event); });
-                        this._domElement.attachEvent('onmousewheel', function (event) { return _this.onMouseWheel(event); });
-                    }
-                    else {
-                        this._domElement.addEventListener('mousedown', function (event) { return _this.onMouseDown(event); }, true);
-                        this._domElement.addEventListener('mousemove', function (event) { return _this.onMouseMove(event); }, true);
-                        this._domElement.addEventListener('mouseup', function (event) { return _this.onMouseUp(event); }, true);
-                        this._domElement.addEventListener('mousewheel', function (event) { return _this.onMouseWheel(event); }, true);
-                        this._domElement.addEventListener('DOMMouseScroll', function (event) { return _this.onMouseWheel(event); }, true);
-                    }
-                    this._domElement.addEventListener('contextmenu', function (event) { return _this.onContextMenu(event); }, true);
+                    this._domElement.addEventListener('mousedown', this._onMouseDownBind, true);
+                    this._domElement.addEventListener('mousemove', this._onMouseMoveBind, true);
+                    this._domElement.addEventListener('mouseup', this._onMouseUpBind, true);
+                    this._domElement.addEventListener('mousewheel', this._onMouseWheelBind, true);
+                    this._domElement.addEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
+                    this._domElement.addEventListener('contextmenu', this._onContextMenuBind, true);
                 }
                 else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                    this._game.stage.canvas.addEventListener('mousedown', function (event) { return _this.onMouseDown(event); }, true);
-                    this._game.stage.canvas.addEventListener('mousemove', function (event) { return _this.onMouseMove(event); }, true);
-                    this._game.stage.canvas.addEventListener('mouseup', function (event) { return _this.onMouseUp(event); }, true);
-                    this._game.stage.canvas.addEventListener('mousewheel', function (event) { return _this.onMouseWheel(event); }, true);
-                    this._game.stage.canvas.addEventListener('DOMMouseScroll', function (event) { return _this.onMouseWheel(event); }, true);
+                    this._game.stage.canvas.addEventListener('mousedown', this._onMouseDownBind, true);
+                    this._game.stage.canvas.addEventListener('mousemove', this._onMouseMoveBind, true);
+                    this._game.stage.canvas.addEventListener('mouseup', this._onMouseUpBind, true);
+                    this._game.stage.canvas.addEventListener('mousewheel', this._onMouseWheelBind, true);
+                    this._game.stage.canvas.addEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
                 }
             };
             /**
@@ -20152,16 +19671,26 @@ var Kiwi;
             * @public
             */
             Mouse.prototype.stop = function () {
-                var _this = this;
                 if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                    this._domElement.removeEventListener('mousedown', function (event) { return _this.onMouseDown(event); }, false);
-                    this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
-                    this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
-                    this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
-                    this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
-                    this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
-                    this._domElement.removeEventListener('contextmenu', this.onContextMenu(event), true);
+                    this._domElement.removeEventListener('mousedown', this._onMouseDownBind, true);
+                    this._domElement.removeEventListener('mousemove', this._onMouseMoveBind, true);
+                    this._domElement.removeEventListener('mouseup', this._onMouseUpBind, true);
+                    this._domElement.removeEventListener('mousewheel', this._onMouseWheelBind, true);
+                    this._domElement.removeEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
+                    this._domElement.removeEventListener('contextmenu', this._onContextMenuBind, true);
                 }
+                else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this._game.stage.canvas.removeEventListener('mousedown', this._onMouseDownBind, true);
+                    this._game.stage.canvas.removeEventListener('mousemove', this._onMouseMoveBind, true);
+                    this._game.stage.canvas.removeEventListener('mouseup', this._onMouseUpBind, true);
+                    this._game.stage.canvas.removeEventListener('mousewheel', this._onMouseWheelBind, true);
+                    this._game.stage.canvas.removeEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
+                }
+                delete this._onMouseDownBind;
+                delete this._onMouseMoveBind;
+                delete this._onMouseUpBind;
+                delete this._onMouseWheelBind;
+                delete this._onContextMenuBind;
             };
             /**
             * Method that gets fired when the mouse is pressed on the stage.
@@ -20436,37 +19965,51 @@ var Kiwi;
                 var _this = this;
                 if (Kiwi.DEVICE.touch) {
                     this.touchEnabled = true;
+                    this._onTouchStartBind = this.onTouchStart.bind(this);
+                    this._onTouchMoveBind = this.onTouchMove.bind(this);
+                    this._onTouchEndBind = this.onTouchEnd.bind(this);
+                    this._onTouchEnterBind = this.onTouchEnter.bind(this);
+                    this._onTouchLeaveBind = this.onTouchLeave.bind(this);
+                    this._onTouchCancelBind = this.onTouchCancel.bind(this);
                     if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                        //If IE....
+                        //Uses the concept of pointers?
                         if (Kiwi.DEVICE.pointerEnabled) {
                             var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
+                            //Is it IE 10?
                             if ((window.navigator.msPointerEnabled)) {
                                 var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
                             }
-                            this._domElement.addEventListener(pointerUp, function (event) { return _this.onPointerStart(event); }, false);
-                            this._domElement.addEventListener(pointerDown, function (event) { return _this.onPointerEnd(event); }, false);
-                            this._domElement.addEventListener(pointerEnter, function (event) { return _this.onPointerEnter(event); }, false);
-                            this._domElement.addEventListener(pointerLeave, function (event) { return _this.onPointerLeave(event); }, false);
-                            this._domElement.addEventListener(pointerCancel, function (event) { return _this.onPointerCancel(event); }, false);
-                            this._domElement.addEventListener(pointerMove, function (event) { return _this.onPointerMove(event); }, false);
+                            this._onTouchStartBind = this.onPointerStart.bind(this);
+                            this._onTouchMoveBind = this.onPointerMove.bind(this);
+                            this._onTouchEndBind = this.onPointerEnd.bind(this);
+                            this._onTouchEnterBind = this.onPointerEnter.bind(this);
+                            this._onTouchLeaveBind = this.onPointerLeave.bind(this);
+                            this._onTouchCancelBind = this.onPointerCancel.bind(this);
+                            this._domElement.addEventListener(pointerUp, this._onTouchStartBind, false);
+                            this._domElement.addEventListener(pointerMove, this._onTouchMoveBind, false);
+                            this._domElement.addEventListener(pointerDown, this._onTouchEndBind, false);
+                            this._domElement.addEventListener(pointerEnter, this._onTouchEnterBind, false);
+                            this._domElement.addEventListener(pointerLeave, this._onTouchLeaveBind, false);
+                            this._domElement.addEventListener(pointerCancel, this._onTouchCancelBind, false);
                         }
                         else {
-                            this._domElement.addEventListener('touchstart', function (event) { return _this.onTouchStart(event); }, false);
-                            this._domElement.addEventListener('touchmove', function (event) { return _this.onTouchMove(event); }, false);
-                            this._domElement.addEventListener('touchend', function (event) { return _this.onTouchEnd(event); }, false);
-                            this._domElement.addEventListener('touchenter', function (event) { return _this.onTouchEnter(event); }, false);
-                            this._domElement.addEventListener('touchleave', function (event) { return _this.onTouchLeave(event); }, false);
-                            this._domElement.addEventListener('touchcancel', function (event) { return _this.onTouchCancel(event); }, false);
+                            //Regular touch events
+                            this._domElement.addEventListener('touchstart', this._onTouchStartBind, false);
+                            this._domElement.addEventListener('touchmove', this._onTouchMoveBind, false);
+                            this._domElement.addEventListener('touchend', this._onTouchEndBind, false);
+                            this._domElement.addEventListener('touchenter', this._onTouchEnterBind, false);
+                            this._domElement.addEventListener('touchleave', this._onTouchLeaveBind, false);
+                            this._domElement.addEventListener('touchcancel', this._onTouchCancelBind, false);
                             document.addEventListener('touchmove', function (event) { return _this.consumeTouchMove(event); }, false);
                         }
                     }
                     else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                        this._game.stage.canvas.addEventListener('touchstart', function (event) { return _this.onTouchStart(event); }, false);
-                        this._game.stage.canvas.addEventListener('touchmove', function (event) { return _this.onTouchMove(event); }, false);
-                        this._game.stage.canvas.addEventListener('touchend', function (event) { return _this.onTouchEnd(event); }, false);
-                        this._game.stage.canvas.addEventListener('touchenter', function (event) { return _this.onTouchEnter(event); }, false);
-                        this._game.stage.canvas.addEventListener('touchleave', function (event) { return _this.onTouchLeave(event); }, false);
-                        this._game.stage.canvas.addEventListener('touchcancel', function (event) { return _this.onTouchCancel(event); }, false);
+                        this._game.stage.canvas.addEventListener('touchstart', this._onTouchStartBind, false);
+                        this._game.stage.canvas.addEventListener('touchmove', this._onTouchMoveBind, false);
+                        this._game.stage.canvas.addEventListener('touchend', this._onTouchEndBind, false);
+                        this._game.stage.canvas.addEventListener('touchenter', this._onTouchEnterBind, false);
+                        this._game.stage.canvas.addEventListener('touchleave', this._onTouchLeaveBind, false);
+                        this._game.stage.canvas.addEventListener('touchcancel', this._onTouchCancelBind, false);
                     }
                 }
                 else {
@@ -20847,25 +20390,47 @@ var Kiwi;
             * @public
             */
             Touch.prototype.stop = function () {
-                var _this = this;
-                if (this.touchEnabled) {
-                    if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-                        this._domElement.removeEventListener('touchstart', function (event) { return _this.onTouchStart(event); }, false);
-                        this._domElement.removeEventListener('touchmove', function (event) { return _this.onTouchMove(event); }, false);
-                        this._domElement.removeEventListener('touchend', function (event) { return _this.onTouchEnd(event); }, false);
-                        this._domElement.removeEventListener('touchenter', function (event) { return _this.onTouchEnter(event); }, false);
-                        this._domElement.removeEventListener('touchleave', function (event) { return _this.onTouchLeave(event); }, false);
-                        this._domElement.removeEventListener('touchcancel', function (event) { return _this.onTouchCancel(event); }, false);
+                if (!this.touchEnabled)
+                    return;
+                if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+                    //Uses the concept of pointers?
+                    if (Kiwi.DEVICE.pointerEnabled) {
+                        var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
+                        //Is it IE 10?
+                        if ((window.navigator.msPointerEnabled)) {
+                            var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
+                        }
+                        this._domElement.removeEventListener(pointerUp, this._onTouchStartBind, false);
+                        this._domElement.removeEventListener(pointerMove, this._onTouchMoveBind, false);
+                        this._domElement.removeEventListener(pointerDown, this._onTouchEndBind, false);
+                        this._domElement.removeEventListener(pointerEnter, this._onTouchEnterBind, false);
+                        this._domElement.removeEventListener(pointerLeave, this._onTouchLeaveBind, false);
+                        this._domElement.removeEventListener(pointerCancel, this._onTouchCancelBind, false);
                     }
-                    else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                        this._game.stage.canvas.removeEventListener('touchstart', function (event) { return _this.onTouchStart(event); }, false);
-                        this._game.stage.canvas.removeEventListener('touchmove', function (event) { return _this.onTouchMove(event); }, false);
-                        this._game.stage.canvas.removeEventListener('touchend', function (event) { return _this.onTouchEnd(event); }, false);
-                        this._game.stage.canvas.removeEventListener('touchenter', function (event) { return _this.onTouchEnter(event); }, false);
-                        this._game.stage.canvas.removeEventListener('touchleave', function (event) { return _this.onTouchLeave(event); }, false);
-                        this._game.stage.canvas.removeEventListener('touchcancel', function (event) { return _this.onTouchCancel(event); }, false);
+                    else {
+                        //Regular touch events
+                        this._domElement.removeEventListener('touchstart', this._onTouchStartBind, false);
+                        this._domElement.removeEventListener('touchmove', this._onTouchMoveBind, false);
+                        this._domElement.removeEventListener('touchend', this._onTouchEndBind, false);
+                        this._domElement.removeEventListener('touchenter', this._onTouchEnterBind, false);
+                        this._domElement.removeEventListener('touchleave', this._onTouchLeaveBind, false);
+                        this._domElement.removeEventListener('touchcancel', this._onTouchCancelBind, false);
                     }
                 }
+                else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this._game.stage.canvas.removeEventListener('touchstart', this._onTouchStartBind, false);
+                    this._game.stage.canvas.removeEventListener('touchmove', this._onTouchMoveBind, false);
+                    this._game.stage.canvas.removeEventListener('touchend', this._onTouchEndBind, false);
+                    this._game.stage.canvas.removeEventListener('touchenter', this._onTouchEnterBind, false);
+                    this._game.stage.canvas.removeEventListener('touchleave', this._onTouchLeaveBind, false);
+                    this._game.stage.canvas.removeEventListener('touchcancel', this._onTouchCancelBind, false);
+                }
+                delete this._onTouchStartBind;
+                delete this._onTouchMoveBind;
+                delete this._onTouchEndBind;
+                delete this._onTouchEnterBind;
+                delete this._onTouchLeaveBind;
+                delete this._onTouchCancelBind;
             };
             /**
             * Resets all of the fingers/pointers to their default states.
@@ -34652,6 +34217,483 @@ var Kiwi;
         __.prototype = b.prototype;
         d.prototype = new __();
     };
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    var Files;
+    (function (Files) {
+        /**
+        * AudioFile which contains settings, loading, and processing details for Audio files to be used.
+        *
+        * Uses tag loading for devices not supporting the WebAudioAPI. Otherwise XHR + arraybuffer loading methods are used.
+        *
+        * @class AudioFile
+        * @namespace Kiwi.Files
+        * @extends Kiwi.Files.File
+        * @since 1.2.0
+        * @constructor
+        * @param game {Kiwi.Game} The game that this file is for
+        * @param params {Object} Options for this file.
+        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+        *   @param params.url {String} Location of the file to be loaded.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
+        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+        *   @param [params.tags] {Array} Any tags to be associated with this file.
+        * @return {Kiwi.Files.AudioFile}
+        */
+        var AudioFile = (function (_super) {
+            __extends(AudioFile, _super);
+            function AudioFile(game, params) {
+                //Add support detection here...
+                if (params === void 0) { params = {}; }
+                _super.call(this, game, params);
+                //this.dataType === File.AUDIO
+                /**
+                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+                * @property crossOrigin
+                * @type String
+                * @default ''
+                * @public
+                */
+                this.crossOrigin = '';
+                if (this.game.audio.usingAudioTag) {
+                    this.useTagLoader = true;
+                    this._loadInParallel = true;
+                }
+                else {
+                    this.useTagLoader = false;
+                }
+                if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
+                    this.crossOrigin = params.crossOrigin;
+                }
+            }
+            /**
+            * Returns the type of this object
+            * @method objType
+            * @return {String} "AudioFile"
+            * @public
+            */
+            AudioFile.prototype.objType = function () {
+                return "AudioFile";
+            };
+            /**
+            * Initialises a loading method depending on detected device support.
+            * @method _load
+            * @protected
+            */
+            AudioFile.prototype._load = function () {
+                this.attemptCounter++;
+                if (this.useTagLoader) {
+                    this.tagLoader();
+                }
+                else {
+                    this.xhrLoader('GET', 'arraybuffer');
+                }
+            };
+            /**
+            * Handles loading audio in via an audio tag.
+            * @method tagLoader
+            * @public
+            */
+            AudioFile.prototype.tagLoader = function () {
+                this.data = document.createElement('audio');
+                this.data.src = this.URL;
+                this.data.preload = 'auto';
+                if (this.crossOrigin) {
+                    this.data.crossOrigin = this.crossOrigin;
+                }
+                if (this.game.audio.locked) {
+                    //Nothing else to do...
+                    this.loadSuccess();
+                }
+                else {
+                    var _this = this;
+                    var func = function (event) {
+                        _this.data.removeEventListener('canplaythrough', func, false);
+                        _this.data.pause();
+                        _this.data.currentTime = 0;
+                        _this.data.volume = 1;
+                        _this.loadSuccess();
+                    };
+                    this.data.addEventListener('canplaythrough', func, false);
+                    if (this.game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                        //If targetting Cocoon we can use the load method to force the audio loading.
+                        this.data.load();
+                    }
+                    else {
+                        //Otherwise we tell the browser to play the audio in 'mute' to force loading. 
+                        this.data.volume = 0;
+                        this.data.play();
+                    }
+                }
+            };
+            /**
+            * Handles decoding the arraybuffer into audio data.
+            * @method processXhr
+            * @param response
+            * @protected
+            */
+            AudioFile.prototype.processXhr = function (response) {
+                this.data = {
+                    raw: response,
+                    decoded: false,
+                    buffer: null
+                };
+                this._decodeAudio();
+            };
+            /**
+            * Attempts to decode the audio data loaded via XHR + arraybuffer.
+            *
+            * @method _decodeAudio
+            * @private
+            */
+            AudioFile.prototype._decodeAudio = function () {
+                var _this = this;
+                this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                    if (buffer) {
+                        _this.data.buffer = buffer;
+                        _this.data.decoded = true;
+                        _this.loadSuccess();
+                    }
+                }, function (error) {
+                    Kiwi.Log.error('Kiwi.Files.AudioFile: Error decoding audio data.', '#loading', '#decoding');
+                    _this.loadError(error);
+                });
+            };
+            return AudioFile;
+        })(Kiwi.Files.File);
+        Files.AudioFile = AudioFile;
+    })(Files = Kiwi.Files || (Kiwi.Files = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    var Files;
+    (function (Files) {
+        /**
+        * DataFile which contains settings, loading, and processing details for Data files to be used.
+        * There is no tag loader support for this method of loading.
+        *
+        * @class DataFile
+        * @namespace Kiwi.Files
+        * @extends Kiwi.Files.File
+        * @since 1.2.0
+        * @constructor
+        * @param game {Kiwi.Game} The game that this file is for
+        * @param params {Object} Options for this file.
+        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+        *   @param params.url {String} Location of the file to be loaded.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
+        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+        *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded. Only used with JSON and XML types of Data files.
+        * @return {Kiwi.Files.DataFile}
+        *
+        */
+        var DataFile = (function (_super) {
+            __extends(DataFile, _super);
+            function DataFile(game, params) {
+                if (params === void 0) { params = {}; }
+                _super.call(this, game, params);
+                /**
+                * If the response should be parsed (using the appropriate method) after loading.
+                * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.
+                *
+                * @property parse
+                * @type boolean
+                * @default false
+                * @public
+                */
+                this.parse = false;
+                this.useTagLoader = false;
+                this._loadInParallel = false;
+            }
+            /**
+            * Sets properties for this instance based on an object literal passed. Used when the class is being created.
+            *
+            * @method parseParams
+            * @param [params] {Object}
+            *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
+            *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+            *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+            *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+            *   @param [params.tags] {Array} Any tags to be associated with this file.
+            *   @param [params.parse] {Boolean} If the response should be parsed after the file is loaded.
+            * @protected
+            */
+            DataFile.prototype.parseParams = function (params) {
+                _super.prototype.parseParams.call(this, params);
+                if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
+                    this.parse = params.parse;
+                }
+            };
+            //this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
+            /**
+            * Returns the type of this object
+            * @method objType
+            * @return {String} "DataFile"
+            * @public
+            */
+            DataFile.prototype.objType = function () {
+                return "DataFile";
+            };
+            /**
+            * Increments the counter, and calls the approprate loading method.
+            * @method _load
+            * @protected
+            */
+            DataFile.prototype._load = function () {
+                this.attemptCounter++;
+                //Special check for binary data. Change the loading type
+                if (this.dataType === Kiwi.Files.File.BINARY_DATA) {
+                    this.xhrLoader('GET', 'arraybuffer');
+                }
+                else {
+                    this.xhrLoader('GET', 'text');
+                }
+            };
+            /**
+            * Handles decoding the arraybuffer into audio data.
+            * @method processXhr
+            * @param response
+            * @protected
+            */
+            DataFile.prototype.processXhr = function (response) {
+                if (!this.parse) {
+                    this.data = response;
+                    this.loadSuccess();
+                    return;
+                }
+                switch (this.dataType) {
+                    case Kiwi.Files.File.JSON:
+                        this.processJSON(response);
+                        break;
+                    case Kiwi.Files.File.XML:
+                        this.parseXML(response);
+                        break;
+                    case Kiwi.Files.File.TEXT_DATA:
+                    case Kiwi.Files.File.BINARY_DATA:
+                    default:
+                        this.data = response;
+                        break;
+                }
+            };
+            /**
+            * Attempts to parse a string which is assumed to be XML. Called when 'parse' is set to true.
+            * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
+            *
+            * @method parseXML
+            * @param data {String}
+            * @private
+            */
+            DataFile.prototype.parseXML = function (data) {
+                Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as XML.', '#loading', '#parsing');
+                if (window['DOMParser']) {
+                    var parser = new DOMParser();
+                    this.data = parser.parseFromString(data, "text/xml");
+                }
+                else {
+                    this.data = new ActiveXObject("Microsoft.XMLDOM");
+                    this.data.async = "false";
+                    this.data.loadXML(data);
+                }
+                if (!this.data || !this.data.documentElement || this.data.getElementsByTagName("parsererror").length) {
+                    this.loadError('XML parse error.');
+                }
+                else {
+                    this.loadSuccess();
+                }
+            };
+            /**
+            * Attempts to parse a string which is assumed to be JSON. Called when 'parse' is set to true.
+            * If valid 'loadSuccess' is called, otherwise 'loadError' is executed
+            *
+            * @method processJSON
+            * @param data {String}
+            * @private
+            */
+            DataFile.prototype.processJSON = function (data) {
+                Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as JSON.', '#loading', '#parsing');
+                try {
+                    this.data = JSON.parse(data);
+                    this.loadSuccess();
+                }
+                catch (e) {
+                    this.loadError(e);
+                }
+            };
+            return DataFile;
+        })(Kiwi.Files.File);
+        Files.DataFile = DataFile;
+    })(Files = Kiwi.Files || (Kiwi.Files = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Files
+*
+*/
+var Kiwi;
+(function (Kiwi) {
+    var Files;
+    (function (Files) {
+        /**
+        * TextureFile which contains settings, loading, and processing information for textures/images in Kiwi.
+        *
+        * Contains two methods of loading. XHR + arraybuffer and also tag loading.
+        *
+        * @class TextureFile
+        * @namespace Kiwi.Files
+        * @extends Kiwi.Files.File
+        * @since 1.2.0
+        * @constructor
+        * @param game {Kiwi.Game} The game that this file is for
+        * @param params {Object} Options for this file.
+        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
+        *   @param params.url {String} Location of the file to be loaded.
+        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
+        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
+        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
+        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
+        *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading.
+        * @return {Kiwi.Files.TextureFile}
+        *
+        */
+        var TextureFile = (function (_super) {
+            __extends(TextureFile, _super);
+            function TextureFile(game, params) {
+                if (params === void 0) { params = {}; }
+                _super.call(this, game, params);
+                /**
+                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
+                * @property crossOrigin
+                * @type String
+                * @default ''
+                * @public
+                */
+                this.crossOrigin = '';
+                if (params.xhrLoading) {
+                    this.useTagLoader = false;
+                    this._loadInParallel = false;
+                }
+                else {
+                    this.useTagLoader = true;
+                    this._loadInParallel = true;
+                }
+                if (!Kiwi.Utils.Common.isUndefined(params.crossOrigin)) {
+                    this.crossOrigin = params.crossOrigin;
+                }
+            }
+            /**
+            * Returns the type of this object
+            * @method objType
+            * @return {String} "TextureFile"
+            * @public
+            */
+            TextureFile.prototype.objType = function () {
+                return "TextureFile";
+            };
+            //this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS
+            /**
+            * Initialises the loading method.
+            * Tagloading is the default but also supports XHR + arraybuffer.
+            * @method _load
+            * @protected
+            */
+            TextureFile.prototype._load = function () {
+                this.attemptCounter++;
+                if (this.useTagLoader) {
+                    this.tagLoader();
+                }
+                else {
+                    this.xhrLoader('GET', 'arraybuffer');
+                }
+            };
+            /**
+            * Contains the functionality for tag loading
+            * @method tagLoader
+            * @private
+            */
+            TextureFile.prototype.tagLoader = function () {
+                var _this = this;
+                this.data = new Image();
+                this.data.src = this.URL;
+                if (this.crossOrigin) {
+                    this.data.crossOrigin = this.crossOrigin;
+                }
+                this.data.onload = function () { return _this.loadSuccess(); };
+                this.data.onerror = function (event) { return _this.loadError(event); };
+            };
+            /**
+            * Gets the response data (which is an arraybuffer), creates a Blob from it
+            * and creates an objectURL from it.
+            *
+            * @method processXhr
+            * @param response {Any} The data stored in the 'xhr.response' tag
+            * @protected
+            */
+            TextureFile.prototype.processXhr = function (response) {
+                //Careful, Blobs are not supported on CocoonJS Canvas+
+                this.data = document.createElement('img');
+                var blob = new Blob([response], { type: this.type });
+                var that = this;
+                this.data.addEventListener('load', function (event) {
+                    that.loadSuccess();
+                });
+                if (window['URL']) {
+                    this.data.src = window['URL'].createObjectURL(blob);
+                }
+                else if (window['webkitURL']) {
+                    this.data.src = window['webkitURL'].createObjectURL(blob);
+                }
+            };
+            /**
+            * Revokes the object url that was added to the window when creating the image.
+            * Also tells the File that the loading is now complete.
+            *
+            * @method revoke
+            * @private
+            */
+            TextureFile.prototype.revoke = function () {
+                if (window['URL']) {
+                    window['URL'].revokeObjectURL(this.data.src);
+                }
+                else if (window['webkitURL']) {
+                    window['webkitURL'].revokeObjectURL(this.data.src);
+                }
+            };
+            /**
+            * Destroys all external object references on this object.
+            * @method destroy
+            * @since 1.2.0
+            * @public
+            */
+            TextureFile.prototype.destroy = function () {
+                if (!this.useTagLoader) {
+                    this.revoke();
+                }
+                _super.prototype.destroy.call(this);
+            };
+            return TextureFile;
+        })(Kiwi.Files.File);
+        Files.TextureFile = TextureFile;
+    })(Files = Kiwi.Files || (Kiwi.Files = {}));
 })(Kiwi || (Kiwi = {}));
 
 /**

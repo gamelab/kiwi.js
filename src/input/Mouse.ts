@@ -274,29 +274,29 @@ module Kiwi.Input {
 		* @method start 
 		* @public
 		*/
-		public start() {
-			if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-				if (Kiwi.DEVICE.ie && Kiwi.DEVICE.ieVersion < 9) { //remove possibably?
-					this._domElement.attachEvent('onmousedown', (event: MouseEvent) => this.onMouseDown(event));
-					this._domElement.attachEvent('onmousemove', (event: MouseEvent) => this.onMouseMove(event));
-					this._domElement.attachEvent('onmouseup', (event: MouseEvent) => this.onMouseUp(event));
-					this._domElement.attachEvent('onmousewheel', (event: WheelEvent) => this.onMouseWheel(event));
-				} else {
-					this._domElement.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
-					this._domElement.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
-					this._domElement.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
-					this._domElement.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
-					this._domElement.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
-                }
+        public start() {
 
-                this._domElement.addEventListener('contextmenu', (event) => this.onContextMenu(event), true);
+            this._onMouseDownBind = this.onMouseDown.bind(this);
+            this._onMouseMoveBind = this.onMouseMove.bind(this);
+            this._onMouseUpBind = this.onMouseUp.bind(this);
+            this._onMouseWheelBind = this.onMouseWheel.bind(this);
+            this._onContextMenuBind = this.onContextMenu.bind(this);
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
+                this._domElement.addEventListener('mousedown', this._onMouseDownBind, true);
+                this._domElement.addEventListener('mousemove', this._onMouseMoveBind, true);
+                this._domElement.addEventListener('mouseup', this._onMouseUpBind, true);
+                this._domElement.addEventListener('mousewheel', this._onMouseWheelBind, true);
+                this._domElement.addEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
+                this._domElement.addEventListener('contextmenu', this._onContextMenuBind, true);
 
 			} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-				this._game.stage.canvas.addEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), true);
-				this._game.stage.canvas.addEventListener('mousemove', (event: MouseEvent) => this.onMouseMove(event), true);
-				this._game.stage.canvas.addEventListener('mouseup', (event: MouseEvent) => this.onMouseUp(event), true);
-				this._game.stage.canvas.addEventListener('mousewheel', (event: WheelEvent) => this.onMouseWheel(event), true);
-				this._game.stage.canvas.addEventListener('DOMMouseScroll', (event: WheelEvent) => this.onMouseWheel(event), true);
+                this._game.stage.canvas.addEventListener('mousedown', this._onMouseDownBind, true);
+                this._game.stage.canvas.addEventListener('mousemove', this._onMouseMoveBind, true);
+                this._game.stage.canvas.addEventListener('mouseup', this._onMouseUpBind, true);
+                this._game.stage.canvas.addEventListener('mousewheel', this._onMouseWheelBind, true);
+                this._game.stage.canvas.addEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
             }
 
         }
@@ -306,17 +306,30 @@ module Kiwi.Input {
 		* @method stop 
 		* @public
 		*/
-		public stop() {
-			if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-				this._domElement.removeEventListener('mousedown', (event: MouseEvent) => this.onMouseDown(event), false);
-				this._domElement.removeEventListener('mousedown', this.onMouseDown, false);
-				this._domElement.removeEventListener('mousemove', this.onMouseMove, false);
-				this._domElement.removeEventListener('mouseup', this.onMouseUp, false);
-				this._domElement.removeEventListener('mousewheel', this.onMouseWheel, false);
-                this._domElement.removeEventListener('DOMMouseScroll', this.onMouseWheel, false);
+        public stop() {
 
-                this._domElement.removeEventListener('contextmenu',  this.onContextMenu(event), true);
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
+                this._domElement.removeEventListener('mousedown', this._onMouseDownBind, true);
+                this._domElement.removeEventListener('mousemove', this._onMouseMoveBind, true);
+                this._domElement.removeEventListener('mouseup', this._onMouseUpBind, true);
+                this._domElement.removeEventListener('mousewheel', this._onMouseWheelBind, true);
+                this._domElement.removeEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
+                this._domElement.removeEventListener('contextmenu', this._onContextMenuBind, true);
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this._game.stage.canvas.removeEventListener('mousedown', this._onMouseDownBind, true);
+                this._game.stage.canvas.removeEventListener('mousemove', this._onMouseMoveBind, true);
+                this._game.stage.canvas.removeEventListener('mouseup', this._onMouseUpBind, true);
+                this._game.stage.canvas.removeEventListener('mousewheel', this._onMouseWheelBind, true);
+                this._game.stage.canvas.removeEventListener('DOMMouseScroll', this._onMouseWheelBind, true);
             }
+
+            delete this._onMouseDownBind;
+            delete this._onMouseMoveBind;
+            delete this._onMouseUpBind;
+            delete this._onMouseWheelBind;
+            delete this._onContextMenuBind;
 
         }
 
@@ -442,6 +455,56 @@ module Kiwi.Input {
 
             this.onContext.dispatch(event);
         }
+
+        /**
+        * The binding of the 'onMouseDown' method. 
+        * 
+        * @property _onMouseDownBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseDownBind;
+
+        /**
+        * The binding of the 'onMouseMove' method. 
+        * 
+        * @property _onMouseMoveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseMoveBind;
+
+        /**
+        * The binding of the 'onMouseUp' method. 
+        * 
+        * @property _onMouseUpBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseUpBind;
+
+        /**
+        * The binding of the 'onMouseWheel' method. 
+        * 
+        * @property onMouseWheel
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseWheelBind;
+
+        /**
+        * The binding of the 'onContextMenu' method. 
+        * 
+        * @property _onContextMenuBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onContextMenuBind;
 
 	}
 

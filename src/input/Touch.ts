@@ -274,12 +274,20 @@ module Kiwi.Input {
 		*/
 		public start() {
 
-			if (Kiwi.DEVICE.touch) {
-				this.touchEnabled = true;
+            if (Kiwi.DEVICE.touch) {
+
+                this.touchEnabled = true;
+
+                this._onTouchStartBind = this.onTouchStart.bind(this);
+                this._onTouchMoveBind = this.onTouchMove.bind(this);
+                this._onTouchEndBind = this.onTouchEnd.bind(this);
+                this._onTouchEnterBind = this.onTouchEnter.bind(this);
+                this._onTouchLeaveBind = this.onTouchLeave.bind(this);
+                this._onTouchCancelBind = this.onTouchCancel.bind(this);
 
 				if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-					//If IE....
+                    //Uses the concept of pointers?
 					if (Kiwi.DEVICE.pointerEnabled) {
 						var pointerUp = 'pointerup',
 							pointerDown = 'pointerdown',
@@ -288,6 +296,7 @@ module Kiwi.Input {
 							pointerCancel = 'pointercancel',
 							pointerMove = 'pointermove';
 
+                        //Is it IE 10?
 						if ((window.navigator.msPointerEnabled)) {
 							var pointerUp = 'MSPointerUp',
 								pointerDown = 'MSPointerDown',
@@ -295,22 +304,30 @@ module Kiwi.Input {
 								pointerLeave = 'MSPointerLeave',
 								pointerCancel = 'MSPointerCancel',
 								pointerMove = 'MSPointerMove';
-						}
+                        }
 
-						this._domElement.addEventListener(pointerUp, (event:MSPointerEvent) => this.onPointerStart(event), false);
-						this._domElement.addEventListener(pointerDown, (event: MSPointerEvent) => this.onPointerEnd(event), false);
-						this._domElement.addEventListener(pointerEnter, (event: MSPointerEvent) => this.onPointerEnter(event), false);
-						this._domElement.addEventListener(pointerLeave, (event: MSPointerEvent) => this.onPointerLeave(event), false);
-						this._domElement.addEventListener(pointerCancel, (event: MSPointerEvent) => this.onPointerCancel(event), false);
-						this._domElement.addEventListener(pointerMove, (event: MSPointerEvent) => this.onPointerMove(event), false);
+                        this._onTouchStartBind = this.onPointerStart.bind(this);
+                        this._onTouchMoveBind = this.onPointerMove.bind(this);
+                        this._onTouchEndBind = this.onPointerEnd.bind(this);
+                        this._onTouchEnterBind = this.onPointerEnter.bind(this);
+                        this._onTouchLeaveBind = this.onPointerLeave.bind(this);
+                        this._onTouchCancelBind = this.onPointerCancel.bind(this);
+
+                        this._domElement.addEventListener(pointerUp, this._onTouchStartBind, false);
+						this._domElement.addEventListener(pointerMove, this._onTouchMoveBind, false);
+                        this._domElement.addEventListener(pointerDown, this._onTouchEndBind, false);
+                        this._domElement.addEventListener(pointerEnter, this._onTouchEnterBind, false);
+                        this._domElement.addEventListener(pointerLeave, this._onTouchLeaveBind, false);
+                        this._domElement.addEventListener(pointerCancel, this._onTouchCancelBind, false);
 
 					} else {
-						this._domElement.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
-						this._domElement.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
-						this._domElement.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
-						this._domElement.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-						this._domElement.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-						this._domElement.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                        //Regular touch events
+                        this._domElement.addEventListener('touchstart', this._onTouchStartBind, false);
+                        this._domElement.addEventListener('touchmove', this._onTouchMoveBind, false);
+                        this._domElement.addEventListener('touchend', this._onTouchEndBind, false);
+                        this._domElement.addEventListener('touchenter', this._onTouchEnterBind, false);
+                        this._domElement.addEventListener('touchleave', this._onTouchLeaveBind, false);
+                        this._domElement.addEventListener('touchcancel', this._onTouchCancelBind, false);
 
 						document.addEventListener('touchmove', (event) => this.consumeTouchMove(event), false);
 
@@ -319,12 +336,12 @@ module Kiwi.Input {
 
 				} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
 
-					this._game.stage.canvas.addEventListener('touchstart', (event) => this.onTouchStart(event), false);
-					this._game.stage.canvas.addEventListener('touchmove', (event) => this.onTouchMove(event), false);
-					this._game.stage.canvas.addEventListener('touchend', (event) => this.onTouchEnd(event), false);
-					this._game.stage.canvas.addEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-					this._game.stage.canvas.addEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-					this._game.stage.canvas.addEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+                    this._game.stage.canvas.addEventListener('touchstart', this._onTouchStartBind, false);
+                    this._game.stage.canvas.addEventListener('touchmove', this._onTouchMoveBind, false);
+                    this._game.stage.canvas.addEventListener('touchend', this._onTouchEndBind, false);
+                    this._game.stage.canvas.addEventListener('touchenter', this._onTouchEnterBind, false);
+                    this._game.stage.canvas.addEventListener('touchleave', this._onTouchLeaveBind, false);
+                    this._game.stage.canvas.addEventListener('touchcancel', this._onTouchCancelBind, false);
 				}
 			} else {
 				this.touchEnabled = false;
@@ -770,28 +787,67 @@ module Kiwi.Input {
 		* @method stop 
 		* @public
 		*/
-		public stop() {
+        public stop() {
 
-			if (this.touchEnabled) {
-				if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+            if (!this.touchEnabled) return;
 
-					this._domElement.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
-					this._domElement.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
-					this._domElement.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
-					this._domElement.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-					this._domElement.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-					this._domElement.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-				} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                //Uses the concept of pointers?
+                if (Kiwi.DEVICE.pointerEnabled) {
+                    var pointerUp = 'pointerup',
+                        pointerDown = 'pointerdown',
+                        pointerEnter = 'pointerenter',
+                        pointerLeave = 'pointerleave',
+                        pointerCancel = 'pointercancel',
+                        pointerMove = 'pointermove';
 
-					this._game.stage.canvas.removeEventListener('touchstart', (event) => this.onTouchStart(event), false);
-					this._game.stage.canvas.removeEventListener('touchmove', (event) => this.onTouchMove(event), false);
-					this._game.stage.canvas.removeEventListener('touchend', (event) => this.onTouchEnd(event), false);
-					this._game.stage.canvas.removeEventListener('touchenter', (event) => this.onTouchEnter(event), false);
-					this._game.stage.canvas.removeEventListener('touchleave', (event) => this.onTouchLeave(event), false);
-					this._game.stage.canvas.removeEventListener('touchcancel', (event) => this.onTouchCancel(event), false);
-				}
-			}
+                    //Is it IE 10?
+                    if ((window.navigator.msPointerEnabled)) {
+                        var pointerUp = 'MSPointerUp',
+                            pointerDown = 'MSPointerDown',
+                            pointerEnter = 'MSPointerEnter',
+                            pointerLeave = 'MSPointerLeave',
+                            pointerCancel = 'MSPointerCancel',
+                            pointerMove = 'MSPointerMove';
+                    }
+
+                    this._domElement.removeEventListener(pointerUp, this._onTouchStartBind, false);
+                    this._domElement.removeEventListener(pointerMove, this._onTouchMoveBind, false);
+                    this._domElement.removeEventListener(pointerDown, this._onTouchEndBind, false);
+                    this._domElement.removeEventListener(pointerEnter, this._onTouchEnterBind, false);
+                    this._domElement.removeEventListener(pointerLeave, this._onTouchLeaveBind, false);
+                    this._domElement.removeEventListener(pointerCancel, this._onTouchCancelBind, false);
+
+                } else {
+                    //Regular touch events
+                    this._domElement.removeEventListener('touchstart', this._onTouchStartBind, false);
+                    this._domElement.removeEventListener('touchmove', this._onTouchMoveBind, false);
+                    this._domElement.removeEventListener('touchend', this._onTouchEndBind, false);
+                    this._domElement.removeEventListener('touchenter', this._onTouchEnterBind, false);
+                    this._domElement.removeEventListener('touchleave', this._onTouchLeaveBind, false);
+                    this._domElement.removeEventListener('touchcancel', this._onTouchCancelBind, false);
+
+                }
+
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+
+                this._game.stage.canvas.removeEventListener('touchstart', this._onTouchStartBind, false);
+                this._game.stage.canvas.removeEventListener('touchmove', this._onTouchMoveBind, false);
+                this._game.stage.canvas.removeEventListener('touchend', this._onTouchEndBind, false);
+                this._game.stage.canvas.removeEventListener('touchenter', this._onTouchEnterBind, false);
+                this._game.stage.canvas.removeEventListener('touchleave', this._onTouchLeaveBind, false);
+                this._game.stage.canvas.removeEventListener('touchcancel', this._onTouchCancelBind, false);
+            }
+
+            delete this._onTouchStartBind;
+            delete this._onTouchMoveBind;
+            delete this._onTouchEndBind;
+            delete this._onTouchEnterBind;
+            delete this._onTouchLeaveBind;
+            delete this._onTouchCancelBind;
+
 		}
 
 		/**  
@@ -804,7 +860,68 @@ module Kiwi.Input {
 				this._fingers[i].reset();
 			}
 		}
+        
+        /**
+        * The binding of the 'onTouchStart' method. 
+        * 
+        * @property _onTouchStartBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchStartBind;
 
-	}
+        /**
+        * The binding of the 'onTouchMove' method. 
+        * 
+        * @property _onTouchMoveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchMoveBind;
+
+        /**
+        * The binding of the 'onTouchEnd' method. 
+        * 
+        * @property _onTouchEndBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchEndBind;
+
+        /**
+        * The binding of the 'onTouchEnter' method. 
+        * 
+        * @property _onTouchEnterBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchEnterBind;
+
+        /**
+        * The binding of the 'onTouchLeave' method. 
+        * 
+        * @property _onTouchLeaveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchLeaveBind;
+
+        /**
+        * The binding of the 'onTouchCancel' method. 
+        * 
+        * @property _onTouchCancelBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchCancelBind; 
+
+
+    }
 
 }
