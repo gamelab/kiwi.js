@@ -20187,6 +20187,15 @@ declare module Kiwi.Time {
         */
         master: Kiwi.Time.MasterClock;
         /**
+        * The time it takes for the time to update. Using this you can calculate the fps.
+        * @property delta
+        * @type number
+        * @since 1.3.0
+        * @readOnly
+        * @public
+        */
+        delta: number;
+        /**
         * Name of the clock
         * @property name
         * @type string

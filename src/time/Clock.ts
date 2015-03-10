@@ -379,6 +379,16 @@ module Kiwi.Time {
 		*/
 		public master: Kiwi.Time.MasterClock = null;
 
+        /**
+        * The time it takes for the time to update. Using this you can calculate the fps.
+        * @property delta
+        * @type number
+        * @since 1.3.0
+        * @readOnly
+        * @public
+        */
+        public delta: number = 0;
+
 		/**
 		* Name of the clock
 		* @property name
@@ -575,19 +585,24 @@ module Kiwi.Time {
 			}
 
 			// Compute difference between last master value and this
-			// Scale that difference by timeScale
 			// If clock is running, add that value to the current time
-			// Set "rate" as per running type
 			this._lastMasterElapsed = this._currentMasterElapsed;
-			this._currentMasterElapsed = this.master.elapsed();
+            this._currentMasterElapsed = this.master.elapsed();
+            this.delta = 0;
+
 			if ( this._elapsedState === Kiwi.Time.Clock._RUNNING || this._elapsedState === Kiwi.Time.Clock._RESUMED ) {
-				this._elapsed += this.timeScale * frameLength / this.units;
-				this.rate = this.timeScale * frameLength / this.master.idealDelta;
+			    // Scale that difference by timeScale. Set "rate" as per running type
+                this.delta = this.timeScale * frameLength / this.units;
+				this._elapsed += this.delta;
+                this.rate = this.timeScale * frameLength / this.master.idealDelta;
+
 			} else if ( this._elapsedState === Kiwi.Time.Clock._PAUSED ) {
 				this._totalPaused += frameLength;
-				this.rate = 0;
+                this.rate = 0;
+
 			} else if ( this._elapsedState === Kiwi.Time.Clock._STOPPED ) {
-				this.rate = 0;
+                this.rate = 0;
+
 			}
 		}
 
