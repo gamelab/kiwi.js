@@ -126,7 +126,7 @@ module Kiwi.HUD {
 			if (this._manager.supported) {
 				this._x = value;
 				if(this._device == Kiwi.TARGET_BROWSER) 
-					this.container.style.left = this.x + "px";
+                    this.container.style[this._horizontalOrigin] = this.x + "px";
 				
 				this.onCoordsUpdate.dispatch(this.x, this.y);
 			}
@@ -153,11 +153,11 @@ module Kiwi.HUD {
 			if (this._manager.supported) {
 				this._y = value;
 				if(this._device == Kiwi.TARGET_BROWSER)
-					this.container.style.top = this.y + "px";
+                    this.container.style[this._verticalOrigin] = this.y + "px";
 
 				this.onCoordsUpdate.dispatch(this.x, this.y);
 			}
-		}
+        }
 
 		/**
 		* The list of components that the HUDWidget use's.
@@ -291,7 +291,137 @@ module Kiwi.HUD {
 		*/
 		public update() {
 			this.components.update();
-		}
+        }
+
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property _horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @protected 
+        */
+        protected  _horizontalOrigin: string = HUDWidget.LEFT;
+        
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @public
+        */
+        public get horizontalOrigin(): string {
+            return this._horizontalOrigin;
+        }
+
+        public set horizontalOrigin(val: string) {
+            
+            //Reset the current
+            this.container.style[this._horizontalOrigin] = 'auto';
+
+            //Set the new value
+            this._horizontalOrigin = val;
+            this.container.style[this._horizontalOrigin] = this.x + 'px';
+
+        }
+        
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property _verticalOrigin
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @protected 
+        */
+        protected _verticalOrigin: string = HUDWidget.TOP;
+        
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property vertical
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @public
+        */
+        public get verticalOrigin(): string {
+            return this._verticalOrigin;
+        }
+
+        public set verticalOrigin(val: string) {
+            
+            //Reset the current
+            this.container.style[this._verticalOrigin] = 'auto';
+
+            //Set the new value
+            this._verticalOrigin = val;
+            this.container.style[this._verticalOrigin] = this.y + 'px';
+
+        }
+        
+        /**
+        * Contains the CSS style used to position a HUD element from the top corner.
+        *
+        * @property TOP
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        public static TOP: string = 'top';
+        
+        /**
+        * Contains the CSS style used to position a HUD element from the bottom corner.
+        *
+        * @property BOTTOM
+        * @type string
+        * @default 'bottom'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        public static BOTTOM: string = 'bottom';
+        
+        /**
+        * Contains the CSS style used to position a HUD element from the left corner.
+        *
+        * @property LEFT
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        public static LEFT: string = 'left';
+        
+        /**
+        * Contains the CSS style used to position a HUD element from the right corner.
+        *
+        * @property RIGHT
+        * @type string
+        * @default 'right'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        public static RIGHT: string = 'right';
 
 		/**
 		* 

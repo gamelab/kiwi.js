@@ -18020,6 +18020,102 @@ declare module Kiwi.HUD {
         */
         update(): void;
         /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property _horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @protected
+        */
+        protected _horizontalOrigin: string;
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @public
+        */
+        horizontalOrigin: string;
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property _verticalOrigin
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @protected
+        */
+        protected _verticalOrigin: string;
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property vertical
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @public
+        */
+        verticalOrigin: string;
+        /**
+        * Contains the CSS style used to position a HUD element from the top corner.
+        *
+        * @property TOP
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        static TOP: string;
+        /**
+        * Contains the CSS style used to position a HUD element from the bottom corner.
+        *
+        * @property BOTTOM
+        * @type string
+        * @default 'bottom'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        static BOTTOM: string;
+        /**
+        * Contains the CSS style used to position a HUD element from the left corner.
+        *
+        * @property LEFT
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        static LEFT: string;
+        /**
+        * Contains the CSS style used to position a HUD element from the right corner.
+        *
+        * @property RIGHT
+        * @type string
+        * @default 'right'
+        * @since 1.3.0
+        * @static
+        * @readOnly
+        * @final
+        * @public
+        */
+        static RIGHT: string;
+        /**
         *
         * @method destroy
         * @public
@@ -18491,6 +18587,28 @@ declare module Kiwi.HUD.Widget {
         * @public
         */
         vertical: boolean;
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @public
+        */
+        horizontalOrigin: string;
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property vertical
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @public
+        */
+        verticalOrigin: string;
     }
 }
 /**
@@ -18755,6 +18873,28 @@ declare module Kiwi.HUD.Widget {
         * @public
         */
         update(): void;
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @public
+        */
+        horizontalOrigin: string;
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property vertical
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @public
+        */
+        verticalOrigin: string;
     }
 }
 /**

@@ -25550,6 +25550,28 @@ var Kiwi;
         */
         var HUDWidget = (function () {
             function HUDWidget(game, name, x, y) {
+                /**
+                * Contains the current CSS style that will used for the x position.
+                * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+                *
+                * @property _horizontalOrigin
+                * @type string
+                * @default 'left'
+                * @since 1.3.0
+                * @protected
+                */
+                this._horizontalOrigin = HUDWidget.LEFT;
+                /**
+                * Contains the current CSS style that will used for the y position.
+                * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+                *
+                * @property _verticalOrigin
+                * @type string
+                * @default 'top'
+                * @since 1.3.0
+                * @protected
+                */
+                this._verticalOrigin = HUDWidget.TOP;
                 this.name = name;
                 this.game = game;
                 this._manager = this.game.huds;
@@ -25610,7 +25632,7 @@ var Kiwi;
                     if (this._manager.supported) {
                         this._x = value;
                         if (this._device == Kiwi.TARGET_BROWSER)
-                            this.container.style.left = this.x + "px";
+                            this.container.style[this._horizontalOrigin] = this.x + "px";
                         this.onCoordsUpdate.dispatch(this.x, this.y);
                     }
                 },
@@ -25631,7 +25653,7 @@ var Kiwi;
                     if (this._manager.supported) {
                         this._y = value;
                         if (this._device == Kiwi.TARGET_BROWSER)
-                            this.container.style.top = this.y + "px";
+                            this.container.style[this._verticalOrigin] = this.y + "px";
                         this.onCoordsUpdate.dispatch(this.x, this.y);
                     }
                 },
@@ -25722,6 +25744,54 @@ var Kiwi;
             HUDWidget.prototype.update = function () {
                 this.components.update();
             };
+            Object.defineProperty(HUDWidget.prototype, "horizontalOrigin", {
+                /**
+                * Contains the current CSS style that will used for the x position.
+                * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+                *
+                * @property horizontalOrigin
+                * @type string
+                * @default 'left'
+                * @since 1.3.0
+                * @public
+                */
+                get: function () {
+                    return this._horizontalOrigin;
+                },
+                set: function (val) {
+                    //Reset the current
+                    this.container.style[this._horizontalOrigin] = 'auto';
+                    //Set the new value
+                    this._horizontalOrigin = val;
+                    this.container.style[this._horizontalOrigin] = this.x + 'px';
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(HUDWidget.prototype, "verticalOrigin", {
+                /**
+                * Contains the current CSS style that will used for the y position.
+                * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+                *
+                * @property vertical
+                * @type string
+                * @default 'top'
+                * @since 1.3.0
+                * @public
+                */
+                get: function () {
+                    return this._verticalOrigin;
+                },
+                set: function (val) {
+                    //Reset the current
+                    this.container.style[this._verticalOrigin] = 'auto';
+                    //Set the new value
+                    this._verticalOrigin = val;
+                    this.container.style[this._verticalOrigin] = this.y + 'px';
+                },
+                enumerable: true,
+                configurable: true
+            });
             /**
             *
             * @method destroy
@@ -25736,6 +25806,58 @@ var Kiwi;
                 delete this.onCoordsUpdate;
                 //remove the elements....
             };
+            /**
+            * Contains the CSS style used to position a HUD element from the top corner.
+            *
+            * @property TOP
+            * @type string
+            * @default 'top'
+            * @since 1.3.0
+            * @static
+            * @readOnly
+            * @final
+            * @public
+            */
+            HUDWidget.TOP = 'top';
+            /**
+            * Contains the CSS style used to position a HUD element from the bottom corner.
+            *
+            * @property BOTTOM
+            * @type string
+            * @default 'bottom'
+            * @since 1.3.0
+            * @static
+            * @readOnly
+            * @final
+            * @public
+            */
+            HUDWidget.BOTTOM = 'bottom';
+            /**
+            * Contains the CSS style used to position a HUD element from the left corner.
+            *
+            * @property LEFT
+            * @type string
+            * @default 'left'
+            * @since 1.3.0
+            * @static
+            * @readOnly
+            * @final
+            * @public
+            */
+            HUDWidget.LEFT = 'left';
+            /**
+            * Contains the CSS style used to position a HUD element from the right corner.
+            *
+            * @property RIGHT
+            * @type string
+            * @default 'right'
+            * @since 1.3.0
+            * @static
+            * @readOnly
+            * @final
+            * @public
+            */
+            HUDWidget.RIGHT = 'right';
             return HUDWidget;
         })();
         HUD.HUDWidget = HUDWidget;
@@ -26369,11 +26491,13 @@ var Kiwi;
                 */
                 IconBar.prototype._addIcon = function () {
                     if (this.horizontal) {
-                        var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + ((this.width + this.iconGap) * (this._icons.length - 1)), this.y);
+                        var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + ((this.width + this.iconGap) * (this._icons.length - 1)), 0);
                     }
                     else {
-                        var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, ((this.height + this.iconGap) * (this._icons.length - 1)) + this.y);
+                        var i = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, ((this.height + this.iconGap) * (this._icons.length - 1)));
                     }
+                    i.horizontalOrigin = this.horizontalOrigin;
+                    i.verticalOrigin = this.verticalOrigin;
                     this._icons.push(i);
                     if (this._device == Kiwi.TARGET_BROWSER) {
                         this.container.appendChild(i.container);
@@ -26422,6 +26546,66 @@ var Kiwi;
                     set: function (val) {
                         this._horizontal = !val;
                         this._amountChanged();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(IconBar.prototype, "horizontalOrigin", {
+                    /**
+                    * Contains the current CSS style that will used for the x position.
+                    * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+                    *
+                    * @property horizontalOrigin
+                    * @type string
+                    * @default 'left'
+                    * @since 1.3.0
+                    * @public
+                    */
+                    get: function () {
+                        return this._horizontalOrigin;
+                    },
+                    set: function (val) {
+                        //Reset the current
+                        this.container.style[this._horizontalOrigin] = 'auto';
+                        //Set the new value
+                        this._horizontalOrigin = val;
+                        this.container.style[this._horizontalOrigin] = this.x + 'px';
+                        //Loop through the children and apply the same origin
+                        var i = 0;
+                        while (i < this._icons.length) {
+                            this._icons[i].horizontalOrigin = val;
+                            i++;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(IconBar.prototype, "verticalOrigin", {
+                    /**
+                    * Contains the current CSS style that will used for the y position.
+                    * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+                    *
+                    * @property vertical
+                    * @type string
+                    * @default 'top'
+                    * @since 1.3.0
+                    * @public
+                    */
+                    get: function () {
+                        return this._verticalOrigin;
+                    },
+                    set: function (val) {
+                        //Reset the current
+                        this.container.style[this._verticalOrigin] = 'auto';
+                        //Set the new value
+                        this._verticalOrigin = val;
+                        this.container.style[this._verticalOrigin] = this.y + 'px';
+                        //Loop through the children and apply the same origin
+                        var i = 0;
+                        while (i < this._icons.length) {
+                            this._icons[i].verticalOrigin = val;
+                            i++;
+                        }
                     },
                     enumerable: true,
                     configurable: true
@@ -26727,6 +26911,8 @@ var Kiwi;
                     for (var i = 0; i < this._styles.length; i++) {
                         item.style[this._styles[i].index] = this._styles[i].value;
                     }
+                    item.verticalOrigin = this.verticalOrigin;
+                    item.horizontalOrigin = this.horizontalOrigin;
                     if (this._device == Kiwi.TARGET_BROWSER) {
                         this.container.appendChild(item.container);
                     }
@@ -26791,6 +26977,66 @@ var Kiwi;
                     }
                     _super.prototype.update.call(this);
                 };
+                Object.defineProperty(Menu.prototype, "horizontalOrigin", {
+                    /**
+                    * Contains the current CSS style that will used for the x position.
+                    * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+                    *
+                    * @property horizontalOrigin
+                    * @type string
+                    * @default 'left'
+                    * @since 1.3.0
+                    * @public
+                    */
+                    get: function () {
+                        return this._horizontalOrigin;
+                    },
+                    set: function (val) {
+                        //Reset the current
+                        this.container.style[this._horizontalOrigin] = 'auto';
+                        //Set the new value
+                        this._horizontalOrigin = val;
+                        this.container.style[this._horizontalOrigin] = this.x + 'px';
+                        //Loop through the children and apply the same origin
+                        var i = 0;
+                        while (i < this._menuItems.length) {
+                            this._menuItems[i].horizontalOrigin = val;
+                            i++;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Menu.prototype, "verticalOrigin", {
+                    /**
+                    * Contains the current CSS style that will used for the y position.
+                    * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+                    *
+                    * @property vertical
+                    * @type string
+                    * @default 'top'
+                    * @since 1.3.0
+                    * @public
+                    */
+                    get: function () {
+                        return this._verticalOrigin;
+                    },
+                    set: function (val) {
+                        //Reset the current
+                        this.container.style[this._verticalOrigin] = 'auto';
+                        //Set the new value
+                        this._verticalOrigin = val;
+                        this.container.style[this._verticalOrigin] = this.y + 'px';
+                        //Loop through the children and apply the same origin
+                        var i = 0;
+                        while (i < this._menuItems.length) {
+                            this._menuItems[i].verticalOrigin = val;
+                            i++;
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 return Menu;
             })(Kiwi.HUD.HUDWidget);
             Widget.Menu = Menu;

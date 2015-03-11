@@ -153,10 +153,13 @@ module Kiwi.HUD.Widget {
 		*/
 		private _addIcon() {
 			if (this.horizontal) {
-				var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + ((this.width + this.iconGap) * (this._icons.length - 1)), this.y);
+				var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x + ((this.width + this.iconGap) * (this._icons.length - 1)), 0);
 			} else {
-				var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, ((this.height + this.iconGap) * (this._icons.length - 1)) + this.y);
-			}
+				var i: Kiwi.HUD.Widget.Icon = new Kiwi.HUD.Widget.Icon(this.game, this.atlas, this.x, ((this.height + this.iconGap) * (this._icons.length - 1)));
+            }
+
+            i.horizontalOrigin = this.horizontalOrigin;
+            i.verticalOrigin = this.verticalOrigin;
 
 			this._icons.push(i);
 			if (this._device == Kiwi.TARGET_BROWSER) {
@@ -204,7 +207,72 @@ module Kiwi.HUD.Widget {
 		public set vertical(val: boolean) {
 			this._horizontal = !val;
 			this._amountChanged();
-		}
+        }
+
+        
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @public
+        */
+        public get horizontalOrigin(): string {
+            return this._horizontalOrigin;
+        }
+
+        public set horizontalOrigin(val: string) {
+            
+            //Reset the current
+            this.container.style[this._horizontalOrigin] = 'auto';
+
+            //Set the new value
+            this._horizontalOrigin = val;
+            this.container.style[this._horizontalOrigin] = this.x + 'px';
+
+            //Loop through the children and apply the same origin
+            var i = 0;
+            while (i < this._icons.length) {
+                this._icons[i].horizontalOrigin = val;
+                i++;
+            }
+
+        }
+        
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property vertical
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @public
+        */
+        public get verticalOrigin(): string {
+            return this._verticalOrigin;
+        }
+
+        public set verticalOrigin(val: string) {
+            
+            //Reset the current
+            this.container.style[this._verticalOrigin] = 'auto';
+
+            //Set the new value
+            this._verticalOrigin = val;
+            this.container.style[this._verticalOrigin] = this.y + 'px';
+            
+            //Loop through the children and apply the same origin
+            var i = 0;
+            while (i < this._icons.length) {
+                this._icons[i].verticalOrigin = val;
+                i++;
+            }
+
+        }
 
 	}
 

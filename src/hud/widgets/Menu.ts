@@ -108,7 +108,10 @@ module Kiwi.HUD.Widget {
 
 			for (var i = 0; i < this._styles.length; i++) {
 				item.style[this._styles[i].index] = this._styles[i].value;
-			}
+            }
+
+            item.verticalOrigin = this.verticalOrigin;
+            item.horizontalOrigin = this.horizontalOrigin;
 
 			if (this._device == Kiwi.TARGET_BROWSER) {
 				this.container.appendChild(item.container);
@@ -183,7 +186,72 @@ module Kiwi.HUD.Widget {
 				this._menuItems[i].update();
 			}
 			super.update();
-		}
+        }
+        
+
+        /**
+        * Contains the current CSS style that will used for the x position.
+        * Should either be `LEFT` or `RIGHT` but these values are not checked upon assignment.
+        *
+        * @property horizontalOrigin
+        * @type string
+        * @default 'left'
+        * @since 1.3.0
+        * @public
+        */
+        public get horizontalOrigin(): string {
+            return this._horizontalOrigin;
+        }
+
+        public set horizontalOrigin(val: string) {
+            
+            //Reset the current
+            this.container.style[this._horizontalOrigin] = 'auto';
+
+            //Set the new value
+            this._horizontalOrigin = val;
+            this.container.style[this._horizontalOrigin] = this.x + 'px';
+
+            //Loop through the children and apply the same origin
+            var i = 0;
+            while (i < this._menuItems.length) {
+                this._menuItems[i].horizontalOrigin = val;
+                i++;
+            }
+
+        }
+        
+        /**
+        * Contains the current CSS style that will used for the y position.
+        * Should either be `TOP` or `BOTTOM` but these values are not checked upon assignment.
+        *
+        * @property vertical
+        * @type string
+        * @default 'top'
+        * @since 1.3.0
+        * @public
+        */
+        public get verticalOrigin(): string {
+            return this._verticalOrigin;
+        }
+
+        public set verticalOrigin(val: string) {
+            
+            //Reset the current
+            this.container.style[this._verticalOrigin] = 'auto';
+
+            //Set the new value
+            this._verticalOrigin = val;
+            this.container.style[this._verticalOrigin] = this.y + 'px';
+            
+            //Loop through the children and apply the same origin
+            var i = 0;
+            while (i < this._menuItems.length) {
+                this._menuItems[i].verticalOrigin = val;
+                i++;
+            }
+
+        }
 
 	}
 
