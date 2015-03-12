@@ -69,7 +69,7 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.3.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.3.0+is%3Aclosed)
 
 ## Previous Changes
-View the (changelog)[https://github.com/gamelab/kiwi.js/blob/master/CHANGELOG.md] for a list of changes from previous versions.
+View the [changelog](https://github.com/gamelab/kiwi.js/blob/master/CHANGELOG.md) for a list of changes from previous versions.
 
 ##Features
 
