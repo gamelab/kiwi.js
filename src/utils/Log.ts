@@ -268,7 +268,11 @@ module Kiwi.Utils {
             if (tagFilters.length === 0) {
                 return true;
             }
-            
+
+            if (tags.length == 0) {
+                return false;
+            }
+
             var i = 0;
             while (i < tags.length) {
 

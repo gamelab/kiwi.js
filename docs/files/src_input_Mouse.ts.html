@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/input/Mouse.ts - Kiwi.js</title>
+    <title>src\input\Mouse.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/input/Mouse.ts</h1>
+                        <h1 class="file-heading">File: src\input\Mouse.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -507,7 +507,8 @@ module Kiwi.Input {
 			
 			this.onDown = new Kiwi.Signal();
 			this.onUp = new Kiwi.Signal();
-			this.onWheel = new Kiwi.Signal();
+            this.onWheel = new Kiwi.Signal();
+            this.onContext = new Kiwi.Signal();
 
 			this.start();
 		}
@@ -641,44 +642,65 @@ module Kiwi.Input {
 		* @method start 
 		* @public
 		*/
-		public start() {
-			if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-				if (Kiwi.DEVICE.ie &amp;&amp; Kiwi.DEVICE.ieVersion &lt; 9) { //remove possibably?
-					this._domElement.attachEvent(&#x27;onmousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event));
-					this._domElement.attachEvent(&#x27;onmousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event));
-					this._domElement.attachEvent(&#x27;onmouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event));
-					this._domElement.attachEvent(&#x27;onmousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event));
-				} else {
-					this._domElement.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
-					this._domElement.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
-					this._domElement.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
-					this._domElement.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-					this._domElement.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-				}
+        public start() {
+
+            this._onMouseDownBind = this.onMouseDown.bind(this);
+            this._onMouseMoveBind = this.onMouseMove.bind(this);
+            this._onMouseUpBind = this.onMouseUp.bind(this);
+            this._onMouseWheelBind = this.onMouseWheel.bind(this);
+            this._onContextMenuBind = this.onContextMenu.bind(this);
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
+                this._domElement.addEventListener(&#x27;mousedown&#x27;, this._onMouseDownBind, true);
+                this._domElement.addEventListener(&#x27;mousemove&#x27;, this._onMouseMoveBind, true);
+                this._domElement.addEventListener(&#x27;mouseup&#x27;, this._onMouseUpBind, true);
+                this._domElement.addEventListener(&#x27;mousewheel&#x27;, this._onMouseWheelBind, true);
+                this._domElement.addEventListener(&#x27;DOMMouseScroll&#x27;, this._onMouseWheelBind, true);
+                this._domElement.addEventListener(&#x27;contextmenu&#x27;, this._onContextMenuBind, true);
+
 			} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-				this._game.stage.canvas.addEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), true);
-				this._game.stage.canvas.addEventListener(&#x27;mousemove&#x27;, (event: MouseEvent) =&gt; this.onMouseMove(event), true);
-				this._game.stage.canvas.addEventListener(&#x27;mouseup&#x27;, (event: MouseEvent) =&gt; this.onMouseUp(event), true);
-				this._game.stage.canvas.addEventListener(&#x27;mousewheel&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-				this._game.stage.canvas.addEventListener(&#x27;DOMMouseScroll&#x27;, (event: WheelEvent) =&gt; this.onMouseWheel(event), true);
-			}
-		}
+                this._game.stage.canvas.addEventListener(&#x27;mousedown&#x27;, this._onMouseDownBind, true);
+                this._game.stage.canvas.addEventListener(&#x27;mousemove&#x27;, this._onMouseMoveBind, true);
+                this._game.stage.canvas.addEventListener(&#x27;mouseup&#x27;, this._onMouseUpBind, true);
+                this._game.stage.canvas.addEventListener(&#x27;mousewheel&#x27;, this._onMouseWheelBind, true);
+                this._game.stage.canvas.addEventListener(&#x27;DOMMouseScroll&#x27;, this._onMouseWheelBind, true);
+            }
+
+        }
 
 		/**  
 		* Stops the mouse event listeners from working. Useful if you no longer want the mouse to &#x27;work&#x27;/be listened to.
 		* @method stop 
 		* @public
 		*/
-		public stop() {
-			if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
-				this._domElement.removeEventListener(&#x27;mousedown&#x27;, (event: MouseEvent) =&gt; this.onMouseDown(event), false);
-				this._domElement.removeEventListener(&#x27;mousedown&#x27;, this.onMouseDown, false);
-				this._domElement.removeEventListener(&#x27;mousemove&#x27;, this.onMouseMove, false);
-				this._domElement.removeEventListener(&#x27;mouseup&#x27;, this.onMouseUp, false);
-				this._domElement.removeEventListener(&#x27;mousewheel&#x27;, this.onMouseWheel, false);
-				this._domElement.removeEventListener(&#x27;DOMMouseScroll&#x27;, this.onMouseWheel, false);
-			}
-		}
+        public stop() {
+
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+
+                this._domElement.removeEventListener(&#x27;mousedown&#x27;, this._onMouseDownBind, true);
+                this._domElement.removeEventListener(&#x27;mousemove&#x27;, this._onMouseMoveBind, true);
+                this._domElement.removeEventListener(&#x27;mouseup&#x27;, this._onMouseUpBind, true);
+                this._domElement.removeEventListener(&#x27;mousewheel&#x27;, this._onMouseWheelBind, true);
+                this._domElement.removeEventListener(&#x27;DOMMouseScroll&#x27;, this._onMouseWheelBind, true);
+                this._domElement.removeEventListener(&#x27;contextmenu&#x27;, this._onContextMenuBind, true);
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                this._game.stage.canvas.removeEventListener(&#x27;mousedown&#x27;, this._onMouseDownBind, true);
+                this._game.stage.canvas.removeEventListener(&#x27;mousemove&#x27;, this._onMouseMoveBind, true);
+                this._game.stage.canvas.removeEventListener(&#x27;mouseup&#x27;, this._onMouseUpBind, true);
+                this._game.stage.canvas.removeEventListener(&#x27;mousewheel&#x27;, this._onMouseWheelBind, true);
+                this._game.stage.canvas.removeEventListener(&#x27;DOMMouseScroll&#x27;, this._onMouseWheelBind, true);
+            }
+
+            delete this._onMouseDownBind;
+            delete this._onMouseMoveBind;
+            delete this._onMouseUpBind;
+            delete this._onMouseWheelBind;
+            delete this._onContextMenuBind;
+
+        }
+
 
 		/**  
 		* Method that gets fired when the mouse is pressed on the stage.
@@ -753,7 +775,104 @@ module Kiwi.Input {
 		*/
 		public reset() {
 			this._cursor.reset();
-		}
+        }
+
+        /**
+        * Dispatches events when the context menu is fired. 
+        *
+        * Functions fired from this Signal will have the a single argument
+        * being the event of the &#x27;contextmenu&#x27; gives. 
+        * 
+        * @property onContext
+        * @type Kiwi.Signal
+        * @since 1.3.0
+        * @public
+        */
+        public onContext: Kiwi.Signal;
+
+        /**
+        * Determines whether or not the context menu should appear 
+        * when the user &#x27;right clicks&#x27; on the stage.
+        *
+        * Only has an effect on games targetting browsers.
+        * 
+        * @property preventContextMenu
+        * @type Boolean
+        * @default false
+        * @since 1.3.0
+        * @public
+        */
+        public preventContextMenu: boolean = false;
+
+        /**
+        * Fired when the context menu event is fired. 
+        * Used to prevent the context menu from appearing when the 
+        * &#x27;preventContextMenu&#x27; property is set to true.
+        *
+        * This event is currently only used when targetting browsers and will not fire for CocoonJS.
+        * 
+        * @method onContextMenu
+        * @param event 
+        * @since 1.3.0
+        * @private
+        */
+        private onContextMenu(event) {
+            if (this.preventContextMenu) {
+                event.preventDefault();
+            }
+
+            this.onContext.dispatch(event);
+        }
+
+        /**
+        * The binding of the &#x27;onMouseDown&#x27; method. 
+        * 
+        * @property _onMouseDownBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseDownBind;
+
+        /**
+        * The binding of the &#x27;onMouseMove&#x27; method. 
+        * 
+        * @property _onMouseMoveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseMoveBind;
+
+        /**
+        * The binding of the &#x27;onMouseUp&#x27; method. 
+        * 
+        * @property _onMouseUpBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseUpBind;
+
+        /**
+        * The binding of the &#x27;onMouseWheel&#x27; method. 
+        * 
+        * @property onMouseWheel
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onMouseWheelBind;
+
+        /**
+        * The binding of the &#x27;onContextMenu&#x27; method. 
+        * 
+        * @property _onContextMenuBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onContextMenuBind;
 
 	}
 

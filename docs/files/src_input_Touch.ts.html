@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/input/Touch.ts - Kiwi.js</title>
+    <title>src\input\Touch.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/input/Touch.ts</h1>
+                        <h1 class="file-heading">File: src\input\Touch.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -642,12 +642,20 @@ module Kiwi.Input {
 		*/
 		public start() {
 
-			if (Kiwi.DEVICE.touch) {
-				this.touchEnabled = true;
+            if (Kiwi.DEVICE.touch) {
+
+                this.touchEnabled = true;
+
+                this._onTouchStartBind = this.onTouchStart.bind(this);
+                this._onTouchMoveBind = this.onTouchMove.bind(this);
+                this._onTouchEndBind = this.onTouchEnd.bind(this);
+                this._onTouchEnterBind = this.onTouchEnter.bind(this);
+                this._onTouchLeaveBind = this.onTouchLeave.bind(this);
+                this._onTouchCancelBind = this.onTouchCancel.bind(this);
 
 				if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-					//If IE....
+                    //Uses the concept of pointers?
 					if (Kiwi.DEVICE.pointerEnabled) {
 						var pointerUp = &#x27;pointerup&#x27;,
 							pointerDown = &#x27;pointerdown&#x27;,
@@ -656,6 +664,7 @@ module Kiwi.Input {
 							pointerCancel = &#x27;pointercancel&#x27;,
 							pointerMove = &#x27;pointermove&#x27;;
 
+                        //Is it IE 10?
 						if ((window.navigator.msPointerEnabled)) {
 							var pointerUp = &#x27;MSPointerUp&#x27;,
 								pointerDown = &#x27;MSPointerDown&#x27;,
@@ -663,22 +672,30 @@ module Kiwi.Input {
 								pointerLeave = &#x27;MSPointerLeave&#x27;,
 								pointerCancel = &#x27;MSPointerCancel&#x27;,
 								pointerMove = &#x27;MSPointerMove&#x27;;
-						}
+                        }
 
-						this._domElement.addEventListener(pointerUp, (event:MSPointerEvent) =&gt; this.onPointerStart(event), false);
-						this._domElement.addEventListener(pointerDown, (event: MSPointerEvent) =&gt; this.onPointerEnd(event), false);
-						this._domElement.addEventListener(pointerEnter, (event: MSPointerEvent) =&gt; this.onPointerEnter(event), false);
-						this._domElement.addEventListener(pointerLeave, (event: MSPointerEvent) =&gt; this.onPointerLeave(event), false);
-						this._domElement.addEventListener(pointerCancel, (event: MSPointerEvent) =&gt; this.onPointerCancel(event), false);
-						this._domElement.addEventListener(pointerMove, (event: MSPointerEvent) =&gt; this.onPointerMove(event), false);
+                        this._onTouchStartBind = this.onPointerStart.bind(this);
+                        this._onTouchMoveBind = this.onPointerMove.bind(this);
+                        this._onTouchEndBind = this.onPointerEnd.bind(this);
+                        this._onTouchEnterBind = this.onPointerEnter.bind(this);
+                        this._onTouchLeaveBind = this.onPointerLeave.bind(this);
+                        this._onTouchCancelBind = this.onPointerCancel.bind(this);
+
+                        this._domElement.addEventListener(pointerUp, this._onTouchStartBind, false);
+						this._domElement.addEventListener(pointerMove, this._onTouchMoveBind, false);
+                        this._domElement.addEventListener(pointerDown, this._onTouchEndBind, false);
+                        this._domElement.addEventListener(pointerEnter, this._onTouchEnterBind, false);
+                        this._domElement.addEventListener(pointerLeave, this._onTouchLeaveBind, false);
+                        this._domElement.addEventListener(pointerCancel, this._onTouchCancelBind, false);
 
 					} else {
-						this._domElement.addEventListener(&#x27;touchstart&#x27;, (event) =&gt; this.onTouchStart(event), false);
-						this._domElement.addEventListener(&#x27;touchmove&#x27;, (event) =&gt; this.onTouchMove(event), false);
-						this._domElement.addEventListener(&#x27;touchend&#x27;, (event) =&gt; this.onTouchEnd(event), false);
-						this._domElement.addEventListener(&#x27;touchenter&#x27;, (event) =&gt; this.onTouchEnter(event), false);
-						this._domElement.addEventListener(&#x27;touchleave&#x27;, (event) =&gt; this.onTouchLeave(event), false);
-						this._domElement.addEventListener(&#x27;touchcancel&#x27;, (event) =&gt; this.onTouchCancel(event), false);
+                        //Regular touch events
+                        this._domElement.addEventListener(&#x27;touchstart&#x27;, this._onTouchStartBind, false);
+                        this._domElement.addEventListener(&#x27;touchmove&#x27;, this._onTouchMoveBind, false);
+                        this._domElement.addEventListener(&#x27;touchend&#x27;, this._onTouchEndBind, false);
+                        this._domElement.addEventListener(&#x27;touchenter&#x27;, this._onTouchEnterBind, false);
+                        this._domElement.addEventListener(&#x27;touchleave&#x27;, this._onTouchLeaveBind, false);
+                        this._domElement.addEventListener(&#x27;touchcancel&#x27;, this._onTouchCancelBind, false);
 
 						document.addEventListener(&#x27;touchmove&#x27;, (event) =&gt; this.consumeTouchMove(event), false);
 
@@ -687,12 +704,12 @@ module Kiwi.Input {
 
 				} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
 
-					this._game.stage.canvas.addEventListener(&#x27;touchstart&#x27;, (event) =&gt; this.onTouchStart(event), false);
-					this._game.stage.canvas.addEventListener(&#x27;touchmove&#x27;, (event) =&gt; this.onTouchMove(event), false);
-					this._game.stage.canvas.addEventListener(&#x27;touchend&#x27;, (event) =&gt; this.onTouchEnd(event), false);
-					this._game.stage.canvas.addEventListener(&#x27;touchenter&#x27;, (event) =&gt; this.onTouchEnter(event), false);
-					this._game.stage.canvas.addEventListener(&#x27;touchleave&#x27;, (event) =&gt; this.onTouchLeave(event), false);
-					this._game.stage.canvas.addEventListener(&#x27;touchcancel&#x27;, (event) =&gt; this.onTouchCancel(event), false);
+                    this._game.stage.canvas.addEventListener(&#x27;touchstart&#x27;, this._onTouchStartBind, false);
+                    this._game.stage.canvas.addEventListener(&#x27;touchmove&#x27;, this._onTouchMoveBind, false);
+                    this._game.stage.canvas.addEventListener(&#x27;touchend&#x27;, this._onTouchEndBind, false);
+                    this._game.stage.canvas.addEventListener(&#x27;touchenter&#x27;, this._onTouchEnterBind, false);
+                    this._game.stage.canvas.addEventListener(&#x27;touchleave&#x27;, this._onTouchLeaveBind, false);
+                    this._game.stage.canvas.addEventListener(&#x27;touchcancel&#x27;, this._onTouchCancelBind, false);
 				}
 			} else {
 				this.touchEnabled = false;
@@ -1138,28 +1155,67 @@ module Kiwi.Input {
 		* @method stop 
 		* @public
 		*/
-		public stop() {
+        public stop() {
 
-			if (this.touchEnabled) {
-				if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
+            if (!this.touchEnabled) return;
 
-					this._domElement.removeEventListener(&#x27;touchstart&#x27;, (event) =&gt; this.onTouchStart(event), false);
-					this._domElement.removeEventListener(&#x27;touchmove&#x27;, (event) =&gt; this.onTouchMove(event), false);
-					this._domElement.removeEventListener(&#x27;touchend&#x27;, (event) =&gt; this.onTouchEnd(event), false);
-					this._domElement.removeEventListener(&#x27;touchenter&#x27;, (event) =&gt; this.onTouchEnter(event), false);
-					this._domElement.removeEventListener(&#x27;touchleave&#x27;, (event) =&gt; this.onTouchLeave(event), false);
-					this._domElement.removeEventListener(&#x27;touchcancel&#x27;, (event) =&gt; this.onTouchCancel(event), false);
+            if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
 
-				} else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                //Uses the concept of pointers?
+                if (Kiwi.DEVICE.pointerEnabled) {
+                    var pointerUp = &#x27;pointerup&#x27;,
+                        pointerDown = &#x27;pointerdown&#x27;,
+                        pointerEnter = &#x27;pointerenter&#x27;,
+                        pointerLeave = &#x27;pointerleave&#x27;,
+                        pointerCancel = &#x27;pointercancel&#x27;,
+                        pointerMove = &#x27;pointermove&#x27;;
 
-					this._game.stage.canvas.removeEventListener(&#x27;touchstart&#x27;, (event) =&gt; this.onTouchStart(event), false);
-					this._game.stage.canvas.removeEventListener(&#x27;touchmove&#x27;, (event) =&gt; this.onTouchMove(event), false);
-					this._game.stage.canvas.removeEventListener(&#x27;touchend&#x27;, (event) =&gt; this.onTouchEnd(event), false);
-					this._game.stage.canvas.removeEventListener(&#x27;touchenter&#x27;, (event) =&gt; this.onTouchEnter(event), false);
-					this._game.stage.canvas.removeEventListener(&#x27;touchleave&#x27;, (event) =&gt; this.onTouchLeave(event), false);
-					this._game.stage.canvas.removeEventListener(&#x27;touchcancel&#x27;, (event) =&gt; this.onTouchCancel(event), false);
-				}
-			}
+                    //Is it IE 10?
+                    if ((window.navigator.msPointerEnabled)) {
+                        var pointerUp = &#x27;MSPointerUp&#x27;,
+                            pointerDown = &#x27;MSPointerDown&#x27;,
+                            pointerEnter = &#x27;MSPointerEnter&#x27;,
+                            pointerLeave = &#x27;MSPointerLeave&#x27;,
+                            pointerCancel = &#x27;MSPointerCancel&#x27;,
+                            pointerMove = &#x27;MSPointerMove&#x27;;
+                    }
+
+                    this._domElement.removeEventListener(pointerUp, this._onTouchStartBind, false);
+                    this._domElement.removeEventListener(pointerMove, this._onTouchMoveBind, false);
+                    this._domElement.removeEventListener(pointerDown, this._onTouchEndBind, false);
+                    this._domElement.removeEventListener(pointerEnter, this._onTouchEnterBind, false);
+                    this._domElement.removeEventListener(pointerLeave, this._onTouchLeaveBind, false);
+                    this._domElement.removeEventListener(pointerCancel, this._onTouchCancelBind, false);
+
+                } else {
+                    //Regular touch events
+                    this._domElement.removeEventListener(&#x27;touchstart&#x27;, this._onTouchStartBind, false);
+                    this._domElement.removeEventListener(&#x27;touchmove&#x27;, this._onTouchMoveBind, false);
+                    this._domElement.removeEventListener(&#x27;touchend&#x27;, this._onTouchEndBind, false);
+                    this._domElement.removeEventListener(&#x27;touchenter&#x27;, this._onTouchEnterBind, false);
+                    this._domElement.removeEventListener(&#x27;touchleave&#x27;, this._onTouchLeaveBind, false);
+                    this._domElement.removeEventListener(&#x27;touchcancel&#x27;, this._onTouchCancelBind, false);
+
+                }
+
+
+            } else if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+
+                this._game.stage.canvas.removeEventListener(&#x27;touchstart&#x27;, this._onTouchStartBind, false);
+                this._game.stage.canvas.removeEventListener(&#x27;touchmove&#x27;, this._onTouchMoveBind, false);
+                this._game.stage.canvas.removeEventListener(&#x27;touchend&#x27;, this._onTouchEndBind, false);
+                this._game.stage.canvas.removeEventListener(&#x27;touchenter&#x27;, this._onTouchEnterBind, false);
+                this._game.stage.canvas.removeEventListener(&#x27;touchleave&#x27;, this._onTouchLeaveBind, false);
+                this._game.stage.canvas.removeEventListener(&#x27;touchcancel&#x27;, this._onTouchCancelBind, false);
+            }
+
+            delete this._onTouchStartBind;
+            delete this._onTouchMoveBind;
+            delete this._onTouchEndBind;
+            delete this._onTouchEnterBind;
+            delete this._onTouchLeaveBind;
+            delete this._onTouchCancelBind;
+
 		}
 
 		/**  
@@ -1172,8 +1228,69 @@ module Kiwi.Input {
 				this._fingers[i].reset();
 			}
 		}
+        
+        /**
+        * The binding of the &#x27;onTouchStart&#x27; method. 
+        * 
+        * @property _onTouchStartBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchStartBind;
 
-	}
+        /**
+        * The binding of the &#x27;onTouchMove&#x27; method. 
+        * 
+        * @property _onTouchMoveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchMoveBind;
+
+        /**
+        * The binding of the &#x27;onTouchEnd&#x27; method. 
+        * 
+        * @property _onTouchEndBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchEndBind;
+
+        /**
+        * The binding of the &#x27;onTouchEnter&#x27; method. 
+        * 
+        * @property _onTouchEnterBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchEnterBind;
+
+        /**
+        * The binding of the &#x27;onTouchLeave&#x27; method. 
+        * 
+        * @property _onTouchLeaveBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchLeaveBind;
+
+        /**
+        * The binding of the &#x27;onTouchCancel&#x27; method. 
+        * 
+        * @property _onTouchCancelBind
+        * @type Function
+        * @since 1.3.0
+        * @private
+        */
+        private _onTouchCancelBind; 
+
+
+    }
 
 }
 

@@ -1,4 +1,4 @@
-Kiwi.js 1.3.0 (Work in Progress)
+Kiwi.js 1.3.0
 =============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg)
@@ -7,7 +7,7 @@ Kiwi.js is the world's easiest to use Open Source HTML5 game framework for makin
 
 Our focus is blazingly fast WebGL rendering and complementary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation.
 
-Version: 1.2.3 "Williams"
+Version: 1.3.0 "Moriarty"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -37,18 +37,36 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
-### v1.2.3 "Williams"
+### v1.3.0 "Moriarty"
+
+### New Features
+
+* [Window focus/blur](https://github.com/gamelab/kiwi.js/issues/23) events added to the Stage allowing users to easily pause/resume their game. (#23) 
+* The Animation Component will now look for sequences on their given texture atlas if one told to play could not be found. (#83)
+* `TileMapLayers` have been seperated into Orthogonal and Isometric classes to keep code more maintainable as well as more succinct. (#85)
+* Additional file management methods added to the `FileStore` class. (#103) 
+* You can now pass parameters to a states `preload` method when switching states. (#104)
+* You can now filter out messages to be logged out when using the `Kiwi.Log`. (#151) 
+* Much better consistency for passing file types. (#156)
+* @rydairegames added a method to get a tile when you know its index. (#160)
+* ArcadePhysics now contains a `rotateToVelocity` method. (#179)
+* Clocks now contains deltas. (#183)
+* You can now assign floating point values when changing an Animations frame. (#186)
+* Audio now contains an `onComplete` signal. (#189)
+* Context menu events have been added to the Mouse Input Manager. (#191)
+* HUDWidgets can have the origin the position is based of changed. (#193)
+* New get children by tag methods added to groups. (#195)
 
 ### Bug Fixes
 
-* `Clock.elapsed()` now resets to 0 after `start()` is called. (#177)
-* `Geom.Intersect.lineToLineSegment` and `lineSegmentToLineSegment` now work correctly. (#172)
+* Animation employs more rigorous methods which ensure the frameIndex is correct. (#184) 
+* Timer no longer hangs when the interval is set to 0ms. (#187)
+* `setInterval` and `setTimeout` now deal with clock units. (#188)
+* IconBar positioning fixed. (#192)
+* Minor fix with the image loading when using the xhr + arraybuffer methods of loading.  
+* ArcadePhysics tile collision boxes made smaller to give better collisions.
 
-### Deprecations
-
-* `Entity.inputEnabled` wasn't used by anything, and is now officially deprecated.
-
-More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.3 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.3)
+More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.3.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.3.0+is%3Aclosed)
 
 ## Previous Changes
 View the (changelog)[https://github.com/gamelab/kiwi.js/blob/master/CHANGELOG.md] for a list of changes from previous versions.
@@ -280,6 +298,7 @@ A massive shoutout to our contributors on Github!
 - Hector Zarco Garcia @zzarcon
 - John Wu @tjwudi
 - Ryan Loader @RaniSputnik
+- @rydairegames
 
 *Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.*
 

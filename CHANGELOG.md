@@ -1,6 +1,35 @@
 Change Log
 =============
 
+### v1.3.0 "Moriarty"
+
+### New Features
+
+* [Window focus/blur](https://github.com/gamelab/kiwi.js/issues/23) events added to the Stage allowing users to easily pause/resume their game. (#23) 
+* The Animation Component will now look for sequences on their given texture atlas if one told to play could not be found. (#83)
+* `TileMapLayers` have been seperated into Orthogonal and Isometric classes to keep code more maintainable as well as more succinct. (#85)
+* Additional file management methods added to the `FileStore` class. (#103) 
+* You can now pass parameters to a states `preload` method when switching states. (#104)
+* You can now filter out messages to be logged out when using the `Kiwi.Log`. (#151) 
+* Much better consistency for passing file types. (#156)
+* @rydairegames added a method to get a tile when you know its index. (#160)
+* ArcadePhysics now contains a `rotateToVelocity` method. (#179)
+* Clocks now contains deltas. (#183)
+* You can now assign floating point values when changing an Animations frame. (#186)
+* Audio now contains an `onComplete` signal. (#189)
+* Context menu events have been added to the Mouse Input Manager. (#191)
+* HUDWidgets can have the origin the position is based of changed. (#193)
+* New get children by tag methods added to groups. (#195)
+
+### Bug Fixes
+
+* Animation employs more rigorous methods which ensure the frameIndex is correct. (#184) 
+* Timer no longer hangs when the interval is set to 0ms. (#187)
+* `setInterval` and `setTimeout` now deal with clock units. (#188)
+* IconBar positioning fixed. (#192)
+* Minor fix with the image loading when using the xhr + arraybuffer methods of loading.  
+* ArcadePhysics tile collision boxes made smaller to give better collisions.
+
 ### v1.2.3 "Williams"
 
 ### Bug Fixes
