@@ -51816,7 +51816,7 @@
             "line": 516,
             "description": "Removes a tag to the list of tag filters.\nAny messages that do not have the tags in the tagFilters list will not be displayed.",
             "itemtype": "method",
-            "name": "addFilter",
+            "name": "removeFilter",
             "params": [
                 {
                     "name": "...args",
