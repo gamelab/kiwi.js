@@ -370,12 +370,12 @@ module Kiwi.Sound {
 		private _stopTime: number;
 
 		/**
-		* An array of all of the markers that are on this piece of audio. 
+		* A collection of all of the markers that are on this piece of audio. 
 		* @property _markers
-		* @type Array
+		* @type object
 		* @private
 		*/
-		private _markers: any = [];
+		private _markers: any = {};
 
 		/**
 		* The current marker that is being used.

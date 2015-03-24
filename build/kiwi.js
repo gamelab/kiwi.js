@@ -28120,12 +28120,12 @@ var Kiwi;
                 */
                 this._decoded = false;
                 /**
-                * An array of all of the markers that are on this piece of audio.
+                * A collection of all of the markers that are on this piece of audio.
                 * @property _markers
-                * @type Array
+                * @type object
                 * @private
                 */
-                this._markers = [];
+                this._markers = {};
                 /**
                 * The current marker that is being used.
                 * @property _currentMarker
@@ -34285,7 +34285,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.3.0";
+    Kiwi.VERSION = "1.3.1";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.

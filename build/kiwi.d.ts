@@ -19820,9 +19820,9 @@ declare module Kiwi.Sound {
         */
         private _stopTime;
         /**
-        * An array of all of the markers that are on this piece of audio.
+        * A collection of all of the markers that are on this piece of audio.
         * @property _markers
-        * @type Array
+        * @type object
         * @private
         */
         private _markers;
