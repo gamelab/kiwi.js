@@ -435,7 +435,7 @@ module Kiwi {
 		* @property _framerate
 		* @type Number
 		* @default 60
-		* @public
+		* @private
 		*/
 		private _frameRate: number = 60;
 
