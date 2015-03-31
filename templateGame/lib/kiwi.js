@@ -4649,7 +4649,10 @@ var Kiwi;
                     this._trackingList[i].destroy(true, false);
                 }
                 this._trackingList = [];
-                // While it is possible to set a member on another state and push it to this state, thus avoiding the tracking list, that member will be destroyed when this state loads, so we do not need to destroy remaining members - simply clear the list.
+                for (var i = 0; i < this.members.length; i++) {
+                    //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
+                    this.members[i].destroy(true, false);
+                }
                 this.members = [];
             }
         };
