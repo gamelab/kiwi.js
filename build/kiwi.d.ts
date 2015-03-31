@@ -207,7 +207,7 @@ declare module Kiwi {
         * @property _framerate
         * @type Number
         * @default 60
-        * @public
+        * @private
         */
         private _frameRate;
         /**
@@ -7483,6 +7483,7 @@ declare module Kiwi.Files {
     *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
     *   @param [params.type=UNKNOWN] {Number} The type of file this is.
     *   @param [params.tags] {Array} Any tags to be associated with this file.
+    *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
     * @return {Kiwi.Files.File}
     *
     */
@@ -7512,6 +7513,7 @@ declare module Kiwi.Files {
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
         * @protected
         */
         protected parseParams(params: any): void;
@@ -7715,20 +7717,25 @@ declare module Kiwi.Files {
         * The number of milliseconds that the XHR should wait before timing out.
         * Set this to NULL if you want it to not timeout.
         *
+        * Default changed in v1.3.1 to null
+        *
         * @property timeOutDelay
         * @type Number
-        * @default 4000
+        * @default null
         * @public
         */
         timeOutDelay: number;
         /**
         * The default number of milliseconds that the XHR should wait before timing out.
-        * Set this to NULL if you want it to not timeout.
+        * By default this is set to NULL, and so requests will not timeout.
+        *
+        * Default changed in v1.3.1 to null
         *
         * @property TIMEOUT_DELAY
         * @type Number
         * @static
         * @since 1.2.0
+        * @default null
         * @public
         */
         static TIMEOUT_DELAY: number;

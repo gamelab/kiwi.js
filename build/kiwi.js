@@ -134,7 +134,7 @@ var Kiwi;
             * @property _framerate
             * @type Number
             * @default 60
-            * @public
+            * @private
             */
             this._frameRate = 60;
             /**
@@ -11199,6 +11199,7 @@ var Kiwi;
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
         * @return {Kiwi.Files.File}
         *
         */
@@ -11245,9 +11246,11 @@ var Kiwi;
                 * The number of milliseconds that the XHR should wait before timing out.
                 * Set this to NULL if you want it to not timeout.
                 *
+                * Default changed in v1.3.1 to null
+                *
                 * @property timeOutDelay
                 * @type Number
-                * @default 4000
+                * @default null
                 * @public
                 */
                 this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
@@ -11508,12 +11511,19 @@ var Kiwi;
             *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
             *   @param [params.type=UNKNOWN] {Number} The type of file this is.
             *   @param [params.tags] {Array} Any tags to be associated with this file.
+            *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
             * @protected
             */
             File.prototype.parseParams = function (params) {
                 this.fileStore = params.fileStore || null;
                 this.ownerState = params.state || null;
                 this.metadata = params.metadata || {};
+                if (Kiwi.Utils.Common.isUndefined(params.timeout)) {
+                    this.timeOutDelay = params.timeout;
+                }
+                else {
+                    this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
+                }
                 if (Kiwi.Utils.Common.isUndefined(params.type)) {
                     this.dataType = File.UNKNOWN;
                 }
@@ -11697,17 +11707,20 @@ var Kiwi;
                 this._xhr.onload = function (event) { return _this.xhrOnLoad(event); };
                 this._xhr.onerror = function (event) { return _this.loadError(event); };
                 this._xhr.onprogress = function (event) { return _this.xhrOnProgress(event); };
-                //Events to deprecate
-                this._xhr.onreadystatechange = function (event) { return function () {
-                    this.readyState = this._xhr.readyState;
-                }; };
-                this._xhr.onloadstart = function (event) { return function (event) {
-                    this.timeStarted = event.timeStamp;
-                    this.lastProgress = event.timeStamp;
-                }; };
-                this._xhr.ontimeout = function (event) { return function (event) {
-                    this.hasTimedOut = true;
-                }; };
+                var _that = this;
+                this._xhr.onreadystatechange = function () {
+                    _that.readyState = _that._xhr.readyState;
+                };
+                this._xhr.onloadstart = function (event) {
+                    _that.timeStarted = event.timeStamp;
+                    _that.lastProgress = event.timeStamp;
+                };
+                this._xhr.ontimeout = function (event) {
+                    _that.hasTimedOut = true;
+                };
+                this._xhr.onloadend = function (event) {
+                    _that.xhrOnLoad(event);
+                };
                 this._xhr.send();
             };
             /**
@@ -12114,15 +12127,18 @@ var Kiwi;
             };
             /**
             * The default number of milliseconds that the XHR should wait before timing out.
-            * Set this to NULL if you want it to not timeout.
+            * By default this is set to NULL, and so requests will not timeout.
+            *
+            * Default changed in v1.3.1 to null
             *
             * @property TIMEOUT_DELAY
             * @type Number
             * @static
             * @since 1.2.0
+            * @default null
             * @public
             */
-            File.TIMEOUT_DELAY = 4000;
+            File.TIMEOUT_DELAY = null;
             /**
             * The default maximum attempts at loading the file that there is allowed.
             * @property MAX_LOAD_ATTEMPTS

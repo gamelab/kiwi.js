@@ -26,6 +26,7 @@ module Kiwi.Files {
 	*   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
 	*   @param [params.type=UNKNOWN] {Number} The type of file this is. 
 	*   @param [params.tags] {Array} Any tags to be associated with this file.
+    *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax. 
 	* @return {Kiwi.Files.File} 
 	*
 	*/
@@ -68,21 +69,21 @@ module Kiwi.Files {
 		* @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
 		* @private
 		*/
-		private _parseParamsOld(dataType: number, url: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal: boolean = true) {
+        private _parseParamsOld(dataType: number, url: string, name: string = '', saveToFileStore: boolean = true, storeAsGlobal: boolean = true) {
 
-			this.dataType = dataType;
+            this.dataType = dataType;
 
-			this._assignFileDetails(url);
+            this._assignFileDetails(url);
 
-			if (saveToFileStore) {
-				this.fileStore = this.game.fileStore;
-			}
+            if (saveToFileStore) {
+                this.fileStore = this.game.fileStore;
+            }
 
-			if (this.game.states.current && !storeAsGlobal) {
-				this.ownerState = this.game.states.current;
-			}
+            if (this.game.states.current && !storeAsGlobal) {
+                this.ownerState = this.game.states.current;
+            }
 
-		}
+        }
 
 
 		/**
@@ -96,13 +97,20 @@ module Kiwi.Files {
 		*   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
 		*   @param [params.type=UNKNOWN] {Number} The type of file this is. 
 		*   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.   
 		* @protected 
 		*/
 		protected parseParams(params: any) {
 
 			this.fileStore = params.fileStore || null;
 			this.ownerState = params.state || null;
-			this.metadata = params.metadata || {};
+            this.metadata = params.metadata || {};
+
+            if ( Kiwi.Utils.Common.isUndefined(params.timeout) ) {
+                this.timeOutDelay = params.timeout;
+            } else {
+                this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
+            }
 
 			if (Kiwi.Utils.Common.isUndefined(params.type)) {
 				this.dataType = File.UNKNOWN;
@@ -367,25 +375,30 @@ module Kiwi.Files {
 		/**
 		* The number of milliseconds that the XHR should wait before timing out.
 		* Set this to NULL if you want it to not timeout.
+        *
+        * Default changed in v1.3.1 to null
 		*
 		* @property timeOutDelay
 		* @type Number
-		* @default 4000
+		* @default null
 		* @public
 		*/
 		public timeOutDelay: number = Kiwi.Files.File.TIMEOUT_DELAY;
 
 		/**
 		* The default number of milliseconds that the XHR should wait before timing out.
-		* Set this to NULL if you want it to not timeout.
+		* By default this is set to NULL, and so requests will not timeout.
+        *
+        * Default changed in v1.3.1 to null
 		*
 		* @property TIMEOUT_DELAY
 		* @type Number
 		* @static
 		* @since 1.2.0
+        * @default null
 		* @public
 		*/
-		public static TIMEOUT_DELAY: number = 4000;
+		public static TIMEOUT_DELAY: number = null;
 
 		/**
 		* The number of attempts at loading there have currently been at loading the file.
@@ -553,21 +566,26 @@ module Kiwi.Files {
 
 			this._xhr.onload = (event) => this.xhrOnLoad(event);
 			this._xhr.onerror = (event) => this.loadError(event);
-			this._xhr.onprogress = (event) => this.xhrOnProgress(event);
+            this._xhr.onprogress = (event) => this.xhrOnProgress(event);
 
-			//Events to deprecate
-			this._xhr.onreadystatechange = (event) => function () {
-				this.readyState = this._xhr.readyState;
+            var _that = this;
+
+			this._xhr.onreadystatechange = function () {
+                _that.readyState = _that._xhr.readyState;
 			};
 
-			this._xhr.onloadstart = (event) => function (event) {
-				this.timeStarted = event.timeStamp;
-				this.lastProgress = event.timeStamp;
+			this._xhr.onloadstart = function (event) {
+                _that.timeStarted = event.timeStamp;
+                _that.lastProgress = event.timeStamp;
 			};
 
-			this._xhr.ontimeout = (event) => function (event) {
-				this.hasTimedOut = true;
+			this._xhr.ontimeout = function(event) {
+                _that.hasTimedOut = true;
 			};
+
+            this._xhr.onloadend = function (event) {
+                _that.xhrOnLoad(event);
+            };
 
 			this._xhr.send();
 
