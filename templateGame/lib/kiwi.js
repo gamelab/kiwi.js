@@ -4644,14 +4644,14 @@ var Kiwi;
         State.prototype.destroy = function (deleteAll) {
             if (deleteAll === void 0) { deleteAll = true; }
             if (deleteAll == true) {
-                for (var i = 0; i < this._trackingList.length; i++) {
+                while (this._trackingList.length > 0) {
                     //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
-                    this._trackingList[i].destroy(true, false);
+                    this._trackingList[0].destroy(true, false);
                 }
                 this._trackingList = [];
-                for (var i = 0; i < this.members.length; i++) {
+                while (this.members.length > 0) {
                     //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
-                    this.members[i].destroy(true, false);
+                    this.members[0].destroy(true, false);
                 }
                 this.members = [];
             }
