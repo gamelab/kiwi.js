@@ -1196,7 +1196,10 @@ var Kiwi;
                 //Not supported. 
                 this._visibility = null;
             }
-            window.onpageshow = window.onpagehide = window.onfocus = window.onblur = this._visibilityChange;
+            window.addEventListener('pageshow', this._visibilityChange);
+            window.addEventListener('pagehide', this._visibilityChange);
+            window.addEventListener('focus', this._visibilityChange);
+            window.addEventListener('blur', this._visibilityChange);
         };
         /**
         * The default width of the stage.
