@@ -556,7 +556,7 @@ module Kiwi.Files {
 		protected xhrLoader(method: string = 'GET', responseType: string = 'text', timeoutDelay: number = this.timeOutDelay) {
 
 			this._xhr = new XMLHttpRequest();
-			this._xhr.open('GET', this.URL, true);
+            this._xhr.open(method, this.URL, true);
 
 			if (timeoutDelay !== null) {
 				this._xhr.timeout = timeoutDelay;

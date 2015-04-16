@@ -55,9 +55,11 @@ module Kiwi.Files {
 		protected parseParams(params: any) {
 			super.parseParams(params);
 
-			if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
-				this.parse = params.parse;
-			}
+            if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
+                this.parse = params.parse;
+            } else {
+                this.parse = false;
+            }
 
 		}
 
@@ -71,7 +73,7 @@ module Kiwi.Files {
 		* @default false
 		* @public
 		*/
-		public parse: boolean = false;
+		public parse: boolean;
 
 		//this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
 
