@@ -186,12 +186,13 @@ module Kiwi.Files {
 
 			try {
 				this.data = JSON.parse(data);
-				this.loadSuccess();
 
 			} catch (e) {
 				this.loadError(e);
+                return;
+            }
 
-			}
+            this.loadSuccess();
 
 		}
 
