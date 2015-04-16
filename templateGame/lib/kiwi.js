@@ -11705,7 +11705,7 @@ var Kiwi;
                 if (responseType === void 0) { responseType = 'text'; }
                 if (timeoutDelay === void 0) { timeoutDelay = this.timeOutDelay; }
                 this._xhr = new XMLHttpRequest();
-                this._xhr.open('GET', this.URL, true);
+                this._xhr.open(method, this.URL, true);
                 if (timeoutDelay !== null) {
                     this._xhr.timeout = timeoutDelay;
                 }
@@ -34697,16 +34697,6 @@ var Kiwi;
             function DataFile(game, params) {
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
-                /**
-                * If the response should be parsed (using the appropriate method) after loading.
-                * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.
-                *
-                * @property parse
-                * @type boolean
-                * @default false
-                * @public
-                */
-                this.parse = false;
                 this.useTagLoader = false;
                 this._loadInParallel = false;
             }
@@ -34727,6 +34717,9 @@ var Kiwi;
                 _super.prototype.parseParams.call(this, params);
                 if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
                     this.parse = params.parse;
+                }
+                else {
+                    this.parse = false;
                 }
             };
             //this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
