@@ -4121,6 +4121,38 @@ declare module Kiwi.GameObjects {
         */
         box: Kiwi.Components.Box;
         /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt1
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt1;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt2
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt2;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt3
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt3;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt4
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt4;
+        /**
         * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
         * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
         *
@@ -11611,6 +11643,38 @@ declare module Kiwi.Renderers {
         * @private
         */
         private _indexBuffer;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt1
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt1;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt2
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt2;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt3
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt3;
+        /**
+        * Geometry point used in rendering.
+        *
+        * @property _pt4
+        * @type Kiwi.Geom.Point
+        * @private
+        */
+        private _pt4;
         /**
         * Enables the renderer ready for drawing
         * @method enable

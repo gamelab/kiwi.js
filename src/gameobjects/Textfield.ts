@@ -314,6 +314,42 @@ module Kiwi.GameObjects {
 		*/
 		public box: Kiwi.Components.Box;
 
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt1
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt2
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt3
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt4
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
 
 		/**
 		* This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
@@ -471,25 +507,25 @@ module Kiwi.GameObjects {
 			}
 
 			//Create the Point Objects.
-			var pt1 = new Kiwi.Geom.Point(x - t.rotPointX, 0 - t.rotPointY);
-			var pt2 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX , 0 - t.rotPointY);
-			var pt3 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX , this._canvas.height - t.rotPointY);
-			var pt4 = new Kiwi.Geom.Point(x - t.rotPointX, this._canvas.height - t.rotPointY);
+			this._pt1.setTo(x - t.rotPointX, 0 - t.rotPointY);
+			this._pt2.setTo(this._canvas.width + x - t.rotPointX , 0 - t.rotPointY);
+			this._pt3.setTo(this._canvas.width + x - t.rotPointX , this._canvas.height - t.rotPointY);
+			this._pt4.setTo(x - t.rotPointX, this._canvas.height - t.rotPointY);
 
 			//Add on the matrix to the points
-			pt1 = m.transformPoint(pt1);
-			pt2 = m.transformPoint(pt2);
-			pt3 = m.transformPoint(pt3);
-			pt4 = m.transformPoint(pt4);
+			m.transformPoint(this._pt1);
+			m.transformPoint(this._pt2);
+			m.transformPoint(this._pt3);
+			m.transformPoint(this._pt4);
 
 			//Append to the xyuv and alpha arrays 
 			vertexItems.push(
-				pt1.x, pt1.y, 0, 0, this.alpha,
+				this._pt1.x, this._pt1.y, 0, 0, this.alpha,
 				//Top Left Point
-				pt2.x, pt2.y, this._canvas.width, 0, this.alpha,
+				this._pt2.x, this._pt2.y, this._canvas.width, 0, this.alpha,
 				//Top Right Point
-				pt3.x, pt3.y, this._canvas.width, this._canvas.height, this.alpha,          //Bottom Right Point
-				pt4.x, pt4.y, 0, this._canvas.height, this.alpha
+				this._pt3.x, this._pt3.y, this._canvas.width, this._canvas.height, this.alpha,          //Bottom Right Point
+				this._pt4.x, this._pt4.y, 0, this._canvas.height, this.alpha
 				//Bottom Left Point
 				);
 			//Add to the batch!
