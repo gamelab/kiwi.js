@@ -11753,8 +11753,8 @@ var Kiwi;
                 //Deprecate
                 this.status = this._xhr.status;
                 this.statusText = this._xhr.statusText;
-                // Easiest to just see if the response isn't null, and thus has data or not.
-                if (this._xhr.response) {
+                // If there is a status, then use that for our check. Otherwise we will base it on the response
+                if (this.status && this.status === 200 || !this.status && this._xhr.response) {
                     this._getXhrHeaderInfo();
                     this.buffer = this._xhr.response; //Deprecate
                     this.processXhr(this._xhr.response);
@@ -13445,7 +13445,7 @@ var Kiwi;
                     return atlas;
                 }
                 catch (e) {
-                    Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: Failed to extract information for '" + imageFile.key + "' from JSON file '" + m.jsonID + "'", '#error', '#texture');
+                    Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: Failed to extract information for '" + imageFile.key + "' from JSON file '" + m.jsonID + "'", '#error', '#texture', 'Message: ' + e.message);
                 }
                 return null;
             };
@@ -34811,11 +34811,12 @@ var Kiwi;
                 Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as JSON.', '#loading', '#parsing');
                 try {
                     this.data = JSON.parse(data);
-                    this.loadSuccess();
                 }
                 catch (e) {
                     this.loadError(e);
+                    return;
                 }
+                this.loadSuccess();
             };
             return DataFile;
         })(Kiwi.Files.File);

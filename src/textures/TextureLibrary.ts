@@ -178,7 +178,8 @@ module Kiwi.Textures {
                 return atlas;
 
             } catch (e) {
-                Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: Failed to extract information for '" + imageFile.key + "' from JSON file '" + m.jsonID + "'", '#error', '#texture');
+
+                Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: Failed to extract information for '" + imageFile.key + "' from JSON file '" + m.jsonID + "'", '#error', '#texture', 'Message: ' + e.message);
             }
 
             return null;
