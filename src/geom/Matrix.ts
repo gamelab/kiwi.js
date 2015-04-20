@@ -7,22 +7,34 @@
 module Kiwi.Geom {
 
 	/**
-	* Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
-	* by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
-	* Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
-	* transform.
-	* By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
-	* See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
+	* Represents a 2d transformation matrix. This can be used to map points
+	* between different coordinate spaces. Matrices are used by Transform
+	* objects to represent translation, scale and rotation transformations,
+	* and to determine where objects are in world space or camera space.
+	* Objects such as entities and groups may be nested, and their associated
+	* transforms may represent how they are scaled, translated and rotated
+	* relative to a parent transform. By concatenating an object's
+	* transformation matrix with its ancestors matrices, it is possible to
+	* determine the absolute position of the object in world space.
+	* See
+	* http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics
+	* for an in depth discussion of 2d tranformation matrices.
 	* 
 	* @class Matrix
 	* @namespace Kiwi.Geom
 	* @constructor
-	* @param [a=1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-	* @param [b=0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-	* @param [c=0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-	* @param [d=1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-	* @param [tx=0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-	* @param [ty=0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+	* @param [a=1] {Number}  position 0,0 of the matrix,
+	*	affects scaling and rotation.
+	* @param [b=0] {Number}  position 0,1 of the matrix,
+	*	affects scaling and rotation.
+	* @param [c=0] {Number}  position 1,0 of the matrix,
+	*	affects scaling and rotation.
+	* @param [d=1] {Number}  position 1,1 of the matrix,
+	*	affects scaling and rotation.
+	* @param [tx=0] {Number}  position 2,0 of the matrix,
+	*	affects translation on x axis.
+	* @param [ty=0] {Number}  position 2,1 of the matrix,
+	*	affects translation on y axis.
 	* @return (Object) This object.
 	* 
 	*/
@@ -39,7 +51,7 @@ module Kiwi.Geom {
 		* @method objType
 		* @return {String} "Matrix"
 		* @public
-		*/ 
+		*/
 		public objType() {
 			return "Matrix";
 		}
@@ -469,6 +481,25 @@ module Kiwi.Geom {
 
 			return "[{Matrix (a=" + this.a + " b=" + this.b + " c=" + this.c + " d=" + this.d + " tx=" + this.tx + " ty=" + this.ty + ")}]";
 
+		}
+
+		/**
+		* Check whether this matrix equals another matrix.
+		*
+		* @method equals
+		* @param matrix {Kiwi.Geom.Matrix}
+		* @return boolean
+		* @public
+		*/
+		public equals( matrix: Matrix ): boolean {
+
+			return (
+					this.a === matrix.a &&
+					this.b === matrix.b &&
+					this.c === matrix.c &&
+					this.d === matrix.d &&
+					this.tx === matrix.tx &&
+					this.ty === matrix.ty );
 		}
 
 	}

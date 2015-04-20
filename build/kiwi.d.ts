@@ -16103,22 +16103,34 @@ declare module Kiwi.Geom {
 */
 declare module Kiwi.Geom {
     /**
-    * Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
-    * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
-    * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
-    * transform.
-    * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
-    * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
+    * Represents a 2d transformation matrix. This can be used to map points
+    * between different coordinate spaces. Matrices are used by Transform
+    * objects to represent translation, scale and rotation transformations,
+    * and to determine where objects are in world space or camera space.
+    * Objects such as entities and groups may be nested, and their associated
+    * transforms may represent how they are scaled, translated and rotated
+    * relative to a parent transform. By concatenating an object's
+    * transformation matrix with its ancestors matrices, it is possible to
+    * determine the absolute position of the object in world space.
+    * See
+    * http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics
+    * for an in depth discussion of 2d tranformation matrices.
     *
     * @class Matrix
     * @namespace Kiwi.Geom
     * @constructor
-    * @param [a=1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-    * @param [b=0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-    * @param [c=0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-    * @param [d=1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-    * @param [tx=0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-    * @param [ty=0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+    * @param [a=1] {Number}  position 0,0 of the matrix,
+    *	affects scaling and rotation.
+    * @param [b=0] {Number}  position 0,1 of the matrix,
+    *	affects scaling and rotation.
+    * @param [c=0] {Number}  position 1,0 of the matrix,
+    *	affects scaling and rotation.
+    * @param [d=1] {Number}  position 1,1 of the matrix,
+    *	affects scaling and rotation.
+    * @param [tx=0] {Number}  position 2,0 of the matrix,
+    *	affects translation on x axis.
+    * @param [ty=0] {Number}  position 2,1 of the matrix,
+    *	affects translation on y axis.
     * @return (Object) This object.
     *
     */
@@ -16365,6 +16377,15 @@ declare module Kiwi.Geom {
         * @public
         */
         toString: string;
+        /**
+        * Check whether this matrix equals another matrix.
+        *
+        * @method equals
+        * @param matrix {Kiwi.Geom.Matrix}
+        * @return boolean
+        * @public
+        */
+        equals(matrix: Matrix): boolean;
     }
 }
 /**
@@ -17141,20 +17162,30 @@ declare module Kiwi.Geom {
         matrix: Matrix;
         /**
         * The most recently calculated matrix from getConcatenatedMatrix.
-        * Not used or updated after object creation.
-        * Candidate for deprecation.
+        *
         * @property _cachedConcatenatedMatrix
         * @type Kiwi.Geom.Matrix
         * @private
         */
         private _cachedConcatenatedMatrix;
         /**
-        * Temporary matrix used in concatenation operations
+        * Temporary matrix used in concatenation operations.
+        * Not currently used; might be useful as a temp value
+        * in future optimisations.
         * @property _concatMatrix
         * @type Kiwi.Geom.Matrix
         * @private
         */
         private _concatMatrix;
+        /**
+        * Cached copy of the parent matrix. Used to determine
+        * whether to update other cached matrices.
+        *
+        * @property _cachedParentMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        */
+        private _cachedParentMatrix;
         /**
         * Return the x of this transform translated to world space.
         * @property worldX
@@ -17232,6 +17263,7 @@ declare module Kiwi.Geom {
         * If true, it won't compute parent matrices.
         * This can save computation, but prevents it from following
         * its parent's transforms.
+        *
         * Use this to save some processor cycles if the transform isn't
         * following a parent and the state does not transform.
         * @property ignoreParent
@@ -17241,6 +17273,51 @@ declare module Kiwi.Geom {
         * @since 1.2.0
         */
         ignoreParent: boolean;
+        /**
+        * Private copy.
+        * Whether to prevent children from acquiring this as a parent
+        * when concatenating matrices. This can save computation,
+        * but prevents it from passing any transform data to children.
+        *
+        * Use this to save some processor cycles if this is a Group
+        * that does not control its children, and the state does not
+        * transform.
+        *
+        * @property _ignoreChild
+        * @type boolean
+        * @default false
+        * @private
+        * @since 1.3.1
+        */
+        private _ignoreChild;
+        /**
+        * Whether to prevent children from acquiring this as a parent
+        * when concatenating matrices. This can save computation,
+        * but prevents it from passing any transform data to children.
+        *
+        * Use this to save some processor cycles if this is a Group
+        * that does not control its children, and the state does not
+        * transform.
+        *
+        * @property ignoreChild
+        * @type boolean
+        * @default false
+        * @public
+        * @since 1.3.1
+        */
+        ignoreChild: boolean;
+        /**
+        * Whether the transform has been altered since the last time
+        * it was used to create a matrix. Used to determine whether to rebuild
+        * the matrix or not.
+        *
+        * @property _dirty
+        * @type boolean
+        * @default true
+        * @private
+        * @since 1.3.1
+        */
+        private _dirty;
         /**
         * Set the X and Y values of the transform.
         * @method setPosition

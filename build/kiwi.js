@@ -22872,22 +22872,34 @@ var Kiwi;
     var Geom;
     (function (Geom) {
         /**
-        * Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
-        * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
-        * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
-        * transform.
-        * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
-        * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
+        * Represents a 2d transformation matrix. This can be used to map points
+        * between different coordinate spaces. Matrices are used by Transform
+        * objects to represent translation, scale and rotation transformations,
+        * and to determine where objects are in world space or camera space.
+        * Objects such as entities and groups may be nested, and their associated
+        * transforms may represent how they are scaled, translated and rotated
+        * relative to a parent transform. By concatenating an object's
+        * transformation matrix with its ancestors matrices, it is possible to
+        * determine the absolute position of the object in world space.
+        * See
+        * http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics
+        * for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [a=1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b=0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c=0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d=1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx=0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty=0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+        * @param [a=1] {Number}  position 0,0 of the matrix,
+        *	affects scaling and rotation.
+        * @param [b=0] {Number}  position 0,1 of the matrix,
+        *	affects scaling and rotation.
+        * @param [c=0] {Number}  position 1,0 of the matrix,
+        *	affects scaling and rotation.
+        * @param [d=1] {Number}  position 1,1 of the matrix,
+        *	affects scaling and rotation.
+        * @param [tx=0] {Number}  position 2,0 of the matrix,
+        *	affects translation on x axis.
+        * @param [ty=0] {Number}  position 2,1 of the matrix,
+        *	affects translation on y axis.
         * @return (Object) This object.
         *
         */
@@ -23312,6 +23324,17 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            /**
+            * Check whether this matrix equals another matrix.
+            *
+            * @method equals
+            * @param matrix {Kiwi.Geom.Matrix}
+            * @return boolean
+            * @public
+            */
+            Matrix.prototype.equals = function (matrix) {
+                return (this.a === matrix.a && this.b === matrix.b && this.c === matrix.c && this.d === matrix.d && this.tx === matrix.tx && this.ty === matrix.ty);
+            };
             return Matrix;
         })();
         Geom.Matrix = Matrix;
@@ -24377,6 +24400,15 @@ var Kiwi;
                 */
                 this._rotPointY = 0;
                 /**
+                * Cached copy of the parent matrix. Used to determine
+                * whether to update other cached matrices.
+                *
+                * @property _cachedParentMatrix
+                * @type Kiwi.Geom.Matrix
+                * @private
+                */
+                this._cachedParentMatrix = new Kiwi.Geom.Matrix();
+                /**
                 * The parent transform. If set to null there is no parent. Otherwise this is used by getConcatenatedMatrix to offset the current transforms by the another matrix
                 * @property _parent
                 * @type Kiwi.Geom.Transform
@@ -24411,11 +24443,39 @@ var Kiwi;
                 * @since 1.2.0
                 */
                 this._ignoreParent = false;
+                /**
+                * Private copy.
+                * Whether to prevent children from acquiring this as a parent
+                * when concatenating matrices. This can save computation,
+                * but prevents it from passing any transform data to children.
+                *
+                * Use this to save some processor cycles if this is a Group
+                * that does not control its children, and the state does not
+                * transform.
+                *
+                * @property _ignoreChild
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.3.1
+                */
+                this._ignoreChild = false;
+                /**
+                * Whether the transform has been altered since the last time
+                * it was used to create a matrix. Used to determine whether to rebuild
+                * the matrix or not.
+                *
+                * @property _dirty
+                * @type boolean
+                * @default true
+                * @private
+                * @since 1.3.1
+                */
+                this._dirty = true;
                 this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
                 this._matrix = new Geom.Matrix();
+                this._cachedConcatenatedMatrix = new Geom.Matrix();
                 this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
-                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
-                this._concatMatrix = new Geom.Matrix();
             }
             /**
             * The type of this object.
@@ -24438,6 +24498,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._x = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24454,6 +24515,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._y = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24470,6 +24532,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._scaleX = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24486,6 +24549,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._scaleY = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24502,6 +24566,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._rotation = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24519,6 +24584,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._rotPointX = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24535,6 +24601,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._rotPointY = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24629,6 +24696,7 @@ var Kiwi;
                 set: function (value) {
                     if (!this.checkAncestor(value)) {
                         this._parent = value;
+                        this._dirty = true;
                     }
                 },
                 enumerable: true,
@@ -24668,6 +24736,7 @@ var Kiwi;
                 * If true, it won't compute parent matrices.
                 * This can save computation, but prevents it from following
                 * its parent's transforms.
+                *
                 * Use this to save some processor cycles if the transform isn't
                 * following a parent and the state does not transform.
                 * @property ignoreParent
@@ -24678,6 +24747,31 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._ignoreParent = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Transform.prototype, "ignoreChild", {
+                /**
+                * Whether to prevent children from acquiring this as a parent
+                * when concatenating matrices. This can save computation,
+                * but prevents it from passing any transform data to children.
+                *
+                * Use this to save some processor cycles if this is a Group
+                * that does not control its children, and the state does not
+                * transform.
+                *
+                * @property ignoreChild
+                * @type boolean
+                * @default false
+                * @public
+                * @since 1.3.1
+                */
+                get: function () {
+                    return this._ignoreChild;
+                },
+                set: function (value) {
+                    this._ignoreChild = value;
                 },
                 enumerable: true,
                 configurable: true
@@ -24693,7 +24787,7 @@ var Kiwi;
             Transform.prototype.setPosition = function (x, y) {
                 this._x = x;
                 this._y = y;
-                //this.owner.dirty = true;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24706,7 +24800,7 @@ var Kiwi;
             Transform.prototype.setPositionFromPoint = function (point) {
                 this._x = point.x;
                 this._y = point.y;
-                //this.owner.dirty = true;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24719,7 +24813,7 @@ var Kiwi;
             Transform.prototype.translatePositionFromPoint = function (point) {
                 this._x += point.x;
                 this._y += point.y;
-                //this.owner.dirty = true;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24748,6 +24842,7 @@ var Kiwi;
                 set: function (value) {
                     this._scaleX = value;
                     this._scaleY = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24781,6 +24876,7 @@ var Kiwi;
                 this._rotation = rotation;
                 this._rotPointX = rotPointX;
                 this._rotPointY = rotPointY;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24805,33 +24901,60 @@ var Kiwi;
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
-                // this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
-                // var parentMatrix = this.getParentMatrix();
-                // if (parentMatrix) {
-                //     var matrix = this._matrix.clone();
-                //     matrix.prependMatrix(parentMatrix);
-                //     this._cachedConcatenatedMatrix.copyFrom(matrix);
-                //     return matrix;
-                // }
-                // return this._matrix;
+                /*
+    
+                Matrix caching
+    
+                Potential cases:
+                - This dirty, parent dirty	:	Update matrix, build concat
+                - This dirty, parent clean	:	Update matrix, build concat
+                - This dirty, no parent		:	Update matrix
+                - This clean, parent dirty	:	Build concat
+                - This clean, parent clean	:	Use cachedConcatenated
+                - This clean, no parent		:	Use cachedConcatenated
+    
+                Simplifies to four cases:
+                - This dirty, has parent	:	Update matrix, build concat
+                - This dirty, no parent		:	Update matrix
+                - This clean, parent dirty	:	Build concat
+                - Otherwise					:	Use cachedConcatenated
+    
+                */
                 var parentMatrix;
-                if (!this._locked) {
-                    if (this._parent) {
-                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
+                if (this._dirty) {
+                    this._dirty = false;
+                    if (this._parent && !this._parent.ignoreChild && !this.ignoreParent) {
+                        if (!this._locked) {
+                            this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
+                        }
+                        this._cachedParentMatrix.copyFrom(this.getParentMatrix());
+                        // Set output
+                        this._cachedConcatenatedMatrix.copyFrom(this._matrix);
+                        this._cachedConcatenatedMatrix.prependMatrix(this._cachedParentMatrix);
                     }
                     else {
-                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
+                        if (!this._locked) {
+                            this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
+                        }
+                        // Set output
+                        this._cachedConcatenatedMatrix.copyFrom(this._matrix);
                     }
                 }
-                if (!this._ignoreParent) {
-                    parentMatrix = this.getParentMatrix();
-                    if (parentMatrix) {
-                        this._concatMatrix.copyFrom(this._matrix);
-                        this._concatMatrix.prependMatrix(parentMatrix);
-                        return this._concatMatrix;
+                else {
+                    if (!this.ignoreParent && this._parent && !this._parent.ignoreChild) {
+                        parentMatrix = this.getParentMatrix();
+                        if (!this._cachedParentMatrix.equals(parentMatrix)) {
+                            this._cachedParentMatrix.copyFrom(parentMatrix);
+                            // Set output
+                            this._cachedConcatenatedMatrix.copyFrom(this._matrix);
+                            this._cachedConcatenatedMatrix.prependMatrix(this._cachedParentMatrix);
+                        }
                     }
                 }
-                return this._matrix;
+                // If the matrix and parent are clean, or if the matrix is clean
+                // and has no applicable parent, we may assume that the former
+                // matrix is still valid.
+                return this._cachedConcatenatedMatrix;
             };
             /**
             * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
