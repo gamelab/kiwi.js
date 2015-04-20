@@ -289,10 +289,10 @@ module Kiwi.GameObjects.Tilemap {
 
 
                     //Add on the matrix to the points
-                    this._corner1 = m.transformPoint( this._corner1 );
-                    this._corner2 = m.transformPoint( this._corner2 );
-                    this._corner3 = m.transformPoint( this._corner3 );
-                    this._corner4 = m.transformPoint( this._corner4 );
+                    m.transformPoint( this._corner1 );
+                    m.transformPoint( this._corner2 );
+                    m.transformPoint( this._corner3 );
+                    m.transformPoint( this._corner4 );
 
 
                     //Append to the xyuv array

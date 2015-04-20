@@ -7262,10 +7262,10 @@ var Kiwi;
                             this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             //Add on the matrix to the points
-                            this._corner1 = m.transformPoint(this._corner1);
-                            this._corner2 = m.transformPoint(this._corner2);
-                            this._corner3 = m.transformPoint(this._corner3);
-                            this._corner4 = m.transformPoint(this._corner4);
+                            m.transformPoint(this._corner1);
+                            m.transformPoint(this._corner2);
+                            m.transformPoint(this._corner3);
+                            m.transformPoint(this._corner4);
                             //Append to the xyuv array
                             vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
                         }
@@ -7480,10 +7480,10 @@ var Kiwi;
                             this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             //Add on the matrix to the points
-                            this._corner1 = m.transformPoint(this._corner1);
-                            this._corner2 = m.transformPoint(this._corner2);
-                            this._corner3 = m.transformPoint(this._corner3);
-                            this._corner4 = m.transformPoint(this._corner4);
+                            m.transformPoint(this._corner1);
+                            m.transformPoint(this._corner2);
+                            m.transformPoint(this._corner3);
+                            m.transformPoint(this._corner4);
                             //Append to the xyuv array
                             vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
                         }
