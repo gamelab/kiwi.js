@@ -15539,6 +15539,7 @@ var Kiwi;
                 this._shaderManager.init(gl, "TextureAtlasShader");
                 //camera matrix
                 this.camMatrix = mat3.create();
+                this._camMatrixOffset = new Kiwi.Geom.Matrix();
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
@@ -15655,17 +15656,31 @@ var Kiwi;
                 //set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
-                var rotOffset = vec2.create();
-                var scale = vec2.create();
-                var translate = vec2.create();
-                vec2.set(scale, ct.scaleX, ct.scaleY);
-                vec2.set(rotOffset, -ct.rotPointX, -ct.rotPointY);
-                vec2.set(translate, cm.tx, cm.ty);
-                mat3.identity(this.camMatrix);
-                mat3.translate(this.camMatrix, this.camMatrix, translate);
-                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
-                mat3.scale(this.camMatrix, this.camMatrix, scale);
-                mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+                // var rotOffset = vec2.create();
+                // var scale = vec2.create();
+                // var translate = vec2.create();
+                // vec2.set(scale, ct.scaleX, ct.scaleY);
+                // vec2.set(rotOffset, -ct.rotPointX, -ct.rotPointY);
+                // vec2.set(translate, cm.tx, cm.ty);
+                // mat3.identity(this.camMatrix);
+                // mat3.translate(this.camMatrix, this.camMatrix, translate);
+                // mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
+                // mat3.scale(this.camMatrix, this.camMatrix, scale);
+                // mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+                this._camMatrixOffset.identity();
+                this._camMatrixOffset.translate(-ct.anchorPointX, -ct.anchorPointY);
+                this._camMatrixOffset.prependMatrix(cm);
+                this.camMatrix = new Float32Array([
+                    this._camMatrixOffset.a,
+                    this._camMatrixOffset.b,
+                    0,
+                    this._camMatrixOffset.c,
+                    this._camMatrixOffset.d,
+                    0,
+                    this._camMatrixOffset.tx,
+                    this._camMatrixOffset.ty,
+                    1
+                ]);
                 // Mandate blend mode in CocoonJS
                 // This must be called per-frame, because CocoonJS seems to interfere with blend modes on a per-frame basis.
                 if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
