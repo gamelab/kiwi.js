@@ -449,6 +449,42 @@ module Kiwi.Renderers {
 		private _indexBuffer: GLElementArrayBuffer;
 
 		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt1
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt2
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt3
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
+		* Geometry point used in rendering.
+		*
+		* @property _pt4
+		* @type Kiwi.Geom.Point
+		* @private
+		*/
+		private _pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point( 0, 0 );
+
+		/**
 		* Enables the renderer ready for drawing
 		* @method enable
 		* @param gl {WebGLRenderingContext}
@@ -567,29 +603,32 @@ module Kiwi.Renderers {
 		* @public
 		*/
 		public addToBatch(gl: WebGLRenderingContext, entity: Entity, camera: Kiwi.Camera) {
+
 			// Skip if it&#x27;s invisible due to zero alpha
-			if( entity.alpha &lt;= 0 )
+			if( entity.alpha &lt;= 0 ) {
 				return;
+			}
+
 			var t: Kiwi.Geom.Transform = entity.transform;
 			var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
 
-			var cell = entity.atlas.cells[entity.cellIndex];
+			var cell = entity.atlas.cells[ entity.cellIndex ];
 
-			var pt1: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-			var pt2: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-			var pt3: Kiwi.Geom.Point = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-			var pt4: Kiwi.Geom.Point = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
+			this._pt1.setTo( 0 - t.rotPointX, 0 - t.rotPointY );
+			this._pt2.setTo( cell.w - t.rotPointX, 0 - t.rotPointY );
+			this._pt3.setTo( cell.w - t.rotPointX, cell.h - t.rotPointY );
+			this._pt4.setTo( 0 - t.rotPointX, cell.h - t.rotPointY );
 
-			pt1 = m.transformPoint(pt1);
-			pt2 = m.transformPoint(pt2);
-			pt3 = m.transformPoint(pt3);
-			pt4 = m.transformPoint(pt4);
+			m.transformPoint(this._pt1);
+			m.transformPoint(this._pt2);
+			m.transformPoint(this._pt3);
+			m.transformPoint(this._pt4);
 
 			this._vertexBuffer.items.push(
-				pt1.x, pt1.y, cell.x, cell.y, entity.alpha,
-				pt2.x, pt2.y, cell.x + cell.w, cell.y, entity.alpha,
-				pt3.x, pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha,
-				pt4.x, pt4.y, cell.x, cell.y + cell.h, entity.alpha
+				this._pt1.x, this._pt1.y, cell.x, cell.y, entity.alpha,
+				this._pt2.x, this._pt2.y, cell.x + cell.w, cell.y, entity.alpha,
+				this._pt3.x, this._pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha,
+				this._pt4.x, this._pt4.y, cell.x, cell.y + cell.h, entity.alpha
 				);
 		}
 

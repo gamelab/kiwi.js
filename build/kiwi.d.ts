@@ -10456,7 +10456,6 @@ declare module Kiwi.Renderers {
         render(camera: Kiwi.Camera): void;
     }
 }
-declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
 /**
 * @module Kiwi
 * @submodule Renderers
@@ -10465,7 +10464,7 @@ declare var mat2d: any, mat3: any, vec2: any, vec3: any, mat4: any;
 */
 declare module Kiwi.Renderers {
     /**
-    * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
+    * Manages all rendering using WebGL.
     * Directly manages renderer objects, including factory methods for their creation.
     * Creates manager objects for shaders and textures.
     * Manages gl state at game initialisation, at state start and end, and per frame.

@@ -3362,6 +3362,13 @@
                             "description": "Any tags to be associated with this file.",
                             "type": "Array",
                             "optional": true
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "Sets the timeout delay when loading via ajax.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "TIMEOUT_DELAY"
                         }
                     ]
                 }
@@ -4199,47 +4206,47 @@
             "namespace": "Kiwi.Geom",
             "file": "src/geom/Matrix.ts",
             "line": 9,
-            "description": "Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used\nby Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.\nObjects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent\ntransform.\nBy concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.\nSee http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.",
+            "description": "Represents a 2d transformation matrix. This can be used to map points\nbetween different coordinate spaces. Matrices are used by Transform\nobjects to represent translation, scale and rotation transformations,\nand to determine where objects are in world space or camera space.\nObjects such as entities and groups may be nested, and their associated\ntransforms may represent how they are scaled, translated and rotated\nrelative to a parent transform. By concatenating an object's\ntransformation matrix with its ancestors matrices, it is possible to\ndetermine the absolute position of the object in world space.\nSee\nhttp://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics\nfor an in depth discussion of 2d tranformation matrices.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "a",
-                    "description": "position 0,0 of the matrix, affects scaling and rotation.",
+                    "description": "position 0,0 of the matrix,\n\taffects scaling and rotation.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1"
                 },
                 {
                     "name": "b",
-                    "description": "position 0,1 of the matrix, affects scaling and rotation.",
+                    "description": "position 0,1 of the matrix,\n\taffects scaling and rotation.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "c",
-                    "description": "position 1,0 of the matrix, affects scaling and rotation.",
+                    "description": "position 1,0 of the matrix,\n\taffects scaling and rotation.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "d",
-                    "description": "position 1,1 of the matrix, affects scaling and rotation.",
+                    "description": "position 1,1 of the matrix,\n\taffects scaling and rotation.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1"
                 },
                 {
                     "name": "tx",
-                    "description": "position 2,0 of the matrix, affects translation on x axis.",
+                    "description": "position 2,0 of the matrix,\n\taffects translation on x axis.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "ty",
-                    "description": "position 2,1 of the matrix, affects translation on y axis.",
+                    "description": "position 2,1 of the matrix,\n\taffects translation on y axis.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
@@ -5637,8 +5644,8 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLRenderManager.ts",
-            "line": 13,
-            "description": "Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix\nDirectly manages renderer objects, including factory methods for their creation. \nCreates manager objects for shaders and textures.\nManages gl state at game initialisation, at state start and end, and per frame.\nRuns the recursive scene graph rendering sequence every frame.",
+            "line": 10,
+            "description": "Manages all rendering using WebGL.\nDirectly manages renderer objects, including factory methods for their creation. \nCreates manager objects for shaders and textures.\nManages gl state at game initialisation, at state start and end, and per frame.\nRuns the recursive scene graph rendering sequence every frame.",
             "extends": "IRenderer",
             "is_constructor": 1,
             "params": [
@@ -14155,7 +14162,7 @@
             "name": "_framerate",
             "type": "Number",
             "default": "60",
-            "access": "public",
+            "access": "private",
             "tagname": "",
             "class": "Kiwi.Game",
             "module": "Kiwi",
@@ -18585,7 +18592,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 458,
+            "line": 463,
             "description": "Recursively goes through a child given and runs the destroy method on all that are passed.",
             "itemtype": "method",
             "name": "_destroyChildren",
@@ -19317,7 +19324,7 @@
         },
         {
             "file": "src/file/DataFile.ts",
-            "line": 65,
+            "line": 67,
             "description": "If the response should be parsed (using the appropriate method) after loading.\nExample: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.",
             "itemtype": "property",
             "name": "parse",
@@ -19332,7 +19339,7 @@
         },
         {
             "file": "src/file/DataFile.ts",
-            "line": 78,
+            "line": 80,
             "description": "Returns the type of this object",
             "itemtype": "method",
             "name": "objType",
@@ -19349,7 +19356,7 @@
         },
         {
             "file": "src/file/DataFile.ts",
-            "line": 89,
+            "line": 91,
             "description": "Increments the counter, and calls the approprate loading method.",
             "itemtype": "method",
             "name": "_load",
@@ -19362,7 +19369,7 @@
         },
         {
             "file": "src/file/DataFile.ts",
-            "line": 107,
+            "line": 109,
             "description": "Handles decoding the arraybuffer into audio data.",
             "itemtype": "method",
             "name": "processXhr",
@@ -19381,7 +19388,7 @@
         },
         {
             "file": "src/file/DataFile.ts",
-            "line": 141,
+            "line": 143,
             "description": "Attempts to parse a string which is assumed to be XML. Called when 'parse' is set to true. \nIf valid 'loadSuccess' is called, otherwise 'loadError' is executed",
             "itemtype": "method",
             "name": "parseXML",
@@ -19401,7 +19408,7 @@
         },
         {
             "file": "src/file/DataFile.ts",
-            "line": 173,
+            "line": 175,
             "description": "Attempts to parse a string which is assumed to be JSON. Called when 'parse' is set to true. \nIf valid 'loadSuccess' is called, otherwise 'loadError' is executed",
             "itemtype": "method",
             "name": "processJSON",
@@ -19524,7 +19531,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 59,
+            "line": 60,
             "description": "Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.",
             "itemtype": "method",
             "name": "_parseParamsOld",
@@ -19571,7 +19578,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 88,
+            "line": 89,
             "description": "Sets properties for this instance based on an object literal passed. Used when the class is being created.",
             "itemtype": "method",
             "name": "parseParams",
@@ -19614,6 +19621,13 @@
                             "description": "Any tags to be associated with this file.",
                             "type": "Array",
                             "optional": true
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "Sets the timeout delay when loading via ajax.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "TIMEOUT_DELAY"
                         }
                     ]
                 }
@@ -19627,7 +19641,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 123,
+            "line": 131,
             "description": "Gets the file details from the URL passed. Name, extension, and path are extracted.",
             "itemtype": "method",
             "name": "_assignFileDetails",
@@ -19648,7 +19662,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 151,
+            "line": 159,
             "description": "Returns the type of this object",
             "itemtype": "method",
             "name": "objType",
@@ -19665,7 +19679,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 161,
+            "line": 169,
             "description": "The game that this file belongs to.",
             "itemtype": "property",
             "name": "game",
@@ -19680,7 +19694,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 171,
+            "line": 179,
             "description": "---------------\nGeneric Properties \n---------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -19689,7 +19703,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 177,
+            "line": 185,
             "description": "Indicates if this file can be loaded in parallel to other files. \nThis is usually only used files are using the tag loaders and not XHR.",
             "itemtype": "property",
             "name": "_loadInParallel",
@@ -19705,7 +19719,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 189,
+            "line": 197,
             "description": "READ ONLY: Indicates if this file can be loaded in parallel to other files. \nThis is usually only used files are using the tag loaders and not XHR.",
             "itemtype": "property",
             "name": "loadInParallel",
@@ -19722,7 +19736,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 204,
+            "line": 212,
             "description": "The filestore this file should be added to when it has loaded. \nThis can be replaced with a custom one if wanted.",
             "itemtype": "property",
             "name": "fileStore",
@@ -19737,7 +19751,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 215,
+            "line": 223,
             "description": "If this file is using tag loading instead of the XHR method. \nOnly used by extended classes",
             "itemtype": "property",
             "name": "useTagLoader",
@@ -19752,7 +19766,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 226,
+            "line": 234,
             "description": "The 'key' is the user defined name and the users way of accessing this file once loaded.",
             "itemtype": "property",
             "name": "key",
@@ -19766,7 +19780,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 234,
+            "line": 242,
             "description": "A dictionary, stores any information relating to this file.\nUsed when loading images that are to be used as a spritesheet or texture atlas.",
             "itemtype": "property",
             "name": "data",
@@ -19780,7 +19794,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 243,
+            "line": 251,
             "description": "Holds the type of data that is being loaded. \nThis should be used with the STATIC properties that hold the various datatypes that can be loaded.",
             "itemtype": "property",
             "name": "dataType",
@@ -19794,7 +19808,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 254,
+            "line": 262,
             "description": "---------------\nFile Information\n---------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -19803,7 +19817,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 260,
+            "line": 268,
             "description": "The name of the file being loaded.",
             "itemtype": "property",
             "name": "name",
@@ -19818,7 +19832,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 270,
+            "line": 278,
             "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
             "itemtype": "property",
             "name": "path",
@@ -19833,7 +19847,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 281,
+            "line": 289,
             "description": "The extension of the file that is being loaded.\nThis is based upon what the file path that the developer specifies.",
             "itemtype": "property",
             "name": "extension",
@@ -19848,7 +19862,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 292,
+            "line": 300,
             "description": "The full filepath including the file itself.",
             "itemtype": "property",
             "name": "URL",
@@ -19863,7 +19877,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 302,
+            "line": 310,
             "description": "The type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading OR if you use 'loadDetails' before hand.\nThe value is based off of the 'Content-Type' of the XHR's response header returns.",
             "itemtype": "property",
             "name": "type",
@@ -19877,7 +19891,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 313,
+            "line": 321,
             "description": "The size of the file that was/is being loaded. \nOnly has a value when the file was loaded by the XHR method OR you request the file information beforehand using 'loadDetails'.",
             "itemtype": "property",
             "name": "size",
@@ -19893,7 +19907,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 325,
+            "line": 333,
             "description": "---------------\nCallbacks\n---------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -19902,7 +19916,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 331,
+            "line": 339,
             "description": "Signal which dispatches events when the file has successfully loaded.",
             "itemtype": "property",
             "name": "onComplete",
@@ -19917,7 +19931,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 341,
+            "line": 349,
             "description": "Signal which dispatches events when the file is loading. \nNot guarenteed to dispatch events as it depends on the method of loading being performed",
             "itemtype": "property",
             "name": "onProgress",
@@ -19932,7 +19946,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 353,
+            "line": 361,
             "description": "---------------\nLoading\n---------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -19941,7 +19955,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 359,
+            "line": 367,
             "description": "The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.",
             "itemtype": "property",
             "name": "data",
@@ -19955,12 +19969,12 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 367,
-            "description": "The number of milliseconds that the XHR should wait before timing out.\nSet this to NULL if you want it to not timeout.",
+            "line": 375,
+            "description": "The number of milliseconds that the XHR should wait before timing out.\nSet this to NULL if you want it to not timeout.\n\nDefault changed in v1.3.1 to null",
             "itemtype": "property",
             "name": "timeOutDelay",
             "type": "Number",
-            "default": "4000",
+            "default": "null",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -19970,13 +19984,14 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 378,
-            "description": "The default number of milliseconds that the XHR should wait before timing out.\nSet this to NULL if you want it to not timeout.",
+            "line": 388,
+            "description": "The default number of milliseconds that the XHR should wait before timing out.\nBy default this is set to NULL, and so requests will not timeout.\n\nDefault changed in v1.3.1 to null",
             "itemtype": "property",
             "name": "TIMEOUT_DELAY",
             "type": "Number",
             "static": 1,
             "since": "1.2.0",
+            "default": "null",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -19986,7 +20001,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 390,
+            "line": 403,
             "description": "The number of attempts at loading there have currently been at loading the file.\nThis is only used with XHR methods of loading.",
             "itemtype": "property",
             "name": "attemptCounter",
@@ -20000,7 +20015,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 399,
+            "line": 412,
             "description": "The maximum attempts at loading the file that there is allowed.",
             "itemtype": "property",
             "name": "maxLoadAttempts",
@@ -20015,7 +20030,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 408,
+            "line": 421,
             "description": "The default maximum attempts at loading the file that there is allowed.",
             "itemtype": "property",
             "name": "MAX_LOAD_ATTEMPTS",
@@ -20032,7 +20047,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 419,
+            "line": 432,
             "description": "Starts the loading process for this file. \nPassing parameters to this method has been deprecated and only exists for backwards compatibility.",
             "itemtype": "method",
             "name": "load",
@@ -20045,7 +20060,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 450,
+            "line": 463,
             "description": "Increments the counter, and calls the approprate loading method.",
             "itemtype": "method",
             "name": "_load",
@@ -20059,7 +20074,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 462,
+            "line": 475,
             "description": "Should be called by the loading method. Dispatches the 'onProgress' callback.",
             "itemtype": "method",
             "name": "loadProgress",
@@ -20073,7 +20088,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 473,
+            "line": 486,
             "description": "Called by the loading methods when the file has been loaded and successfully processed.\nDispatches the 'onComplete' callback and sets the appropriate properties.",
             "itemtype": "method",
             "name": "loadSuccess",
@@ -20087,7 +20102,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 499,
+            "line": 512,
             "description": "Executed when the loading process fails. \nThis could be for any reason",
             "itemtype": "method",
             "name": "loadError",
@@ -20108,7 +20123,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 528,
+            "line": 541,
             "description": "---------------\nXHR Loading \n---------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20117,7 +20132,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 534,
+            "line": 547,
             "description": "Sets up a XHR loader based on the properties of this file and parameters passed.",
             "itemtype": "method",
             "name": "xhrLoader",
@@ -20152,7 +20167,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 576,
+            "line": 594,
             "description": "Progress event fired whilst the file is loading via XHR.",
             "itemtype": "method",
             "name": "xhrOnProgress",
@@ -20172,7 +20187,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 591,
+            "line": 609,
             "description": "Fired when the file has been loaded. \nChecks that the response contains information before marking it as a success.",
             "itemtype": "method",
             "name": "xhrOnLoad",
@@ -20192,7 +20207,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 617,
+            "line": 635,
             "description": "Contains the logic for processing the information retrieved via XHR.\nAssigns the data property. \nThis method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.",
             "itemtype": "method",
             "name": "processXhr",
@@ -20211,7 +20226,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 631,
+            "line": 649,
             "description": "The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.",
             "itemtype": "property",
             "name": "_xhr",
@@ -20225,7 +20240,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 639,
+            "line": 657,
             "description": "-----------------\nLoading Status\n-----------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20234,7 +20249,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 645,
+            "line": 663,
             "description": "The time at which the loading started.",
             "itemtype": "property",
             "name": "timeStarted",
@@ -20249,7 +20264,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 654,
+            "line": 672,
             "description": "The time at which progress in loading the file was last occurred.\nOnly contains a value when using XHR methods of loading.",
             "itemtype": "property",
             "name": "lastProgress",
@@ -20263,7 +20278,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 663,
+            "line": 681,
             "description": "The time at which the load finished.",
             "itemtype": "property",
             "name": "timeFinished",
@@ -20278,7 +20293,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 673,
+            "line": 691,
             "description": "The duration or how long it took to load the file. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -20293,7 +20308,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 683,
+            "line": 701,
             "description": "Is executed when this file starts loading. \nGets the time and resets properties used in file loading.",
             "itemtype": "method",
             "name": "_start",
@@ -20306,7 +20321,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 699,
+            "line": 717,
             "description": "Is executed when this file stops loading.",
             "itemtype": "method",
             "name": "_stop",
@@ -20319,7 +20334,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 714,
+            "line": 732,
             "description": "If file loading failed or encountered an error and so was not laoded",
             "itemtype": "property",
             "name": "hasError",
@@ -20334,7 +20349,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 723,
+            "line": 741,
             "description": "Holds the error (if there was one) when loading the file.",
             "itemtype": "property",
             "name": "error",
@@ -20348,7 +20363,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 731,
+            "line": 749,
             "description": "If loading was successful or not.",
             "itemtype": "property",
             "name": "success",
@@ -20362,7 +20377,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 739,
+            "line": 757,
             "description": "Indication if the file is currently being loaded or not.",
             "itemtype": "property",
             "name": "loading",
@@ -20376,7 +20391,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 747,
+            "line": 765,
             "description": "Indicates if the file has attempted to load.\nThis is regardless of whether it was a success or not.",
             "itemtype": "property",
             "name": "complete",
@@ -20391,7 +20406,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 757,
+            "line": 775,
             "description": "The amount of percent loaded the file is. This is out of 100.",
             "itemtype": "property",
             "name": "percentLoaded",
@@ -20405,7 +20420,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 765,
+            "line": 783,
             "description": "The number of bytes that have currently been loaded. \nUseful when wanting to know exactly how much data has been transferred.\nOnly has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "bytesLoaded",
@@ -20420,7 +20435,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 778,
+            "line": 796,
             "description": "The total number of bytes that the file consists off.\nOnly has a value when using the XHR method of loading \nor you are getting the file details before hand.",
             "itemtype": "property",
             "name": "bytesTotal",
@@ -20435,7 +20450,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 790,
+            "line": 808,
             "description": "--------------------\nXHR Header Information\n--------------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20444,7 +20459,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 796,
+            "line": 814,
             "description": "The callback method to be executed when the file details have been retrieved.",
             "itemtype": "property",
             "name": "headCompleteCallback",
@@ -20459,7 +20474,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 805,
+            "line": 823,
             "description": "The context the 'headCompleteCallback' should be executed in..\nThe callback is the following arguments. \n1. If the details were recieved",
             "itemtype": "property",
             "name": "headCompleteContext",
@@ -20474,7 +20489,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 817,
+            "line": 835,
             "description": "An indication of whether this files information has been retrieved or not.",
             "itemtype": "property",
             "name": "detailsReceived",
@@ -20490,7 +20505,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 827,
+            "line": 845,
             "description": "Makes a XHR HEAD request to get information about the file that is going to be downloaded.\nThis is particularly useful when you are wanting to check how large a file is before loading all of the content.",
             "itemtype": "method",
             "name": "loadDetails",
@@ -20522,7 +20537,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 853,
+            "line": 871,
             "description": "Retrieves the HEAD information from the XHR. \nThis method is used for both 'load' and 'loadDetails' methods.",
             "itemtype": "method",
             "name": "_getXhrHeaderInfo",
@@ -20536,7 +20551,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 878,
+            "line": 896,
             "description": "Sets up a XMLHttpRequest object and sends a HEAD request.",
             "itemtype": "method",
             "name": "xhrHeadRequest",
@@ -20550,7 +20565,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 896,
+            "line": 914,
             "description": "Executed when a xhr head request fails",
             "itemtype": "method",
             "name": "xhrHeadOnError",
@@ -20570,7 +20585,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 910,
+            "line": 928,
             "description": "Executed when a XHR head request has loaded.\nChecks that the status of the request is 200 before classifying it as a success.",
             "itemtype": "method",
             "name": "xhrHeadOnLoad",
@@ -20590,7 +20605,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 931,
+            "line": 949,
             "description": "--------------------\nMISC\n--------------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20599,7 +20614,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 937,
+            "line": 955,
             "description": "The Entity Tag that is assigned to the file. O\nOnly has a value when either using the XHR loader OR when requesting the file details.",
             "itemtype": "property",
             "name": "ETag",
@@ -20613,7 +20628,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 946,
+            "line": 964,
             "description": "The last date/time that this file was last modified. \nOnly has a value when using the XHR method of loading OR when requesting the file details.",
             "itemtype": "property",
             "name": "lastModified",
@@ -20628,7 +20643,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 957,
+            "line": 975,
             "description": "--------------------\nTagging + State\n--------------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20637,7 +20652,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 963,
+            "line": 981,
             "description": "The state that added the entity - or null if it was added as global",
             "itemtype": "property",
             "name": "ownerState",
@@ -20651,7 +20666,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 972,
+            "line": 990,
             "description": "Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.",
             "itemtype": "property",
             "name": "_tags",
@@ -20666,7 +20681,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 982,
+            "line": 1000,
             "description": "Adds a new tag to this file.",
             "itemtype": "method",
             "name": "addTag",
@@ -20686,7 +20701,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 995,
+            "line": 1013,
             "description": "Removes a tag from this file.",
             "itemtype": "method",
             "name": "removeTag",
@@ -20706,7 +20721,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1009,
+            "line": 1027,
             "description": "Checks to see if a tag that is passed exists on this file.\nReturns a boolean that is used as a indication of the results. \nTrue means that the tag exists on this file.",
             "itemtype": "method",
             "name": "hasTag",
@@ -20730,7 +20745,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1027,
+            "line": 1045,
             "description": "-------------------\nFile Type\n-------------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20739,7 +20754,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1033,
+            "line": 1051,
             "description": "A STATIC property that has the number associated with the IMAGE Datatype.",
             "itemtype": "property",
             "name": "IMAGE",
@@ -20756,7 +20771,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1045,
+            "line": 1063,
             "description": "A STATIC property that has the number associated with the SPRITE_SHEET Datatype.",
             "itemtype": "property",
             "name": "SPRITE_SHEET",
@@ -20773,7 +20788,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1057,
+            "line": 1075,
             "description": "A STATIC property that has the number associated with the TEXTURE_ATLAS Datatype.",
             "itemtype": "property",
             "name": "TEXTUREATLAS",
@@ -20790,7 +20805,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1069,
+            "line": 1087,
             "description": "A STATIC property that has the number associated with the AUDIO Datatype.",
             "itemtype": "property",
             "name": "AUDIO",
@@ -20807,7 +20822,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1081,
+            "line": 1099,
             "description": "A STATIC property that has the number associated with the JSON Datatype.",
             "itemtype": "property",
             "name": "JSON",
@@ -20824,7 +20839,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1093,
+            "line": 1111,
             "description": "A STATIC property that has the number associated with the XML Datatype.",
             "itemtype": "property",
             "name": "XML",
@@ -20841,7 +20856,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1105,
+            "line": 1123,
             "description": "A STATIC property that has the number associated with the BINARY_DATA Datatype.",
             "itemtype": "property",
             "name": "BINARY_DATA",
@@ -20858,7 +20873,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1117,
+            "line": 1135,
             "description": "A STATIC property that has the number associated with the TEXT_DATA Datatype.",
             "itemtype": "property",
             "name": "TEXT_DATA",
@@ -20875,7 +20890,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1128,
+            "line": 1146,
             "itemtype": "property",
             "name": "UNKNOWN",
             "type": "number",
@@ -20891,7 +20906,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1139,
+            "line": 1157,
             "description": "An indication of if this file is texture. This is READ ONLY.",
             "itemtype": "property",
             "name": "isTexture",
@@ -20906,7 +20921,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1151,
+            "line": 1169,
             "description": "An indication of if this file is a piece of audio. This is READ ONLY.",
             "itemtype": "property",
             "name": "isAudio",
@@ -20921,7 +20936,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1163,
+            "line": 1181,
             "description": "An indication of if this file is data. This is READ ONLY.",
             "itemtype": "property",
             "name": "isData",
@@ -20936,7 +20951,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1174,
+            "line": 1192,
             "description": "------------------\nClean Up\n------------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20945,7 +20960,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1180,
+            "line": 1198,
             "description": "Destroys all external object references on this object.",
             "itemtype": "method",
             "name": "destroy",
@@ -20959,7 +20974,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1209,
+            "line": 1227,
             "description": "------------------\nDeprecated\n------------------",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -20968,7 +20983,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1215,
+            "line": 1233,
             "description": "The name of the file being loaded.",
             "itemtype": "property",
             "name": "fileName",
@@ -20984,7 +20999,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1229,
+            "line": 1247,
             "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
             "itemtype": "property",
             "name": "filePath",
@@ -21000,7 +21015,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1244,
+            "line": 1262,
             "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
             "itemtype": "property",
             "name": "filePath",
@@ -21016,7 +21031,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1259,
+            "line": 1277,
             "description": "The full filepath including the file itself.",
             "itemtype": "property",
             "name": "fileURL",
@@ -21032,7 +21047,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1273,
+            "line": 1291,
             "description": "The type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading OR if you use 'getFileDetails' before hand.\nThe value is based off of the 'Content-Type' of the XHR's response header returns.",
             "itemtype": "property",
             "name": "fileType",
@@ -21048,7 +21063,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1289,
+            "line": 1307,
             "description": "The size of the file that was/is being loaded. \nOnly has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.",
             "itemtype": "property",
             "name": "fileSize",
@@ -21064,7 +21079,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1305,
+            "line": 1323,
             "description": "A method that is to be executed when this file has finished loading.",
             "itemtype": "property",
             "name": "onCompleteCallback",
@@ -21081,7 +21096,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1316,
+            "line": 1334,
             "description": "A method that is to be executed while this file is loading.",
             "itemtype": "property",
             "name": "onProgressCallback",
@@ -21098,7 +21113,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1327,
+            "line": 1345,
             "description": "The status of this file that is being loaded. \nOnly used/has a value when the file was/is being loaded by the XHR method.",
             "itemtype": "property",
             "name": "status",
@@ -21115,7 +21130,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1339,
+            "line": 1357,
             "description": "The status piece of text that the XHR returns.",
             "itemtype": "property",
             "name": "statusText",
@@ -21132,7 +21147,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1349,
+            "line": 1367,
             "description": "The ready state of the XHR loader whilst loading.",
             "itemtype": "property",
             "name": "readyState",
@@ -21149,7 +21164,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1359,
+            "line": 1377,
             "description": "If this file has timeout when it was loading.",
             "itemtype": "property",
             "name": "hasTimedOut",
@@ -21166,7 +21181,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1369,
+            "line": 1387,
             "description": "If the file timed out or not.",
             "itemtype": "property",
             "name": "timedOut",
@@ -21183,7 +21198,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1379,
+            "line": 1397,
             "description": "The response that is given by the XHR loader when loading is complete.",
             "itemtype": "property",
             "name": "buffer",
@@ -21199,7 +21214,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1389,
+            "line": 1407,
             "description": "Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.\nThis is particularly useful when you are wanting to check how large a file is before loading all of the content.",
             "itemtype": "method",
             "name": "getFileDetails",
@@ -25576,7 +25591,63 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 318,
+            "line": 317,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt1",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.TextField",
+            "module": "Kiwi",
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
+        },
+        {
+            "file": "src/gameobjects/Textfield.ts",
+            "line": 326,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt2",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.TextField",
+            "module": "Kiwi",
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
+        },
+        {
+            "file": "src/gameobjects/Textfield.ts",
+            "line": 335,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt3",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.TextField",
+            "module": "Kiwi",
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
+        },
+        {
+            "file": "src/gameobjects/Textfield.ts",
+            "line": 344,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt4",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.GameObjects.TextField",
+            "module": "Kiwi",
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
+        },
+        {
+            "file": "src/gameobjects/Textfield.ts",
+            "line": 354,
             "description": "This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). \nThis is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.",
             "itemtype": "method",
             "name": "_renderText",
@@ -25589,7 +25660,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 391,
+            "line": 427,
             "description": "Called by the Layer to which this Game Object is attached",
             "itemtype": "method",
             "name": "render",
@@ -25609,7 +25680,7 @@
         },
         {
             "file": "src/gameobjects/Textfield.ts",
-            "line": 439,
+            "line": 475,
             "description": "Renders the GameObject using WebGL.",
             "itemtype": "method",
             "name": "renderGL",
@@ -27845,7 +27916,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 37,
+            "line": 49,
             "description": "The type of object this is.",
             "itemtype": "method",
             "name": "objType",
@@ -27862,7 +27933,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 47,
+            "line": 59,
             "description": "Position 0,0 of the matrix, affects scaling and rotation",
             "itemtype": "property",
             "name": "a",
@@ -27877,7 +27948,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 56,
+            "line": 68,
             "description": "Position 0,1 of the matrix, affects scaling and rotation.",
             "itemtype": "property",
             "name": "b",
@@ -27892,7 +27963,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 65,
+            "line": 77,
             "description": "Position 1,0 of the matrix, affects scaling and rotation.",
             "itemtype": "property",
             "name": "c",
@@ -27907,7 +27978,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 74,
+            "line": 86,
             "description": "Position 1,1 of the matrix, affects scaling and rotation.",
             "itemtype": "property",
             "name": "d",
@@ -27922,7 +27993,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 83,
+            "line": 95,
             "description": "Position 2,0 of the matrix, affects translation on x axis.",
             "itemtype": "property",
             "name": "tx",
@@ -27937,7 +28008,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 92,
+            "line": 104,
             "description": "Position 2,1 of the matrix, affects translation on y axis.",
             "itemtype": "property",
             "name": "ty",
@@ -27952,7 +28023,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 101,
+            "line": 113,
             "description": "Set all matrix values",
             "itemtype": "method",
             "name": "setTo",
@@ -28013,7 +28084,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 126,
+            "line": 138,
             "description": "Set matrix values from transform values",
             "itemtype": "method",
             "name": "setFromTransform",
@@ -28057,7 +28128,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 147,
+            "line": 159,
             "description": "Set matrix values from transform values, with rotation point data included",
             "itemtype": "method",
             "name": "setFromOffsetTransform",
@@ -28112,7 +28183,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 171,
+            "line": 183,
             "description": "Prepend values to this matrix, paramters supplied individually.",
             "itemtype": "method",
             "name": "prepend",
@@ -28173,7 +28244,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 199,
+            "line": 211,
             "description": "Prepend a matrix to this matrix.",
             "itemtype": "method",
             "name": "prependMatrix",
@@ -28197,7 +28268,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 222,
+            "line": 234,
             "description": "Append values to this matrix, parameters supplied individually.",
             "itemtype": "method",
             "name": "append",
@@ -28258,7 +28329,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 249,
+            "line": 261,
             "description": "Append a matrix to this matrix.",
             "itemtype": "method",
             "name": "appendMatrix",
@@ -28282,7 +28353,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 271,
+            "line": 283,
             "description": "Set the tx and ty elements of the matrix.",
             "itemtype": "method",
             "name": "setPosition",
@@ -28311,7 +28382,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 285,
+            "line": 297,
             "description": "Set the tx and ty elements of the matrix from an object with x and y properties.",
             "itemtype": "method",
             "name": "setPositionPoint",
@@ -28335,7 +28406,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 298,
+            "line": 310,
             "description": "Get the x and y position of the matrix as an object with x and y properties",
             "itemtype": "method",
             "name": "getPosition",
@@ -28352,7 +28423,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 308,
+            "line": 320,
             "description": "Set the matrix to the identity matrix - when appending or prepending this matrix to another there will be no change in the resulting matrix",
             "itemtype": "method",
             "name": "identity",
@@ -28369,7 +28440,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 324,
+            "line": 336,
             "description": "Rotate the matrix by \"radians\" degrees",
             "itemtype": "method",
             "name": "rotate",
@@ -28393,7 +28464,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 349,
+            "line": 361,
             "description": "Translate the matrix by the amount passed.",
             "itemtype": "method",
             "name": "translate",
@@ -28422,7 +28493,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 364,
+            "line": 376,
             "description": "Scales the matrix by the amount passed.",
             "itemtype": "method",
             "name": "scale",
@@ -28451,7 +28522,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 379,
+            "line": 391,
             "description": "Apply this matrix to a an object with x and y properties representing a point and return the transformed point.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -28475,7 +28546,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 394,
+            "line": 406,
             "description": "Invert this matrix so that it represents the opposite of its orginal tranformaation.",
             "itemtype": "method",
             "name": "invert",
@@ -28492,7 +28563,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 417,
+            "line": 429,
             "description": "Copy another matrix to this matrix.",
             "itemtype": "method",
             "name": "copyFrom",
@@ -28516,7 +28587,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 435,
+            "line": 447,
             "description": "Copy this matrix to another matrix.",
             "itemtype": "method",
             "name": "copyTo",
@@ -28540,7 +28611,7 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 452,
+            "line": 464,
             "description": "Clone this matrix and returns a new Matrix object.",
             "itemtype": "method",
             "name": "clone",
@@ -28557,13 +28628,36 @@
         },
         {
             "file": "src/geom/Matrix.ts",
-            "line": 462,
+            "line": 474,
             "description": "Returns a string representation of this object.",
             "itemtype": "method",
             "name": "toString",
             "return": {
                 "description": "A string representation of the instance.",
                 "type": "String"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Geom.Matrix",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Matrix.ts",
+            "line": 486,
+            "description": "Check whether this matrix equals another matrix.",
+            "itemtype": "method",
+            "name": "equals",
+            "params": [
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Kiwi.Geom.Matrix"
+                }
+            ],
+            "return": {
+                "description": "boolean"
             },
             "access": "public",
             "tagname": "",
@@ -30319,7 +30413,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 43,
+            "line": 40,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -30336,7 +30430,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 53,
+            "line": 50,
             "description": "X position of the transform",
             "itemtype": "property",
             "name": "_x",
@@ -30351,7 +30445,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 62,
+            "line": 59,
             "description": "Return the X value of the transform.",
             "itemtype": "property",
             "name": "x",
@@ -30365,7 +30459,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 77,
+            "line": 74,
             "description": "Y position of the transform",
             "itemtype": "property",
             "name": "_y",
@@ -30380,7 +30474,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 86,
+            "line": 83,
             "description": "Return the Y value of the transform.",
             "itemtype": "property",
             "name": "y",
@@ -30394,7 +30488,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 100,
+            "line": 98,
             "description": "X scaleof the transform",
             "itemtype": "property",
             "name": "_scaleX",
@@ -30409,7 +30503,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 109,
+            "line": 107,
             "description": "Return the X scale value of the transform.",
             "itemtype": "property",
             "name": "scaleX",
@@ -30423,7 +30517,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 123,
+            "line": 122,
             "description": "Y scale of the transform",
             "itemtype": "property",
             "name": "_scaleY",
@@ -30438,7 +30532,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 132,
+            "line": 131,
             "description": "Return the Y scale value of the transform.",
             "itemtype": "property",
             "name": "scaleY",
@@ -30481,7 +30575,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 168,
+            "line": 169,
             "description": "Rotation offset on X axis.",
             "itemtype": "property",
             "name": "_rotPointX",
@@ -30496,7 +30590,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 177,
+            "line": 178,
             "description": "Return the rotation offset from the x axis.",
             "itemtype": "property",
             "name": "rotPointX",
@@ -30511,7 +30605,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 192,
+            "line": 194,
             "description": "Rotation offset on Y axis.",
             "itemtype": "property",
             "name": "_rotPointY",
@@ -30526,7 +30620,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 201,
+            "line": 203,
             "description": "Return the rotation offset from the y axis.",
             "itemtype": "property",
             "name": "rotPointY",
@@ -30540,7 +30634,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 215,
+            "line": 218,
             "description": "Return the anchor point value from the X axis. (Aliases to rotPointX.)",
             "itemtype": "property",
             "name": "anchorPointX",
@@ -30555,7 +30649,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 229,
+            "line": 232,
             "description": "Return the anchor point value from the Y axis. (Aliases to rotPointY.)",
             "itemtype": "property",
             "name": "anchorPointY",
@@ -30570,7 +30664,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 243,
+            "line": 246,
             "description": "A 3x3 transformation matrix object that can be use this tranform to manipulate points or the context transformation.",
             "itemtype": "property",
             "name": "_matrix",
@@ -30584,7 +30678,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 251,
+            "line": 254,
             "description": "Return the Matrix being used by this Transform",
             "itemtype": "property",
             "name": "matrix",
@@ -30599,8 +30693,8 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 264,
-            "description": "The most recently calculated matrix from getConcatenatedMatrix.\nNot used or updated after object creation.\nCandidate for deprecation.",
+            "line": 267,
+            "description": "The most recently calculated matrix from getConcatenatedMatrix.",
             "itemtype": "property",
             "name": "_cachedConcatenatedMatrix",
             "type": "Kiwi.Geom.Matrix",
@@ -30613,8 +30707,8 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 274,
-            "description": "Temporary matrix used in concatenation operations",
+            "line": 276,
+            "description": "Temporary matrix used in concatenation operations.\nNot currently used; might be useful as a temp value\nin future optimisations.",
             "itemtype": "property",
             "name": "_concatMatrix",
             "type": "Kiwi.Geom.Matrix",
@@ -30627,7 +30721,21 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 282,
+            "line": 286,
+            "description": "Cached copy of the parent matrix. Used to determine\nwhether to update other cached matrices.",
+            "itemtype": "property",
+            "name": "_cachedParentMatrix",
+            "type": "Kiwi.Geom.Matrix",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Geom.Transform",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Transform.ts",
+            "line": 296,
             "description": "Return the x of this transform translated to world space.",
             "itemtype": "property",
             "name": "worldX",
@@ -30642,7 +30750,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 295,
+            "line": 309,
             "description": "Return the y of this transform translated to world space.",
             "itemtype": "property",
             "name": "worldY",
@@ -30657,7 +30765,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 309,
+            "line": 323,
             "description": "The parent transform. If set to null there is no parent. Otherwise this is used by getConcatenatedMatrix to offset the current transforms by the another matrix",
             "itemtype": "property",
             "name": "_parent",
@@ -30672,7 +30780,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 318,
+            "line": 332,
             "description": "Return the parent Transform. If the transform does not have a parent this null is returned.",
             "itemtype": "property",
             "name": "parent",
@@ -30687,7 +30795,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 336,
+            "line": 351,
             "description": "Private copy.\nWhether the Transform is locked. In locked mode, the Transform\nwill not update its matrix, saving on computation.\nHowever, it will still follow its parent.",
             "itemtype": "property",
             "name": "_locked",
@@ -30703,7 +30811,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 349,
+            "line": 364,
             "description": "Whether the Transform is locked. In locked mode, the Transform\nwill not update its matrix, saving on computation.\nHowever, it will still follow its parent.\nWhen locked is set to true, it will set the matrix according to\ncurrent transform values.",
             "itemtype": "property",
             "name": "locked",
@@ -30719,7 +30827,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 376,
+            "line": 391,
             "description": "Private copy.\nWhether to ignore its parent when concatenating matrices.\nIf true, it won't compute parent matrices.\nThis can save computation, but prevents it from following\nits parent's transforms.\nUse this to save some processor cycles if the transform isn't\nfollowing a parent and the state does not transform.",
             "itemtype": "property",
             "name": "_ignoreParent",
@@ -30735,8 +30843,8 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 392,
-            "description": "Whether to ignore its parent when concatenating matrices.\nIf true, it won't compute parent matrices.\nThis can save computation, but prevents it from following\nits parent's transforms.\nUse this to save some processor cycles if the transform isn't\nfollowing a parent and the state does not transform.",
+            "line": 407,
+            "description": "Whether to ignore its parent when concatenating matrices.\nIf true, it won't compute parent matrices.\nThis can save computation, but prevents it from following\nits parent's transforms.\n\nUse this to save some processor cycles if the transform isn't\nfollowing a parent and the state does not transform.",
             "itemtype": "property",
             "name": "ignoreParent",
             "type": "boolean",
@@ -30751,7 +30859,55 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 414,
+            "line": 430,
+            "description": "Private copy.\nWhether to prevent children from acquiring this as a parent\nwhen concatenating matrices. This can save computation,\nbut prevents it from passing any transform data to children.\n\nUse this to save some processor cycles if this is a Group\nthat does not control its children, and the state does not\ntransform.",
+            "itemtype": "property",
+            "name": "_ignoreChild",
+            "type": "boolean",
+            "default": "false",
+            "access": "private",
+            "tagname": "",
+            "since": "1.3.1",
+            "class": "Kiwi.Geom.Transform",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Transform.ts",
+            "line": 448,
+            "description": "Whether to prevent children from acquiring this as a parent\nwhen concatenating matrices. This can save computation,\nbut prevents it from passing any transform data to children.\n\nUse this to save some processor cycles if this is a Group\nthat does not control its children, and the state does not\ntransform.",
+            "itemtype": "property",
+            "name": "ignoreChild",
+            "type": "boolean",
+            "default": "false",
+            "access": "public",
+            "tagname": "",
+            "since": "1.3.1",
+            "class": "Kiwi.Geom.Transform",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Transform.ts",
+            "line": 470,
+            "description": "Whether the transform has been altered since the last time\nit was used to create a matrix. Used to determine whether to rebuild\nthe matrix or not.",
+            "itemtype": "property",
+            "name": "_dirty",
+            "type": "boolean",
+            "default": "true",
+            "access": "private",
+            "tagname": "",
+            "since": "1.3.1",
+            "class": "Kiwi.Geom.Transform",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Transform.ts",
+            "line": 484,
             "description": "Set the X and Y values of the transform.",
             "itemtype": "method",
             "name": "setPosition",
@@ -30780,7 +30936,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 431,
+            "line": 501,
             "description": "Set the X and Y values of the transform from a point.",
             "itemtype": "method",
             "name": "setPositionPoint",
@@ -30804,7 +30960,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 448,
+            "line": 518,
             "description": "Translate the X and Y value of the transform by point components.",
             "itemtype": "method",
             "name": "translatePositionFromPoint",
@@ -30828,7 +30984,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 465,
+            "line": 535,
             "description": "Return a Point representing the X and Y values of the transform.\nIf no point is given a new Point objected will be created.",
             "itemtype": "method",
             "name": "getPositionPoint",
@@ -30853,7 +31009,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 480,
+            "line": 550,
             "description": "Set the X and Y scale value of the transform.\nThis property is set only. \nIn the future this will be looked into and updated as needed.",
             "itemtype": "property",
             "name": "scale",
@@ -30867,7 +31023,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 496,
+            "line": 567,
             "description": "Set the core properties of the transform.",
             "itemtype": "method",
             "name": "setTransform",
@@ -30935,7 +31091,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 525,
+            "line": 596,
             "description": "Return the parent matrix of the transform.\nIf there is no parent then null is returned.",
             "itemtype": "method",
             "name": "getParentMatrix",
@@ -30952,7 +31108,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 541,
+            "line": 612,
             "description": "Return the transformation matrix that concatenates this transform\nwith all ancestor transforms. If there is no parent then this will\nreturn a matrix the same as this transform's matrix.",
             "itemtype": "method",
             "name": "getConcatenatedMatrix",
@@ -30969,7 +31125,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 597,
+            "line": 706,
             "description": "Apply this matrix to a an object with x and y properties representing a point and return the transformed point.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -30993,7 +31149,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 612,
+            "line": 721,
             "description": "Copy another transforms data to this transform. A clone of the source matrix is created for the matrix property.",
             "itemtype": "method",
             "name": "copyFrom",
@@ -31017,7 +31173,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 631,
+            "line": 740,
             "description": "Copy this transforms data to the destination Transform. \nA clone of this transforms matrix is created in the destination Transform Matrix.",
             "itemtype": "method",
             "name": "copyTo",
@@ -31041,7 +31197,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 648,
+            "line": 757,
             "description": "Return a clone of this transform.",
             "itemtype": "method",
             "name": "clone",
@@ -31066,7 +31222,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 664,
+            "line": 773,
             "description": "Recursively check that a transform does not appear as its own ancestor",
             "itemtype": "method",
             "name": "checkAncestor",
@@ -31090,7 +31246,7 @@
         },
         {
             "file": "src/geom/Transform.ts",
-            "line": 687,
+            "line": 796,
             "description": "Return a string represention of this object.",
             "itemtype": "method",
             "name": "toString",
@@ -40044,6 +40200,62 @@
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
             "line": 83,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt1",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.TextureAtlasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/TextureAtlasRenderer.ts",
+            "line": 92,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt2",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.TextureAtlasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/TextureAtlasRenderer.ts",
+            "line": 101,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt3",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.TextureAtlasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/TextureAtlasRenderer.ts",
+            "line": 110,
+            "description": "Geometry point used in rendering.",
+            "itemtype": "property",
+            "name": "_pt4",
+            "type": "Kiwi.Geom.Point",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.TextureAtlasRenderer",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/renderers/TextureAtlasRenderer.ts",
+            "line": 119,
             "description": "Enables the renderer ready for drawing",
             "itemtype": "method",
             "name": "enable",
@@ -40070,7 +40282,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 103,
+            "line": 139,
             "description": "Disables the renderer",
             "itemtype": "method",
             "name": "disable",
@@ -40090,7 +40302,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 114,
+            "line": 150,
             "description": "Clears the vertex buffer.",
             "itemtype": "method",
             "name": "clear",
@@ -40110,7 +40322,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 125,
+            "line": 161,
             "description": "Makes a draw call, this is where things actually get rendered to the draw buffer (or a framebuffer).",
             "itemtype": "method",
             "name": "draw",
@@ -40130,7 +40342,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 144,
+            "line": 180,
             "description": "Generates quad indices",
             "itemtype": "method",
             "name": "_generateIndices",
@@ -40150,7 +40362,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 159,
+            "line": 195,
             "description": "Updates the stage resolution uniforms",
             "itemtype": "method",
             "name": "updateStageResolution",
@@ -40175,7 +40387,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 170,
+            "line": 206,
             "description": "Updates the texture size uniforms",
             "itemtype": "method",
             "name": "updateTextureSize",
@@ -40200,7 +40412,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 181,
+            "line": 217,
             "description": "Sets shader pair by name",
             "itemtype": "method",
             "name": "setShaderPair",
@@ -40221,7 +40433,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 193,
+            "line": 229,
             "description": "Collates all xy and uv coordinates into a buffer ready for upload to video memory",
             "itemtype": "method",
             "name": "addToBatch",
@@ -40251,7 +40463,7 @@
         },
         {
             "file": "src/render/renderers/TextureAtlasRenderer.ts",
-            "line": 228,
+            "line": 267,
             "description": "Adds an array of precalculated xyuv values to the item array",
             "itemtype": "method",
             "name": "concatBatch",
@@ -41332,7 +41544,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 35,
+            "line": 29,
             "description": "Initialises all WebGL rendering services",
             "itemtype": "method",
             "name": "boot",
@@ -41345,7 +41557,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 48,
+            "line": 42,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -41362,7 +41574,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 58,
+            "line": 52,
             "description": "The game that this renderer is used with.",
             "itemtype": "property",
             "name": "_game",
@@ -41376,7 +41588,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 66,
+            "line": 60,
             "description": "The texture manager object used to allocate GL Textures.",
             "itemtype": "property",
             "name": "_textureManager",
@@ -41390,7 +41602,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 74,
+            "line": 68,
             "description": "The shader manager object used to allocate GL Shaders.",
             "itemtype": "property",
             "name": "_shaderManager",
@@ -41404,7 +41616,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 85,
+            "line": 79,
             "description": "The stage resolution in pixels",
             "itemtype": "property",
             "name": "_stageResolution",
@@ -41418,7 +41630,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 93,
+            "line": 87,
             "description": "The renderer object that is in use during a rendering batch.",
             "itemtype": "property",
             "name": "_currentRenderer",
@@ -41432,7 +41644,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 101,
+            "line": 95,
             "description": "The current blend mode.",
             "itemtype": "property",
             "name": "_currentBlendMode",
@@ -41447,7 +41659,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 110,
+            "line": 104,
             "description": "Tally of number of entities rendered per frame",
             "itemtype": "property",
             "name": "_entityCount",
@@ -41462,7 +41674,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 119,
+            "line": 113,
             "description": "Tally of number of draw calls per frame",
             "itemtype": "property",
             "name": "numDrawCalls",
@@ -41477,7 +41689,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 128,
+            "line": 122,
             "description": "Maximum allowable sprites to render per frame\nNote:Not currently used  - candidate for deletion",
             "itemtype": "property",
             "name": "_maxItems",
@@ -41492,7 +41704,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 138,
+            "line": 132,
             "description": "Camera matrix used on graphics card",
             "itemtype": "property",
             "name": "camMatrix",
@@ -41506,7 +41718,21 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 146,
+            "line": 140,
+            "description": "Geometry data used to create `camMatrix`",
+            "itemtype": "property",
+            "name": "_camMatrixOffset",
+            "type": "Kiwi.Geom.Matrix",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLRenderManager.ts",
+            "line": 148,
             "description": "The most recently bound texture atlas.",
             "itemtype": "property",
             "name": "_currentTextureAtlas",
@@ -41520,7 +41746,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 154,
+            "line": 156,
             "description": "Adds a texture to the Texture Manager.",
             "itemtype": "method",
             "name": "addTexture",
@@ -41545,7 +41771,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 165,
+            "line": 167,
             "description": "An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer\ninstance and add rendering info to a batch rather than rendering individually. \nThis means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the\nsame renderer/shader combination and be drawn as part of the same batch.\nCustom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer\ncapabilities.",
             "itemtype": "property",
             "name": "_sharedRenderers",
@@ -41559,7 +41785,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 180,
+            "line": 182,
             "description": "Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.",
             "itemtype": "method",
             "name": "addSharedRenderer",
@@ -41588,7 +41814,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 204,
+            "line": 206,
             "description": "Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.\n\nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.",
             "itemtype": "method",
             "name": "addSharedRendererClone",
@@ -41623,7 +41849,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 233,
+            "line": 235,
             "description": "Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.",
             "itemtype": "method",
             "name": "requestSharedRenderer",
@@ -41652,7 +41878,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 259,
+            "line": 261,
             "description": "Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. \nThe rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit\nbatch rendering use this technique.",
             "itemtype": "method",
             "name": "requestRendererInstance",
@@ -41681,7 +41907,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 292,
+            "line": 294,
             "description": "Performs initialisation required for single game instance - happens once, at bootup\nSets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (TextureAtlasRenderer)",
             "itemtype": "method",
             "name": "_init",
@@ -41694,7 +41920,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 345,
+            "line": 348,
             "description": "Scales the viewport according to a scale mode and space dimensions.\n\nThis is used internally for compatibility with CocoonJS and should not be called.",
             "itemtype": "method",
             "name": "scaleViewport",
@@ -41730,7 +41956,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 393,
+            "line": 396,
             "description": "Performs initialisation required when switching to a different state. Called when a state has been switched to.\nThe textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
@@ -41743,7 +41969,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 405,
+            "line": 408,
             "description": "Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "endState",
@@ -41763,7 +41989,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 417,
+            "line": 420,
             "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and camera offset.\nClears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
@@ -41783,7 +42009,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 490,
+            "line": 488,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -41796,7 +42022,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 501,
+            "line": 499,
             "description": "Adds a child to the render sequence (may be a group with children of it's own)",
             "itemtype": "method",
             "name": "collateChild",
@@ -41809,7 +42035,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 526,
+            "line": 524,
             "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -41822,7 +42048,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 555,
+            "line": 553,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -41847,7 +42073,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 567,
+            "line": 565,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -41877,7 +42103,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 603,
+            "line": 601,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -41909,7 +42135,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 616,
+            "line": 614,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -41931,7 +42157,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 628,
+            "line": 626,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -41956,7 +42182,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 641,
+            "line": 639,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -41981,7 +42207,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 653,
+            "line": 651,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
@@ -45432,7 +45658,7 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 182,
+            "line": 189,
             "description": "Builds a spritesheet atlas from the an image file that is provided.",
             "itemtype": "method",
             "name": "_buildSpriteSheet",
@@ -45456,7 +45682,7 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 198,
+            "line": 205,
             "description": "Builds a single image atlas from a image file that is provided.",
             "itemtype": "method",
             "name": "_buildImage",
@@ -45480,7 +45706,7 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 210,
+            "line": 217,
             "description": "Rebuild the library from a fileStore. Clears the library and repopulates it.",
             "itemtype": "method",
             "name": "rebuild",
@@ -52948,7 +53174,7 @@
         },
         {
             "message": "param name missing: {Kiwi.Camera}",
-            "line": " src/gameobjects/Textfield.ts:391"
+            "line": " src/gameobjects/Textfield.ts:427"
         },
         {
             "message": "replacing incorrect tag: propery with property",
@@ -53008,51 +53234,51 @@
         },
         {
             "message": "Missing item type\n---------------\nGeneric Properties \n---------------",
-            "line": " src/file/File.ts:171"
+            "line": " src/file/File.ts:179"
         },
         {
             "message": "Missing item type\n---------------\nFile Information\n---------------",
-            "line": " src/file/File.ts:254"
+            "line": " src/file/File.ts:262"
         },
         {
             "message": "Missing item type\n---------------\nCallbacks\n---------------",
-            "line": " src/file/File.ts:325"
+            "line": " src/file/File.ts:333"
         },
         {
             "message": "Missing item type\n---------------\nLoading\n---------------",
-            "line": " src/file/File.ts:353"
+            "line": " src/file/File.ts:361"
         },
         {
             "message": "Missing item type\n---------------\nXHR Loading \n---------------",
-            "line": " src/file/File.ts:528"
+            "line": " src/file/File.ts:541"
         },
         {
             "message": "Missing item type\n-----------------\nLoading Status\n-----------------",
-            "line": " src/file/File.ts:639"
+            "line": " src/file/File.ts:657"
         },
         {
             "message": "Missing item type\n--------------------\nXHR Header Information\n--------------------",
-            "line": " src/file/File.ts:790"
+            "line": " src/file/File.ts:808"
         },
         {
             "message": "Missing item type\n--------------------\nMISC\n--------------------",
-            "line": " src/file/File.ts:931"
+            "line": " src/file/File.ts:949"
         },
         {
             "message": "Missing item type\n--------------------\nTagging + State\n--------------------",
-            "line": " src/file/File.ts:957"
+            "line": " src/file/File.ts:975"
         },
         {
             "message": "Missing item type\n-------------------\nFile Type\n-------------------",
-            "line": " src/file/File.ts:1027"
+            "line": " src/file/File.ts:1045"
         },
         {
             "message": "Missing item type\n------------------\nClean Up\n------------------",
-            "line": " src/file/File.ts:1174"
+            "line": " src/file/File.ts:1192"
         },
         {
             "message": "Missing item type\n------------------\nDeprecated\n------------------",
-            "line": " src/file/File.ts:1209"
+            "line": " src/file/File.ts:1227"
         },
         {
             "message": "Missing item type\n-----------------------------\nBytes Loaded Methods \n-----------------------------",

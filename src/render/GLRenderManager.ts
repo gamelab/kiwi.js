@@ -1,6 +1,3 @@
-//used for ts recognition of matrix-gl
-declare var mat2d, mat3, vec2, vec3, mat4;
-
 /**
 * @module Kiwi
 * @submodule Renderers 
@@ -11,7 +8,7 @@ declare var mat2d, mat3, vec2, vec3, mat4;
 module Kiwi.Renderers {
 
 	/**
-	* Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
+	* Manages all rendering using WebGL.
 	* Directly manages renderer objects, including factory methods for their creation. 
 	* Creates manager objects for shaders and textures.
 	* Manages gl state at game initialisation, at state start and end, and per frame.
@@ -26,9 +23,6 @@ module Kiwi.Renderers {
 
 		constructor(game: Kiwi.Game) {
 			this._game = game;
-			if (typeof mat4 === "undefined") {
-				throw "ERROR: gl-matrix.js is missing";
-			}
 			this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, {mode:"DEFAULT"} );
 		}
 
@@ -328,7 +322,7 @@ module Kiwi.Renderers {
 			this._shaderManager.init(gl, "TextureAtlasShader");
 			
 			//camera matrix
-			this.camMatrix = mat3.create();
+			this.camMatrix = new Float32Array( [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ] );
 			this._camMatrixOffset = new Kiwi.Geom.Matrix();
 			
 			//stage res needs update on stage resize
