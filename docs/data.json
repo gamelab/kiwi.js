@@ -42009,7 +42009,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 488,
+            "line": 498,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -42022,7 +42022,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 499,
+            "line": 509,
             "description": "Adds a child to the render sequence (may be a group with children of it's own)",
             "itemtype": "method",
             "name": "collateChild",
@@ -42035,7 +42035,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 524,
+            "line": 534,
             "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -42048,7 +42048,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 553,
+            "line": 563,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -42073,7 +42073,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 565,
+            "line": 575,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -42103,7 +42103,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 601,
+            "line": 611,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -42135,7 +42135,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 614,
+            "line": 624,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -42157,7 +42157,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 626,
+            "line": 636,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -42182,7 +42182,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 639,
+            "line": 649,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -42207,7 +42207,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 651,
+            "line": 661,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
