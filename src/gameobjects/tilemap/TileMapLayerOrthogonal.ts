@@ -101,12 +101,13 @@ module Kiwi.GameObjects.Tilemap {
             //Get the box off them
             var b: Kiwi.Geom.Rectangle = entity.components.getComponent('Box').worldHitbox;
 
-            //Is the person within the map's bounds?    
-            if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
-                return [];
-
             var worldX = this.transform.worldX;
             var worldY = this.transform.worldY;
+
+            //Is the person within the map's bounds?    
+            if (b.left > worldX + this.widthInPixels || b.right < worldX || b.bottom < worldY || b.top > worldY + this.heightInPixels)
+                return [];
+
 
             var nx = b.x - worldX;
             var ny = b.y - worldY;
@@ -124,7 +125,7 @@ module Kiwi.GameObjects.Tilemap {
             for (var i = 0; i < tiles.length; i++) {
                 var t = tiles[i];
 
-                if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < t.top) {
+                if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < b.top) {
                     tiles.splice(i, 1);
                     i--;
                 }
