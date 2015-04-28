@@ -538,12 +538,19 @@ module Kiwi.Textures {
 			var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.key, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
 			var m = imageFile.metadata;
 			
-			var json = this._game.fileStore.getFile(m.jsonID).data;
-			json.trim();
-			
-			atlas.readJSON(json);
-			
-			return atlas;
+            try {
+                var json = this._game.fileStore.getFile(m.jsonID).data;
+                json.trim();
+                atlas.readJSON(json);
+
+                return atlas;
+
+            } catch (e) {
+
+                Kiwi.Log.error(&quot;  Kiwi.Textures.TextureLibrary: Failed to extract information for &#x27;&quot; + imageFile.key + &quot;&#x27; from JSON file &#x27;&quot; + m.jsonID + &quot;&#x27;&quot;, &#x27;#error&#x27;, &#x27;#texture&#x27;, &#x27;Message: &#x27; + e.message);
+            }
+
+            return null;
 			
 		}
 	

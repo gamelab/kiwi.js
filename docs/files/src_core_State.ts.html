@@ -809,14 +809,19 @@ module Kiwi {
 			if (deleteAll == true) {
 
 				//destroy all of the tracking list
-				for (var i = 0; i &lt; this._trackingList.length; i++) {
+				while( this._trackingList.length &gt; 0 ) {
 
 					//If the item is a group then we don&#x27;t want it to destroy it&#x27;s children, as this method will do that eventually anyway.
-					this._trackingList[i].destroy( true , false ); 
+					this._trackingList[0].destroy( true , false ); 
 				}
 				this._trackingList = [];
 				
-				// While it is possible to set a member on another state and push it to this state, thus avoiding the tracking list, that member will be destroyed when this state loads, so we do not need to destroy remaining members - simply clear the list.
+                //destroy all of the groups members. Usually they would be apart of the trackingList 
+                while (this.members.length &gt; 0) {
+
+                    //If the item is a group then we don&#x27;t want it to destroy it&#x27;s children, as this method will do that eventually anyway.
+                    this.members[0].destroy(true, false);
+                }
 				this.members = [];    
 
 			}

@@ -29,7 +29,6 @@
     <Content Include="file\File.ts" />
     <Content Include="file\FileStore.ts" />
     <Content Include="file\Loader.ts" />
-    <Content Include="gl-matrix-min.js" />
     <Content Include="hud\components\Time.ts" />
     <Content Include="input\MouseCursor.ts" />
     <Content Include="input\Pointer.ts" />

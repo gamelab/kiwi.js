@@ -1354,7 +1354,10 @@ module Kiwi {
                 this._visibility = null;
             }
 
-            window.onpageshow = window.onpagehide = window.onfocus = window.onblur = this._visibilityChange;
+            window.addEventListener(&#x27;pageshow&#x27;, this._visibilityChange);
+            window.addEventListener(&#x27;pagehide&#x27;, this._visibilityChange);
+            window.addEventListener(&#x27;focus&#x27;, this._visibilityChange);
+            window.addEventListener(&#x27;blur&#x27;, this._visibilityChange);
 
         }
 

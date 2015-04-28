@@ -366,9 +366,6 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-//used for ts recognition of matrix-gl
-declare var mat2d, mat3, vec2, vec3, mat4;
-
 /**
 * @module Kiwi
 * @submodule Renderers 
@@ -379,7 +376,7 @@ declare var mat2d, mat3, vec2, vec3, mat4;
 module Kiwi.Renderers {
 
 	/**
-	* Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
+	* Manages all rendering using WebGL.
 	* Directly manages renderer objects, including factory methods for their creation. 
 	* Creates manager objects for shaders and textures.
 	* Manages gl state at game initialisation, at state start and end, and per frame.
@@ -394,9 +391,6 @@ module Kiwi.Renderers {
 
 		constructor(game: Kiwi.Game) {
 			this._game = game;
-			if (typeof mat4 === &quot;undefined&quot;) {
-				throw &quot;ERROR: gl-matrix.js is missing&quot;;
-			}
 			this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, {mode:&quot;DEFAULT&quot;} );
 		}
 
@@ -510,6 +504,14 @@ module Kiwi.Renderers {
 		* @public
 		*/
 		public camMatrix: Float32Array;
+
+		/**
+		* Geometry data used to create &#x60;camMatrix&#x60;
+		* @property _camMatrixOffset
+		* @type Kiwi.Geom.Matrix
+		* @private
+		*/
+		private _camMatrixOffset: Kiwi.Geom.Matrix;
 
 		/**
 		* The most recently bound texture atlas.
@@ -688,7 +690,8 @@ module Kiwi.Renderers {
 			this._shaderManager.init(gl, &quot;TextureAtlasShader&quot;);
 			
 			//camera matrix
-			this.camMatrix = mat3.create();
+			this.camMatrix = new Float32Array( [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ] );
+			this._camMatrixOffset = new Kiwi.Geom.Matrix();
 			
 			//stage res needs update on stage resize
 			this._game.stage.onResize.add(function (width, height) {
@@ -798,11 +801,12 @@ module Kiwi.Renderers {
 			//clear stage every frame
 			var col = this._game.stage.normalizedColor;
 			// Colour must be multiplied by alpha to create consistent results.
-			// This is probably due to browsers implementing an inferior blendfunc:
-			// ONE, ONE_MINUS_SRC_ALPHA is most common, and gives bad results with alphas.
-			// When this is used on a partially transparent game canvas, it does not blend correctly.
-			// Without being able to override the browser&#x27;s own object renderer, this is a necessary kludge.
-			// The &quot;clean&quot; solution is as follows:
+			// This is probably due to browsers implementing an inferior
+			// blendfunc: ONE, ONE_MINUS_SRC_ALPHA is most common, and gives
+			// bad results with alphas. When this is used on a partially
+			// transparent game canvas, it does not blend correctly.
+			// Without being able to override the browser&#x27;s own object renderer,
+			// this is a necessary kludge. The &quot;clean&quot; solution is as follows:
 			// gl.clearColor(col.r, col.g, col.b, col.a);
 			gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
 			gl.clear(gl.COLOR_BUFFER_BIT);
@@ -812,30 +816,34 @@ module Kiwi.Renderers {
 				return;
 			}
 
-			//reset stats
+			// Reset stats
 			this.numDrawCalls = 0;
 			this._textureManager.numTextureWrites = 0;
 			this._entityCount = 0;
-			
-			//set cam matrix uniform
+
+			// Set cam matrix uniform
 			var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
 			var ct: Kiwi.Geom.Transform = camera.transform;
+			this._camMatrixOffset.identity();
+			this._camMatrixOffset.translate(
+				-ct.anchorPointX, -ct.anchorPointY );
+			this._camMatrixOffset.prependMatrix( cm );
 
-			var rotOffset = vec2.create();
-			var scale = vec2.create();
-			var translate = vec2.create();
-
-			vec2.set(scale, ct.scaleX, ct.scaleY);
-			vec2.set(rotOffset, -ct.rotPointX, -ct.rotPointY);
-			vec2.set(translate, cm.tx, cm.ty);
-			mat3.identity(this.camMatrix);
-			mat3.translate(this.camMatrix, this.camMatrix, translate);
-			mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
-			mat3.scale(this.camMatrix, this.camMatrix, scale);
-			mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+			// Overwrite cam matrix properties rather than recreating matrix.
+			// This is necessary to keep the cam matrix synchronised
+			// with other renderers: if there is only one render batch,
+			// then &#x60;enable&#x60; will only pass the cam matrix on the first frame,
+			// and subsequent camera movements will not be passed to the shader.
+			this.camMatrix[ 0 ] = this._camMatrixOffset.a;
+			this.camMatrix[ 1 ] = this._camMatrixOffset.b;
+			this.camMatrix[ 3 ] = this._camMatrixOffset.c;
+			this.camMatrix[ 4 ] = this._camMatrixOffset.d;
+			this.camMatrix[ 6 ] = this._camMatrixOffset.tx;
+			this.camMatrix[ 7 ] = this._camMatrixOffset.ty;
 
 			// Mandate blend mode in CocoonJS
-			// This must be called per-frame, because CocoonJS seems to interfere with blend modes on a per-frame basis.
+			// This must be called per-frame, because CocoonJS seems to
+			// interfere with blend modes on a per-frame basis.
 			if( this._game.deviceTargetOption == Kiwi.TARGET_COCOON ) {
 				this._switchBlendMode( gl, this._currentBlendMode );
 			}
