@@ -635,7 +635,7 @@ module Kiwi.Sound {
 
 					if (this.duration == 0) this.duration = this.totalDuration * 1000;
 
-					if (this._loop) this._sound.loop = true;
+					//if (this._loop) this._sound.loop = true;
 
 					//start
 					if (this._sound.start === undefined) {
@@ -735,7 +735,7 @@ module Kiwi.Sound {
 					this._sound.buffer = this._buffer;
 					this._sound.connect(this.gainNode);
 
-					if (this._loop) this._sound.loop = true;
+					//if (this._loop) this._sound.loop = true;
 
 					if (this._sound.start === undefined) {
 						this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
@@ -795,12 +795,12 @@ module Kiwi.Sound {
 
 						if (this._loop) {
 
-							if (this._currentMarker == 'default') {
-								this._currentTime = 0;
-								this._startTime = this._game.time.now();
-							} else {
+							//if (this._currentMarker == 'default') {
+								//this._currentTime = 0;
+								//this._startTime = this._game.time.now();
+							//} else {
 								this.play(this._currentMarker, true);
-							}
+							//}
 
 							this.onLoop.dispatch();
 						} else {

@@ -7127,11 +7127,11 @@ var Kiwi;
                         return [];
                     //Get the box off them
                     var b = entity.components.getComponent('Box').worldHitbox;
-                    //Is the person within the map's bounds?    
-                    if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
-                        return [];
                     var worldX = this.transform.worldX;
                     var worldY = this.transform.worldY;
+                    //Is the person within the map's bounds?    
+                    if (b.left > worldX + this.widthInPixels || b.right < worldX || b.bottom < worldY || b.top > worldY + this.heightInPixels)
+                        return [];
                     var nx = b.x - worldX;
                     var ny = b.y - worldY;
                     //Get starting location and now many tiles from there we will check. 
@@ -7143,7 +7143,7 @@ var Kiwi;
                     var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
                     for (var i = 0; i < tiles.length; i++) {
                         var t = tiles[i];
-                        if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < t.top) {
+                        if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < b.top) {
                             tiles.splice(i, 1);
                             i--;
                         }
@@ -28638,8 +28638,7 @@ var Kiwi;
                         this.totalDuration = this._sound.buffer.duration;
                         if (this.duration == 0)
                             this.duration = this.totalDuration * 1000;
-                        if (this._loop)
-                            this._sound.loop = true;
+                        //if (this._loop) this._sound.loop = true;
                         //start
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
@@ -28729,8 +28728,7 @@ var Kiwi;
                         this._sound = this.context.createBufferSource();
                         this._sound.buffer = this._buffer;
                         this._sound.connect(this.gainNode);
-                        if (this._loop)
-                            this._sound.loop = true;
+                        //if (this._loop) this._sound.loop = true;
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
                         }
@@ -28777,13 +28775,12 @@ var Kiwi;
                     if (this._currentTime >= this.duration) {
                         if (this._usingWebAudio) {
                             if (this._loop) {
-                                if (this._currentMarker == 'default') {
-                                    this._currentTime = 0;
-                                    this._startTime = this._game.time.now();
-                                }
-                                else {
-                                    this.play(this._currentMarker, true);
-                                }
+                                //if (this._currentMarker == 'default') {
+                                //this._currentTime = 0;
+                                //this._startTime = this._game.time.now();
+                                //} else {
+                                this.play(this._currentMarker, true);
+                                //}
                                 this.onLoop.dispatch();
                             }
                             else {
