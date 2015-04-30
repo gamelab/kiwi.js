@@ -4720,6 +4720,7 @@ var Kiwi;
             this.transform.rotPointX = x + width / 2;
             this.transform.rotPointY = y + height / 2;
             this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._scratchMatrix = new Kiwi.Geom.Matrix();
         }
         /**
         * The type of object this is.
@@ -4785,8 +4786,9 @@ var Kiwi;
         * @public
         */
         Camera.prototype.transformPoint = function (point) {
-            var np = point.clone();
-            var m = this.transform.getConcatenatedMatrix();
+            var m, np = point.clone();
+            this._scratchMatrix.copyFrom(this.transform.getConcatenatedMatrix());
+            m = this._scratchMatrix;
             m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
             m.invert();
             return m.transformPoint(np);
@@ -4802,8 +4804,9 @@ var Kiwi;
         * @since 1.2.0
         */
         Camera.prototype.transformPointToScreen = function (point) {
-            var np = point.clone();
-            var m = this.transform.getConcatenatedMatrix();
+            var m, np = point.clone();
+            this._scratchMatrix.copyFrom(this.transform.getConcatenatedMatrix());
+            m = this._scratchMatrix;
             m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
             return m.transformPoint(np);
         };
@@ -7950,6 +7953,7 @@ var Kiwi;
                 this._hitboxOffset = new Kiwi.Geom.Point();
                 this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height);
                 this.autoUpdate = true;
+                this._scratchMatrix = new Kiwi.Geom.Matrix();
             }
             /**
             * The type of object that this is.
@@ -8139,8 +8143,8 @@ var Kiwi;
                 if (useWorldCoords === void 0) { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
-                var m = t.getConcatenatedMatrix();
-                //Use world coordinates?
+                var m = this._scratchMatrix.copyFrom(t.getConcatenatedMatrix());
+                // Use world coordinates?
                 if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
                 }
@@ -8159,7 +8163,7 @@ var Kiwi;
                 if (useWorldCoords === void 0) { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
-                var m = t.getConcatenatedMatrix();
+                var m = this._scratchMatrix.copyFrom(t.getConcatenatedMatrix());
                 //Use world coordinates?
                 if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);

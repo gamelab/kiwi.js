@@ -3376,6 +3376,15 @@ declare module Kiwi {
         */
         dirty: boolean;
         /**
+        * Scratch matrix used in geometry calculations
+        *
+        * @property _scratchMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        * @since 1.3.1
+        */
+        private _scratchMatrix;
+        /**
         * Convert from screen coordinates to world coordinates.
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
@@ -5638,6 +5647,15 @@ declare module Kiwi.Components {
         * @public
         */
         rawCenter: Kiwi.Geom.Point;
+        /**
+        * Scratch matrix used in geometry calculations
+        *
+        * @property _scratchMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        * @since 1.3.1
+        */
+        private _scratchMatrix;
         /**
         * Contains the center point after the box has been transformed.
         * @property _transformedCenter

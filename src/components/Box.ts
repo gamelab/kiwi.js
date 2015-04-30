@@ -50,6 +50,8 @@ module Kiwi.Components {
 
 			this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height); 
 			this.autoUpdate = true;
+
+			this._scratchMatrix = new Kiwi.Geom.Matrix();
 		}
 
 
@@ -285,6 +287,16 @@ module Kiwi.Components {
 			return this._rawCenter;
 		}
 
+		/**
+		* Scratch matrix used in geometry calculations
+		*
+		* @property _scratchMatrix
+		* @type Kiwi.Geom.Matrix
+		* @private
+		* @since 1.3.1
+		*/
+		private _scratchMatrix: Kiwi.Geom.Matrix;
+
 
 		/**
 		* Contains the center point after the box has been transformed.
@@ -371,9 +383,10 @@ module Kiwi.Components {
 		private _rotateRect(rect: Kiwi.Geom.Rectangle, useWorldCoords: boolean=false): Kiwi.Geom.Rectangle {
 			var out: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle();
 			var t: Kiwi.Geom.Transform = this.entity.transform;
-			var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
-			
-			//Use world coordinates?
+			var m: Kiwi.Geom.Matrix = this._scratchMatrix.copyFrom(
+				t.getConcatenatedMatrix() );
+
+			// Use world coordinates?
 			if( !useWorldCoords )
 			{
 				m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
@@ -401,7 +414,8 @@ module Kiwi.Components {
 		private _rotateHitbox(rect: Kiwi.Geom.Rectangle, useWorldCoords: boolean=false): Kiwi.Geom.Rectangle {
 			var out: Kiwi.Geom.Rectangle = new Kiwi.Geom.Rectangle();
 			var t: Kiwi.Geom.Transform = this.entity.transform;
-			var m: Kiwi.Geom.Matrix = t.getConcatenatedMatrix();
+			var m: Kiwi.Geom.Matrix = this._scratchMatrix.copyFrom(
+				t.getConcatenatedMatrix() );
 
 			//Use world coordinates?
 			if( !useWorldCoords )

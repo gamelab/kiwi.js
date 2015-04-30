@@ -38,6 +38,8 @@ module Kiwi {
 			this.transform.rotPointY = y + height / 2;
 
 			this._game.stage.onResize.add(this._updatedStageSize, this);
+
+			this._scratchMatrix = new Kiwi.Geom.Matrix();
 		}
 
 		/**
@@ -166,6 +168,16 @@ module Kiwi {
 		}
 
 		/**
+		* Scratch matrix used in geometry calculations
+		*
+		* @property _scratchMatrix
+		* @type Kiwi.Geom.Matrix
+		* @private
+		* @since 1.3.1
+		*/
+		private _scratchMatrix: Kiwi.Geom.Matrix;
+
+		/**
 		* Convert from screen coordinates to world coordinates.
 		* Apply this camera's inverted matrix to an object with x and y
 		* properties representing a point and return the transformed point.
@@ -176,10 +188,12 @@ module Kiwi {
 		* @public
 		*/
 		public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point {
+			var m,
+				np = point.clone();
 
-			var np = point.clone();
+			this._scratchMatrix.copyFrom( this.transform.getConcatenatedMatrix() );
 
-			var m = this.transform.getConcatenatedMatrix();
+			m = this._scratchMatrix;
 			m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
 			m.invert();
 
@@ -197,9 +211,12 @@ module Kiwi {
 		* @since 1.2.0
 		*/
 		public transformPointToScreen( point: Kiwi.Geom.Point ): Kiwi.Geom.Point {
-			var np = point.clone();
+			var m,
+				np = point.clone();
 
-			var m = this.transform.getConcatenatedMatrix();
+			this._scratchMatrix.copyFrom( this.transform.getConcatenatedMatrix() );
+
+			m = this._scratchMatrix;
 			m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
 
 			return m.transformPoint(np);
