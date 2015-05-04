@@ -28054,7 +28054,12 @@ var Kiwi;
                     this._unlockedSource = this.context.createBufferSource();
                     this._unlockedSource.buffer = buffer;
                     this._unlockedSource.connect(this.context.destination);
-                    this._unlockedSource.noteOn(0);
+                    if (this._unlockedSource.start === undefined) {
+                        this._unlockedSource.noteOn(0);
+                    }
+                    else {
+                        this._unlockedSource.start();
+                    }
                 }
             };
             Object.defineProperty(AudioManager.prototype, "mute", {
