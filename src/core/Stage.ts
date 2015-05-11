@@ -49,11 +49,11 @@ module Kiwi {
 			this._scaleType = scaleType;
 
 			this.onResize = new Kiwi.Signal();
-            this.onWindowResize = new Kiwi.Signal();
+			this.onWindowResize = new Kiwi.Signal();
 
-            this.onFocus = new Kiwi.Signal();
-            this.onBlur = new Kiwi.Signal();
-            this.onVisibilityChange = new Kiwi.Signal();
+			this.onFocus = new Kiwi.Signal();
+			this.onBlur = new Kiwi.Signal();
+			this.onVisibilityChange = new Kiwi.Signal();
 
 			this._renderer = null;
 		}
@@ -533,7 +533,7 @@ module Kiwi {
 		*/
 		public boot(dom: Kiwi.System.Bootstrap) {
 			var self = this;
-			 
+
 			this.domReady = true;
 			this.container = dom.container;
 
@@ -544,14 +544,12 @@ module Kiwi {
 				this._x = this.offset.x;
 				this._y = this.offset.y;
 
-                window.addEventListener("resize",(event: UIEvent) => this._windowResized(event), true);
+				window.addEventListener("resize",(event: UIEvent) => this._windowResized(event), true);
 
-                this._createFocusEvents();
+				this._createFocusEvents();
 			}
 
-			
 			this._createCompositeCanvas();
-
 
 			if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
 				this._scaleContainer();
@@ -631,9 +629,10 @@ module Kiwi {
 		}
 
 		/**
-		* Handles the creation of the canvas that the game will use and retrieves the context for the renderer. 
+		* Handles the creation of the canvas that the game will use and
+		* retrieves the context for the renderer. 
 		*
-		* @method _createComponsiteCanvas
+		* @method _createCompositeCanvas
 		* @private
 		*/
 		private _createCompositeCanvas() {
@@ -857,141 +856,141 @@ module Kiwi {
 			}
 
 		}
-    
-        /**
-        * Dispatches callbacks when the page containing this game gains focus.
-        * 
-        * @property onFocus
-        * @type Kiwi.Signal
-        * @since 1.3.0
-        * @public
-        */
-        public onFocus: Kiwi.Signal;
+	
+		/**
+		* Dispatches callbacks when the page containing this game gains focus.
+		* 
+		* @property onFocus
+		* @type Kiwi.Signal
+		* @since 1.3.0
+		* @public
+		*/
+		public onFocus: Kiwi.Signal;
 
-        /**
-        * Dispatches callbacks when this page containing this game loses focus.
-        * 
-        * @property onBlur
-        * @type Kiwi.Signal
-        * @since 1.3.0
-        * @public
-        */
-        public onBlur: Kiwi.Signal;
+		/**
+		* Dispatches callbacks when this page containing this game loses focus.
+		* 
+		* @property onBlur
+		* @type Kiwi.Signal
+		* @since 1.3.0
+		* @public
+		*/
+		public onBlur: Kiwi.Signal;
 
-        /**
-        * Dispatches callbacks when the visiblity of the page changes.
-        * 
-        * @property onVisibilityChange
-        * @type Kiwi.Signal
-        * @since 1.3.0
-        * @public
-        */
-        public onVisibilityChange: Kiwi.Signal;
+		/**
+		* Dispatches callbacks when the visiblity of the page changes.
+		* 
+		* @property onVisibilityChange
+		* @type Kiwi.Signal
+		* @since 1.3.0
+		* @public
+		*/
+		public onVisibilityChange: Kiwi.Signal;
 
-        /**
-        * A flag indicating if the page is currently visible (using the Visiblity API).
-        * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
-        *
-        * @property visibility
-        * @type boolean 
-        * @default true
-        * @readOnly
-        * @since 1.3.0
-        * @public
-        */
-        public get visibility():boolean {
+		/**
+		* A flag indicating if the page is currently visible (using the Visiblity API).
+		* If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
+		*
+		* @property visibility
+		* @type boolean 
+		* @default true
+		* @readOnly
+		* @since 1.3.0
+		* @public
+		*/
+		public get visibility():boolean {
 
-            if (this._visibility) {
-                return !document[this._visibility];
-            }
+			if (this._visibility) {
+				return !document[this._visibility];
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        /**
-        * Contains string used to access the `hidden` property on the document.
-        * 
-        * @property _visibility
-        * @type String
-        * @default 'hidden'
-        * @since 1.3.0
-        * @private
-        */
-        private _visibility: string;
+		/**
+		* Contains string used to access the `hidden` property on the document.
+		* 
+		* @property _visibility
+		* @type String
+		* @default 'hidden'
+		* @since 1.3.0
+		* @private
+		*/
+		private _visibility: string;
 
-        /**
-        * Contains the bound version of the `_checkVisibility` method.
-        * 
-        * @property _visibilityChange
-        * @type any
-        * @since 1.3.0
-        * @private
-        */
-        private _visibilityChange: any;
+		/**
+		* Contains the bound version of the `_checkVisibility` method.
+		* 
+		* @property _visibilityChange
+		* @type any
+		* @since 1.3.0
+		* @private
+		*/
+		private _visibilityChange: any;
 
-        /**
-        * Fired when the page visibility changes, or the page focus/blur events fire.
-        * In charge of firing the appropriate signals. 
-        *
-        * @method _checkVisibility
-        * @param event {Any}
-        * @since 1.3.0
-        * @private
-        */
-        private _checkVisibility(event) {
+		/**
+		* Fired when the page visibility changes, or the page focus/blur events fire.
+		* In charge of firing the appropriate signals. 
+		*
+		* @method _checkVisibility
+		* @param event {Any}
+		* @since 1.3.0
+		* @private
+		*/
+		private _checkVisibility(event) {
 
-            if (event.type === "focus" || event.type === "pageshow") {
-                this.onFocus.dispatch(event);
-                return;
+			if (event.type === "focus" || event.type === "pageshow") {
+				this.onFocus.dispatch(event);
+				return;
 
-            } else if (event.type === "pagehide" || event.type === "blur") {
-                this.onBlur.dispatch(event);
-                return;
+			} else if (event.type === "pagehide" || event.type === "blur") {
+				this.onBlur.dispatch(event);
+				return;
 
-            }
+			}
 
-            if (event.type === "visibilitychange" || event.type === "mozvisibilitychange" || event.type === "webkitvisibilitychange" || event.type === "msvisibilitychange") {
-                this.onVisibilityChange.dispatch();
-                return;
-            }
-               
-        }
+			if (event.type === "visibilitychange" || event.type === "mozvisibilitychange" || event.type === "webkitvisibilitychange" || event.type === "msvisibilitychange") {
+				this.onVisibilityChange.dispatch();
+				return;
+			}
+			   
+		}
 
-        /**
-        * Adds the focus, blur, and visibility events to the document.
-        * 
-        * @method _createFocusEvents
-        * @since 1.3.0
-        * @private
-        */
-        private _createFocusEvents() {
+		/**
+		* Adds the focus, blur, and visibility events to the document.
+		* 
+		* @method _createFocusEvents
+		* @since 1.3.0
+		* @private
+		*/
+		private _createFocusEvents() {
 
-            this._visibility = "hidden";
-            this._visibilityChange = this._checkVisibility.bind(this);
+			this._visibility = "hidden";
+			this._visibilityChange = this._checkVisibility.bind(this);
 
-            if ("hidden" in document) {
-                document.addEventListener("visibilitychange", this._visibilityChange);
+			if ("hidden" in document) {
+				document.addEventListener("visibilitychange", this._visibilityChange);
 
-            } else if ((this._visibility = "mozHidden") in document) {
-                document.addEventListener("mozvisibilitychange", this._visibilityChange);
+			} else if ((this._visibility = "mozHidden") in document) {
+				document.addEventListener("mozvisibilitychange", this._visibilityChange);
 
-            } else if ((this._visibility = "webkitHidden") in document) {
-                document.addEventListener("webkitvisibilitychange", this._visibilityChange);
+			} else if ((this._visibility = "webkitHidden") in document) {
+				document.addEventListener("webkitvisibilitychange", this._visibilityChange);
 
-            } else if ((this._visibility = "msHidden") in document) {
-                document.addEventListener("msvisibilitychange", this._visibilityChange);
+			} else if ((this._visibility = "msHidden") in document) {
+				document.addEventListener("msvisibilitychange", this._visibilityChange);
 
-            } else {
-                //Not supported. 
-                this._visibility = null;
-            }
+			} else {
+				//Not supported. 
+				this._visibility = null;
+			}
 
-            window.addEventListener('pageshow', this._visibilityChange);
-            window.addEventListener('pagehide', this._visibilityChange);
-            window.addEventListener('focus', this._visibilityChange);
-            window.addEventListener('blur', this._visibilityChange);
+			window.addEventListener('pageshow', this._visibilityChange);
+			window.addEventListener('pagehide', this._visibilityChange);
+			window.addEventListener('focus', this._visibilityChange);
+			window.addEventListener('blur', this._visibilityChange);
 
-        }
+		}
 
 	}
 
