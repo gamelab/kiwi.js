@@ -601,8 +601,13 @@ module Kiwi.Sound {
 				var buffer = this.context.createBuffer(1, 1, 22050);
 				this._unlockedSource = this.context.createBufferSource();
 				this._unlockedSource.buffer = buffer;
-				this._unlockedSource.connect(this.context.destination);
-				this._unlockedSource.noteOn(0);
+                this._unlockedSource.connect(this.context.destination);
+
+                if (this._unlockedSource.start === undefined) {
+                    this._unlockedSource.noteOn(0);
+                } else {
+                    this._unlockedSource.start();
+                }
 			}
 		}
 

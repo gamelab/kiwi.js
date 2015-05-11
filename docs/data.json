@@ -10687,7 +10687,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 56,
+            "line": 58,
             "description": "The entity that this box belongs to.",
             "itemtype": "property",
             "name": "entity",
@@ -10701,7 +10701,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 65,
+            "line": 67,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -10718,7 +10718,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 76,
+            "line": 78,
             "description": "Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).\nOr if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had. \nThis property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.",
             "itemtype": "property",
             "name": "autoUpdate",
@@ -10733,7 +10733,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 89,
+            "line": 91,
             "description": "Indicates whether or not this component needs re-rendering/updating or not.",
             "itemtype": "property",
             "name": "dirty",
@@ -10749,7 +10749,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 100,
+            "line": 102,
             "description": "Contains offset point for the hitbox",
             "itemtype": "property",
             "name": "_hitboxOffset",
@@ -10763,7 +10763,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 110,
+            "line": 112,
             "description": "Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.\nThis is without rotation or scaling.\nThis is a READ ONLY property.",
             "itemtype": "property",
             "name": "hitboxOffset",
@@ -10777,7 +10777,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 133,
+            "line": 135,
             "description": "Contains the offset rectangle for the raw hitbox.",
             "itemtype": "property",
             "name": "_rawHitbox",
@@ -10791,7 +10791,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 142,
+            "line": 144,
             "description": "Returns the raw hitbox rectangle for the developer to use. \n'Raw' means where it would be without rotation or scaling.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawHitbox",
@@ -10805,7 +10805,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 173,
+            "line": 175,
             "description": "The transformed or 'normal' hitbox for the entity. This is its box after rotation/scale.",
             "itemtype": "property",
             "name": "_transformedHitbox",
@@ -10819,7 +10819,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 182,
+            "line": 184,
             "description": "The transformed 'world' hitbox for the entity. This is its box after rotation/scale.",
             "itemtype": "property",
             "name": "_worldHitbox",
@@ -10833,7 +10833,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 191,
+            "line": 193,
             "description": "The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.",
             "itemtype": "property",
             "name": "hitbox",
@@ -10847,7 +10847,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 220,
+            "line": 222,
             "description": "Returns the transformed hitbox for the entity using its 'world' coordinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "worldHitbox",
@@ -10861,7 +10861,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 235,
+            "line": 237,
             "description": "The 'raw' bounds of entity. This is its bounds before rotation/scale.\nThis for property is only for storage of the values and should be accessed via the getter 'rawBounds' so that it can update.",
             "itemtype": "property",
             "name": "_rawBounds",
@@ -10875,7 +10875,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 247,
+            "line": 249,
             "description": "Returns the 'raw' bounds for this entity.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawBounds",
@@ -10889,7 +10889,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 265,
+            "line": 267,
             "description": "Contains the 'raw' center point for the bounds.",
             "itemtype": "property",
             "name": "Kiwi.Geom.Point",
@@ -10903,7 +10903,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 274,
+            "line": 276,
             "description": "Returns the raw center point of the box.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawCenter",
@@ -10917,7 +10917,22 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 289,
+            "line": 290,
+            "description": "Scratch matrix used in geometry calculations",
+            "itemtype": "property",
+            "name": "_scratchMatrix",
+            "type": "Kiwi.Geom.Matrix",
+            "access": "private",
+            "tagname": "",
+            "since": "1.3.1",
+            "class": "Kiwi.Components.Box",
+            "module": "Kiwi",
+            "submodule": "Components",
+            "namespace": "Kiwi.Components"
+        },
+        {
+            "file": "src/components/Box.ts",
+            "line": 301,
             "description": "Contains the center point after the box has been transformed.",
             "itemtype": "property",
             "name": "_transformedCenter",
@@ -10931,7 +10946,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 298,
+            "line": 310,
             "description": "Returns the center point for the box after it has been transformed.\nWorld coordinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "center",
@@ -10945,7 +10960,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 319,
+            "line": 331,
             "description": "Contains the transformed or 'normal' bounds for this entity.",
             "itemtype": "property",
             "name": "_transformedBounds",
@@ -10959,7 +10974,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 328,
+            "line": 340,
             "description": "The 'world' transformed bounds for this entity.",
             "itemtype": "property",
             "name": "_worldBounds",
@@ -10973,7 +10988,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 337,
+            "line": 349,
             "description": "Returns the 'transformed' or 'normal' bounds for this box. \nThis is READ ONLY.",
             "itemtype": "property",
             "name": "bounds",
@@ -10987,7 +11002,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 350,
+            "line": 362,
             "description": "Returns the 'transformed' bounds for this entity using the world coodinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "worldBounds",
@@ -11001,7 +11016,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 363,
+            "line": 375,
             "description": "Private internal method only. Used to calculate the transformed bounds after rotation/scale.",
             "itemtype": "method",
             "name": "_rotateRect",
@@ -11032,7 +11047,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 393,
+            "line": 406,
             "description": "A private method that is used to calculate the transformed hitbox's coordinates after rotation.",
             "itemtype": "method",
             "name": "_rotateHitbox",
@@ -11063,7 +11078,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 424,
+            "line": 438,
             "description": "Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.",
             "itemtype": "method",
             "name": "draw",
@@ -11089,7 +11104,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 463,
+            "line": 477,
             "description": "Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.\nThe points passed can be maybe in any order, as the are checked for validity first.",
             "itemtype": "method",
             "name": "extents",
@@ -11125,7 +11140,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 487,
+            "line": 501,
             "description": "Destroys this component and all of the links it may have to other objects.",
             "itemtype": "method",
             "name": "destroy",
@@ -12109,7 +12124,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 43,
+            "line": 45,
             "description": "The width of this camara.",
             "itemtype": "property",
             "name": "width",
@@ -12122,7 +12137,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 51,
+            "line": 53,
             "description": "The height of this camera.",
             "itemtype": "property",
             "name": "height",
@@ -12135,7 +12150,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 59,
+            "line": 61,
             "description": "The type of object this is.",
             "itemtype": "method",
             "name": "objType",
@@ -12151,7 +12166,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 69,
+            "line": 71,
             "description": "If true then the camera will be resized to fit the stage when the stage is resized",
             "itemtype": "property",
             "name": "fitToStage",
@@ -12165,7 +12180,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 78,
+            "line": 80,
             "description": "The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.",
             "itemtype": "property",
             "name": "transform",
@@ -12178,7 +12193,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 86,
+            "line": 88,
             "description": "Updates the width/height of this camera. Is used when the stage resizes.",
             "itemtype": "method",
             "name": "_updatedStageSize",
@@ -12202,7 +12217,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 100,
+            "line": 102,
             "description": "The game this Group belongs to",
             "itemtype": "property",
             "name": "game",
@@ -12215,7 +12230,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 108,
+            "line": 110,
             "description": "A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -12228,7 +12243,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 116,
+            "line": 118,
             "description": "A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.",
             "itemtype": "property",
             "name": "name",
@@ -12241,7 +12256,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 124,
+            "line": 126,
             "description": "Controls whether this Camera is rendered",
             "itemtype": "property",
             "name": "_visible",
@@ -12254,7 +12269,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 132,
+            "line": 134,
             "description": "Controls whether this Camera is rendered.",
             "itemtype": "property",
             "name": "visible",
@@ -12267,7 +12282,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 145,
+            "line": 147,
             "description": "A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.",
             "itemtype": "property",
             "name": "_dirty",
@@ -12282,7 +12297,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 154,
+            "line": 156,
             "description": "A value used by components to control if the camera needs re-rendering.",
             "itemtype": "property",
             "name": "dirty",
@@ -12297,7 +12312,21 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 168,
+            "line": 170,
+            "description": "Scratch matrix used in geometry calculations",
+            "itemtype": "property",
+            "name": "_scratchMatrix",
+            "type": "Kiwi.Geom.Matrix",
+            "access": "private",
+            "tagname": "",
+            "since": "1.3.1",
+            "class": "Kiwi.Camera",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Camera.ts",
+            "line": 180,
             "description": "Convert from screen coordinates to world coordinates.\nApply this camera's inverted matrix to an object with x and y\nproperties representing a point and return the transformed point.\nUseful for calculating coordinates with the mouse.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -12320,7 +12349,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 189,
+            "line": 203,
             "description": "Convert from world coordinates to screen coordinates.\nUseful for assessing visibility.\nSimilar to \"transformPoint\", but in reverse.",
             "itemtype": "method",
             "name": "transformPointToScreen",
@@ -12344,7 +12373,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 208,
+            "line": 225,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -12356,7 +12385,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 217,
+            "line": 234,
             "description": "The render loop that is executed whilst the game is playing.",
             "itemtype": "method",
             "name": "render",
@@ -17621,7 +17650,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 567,
+            "line": 565,
             "description": "Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser\nBased on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js",
             "itemtype": "method",
             "name": "getOffsetPoint",
@@ -17649,7 +17678,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 589,
+            "line": 587,
             "description": "Method that is fired when the window is resized.",
             "itemtype": "method",
             "name": "_windowResized",
@@ -17668,7 +17697,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 602,
+            "line": 600,
             "description": "Method that is fired when the device is reoriented.",
             "itemtype": "method",
             "name": "_orientationChanged",
@@ -17688,7 +17717,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 613,
+            "line": 611,
             "description": "Used to calculate the new offset and the scale of the stage currently is at.",
             "itemtype": "method",
             "name": "_calculateContainerScale",
@@ -17700,10 +17729,10 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 633,
-            "description": "Handles the creation of the canvas that the game will use and retrieves the context for the renderer.",
+            "line": 631,
+            "description": "Handles the creation of the canvas that the game will use and\nretrieves the context for the renderer.",
             "itemtype": "method",
-            "name": "_createComponsiteCanvas",
+            "name": "_createCompositeCanvas",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.Stage",
@@ -17712,7 +17741,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 703,
+            "line": 702,
             "description": "Set the stage width and height for rendering purposes.\nThis will not effect that \"scaleType\" that it has been set to.",
             "itemtype": "method",
             "name": "resize",
@@ -17736,7 +17765,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 726,
+            "line": 725,
             "description": "Sets the background color of the stage through component RGB colour values. \nEach parameter is a number between 0 and 255.\nThis method also returns an Object Literal with \"r\", \"g\", \"b\" properties.",
             "itemtype": "method",
             "name": "setRGBColor",
@@ -17769,7 +17798,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 744,
+            "line": 743,
             "description": "Creates a debug canvas and adds it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer. \nThe context for rendering can be access via the \"dctx\" property and you can use the \"clearDebugCanvas\" method to clear the canvas.",
             "itemtype": "method",
             "name": "createDebugCanvas",
@@ -17781,7 +17810,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 777,
+            "line": 776,
             "description": "Clears the debug canvas and fills with either the color passed. \nIf not colour is passed then Red at 20% opacity is used.",
             "itemtype": "method",
             "name": "clearDebugCanvas",
@@ -17802,7 +17831,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 791,
+            "line": 790,
             "description": "Toggles the visibility of the debug canvas.",
             "itemtype": "method",
             "name": "toggleDebugCanvas",
@@ -17814,7 +17843,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 800,
+            "line": 799,
             "description": "Handles the scaling/sizing based upon the scaleType property.",
             "itemtype": "method",
             "name": "_scaleContainer",
@@ -17826,7 +17855,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 861,
+            "line": 860,
             "description": "Dispatches callbacks when the page containing this game gains focus.",
             "itemtype": "property",
             "name": "onFocus",
@@ -17840,7 +17869,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 871,
+            "line": 870,
             "description": "Dispatches callbacks when this page containing this game loses focus.",
             "itemtype": "property",
             "name": "onBlur",
@@ -17854,7 +17883,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 881,
+            "line": 880,
             "description": "Dispatches callbacks when the visiblity of the page changes.",
             "itemtype": "property",
             "name": "onVisibilityChange",
@@ -17868,7 +17897,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 891,
+            "line": 890,
             "description": "A flag indicating if the page is currently visible (using the Visiblity API).\nIf the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.",
             "itemtype": "property",
             "name": "visibility",
@@ -17884,7 +17913,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 911,
+            "line": 910,
             "description": "Contains string used to access the `hidden` property on the document.",
             "itemtype": "property",
             "name": "_visibility",
@@ -17899,7 +17928,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 922,
+            "line": 921,
             "description": "Contains the bound version of the `_checkVisibility` method.",
             "itemtype": "property",
             "name": "_visibilityChange",
@@ -17913,7 +17942,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 932,
+            "line": 931,
             "description": "Fired when the page visibility changes, or the page focus/blur events fire.\nIn charge of firing the appropriate signals.",
             "itemtype": "method",
             "name": "_checkVisibility",
@@ -17933,7 +17962,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 960,
+            "line": 959,
             "description": "Adds the focus, blur, and visibility events to the document.",
             "itemtype": "method",
             "name": "_createFocusEvents",
@@ -24903,7 +24932,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayerOrthogonal.ts",
-            "line": 137,
+            "line": 138,
             "description": "Used to calculate the position of the tilemap on the stage as well as how many tiles can fit on the screen. \nAll coordinates calculated are stored as temporary properties (maxX/Y, startX/Y).",
             "itemtype": "method",
             "name": "_calculateBoundaries",
@@ -24928,7 +24957,7 @@
         },
         {
             "file": "src/gameobjects/tilemap/TileMapLayerOrthogonal.ts",
-            "line": 192,
+            "line": 193,
             "description": "The render loop which is used when using the Canvas renderer.",
             "itemtype": "method",
             "name": "render",
@@ -44004,7 +44033,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 241,
+            "line": 246,
             "description": "Used to mute the audio on the device, or to check to see if the device is muted.\nThis will not stop audio from being played, will just mean that the audio is silent.",
             "itemtype": "property",
             "name": "mute",
@@ -44019,7 +44048,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 287,
+            "line": 292,
             "description": "Global setting and getting of the volume.\nA number between 0 (silence) and 1 (full volume).",
             "itemtype": "property",
             "name": "volume",
@@ -44034,7 +44063,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 325,
+            "line": 330,
             "description": "Indicates whether or not an Audio Object is registered with this Audio Manager or not. For Kiwi Internal use only.",
             "itemtype": "method",
             "name": "isRegistered",
@@ -44058,7 +44087,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 342,
+            "line": 347,
             "description": "Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.",
             "itemtype": "method",
             "name": "registerSound",
@@ -44082,7 +44111,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 358,
+            "line": 363,
             "description": "Used to create a new sound on the audio manager. Returns the newly created sound.",
             "itemtype": "method",
             "name": "add",
@@ -44120,7 +44149,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 377,
+            "line": 382,
             "description": "Removes the passed sound from the AudioManager.\nIf you remove a Audio Object from the AudioManager, then that Audio Object will not have a update loop.",
             "itemtype": "method",
             "name": "remove",
@@ -44146,7 +44175,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 406,
+            "line": 411,
             "description": "Plays all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "playAll",
@@ -44159,7 +44188,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 421,
+            "line": 426,
             "description": "Stops all of the sounds that are listed in the AudioManager from playing.",
             "itemtype": "method",
             "name": "stopAll",
@@ -44172,7 +44201,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 438,
+            "line": 443,
             "description": "Pauses all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "pauseAll",
@@ -44185,7 +44214,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 455,
+            "line": 460,
             "description": "Resumes all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "resumeAll",
@@ -44198,7 +44227,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 472,
+            "line": 477,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",

@@ -933,9 +933,10 @@ var Kiwi;
             this._scale.y = this._height / this.container.clientHeight;
         };
         /**
-        * Handles the creation of the canvas that the game will use and retrieves the context for the renderer.
+        * Handles the creation of the canvas that the game will use and
+        * retrieves the context for the renderer.
         *
-        * @method _createComponsiteCanvas
+        * @method _createCompositeCanvas
         * @private
         */
         Stage.prototype._createCompositeCanvas = function () {
@@ -28054,7 +28055,12 @@ var Kiwi;
                     this._unlockedSource = this.context.createBufferSource();
                     this._unlockedSource.buffer = buffer;
                     this._unlockedSource.connect(this.context.destination);
-                    this._unlockedSource.noteOn(0);
+                    if (this._unlockedSource.start === undefined) {
+                        this._unlockedSource.noteOn(0);
+                    }
+                    else {
+                        this._unlockedSource.start();
+                    }
                 }
             };
             Object.defineProperty(AudioManager.prototype, "mute", {

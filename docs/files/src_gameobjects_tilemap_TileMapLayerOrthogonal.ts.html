@@ -469,12 +469,13 @@ module Kiwi.GameObjects.Tilemap {
             //Get the box off them
             var b: Kiwi.Geom.Rectangle = entity.components.getComponent(&#x27;Box&#x27;).worldHitbox;
 
-            //Is the person within the map&#x27;s bounds?    
-            if (b.left &gt; this.transform.worldX + this.widthInPixels || b.right &lt; this.transform.worldX || b.bottom &lt; this.transform.worldY || b.top &gt; this.transform.worldY + this.heightInPixels)
-                return [];
-
             var worldX = this.transform.worldX;
             var worldY = this.transform.worldY;
+
+            //Is the person within the map&#x27;s bounds?    
+            if (b.left &gt; worldX + this.widthInPixels || b.right &lt; worldX || b.bottom &lt; worldY || b.top &gt; worldY + this.heightInPixels)
+                return [];
+
 
             var nx = b.x - worldX;
             var ny = b.y - worldY;
@@ -492,7 +493,7 @@ module Kiwi.GameObjects.Tilemap {
             for (var i = 0; i &lt; tiles.length; i++) {
                 var t = tiles[i];
 
-                if (t.x + worldX &gt; b.right || t.x + this.tileWidth + worldX &lt; b.left || t.y + worldY &gt; b.bottom || t.y + this.tileHeight + worldY &lt; t.top) {
+                if (t.x + worldX &gt; b.right || t.x + this.tileWidth + worldX &lt; b.left || t.y + worldY &gt; b.bottom || t.y + this.tileHeight + worldY &lt; b.top) {
                     tiles.splice(i, 1);
                     i--;
                 }

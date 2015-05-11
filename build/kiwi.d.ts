@@ -684,9 +684,10 @@ declare module Kiwi {
         */
         private _calculateContainerScale();
         /**
-        * Handles the creation of the canvas that the game will use and retrieves the context for the renderer.
+        * Handles the creation of the canvas that the game will use and
+        * retrieves the context for the renderer.
         *
-        * @method _createComponsiteCanvas
+        * @method _createCompositeCanvas
         * @private
         */
         private _createCompositeCanvas();
