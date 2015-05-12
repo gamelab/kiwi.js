@@ -481,24 +481,29 @@ var Kiwi;
         * @private
         */
         Game.prototype._loop = function () {
+            // Only update non-graphical game systems if a full frame
+            // has passed
             this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {
-                //Only update if there is a current state
                 this.time.update();
                 this.audio.update();
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
+                if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) {
                     this.huds.update();
+                }
                 this.states.update();
                 this.pluginManager.update();
                 this._frame++;
-                if (this.states.current !== null) {
-                    this.cameras.render();
-                    this.states.postRender();
-                }
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
+            }
+            // Graphics MUST be drawn every frame to avert frame buffer issues
+            // under some clients
+            if (this.states.current !== null) {
+                // Only update if there is a current state
+                this.cameras.render();
+                this.states.postRender();
             }
         };
         return Game;
