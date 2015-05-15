@@ -238,7 +238,7 @@ module Kiwi.Sound {
                 if (this._unlockedSource.start === undefined) {
                     this._unlockedSource.noteOn(0);
                 } else {
-                    this._unlockedSource.start();
+                    this._unlockedSource.start(0);
                 }
 			}
 		}

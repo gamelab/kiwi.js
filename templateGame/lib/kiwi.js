@@ -28070,7 +28070,7 @@ var Kiwi;
                         this._unlockedSource.noteOn(0);
                     }
                     else {
-                        this._unlockedSource.start();
+                        this._unlockedSource.start(0);
                     }
                 }
             };
