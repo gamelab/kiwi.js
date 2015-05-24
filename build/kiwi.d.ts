@@ -2315,9 +2315,17 @@ declare module Kiwi {
         */
         owner: Kiwi.IChild;
         /**
+        * The state which this component's owner belongs to.
+        * @property state
+        * @type Kiwi.State
+        * @since 1.3.1
+        * @public
+        */
+        state: Kiwi.State;
+        /**
         * The game this Component belongs to
         * @property game
-        * @type Game
+        * @type Kiwi.Game
         * @public
         */
         game: Kiwi.Game;

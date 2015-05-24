@@ -12610,7 +12610,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 31,
+            "line": 38,
             "description": "Returns the type of this object",
             "itemtype": "method",
             "name": "objType",
@@ -12626,7 +12626,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 41,
+            "line": 48,
             "description": "The object that owns this entity",
             "itemtype": "property",
             "name": "owner",
@@ -12639,11 +12639,12 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 49,
-            "description": "The game this Component belongs to",
+            "line": 56,
+            "description": "The state which this component's owner belongs to.",
             "itemtype": "property",
-            "name": "game",
-            "type": "Game",
+            "name": "state",
+            "type": "Kiwi.State",
+            "since": "1.3.1",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Component",
@@ -12652,7 +12653,20 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 57,
+            "line": 65,
+            "description": "The game this Component belongs to",
+            "itemtype": "property",
+            "name": "game",
+            "type": "Kiwi.Game",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Component",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Component.ts",
+            "line": 73,
             "description": "The name of this component.",
             "itemtype": "property",
             "name": "name",
@@ -12665,7 +12679,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 65,
+            "line": 81,
             "description": "An active Component is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "active",
@@ -12679,7 +12693,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 74,
+            "line": 90,
             "description": "The state of this component.",
             "itemtype": "property",
             "name": "dirty",
@@ -12694,7 +12708,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 84,
+            "line": 100,
             "description": "Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.",
             "itemtype": "method",
             "name": "preUpdate",
@@ -12706,7 +12720,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 91,
+            "line": 107,
             "description": "If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.",
             "itemtype": "method",
             "name": "update",
@@ -12718,7 +12732,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 98,
+            "line": 114,
             "description": "Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.",
             "itemtype": "method",
             "name": "postUpdate",
@@ -12730,7 +12744,7 @@
         },
         {
             "file": "src/core/Component.ts",
-            "line": 105,
+            "line": 121,
             "description": "Destroys this component and all of the properties that exist on it.",
             "itemtype": "method",
             "name": "destroy",

@@ -23,8 +23,15 @@ module Kiwi {
 
 			this.owner = owner; 
 			this.game = this.owner.game;
-			this.name = name;
-			this.active = true;
+            this.name = name;
+               
+            if (this.owner.state) {
+                this.state = this.owner.state;
+            } else if (this.owner.objType() === 'State') {
+                this.state = (<Kiwi.State>this.owner);
+            }
+
+            this.active = true;
 
 		}
 
@@ -45,11 +52,20 @@ module Kiwi {
 		* @public
 		*/
 		public owner: Kiwi.IChild;
+           
+        /**
+        * The state which this component's owner belongs to.
+        * @property state
+        * @type Kiwi.State
+        * @since 1.3.1
+        * @public
+        */
+        public state: Kiwi.State;
 
 		/**
 		* The game this Component belongs to
 		* @property game
-		* @type Game
+		* @type Kiwi.Game
 		* @public
 		*/
 		public game: Kiwi.Game;

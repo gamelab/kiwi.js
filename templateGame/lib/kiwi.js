@@ -3111,6 +3111,12 @@ var Kiwi;
             this.owner = owner;
             this.game = this.owner.game;
             this.name = name;
+            if (this.owner.state) {
+                this.state = this.owner.state;
+            }
+            else if (this.owner.objType() === 'State') {
+                this.state = this.owner;
+            }
             this.active = true;
         }
         /**
@@ -28105,7 +28111,7 @@ var Kiwi;
                         this._unlockedSource.noteOn(0);
                     }
                     else {
-                        this._unlockedSource.start();
+                        this._unlockedSource.start(0);
                     }
                 }
             };
