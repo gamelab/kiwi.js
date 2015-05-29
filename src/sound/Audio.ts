@@ -635,8 +635,6 @@ module Kiwi.Sound {
 
 					if (this.duration == 0) this.duration = this.totalDuration * 1000;
 
-					//if (this._loop) this._sound.loop = true;
-
 					//start
 					if (this._sound.start === undefined) {
 						this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
@@ -735,8 +733,6 @@ module Kiwi.Sound {
 					this._sound.buffer = this._buffer;
 					this._sound.connect(this.gainNode);
 
-					//if (this._loop) this._sound.loop = true;
-
 					if (this._sound.start === undefined) {
 						this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
 					} else {
@@ -768,7 +764,6 @@ module Kiwi.Sound {
 			//Is the audio ready to be played and was waiting?
 			if (this._playable && this._pending) {
 
-
 				//Is it the using the Web Audio API (can tell otherwise the audio would not be decoding otherwise) and it is now ready to be played?
 				if (this._decoded === true || this._file.data && this._file.data.decoded) { //Most likely unneeded now due to the fact that audio is decoded at load.
 					this._pending = false;
@@ -790,36 +785,17 @@ module Kiwi.Sound {
 
 				this._currentTime = this._game.time.now() - this._startTime;
 				
-				if (this._currentTime >= this.duration) {
-					if (this._usingWebAudio) {
+                if (this._currentTime >= this.duration) {
 
-						if (this._loop) {
+					if (this._loop) {
+						this.play(this._currentMarker, true);
+                        this.onLoop.dispatch();
 
-							//if (this._currentMarker == 'default') {
-								//this._currentTime = 0;
-								//this._startTime = this._game.time.now();
-							//} else {
-								this.play(this._currentMarker, true);
-							//}
+					} else {
+						this.onComplete.dispatch();
+						this.stop();
 
-							this.onLoop.dispatch();
-						} else {
-							this.onComplete.dispatch();
-							this.stop();
-						}
-
-					} else if(this._usingAudioTag) {
-
-						if (this._loop) {
-
-							this.play(this._currentMarker, true);
-							this.onLoop.dispatch();
-						} else {
-							this.onComplete.dispatch();
-							this.stop();
-						}
-
-					}
+                    }
 				}
 			}
 
