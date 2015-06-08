@@ -5235,7 +5235,7 @@
             "namespace": "Kiwi.Input",
             "file": "src/input/Keyboard.ts",
             "line": 10,
-            "description": "Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.",
+            "description": "Handles and manages the dispatching of keyboard events.\nWhen the user presses a button a new `Key` object is created.",
             "is_constructor": 1,
             "params": [
                 {
@@ -5245,7 +5245,7 @@
                 }
             ],
             "return": {
-                "description": "This object.",
+                "description": "This object",
                 "type": "Kiwi.Input.Keyboard"
             }
         },
@@ -35628,7 +35628,7 @@
         {
             "file": "src/input/Keyboard.ts",
             "line": 28,
-            "description": "The type of object that this is.",
+            "description": "Type of object that this is",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -35645,7 +35645,7 @@
         {
             "file": "src/input/Keyboard.ts",
             "line": 38,
-            "description": "The game that this Keyboard belongs to.",
+            "description": "Game that this `Keyboard` belongs to",
             "itemtype": "property",
             "name": "game",
             "type": "Kiwi.Game",
@@ -35659,7 +35659,7 @@
         {
             "file": "src/input/Keyboard.ts",
             "line": 46,
-            "description": "Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.",
+            "description": "Contains a reference to each `Key` object when they are either\nadded to this `Keyboard` manager (by the developer),\nor when an event fires with that keycode.",
             "itemtype": "property",
             "name": "_keys",
             "type": "Key[]",
@@ -35672,8 +35672,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 54,
-            "description": "Returns all of the Key objects that currently exist. This is READ ONLY.",
+            "line": 56,
+            "description": "Returns all of the `Key` objects that currently exist.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "keys",
             "type": "Keys[]",
@@ -35686,8 +35686,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 64,
-            "description": "The time in milliseconds which determines if a key was just pressed or not.",
+            "line": 67,
+            "description": "The time in milliseconds which determines if a key was just pressed\nor not.",
             "itemtype": "property",
             "name": "justPressedRate",
             "type": "Number",
@@ -35701,8 +35701,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 73,
-            "description": "The time in milliseconds which determines if a key was just released or not.",
+            "line": 77,
+            "description": "The time in milliseconds which determines if a key was just released\nor not.",
             "itemtype": "property",
             "name": "justReleasedRate",
             "type": "Number",
@@ -35716,8 +35716,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 82,
-            "description": "Is executed when the DOMElements that are need to get the game going are loaded and thus the game can 'boot'",
+            "line": 87,
+            "description": "Is executed when the DOMElements that are need to get the game going\nare loaded and thus the game can 'boot'",
             "itemtype": "method",
             "name": "boot",
             "access": "public",
@@ -35729,7 +35729,7 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 94,
+            "line": 100,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -35742,8 +35742,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 103,
-            "description": "A Signal that dispatches events when a key is released/is now up.\nCallbacks fired by this Signal will contain two parameters, the keyCode and key object.\n1) KeyCode - The keyCode of the key that was just released.\n2) Key - The key object for that keycode.",
+            "line": 109,
+            "description": "A Signal that dispatches events when a key is released/is now up.\n\nCallbacks fired by this `Signal` will contain two parameters:\nthe keyCode and key object.\n1) `KeyCode` - The keyCode of the key that was just released.\n2) `Key` - The key object for that keycode.",
             "itemtype": "property",
             "name": "onKeyUp",
             "type": "Kiwi.Signal",
@@ -35756,8 +35756,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 114,
-            "description": "A Signal that dispatches events when a key is pressed/is down.\nThis mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down. \nNote: This fires after the 'onKeyDownOnce' signal.\nCallbacks fired by this Signal will contain two parameters, the keyCode and key object.\n1) KeyCode - The keyCode of the key that was just released.\n2) Key - The key object for that keycode.",
+            "line": 123,
+            "description": "A `Signal` that dispatches events when a key is pressed/is down.\nThis mimics the natural `keydown` event listener, so it will keep\ndispatching events if the user holds the key down.\n\nNote: This fires after the 'onKeyDownOnce' signal.\n\nCallbacks fired by this Signal will contain two parameters:\nthe keyCode and key object.\n1) `KeyCode` - The keyCode of the key that was just released.\n2) `Key` - The key object for that keycode.",
             "itemtype": "property",
             "name": "onKeyDown",
             "type": "Kiwi.Signal",
@@ -35770,8 +35770,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 128,
-            "description": "A Signal that dispatches events when a key is pressed/is down initially. \nThis event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.\nNote: This fires before the 'onKeyDown' signal;\nCallbacks fired by this Signal will contain two parameters, the keyCode and key object.\n1) KeyCode - The keyCode of the key that was just released.\n2) Key - The key object for that keycode.",
+            "line": 141,
+            "description": "A `Signal` that dispatches events when a key is pressed/\nis down initially. \nThis event only fires the first time that the key is pressed,\nso it won't dispatch events if the user is holding the key down.\n\nNote: This fires before the 'onKeyDown' signal.\n\nCallbacks fired by this Signal will contain two parameters:\nthe keyCode and key object.\n1) `KeyCode` - The keyCode of the key that was just released.\n2) `Key` - The key object for that keycode.",
             "itemtype": "property",
             "name": "onKeyDownOnce",
             "type": "Kiwi.Signal",
@@ -35784,7 +35784,7 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 142,
+            "line": 160,
             "description": "Adds the event listeners to the browser to listen for key events.",
             "itemtype": "method",
             "name": "start",
@@ -35797,8 +35797,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 156,
-            "description": "Removes the event listeners and so effectively 'stops' all keyboard events.",
+            "line": 174,
+            "description": "Removes the event listeners and so effectively stops\nall keyboard events.",
             "itemtype": "method",
             "name": "stop",
             "access": "public",
@@ -35810,10 +35810,10 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 170,
-            "description": "Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, \nor it updates the key that was pressed (if one does exist).",
+            "line": 189,
+            "description": "Is executed when a key is pressed/is down. This then either creates\na new `Key` (if one does not currently exist) for that keycode, \nor it updates the key that was pressed (if one does exist).",
             "itemtype": "method",
-            "name": "onKeyDown",
+            "name": "_keyPressed",
             "params": [
                 {
                     "name": "event.",
@@ -35830,10 +35830,10 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 192,
-            "description": "Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, \nor it updates the key that was released (if one does exist).",
+            "line": 212,
+            "description": "Is executed when a key is release/is now up. This then either\ncreates a new Key (if one does not currently exist) for that\nkeycode, or it updates the key that was released (if one does exist).",
             "itemtype": "method",
-            "name": "onKeyUp",
+            "name": "_keyReleased",
             "params": [
                 {
                     "name": "event.",
@@ -35850,8 +35850,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 211,
-            "description": "Creates a new Key object for a keycode that is specified.\nNot strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up\nand choosing whether to prevent that keys any default action.",
+            "line": 232,
+            "description": "Creates a new Key object for a keycode that is specified.\nNot strictly needed (as one will be created once an event occurs\non that keycode) but can be good for setting the game up\nand choosing whether to prevent default action on that key.",
             "itemtype": "method",
             "name": "addKey",
             "params": [
@@ -35881,19 +35881,19 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 230,
-            "description": "Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.",
+            "line": 253,
+            "description": "Returns a boolean indicating if a key (that you pass via a keycode)\nwas just pressed or not.",
             "itemtype": "method",
             "name": "justPressed",
             "params": [
                 {
                     "name": "keycode",
-                    "description": "The keycode of the key that you would like to check against.",
+                    "description": "The keycode of the key\n\tthat you would like to check against.",
                     "type": "Number"
                 },
                 {
                     "name": "duration",
-                    "description": "The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate",
+                    "description": "The duration\n\twhich determines if a key was 'just' pressed or not.\n\tIf not specified defaults to the `justPressedRate`",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "this.justPressedRate"
@@ -35908,19 +35908,19 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 247,
-            "description": "Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.",
+            "line": 274,
+            "description": "Returns a boolean indicating if a key (that you pass via a keycode)\nwas just released or not.",
             "itemtype": "method",
             "name": "justReleased",
             "params": [
                 {
                     "name": "keycode",
-                    "description": "The keycode of the key that you would like to check against.",
+                    "description": "The keycode of the key\n\tthat you would like to check against.",
                     "type": "Number"
                 },
                 {
                     "name": "duration",
-                    "description": "The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate",
+                    "description": "The duration which\n\tdetermines if a key was 'just' released or not.\n\tIf not specified defaults to the `justReleasedRate`",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "this.justReleasedRate"
@@ -35935,8 +35935,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 263,
-            "description": "Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.",
+            "line": 294,
+            "description": "Returns a boolean indicating whether a key (that you pass via its\nkeycode) is down or not.",
             "itemtype": "method",
             "name": "isDown",
             "params": [
@@ -35959,8 +35959,8 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 280,
-            "description": "Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.",
+            "line": 312,
+            "description": "Returns a boolean indicating whether a key (that you pass via its\nkeycode) is up or not.",
             "itemtype": "method",
             "name": "isUp",
             "params": [
@@ -35983,7 +35983,7 @@
         },
         {
             "file": "src/input/Keyboard.ts",
-            "line": 297,
+            "line": 330,
             "description": "Executes the reset method on every Key that currently exists.",
             "itemtype": "method",
             "name": "reset",

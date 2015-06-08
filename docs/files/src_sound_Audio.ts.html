@@ -1144,12 +1144,12 @@ module Kiwi.Sound {
 
 				//If we are using Audio tags and the audio is pending then that must be because we are waiting for the audio to load.
 					// Also the work around for CocoonJS
-				} else if (this._usingAudioTag &amp;&amp; !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON &amp;&amp; this._sound.duration !== 0) {
+                } else if (this._usingAudioTag &amp;&amp; !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON &amp;&amp; !isNaN(this._sound.duration) &amp;&amp; this._sound.duration !== 0) {
 					this.totalDuration = this._sound.duration;
-					this._markers[&#x27;default&#x27;].duration = this.totalDuration;
+                    this._markers[&#x27;default&#x27;].duration = this.totalDuration * 1000;
 					this._pending = false;      //again shouldn&#x27;t need once audio tag loader works.
 
-					if(this.isPlaying &amp;&amp; this._currentMarker == &#x27;default&#x27;) this.duration = this.totalDuration;
+                    if (this.isPlaying &amp;&amp; this._currentMarker == &#x27;default&#x27;) this.duration = this.totalDuration * 1000;
 				}
 			}
 

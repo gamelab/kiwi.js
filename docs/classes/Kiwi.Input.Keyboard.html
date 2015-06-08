@@ -387,7 +387,8 @@
 
 
 <div class="box intro">
-    <p>Handles and Manages the dispatching of keyboard events. When the user press&#39;s a button a new Key object is created.</p>
+    <p>Handles and manages the dispatching of keyboard events.
+When the user presses a button a new <code>Key</code> object is created.</p>
 
 </div>
 
@@ -488,7 +489,7 @@
                     
                         <span class="type"><a href="../classes/Kiwi.Input.Keyboard.html" class="crosslink">Kiwi.Input.Keyboard</a></span>:
                     
-                    <p>This object.</p>
+                    <p>This object</p>
 
                 
             </div>
@@ -524,6 +525,20 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                        
+                            <li class="index-item method private">
+                                <a href="#method__keyPressed">_keyPressed</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__keyReleased">_keyReleased</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method public">
                                 <a href="#method_addKey">addKey</a>
@@ -569,20 +584,6 @@
                         
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_onKeyDown">onKeyDown</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_onKeyUp">onKeyUp</a>
 
                                 
                                 
@@ -696,6 +697,190 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method__keyPressed" class="method item private">
+    <h3 class="name"><code>_keyPressed</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event.</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l189"><code>src&#x2F;input&#x2F;Keyboard.ts:189</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Is executed when a key is pressed/is down. This then either creates
+a new <code>Key</code> (if one does not currently exist) for that keycode, 
+or it updates the key that was pressed (if one does exist).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event.</code>
+                        <span class="type">KeyboardEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__keyReleased" class="method item private">
+    <h3 class="name"><code>_keyReleased</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>event.</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_Keyboard.ts.html#l212"><code>src&#x2F;input&#x2F;Keyboard.ts:212</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Is executed when a key is release/is now up. This then either
+creates a new Key (if one does not currently exist) for that
+keycode, or it updates the key that was released (if one does exist).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">event.</code>
+                        <span class="type">KeyboardEvent</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_addKey" class="method item public">
     <h3 class="name"><code>addKey</code></h3>
 
@@ -750,7 +935,7 @@
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l211"><code>src&#x2F;input&#x2F;Keyboard.ts:211</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l232"><code>src&#x2F;input&#x2F;Keyboard.ts:232</code></a>
         
         </p>
 
@@ -762,8 +947,9 @@
 
     <div class="description">
         <p>Creates a new Key object for a keycode that is specified.
-Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
-and choosing whether to prevent that keys any default action.</p>
+Not strictly needed (as one will be created once an event occurs
+on that keycode) but can be good for setting the game up
+and choosing whether to prevent default action on that key.</p>
 
     </div>
 
@@ -862,7 +1048,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l82"><code>src&#x2F;input&#x2F;Keyboard.ts:82</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l87"><code>src&#x2F;input&#x2F;Keyboard.ts:87</code></a>
         
         </p>
 
@@ -873,7 +1059,8 @@ and choosing whether to prevent that keys any default action.</p>
     </div>
 
     <div class="description">
-        <p>Is executed when the DOMElements that are need to get the game going are loaded and thus the game can &#39;boot&#39;</p>
+        <p>Is executed when the DOMElements that are need to get the game going
+are loaded and thus the game can &#39;boot&#39;</p>
 
     </div>
 
@@ -933,7 +1120,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l263"><code>src&#x2F;input&#x2F;Keyboard.ts:263</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l294"><code>src&#x2F;input&#x2F;Keyboard.ts:294</code></a>
         
         </p>
 
@@ -944,7 +1131,8 @@ and choosing whether to prevent that keys any default action.</p>
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.</p>
+        <p>Returns a boolean indicating whether a key (that you pass via its
+keycode) is down or not.</p>
 
     </div>
 
@@ -1040,7 +1228,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l280"><code>src&#x2F;input&#x2F;Keyboard.ts:280</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l312"><code>src&#x2F;input&#x2F;Keyboard.ts:312</code></a>
         
         </p>
 
@@ -1051,7 +1239,8 @@ and choosing whether to prevent that keys any default action.</p>
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.</p>
+        <p>Returns a boolean indicating whether a key (that you pass via its
+keycode) is up or not.</p>
 
     </div>
 
@@ -1149,7 +1338,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l230"><code>src&#x2F;input&#x2F;Keyboard.ts:230</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l253"><code>src&#x2F;input&#x2F;Keyboard.ts:253</code></a>
         
         </p>
 
@@ -1160,7 +1349,8 @@ and choosing whether to prevent that keys any default action.</p>
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.</p>
+        <p>Returns a boolean indicating if a key (that you pass via a keycode)
+was just pressed or not.</p>
 
     </div>
 
@@ -1179,7 +1369,8 @@ and choosing whether to prevent that keys any default action.</p>
                     
 
                     <div class="param-description">
-                        <p>The keycode of the key that you would like to check against.</p>
+                        <p>The keycode of the key
+    that you would like to check against.</p>
 
                     </div>
 
@@ -1196,7 +1387,9 @@ and choosing whether to prevent that keys any default action.</p>
                     
 
                     <div class="param-description">
-                        <p>The duration at which determines if a key was &#39;just&#39; pressed or not. If not specified defaults to the justPressedRate</p>
+                        <p>The duration
+    which determines if a key was &#39;just&#39; pressed or not.
+    If not specified defaults to the <code>justPressedRate</code></p>
 
                     </div>
 
@@ -1263,7 +1456,7 @@ and choosing whether to prevent that keys any default action.</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l247"><code>src&#x2F;input&#x2F;Keyboard.ts:247</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l274"><code>src&#x2F;input&#x2F;Keyboard.ts:274</code></a>
         
         </p>
 
@@ -1274,7 +1467,8 @@ and choosing whether to prevent that keys any default action.</p>
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.</p>
+        <p>Returns a boolean indicating if a key (that you pass via a keycode)
+was just released or not.</p>
 
     </div>
 
@@ -1293,7 +1487,8 @@ and choosing whether to prevent that keys any default action.</p>
                     
 
                     <div class="param-description">
-                        <p>The keycode of the key that you would like to check against.</p>
+                        <p>The keycode of the key
+    that you would like to check against.</p>
 
                     </div>
 
@@ -1310,7 +1505,9 @@ and choosing whether to prevent that keys any default action.</p>
                     
 
                     <div class="param-description">
-                        <p>The duration at which determines if a key was &#39;just&#39; released or not. If not specified defaults to the justReleasedRate</p>
+                        <p>The duration which
+    determines if a key was &#39;just&#39; released or not.
+    If not specified defaults to the <code>justReleasedRate</code></p>
 
                     </div>
 
@@ -1376,7 +1573,7 @@ and choosing whether to prevent that keys any default action.</p>
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Type of object that this is</p>
 
     </div>
 
@@ -1396,188 +1593,6 @@ and choosing whether to prevent that keys any default action.</p>
                 
             </div>
         </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_onKeyDown" class="method item private">
-    <h3 class="name"><code>onKeyDown</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event.</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Keyboard.ts.html#l170"><code>src&#x2F;input&#x2F;Keyboard.ts:170</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, 
-or it updates the key that was pressed (if one does exist).</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event.</code>
-                        <span class="type">KeyboardEvent</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_onKeyUp" class="method item private">
-    <h3 class="name"><code>onKeyUp</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>event.</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_input_Keyboard.ts.html#l192"><code>src&#x2F;input&#x2F;Keyboard.ts:192</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, 
-or it updates the key that was released (if one does exist).</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">event.</code>
-                        <span class="type">KeyboardEvent</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
     
 
     
@@ -1618,7 +1633,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l297"><code>src&#x2F;input&#x2F;Keyboard.ts:297</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l330"><code>src&#x2F;input&#x2F;Keyboard.ts:330</code></a>
         
         </p>
 
@@ -1675,7 +1690,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l142"><code>src&#x2F;input&#x2F;Keyboard.ts:142</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l160"><code>src&#x2F;input&#x2F;Keyboard.ts:160</code></a>
         
         </p>
 
@@ -1732,7 +1747,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l156"><code>src&#x2F;input&#x2F;Keyboard.ts:156</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l174"><code>src&#x2F;input&#x2F;Keyboard.ts:174</code></a>
         
         </p>
 
@@ -1743,7 +1758,8 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>Removes the event listeners and so effectively &#39;stops&#39; all keyboard events.</p>
+        <p>Removes the event listeners and so effectively stops
+all keyboard events.</p>
 
     </div>
 
@@ -1789,7 +1805,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l94"><code>src&#x2F;input&#x2F;Keyboard.ts:94</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l100"><code>src&#x2F;input&#x2F;Keyboard.ts:100</code></a>
         
         </p>
 
@@ -1855,7 +1871,9 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.</p>
+        <p>Contains a reference to each <code>Key</code> object when they are either
+added to this <code>Keyboard</code> manager (by the developer),
+or when an event fires with that keycode.</p>
 
     </div>
 
@@ -1902,7 +1920,7 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>The game that this Keyboard belongs to.</p>
+        <p>Game that this <code>Keyboard</code> belongs to</p>
 
     </div>
 
@@ -1939,7 +1957,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l64"><code>src&#x2F;input&#x2F;Keyboard.ts:64</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l67"><code>src&#x2F;input&#x2F;Keyboard.ts:67</code></a>
         
         </p>
 
@@ -1949,7 +1967,8 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>The time in milliseconds which determines if a key was just pressed or not.</p>
+        <p>The time in milliseconds which determines if a key was just pressed
+or not.</p>
 
     </div>
 
@@ -1988,7 +2007,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l73"><code>src&#x2F;input&#x2F;Keyboard.ts:73</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l77"><code>src&#x2F;input&#x2F;Keyboard.ts:77</code></a>
         
         </p>
 
@@ -1998,7 +2017,8 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>The time in milliseconds which determines if a key was just released or not.</p>
+        <p>The time in milliseconds which determines if a key was just released
+or not.</p>
 
     </div>
 
@@ -2037,7 +2057,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l54"><code>src&#x2F;input&#x2F;Keyboard.ts:54</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l56"><code>src&#x2F;input&#x2F;Keyboard.ts:56</code></a>
         
         </p>
 
@@ -2047,7 +2067,8 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>Returns all of the Key objects that currently exist. This is READ ONLY.</p>
+        <p>Returns all of the <code>Key</code> objects that currently exist.
+This is READ ONLY.</p>
 
     </div>
 
@@ -2084,7 +2105,7 @@ or it updates the key that was released (if one does exist).</p>
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l114"><code>src&#x2F;input&#x2F;Keyboard.ts:114</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l123"><code>src&#x2F;input&#x2F;Keyboard.ts:123</code></a>
         
         </p>
 
@@ -2094,12 +2115,14 @@ or it updates the key that was released (if one does exist).</p>
     </div>
 
     <div class="description">
-        <p>A Signal that dispatches events when a key is pressed/is down.
-This mimics the natural &#39;keydown&#39; event listener, so it will keep dispatching events if the user holds the key down. 
-Note: This fires after the &#39;onKeyDownOnce&#39; signal.
-Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-1) KeyCode - The keyCode of the key that was just released.
-2) Key - The key object for that keycode.</p>
+        <p>A <code>Signal</code> that dispatches events when a key is pressed/is down.
+This mimics the natural <code>keydown</code> event listener, so it will keep
+dispatching events if the user holds the key down.</p>
+<p>Note: This fires after the &#39;onKeyDownOnce&#39; signal.</p>
+<p>Callbacks fired by this Signal will contain two parameters:
+the keyCode and key object.
+1) <code>KeyCode</code> - The keyCode of the key that was just released.
+2) <code>Key</code> - The key object for that keycode.</p>
 
     </div>
 
@@ -2136,7 +2159,7 @@ Callbacks fired by this Signal will contain two parameters, the keyCode and key 
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l128"><code>src&#x2F;input&#x2F;Keyboard.ts:128</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l141"><code>src&#x2F;input&#x2F;Keyboard.ts:141</code></a>
         
         </p>
 
@@ -2146,12 +2169,15 @@ Callbacks fired by this Signal will contain two parameters, the keyCode and key 
     </div>
 
     <div class="description">
-        <p>A Signal that dispatches events when a key is pressed/is down initially. 
-This event only fires the first time that the key is pressed, so it won&#39;t dispatch events if the user is holding the key down.
-Note: This fires before the &#39;onKeyDown&#39; signal;
-Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-1) KeyCode - The keyCode of the key that was just released.
-2) Key - The key object for that keycode.</p>
+        <p>A <code>Signal</code> that dispatches events when a key is pressed/
+is down initially. 
+This event only fires the first time that the key is pressed,
+so it won&#39;t dispatch events if the user is holding the key down.</p>
+<p>Note: This fires before the &#39;onKeyDown&#39; signal.</p>
+<p>Callbacks fired by this Signal will contain two parameters:
+the keyCode and key object.
+1) <code>KeyCode</code> - The keyCode of the key that was just released.
+2) <code>Key</code> - The key object for that keycode.</p>
 
     </div>
 
@@ -2188,7 +2214,7 @@ Callbacks fired by this Signal will contain two parameters, the keyCode and key 
             
         
         
-        <a href="../files/src_input_Keyboard.ts.html#l103"><code>src&#x2F;input&#x2F;Keyboard.ts:103</code></a>
+        <a href="../files/src_input_Keyboard.ts.html#l109"><code>src&#x2F;input&#x2F;Keyboard.ts:109</code></a>
         
         </p>
 
@@ -2198,10 +2224,11 @@ Callbacks fired by this Signal will contain two parameters, the keyCode and key 
     </div>
 
     <div class="description">
-        <p>A Signal that dispatches events when a key is released/is now up.
-Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-1) KeyCode - The keyCode of the key that was just released.
-2) Key - The key object for that keycode.</p>
+        <p>A Signal that dispatches events when a key is released/is now up.</p>
+<p>Callbacks fired by this <code>Signal</code> will contain two parameters:
+the keyCode and key object.
+1) <code>KeyCode</code> - The keyCode of the key that was just released.
+2) <code>Key</code> - The key object for that keycode.</p>
 
     </div>
 
