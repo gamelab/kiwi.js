@@ -43359,20 +43359,6 @@
         {
             "file": "src/sound/Audio.ts",
             "line": 364,
-            "description": "The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.",
-            "itemtype": "property",
-            "name": "_stopTime",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Sound.Audio",
-            "module": "Kiwi",
-            "submodule": "Sound",
-            "namespace": "Kiwi.Sound"
-        },
-        {
-            "file": "src/sound/Audio.ts",
-            "line": 372,
             "description": "A collection of all of the markers that are on this piece of audio.",
             "itemtype": "property",
             "name": "_markers",
@@ -43386,7 +43372,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 380,
+            "line": 372,
             "description": "The current marker that is being used.",
             "itemtype": "property",
             "name": "_currentMarker",
@@ -43401,7 +43387,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 389,
+            "line": 381,
             "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -43415,7 +43401,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 397,
+            "line": 389,
             "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -43429,7 +43415,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 405,
+            "line": 397,
             "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
             "itemtype": "property",
             "name": "onPause",
@@ -43443,7 +43429,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 413,
+            "line": 405,
             "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
             "itemtype": "property",
             "name": "onResume",
@@ -43457,7 +43443,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 421,
+            "line": 413,
             "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
             "itemtype": "property",
             "name": "onLoop",
@@ -43471,7 +43457,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 429,
+            "line": 421,
             "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
             "itemtype": "property",
             "name": "onMute",
@@ -43485,7 +43471,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 437,
+            "line": 429,
             "description": "A Kiwi Signal that dispatches a event when the audio completes\nand does not loop.",
             "itemtype": "property",
             "name": "onComplete",
@@ -43499,7 +43485,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 446,
+            "line": 438,
             "description": "Retrieves the audio data from the file store.",
             "itemtype": "method",
             "name": "_setAudio",
@@ -43512,7 +43498,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 476,
+            "line": 468,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -43525,7 +43511,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 501,
+            "line": 493,
             "description": "Used to control the current volume for this sound. 0 is silent, 1 is full volume.",
             "itemtype": "property",
             "name": "volume",
@@ -43539,7 +43525,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 535,
+            "line": 527,
             "description": "Mutes the sound and makes it 'silent'. \nThis will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.",
             "itemtype": "property",
             "name": "mute",
@@ -43553,7 +43539,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 565,
+            "line": 557,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -43590,7 +43576,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 579,
+            "line": 571,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -43610,7 +43596,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 597,
+            "line": 589,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -43638,7 +43624,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 681,
+            "line": 669,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -43651,7 +43637,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 709,
+            "line": 697,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -43664,7 +43650,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 722,
+            "line": 710,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -43677,7 +43663,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 759,
+            "line": 745,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -43690,7 +43676,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 828,
+            "line": 794,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",

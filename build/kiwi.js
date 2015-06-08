@@ -28721,7 +28721,6 @@ var Kiwi;
                         this.totalDuration = this._sound.buffer.duration;
                         if (this.duration == 0)
                             this.duration = this.totalDuration * 1000;
-                        //if (this._loop) this._sound.loop = true;
                         //start
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
@@ -28732,7 +28731,6 @@ var Kiwi;
                         this.isPlaying = true;
                         this._startTime = this._game.time.now();
                         this._currentTime = 0;
-                        this._stopTime = this._startTime + this.duration;
                         this.onPlay.dispatch();
                     }
                     else {
@@ -28753,7 +28751,6 @@ var Kiwi;
                         this.isPlaying = true;
                         this._startTime = this._game.time.now();
                         this._currentTime = 0;
-                        this._stopTime = this._startTime + this.duration;
                         if (!this.paused)
                             this.onPlay.dispatch();
                     }
@@ -28811,7 +28808,6 @@ var Kiwi;
                         this._sound = this.context.createBufferSource();
                         this._sound.buffer = this._buffer;
                         this._sound.connect(this.gainNode);
-                        //if (this._loop) this._sound.loop = true;
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
                         }
@@ -28844,10 +28840,10 @@ var Kiwi;
                         this._pending = false;
                         this.play();
                     }
-                    else if (this._usingAudioTag && !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON && !isNaN(this._sound.duration) && this._sound.duration !== 0) {
+                    else if (this._usingAudioTag && !isNaN(this._sound.duration) && this._sound.duration !== 0) {
                         this.totalDuration = this._sound.duration;
-                        this._markers['default'].duration = this.totalDuration * 1000;
-                        this._pending = false; //again shouldn't need once audio tag loader works.
+                        this._markers['default'].duration = this.totalDuration;
+                        this._pending = false;
                         if (this.isPlaying && this._currentMarker == 'default')
                             this.duration = this.totalDuration * 1000;
                     }
@@ -28856,30 +28852,13 @@ var Kiwi;
                 if (this.isPlaying) {
                     this._currentTime = this._game.time.now() - this._startTime;
                     if (this._currentTime >= this.duration) {
-                        if (this._usingWebAudio) {
-                            if (this._loop) {
-                                //if (this._currentMarker == 'default') {
-                                //this._currentTime = 0;
-                                //this._startTime = this._game.time.now();
-                                //} else {
-                                this.play(this._currentMarker, true);
-                                //}
-                                this.onLoop.dispatch();
-                            }
-                            else {
-                                this.onComplete.dispatch();
-                                this.stop();
-                            }
+                        if (this._loop) {
+                            this.play(this._currentMarker, true);
+                            this.onLoop.dispatch();
                         }
-                        else if (this._usingAudioTag) {
-                            if (this._loop) {
-                                this.play(this._currentMarker, true);
-                                this.onLoop.dispatch();
-                            }
-                            else {
-                                this.onComplete.dispatch();
-                                this.stop();
-                            }
+                        else {
+                            this.onComplete.dispatch();
+                            this.stop();
                         }
                     }
                 }
@@ -28917,7 +28896,6 @@ var Kiwi;
                 delete this._sound;
                 delete this._currentTime;
                 delete this._startTime;
-                delete this._stopTime;
                 delete this._pending;
                 delete this.masterGainNode;
                 delete this.gainNode;
