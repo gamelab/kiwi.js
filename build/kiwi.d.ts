@@ -20026,13 +20026,6 @@ declare module Kiwi.Sound {
         */
         private _currentTime;
         /**
-        * The time at which the audio should stop playing. In milliseconds. This is assuming that the audio is not on loop.
-        * @property _stopTime
-        * @type number
-        * @private
-        */
-        private _stopTime;
-        /**
         * A collection of all of the markers that are on this piece of audio.
         * @property _markers
         * @type object
