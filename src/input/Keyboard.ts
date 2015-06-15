@@ -8,14 +8,14 @@
 module Kiwi.Input {
 
 	/**
-	* Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
+	* Handles and manages the dispatching of keyboard events.
+	* When the user presses a button a new `Key` object is created.
 	*
 	* @class Keyboard
 	* @constructor
 	* @namespace Kiwi.Input
 	* @param game {Kiwi.Game}
-	* @return {Kiwi.Input.Keyboard} This object.
-	*
+	* @return {Kiwi.Input.Keyboard} This object
 	*/
 	export class Keyboard {
 
@@ -26,7 +26,7 @@ module Kiwi.Input {
 		}
 
 		/**
-		* The type of object that this is.
+		* Type of object that this is
 		* @method objType
 		* @return {String} "Keyboard"
 		* @public
@@ -36,7 +36,7 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* The game that this Keyboard belongs to.
+		* Game that this `Keyboard` belongs to
 		* @property game
 		* @type Kiwi.Game
 		* @public
@@ -44,7 +44,9 @@ module Kiwi.Input {
 		public game: Kiwi.Game;
 
 		/** 
-		* Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
+		* Contains a reference to each `Key` object when they are either
+		* added to this `Keyboard` manager (by the developer),
+		* or when an event fires with that keycode.
 		* @property _keys
 		* @type Key[]
 		* @private
@@ -52,7 +54,8 @@ module Kiwi.Input {
 		private _keys:Key[] = [];
 
 		/**
-		* Returns all of the Key objects that currently exist. This is READ ONLY.
+		* Returns all of the `Key` objects that currently exist.
+		* This is READ ONLY.
 		* @property keys
 		* @type Keys[]
 		* @public
@@ -62,7 +65,8 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* The time in milliseconds which determines if a key was just pressed or not.
+		* The time in milliseconds which determines if a key was just pressed
+		* or not.
 		* @property justPressedRate
 		* @type Number
 		* @default 200
@@ -71,7 +75,8 @@ module Kiwi.Input {
 		public justPressedRate: number = 200;
 
 		/** 
-		* The time in milliseconds which determines if a key was just released or not.
+		* The time in milliseconds which determines if a key was just released
+		* or not.
 		* @property justReleasedRate
 		* @type Number
 		* @default 200
@@ -80,7 +85,8 @@ module Kiwi.Input {
 		public justReleasedRate: number = 200;
 
 		/** 
-		* Is executed when the DOMElements that are need to get the game going are loaded and thus the game can 'boot'
+		* Is executed when the DOMElements that are need to get the game going
+		* are loaded and thus the game can 'boot'
 		* @method boot
 		* @public
 		*/
@@ -102,9 +108,12 @@ module Kiwi.Input {
 
 		/**
 		* A Signal that dispatches events when a key is released/is now up.
-		* Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-		* 1) KeyCode - The keyCode of the key that was just released.
-		* 2) Key - The key object for that keycode.
+		*
+		* Callbacks fired by this `Signal` will contain two parameters:
+		* the keyCode and key object.
+		* 1) `KeyCode` - The keyCode of the key that was just released.
+		* 2) `Key` - The key object for that keycode.
+		*
 		* @property onKeyUp
 		* @type Kiwi.Signal
 		* @public
@@ -112,12 +121,16 @@ module Kiwi.Input {
 		public onKeyUp: Kiwi.Signal;
 
 		/**
-		* A Signal that dispatches events when a key is pressed/is down.
-		* This mimics the natural 'keydown' event listener, so it will keep dispatching events if the user holds the key down. 
+		* A `Signal` that dispatches events when a key is pressed/is down.
+		* This mimics the natural `keydown` event listener, so it will keep
+		* dispatching events if the user holds the key down.
+		*
 		* Note: This fires after the 'onKeyDownOnce' signal.
-		* Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-		* 1) KeyCode - The keyCode of the key that was just released.
-		* 2) Key - The key object for that keycode.
+		*
+		* Callbacks fired by this Signal will contain two parameters:
+		* the keyCode and key object.
+		* 1) `KeyCode` - The keyCode of the key that was just released.
+		* 2) `Key` - The key object for that keycode.
 		*
 		* @property onKeyDown
 		* @type Kiwi.Signal
@@ -126,12 +139,17 @@ module Kiwi.Input {
 		public onKeyDown: Kiwi.Signal;
 
 		/**
-		* A Signal that dispatches events when a key is pressed/is down initially. 
-		* This event only fires the first time that the key is pressed, so it won't dispatch events if the user is holding the key down.
-		* Note: This fires before the 'onKeyDown' signal;
-		* Callbacks fired by this Signal will contain two parameters, the keyCode and key object.
-		* 1) KeyCode - The keyCode of the key that was just released.
-		* 2) Key - The key object for that keycode.
+		* A `Signal` that dispatches events when a key is pressed/
+		* is down initially. 
+		* This event only fires the first time that the key is pressed,
+		* so it won't dispatch events if the user is holding the key down.
+		*
+		* Note: This fires before the 'onKeyDown' signal.
+		*
+		* Callbacks fired by this Signal will contain two parameters:
+		* the keyCode and key object.
+		* 1) `KeyCode` - The keyCode of the key that was just released.
+		* 2) `Key` - The key object for that keycode.
 		*
 		* @property onKeyDownOnce
 		* @type Kiwi.Signal
@@ -154,7 +172,8 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* Removes the event listeners and so effectively 'stops' all keyboard events.
+		* Removes the event listeners and so effectively stops
+		* all keyboard events.
 		* @method stop
 		* @public
 		*/
@@ -168,9 +187,10 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode, 
+		* Is executed when a key is pressed/is down. This then either creates
+		* a new `Key` (if one does not currently exist) for that keycode, 
 		* or it updates the key that was pressed (if one does exist). 
-		* @method onKeyDown
+		* @method _keyPressed
 		* @param {KeyboardEvent} event.
 		* @private
 		*/
@@ -190,9 +210,10 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode, 
-		* or it updates the key that was released (if one does exist). 
-		* @method onKeyUp
+		* Is executed when a key is release/is now up. This then either
+		* creates a new Key (if one does not currently exist) for that
+		* keycode, or it updates the key that was released (if one does exist).
+		* @method _keyReleased
 		* @param {KeyboardEvent} event.
 		* @private
 		*/
@@ -210,8 +231,10 @@ module Kiwi.Input {
 
 		/** 
 		* Creates a new Key object for a keycode that is specified.
-		* Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
-		* and choosing whether to prevent that keys any default action.
+		* Not strictly needed (as one will be created once an event occurs
+		* on that keycode) but can be good for setting the game up
+		* and choosing whether to prevent default action on that key.
+		*
 		* @method addKey
 		* @param keycode {Number} The keycode of the key that you want to add. 
 		* @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
@@ -228,10 +251,14 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not. 
+		* Returns a boolean indicating if a key (that you pass via a keycode)
+		* was just pressed or not. 
 		* @method justPressed
-		* @param keycode {Number} The keycode of the key that you would like to check against.
-		* @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
+		* @param keycode {Number} The keycode of the key
+		*	that you would like to check against.
+		* @param [duration=this.justPressedRate] {Number} The duration
+		*	which determines if a key was 'just' pressed or not.
+		*	If not specified defaults to the `justPressedRate`
 		* @public
 		*/
 		public justPressed(keycode, duration:number=this.justPressedRate):boolean {
@@ -245,10 +272,14 @@ module Kiwi.Input {
 
 
 		/** 
-		* Returns a boolean indicating if a key (that you pass via a keycode) was just released or not. 
+		* Returns a boolean indicating if a key (that you pass via a keycode)
+		* was just released or not. 
 		* @method justReleased
-		* @param keycode {Number} The keycode of the key that you would like to check against.
-		* @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
+		* @param keycode {Number} The keycode of the key
+		*	that you would like to check against.
+		* @param [duration=this.justReleasedRate] {Number} The duration which
+		*	determines if a key was 'just' released or not.
+		*	If not specified defaults to the `justReleasedRate`
 		* @public
 		*/
 		public justReleased(keycode, duration:number=this.justReleasedRate):boolean {
@@ -261,7 +292,8 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
+		* Returns a boolean indicating whether a key (that you pass via its
+		* keycode) is down or not.
 		* @method isDown
 		* @param keycode {Number} The keycode of the key that you are checking.
 		* @return {boolean}
@@ -278,7 +310,8 @@ module Kiwi.Input {
 		}
 
 		/** 
-		* Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
+		* Returns a boolean indicating whether a key (that you pass via its
+		* keycode) is up or not.
 		* @method isUp
 		* @param keycode {Number} The keycode of the key that you are checking.
 		* @return {boolean}
