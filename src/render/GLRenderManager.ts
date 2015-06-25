@@ -9,9 +9,11 @@ module Kiwi.Renderers {
 
 	/**
 	* Manages all rendering using WebGL.
-	* Directly manages renderer objects, including factory methods for their creation. 
+	* Directly manages renderer objects, including factory methods
+	* for their creation. 
 	* Creates manager objects for shaders and textures.
-	* Manages gl state at game initialisation, at state start and end, and per frame.
+	* Manages gl state at game initialisation, at state start and end,
+	* and per frame.
 	* Runs the recursive scene graph rendering sequence every frame. 
 	* @class GLRenderManager
 	* @extends IRenderer
@@ -42,7 +44,7 @@ module Kiwi.Renderers {
 		/**
 		* The type of object that this is.
 		* @method objType
-		* @return {String} "GLRenderManager"
+		* @return {string} "GLRenderManager"
 		* @public
 		*/
 		public objType() {
@@ -110,7 +112,7 @@ module Kiwi.Renderers {
 		*/
 		private _entityCount: number = 0;
 
-		 /**
+		/**
 		* Tally of number of draw calls per frame
 		* @property numDrawCalls
 		* @type number
@@ -120,8 +122,8 @@ module Kiwi.Renderers {
 		public numDrawCalls: number = 0;
 
 		/**
-		* Maximum allowable sprites to render per frame
-		* Note:Not currently used  - candidate for deletion
+		* Maximum allowable sprites to render per frame.
+		* Note: Not currently used  - candidate for deletion
 		* @property _maxItems
 		* @type number
 		* @default 1000
@@ -165,11 +167,18 @@ module Kiwi.Renderers {
 		}
 
 		/**
-		* An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
-		* instance and add rendering info to a batch rather than rendering individually. 
-		* This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
-		* and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
-		* same renderer/shader combination and be drawn as part of the same batch.
+		* An array of renderers.
+		*
+		* Shared renderers are used for batch rendering.
+		* Multiple gameobjects can use the same renderer instance and add
+		* rendering info to a batch rather than rendering individually. 
+		* This means only one draw call is necessary to render a number of
+		* objects. The most common use of this is standard 2d sprite rendering,
+		* and the TextureAtlasRenderer is added by default as a shared
+		* renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
+		* can all use the same renderer/shader combination and be drawn as
+		* part of the same batch.
+		*
 		* Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
 		* capabilities.
 		*  
@@ -180,19 +189,23 @@ module Kiwi.Renderers {
 		private _sharedRenderers: any = {};
 
 		/**
-		* Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
-		* If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+		* Adds a renderer to the sharedRenderer array.
+		*
+		* The rendererID is a string that must match a renderer property
+		* of the Kiwi.Renderers object. If a match is found and an instance
+		* does not already exist, then a renderer is instantiated and added
+		* to the array.
 		* @method addSharedRenderer
-		* @param {String} rendererID
-		* @param {Object} params
-		* @return {Boolean} success
+		* @param {string} rendererID
+		* @param {object} params
+		* @return {boolean} success
 		* @public
 		*/
 
 		public addSharedRenderer(rendererID:string,params:any = null):boolean {
 			//does renderer exist?
 			if (Kiwi.Renderers[rendererID]) {
-			  
+
 				//already added?
 				if (!(rendererID in this._sharedRenderers)) {
 					this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl,this._shaderManager,params);
@@ -204,17 +217,26 @@ module Kiwi.Renderers {
 
 
 		/**
-		* Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+		* Adds a cloned renderer to the sharedRenderer array.
+		* The rendererID is a string that must match a renderer property of
+		* the Kiwi.Renderers object. The cloneID is the name for the
+		* cloned renderer.
 		*
-		* If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+		* If a match is found and an instance does not already exist,
+		* then a renderer is instantiated and added to the array.
 		*
-		* Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+		* Cloned shared renderers are useful if some items in your scene
+		* will use a special shader or blend mode, but others will not.
+		* You can subsequently access the clones with a normal
+		* `requestSharedRenderer()` call. You should use this instead of
+		* `requestRendererInstance()` whenever possible, because shared
+		* renderers are more efficient than instances.
 		*
 		* @method addSharedRendererClone
-		* @param {String} rendererID
-		* @param {String} cloneID
-		* @param {Object} params
-		* @return {Boolean} success
+		* @param {string} rendererID
+		* @param {string} cloneID
+		* @param {object} params
+		* @return {boolean} success
 		* @public
 		* @since 1.1.0
 		*/
@@ -233,11 +255,14 @@ module Kiwi.Renderers {
 
 
 		/**
-		* Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
+		* Requests a shared renderer. A game object that wants to use a shared
+		* renderer uses this method to obtain a reference to the shared
+		* renderer instance.
 		* @method requestSharedRenderer
-		* @param {String} rendererID
-		* @param {Object} params
-		* @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
+		* @param {string} rendererID
+		* @param {object} params
+		* @return {Kiwi.Renderers.Renderer} A shared renderer
+		*	or null if none found.
 		* @public
 		*/
 
@@ -252,20 +277,23 @@ module Kiwi.Renderers {
 					Kiwi.Log.log("No renderer called " + rendererID, '#renderer', '#webgl');
 				}
 			}
+
 			//failed request
 			return null;
-
 		}
 
 
 		/**
-		* Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. 
-		* The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. 
-		* If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
-		* batch rendering use this technique.
+		* Requests a new renderer instance. This factory method is the only
+		* way gameobjects should instantiate their own renderer.
+		*
+		* The rendererID is a string that must match a renderer property
+		* of the Kiwi.Renderers object. If a match is found then a renderer
+		* is instantiated and returned. Gameobjects which have rendering
+		* requirements that do not suit batch rendering use this technique.
 		* @method requestRendererInstance
-		* @param {String} rendererID The name of the requested renderer
-		* @param {Object} params
+		* @param {string} rendererID The name of the requested renderer
+		* @param {object} params
 		* @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
 		* @public
 		*/
@@ -292,10 +320,10 @@ module Kiwi.Renderers {
 		private _filtersEnabled: boolean = false;
 		
 		/**
-		* Performs initialisation required for single game instance - happens once, at bootup
-		* Sets global GL state.
+		* Performs initialisation required for single game instance -
+		* happens once, at bootup. Sets global GL state.
 		* Initialises managers for shaders and textures.
-		* Instantiates the default shared renderer (TextureAtlasRenderer)
+		* Instantiates the default shared renderer (`TextureAtlasRenderer`)
 		* @method _init
 		* @private
 		*/
@@ -306,6 +334,7 @@ module Kiwi.Renderers {
 
 			//init stage and viewport
 			this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
+
 			// Manually override scaling under CocoonJS
 			if( this._game.deviceTargetOption === Kiwi.TARGET_COCOON ) {
 				this.scaleViewport( gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight );
@@ -320,11 +349,11 @@ module Kiwi.Renderers {
 
 			//shader manager
 			this._shaderManager.init(gl, "TextureAtlasShader");
-			
+
 			//camera matrix
 			this.camMatrix = new Float32Array( [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ] );
 			this._camMatrixOffset = new Kiwi.Geom.Matrix();
-			
+
 			//stage res needs update on stage resize
 			this._game.stage.onResize.add(function (width, height) {
 				this._stageResolution = new Float32Array([width, height]);
@@ -351,9 +380,11 @@ module Kiwi.Renderers {
 		* This is used internally for compatibility with CocoonJS and should not be called.
 		* @method scaleViewport
 		* @param gl {WebGLRenderingContext}
-		* @param mode {number} The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.
-		* @param width {number} Width of the target space.
-		* @param height {number} Height of the target space.
+		* @param mode {number} Scale mode; should be either
+		*	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
+		*	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
+		* @param width {number} Width of the target space
+		* @param height {number} Height of the target space
 		* @public
 		* @since 1.1.1
 		*/
@@ -394,8 +425,10 @@ module Kiwi.Renderers {
 
 
 		/**
-		* Performs initialisation required when switching to a different state. Called when a state has been switched to.
-		* The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
+		* Performs initialisation required when switching to a different state.
+		* Called when a state has been switched to.
+		* The textureManager is told to clear its contents from video memory,
+		* then rebuild its cache of textures from the state's texture library.
 		* @method initState
 		* @public
 		*/
@@ -406,7 +439,9 @@ module Kiwi.Renderers {
 		}
 
 		/**
-		* Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
+		* Performs cleanup required before switching to a different state.
+		* Called whwn a state is about to be switched from.
+		* The textureManager is told to empty its cache.
 		* @method endState
 		* @param state {Kiwi.State}
 		* @public
@@ -419,8 +454,8 @@ module Kiwi.Renderers {
 
 		/**
 		* Manages rendering of the scene graph - called once per frame.
-		* Sets up per frame gl uniforms such as the view matrix and camera offset.
-		* Clears the current renderer ready for a new batch. 
+		* Sets up per frame gl uniforms such as the view matrix and
+		* camera offset. Clears the current renderer ready for a new batch. 
 		* Initiates recursive render of scene graph starting at the root. 
 		* @method render
 		* @param camera {Camera}
@@ -442,6 +477,11 @@ module Kiwi.Renderers {
 			// gl.clearColor(col.r, col.g, col.b, col.a);
 			gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
 			gl.clear(gl.COLOR_BUFFER_BIT);
+
+			// Reset current renderer.
+			// This prevents runtime created shaders from being uploaded
+			// and the render manager failing to notice, causing crashes.
+			this._currentRenderer = null;
 
 			// Stop drawing if there is nothing to draw
 			if (this._game.states.current.members.length == 0) {
@@ -507,11 +547,13 @@ module Kiwi.Renderers {
 		}
 
 		/**
-		* Adds a child to the render sequence (may be a group with children of it's own)
+		* Adds a child to the render sequence
+		* (may be a group with children of its own).
 		* @method collateChild
 		* @public
 		*/
 		public collateChild(child:IChild) {
+
 			// Do not render non-visible objects or their children
 			if( !child.visible) return;
 			
@@ -532,7 +574,8 @@ module Kiwi.Renderers {
 		}
 
 		/**
-		* Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination. 
+		* Sorts the render sequence into batches.
+		* Each batch requires the same renderer/shader/texture combination. 
 		* @method collateBatches
 		* @public
 		*/
@@ -576,7 +619,7 @@ module Kiwi.Renderers {
 		* Renders a single batch 
 		* @method renderBatch
 		* @param {WebGLRenderingContext} gl
-		* @param {Object} batch
+		* @param {object} batch
 		* @param {Kiwi.Camera} camera
 		* @public
 		*/

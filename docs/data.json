@@ -5645,7 +5645,7 @@
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLRenderManager.ts",
             "line": 10,
-            "description": "Manages all rendering using WebGL.\nDirectly manages renderer objects, including factory methods for their creation. \nCreates manager objects for shaders and textures.\nManages gl state at game initialisation, at state start and end, and per frame.\nRuns the recursive scene graph rendering sequence every frame.",
+            "description": "Manages all rendering using WebGL.\nDirectly manages renderer objects, including factory methods\nfor their creation. \nCreates manager objects for shaders and textures.\nManages gl state at game initialisation, at state start and end,\nand per frame.\nRuns the recursive scene graph rendering sequence every frame.",
             "extends": "IRenderer",
             "is_constructor": 1,
             "params": [
@@ -41587,7 +41587,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 29,
+            "line": 31,
             "description": "Initialises all WebGL rendering services",
             "itemtype": "method",
             "name": "boot",
@@ -41600,7 +41600,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 42,
+            "line": 44,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -41617,7 +41617,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 52,
+            "line": 54,
             "description": "The game that this renderer is used with.",
             "itemtype": "property",
             "name": "_game",
@@ -41631,7 +41631,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 60,
+            "line": 62,
             "description": "The texture manager object used to allocate GL Textures.",
             "itemtype": "property",
             "name": "_textureManager",
@@ -41645,7 +41645,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 68,
+            "line": 70,
             "description": "The shader manager object used to allocate GL Shaders.",
             "itemtype": "property",
             "name": "_shaderManager",
@@ -41659,7 +41659,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 79,
+            "line": 81,
             "description": "The stage resolution in pixels",
             "itemtype": "property",
             "name": "_stageResolution",
@@ -41673,7 +41673,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 87,
+            "line": 89,
             "description": "The renderer object that is in use during a rendering batch.",
             "itemtype": "property",
             "name": "_currentRenderer",
@@ -41687,7 +41687,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 95,
+            "line": 97,
             "description": "The current blend mode.",
             "itemtype": "property",
             "name": "_currentBlendMode",
@@ -41702,7 +41702,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 104,
+            "line": 106,
             "description": "Tally of number of entities rendered per frame",
             "itemtype": "property",
             "name": "_entityCount",
@@ -41717,7 +41717,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 113,
+            "line": 115,
             "description": "Tally of number of draw calls per frame",
             "itemtype": "property",
             "name": "numDrawCalls",
@@ -41732,8 +41732,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 122,
-            "description": "Maximum allowable sprites to render per frame\nNote:Not currently used  - candidate for deletion",
+            "line": 124,
+            "description": "Maximum allowable sprites to render per frame.\nNote: Not currently used  - candidate for deletion",
             "itemtype": "property",
             "name": "_maxItems",
             "type": "number",
@@ -41747,7 +41747,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 132,
+            "line": 134,
             "description": "Camera matrix used on graphics card",
             "itemtype": "property",
             "name": "camMatrix",
@@ -41761,7 +41761,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 140,
+            "line": 142,
             "description": "Geometry data used to create `camMatrix`",
             "itemtype": "property",
             "name": "_camMatrixOffset",
@@ -41775,7 +41775,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 148,
+            "line": 150,
             "description": "The most recently bound texture atlas.",
             "itemtype": "property",
             "name": "_currentTextureAtlas",
@@ -41789,7 +41789,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 156,
+            "line": 158,
             "description": "Adds a texture to the Texture Manager.",
             "itemtype": "method",
             "name": "addTexture",
@@ -41814,8 +41814,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 167,
-            "description": "An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer\ninstance and add rendering info to a batch rather than rendering individually. \nThis means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the\nsame renderer/shader combination and be drawn as part of the same batch.\nCustom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer\ncapabilities.",
+            "line": 169,
+            "description": "An array of renderers.\n\nShared renderers are used for batch rendering.\nMultiple gameobjects can use the same renderer instance and add\nrendering info to a batch rather than rendering individually. \nThis means only one draw call is necessary to render a number of\nobjects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared\nrenderer. Sprites, StaticImages and Tilemaps (core gameobjects)\ncan all use the same renderer/shader combination and be drawn as\npart of the same batch.\n\nCustom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer\ncapabilities.",
             "itemtype": "property",
             "name": "_sharedRenderers",
             "type": "Array",
@@ -41828,8 +41828,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 182,
-            "description": "Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.",
+            "line": 191,
+            "description": "Adds a renderer to the sharedRenderer array.\n\nThe rendererID is a string that must match a renderer property\nof the Kiwi.Renderers object. If a match is found and an instance\ndoes not already exist, then a renderer is instantiated and added\nto the array.",
             "itemtype": "method",
             "name": "addSharedRenderer",
             "params": [
@@ -41857,8 +41857,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 206,
-            "description": "Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.\n\nIf a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.",
+            "line": 219,
+            "description": "Adds a cloned renderer to the sharedRenderer array.\nThe rendererID is a string that must match a renderer property of\nthe Kiwi.Renderers object. The cloneID is the name for the\ncloned renderer.\n\nIf a match is found and an instance does not already exist,\nthen a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene\nwill use a special shader or blend mode, but others will not.\nYou can subsequently access the clones with a normal\n`requestSharedRenderer()` call. You should use this instead of\n`requestRendererInstance()` whenever possible, because shared\nrenderers are more efficient than instances.",
             "itemtype": "method",
             "name": "addSharedRendererClone",
             "params": [
@@ -41892,8 +41892,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 235,
-            "description": "Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.",
+            "line": 257,
+            "description": "Requests a shared renderer. A game object that wants to use a shared\nrenderer uses this method to obtain a reference to the shared\nrenderer instance.",
             "itemtype": "method",
             "name": "requestSharedRenderer",
             "params": [
@@ -41909,7 +41909,7 @@
                 }
             ],
             "return": {
-                "description": "A shared renderer or null if none found.",
+                "description": "A shared renderer\n\tor null if none found.",
                 "type": "Kiwi.Renderers.Renderer"
             },
             "access": "public",
@@ -41921,8 +41921,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 261,
-            "description": "Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer. \nThe rendererID is a string that must match a renderer property of the Kiwi.Renderers object. \nIf a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit\nbatch rendering use this technique.",
+            "line": 286,
+            "description": "Requests a new renderer instance. This factory method is the only\nway gameobjects should instantiate their own renderer.\n\nThe rendererID is a string that must match a renderer property\nof the Kiwi.Renderers object. If a match is found then a renderer\nis instantiated and returned. Gameobjects which have rendering\nrequirements that do not suit batch rendering use this technique.",
             "itemtype": "method",
             "name": "requestRendererInstance",
             "params": [
@@ -41950,8 +41950,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 294,
-            "description": "Performs initialisation required for single game instance - happens once, at bootup\nSets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (TextureAtlasRenderer)",
+            "line": 322,
+            "description": "Performs initialisation required for single game instance -\nhappens once, at bootup. Sets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (`TextureAtlasRenderer`)",
             "itemtype": "method",
             "name": "_init",
             "access": "private",
@@ -41963,7 +41963,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 348,
+            "line": 377,
             "description": "Scales the viewport according to a scale mode and space dimensions.\n\nThis is used internally for compatibility with CocoonJS and should not be called.",
             "itemtype": "method",
             "name": "scaleViewport",
@@ -41975,17 +41975,17 @@
                 },
                 {
                     "name": "mode",
-                    "description": "The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.",
+                    "description": "Scale mode; should be either\n\tKiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or\n\tKiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE",
                     "type": "Number"
                 },
                 {
                     "name": "width",
-                    "description": "Width of the target space.",
+                    "description": "Width of the target space",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "Height of the target space.",
+                    "description": "Height of the target space",
                     "type": "Number"
                 }
             ],
@@ -41999,8 +41999,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 396,
-            "description": "Performs initialisation required when switching to a different state. Called when a state has been switched to.\nThe textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.",
+            "line": 427,
+            "description": "Performs initialisation required when switching to a different state.\nCalled when a state has been switched to.\nThe textureManager is told to clear its contents from video memory,\nthen rebuild its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
             "access": "public",
@@ -42012,8 +42012,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 408,
-            "description": "Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.",
+            "line": 441,
+            "description": "Performs cleanup required before switching to a different state.\nCalled whwn a state is about to be switched from.\nThe textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "endState",
             "params": [
@@ -42032,8 +42032,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 420,
-            "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and camera offset.\nClears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
+            "line": 455,
+            "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and\ncamera offset. Clears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -42052,7 +42052,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 498,
+            "line": 538,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -42065,8 +42065,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 509,
-            "description": "Adds a child to the render sequence (may be a group with children of it's own)",
+            "line": 549,
+            "description": "Adds a child to the render sequence\n(may be a group with children of its own).",
             "itemtype": "method",
             "name": "collateChild",
             "access": "public",
@@ -42078,8 +42078,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 534,
-            "description": "Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.",
+            "line": 576,
+            "description": "Sorts the render sequence into batches.\nEach batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
             "access": "public",
@@ -42091,7 +42091,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 563,
+            "line": 606,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -42116,7 +42116,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 575,
+            "line": 618,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -42146,7 +42146,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 611,
+            "line": 654,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -42178,7 +42178,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 624,
+            "line": 667,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -42200,7 +42200,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 636,
+            "line": 679,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -42225,7 +42225,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 649,
+            "line": 692,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -42250,7 +42250,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 661,
+            "line": 704,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
