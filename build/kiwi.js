@@ -33740,6 +33740,14 @@ var Kiwi;
                 * @public
                 */
                 this.isRunning = false;
+                /**
+                * ID of the RAF, used to stop the RAF
+                * @property _rafId
+                * @type ???
+                * @default null
+                * @private
+                */
+                this._rafId = null;
                 this._callback = callback;
                 var vendors = ['ms', 'moz', 'webkit', 'o'];
                 for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
@@ -33806,7 +33814,7 @@ var Kiwi;
                 }
                 else {
                     this._isSetTimeOut = false;
-                    window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
+                    this._rafId = window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
                 }
                 this.isRunning = true;
             };
@@ -33820,7 +33828,7 @@ var Kiwi;
                     clearTimeout(this._timeOutID);
                 }
                 else {
-                    window.cancelAnimationFrame;
+                    window.cancelAnimationFrame(this._rafId);
                 }
                 this.isRunning = false;
             };
@@ -33837,7 +33845,7 @@ var Kiwi;
                     this._callback();
                 }
                 var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
-                window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
+                this._rafId = window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
                 this.lastTime = this.currentTime + timeToCall;
             };
             /**

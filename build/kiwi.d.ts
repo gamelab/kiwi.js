@@ -23402,6 +23402,14 @@ declare module Kiwi.Utils {
         */
         isRunning: boolean;
         /**
+        * ID of the RAF, used to stop the RAF
+        * @property _rafId
+        * @type ???
+        * @default null
+        * @private
+        */
+        private _rafId;
+        /**
         * Starts the RequestAnimationFrame (or setTimeout if RAF not supported).
         * @method start
         * @param [callback] {Any} A callback to be executed everyframe. Overrides the callback set at instantiation if passed.

@@ -134,6 +134,15 @@ module Kiwi.Utils {
 		public isRunning: boolean = false;
 
 		/**
+		* ID of the RAF, used to stop the RAF
+		* @property _rafId
+		* @type ???
+		* @default null
+		* @private
+		*/
+		private _rafId = null;
+
+		/**
 		* Starts the RequestAnimationFrame (or setTimeout if RAF not supported).
 		* @method start
 		* @param [callback] {Any} A callback to be executed everyframe. Overrides the callback set at instantiation if passed.
@@ -154,7 +163,8 @@ module Kiwi.Utils {
 			else
 			{
 				this._isSetTimeOut = false;
-				window.requestAnimationFrame(() => this.RAFUpdate());
+				this._rafId =
+					window.requestAnimationFrame(() => this.RAFUpdate());
 			}
 
 			this.isRunning = true;
@@ -174,7 +184,7 @@ module Kiwi.Utils {
 			}
 			else
 			{
-				window.cancelAnimationFrame;
+				window.cancelAnimationFrame( this._rafId );
 			}
 
 			this.isRunning = false;
@@ -198,7 +208,7 @@ module Kiwi.Utils {
 
 			var timeToCall: number = Math.max(0, 16 - (this.currentTime - this.lastTime));
 
-			window.requestAnimationFrame(() => this.RAFUpdate());
+			this._rafId = window.requestAnimationFrame(() => this.RAFUpdate());
 
 			this.lastTime = this.currentTime + timeToCall;
 
