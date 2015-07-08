@@ -235,7 +235,7 @@ module Kiwi.Files {
 				delete this._files[key];
 
 				if (destroy) {
-					this._files[key].destroy();
+					file.destroy();
 				}
 
 				return true;
