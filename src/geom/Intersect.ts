@@ -524,6 +524,45 @@ module Kiwi.Geom {
 		**/
 
 		/**
+		* Check to see if a Ray intersects at any point with a Circle.
+		*
+		* @method rayToCircle
+		* @param ray {Kiwi.Geom.Ray} Ray object to check
+		* @param circle {Kiwi.Geom.Circle} Circle object to check
+		* @param [output] {Kiwi.Geom.IntersectResult} Optional object
+		*	to store the intersection values. Created if not supplied.
+		* @return {Kiwi.Geom.IntersectResult} Results of this intersection
+		* @public
+		* @static
+		*/
+		static rayToCircle( ray: Ray, circle: Circle, output: IntersectResult = new IntersectResult ): IntersectResult {
+
+			var dx = circle.x - ray.x1,
+				dy = circle.y - ray.y1;
+
+			output.result = false;
+
+			// Does the Ray begin within the Circle?
+			if ( Math.sqrt( dx * dx + dy * dy ) <= circle.radius ) {
+				output.result = true;
+				return output;
+			}
+
+			// Is the Ray aiming towards the Circle?
+			if ( Kiwi.Utils.GameMath.nearestAngleBetween(
+				ray.angle, Math.atan2( dy, dx ) ) >= Math.PI ) {
+				return output;
+			}
+
+			// Inefficient, but the quickest way to get Line functions on a Ray
+			Intersect.lineToCircle( 
+				new Kiwi.Geom.Line( ray.x1, ray.y1, ray.x2, ray.y2 ),
+				circle, output );
+
+			return output;
+		}
+
+		/**
 		* Check to see if a Ray intersects at any point with a Rectangle.
 		* 
 		* @method rayToRectangle

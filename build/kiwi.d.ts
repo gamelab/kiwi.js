@@ -15825,6 +15825,19 @@ declare module Kiwi.Geom {
         * -------------------------------------------------------------------------------------------
         **/
         /**
+        * Check to see if a Ray intersects at any point with a Circle.
+        *
+        * @method rayToCircle
+        * @param ray {Kiwi.Geom.Ray} Ray object to check
+        * @param circle {Kiwi.Geom.Circle} Circle object to check
+        * @param [output] {Kiwi.Geom.IntersectResult} Optional object
+        *	to store the intersection values. Created if not supplied.
+        * @return {Kiwi.Geom.IntersectResult} Results of this intersection
+        * @public
+        * @static
+        */
+        static rayToCircle(ray: Ray, circle: Circle, output?: IntersectResult): IntersectResult;
+        /**
         * Check to see if a Ray intersects at any point with a Rectangle.
         *
         * @method rayToRectangle
