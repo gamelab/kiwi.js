@@ -89,10 +89,10 @@
 
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
+/// <reference path="geom/Line.ts" />
 /// <reference path="geom/Ray.ts" />
 /// <reference path="geom/Intersect.ts" />
 /// <reference path="geom/IntersectResult.ts" />
-/// <reference path="geom/Line.ts" />
 /// <reference path="geom/Matrix.ts" />
 /// <reference path="geom/Point.ts" />
 /// <reference path="geom/Rectangle.ts" />

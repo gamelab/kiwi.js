@@ -4301,40 +4301,41 @@
             "namespace": "Kiwi.Geom",
             "file": "src/geom/Ray.ts",
             "line": 9,
-            "description": "Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.",
+            "description": "Represents a halfline. The ray starts at the first point\nand extends infinitely in the direction of the second.",
+            "extends": "Kiwi.Geom.Line",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "x1",
-                    "description": "Starting location of the ray on the x-axis.",
+                    "description": "Starting location of the ray on the x-axis",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "y1",
-                    "description": "Starting location of the ray on the y-axis.",
+                    "description": "Starting location of the ray on the y-axis",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "x2",
-                    "description": "End location of the ray on the x-axis. Used to calculate direction so it isn't really the 'end' location.",
+                    "description": "End location of the ray on the x-axis.\n\tUsed to calculate direction so it isn't really the 'end' location.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "y2",
-                    "description": "End location of the ray on the y-axis. Used to calculate direction so it isn't really the 'end' location.",
+                    "description": "End location of the ray on the y-axis.\n\tUsed to calculate direction so it isn't really the 'end' location.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 }
             ],
             "return": {
-                "description": "This Object",
+                "description": "This object",
                 "type": "Kiwi.Geom.Ray"
             }
         },
@@ -27036,6 +27037,42 @@
         {
             "file": "src/geom/Intersect.ts",
             "line": 526,
+            "description": "Check to see if a Ray intersects at any point with a Circle.",
+            "itemtype": "method",
+            "name": "rayToCircle",
+            "params": [
+                {
+                    "name": "ray",
+                    "description": "Ray object to check",
+                    "type": "Kiwi.Geom.Ray"
+                },
+                {
+                    "name": "circle",
+                    "description": "Circle object to check",
+                    "type": "Kiwi.Geom.Circle"
+                },
+                {
+                    "name": "output",
+                    "description": "Optional object\n\tto store the intersection values. Created if not supplied.",
+                    "type": "Kiwi.Geom.IntersectResult",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "Results of this intersection",
+                "type": "Kiwi.Geom.IntersectResult"
+            },
+            "access": "public",
+            "tagname": "",
+            "static": 1,
+            "class": "Kiwi.Geom.Intersect",
+            "module": "Kiwi",
+            "submodule": "Geom",
+            "namespace": "Kiwi.Geom"
+        },
+        {
+            "file": "src/geom/Intersect.ts",
+            "line": 563,
             "description": "Check to see if a Ray intersects at any point with a Rectangle.",
             "itemtype": "method",
             "name": "rayToRectangle",
@@ -27071,7 +27108,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 548,
+            "line": 585,
             "description": "Check whether a Ray intersects a Line segment, returns the parametric value where the intersection occurs.\nNote: The Line only exists between its two points.",
             "itemtype": "method",
             "name": "rayToLineSegment",
@@ -27137,7 +27174,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 597,
+            "line": 634,
             "description": "-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -27146,7 +27183,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 603,
+            "line": 640,
             "description": "Check if the two given Circle objects intersect at any point.",
             "itemtype": "method",
             "name": "circleToCircle",
@@ -27182,7 +27219,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 624,
+            "line": 661,
             "description": "Check if a Circle and a Rectangle intersect with each other at any point.",
             "itemtype": "method",
             "name": "circleToRectangle",
@@ -27218,7 +27255,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 681,
+            "line": 718,
             "description": "Check if the given Point is found within the given Circle.",
             "itemtype": "method",
             "name": "circleContainsPoint",
@@ -27254,7 +27291,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 702,
+            "line": 739,
             "description": "-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
             "class": "Kiwi.Geom.Intersect",
             "module": "Kiwi",
@@ -27263,7 +27300,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 708,
+            "line": 745,
             "description": "Determines whether the specified point is contained within a given Rectangle object.",
             "itemtype": "method",
             "name": "pointToRectangle",
@@ -27299,7 +27336,7 @@
         },
         {
             "file": "src/geom/Intersect.ts",
-            "line": 731,
+            "line": 768,
             "description": "Check whether two axis aligned rectangles intersect. Return the intersecting rectangle dimensions if they do.",
             "itemtype": "method",
             "name": "rectangleToRectangle",
@@ -29421,7 +29458,7 @@
         },
         {
             "file": "src/geom/Ray.ts",
-            "line": 29,
+            "line": 31,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -29438,68 +29475,8 @@
         },
         {
             "file": "src/geom/Ray.ts",
-            "line": 39,
-            "description": "The x component of the initial point of the ray",
-            "itemtype": "property",
-            "name": "x1",
-            "type": "Number",
-            "default": "0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 48,
-            "description": "The y component of the initial point of the ray",
-            "itemtype": "property",
-            "name": "y1",
-            "type": "Number",
-            "default": "0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 57,
-            "description": "The x component of the direction point of the ray",
-            "itemtype": "property",
-            "name": "x2",
-            "type": "Number",
-            "default": "0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 66,
-            "description": "The y component of the direction point of the ray",
-            "itemtype": "property",
-            "name": "y2",
-            "type": "Number",
-            "default": "0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 75,
-            "description": "Makes a copy of this Ray either as a new Ray object or,\nmakes a passed Ray a copy of this one.",
+            "line": 41,
+            "description": "Makes a copy of this Ray, either as a new Ray object, or\nmakes a passed Ray a copy of this one.",
             "itemtype": "method",
             "name": "clone",
             "params": [
@@ -29523,146 +29500,7 @@
         },
         {
             "file": "src/geom/Ray.ts",
-            "line": 90,
-            "description": "Makes this Ray the same as a passed Ray.",
-            "itemtype": "method",
-            "name": "copyFrom",
-            "params": [
-                {
-                    "name": "source",
-                    "description": "",
-                    "type": "Kiwi.Geom.Ray"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Geom.Ray"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 103,
-            "description": "Makes a passed Ray the same as this Ray object.",
-            "itemtype": "method",
-            "name": "copyTo",
-            "params": [
-                {
-                    "name": "target",
-                    "description": "",
-                    "type": "Kiwi.Geom.Ray"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Geom.Ray"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 116,
-            "description": "Sets the origin and the direction of this Ray.",
-            "itemtype": "method",
-            "name": "setTo",
-            "params": [
-                {
-                    "name": "x1",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y1",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "x2",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                },
-                {
-                    "name": "y2",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Geom.Ray"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 137,
-            "description": "Get the angle of the ray.",
-            "itemtype": "property",
-            "name": "angle",
-            "type": "Number",
-            "readonly": "",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 150,
-            "description": "Get the slope of the ray.",
-            "itemtype": "property",
-            "name": "slope",
-            "type": "Number",
-            "readonly": "",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 163,
-            "itemtype": "property",
-            "name": "yIntercept",
-            "type": "Number",
-            "readonly": "",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Geom.Ray",
-            "module": "Kiwi",
-            "submodule": "Geom",
-            "namespace": "Kiwi.Geom"
-        },
-        {
-            "file": "src/geom/Ray.ts",
-            "line": 176,
+            "line": 56,
             "description": "Check if the Ray passes through a point.",
             "itemtype": "method",
             "name": "isPointOnRay",
@@ -29691,7 +29529,7 @@
         },
         {
             "file": "src/geom/Ray.ts",
-            "line": 197,
+            "line": 76,
             "description": "Get a string representation of the ray.",
             "itemtype": "method",
             "name": "toString",
@@ -52756,6 +52594,21 @@
         {
             "file": "src/utils/RequestAnimationFrame.ts",
             "line": 136,
+            "description": "ID of the RAF, used to stop the RAF",
+            "itemtype": "property",
+            "name": "_rafId",
+            "type": "???",
+            "default": "null",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Utils.RequestAnimationFrame",
+            "module": "Kiwi",
+            "submodule": "Utils",
+            "namespace": "Kiwi.Utils"
+        },
+        {
+            "file": "src/utils/RequestAnimationFrame.ts",
+            "line": 145,
             "description": "Starts the RequestAnimationFrame (or setTimeout if RAF not supported).",
             "itemtype": "method",
             "name": "start",
@@ -52776,7 +52629,7 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 164,
+            "line": 174,
             "description": "Stops the RAF from running.",
             "itemtype": "method",
             "name": "stop",
@@ -52789,7 +52642,7 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 184,
+            "line": 194,
             "description": "The update loop that the RAF will continuously call.",
             "itemtype": "method",
             "name": "RAFUpdate",
@@ -52802,7 +52655,7 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 207,
+            "line": 217,
             "description": "The update loop that the setTimeout method will continuously call.",
             "itemtype": "method",
             "name": "SetTimeoutUpdate",
@@ -53375,11 +53228,11 @@
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nCircle\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:597"
+            "line": " src/geom/Intersect.ts:634"
         },
         {
             "message": "Missing item type\n-------------------------------------------------------------------------------------------\nRectangles\n-------------------------------------------------------------------------------------------",
-            "line": " src/geom/Intersect.ts:702"
+            "line": " src/geom/Intersect.ts:739"
         },
         {
             "message": "Missing item type\nCreates a new Rectangle object with the top-left corner specified by the x and y parameters and with the specified width and height parameters. If you call this function without parameters, a rectangle with x, y, width, and height properties set to 0 is created.",

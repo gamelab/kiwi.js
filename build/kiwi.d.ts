@@ -15454,19 +15454,215 @@ declare module Kiwi.Geom {
 */
 declare module Kiwi.Geom {
     /**
-    * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
+    * A Line object has two meanings depending on the situation you need.
+    * Either an infinte line through space (this is the usual meaning of a Line)
+    * OR it can be a Line Segment which just exists between the TWO points you specify.
+    *
+    * @class Line
+    * @namespace Kiwi.Geom
+    * @constructor
+    * @param [x1=0] {Number} Starting location of the line on the x-axis.
+    * @param [y1=0] {Number} Starting location of the line on the y-axis.
+    * @param [x2=0] {Number} End location of the line on the x-axis.
+    * @param [y2=0] {Number} End location of the line on the y-axis.
+    * @return {Kiwi.Geom.Line} This Object
+    *
+    */
+    class Line {
+        constructor(x1?: number, y1?: number, x2?: number, y2?: number);
+        /**
+        * Returns the type of this object
+        * @method objType
+        * @return {string} "Line"
+        * @public
+        */
+        objType(): string;
+        /**
+        * X position of first point on the line.
+        * @property x1
+        * @type Number
+        * @public
+        */
+        x1: number;
+        /**
+        * Y position of first point on the line.
+        * @property y1
+        * @type Number
+        * @public
+        */
+        y1: number;
+        /**
+        * X position of second point.
+        * @property x2
+        * @type Number
+        * @public
+        */
+        x2: number;
+        /**
+        * Y position of second point.
+        * @property y2
+        * @type Number
+        * @public
+        */
+        y2: number;
+        /**
+        * Makes a clone of this Line.
+        * The clone can either be a new Line Object,
+        * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
+        *
+        * @method clone
+        * @param [output=Line] {Kiwi.Geom.Line}
+        * @return {Kiwi.Geom.Line}
+        * @public
+        */
+        clone(output?: Line): Line;
+        /**
+        * Make this Line a copy of another passed Line.
+        * @method copyFrom
+        * @param source {Kiwi.Geom.Line} source
+        * @return {Kiwi.Geom.Line}
+        * @public
+        */
+        copyFrom(source: Line): Line;
+        /**
+        * Make another passed Line a copy of this one.
+        * @method copyTo
+        * @param target {Kiwi.Geom.Line} target
+        * @return {Kiwi.Geom.Line}
+        * @public
+        */
+        copyTo(target: Line): Line;
+        /**
+        * Used to set all components on the line.
+        * @method setTo
+        * @param [x1=0]{Number} X component of first point.
+        * @param [y1=0]{Number} Y component of first point.
+        * @param [x2=0]{Number} X component of second point.
+        * @param [y2=0]{Number} Y component of second point.
+        * @return {Kiwi.Geom.Line}
+        * @public
+        */
+        setTo(x1?: number, y1?: number, x2?: number, y2?: number): Line;
+        /**
+        * Get the length of the Line as a Line Segment.
+        * @property length
+        * @type number
+        * @readOnly
+        * @public
+        */
+        length: number;
+        /**
+        * Get the y of a point on the line for a given x.
+        * @method getY
+        * @param x {Number}
+        * @return {Number}
+        * @public
+        */
+        getY(x: number): number;
+        /**
+        * Get the angle of the line.
+        * @property angle
+        * @type Number
+        * @readOnly
+        * @public
+        */
+        angle: number;
+        /**
+        * Get the slope of the line (y/x).
+        * @property slope
+        * @type Number
+        * @readOnly
+        * @public
+        */
+        slope: number;
+        /**
+        * Get the perpendicular slope of the line (x/y).
+        * @propery perpSlope
+        * @type Number
+        * @readOnly
+        * @public
+        */
+        perpSlope: number;
+        /**
+        * Get the y intercept for the line.
+        * @property yIntercept
+        * @type Number
+        * @readOnly
+        * @public
+        */
+        yIntercept: number;
+        /**
+        * Check if a point is on the line.
+        * @method isPointOnLine
+        * @param x {Number}
+        * @param y {Number}
+        * @return {boolean}
+        * @public
+        */
+        isPointOnLine(x: number, y: number): boolean;
+        /**
+        * Check if the point is both on the line and within the line segment.
+        * @method isPointOnLineSegment
+        * @param x {Number}
+        * @param y {Number}
+        * @return {boolean}
+        * @public
+        */
+        isPointOnLineSegment(x: number, y: number): boolean;
+        /**
+        * Check to see if this Line object intersects at any point with a passed Line.
+        * Note: Both are treated as extending infinately through space.
+        * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
+        *
+        * @method intersectLineLine
+        * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
+        * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
+        * @public
+        */
+        intersectLineLine(line: any): IntersectResult;
+        /**
+        * Get a line perpendicular to the line passing through a given point.
+        *
+        * @method perp
+        * @param x {Number}
+        * @param y {Number}
+        * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
+        * @return {Kiwi.Geom.Line}
+        * @public
+        */
+        perp(x: number, y: number, output?: Line): Line;
+        /**
+        * Get a string representation of the line.
+        * @method toString
+        * @return {String}
+        * @public
+        */
+        toString(): string;
+    }
+}
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
+declare module Kiwi.Geom {
+    /**
+    * Represents a halfline. The ray starts at the first point
+    * and extends infinitely in the direction of the second.
     *
     * @class Ray
     * @namespace Kiwi.Geom
+    * @extends Kiwi.Geom.Line
     * @constructor
-    * @param [x1=0] {Number} Starting location of the ray on the x-axis.
-    * @param [y1=0] {Number} Starting location of the ray on the y-axis.
-    * @param [x2=0] {Number} End location of the ray on the x-axis. Used to calculate direction so it isn't really the 'end' location.
-    * @param [y2=0] {Number} End location of the ray on the y-axis. Used to calculate direction so it isn't really the 'end' location.
-    * @return {Kiwi.Geom.Ray} This Object
-    *
+    * @param [x1=0] {Number} Starting location of the ray on the x-axis
+    * @param [y1=0] {Number} Starting location of the ray on the y-axis
+    * @param [x2=0] {Number} End location of the ray on the x-axis.
+    *	Used to calculate direction so it isn't really the 'end' location.
+    * @param [y2=0] {Number} End location of the ray on the y-axis.
+    *	Used to calculate direction so it isn't really the 'end' location.
+    * @return {Kiwi.Geom.Ray} This object
     */
-    class Ray {
+    class Ray extends Line {
         constructor(x1?: number, y1?: number, x2?: number, y2?: number);
         /**
         * The type of this object.
@@ -15476,39 +15672,7 @@ declare module Kiwi.Geom {
         */
         objType(): string;
         /**
-        * The x component of the initial point of the ray
-        * @property x1
-        * @type Number
-        * @default 0
-        * @public
-        */
-        x1: number;
-        /**
-        * The y component of the initial point of the ray
-        * @property y1
-        * @type Number
-        * @default 0
-        * @public
-        */
-        y1: number;
-        /**
-        * The x component of the direction point of the ray
-        * @property x2
-        * @type Number
-        * @default 0
-        * @public
-        */
-        x2: number;
-        /**
-        * The y component of the direction point of the ray
-        * @property y2
-        * @type Number
-        * @default 0
-        * @public
-        */
-        y2: number;
-        /**
-        * Makes a copy of this Ray either as a new Ray object or,
+        * Makes a copy of this Ray, either as a new Ray object, or
         * makes a passed Ray a copy of this one.
         *
         * @method clone
@@ -15516,58 +15680,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Ray}
         * @public
         */
-        clone(output?: Ray): Ray;
-        /**
-        * Makes this Ray the same as a passed Ray.
-        * @method copyFrom
-        * @param source {Kiwi.Geom.Ray}
-        * @return {Kiwi.Geom.Ray}
-        * @public
-        */
-        copyFrom(source: Ray): Ray;
-        /**
-        * Makes a passed Ray the same as this Ray object.
-        * @method copyTo
-        * @param target {Kiwi.Geom.Ray}
-        * @return {Kiwi.Geom.Ray}
-        * @public
-        */
-        copyTo(target: Ray): Ray;
-        /**
-        * Sets the origin and the direction of this Ray.
-        * @method setTo
-        * @param [x1=0] {Number}
-        * @param [y1=0] {Number}
-        * @param [x2=0] {Number}
-        * @param [y2=0] {Number}
-        * @return {Kiwi.Geom.Ray}
-        * @public
-        */
-        setTo(x1?: number, y1?: number, x2?: number, y2?: number): Ray;
-        /**
-        * Get the angle of the ray.
-        * @property angle
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        angle: number;
-        /**
-        * Get the slope of the ray.
-        * @property slope
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        slope: number;
-        /**
-        *
-        * @property yIntercept
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        yIntercept: number;
+        clone(output?: Line): Line;
         /**
         * Check if the Ray passes through a point.
         * @method isPointOnRay
@@ -16048,199 +16161,6 @@ declare module Kiwi.Geom {
         * @public
         */
         setTo(x1: number, y1: number, x2?: number, y2?: number, width?: number, height?: number): void;
-    }
-}
-/**
-*
-* @module Kiwi
-* @submodule Geom
-*/
-declare module Kiwi.Geom {
-    /**
-    * A Line object has two meanings depending on the situation you need.
-    * Either an infinte line through space (this is the usual meaning of a Line)
-    * OR it can be a Line Segment which just exists between the TWO points you specify.
-    *
-    * @class Line
-    * @namespace Kiwi.Geom
-    * @constructor
-    * @param [x1=0] {Number} Starting location of the line on the x-axis.
-    * @param [y1=0] {Number} Starting location of the line on the y-axis.
-    * @param [x2=0] {Number} End location of the line on the x-axis.
-    * @param [y2=0] {Number} End location of the line on the y-axis.
-    * @return {Kiwi.Geom.Line} This Object
-    *
-    */
-    class Line {
-        constructor(x1?: number, y1?: number, x2?: number, y2?: number);
-        /**
-        * Returns the type of this object
-        * @method objType
-        * @return {string} "Line"
-        * @public
-        */
-        objType(): string;
-        /**
-        * X position of first point on the line.
-        * @property x1
-        * @type Number
-        * @public
-        */
-        x1: number;
-        /**
-        * Y position of first point on the line.
-        * @property y1
-        * @type Number
-        * @public
-        */
-        y1: number;
-        /**
-        * X position of second point.
-        * @property x2
-        * @type Number
-        * @public
-        */
-        x2: number;
-        /**
-        * Y position of second point.
-        * @property y2
-        * @type Number
-        * @public
-        */
-        y2: number;
-        /**
-        * Makes a clone of this Line.
-        * The clone can either be a new Line Object,
-        * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
-        *
-        * @method clone
-        * @param [output=Line] {Kiwi.Geom.Line}
-        * @return {Kiwi.Geom.Line}
-        * @public
-        */
-        clone(output?: Line): Line;
-        /**
-        * Make this Line a copy of another passed Line.
-        * @method copyFrom
-        * @param source {Kiwi.Geom.Line} source
-        * @return {Kiwi.Geom.Line}
-        * @public
-        */
-        copyFrom(source: Line): Line;
-        /**
-        * Make another passed Line a copy of this one.
-        * @method copyTo
-        * @param target {Kiwi.Geom.Line} target
-        * @return {Kiwi.Geom.Line}
-        * @public
-        */
-        copyTo(target: Line): Line;
-        /**
-        * Used to set all components on the line.
-        * @method setTo
-        * @param [x1=0]{Number} X component of first point.
-        * @param [y1=0]{Number} Y component of first point.
-        * @param [x2=0]{Number} X component of second point.
-        * @param [y2=0]{Number} Y component of second point.
-        * @return {Kiwi.Geom.Line}
-        * @public
-        */
-        setTo(x1?: number, y1?: number, x2?: number, y2?: number): Line;
-        /**
-        * Get the length of the Line as a Line Segment.
-        * @property length
-        * @type number
-        * @readOnly
-        * @public
-        */
-        length: number;
-        /**
-        * Get the y of a point on the line for a given x.
-        * @method getY
-        * @param x {Number}
-        * @return {Number}
-        * @public
-        */
-        getY(x: number): number;
-        /**
-        * Get the angle of the line.
-        * @property angle
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        angle: number;
-        /**
-        * Get the slope of the line (y/x).
-        * @property slope
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        slope: number;
-        /**
-        * Get the perpendicular slope of the line (x/y).
-        * @propery perpSlope
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        perpSlope: number;
-        /**
-        * Get the y intercept for the line.
-        * @property yIntercept
-        * @type Number
-        * @readOnly
-        * @public
-        */
-        yIntercept: number;
-        /**
-        * Check if a point is on the line.
-        * @method isPointOnLine
-        * @param x {Number}
-        * @param y {Number}
-        * @return {boolean}
-        * @public
-        */
-        isPointOnLine(x: number, y: number): boolean;
-        /**
-        * Check if the point is both on the line and within the line segment.
-        * @method isPointOnLineSegment
-        * @param x {Number}
-        * @param y {Number}
-        * @return {boolean}
-        * @public
-        */
-        isPointOnLineSegment(x: number, y: number): boolean;
-        /**
-        * Check to see if this Line object intersects at any point with a passed Line.
-        * Note: Both are treated as extending infinately through space.
-        * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
-        *
-        * @method intersectLineLine
-        * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
-        * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
-        * @public
-        */
-        intersectLineLine(line: any): IntersectResult;
-        /**
-        * Get a line perpendicular to the line passing through a given point.
-        *
-        * @method perp
-        * @param x {Number}
-        * @param y {Number}
-        * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
-        * @return {Kiwi.Geom.Line}
-        * @public
-        */
-        perp(x: number, y: number, output?: Line): Line;
-        /**
-        * Get a string representation of the line.
-        * @method toString
-        * @return {String}
-        * @public
-        */
-        toString(): string;
     }
 }
 /**

@@ -549,15 +549,13 @@ module Kiwi.Geom {
 			}
 
 			// Is the Ray aiming towards the Circle?
-			if ( Kiwi.Utils.GameMath.nearestAngleBetween(
-				ray.angle, Math.atan2( dy, dx ) ) >= Math.PI ) {
+			if ( Math.abs( Kiwi.Utils.GameMath.nearestAngleBetween(
+				ray.angle, Math.atan2( dy, dx ) ) ) >= Math.PI / 2 ) {
 				return output;
 			}
 
 			// Inefficient, but the quickest way to get Line functions on a Ray
-			Intersect.lineToCircle( 
-				new Kiwi.Geom.Line( ray.x1, ray.y1, ray.x2, ray.y2 ),
-				circle, output );
+			Intersect.lineToCircle( ray, circle, output );
 
 			return output;
 		}

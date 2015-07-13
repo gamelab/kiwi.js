@@ -21806,111 +21806,110 @@ var Kiwi;
     var Geom;
     (function (Geom) {
         /**
-        * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
+        * A Line object has two meanings depending on the situation you need.
+        * Either an infinte line through space (this is the usual meaning of a Line)
+        * OR it can be a Line Segment which just exists between the TWO points you specify.
         *
-        * @class Ray
+        * @class Line
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [x1=0] {Number} Starting location of the ray on the x-axis.
-        * @param [y1=0] {Number} Starting location of the ray on the y-axis.
-        * @param [x2=0] {Number} End location of the ray on the x-axis. Used to calculate direction so it isn't really the 'end' location.
-        * @param [y2=0] {Number} End location of the ray on the y-axis. Used to calculate direction so it isn't really the 'end' location.
-        * @return {Kiwi.Geom.Ray} This Object
+        * @param [x1=0] {Number} Starting location of the line on the x-axis.
+        * @param [y1=0] {Number} Starting location of the line on the y-axis.
+        * @param [x2=0] {Number} End location of the line on the x-axis.
+        * @param [y2=0] {Number} End location of the line on the y-axis.
+        * @return {Kiwi.Geom.Line} This Object
         *
         */
-        var Ray = (function () {
-            function Ray(x1, y1, x2, y2) {
+        var Line = (function () {
+            function Line(x1, y1, x2, y2) {
                 if (x1 === void 0) { x1 = 0; }
                 if (y1 === void 0) { y1 = 0; }
                 if (x2 === void 0) { x2 = 0; }
                 if (y2 === void 0) { y2 = 0; }
                 /**
-                * The x component of the initial point of the ray
+                * X position of first point on the line.
                 * @property x1
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.x1 = 0;
                 /**
-                * The y component of the initial point of the ray
+                * Y position of first point on the line.
                 * @property y1
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.y1 = 0;
                 /**
-                * The x component of the direction point of the ray
+                * X position of second point.
                 * @property x2
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.x2 = 0;
                 /**
-                * The y component of the direction point of the ray
+                * Y position of second point.
                 * @property y2
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.y2 = 0;
                 this.setTo(x1, y1, x2, y2);
             }
             /**
-            * The type of this object.
+            * Returns the type of this object
             * @method objType
-            * @return {String} "Ray"
+            * @return {string} "Line"
             * @public
             */
-            Ray.prototype.objType = function () {
-                return "Ray";
+            Line.prototype.objType = function () {
+                return "Line";
             };
             /**
-            * Makes a copy of this Ray either as a new Ray object or,
-            * makes a passed Ray a copy of this one.
+            * Makes a clone of this Line.
+            * The clone can either be a new Line Object,
+            * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
             *
             * @method clone
-            * @param [output] {Kiwi.Geom.Ray}
-            * @return {Kiwi.Geom.Ray}
+            * @param [output=Line] {Kiwi.Geom.Line}
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.clone = function (output) {
-                if (output === void 0) { output = new Ray; }
+            Line.prototype.clone = function (output) {
+                if (output === void 0) { output = new Line; }
                 return output.setTo(this.x1, this.y1, this.x2, this.y2);
             };
             /**
-            * Makes this Ray the same as a passed Ray.
+            * Make this Line a copy of another passed Line.
             * @method copyFrom
-            * @param source {Kiwi.Geom.Ray}
-            * @return {Kiwi.Geom.Ray}
+            * @param source {Kiwi.Geom.Line} source
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.copyFrom = function (source) {
+            Line.prototype.copyFrom = function (source) {
                 return this.setTo(source.x1, source.y1, source.x2, source.y2);
             };
             /**
-            * Makes a passed Ray the same as this Ray object.
+            * Make another passed Line a copy of this one.
             * @method copyTo
-            * @param target {Kiwi.Geom.Ray}
-            * @return {Kiwi.Geom.Ray}
+            * @param target {Kiwi.Geom.Line} target
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.copyTo = function (target) {
+            Line.prototype.copyTo = function (target) {
                 return target.copyFrom(this);
             };
             /**
-            * Sets the origin and the direction of this Ray.
+            * Used to set all components on the line.
             * @method setTo
-            * @param [x1=0] {Number}
-            * @param [y1=0] {Number}
-            * @param [x2=0] {Number}
-            * @param [y2=0] {Number}
-            * @return {Kiwi.Geom.Ray}
+            * @param [x1=0]{Number} X component of first point.
+            * @param [y1=0]{Number} Y component of first point.
+            * @param [x2=0]{Number} X component of second point.
+            * @param [y2=0]{Number} Y component of second point.
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.setTo = function (x1, y1, x2, y2) {
+            Line.prototype.setTo = function (x1, y1, x2, y2) {
                 if (x1 === void 0) { x1 = 0; }
                 if (y1 === void 0) { y1 = 0; }
                 if (x2 === void 0) { x2 = 0; }
@@ -21921,9 +21920,36 @@ var Kiwi;
                 this.y2 = y2;
                 return this;
             };
-            Object.defineProperty(Ray.prototype, "angle", {
+            Object.defineProperty(Line.prototype, "length", {
                 /**
-                * Get the angle of the ray.
+                * Get the length of the Line as a Line Segment.
+                * @property length
+                * @type number
+                * @readOnly
+                * @public
+                */
+                get: function () {
+                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+            * Get the y of a point on the line for a given x.
+            * @method getY
+            * @param x {Number}
+            * @return {Number}
+            * @public
+            */
+            Line.prototype.getY = function (x) {
+                if (this.x1 == this.x2)
+                    return null;
+                else
+                    return this.slope * x + this.yIntercept;
+            };
+            Object.defineProperty(Line.prototype, "angle", {
+                /**
+                * Get the angle of the line.
                 * @property angle
                 * @type Number
                 * @readOnly
@@ -21935,9 +21961,9 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Ray.prototype, "slope", {
+            Object.defineProperty(Line.prototype, "slope", {
                 /**
-                * Get the slope of the ray.
+                * Get the slope of the line (y/x).
                 * @property slope
                 * @type Number
                 * @readOnly
@@ -21949,9 +21975,23 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Ray.prototype, "yIntercept", {
+            Object.defineProperty(Line.prototype, "perpSlope", {
                 /**
-                *
+                * Get the perpendicular slope of the line (x/y).
+                * @propery perpSlope
+                * @type Number
+                * @readOnly
+                * @public
+                */
+                get: function () {
+                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Line.prototype, "yIntercept", {
+                /**
+                * Get the y intercept for the line.
                 * @property yIntercept
                 * @type Number
                 * @readOnly
@@ -21963,6 +22003,158 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            /**
+            * Check if a point is on the line.
+            * @method isPointOnLine
+            * @param x {Number}
+            * @param y {Number}
+            * @return {boolean}
+            * @public
+            */
+            Line.prototype.isPointOnLine = function (x, y) {
+                if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+            /**
+            * Check if the point is both on the line and within the line segment.
+            * @method isPointOnLineSegment
+            * @param x {Number}
+            * @param y {Number}
+            * @return {boolean}
+            * @public
+            */
+            Line.prototype.isPointOnLineSegment = function (x, y) {
+                var xMin = Math.min(this.x1, this.x2);
+                var xMax = Math.max(this.x1, this.x2);
+                var yMin = Math.min(this.y1, this.y2);
+                var yMax = Math.max(this.y1, this.y2);
+                if (this.isPointOnLine(x, y) && (x >= xMin && x <= xMax) && (y >= yMin && y <= yMax)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+            /**
+            * Check to see if this Line object intersects at any point with a passed Line.
+            * Note: Both are treated as extending infinately through space.
+            * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
+            *
+            * @method intersectLineLine
+            * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
+            * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
+            * @public
+            */
+            Line.prototype.intersectLineLine = function (line) {
+                return Kiwi.Geom.Intersect.lineToLine(this, line);
+            };
+            /**
+            * Get a line perpendicular to the line passing through a given point.
+            *
+            * @method perp
+            * @param x {Number}
+            * @param y {Number}
+            * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
+            * @return {Kiwi.Geom.Line}
+            * @public
+            */
+            Line.prototype.perp = function (x, y, output) {
+                if (output === void 0) { output = new Line; }
+                var pt;
+                // For a horizontal line, the output is a vertical line.
+                if (this.y1 === this.y2) {
+                    output.setTo(x, y, x, this.y1);
+                    return output;
+                }
+                // For a vertical line, the output is a horizontal line.
+                if (this.x1 === this.x2) {
+                    output.setTo(x, y, this.x1, y);
+                    return output;
+                }
+                var yInt = (y - this.perpSlope * x);
+                if (x !== 0) {
+                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
+                }
+                else {
+                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 1, y2: yInt + this.perpSlope });
+                }
+                output.setTo(x, y, pt.x, pt.y);
+                return output;
+            };
+            /**
+            * Get a string representation of the line.
+            * @method toString
+            * @return {String}
+            * @public
+            */
+            Line.prototype.toString = function () {
+                return "[{Line (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
+            };
+            return Line;
+        })();
+        Geom.Line = Line;
+    })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
+var Kiwi;
+(function (Kiwi) {
+    var Geom;
+    (function (Geom) {
+        /**
+        * Represents a halfline. The ray starts at the first point
+        * and extends infinitely in the direction of the second.
+        *
+        * @class Ray
+        * @namespace Kiwi.Geom
+        * @extends Kiwi.Geom.Line
+        * @constructor
+        * @param [x1=0] {Number} Starting location of the ray on the x-axis
+        * @param [y1=0] {Number} Starting location of the ray on the y-axis
+        * @param [x2=0] {Number} End location of the ray on the x-axis.
+        *	Used to calculate direction so it isn't really the 'end' location.
+        * @param [y2=0] {Number} End location of the ray on the y-axis.
+        *	Used to calculate direction so it isn't really the 'end' location.
+        * @return {Kiwi.Geom.Ray} This object
+        */
+        var Ray = (function (_super) {
+            __extends(Ray, _super);
+            function Ray(x1, y1, x2, y2) {
+                if (x1 === void 0) { x1 = 0; }
+                if (y1 === void 0) { y1 = 0; }
+                if (x2 === void 0) { x2 = 0; }
+                if (y2 === void 0) { y2 = 0; }
+                _super.call(this, x1, y1, x2, y2);
+            }
+            /**
+            * The type of this object.
+            * @method objType
+            * @return {String} "Ray"
+            * @public
+            */
+            Ray.prototype.objType = function () {
+                return "Ray";
+            };
+            /**
+            * Makes a copy of this Ray, either as a new Ray object, or
+            * makes a passed Ray a copy of this one.
+            *
+            * @method clone
+            * @param [output] {Kiwi.Geom.Ray}
+            * @return {Kiwi.Geom.Ray}
+            * @public
+            */
+            Ray.prototype.clone = function (output) {
+                if (output === void 0) { output = new Ray; }
+                return output.setTo(this.x1, this.y1, this.x2, this.y2);
+            };
             /**
             * Check if the Ray passes through a point.
             * @method isPointOnRay
@@ -21989,7 +22181,7 @@ var Kiwi;
                 return "[{Ray (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
             };
             return Ray;
-        })();
+        })(Geom.Line);
         Geom.Ray = Ray;
     })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
 })(Kiwi || (Kiwi = {}));
@@ -22436,11 +22628,11 @@ var Kiwi;
                     return output;
                 }
                 // Is the Ray aiming towards the Circle?
-                if (Kiwi.Utils.GameMath.nearestAngleBetween(ray.angle, Math.atan2(dy, dx)) >= Math.PI) {
+                if (Math.abs(Kiwi.Utils.GameMath.nearestAngleBetween(ray.angle, Math.atan2(dy, dx))) >= Math.PI / 2) {
                     return output;
                 }
                 // Inefficient, but the quickest way to get Line functions on a Ray
-                Intersect.lineToCircle(new Kiwi.Geom.Line(ray.x1, ray.y1, ray.x2, ray.y2), circle, output);
+                Intersect.lineToCircle(ray, circle, output);
                 return output;
             };
             /**
@@ -22707,309 +22899,6 @@ var Kiwi;
             return IntersectResult;
         })();
         Geom.IntersectResult = IntersectResult;
-    })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
-* @submodule Geom
-*/
-var Kiwi;
-(function (Kiwi) {
-    var Geom;
-    (function (Geom) {
-        /**
-        * A Line object has two meanings depending on the situation you need.
-        * Either an infinte line through space (this is the usual meaning of a Line)
-        * OR it can be a Line Segment which just exists between the TWO points you specify.
-        *
-        * @class Line
-        * @namespace Kiwi.Geom
-        * @constructor
-        * @param [x1=0] {Number} Starting location of the line on the x-axis.
-        * @param [y1=0] {Number} Starting location of the line on the y-axis.
-        * @param [x2=0] {Number} End location of the line on the x-axis.
-        * @param [y2=0] {Number} End location of the line on the y-axis.
-        * @return {Kiwi.Geom.Line} This Object
-        *
-        */
-        var Line = (function () {
-            function Line(x1, y1, x2, y2) {
-                if (x1 === void 0) { x1 = 0; }
-                if (y1 === void 0) { y1 = 0; }
-                if (x2 === void 0) { x2 = 0; }
-                if (y2 === void 0) { y2 = 0; }
-                /**
-                * X position of first point on the line.
-                * @property x1
-                * @type Number
-                * @public
-                */
-                this.x1 = 0;
-                /**
-                * Y position of first point on the line.
-                * @property y1
-                * @type Number
-                * @public
-                */
-                this.y1 = 0;
-                /**
-                * X position of second point.
-                * @property x2
-                * @type Number
-                * @public
-                */
-                this.x2 = 0;
-                /**
-                * Y position of second point.
-                * @property y2
-                * @type Number
-                * @public
-                */
-                this.y2 = 0;
-                this.setTo(x1, y1, x2, y2);
-            }
-            /**
-            * Returns the type of this object
-            * @method objType
-            * @return {string} "Line"
-            * @public
-            */
-            Line.prototype.objType = function () {
-                return "Line";
-            };
-            /**
-            * Makes a clone of this Line.
-            * The clone can either be a new Line Object,
-            * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
-            *
-            * @method clone
-            * @param [output=Line] {Kiwi.Geom.Line}
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.clone = function (output) {
-                if (output === void 0) { output = new Line; }
-                return output.setTo(this.x1, this.y1, this.x2, this.y2);
-            };
-            /**
-            * Make this Line a copy of another passed Line.
-            * @method copyFrom
-            * @param source {Kiwi.Geom.Line} source
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.copyFrom = function (source) {
-                return this.setTo(source.x1, source.y1, source.x2, source.y2);
-            };
-            /**
-            * Make another passed Line a copy of this one.
-            * @method copyTo
-            * @param target {Kiwi.Geom.Line} target
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.copyTo = function (target) {
-                return target.copyFrom(this);
-            };
-            /**
-            * Used to set all components on the line.
-            * @method setTo
-            * @param [x1=0]{Number} X component of first point.
-            * @param [y1=0]{Number} Y component of first point.
-            * @param [x2=0]{Number} X component of second point.
-            * @param [y2=0]{Number} Y component of second point.
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.setTo = function (x1, y1, x2, y2) {
-                if (x1 === void 0) { x1 = 0; }
-                if (y1 === void 0) { y1 = 0; }
-                if (x2 === void 0) { x2 = 0; }
-                if (y2 === void 0) { y2 = 0; }
-                this.x1 = x1;
-                this.y1 = y1;
-                this.x2 = x2;
-                this.y2 = y2;
-                return this;
-            };
-            Object.defineProperty(Line.prototype, "length", {
-                /**
-                * Get the length of the Line as a Line Segment.
-                * @property length
-                * @type number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
-                },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-            * Get the y of a point on the line for a given x.
-            * @method getY
-            * @param x {Number}
-            * @return {Number}
-            * @public
-            */
-            Line.prototype.getY = function (x) {
-                if (this.x1 == this.x2)
-                    return null;
-                else
-                    return this.slope * x + this.yIntercept;
-            };
-            Object.defineProperty(Line.prototype, "angle", {
-                /**
-                * Get the angle of the line.
-                * @property angle
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(Line.prototype, "slope", {
-                /**
-                * Get the slope of the line (y/x).
-                * @property slope
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return (this.y2 - this.y1) / (this.x2 - this.x1);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(Line.prototype, "perpSlope", {
-                /**
-                * Get the perpendicular slope of the line (x/y).
-                * @propery perpSlope
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(Line.prototype, "yIntercept", {
-                /**
-                * Get the y intercept for the line.
-                * @property yIntercept
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return (this.y1 - this.slope * this.x1);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-            * Check if a point is on the line.
-            * @method isPointOnLine
-            * @param x {Number}
-            * @param y {Number}
-            * @return {boolean}
-            * @public
-            */
-            Line.prototype.isPointOnLine = function (x, y) {
-                if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
-            /**
-            * Check if the point is both on the line and within the line segment.
-            * @method isPointOnLineSegment
-            * @param x {Number}
-            * @param y {Number}
-            * @return {boolean}
-            * @public
-            */
-            Line.prototype.isPointOnLineSegment = function (x, y) {
-                var xMin = Math.min(this.x1, this.x2);
-                var xMax = Math.max(this.x1, this.x2);
-                var yMin = Math.min(this.y1, this.y2);
-                var yMax = Math.max(this.y1, this.y2);
-                if (this.isPointOnLine(x, y) && (x >= xMin && x <= xMax) && (y >= yMin && y <= yMax)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
-            /**
-            * Check to see if this Line object intersects at any point with a passed Line.
-            * Note: Both are treated as extending infinately through space.
-            * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
-            *
-            * @method intersectLineLine
-            * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
-            * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
-            * @public
-            */
-            Line.prototype.intersectLineLine = function (line) {
-                return Kiwi.Geom.Intersect.lineToLine(this, line);
-            };
-            /**
-            * Get a line perpendicular to the line passing through a given point.
-            *
-            * @method perp
-            * @param x {Number}
-            * @param y {Number}
-            * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.perp = function (x, y, output) {
-                if (output === void 0) { output = new Line; }
-                var pt;
-                // For a horizontal line, the output is a vertical line.
-                if (this.y1 === this.y2) {
-                    output.setTo(x, y, x, this.y1);
-                    return output;
-                }
-                // For a vertical line, the output is a horizontal line.
-                if (this.x1 === this.x2) {
-                    output.setTo(x, y, this.x1, y);
-                    return output;
-                }
-                var yInt = (y - this.perpSlope * x);
-                if (x !== 0) {
-                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
-                }
-                else {
-                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 1, y2: yInt + this.perpSlope });
-                }
-                output.setTo(x, y, pt.x, pt.y);
-                return output;
-            };
-            /**
-            * Get a string representation of the line.
-            * @method toString
-            * @return {String}
-            * @public
-            */
-            Line.prototype.toString = function () {
-                return "[{Line (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
-            };
-            return Line;
-        })();
-        Geom.Line = Line;
     })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
 })(Kiwi || (Kiwi = {}));
 /**
@@ -34576,10 +34465,10 @@ var Kiwi;
 /// <reference path="input/Finger.ts" />
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
+/// <reference path="geom/Line.ts" />
 /// <reference path="geom/Ray.ts" />
 /// <reference path="geom/Intersect.ts" />
 /// <reference path="geom/IntersectResult.ts" />
-/// <reference path="geom/Line.ts" />
 /// <reference path="geom/Matrix.ts" />
 /// <reference path="geom/Point.ts" />
 /// <reference path="geom/Rectangle.ts" />
