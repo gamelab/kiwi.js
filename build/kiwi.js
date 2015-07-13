@@ -12534,7 +12534,7 @@ var Kiwi;
                     this._files[key] = null;
                     delete this._files[key];
                     if (destroy) {
-                        this._files[key].destroy();
+                        file.destroy();
                     }
                     return true;
                 }
