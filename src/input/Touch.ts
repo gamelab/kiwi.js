@@ -297,7 +297,10 @@ module Kiwi.Input {
 							pointerMove = 'pointermove';
 
                         //Is it IE 10?
-						if ((window.navigator.msPointerEnabled)) {
+                        if (window["PointerEvent"]) {
+                            // IE11 - Use standard event names
+                        } else if ((window["MSPointerEvent"])) {
+                            // IE10 compatibility
 							var pointerUp = 'MSPointerUp',
 								pointerDown = 'MSPointerDown',
 								pointerEnter = 'MSPointerEnter',
@@ -692,7 +695,7 @@ module Kiwi.Input {
 		* @private
 		*/
 		private onPointerStart(event: MSPointerEvent) {
-			if (event.type === 'touch') {
+            if (event.type === 'touch' || event.type === "pointerdown") {
 				this._registerFinger(event, event.pointerId);
 			}
 		}
@@ -704,7 +707,7 @@ module Kiwi.Input {
 		* @private
 		*/
 		private onPointerCancel(event: MSPointerEvent) {
-			if (event.type === 'touch') {
+            if (event.type === 'touch' || event.type === "pointercancel") {
 				this._cancelFinger(event, event.pointerId);
 			}
 		}
@@ -716,7 +719,7 @@ module Kiwi.Input {
 		* @private
 		*/
 		private onPointerEnter(event: MSPointerEvent) {
-			if (event.type === 'touch') {
+            if (event.type === 'touch' || event.type === "pointerenter") {
 				this._enterFinger(event, event.pointerId);
 			}
 		}
@@ -728,7 +731,7 @@ module Kiwi.Input {
 		* @private
 		*/
 		private onPointerLeave(event: MSPointerEvent) {
-			if (event.type === 'touch') {
+            if (event.type === 'touch' || event.type === "pointerleave") {
 				this._leaveFinger(event, event.pointerId);
 			}
 		}
@@ -739,7 +742,7 @@ module Kiwi.Input {
 		* @param event {PointerEvent}
 		*/
 		private onPointerMove(event: MSPointerEvent) {
-			if (event.type === 'touch') {
+            if (event.type === 'touch' || event.type === "pointermove") {
 				this._moveFinger(event, event.pointerId);
 			}
 		}
@@ -751,7 +754,7 @@ module Kiwi.Input {
 		* @private
 		*/
 		private onPointerEnd(event: MSPointerEvent) {
-			if (event.type === 'touch') {
+            if (event.type === 'touch' || event.type === "pointerup") {
 				this._deregisterFinger(event, event.pointerId);
 			}
 		}
@@ -803,7 +806,10 @@ module Kiwi.Input {
                         pointerMove = 'pointermove';
 
                     //Is it IE 10?
-                    if ((window.navigator.msPointerEnabled)) {
+                    if (window["PointerEvent"]) {
+                        // IE11 - Use standard event names
+                    } else if ((window["MSPointerEvent"])) {
+                        // IE10 compatibility
                         var pointerUp = 'MSPointerUp',
                             pointerDown = 'MSPointerDown',
                             pointerEnter = 'MSPointerEnter',
