@@ -23895,7 +23895,8 @@ declare module Kiwi {
         */
         static total(): number;
     }
-    var Plugins: {};
+    module Plugins {
+    }
     var extend: Function;
 }
 /**

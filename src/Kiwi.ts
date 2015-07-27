@@ -358,8 +358,7 @@ module Kiwi {
 
 	}
 
-
-	export var Plugins = {};
+    export module Plugins { null;};
 
 	export var extend:Function = function (d, b) {
 		for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];

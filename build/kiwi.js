@@ -20190,7 +20190,10 @@ var Kiwi;
                         if (Kiwi.DEVICE.pointerEnabled) {
                             var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
                             //Is it IE 10?
-                            if ((window.navigator.msPointerEnabled)) {
+                            if (window["PointerEvent"]) {
+                            }
+                            else if ((window["MSPointerEvent"])) {
+                                // IE10 compatibility
                                 var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
                             }
                             this._onTouchStartBind = this.onPointerStart.bind(this);
@@ -20521,7 +20524,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerStart = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerdown") {
                     this._registerFinger(event, event.pointerId);
                 }
             };
@@ -20532,7 +20535,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerCancel = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointercancel") {
                     this._cancelFinger(event, event.pointerId);
                 }
             };
@@ -20543,7 +20546,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerEnter = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerenter") {
                     this._enterFinger(event, event.pointerId);
                 }
             };
@@ -20554,7 +20557,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerLeave = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerleave") {
                     this._leaveFinger(event, event.pointerId);
                 }
             };
@@ -20564,7 +20567,7 @@ var Kiwi;
             * @param event {PointerEvent}
             */
             Touch.prototype.onPointerMove = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointermove") {
                     this._moveFinger(event, event.pointerId);
                 }
             };
@@ -20575,7 +20578,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerEnd = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerup") {
                     this._deregisterFinger(event, event.pointerId);
                 }
             };
@@ -20611,7 +20614,10 @@ var Kiwi;
                     if (Kiwi.DEVICE.pointerEnabled) {
                         var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
                         //Is it IE 10?
-                        if ((window.navigator.msPointerEnabled)) {
+                        if (window["PointerEvent"]) {
+                        }
+                        else if ((window["MSPointerEvent"])) {
+                            // IE10 compatibility
                             var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
                         }
                         this._domElement.removeEventListener(pointerUp, this._onTouchStartBind, false);
@@ -34708,7 +34714,11 @@ var Kiwi;
         return GameManager;
     })();
     Kiwi.GameManager = GameManager;
-    Kiwi.Plugins = {};
+    var Plugins;
+    (function (Plugins) {
+        null;
+    })(Plugins = Kiwi.Plugins || (Kiwi.Plugins = {}));
+    ;
     Kiwi.extend = function (d, b) {
         for (var p in b)
             if (b.hasOwnProperty(p))
