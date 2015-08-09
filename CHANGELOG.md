@@ -7,7 +7,7 @@ Change Log
 
 * [Window focus/blur](https://github.com/gamelab/kiwi.js/issues/23) events added to the Stage allowing users to easily pause/resume their game. (#23) 
 * The Animation Component will now look for sequences on their given texture atlas if one told to play could not be found. (#83)
-* `TileMapLayers` have been seperated into Orthogonal and Isometric classes to keep code more maintainable as well as more succinct. (#85)
+* `TileMapLayers` have been separated into Orthogonal and Isometric classes to keep code more maintainable as well as more succinct. (#85)
 * Additional file management methods added to the `FileStore` class. (#103) 
 * You can now pass parameters to a states `preload` method when switching states. (#104)
 * You can now filter out messages to be logged out when using the `Kiwi.Log`. (#151) 
@@ -211,7 +211,7 @@ More details on the problems solved can be found on the [Kiwi.JS repo](https://g
 #### Bug Fixes and Changes
 
 * Thanks to @zzarcon the Grunt file now has more clarity.
-* @tjwudi has pushed up numerious fixes to the Documentation!
+* @tjwudi has pushed up numerous fixes to the Documentation!
 * Bug fix where multiple debug canvases could be generated from subsequent 'createDebugCanvas' calls.
 * The debug canvas now responds to the "scaleType" property on the 'Stage'.
 * Tilemap layers no longer return error messages about the cellIndex.
