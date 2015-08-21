@@ -237,10 +237,10 @@ module Kiwi.Geom {
 		* @since 1.1.0
 		*/
 		public set anchorPointY(value: number) {
-			this._rotPointY = value;
+			this.rotPointY = value;
 		}
 		public get anchorPointY(): number {
-			return( this._rotPointY );
+			return( this.rotPointY );
 		}
 
 		/** 

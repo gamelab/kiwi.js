@@ -39102,7 +39102,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 352,
+            "line": 355,
             "description": "Prevent iOS bounce-back (doesn't work?)",
             "itemtype": "method",
             "name": "consumeTouchMove",
@@ -39122,7 +39122,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 362,
+            "line": 365,
             "description": "Gets the position of the latest finger on the x axis.",
             "itemtype": "property",
             "name": "x",
@@ -39136,7 +39136,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 372,
+            "line": 375,
             "description": "Gets the position of the latest finger on the y axis.",
             "itemtype": "property",
             "name": "y",
@@ -39150,7 +39150,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 382,
+            "line": 385,
             "description": "The developer defined maximum number of touch events.\nBy default this is set to 10 but this can be set to be lower.",
             "itemtype": "property",
             "name": "_maxPointers",
@@ -39165,7 +39165,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 392,
+            "line": 395,
             "description": "Sets the maximum number of point of contact that are allowed on the game stage at one point.\nThe maximum number of points that are allowed is 10, and the minimum is 0.",
             "itemtype": "property",
             "name": "maximumPointers",
@@ -39179,7 +39179,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 407,
+            "line": 410,
             "description": "Gets the maximum number of points of contact that are allowed on the game stage at one point.",
             "type": "number",
             "access": "public",
@@ -39191,7 +39191,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 417,
+            "line": 420,
             "description": "-------------------------\n Generic Methods for Dealing with Pointers\n-------------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -39200,7 +39200,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 423,
+            "line": 426,
             "description": "This method is in charge of registering a \"finger\"  (either from a Touch/Pointer start method) and assigning it a Finger,\nYou have to pass this method a id which is used to idenfied when released/cancelled.",
             "itemtype": "method",
             "name": "_registerFinger",
@@ -39225,7 +39225,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 447,
+            "line": 450,
             "description": "This method is in charge of deregistering (removing) a \"finger\" when it has been released,\nYou have to pass this method a id which is used to identfy the finger to deregister.",
             "itemtype": "method",
             "name": "_deregisterFinger",
@@ -39250,7 +39250,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 484,
+            "line": 487,
             "description": "This method is in charge of cancelling (removing) a \"finger\".\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_cancelFinger",
@@ -39275,7 +39275,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 510,
+            "line": 513,
             "description": "This method is in charge of creating and assigning (removing) a \"finger\" when it has entered the dom element.\nYou have to pass this method a id which is used to idenfied the finger that was cancelled.",
             "itemtype": "method",
             "name": "_enterFinger",
@@ -39300,7 +39300,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 531,
+            "line": 534,
             "description": "This method is in charge of removing an assigned \"finger\" when it has left the DOM Elemetn.\nYou have to pass this method a id which is used to idenfied the finger that left.",
             "itemtype": "method",
             "name": "_leaveFinger",
@@ -39325,7 +39325,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 548,
+            "line": 551,
             "description": "This method is in charge of updating the coordinates of a \"finger\" when it has moved..\nYou have to pass this method a id which is used to idenfied the finger that moved.",
             "itemtype": "method",
             "name": "_moveFinger",
@@ -39350,7 +39350,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 567,
+            "line": 570,
             "description": "-------------------\n Touch Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -39359,7 +39359,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 574,
+            "line": 577,
             "description": "This method runs when the a touch start event is fired by the browser and then assigns the event to a pointer that is currently not active.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchStart",
@@ -39379,7 +39379,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 592,
+            "line": 595,
             "description": "Doesn't appear to be supported by most browsers yet but if it was it would fire events when a touch is canceled.\nhttp://www.w3.org/TR/touch-events/#dfn-touchcancel",
             "itemtype": "method",
             "name": "onTouchCancel",
@@ -39399,7 +39399,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 609,
+            "line": 612,
             "description": "Doesn't appear to be supported by most browsers yet. But if it was would fire events when touch events enter an element.",
             "itemtype": "method",
             "name": "onTouchEnter",
@@ -39419,7 +39419,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 627,
+            "line": 630,
             "description": "Doesn't appear to be supported by most browsers yet. Would fire events when a 'finger' leaves an element.     \nWould be handly for when an finger 'leaves' the stage.",
             "itemtype": "method",
             "name": "onTouchLeave",
@@ -39439,7 +39439,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 646,
+            "line": 649,
             "description": "When a touch pointer moves. This method updates the appropriate pointer.",
             "itemtype": "method",
             "name": "onTouchMove",
@@ -39459,7 +39459,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 663,
+            "line": 666,
             "description": "When a touch event gets released.\nhttps://developer.mozilla.org/en-US/docs/DOM/TouchList",
             "itemtype": "method",
             "name": "onTouchEnd",
@@ -39479,7 +39479,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 681,
+            "line": 684,
             "description": "-------------------\n Pointer Events\n-------------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -39488,7 +39488,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 688,
+            "line": 691,
             "description": "Event that is fired when a pointer is initially pressed.",
             "itemtype": "method",
             "name": "onPointerStart",
@@ -39508,7 +39508,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 700,
+            "line": 703,
             "description": "Event that is fired by a pointer event listener upon a pointer canceling for some reason.",
             "itemtype": "method",
             "name": "onPointerCancel",
@@ -39528,7 +39528,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 712,
+            "line": 715,
             "description": "Event that is fired by a pointer event listener upon a pointer entering the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerEnter",
@@ -39548,7 +39548,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 724,
+            "line": 727,
             "description": "Event that is fired by a pointer event listener upon a pointer being leaving the DOM Element the event listener is attached to.",
             "itemtype": "method",
             "name": "onPointerLeave",
@@ -39568,7 +39568,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 736,
+            "line": 739,
             "description": "Event that is fired by a pointer event listener upon a pointer moving.",
             "itemtype": "method",
             "name": "onPointerMove",
@@ -39586,7 +39586,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 747,
+            "line": 750,
             "description": "Event that is fired by a pointer event listener upon a pointer being released.",
             "itemtype": "method",
             "name": "onPointerEnd",
@@ -39606,7 +39606,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 760,
+            "line": 763,
             "description": "-----------------\n Normal Methods \n-----------------",
             "class": "Kiwi.Input.Touch",
             "module": "Kiwi",
@@ -39615,7 +39615,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 767,
+            "line": 770,
             "description": "The update loop fro the touch manager.",
             "itemtype": "method",
             "name": "update",
@@ -39628,7 +39628,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 785,
+            "line": 788,
             "description": "This method removes all of the event listeners and thus 'stops' the touch manager.",
             "itemtype": "method",
             "name": "stop",
@@ -39641,7 +39641,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 853,
+            "line": 859,
             "description": "Resets all of the fingers/pointers to their default states.",
             "itemtype": "method",
             "name": "reset",
@@ -39654,7 +39654,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 864,
+            "line": 870,
             "description": "The binding of the 'onTouchStart' method.",
             "itemtype": "property",
             "name": "_onTouchStartBind",
@@ -39669,7 +39669,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 874,
+            "line": 880,
             "description": "The binding of the 'onTouchMove' method.",
             "itemtype": "property",
             "name": "_onTouchMoveBind",
@@ -39684,7 +39684,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 884,
+            "line": 890,
             "description": "The binding of the 'onTouchEnd' method.",
             "itemtype": "property",
             "name": "_onTouchEndBind",
@@ -39699,7 +39699,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 894,
+            "line": 900,
             "description": "The binding of the 'onTouchEnter' method.",
             "itemtype": "property",
             "name": "_onTouchEnterBind",
@@ -39714,7 +39714,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 904,
+            "line": 910,
             "description": "The binding of the 'onTouchLeave' method.",
             "itemtype": "property",
             "name": "_onTouchLeaveBind",
@@ -39729,7 +39729,7 @@
         },
         {
             "file": "src/input/Touch.ts",
-            "line": 914,
+            "line": 920,
             "description": "The binding of the 'onTouchCancel' method.",
             "itemtype": "property",
             "name": "_onTouchCancelBind",
@@ -53248,23 +53248,23 @@
         },
         {
             "message": "Missing item type\nGets the maximum number of points of contact that are allowed on the game stage at one point.",
-            "line": " src/input/Touch.ts:407"
+            "line": " src/input/Touch.ts:410"
         },
         {
             "message": "Missing item type\n-------------------------\n Generic Methods for Dealing with Pointers\n-------------------------",
-            "line": " src/input/Touch.ts:417"
+            "line": " src/input/Touch.ts:420"
         },
         {
             "message": "Missing item type\n-------------------\n Touch Events\n-------------------",
-            "line": " src/input/Touch.ts:567"
+            "line": " src/input/Touch.ts:570"
         },
         {
             "message": "Missing item type\n-------------------\n Pointer Events\n-------------------",
-            "line": " src/input/Touch.ts:681"
+            "line": " src/input/Touch.ts:684"
         },
         {
             "message": "Missing item type\n-----------------\n Normal Methods \n-----------------",
-            "line": " src/input/Touch.ts:760"
+            "line": " src/input/Touch.ts:763"
         },
         {
             "message": "Missing item type\nGet the number of rows.",

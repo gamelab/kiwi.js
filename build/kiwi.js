@@ -24670,7 +24670,7 @@ var Kiwi;
             });
             Object.defineProperty(Transform.prototype, "anchorPointY", {
                 get: function () {
-                    return (this._rotPointY);
+                    return (this.rotPointY);
                 },
                 /**
                 * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
@@ -24680,7 +24680,7 @@ var Kiwi;
                 * @since 1.1.0
                 */
                 set: function (value) {
-                    this._rotPointY = value;
+                    this.rotPointY = value;
                 },
                 enumerable: true,
                 configurable: true

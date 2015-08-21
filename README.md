@@ -1,7 +1,7 @@
 RELEASE INCOMPLETE
 PLEASE COMPLETE VERSION DESCRIPTION BEFORE RELEASE
 
-Kiwi.js 1.3.1
+Kiwi.js 1.4.0
 =============
 
 ![Splash](http://kiwi-js.s3.amazonaws.com/wounds-with-friends.jpg)
@@ -10,7 +10,7 @@ Kiwi.js is the world's easiest to use Open Source HTML5 game framework for makin
 
 Our focus is blazingly fast WebGL rendering and complementary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation.
 
-Version: 1.3.1 "Moriarty"
+Version: 1.4.0 "XXXX"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -40,36 +40,48 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
-### v1.3.0 "Moriarty"
+### v1.4.0 "XXXX"
 
-### New Features
+#### New Features
+* Much faster rendering! Render pipeline caches the results of matrix concatenation, overcoming a significant bottleneck. Also uses cached data objects during rendering, rather than recreating assets on the fly. Depending on scene composition, this may yield a 10-50% performance improvement. Hint: Objects that don't transform are more performant.
+* `Geom.Transform.ignoreChild` property added. Defaults `false`. If set to `true` on a `Group` or `State`, its children will not inherit transforms. They will be positioned from (0, 0). This can save a matrix concatenation operation for every object in a group that doesn't move, resulting in significant performance gains. It's also faster to implement than `Geom.Transform.ignoreParent` from v1.3.0 if you have several children.
+* Added `Geom.Intersect.rayToCircle()` intersection check. This completes the geometry intersections. (#170)
+* `Geom.Ray` now inherits from `Geom.Line`. This gives it a more robust feature set. (#170)
+* `Kiwi.Geom.Matrix.equals()` method added.
+* Add `state` property to `Component`.
+* `Kiwi.Plugins` is now a TypeScript module, allowing TypeScript developers to make plugins natively. (#208)
+* `File` param `timeout` added; file timeouts now default to null. This allows the user to set loading tolerances. By default, files will attempt to load forever. This can prevent crashes on slow connections.
+* `State.destroy` now explicitly destroys members; destruction of tracking list is more robust. This overcomes some issues which might occur when switching states.
+* File load checks status code and response for greater robustness.
+* Optimised `GameObjects.Tilemap.getOverlappingTiles()`.
+* Nicer layout in preloader template.
+* Check out [http://examples.kiwijs.org/](http://examples.kiwijs.org/) for examples covering every facet of KiwiJS development.
 
-* [Window focus/blur](https://github.com/gamelab/kiwi.js/issues/23) events added to the Stage allowing users to easily pause/resume their game. (#23)
-* The Animation Component will now look for sequences on their given texture atlas if one told to play could not be found. (#83)
-* `TileMapLayers` have been seperated into Orthogonal and Isometric classes to keep code more maintainable as well as more succinct. (#85)
-* Additional file management methods added to the `FileStore` class. (#103)
-* You can now pass parameters to a states `preload` method when switching states. (#104)
-* You can now filter out messages to be logged out when using the `Kiwi.Log`. (#151)
-* Much better consistency for passing file types. (#156)
-* @rydairegames added a method to get a tile when you know its index. (#160)
-* ArcadePhysics now contains a `rotateToVelocity` method. (#179)
-* Clocks now contains deltas. (#183)
-* You can now assign floating point values when changing an Animations frame. (#186)
-* Audio now contains an `onComplete` signal. (#189)
-* Context menu events have been added to the Mouse Input Manager. (#191)
-* HUDWidgets can have the origin the position is based of changed. (#193)
-* New get children by tag methods added to groups. (#195)
+#### Deprecations
+* `glMatrix` library removed. This was used for a single call during WebGL rendering. Our own matrix code seems to perform just as well. In addition, glMatrix will load itself into a different namespace if certain other frameworks are in use, which results in a crash. Rather than fork or work around glMatrix, we decided to remove it entirely, reducing the size of KiwiJS. If you need glMatrix functionality, you may obtain the stand-alone library from [http://glmatrix.net/](http://glmatrix.net/). Thanks to the team at [Cerebral Fix](http://cerebralfix.com/) for bringing this to our attention! (#136)
 
-### Bug Fixes
-
-* Animation employs more rigorous methods which ensure the frameIndex is correct. (#184)
-* Timer no longer hangs when the interval is set to 0ms. (#187)
-* `setInterval` and `setTimeout` now deal with clock units. (#188)
-* IconBar positioning fixed. (#192)
-* Minor fix with the image loading when using the xhr + arraybuffer methods of loading.
-* ArcadePhysics tile collision boxes made smaller to give better collisions.
+#### Bug Fixes
+* `Stage.rgbColor` now correctly interprets all values in range 0-255. (#198)
+* Audio now loops and stops correctly. Previously, it might loop indefinitely without making sound after the first loop, which is neither a proper loop nor a proper stop. (#199, #207)
+* Console error will be reported when a texture atlas JSON could not be loaded (#200)
+* `Camera.transformPoint`, `Camera.transformPointToScreen`, `Box._rotateRect`, and `Box._rotateHitbox` now copy concatenated matrices, rather than operating directly on the matrix. (#201)
+* `Sound.AudioManager._unlockedSource` now passes a required parameter under iOS Safari. (#203)
+* Eliminated flickering at high frame rates on some devices in CocoonJS. (#204)
+* Prevent renderer crash when creating a shader after at least one frame has been rendered. (#210)
+* Touch events fixed in Internet Explorer 11. Thanks to @benliddicott for the fix! (#212, #213)
+* `Geom.Transform.anchorPointY` now updates correctly. (#216)
+* Stage visibility changes are more robust.
+* `Kiwi.Files.File` now supports proper parsing of Data files.
+* Data files now succeed properly when dealing with null variables.
+* Remove `version` property from `bower.json` (contributed by Kevin Kirsche).
+* Correct documentation of `Kiwi.Input.Keyboard` `_keyPressed` and `_keyReleased` methods
+* FileStore.removeFile now destroys properly
 
 More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.3.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.3.0+is%3Aclosed)
+
+-------------------------------------------------------
+Update to 1.4.0?
+------------------------------------------------------
 
 ## Previous Changes
 View the [changelog](https://github.com/gamelab/kiwi.js/blob/master/CHANGELOG.md) for a list of changes from previous versions.
@@ -157,6 +169,8 @@ A more advanced, but still simple, way to create a blank game is to use the [Kiw
 ###Viewing the examples
 
 We have a throng of examples. So many, in fact, that one kiwi got tired carrying them all. As generous souls, we put them in their own repo. Check out the [examples repo](https://github.com/gamelab/examples) and look in `tutorials/core`.
+
+Also, don't forget to check out the [examples site](http://examples.kiwijs.org/) where we demo all the library features and the cool plugins available to you.
 
 ###What's in this repo?
 
@@ -302,6 +316,8 @@ A massive shoutout to our contributors on Github!
 - John Wu @tjwudi
 - Ryan Loader @RaniSputnik
 - @rydairegames
+- @benliddicott
+- Kevin Kirsche
 
 *Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.*
 
