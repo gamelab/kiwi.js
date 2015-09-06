@@ -688,6 +688,10 @@ module Kiwi.Geom {
 
 						// Set output
 						this._cachedConcatenatedMatrix.copyFrom( this._matrix );
+						this._cachedConcatenatedMatrix.tx -=
+							this._parent.anchorPointX;
+						this._cachedConcatenatedMatrix.ty -=
+							this._parent.anchorPointY;
 						this._cachedConcatenatedMatrix.prependMatrix(
 							this._cachedParentMatrix );
 					}
