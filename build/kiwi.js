@@ -24445,15 +24445,6 @@ var Kiwi;
                 */
                 this._rotPointY = 0;
                 /**
-                * Cached copy of the parent matrix. Used to determine
-                * whether to update other cached matrices.
-                *
-                * @property _cachedParentMatrix
-                * @type Kiwi.Geom.Matrix
-                * @private
-                */
-                this._cachedParentMatrix = new Kiwi.Geom.Matrix();
-                /**
                 * The parent transform. If set to null there is no parent. Otherwise this is used by getConcatenatedMatrix to offset the current transforms by the another matrix
                 * @property _parent
                 * @type Kiwi.Geom.Transform
@@ -24964,43 +24955,26 @@ var Kiwi;
                 - This clean, parent dirty	:	Build concat
                 - Otherwise					:	Use cachedConcatenated
     
+                This has been further simplified because of some issues.
+                Now, the matrix is updated if it's dirty;
+                and the parent is applied if it exists.
+                Parent dirtiness is not considered, as this appeared to be
+                causing issues.
+    
                 */
-                var parentMatrix;
-                if (this._dirty) {
-                    this._dirty = false;
-                    if (this._parent && !this._parent.ignoreChild && !this.ignoreParent) {
-                        if (!this._locked) {
-                            this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
-                        }
-                        this._cachedParentMatrix.copyFrom(this.getParentMatrix());
-                        // Set output
-                        this._cachedConcatenatedMatrix.copyFrom(this._matrix);
-                        this._cachedConcatenatedMatrix.prependMatrix(this._cachedParentMatrix);
-                    }
-                    else {
-                        if (!this._locked) {
-                            this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
-                        }
-                        // Set output
-                        this._cachedConcatenatedMatrix.copyFrom(this._matrix);
-                    }
+                // Set correct local matrix
+                if (this._dirty && !this.locked) {
+                    this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
                 }
-                else {
-                    if (!this.ignoreParent && this._parent && !this._parent.ignoreChild) {
-                        parentMatrix = this.getParentMatrix();
-                        if (!this._cachedParentMatrix.equals(parentMatrix)) {
-                            this._cachedParentMatrix.copyFrom(parentMatrix);
-                            // Set output
-                            this._cachedConcatenatedMatrix.copyFrom(this._matrix);
-                            this._cachedConcatenatedMatrix.tx -= this._parent.anchorPointX;
-                            this._cachedConcatenatedMatrix.ty -= this._parent.anchorPointY;
-                            this._cachedConcatenatedMatrix.prependMatrix(this._cachedParentMatrix);
-                        }
-                    }
+                // Get local matrix
+                this._cachedConcatenatedMatrix.copyFrom(this._matrix);
+                // Apply parent transform
+                if (this._parent && !this._parent.ignoreChild && !this.ignoreParent) {
+                    this._cachedConcatenatedMatrix.tx -= this._parent.anchorPointX;
+                    this._cachedConcatenatedMatrix.ty -= this._parent.anchorPointY;
+                    this._cachedConcatenatedMatrix.prependMatrix(this.getParentMatrix());
                 }
-                // If the matrix and parent are clean, or if the matrix is clean
-                // and has no applicable parent, we may assume that the former
-                // matrix is still valid.
+                this._dirty = false;
                 return this._cachedConcatenatedMatrix;
             };
             /**

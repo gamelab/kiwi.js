@@ -17236,24 +17236,6 @@ declare module Kiwi.Geom {
         */
         private _cachedConcatenatedMatrix;
         /**
-        * Temporary matrix used in concatenation operations.
-        * Not currently used; might be useful as a temp value
-        * in future optimisations.
-        * @property _concatMatrix
-        * @type Kiwi.Geom.Matrix
-        * @private
-        */
-        private _concatMatrix;
-        /**
-        * Cached copy of the parent matrix. Used to determine
-        * whether to update other cached matrices.
-        *
-        * @property _cachedParentMatrix
-        * @type Kiwi.Geom.Matrix
-        * @private
-        */
-        private _cachedParentMatrix;
-        /**
         * Return the x of this transform translated to world space.
         * @property worldX
         * @type Number
