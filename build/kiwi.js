@@ -10840,6 +10840,7 @@ var Kiwi;
                 };
                 if (Kiwi.Utils.Common.isObject(key)) {
                     params = key;
+                    params.type = Kiwi.Files.File.AUDIO;
                     params.fileStore = this.game.fileStore;
                 }
                 else {

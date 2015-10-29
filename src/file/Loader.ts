@@ -999,6 +999,7 @@ module Kiwi.Files {
 
 			if (Kiwi.Utils.Common.isObject(key)) {
 				params = (<any>key);
+				params.type = Kiwi.Files.File.AUDIO;
 				params.fileStore = this.game.fileStore;
 
 			} else {
