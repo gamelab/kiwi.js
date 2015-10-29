@@ -10488,10 +10488,9 @@ var Kiwi;
             * @private
             */
             Loader.prototype._startLoadingAllParallel = function () {
-                var i = 0, file;
-                while (i < this._loadingParallel.length) {
+                var i = this._loadingParallel.length, file;
+                while (i--) {
                     this._startLoadingParallel(this._loadingParallel[i]);
-                    i++;
                 }
             };
             /**

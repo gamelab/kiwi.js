@@ -546,14 +546,12 @@ module Kiwi.Files {
 		*/
 		private _startLoadingAllParallel() {
 
-			var i = 0,
+			var i = this._loadingParallel.length,
 				file: Kiwi.Files.File;
 
-			while (i < this._loadingParallel.length) {
-				this._startLoadingParallel(this._loadingParallel[i]);
-				i++;
+			while( i-- ) {
+				this._startLoadingParallel( this._loadingParallel[ i ] );
 			}
-
 		}
 		
 		/**
