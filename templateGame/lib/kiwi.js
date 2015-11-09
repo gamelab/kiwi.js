@@ -34510,7 +34510,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.3.1";
+    Kiwi.VERSION = "1.4.0";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.
