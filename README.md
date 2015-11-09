@@ -76,6 +76,8 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 * Remove `version` property from `bower.json` (contributed by Kevin Kirsche).
 * Correct documentation of `Kiwi.Input.Keyboard` `_keyPressed` and `_keyReleased` methods
 * FileStore.removeFile now destroys properly
+* [@radarhere](https://github.com/radarhere) fixed typos in the documentation.
+* You can now stop the RAF from executing. (#211)
 
 More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.3.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.3.0+is%3Aclosed)
 
@@ -318,6 +320,7 @@ A massive shoutout to our contributors on Github!
 - @rydairegames
 - @benliddicott
 - Kevin Kirsche
+- Andrew Murray @radarhere
 
 *Kiwi.js also uses code from a number of open source projects. Effort has been made to clearly identify authors in the code comments. If you notice and missing or incorrect attribution please let us know.*
 

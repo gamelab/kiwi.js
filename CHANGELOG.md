@@ -1,6 +1,46 @@
 Change Log
 =============
 
+### v1.4.0 "XXXX"
+
+#### New Features
+* Much faster rendering! Render pipeline caches the results of matrix concatenation, overcoming a significant bottleneck. Also uses cached data objects during rendering, rather than recreating assets on the fly. Depending on scene composition, this may yield a 10-50% performance improvement. Hint: Objects that don't transform are more performant.
+* `Geom.Transform.ignoreChild` property added. Defaults `false`. If set to `true` on a `Group` or `State`, its children will not inherit transforms. They will be positioned from (0, 0). This can save a matrix concatenation operation for every object in a group that doesn't move, resulting in significant performance gains. It's also faster to implement than `Geom.Transform.ignoreParent` from v1.3.0 if you have several children.
+* Added `Geom.Intersect.rayToCircle()` intersection check. This completes the geometry intersections. (#170)
+* `Geom.Ray` now inherits from `Geom.Line`. This gives it a more robust feature set. (#170)
+* `Kiwi.Geom.Matrix.equals()` method added.
+* Add `state` property to `Component`.
+* `Kiwi.Plugins` is now a TypeScript module, allowing TypeScript developers to make plugins natively. (#208)
+* `File` param `timeout` added; file timeouts now default to null. This allows the user to set loading tolerances. By default, files will attempt to load forever. This can prevent crashes on slow connections.
+* `State.destroy` now explicitly destroys members; destruction of tracking list is more robust. This overcomes some issues which might occur when switching states.
+* File load checks status code and response for greater robustness.
+* Optimised `GameObjects.Tilemap.getOverlappingTiles()`.
+* Nicer layout in preloader template.
+* Check out [http://examples.kiwijs.org/](http://examples.kiwijs.org/) for examples covering every facet of KiwiJS development.
+
+#### Deprecations
+* `glMatrix` library removed. This was used for a single call during WebGL rendering. Our own matrix code seems to perform just as well. In addition, glMatrix will load itself into a different namespace if certain other frameworks are in use, which results in a crash. Rather than fork or work around glMatrix, we decided to remove it entirely, reducing the size of KiwiJS. If you need glMatrix functionality, you may obtain the stand-alone library from [http://glmatrix.net/](http://glmatrix.net/). Thanks to the team at [Cerebral Fix](http://cerebralfix.com/) for bringing this to our attention! (#136)
+
+#### Bug Fixes
+* `Stage.rgbColor` now correctly interprets all values in range 0-255. (#198)
+* Audio now loops and stops correctly. Previously, it might loop indefinitely without making sound after the first loop, which is neither a proper loop nor a proper stop. (#199, #207)
+* Console error will be reported when a texture atlas JSON could not be loaded (#200)
+* `Camera.transformPoint`, `Camera.transformPointToScreen`, `Box._rotateRect`, and `Box._rotateHitbox` now copy concatenated matrices, rather than operating directly on the matrix. (#201)
+* `Sound.AudioManager._unlockedSource` now passes a required parameter under iOS Safari. (#203)
+* Eliminated flickering at high frame rates on some devices in CocoonJS. (#204)
+* Prevent renderer crash when creating a shader after at least one frame has been rendered. (#210)
+* Touch events fixed in Internet Explorer 11. Thanks to @benliddicott for the fix! (#212, #213)
+* `Geom.Transform.anchorPointY` now updates correctly. (#216)
+* Stage visibility changes are more robust.
+* `Kiwi.Files.File` now supports proper parsing of Data files.
+* Data files now succeed properly when dealing with null variables.
+* Remove `version` property from `bower.json` (contributed by Kevin Kirsche).
+* Correct documentation of `Kiwi.Input.Keyboard` `_keyPressed` and `_keyReleased` methods
+* FileStore.removeFile now destroys properly
+* [@radarhere](https://github.com/radarhere) fixed typos in the documentation.
+* You can now stop the RAF from executing. (#211)
+
+
 ### v1.3.0 "Moriarty"
 
 ### New Features
