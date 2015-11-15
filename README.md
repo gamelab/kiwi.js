@@ -1,6 +1,3 @@
-RELEASE INCOMPLETE
-PLEASE COMPLETE VERSION DESCRIPTION BEFORE RELEASE
-
 Kiwi.js 1.4.0
 =============
 
@@ -10,7 +7,7 @@ Kiwi.js is the world's easiest to use Open Source HTML5 game framework for makin
 
 Our focus is blazingly fast WebGL rendering and complementary tools to make professional quality serious games. We use [CocoonJS](https://www.ludei.com/) for publishing games and App creation.
 
-Version: 1.4.0 "XXXX"
+Version: 1.4.0 "Cole"
 
 - Visit the [Official Website](http://www.kiwijs.org/documentation/getting-started/)
 - Follow us on [Twitter](http://www.twitter.com/kiwijsengine)
@@ -40,7 +37,7 @@ Our [Official Documentation Codex](http://www.kiwijs.org/documentation/getting-s
 
 Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 
-### v1.4.0 "XXXX"
+### v1.4.0 "Cole"
 
 #### New Features
 * Much faster rendering! Render pipeline caches the results of matrix concatenation, overcoming a significant bottleneck. Also uses cached data objects during rendering, rather than recreating assets on the fly. Depending on scene composition, this may yield a 10-50% performance improvement. Hint: Objects that don't transform are more performant.
@@ -79,11 +76,7 @@ Number tags refer to [GitHub issues](https://github.com/gamelab/kiwi.js/issues).
 * [@radarhere](https://github.com/radarhere) fixed typos in the documentation.
 * You can now stop the RAF from executing. (#211)
 
-More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.3.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.3.0+is%3Aclosed)
-
--------------------------------------------------------
-Update to 1.4.0?
-------------------------------------------------------
+More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.4.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.3.0+is%3Aclosed)
 
 ## Previous Changes
 View the [changelog](https://github.com/gamelab/kiwi.js/blob/master/CHANGELOG.md) for a list of changes from previous versions.
