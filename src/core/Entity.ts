@@ -75,6 +75,23 @@ module Kiwi {
 		}
 
 		/**
+		* Indicates whether or not this entity is attached to the state.
+		* @property onState
+		* @public
+		* @since 1.4.1
+		*/ 
+		public get onState(): boolean {
+			if( this.parent ) {
+				if (this.parent.objType() === "State") {
+					return true;
+				} else {
+					return this.parent.onState;
+				}
+			} 
+			return false;
+		}
+
+		/**
 		* X coordinate of this Entity. This is just aliased to the transform property.
 		* @property x
 		* @type Number
@@ -694,6 +711,8 @@ module Kiwi {
 		*/
 		public destroy(immediate: boolean = false) {
 
+			if (!this.onState) immediate = true;
+
 			this._exists = false;
 			this._active = false;
 			this._visible = false;
@@ -708,6 +727,7 @@ module Kiwi {
 				delete this.state;
 				delete this.game;
 				delete this.atlas;
+				delete this.glRenderer;
 
 				if (this.components) this.components.removeAll(true);
 				delete this.components;

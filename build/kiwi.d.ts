@@ -1878,6 +1878,13 @@ declare module Kiwi {
         */
         parent: Kiwi.Group;
         /**
+        * Indicates whether or not this entity is attached to the state
+        * @property onState
+        * @public
+        * @since 1.4.1
+        */
+        onState: boolean;
+        /**
         * X coordinate of this Entity. This is just aliased to the transform property.
         * @property x
         * @type Number
@@ -2437,6 +2444,13 @@ declare module Kiwi {
         * @public
         */
         parent: Kiwi.Group;
+        /**
+        * Indicates whether or not this entity is attached to the state
+        * @property onState
+        * @public
+        * @since 1.4.1
+        */
+        onState: boolean;
         /**
         * The X coordinate of this group. This is just aliased to the transform property.
         * @property x

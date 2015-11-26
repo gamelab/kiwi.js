@@ -106,6 +106,23 @@ module Kiwi {
 		}
 
 		/**
+		* Indicates whether or not this entity is attached to the state.
+		* @property onState
+		* @public
+		* @since 1.4.1
+		*/
+		public get onState(): boolean {
+			if (this.parent) {
+				if (this.parent.objType() === "State") {
+					return true;
+				} else {
+					return this.parent.onState;
+				}
+			}
+			return false;
+		}
+
+		/**
 		* The X coordinate of this group. This is just aliased to the transform property.
 		* @property x
 		* @type Number
@@ -1238,6 +1255,8 @@ module Kiwi {
 		public get visible(): boolean {
 			return this._visible;
 		}
+
+
 
 
 		/**

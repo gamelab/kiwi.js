@@ -2543,6 +2543,27 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Entity.prototype, "onState", {
+            /**
+            * Indicates whether or not this entity is attached to the state
+            * @property onState
+            * @public
+            * @since 1.4.1
+            */
+            get: function () {
+                if (this.parent) {
+                    if (this.parent.objType() === "State") {
+                        return true;
+                    }
+                    else {
+                        return this.parent.onState;
+                    }
+                }
+                return false;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Entity.prototype, "x", {
             /**
             * X coordinate of this Entity. This is just aliased to the transform property.
@@ -3048,6 +3069,8 @@ var Kiwi;
         */
         Entity.prototype.destroy = function (immediate) {
             if (immediate === void 0) { immediate = false; }
+            if (!this.onState)
+                immediate = true;
             this._exists = false;
             this._active = false;
             this._visible = false;
@@ -3062,6 +3085,7 @@ var Kiwi;
                 delete this.state;
                 delete this.game;
                 delete this.atlas;
+                delete this.glRenderer;
                 if (this.components)
                     this.components.removeAll(true);
                 delete this.components;
@@ -3293,6 +3317,27 @@ var Kiwi;
                 this.transform.parent = (val !== null) ? val.transform : null;
                 this._parent = val;
                 //}
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Group.prototype, "onState", {
+            /**
+            * Indicates whether or not this entity is attached to the state
+            * @property onState
+            * @public
+            * @since 1.4.1
+            */
+            get: function () {
+                if (this.parent) {
+                    if (this.parent.objType() === "State") {
+                        return true;
+                    }
+                    else {
+                        return this.parent.onState;
+                    }
+                }
+                return false;
             },
             enumerable: true,
             configurable: true
