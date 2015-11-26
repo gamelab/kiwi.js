@@ -78,7 +78,9 @@ module Kiwi.Files {
 		protected _load() {
 			this.attemptCounter++;
 
-			if (this.useTagLoader) {
+			if (this.game.audio.noAudio) {
+				this.loadError("Audio is not supported. Skipping audio loading");
+			} else if (this.useTagLoader) {
 				this.tagLoader();
 			} else {
 				this.xhrLoader('GET', 'arraybuffer');
