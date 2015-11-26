@@ -19816,6 +19816,25 @@ declare module Kiwi.Sound {
         */
         private _playable;
         /**
+        * Indicates whether the audio file was found on the filestore and so can be played.
+        *
+        * @property _supported
+        * @type boolean
+        * @private
+        * @since 1.4.1
+        */
+        private _supported;
+        /**
+        * Indicates whether the audio file was found on the filestore and so can be played.
+        *
+        * @property supported
+        * @type boolean
+        * @public
+        * @readOnly
+        * @since 1.4.1
+        */
+        supported: boolean;
+        /**
         * Returns whether or not the sound is 'playable' or not.
         * The only time the sound would be not 'playable' is on iOS devices when a mouse/touch event has not fired.
         * Devs should treat this property as READ ONLY.

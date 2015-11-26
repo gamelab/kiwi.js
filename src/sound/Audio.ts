@@ -49,6 +49,7 @@ module Kiwi.Sound {
 			//If audio isn't supported OR the file does not exist
 			if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
 				Kiwi.Log.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore.', '#audio', '#notfound');
+				this._supported = false;
 				return;
 			}
 
@@ -122,6 +123,29 @@ module Kiwi.Sound {
 		private _playable: boolean;
 
 		/**
+		* Indicates whether the audio file was found on the filestore and so can be played.
+		* 
+		* @property _supported
+		* @type boolean
+		* @private
+		* @since 1.4.1
+		*/
+		private _supported: boolean = true;
+
+		/**
+		* Indicates whether the audio file was found on the filestore and so can be played.
+		* 
+		* @property supported
+		* @type boolean
+		* @public
+		* @readOnly
+		* @since 1.4.1
+		*/
+		public get supported():boolean {
+			return this._supported;
+		}
+
+		/**
 		* Returns whether or not the sound is 'playable' or not. 
 		* The only time the sound would be not 'playable' is on iOS devices when a mouse/touch event has not fired.
 		* Devs should treat this property as READ ONLY.
@@ -133,6 +157,9 @@ module Kiwi.Sound {
 			return this._playable;
 		}
 		public set playable(val: boolean) {
+
+			//Can't play if the audio file to play isn't found
+			if (!this._supported) return;
 
 			if (this._playable !== true && val == true) {
 
