@@ -1340,6 +1340,8 @@ module Kiwi {
 		* @public
 		*/
 		public destroy(immediate:boolean = false, destroyChildren:boolean = true) {
+
+			if (!this.onState) immediate = true;
 			
 			this._exists = false;
 			this._active = false

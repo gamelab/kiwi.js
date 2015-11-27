@@ -4371,6 +4371,8 @@ var Kiwi;
         Group.prototype.destroy = function (immediate, destroyChildren) {
             if (immediate === void 0) { immediate = false; }
             if (destroyChildren === void 0) { destroyChildren = true; }
+            if (!this.onState)
+                immediate = true;
             this._exists = false;
             this._active = false;
             this._visible = false;
