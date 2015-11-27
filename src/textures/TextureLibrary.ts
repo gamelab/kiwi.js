@@ -83,6 +83,24 @@ module Kiwi.Textures {
 			}
 		}
 
+		/**
+		* Removes a texture atlas from the library.
+		* @method remove
+		* @param atlas {Kiwi.Textures.TextureAtlas}
+		* @public
+		* @since 1.4.1
+		*/
+		public remove(atlas: TextureAtlas) {
+			if( this.textures[atlas.name] ) {
+				delete this.textures[atlas.name];
+
+				if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+					var renderManager = <Kiwi.Renderers.GLRenderManager>this._game.renderer;
+					renderManager.removeTexture(this._game.stage.gl, atlas);
+				}
+			}
+		}
+
 
 		/**
 		* Adds a new image file to the texture library.

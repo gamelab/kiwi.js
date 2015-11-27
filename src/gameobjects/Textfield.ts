@@ -531,6 +531,21 @@ module Kiwi.GameObjects {
 			//Add to the batch!
 			(<Kiwi.Renderers.TextureAtlasRenderer>this.glRenderer).concatBatch(vertexItems);
 		}
+
+		public destroy(immediate: boolean = false) {
+
+			if( !this.onState ) {
+				immediate = true;
+			}
+
+			if (immediate) {
+				this.state.textureLibrary.remove( this.atlas );
+				delete this._canvas;
+			}
+
+			super.destroy(immediate);
+		}
+
 	}
 
 	// Alias and reiteration for YuiDoc purposes

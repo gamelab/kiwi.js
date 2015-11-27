@@ -2545,7 +2545,7 @@ var Kiwi;
         });
         Object.defineProperty(Entity.prototype, "onState", {
             /**
-            * Indicates whether or not this entity is attached to the state
+            * Indicates whether or not this entity is attached to the state.
             * @property onState
             * @public
             * @since 1.4.1
@@ -3323,7 +3323,7 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "onState", {
             /**
-            * Indicates whether or not this entity is attached to the state
+            * Indicates whether or not this entity is attached to the state.
             * @property onState
             * @public
             * @since 1.4.1
@@ -6000,6 +6000,17 @@ var Kiwi;
                 vertexItems.push(this._pt1.x, this._pt1.y, 0, 0, this.alpha, this._pt2.x, this._pt2.y, this._canvas.width, 0, this.alpha, this._pt3.x, this._pt3.y, this._canvas.width, this._canvas.height, this.alpha, this._pt4.x, this._pt4.y, 0, this._canvas.height, this.alpha);
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
+            };
+            TextField.prototype.destroy = function (immediate) {
+                if (immediate === void 0) { immediate = false; }
+                if (!this.onState) {
+                    immediate = true;
+                }
+                if (immediate) {
+                    this.state.textureLibrary.remove(this.atlas);
+                    delete this._canvas;
+                }
+                _super.prototype.destroy.call(this, immediate);
             };
             /**
             * A static property that contains the string to center align the text.
@@ -13348,6 +13359,21 @@ var Kiwi;
                 textureManager.registerTextureWrapper(gl, this.glTextureWrapper);
             };
             /**
+            * Disposes of the GLTextureWrapper.
+            * @method removeGLTextureWrapper
+            * @param gl {WebGLRenderingContext} The rendering context.
+            * @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+            * @public
+            * @since 1.4.1
+            */
+            TextureAtlas.prototype.removeGLTextureWrapper = function (gl, textureManager) {
+                if (this.glTextureWrapper) {
+                    textureManager.deregisterTextureWrapper(gl, this.glTextureWrapper);
+                    this.glTextureWrapper.dispose();
+                    delete this.glTextureWrapper;
+                }
+            };
+            /**
             * Sends the texture to the video card.
             * @method enableGL
             * @param gl {WebGLRenderingContext}
@@ -13504,6 +13530,22 @@ var Kiwi;
                     }
                     var renderManager = this._game.renderer;
                     renderManager.addTexture(this._game.stage.gl, atlas);
+                }
+            };
+            /**
+            * Removes a texture atlas from the library.
+            * @method remove
+            * @param atlas {Kiwi.Textures.TextureAtlas}
+            * @public
+            * @since 1.4.1
+            */
+            TextureLibrary.prototype.remove = function (atlas) {
+                if (this.textures[atlas.name]) {
+                    delete this.textures[atlas.name];
+                    if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
+                        var renderManager = this._game.renderer;
+                        renderManager.removeTexture(this._game.stage.gl, atlas);
+                    }
                 }
             };
             /**
@@ -15512,6 +15554,17 @@ var Kiwi;
                 this._textureManager.uploadTexture(gl, atlas);
             };
             /**
+            * Removes a texture from the Texture Manager.
+            * @method removeTexture
+            * @param {WebGLRenderingContext} gl
+            * @param {Kiwi.Textures.TextureAtlas} atlas
+            * @since 1.4.1
+            * @Public
+            */
+            GLRenderManager.prototype.removeTexture = function (gl, atlas) {
+                this._textureManager.removeTexture(gl, atlas);
+            };
+            /**
             * Adds a renderer to the sharedRenderer array.
             *
             * The rendererID is a string that must match a renderer property
@@ -16294,6 +16347,17 @@ var Kiwi;
                 this._created = false;
                 return true;
             };
+            /**
+            * Disposes of any links to external objects in an attempt to flag this object for garbage collection.
+            * You need to make sure that the texture has been removed from the GLTextureManager.
+            * @method dispose
+            * @public
+            * @since 1.4.1
+            */
+            GLTextureWrapper.prototype.dispose = function () {
+                delete this._image;
+                delete this.textureAtlas;
+            };
             return GLTextureWrapper;
         })();
         Renderers.GLTextureWrapper = GLTextureWrapper;
@@ -16353,6 +16417,22 @@ var Kiwi;
             */
             GLTextureManager.prototype._addTextureToCache = function (glTexture) {
                 this._textureWrapperCache.push(glTexture);
+            };
+            /**
+            * Removes a texture wrapper from the cache
+            * @method _removeTextureFromCache
+            * @param glTexture {GLTextureWrapper}
+            * @private
+            * @since 1.4.1
+            */
+            GLTextureManager.prototype._removeTextureFromCache = function (gl, glTexture) {
+                var index = this._textureWrapperCache.indexOf(glTexture);
+                if (index > -1) {
+                    if (glTexture.uploaded) {
+                        this._deleteTexture(gl, index);
+                    }
+                    this._textureWrapperCache.splice(index, 1);
+                }
             };
             /**
             * Deletes a texture from memory and removes the wrapper from the cache
@@ -16437,6 +16517,28 @@ var Kiwi;
                     this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
                 }
                 this._textureWrapperCache = new Array();
+            };
+            /**
+            * Removes a texture atlas from the texture manager.
+            * @method removeTexture
+            * @param gl {WebGLRenderingContext}
+            * @param textureAtlas {Kiwi.Textures.TextureAtlas}
+            * @public
+            * @since 1.4.1
+            */
+            GLTextureManager.prototype.removeTexture = function (gl, textureAtlas) {
+                textureAtlas.removeGLTextureWrapper(gl, this);
+            };
+            /**
+            * Removes a texture wrapper from the manager.
+            * @method deregisterTextureWrapper
+            * @param gl {WebGLRenderingContext}
+            * @param glTextureWrapper {GLTextureWrapper}
+            * @public
+            * @since 1.4.1
+            */
+            GLTextureManager.prototype.deregisterTextureWrapper = function (gl, glTextureWrapper) {
+                this._removeTextureFromCache(gl, glTextureWrapper);
             };
             /**
             * Binds the texture ready for use, uploads it if it isn't already

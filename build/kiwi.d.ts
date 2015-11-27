@@ -1878,7 +1878,7 @@ declare module Kiwi {
         */
         parent: Kiwi.Group;
         /**
-        * Indicates whether or not this entity is attached to the state
+        * Indicates whether or not this entity is attached to the state.
         * @property onState
         * @public
         * @since 1.4.1
@@ -2445,7 +2445,7 @@ declare module Kiwi {
         */
         parent: Kiwi.Group;
         /**
-        * Indicates whether or not this entity is attached to the state
+        * Indicates whether or not this entity is attached to the state.
         * @property onState
         * @public
         * @since 1.4.1
@@ -4240,6 +4240,7 @@ declare module Kiwi.GameObjects {
         * @public
         */
         renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+        destroy(immediate?: boolean): void;
     }
     var Textfield: typeof TextField;
 }
@@ -9169,6 +9170,12 @@ declare module Kiwi.Textures {
         * @public
         */
         type: number;
+        /**
+        * Link to this atlas WebGL TextureWrapper counterpart which handles uploading the texture.
+        * @property glTextureWrapper
+        * @type Kiwi.Renderers.GLTextureWrapper
+        * @public
+        */
         glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
         /**
         * Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.
@@ -9181,6 +9188,15 @@ declare module Kiwi.Textures {
         * @since 1.1.0
         */
         createGLTextureWrapper(gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager): void;
+        /**
+        * Disposes of the GLTextureWrapper.
+        * @method removeGLTextureWrapper
+        * @param gl {WebGLRenderingContext} The rendering context.
+        * @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+        * @public
+        * @since 1.4.1
+        */
+        removeGLTextureWrapper(gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager): void;
         /**
         * Sends the texture to the video card.
         * @method enableGL
@@ -9264,6 +9280,14 @@ declare module Kiwi.Textures {
         * @public
         */
         add(atlas: TextureAtlas): void;
+        /**
+        * Removes a texture atlas from the library.
+        * @method remove
+        * @param atlas {Kiwi.Textures.TextureAtlas}
+        * @public
+        * @since 1.4.1
+        */
+        remove(atlas: TextureAtlas): void;
         /**
         * Adds a new image file to the texture library.
         * @method addFromFile
@@ -10663,6 +10687,15 @@ declare module Kiwi.Renderers {
         */
         addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
+        * Removes a texture from the Texture Manager.
+        * @method removeTexture
+        * @param {WebGLRenderingContext} gl
+        * @param {Kiwi.Textures.TextureAtlas} atlas
+        * @since 1.4.1
+        * @Public
+        */
+        removeTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
+        /**
         * An array of renderers.
         *
         * Shared renderers are used for batch rendering.
@@ -11079,6 +11112,14 @@ declare module Kiwi.Renderers {
         * @public
         */
         deleteTexture(gl: WebGLRenderingContext): boolean;
+        /**
+        * Disposes of any links to external objects in an attempt to flag this object for garbage collection.
+        * You need to make sure that the texture has been removed from the GLTextureManager.
+        * @method dispose
+        * @public
+        * @since 1.4.1
+        */
+        dispose(): void;
     }
 }
 /**
@@ -11151,6 +11192,14 @@ declare module Kiwi.Renderers {
         */
         private _addTextureToCache(glTexture);
         /**
+        * Removes a texture wrapper from the cache
+        * @method _removeTextureFromCache
+        * @param glTexture {GLTextureWrapper}
+        * @private
+        * @since 1.4.1
+        */
+        private _removeTextureFromCache(gl, glTexture);
+        /**
         * Deletes a texture from memory and removes the wrapper from the cache
         * @method _deleteTexture
         * @param gl {WebGLRenderingContext}
@@ -11199,6 +11248,24 @@ declare module Kiwi.Renderers {
         * @public
         */
         clearTextures(gl: WebGLRenderingContext): void;
+        /**
+        * Removes a texture atlas from the texture manager.
+        * @method removeTexture
+        * @param gl {WebGLRenderingContext}
+        * @param textureAtlas {Kiwi.Textures.TextureAtlas}
+        * @public
+        * @since 1.4.1
+        */
+        removeTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
+        /**
+        * Removes a texture wrapper from the manager.
+        * @method deregisterTextureWrapper
+        * @param gl {WebGLRenderingContext}
+        * @param glTextureWrapper {GLTextureWrapper}
+        * @public
+        * @since 1.4.1
+        */
+        deregisterTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): void;
         /**
         * Binds the texture ready for use, uploads it if it isn't already
         * @method useTexture
