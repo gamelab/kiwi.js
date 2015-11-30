@@ -8357,28 +8357,37 @@ var Kiwi;
     var Components;
     (function (Components) {
         /**
-        * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch
-        * and as such this class contains useful methods and callbacks you can subscribe to.
-        * By default the Input component is disabled (this is because when enabled the input component can be process intensive)
-        * but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically
-        * be enabled once you access a Signal on this class.
+        * `Input` adds interaction to `GameObjects` via `Mouse` and/or `Touch`.
+        * Callbacks and methods are supplied to ease interaction.
+        *
+        * By default, `Input` components are disabled, as they are process
+        * intensive. You may enable input by calling `enabled = true`.
+        * Alternatively, the game will automagically enable input
+        * once you access any `Signal`. Be careful when enumerating
+        * properties on this component, and be prepared to disable
+        * input again.
+        *
+        * `GameObjects.Sprite` comes with an `Input` component.
+        * Other `GameObjects` do not.
         *
         * @class Input
         * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param owner {Object} The Object that this Component is on. Generally this will be a Entity.
-        * @param box {Kiwi.Components.Box} The box which contains the worldHitbox that is to be used for the event firing.
-        * @param [enabled=false] {boolean} If this input component should be enabled or not.
+        * @param owner {Object} Object, generally `Entity`, to own this
+        *	input component
+        * @param box {Kiwi.Components.Box} Box which contains the `worldHitbox`
+        *	used for input detection
+        * @param [enabled=false] {boolean} Whether to enable this component
         * @return {Kiwi.Components.Input}
         */
         var Input = (function (_super) {
             __extends(Input, _super);
             function Input(owner, box, enabled) {
                 if (enabled === void 0) { enabled = false; }
-                _super.call(this, owner, 'Input');
+                _super.call(this, owner, "Input");
                 /**
-                * A reference to the pointer that is currently 'dragging' this Object.
+                * Reference to the pointer that is currently "dragging" this Object.
                 * If not dragging then this is null.
                 * @property _isDragging
                 * @type Kiwi.Input.Pointer
@@ -8387,7 +8396,7 @@ var Kiwi;
                 */
                 this._isDragging = null;
                 /**
-                * Indicates if dragging is currently enabled.
+                * Whether dragging is currently enabled.
                 * @property _dragEnabled
                 * @type boolean
                 * @default false
@@ -8395,7 +8404,8 @@ var Kiwi;
                 */
                 this._dragEnabled = false;
                 /**
-                * If when dragging, the IChild should snap to the center of the pointer it is being dragged by.
+                * Whether, when dragging, the IChild should snap to the center
+                * of the pointer it is being dragged by.
                 * @property _dragSnapToCenter
                 * @type boolean
                 * @default false
@@ -8403,7 +8413,9 @@ var Kiwi;
                 */
                 this._dragSnapToCenter = false;
                 /**
-                * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
+                * Temporary property that gets updated every frame
+                * with the pointer that is currently down on this entity
+                *
                 * @property _nowDown
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8411,7 +8423,10 @@ var Kiwi;
                 */
                 this._nowDown = null;
                 /**
-                * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
+                * Temporary property that gets updated every frame
+                * with the pointer that was just released
+                * from being down on this entity
+                *
                 * @property _nowUp
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8419,7 +8434,9 @@ var Kiwi;
                 */
                 this._nowUp = null;
                 /**
-                * Temporary property of the pointer that is now within the bounds of the entity
+                * Temporary property of the pointer that is now
+                * within the bounds of the entity
+                *
                 * @property _nowEntered
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8427,7 +8444,9 @@ var Kiwi;
                 */
                 this._nowEntered = null;
                 /**
-                * Temporary property of the pointer that just left the bounds of the entity.
+                * Temporary property of the pointer that just
+                * left the bounds of the entity
+                *
                 * @property _nowLeft
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8435,7 +8454,9 @@ var Kiwi;
                 */
                 this._nowLeft = null;
                 /**
-                * Temporary property of the pointer that just started draggging the entity.
+                * Temporary property of the pointer that just
+                * started dragging the entity
+                *
                 * @property _nowDragging
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8474,16 +8495,21 @@ var Kiwi;
             };
             Object.defineProperty(Input.prototype, "onEntered", {
                 /**
-                * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
+                * Fires callbacks when a pointer is active
+                * and has entered the entity's hitbox.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onEntered
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onEntered;
                 },
                 enumerable: true,
@@ -8491,16 +8517,21 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onLeft", {
                 /**
-                * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
+                * Fires callbacks when a pointer is active
+                * and has left the entity's hit box.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onLeft
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onLeft;
                 },
                 enumerable: true,
@@ -8508,16 +8539,21 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onDown", {
                 /**
-                * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
+                * Fires callbacks when a pointer is active
+                * and just pressed down on the entity.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onDown
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onDown;
                 },
                 enumerable: true,
@@ -8525,16 +8561,22 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onUp", {
                 /**
-                * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
+                * Fires callbacks when a pointer just released,
+                * either directly above the entity,
+                * or after having been pressed down above the entity.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onUp
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onUp;
                 },
                 enumerable: true,
@@ -8542,8 +8584,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onDragStarted", {
                 /**
-                * Returns the onDragStarted Signal.
+                * Fires callbacks when the entity starts being dragged.
+                *
                 * This is READ ONLY.
+                *
                 * @property onDragStarted
                 * @type Kiwi.Signal
                 * @public
@@ -8556,8 +8600,11 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onDragStopped", {
                 /**
-                * Returns the onDragStopped Signal.
+                * Fires callbacks when the entity stops being dragged,
+                * such as on release.
+                *
                 * This is READ ONLY.
+                *
                 * @property onDragStopped
                 * @type Kiwi.Signal
                 * @public
@@ -8570,8 +8617,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onRelease", {
                 /**
-                * A alias for the on release signal.
+                * Alias for `onUp`.
+                *
                 * This is READ ONLY.
+                *
                 * @property onRelease
                 * @type Kiwi.Signal
                 * @public
@@ -8584,8 +8633,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onPress", {
                 /**
-                * A alias for the on press signal.
+                * Alias for `onDown`.
+                *
                 * This is READ ONLY.
+                *
                 * @property onPress
                 * @type Kiwi.Signal
                 * @public
@@ -8598,7 +8649,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "enabled", {
                 /**
-                * Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.
+                * Whether this input is enabled.
+                *
+                * Note: Inputs should only be enabled when needed,
+                * as they can use processing power and slow the game down.
                 * @property enabled
                 * @type boolean
                 * @public
@@ -8607,6 +8661,8 @@ var Kiwi;
                     return this._enabled;
                 },
                 set: function (val) {
+                    // Perhaps later the signals should only be set
+                    // if the input is enabled.
                     this._enabled = val;
                 },
                 enumerable: true,
@@ -8614,8 +8670,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "isDown", {
                 /**
-                * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
+                * Whether a pointer is currently on this input.
+                *
                 * This is READ ONLY.
+                *
                 * @property isDown
                 * @type boolean
                 * @public
@@ -8628,8 +8686,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "isUp", {
                 /**
-                * Used to see if no pointer is on this input (so it is up).
+                * Whether no pointer is on this input (so it is up).
+                *
                 * This is READ ONLY.
+                *
                 * @property isUp
                 * @type boolean
                 * @public
@@ -8642,8 +8702,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "withinBounds", {
                 /**
-                * Check to see if any pointer is within the bounds of this input.
+                * Whether any pointer is within the bounds of this entity.
+                *
                 * This is READ ONLY.
+                *
                 * @property withinBounds
                 * @type boolean
                 * @public
@@ -8656,8 +8718,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "outsideBounds", {
                 /**
-                * See if no pointers are within the bounds of this entity.
+                * Whether no pointers are within the bounds of this entity.
+                *
                 * This is READ ONLY.
+                *
                 * @property outsideBounds
                 * @type boolean
                 * @public
@@ -8670,8 +8734,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "isDragging", {
                 /**
-                * Returns a boolean indicating if this is currently dragging something.
+                * Whether this is currently dragging something.
+                *
                 * This is READ ONLY.
+                *
                 * @property isDragging
                 * @type boolean
                 * @public
@@ -8684,7 +8750,13 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "dragDistance", {
                 /**
-                * The drag distance that is used when dragging this object. See _dragDistance for more information.
+                * Used while dragging so that you can make the IChild "snap"
+                * to specific numbers to give a grid-like effect.
+                *
+                * E.g. If you had a 32 by 32 grid and you wanted to make an element
+                * draggable but snap to the grid you can set this to 32.
+                *
+                * Default value is 1.
                 * @property dragDistance
                 * @type number
                 * @public
@@ -8699,24 +8771,29 @@ var Kiwi;
                 configurable: true
             });
             /**
-            * Enables the dragging of this entity.
+            * Enable dragging of this entity.
+            *
             * @method enableDrag
-            * @param [snapToCenter=false] {boolean} If when dragging the Entity should snap to the center of the pointer.
-            * @param [distance=1] {number} If when dragging the Entity should snap to numbers divisible by this amount.
+            * @param [snapToCenter=false] {boolean} If when dragging the Entity
+            *	should snap to the center of the pointer
+            * @param [distance=1] {number} If when dragging the Entity
+            *	should snap to numbers divisible by this amount
             * @public
             */
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (snapToCenter === void 0) { snapToCenter = false; }
                 if (distance === void 0) { distance = 1; }
-                if (this.enabled == false)
+                if (this.enabled == false) {
                     this.enabled = true;
+                }
                 this._dragEnabled = true;
                 this._dragSnapToCenter = snapToCenter;
                 this._dragDistance = distance;
                 this._isDragging = null;
             };
             /**
-            * Disables the dragging of this entity.
+            * Disable dragging of this entity.
+            *
             * @method disableDrag
             * @public
             */
@@ -8725,7 +8802,7 @@ var Kiwi;
                 this._isDragging = null;
             };
             /**
-            * The update loop for the input.
+            * Update loop for the input.
             * @method update
             * @protected
             */
@@ -8739,14 +8816,14 @@ var Kiwi;
                 this._nowEntered = null;
                 this._nowLeft = null;
                 this._nowDragging = null;
-                //Use the appropriate method of checking.
+                // Use the appropriate method of checking.
                 if (Kiwi.DEVICE.touch) {
                     this._updateTouch();
                 }
                 else {
                     this._updateMouse();
                 }
-                //If the entity is dragging.
+                // If the entity is dragging.
                 if (this.isDragging) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
                     if (this._dragSnapToCenter === false) {
@@ -8760,13 +8837,13 @@ var Kiwi;
                 }
             };
             /**
-            * The update loop that gets executed when the game is using the touch manager.
+            * Update loop executed when the game is using the touch manager.
             * @method _updateTouch
             * @private
             */
             Input.prototype._updateTouch = function () {
                 for (var i = 0; i < this.game.input.touch.maximumPointers; i++) {
-                    //if that pointer is active then see where it is
+                    // If the pointer is active then see where it is
                     if (this.game.input.touch.fingers[i].active === true) {
                         this._evaluateTouchPointer(this.game.input.touch.fingers[i]);
                     }
@@ -8777,7 +8854,7 @@ var Kiwi;
                         this._nowUp = this.game.input.touch.fingers[i];
                     }
                 }
-                //Fire the events. LOTS OF CONDITIONS
+                // Fire the events. LOTS OF CONDITIONS
                 if (this._nowEntered !== null && this.withinBounds === false) {
                     this._withinBounds = this._nowEntered;
                     this._outsideBounds = false;
@@ -8805,7 +8882,7 @@ var Kiwi;
                     this._isUp = true;
                     this._withinBounds = null;
                     this._outsideBounds = true;
-                    //dispatch drag event
+                    // Dispatch drag event
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -8813,13 +8890,13 @@ var Kiwi;
                 }
             };
             /**
-            * A private method for checking to see if a touch pointer should activate any events.
+            * Check to see if a touch pointer should activate any events.
             * @method _evaluateTouchPointer
-            * @param pointer {Kiwi.Input.Finger} The pointer you are checking against.
+            * @param pointer {Kiwi.Input.Finger} Pointer checking against
             * @private
             */
             Input.prototype._evaluateTouchPointer = function (pointer) {
-                //if nothing isdown or what is down is the current pointer
+                // If nothing is down or what is down is the current pointer
                 if (this.isDown === false || this._isDown.id === pointer.id) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
                     this._tempCircle.setTo(this._tempPoint.x, this._tempPoint.y, pointer.circle.diameter);
@@ -8847,13 +8924,14 @@ var Kiwi;
                 }
             };
             /**
-            * The update loop that runs when the mouse manager is the method for interacting with the screen.
+            * Update loop that runs when the mouse manager is
+            * the method for interacting with the screen.
             * @method _updateMouse
             * @private
             */
             Input.prototype._updateMouse = function () {
                 this._evaluateMousePointer(this.game.input.mouse.cursor);
-                //dispatch the events
+                // Dispatch the events
                 if (this._nowLeft !== null) {
                     this._onLeft.dispatch(this.owner, this._nowLeft);
                 }
@@ -8881,7 +8959,8 @@ var Kiwi;
                 }
             };
             /**
-            * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
+            * Evaluates where and what the mouse cursor is doing
+            * in relation to this box.
             * @method _evaluateMousePointer
             * @param pointer {Kiwi.Input.MouseCursor}
             * @private
@@ -8911,7 +8990,7 @@ var Kiwi;
                 }
                 //  Input is down (click/touch)
                 if (pointer.isDown === true) {
-                    //if is was a mouse, did it just enter?
+                    // If it was a mouse, did it just enter?
                     if (this._justEntered) {
                         this._isDown = pointer;
                         this._isUp = false;
@@ -8928,18 +9007,20 @@ var Kiwi;
                     }
                 }
                 else {
-                    if (this._tempDragDisabled === true)
+                    if (this._tempDragDisabled === true) {
                         this._tempDragDisabled = false;
+                    }
                     if (this.isDown === true) {
                         this._nowUp = pointer;
                     }
                 }
-                if (this._justEntered)
+                if (this._justEntered) {
                     this._justEntered = false;
+                }
             };
             /**
-            * Destroys the input.
-            * @method destory
+            * Destroy the input.
+            * @method destroy
             * @public
             */
             Input.prototype.destroy = function () {
@@ -8950,23 +9031,29 @@ var Kiwi;
                 delete this._isUp;
                 delete this._isDragging;
                 delete this._dragEnabled;
-                if (this._onDown)
+                if (this._onDown) {
                     this._onDown.dispose();
+                }
                 delete this._onDown;
-                if (this._onDragStarted)
+                if (this._onDragStarted) {
                     this._onDragStarted.dispose();
+                }
                 delete this._onDragStarted;
-                if (this._onUp)
+                if (this._onUp) {
                     this._onUp.dispose();
+                }
                 delete this._onUp;
-                if (this._onLeft)
+                if (this._onLeft) {
                     this._onLeft.dispose();
+                }
                 delete this._onLeft;
-                if (this._onEntered)
+                if (this._onEntered) {
                     this._onEntered.dispose();
+                }
                 delete this._onEntered;
-                if (this._onDragStopped)
+                if (this._onDragStopped) {
                     this._onDragStopped.dispose();
+                }
                 delete this._onDragStopped;
                 delete this._dragDistance;
             };
@@ -34688,7 +34775,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.4.0";
+    Kiwi.VERSION = "1.4.1";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\GLTextureManager.ts - Kiwi.js</title>
+    <title>src/render/GLTextureManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\GLTextureManager.ts</h1>
+                        <h1 class="file-heading">File: src/render/GLTextureManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -459,6 +459,25 @@ module Kiwi.Renderers {
 		}
 
 		/**
+		* Removes a texture wrapper from the cache
+		* @method _removeTextureFromCache
+		* @param glTexture {GLTextureWrapper}
+		* @private
+		* @since 1.4.1
+		*/
+		private _removeTextureFromCache(gl: WebGLRenderingContext, glTexture: GLTextureWrapper) {
+			var index = this._textureWrapperCache.indexOf(glTexture);
+			if( index &gt; -1 ) {
+
+				if (glTexture.uploaded) {
+					this._deleteTexture(gl, index);
+				}
+
+				this._textureWrapperCache.splice(index, 1);
+			}
+		}
+
+		/**
 		* Deletes a texture from memory and removes the wrapper from the cache
 		* @method _deleteTexture
 		* @param gl {WebGLRenderingContext}
@@ -551,6 +570,29 @@ module Kiwi.Renderers {
 			this._textureWrapperCache = new Array();
 		}
 
+		/**
+		* Removes a texture atlas from the texture manager.
+		* @method removeTexture
+		* @param gl {WebGLRenderingContext}
+		* @param textureAtlas {Kiwi.Textures.TextureAtlas}
+		* @public
+		* @since 1.4.1
+		*/
+		public removeTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
+			textureAtlas.removeGLTextureWrapper( gl, this );
+		}
+
+		/**
+		* Removes a texture wrapper from the manager. 
+		* @method deregisterTextureWrapper
+		* @param gl {WebGLRenderingContext}
+		* @param glTextureWrapper {GLTextureWrapper}
+		* @public
+		* @since 1.4.1
+		*/
+		public deregisterTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper) {
+			this._removeTextureFromCache(gl, glTextureWrapper);
+		}
 
 		/**
 		* Binds the texture ready for use, uploads it if it isn&#x27;t already

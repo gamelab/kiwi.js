@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\render\GLTextureWrapper.ts - Kiwi.js</title>
+    <title>src/render/GLTextureWrapper.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\render\GLTextureWrapper.ts</h1>
+                        <h1 class="file-heading">File: src/render/GLTextureWrapper.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -386,11 +386,11 @@ module Kiwi.Renderers {
 	*/
 	export class GLTextureWrapper {
 
-		constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas,upload:boolean = false) {
+		constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload:boolean = false) {
 			this.textureAtlas = atlas;
 			this._image = atlas.image;
 			this._numBytes = this._image.width * this._image.height * 4;
-			this.createTexture(gl);
+			this.createTexture( gl );
 			if (upload) this.uploadTexture(gl);
 
 		}
@@ -535,6 +535,18 @@ module Kiwi.Renderers {
 			this._uploaded = false;
 			this._created = false;
 			return true;
+		}
+
+		/**
+		* Disposes of any links to external objects in an attempt to flag this object for garbage collection.
+		* You need to make sure that the texture has been removed from the GLTextureManager.
+		* @method dispose
+		* @public
+		* @since 1.4.1
+		*/
+		public dispose() {
+			delete this._image;
+			delete this.textureAtlas;
 		}
 
 	}

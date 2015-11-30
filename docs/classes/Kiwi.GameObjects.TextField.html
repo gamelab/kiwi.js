@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.GameObjects.Sprite - Kiwi.js</title>
+    <title>Kiwi.GameObjects.TextField - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.GameObjects.Sprite Class</h1>
+                        <h1>Kiwi.GameObjects.TextField Class</h1>
 <div class="box meta">
     
 
@@ -374,7 +374,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_gameobjects_Sprite.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:10</code></a>
+            Defined in: <a href="../files/src_gameobjects_Textfield.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:10</code></a>
         </div>
     
 
@@ -391,15 +391,23 @@
 
 
 <div class="box intro">
-    <p>A Sprite is a general purpose GameObject that contains majority of the functionality that is needed/would be wanted and as such should be used only when you are wanting a GameObject with a lot of interaction. When creating a Sprite you pass to it as TextureAtlas (for the image you want to render), now if that Texture Atlas isn&#39;t a SINGLE_IMAGE then the Sprite will have an AnimationManager Component to handle any SpriteSheet animations you need.</p>
+    <p>TextField is a GameObject that is used when you are wanting to render
+text onto the current State.</p>
+<p>TextField has width/height and a hitbox, but because text is difficult
+to measure, these may not be 100% accurate. It does not have an
+&quot;Input&quot; component either, although you may choose to add one. Be aware
+of these limitations.</p>
+<p>Note that there also exists a &quot;Textfield&quot; object. This is simply a
+legacy alias of &quot;TextField&quot;, which was renamed in v1.2.0 for naming
+standardization purposes.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.GameObjects.Sprite" class="method item">
-    <h3 class="name"><code>Kiwi.GameObjects.Sprite</code></h3>
+        <div id="method_Kiwi.GameObjects.TextField" class="method item">
+    <h3 class="name"><code>Kiwi.GameObjects.TextField</code></h3>
 
     
         <div class="args">
@@ -413,7 +421,7 @@
             
                 <li class="arg">
                     
-                        <code>atlas</code>
+                        <code>text</code>
                     
                 </li>
             
@@ -431,7 +439,25 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[enableInput=false]</code>
+                        <code class="optional">[color=&quot;#000000&quot;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[size=32]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[weight=&quot;normal&quot;]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[fontFamily=&quot;sans-serif&quot;]</code>
                     
                 </li>
             
@@ -441,7 +467,7 @@
 
     
         <span class="returns-inline">
-            <span class="type">Sprite</span>
+            <span class="type">TextField</span>
         </span>
     
 
@@ -468,7 +494,7 @@
             
         
         
-        <a href="../files/src_gameobjects_Sprite.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:10</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l10"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:10</code></a>
         
         </p>
 
@@ -497,7 +523,7 @@
                     
 
                     <div class="param-description">
-                        <p>The state that this sprite belongs to</p>
+                        <p>The state that this TextField belongs to</p>
 
                     </div>
 
@@ -506,14 +532,14 @@
             
                 <li class="param">
                     
-                        <code class="param-name">atlas</code>
-                        <span class="type"><a href="../classes/Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+                        <code class="param-name">text</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The texture you want to apply to this entity</p>
+                        <p>The text that is contained within this textfield.</p>
 
                     </div>
 
@@ -530,7 +556,7 @@
                     
 
                     <div class="param-description">
-                        <p>The sprites initial coordinates on the x axis.</p>
+                        <p>The new x coordinate from the Position component</p>
 
                     </div>
 
@@ -547,7 +573,7 @@
                     
 
                     <div class="param-description">
-                        <p>The sprites initial coordinates on the y axis.</p>
+                        <p>The new y coordinate from the Position component</p>
 
                     </div>
 
@@ -556,15 +582,66 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[enableInput=false]</code>
-                        <span class="type">Boolean</span>
+                        <code class="param-name optional">[color=&quot;#000000&quot;]</code>
+                        <span class="type">String</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>If the input component should be enabled or not.</p>
+                        <p>The color of the text.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[size=32]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The size of the text in pixels.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[weight=&quot;normal&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The weight of the text.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[fontFamily=&quot;sans-serif&quot;]</code>
+                        <span class="type">String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The font family that is to be used when rendering.</p>
 
                     </div>
 
@@ -582,8 +659,10 @@
             <div class="returns-description">
                 
                     
-                        <span class="type">Sprite</span>:
+                        <span class="type">TextField</span>:
                     
+                    <p>This Game Object.</p>
+
                 
             </div>
         </div>
@@ -618,6 +697,13 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
+                        
+                            <li class="index-item method private">
+                                <a href="#method__renderText">_renderText</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method public inherited">
                                 <a href="#method_addTag">addTag</a>
@@ -713,8 +799,29 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__alignWidth">_alignWidth</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private inherited">
                                 <a href="#property__alpha">_alpha</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__baseline">_baseline</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__canvas">_canvas</a>
 
                                 
                                 
@@ -734,6 +841,13 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__ctx">_ctx</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private inherited">
                                 <a href="#property__dirty">_dirty</a>
 
@@ -748,19 +862,40 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__fontColor">_fontColor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__fontFamily">_fontFamily</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__fontSize">_fontSize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__fontWeight">_fontWeight</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private deprecated inherited">
                                 <a href="#property__inputEnabled">_inputEnabled</a>
 
                                 
                                 
                                     <span class="flag deprecated">deprecated</span>
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__isAnimated">_isAnimated</a>
-
-                                
                                 
                             </li>
                         
@@ -771,8 +906,57 @@
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__pt1">_pt1</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__pt2">_pt2</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__pt3">_pt3</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__pt4">_pt4</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private inherited">
                                 <a href="#property__tags">_tags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__tempDirty">_tempDirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__text">_text</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__textAlign">_textAlign</a>
 
                                 
                                 
@@ -822,13 +1006,6 @@
                                 
                             </li>
                         
-                            <li class="index-item property public">
-                                <a href="#property_animation">animation</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item property public inherited">
                                 <a href="#property_atlas">atlas</a>
 
@@ -857,6 +1034,13 @@
                                 
                             </li>
                         
+                            <li class="index-item property public">
+                                <a href="#property_color">color</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public inherited">
                                 <a href="#property_components">components</a>
 
@@ -878,6 +1062,27 @@
                                 
                             </li>
                         
+                            <li class="index-item property public">
+                                <a href="#property_fontFamily">fontFamily</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_fontSize">fontSize</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_fontWeight">fontWeight</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public inherited">
                                 <a href="#property_game">game</a>
 
@@ -894,13 +1099,6 @@
                         
                             <li class="index-item property public inherited">
                                 <a href="#property_id">id</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public">
-                                <a href="#property_input">input</a>
 
                                 
                                 
@@ -985,6 +1183,47 @@
                                 
                             </li>
                         
+                            <li class="index-item property public">
+                                <a href="#property_text">text</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_ALIGN_CENTER">TEXT_ALIGN_CENTER</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_ALIGN_LEFT">TEXT_ALIGN_LEFT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_TEXT_ALIGN_RIGHT">TEXT_ALIGN_RIGHT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_textAlign">textAlign</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public inherited">
                                 <a href="#property_transform">transform</a>
 
@@ -1055,6 +1294,64 @@
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method__renderText" class="method item private">
+    <h3 class="name"><code>_renderText</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l354"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:354</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class). 
+This is so that the canvas doesn&#39;t render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
 
                 
                     <div id="method_addTag" class="method item public inherited">
@@ -1439,7 +1736,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
         
         
-        <a href="../files/src_gameobjects_Sprite.ts.html#l73"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:73</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l77"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:77</code></a>
         
         </p>
 
@@ -1451,6 +1748,9 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 
     <div class="description">
         <p>Returns the type of object that this is.</p>
+<p>Note: This is not camel-cased because of an error in early development.
+To preserve API compatibility, all 1.x.x releases retail this form.
+This will be fixed in v2.</p>
 
     </div>
 
@@ -1465,7 +1765,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
                     
                         <span class="type">String</span>:
                     
-                    <p>&quot;Sprite&quot;</p>
+                    <p>&quot;Textfield&quot;</p>
 
                 
             </div>
@@ -1575,7 +1875,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
                 <li class="arg">
                     
-                        <code>camera</code>
+                        <code>UNKNOWN</code>
                     
                 </li>
             
@@ -1610,7 +1910,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
         
         
-        <a href="../files/src_gameobjects_Sprite.ts.html#l134"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:134</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l427"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:427</code></a>
         
         </p>
 
@@ -1621,7 +1921,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
     </div>
 
     <div class="description">
-        <p>Renders the GameObject using Canvas.</p>
+        <p>Called by the Layer to which this Game Object is attached</p>
 
     </div>
 
@@ -1633,7 +1933,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">camera</code>
+                        <code class="param-name">UNKNOWN</code>
                         <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
                     
 
@@ -1712,7 +2012,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
             
         
         
-        <a href="../files/src_gameobjects_Sprite.ts.html#l166"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:166</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l475"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:475</code></a>
         
         </p>
 
@@ -1968,7 +2268,7 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
-                    <div id="method_update" class="method item public">
+                    <div id="method_update" class="method item public inherited">
     <h3 class="name"><code>update</code></h3>
 
     
@@ -1993,16 +2293,13 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 
     <div class="meta">
         
-            <p>Inherited from
-            <a href="../classes/Kiwi.Entity.html#method_update">
-                Kiwi.Entity
-            </a>
             
-            but overwritten in
+                <p>Inherited from
+                <a href="../classes/Kiwi.Entity.html#method_update">Kiwi.Entity</a>:
             
         
         
-        <a href="../files/src_gameobjects_Sprite.ts.html#l117"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:117</code></a>
+        <a href="../files/src_core_Entity.ts.html#l663"><code>src&#x2F;core&#x2F;Entity.ts:663</code></a>
         
         </p>
 
@@ -2013,7 +2310,8 @@ that &quot;destroy&quot; is called at a convenient time.</p>
     </div>
 
     <div class="description">
-        <p>Called by parent when its update loop gets executed.</p>
+        <p>This isn&#39;t called until the Entity has been added to a Group or a State.
+Note: If added to a Group, who is not &#39;active&#39; (so the Groups update loop doesn&#39;t run) then each member will not execute either.</p>
 
     </div>
 
@@ -2079,6 +2377,57 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
+                    <div id="property__alignWidth" class="property item private">
+    <h3 class="name"><code>_alignWidth</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l143"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:143</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The pixel width of the text. Used internally for alignment purposes.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__alpha" class="property item private inherited">
     <h3 class="name"><code>_alpha</code></h3>
     <span class="type">Number</span>
@@ -2112,6 +2461,100 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 
     <div class="description">
         <p>The alpha of this entity.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__baseline" class="property item private">
+    <h3 class="name"><code>_baseline</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l153"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:153</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The baseline of the text to be rendered.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__canvas" class="property item private">
+    <h3 class="name"><code>_canvas</code></h3>
+    <span class="type">HTMLCanvasElement.</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l284"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:284</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The canvas element which the text is rendered onto.</p>
 
     </div>
 
@@ -2213,6 +2656,53 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
+                    <div id="property__ctx" class="property item private">
+    <h3 class="name"><code>_ctx</code></h3>
+    <span class="type">CanvasRenderingContext2D</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l292"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:292</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The context for the canvas element. Used whilst rendering text.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__dirty" class="property item private inherited">
     <h3 class="name"><code>_dirty</code></h3>
     <span class="type">Boolean</span>
@@ -2301,6 +2791,200 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 </div>
 
                 
+                    <div id="property__fontColor" class="property item private">
+    <h3 class="name"><code>_fontColor</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Utils.Color.html" class="crosslink">Kiwi.Utils.Color</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l117"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:117</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The color of the text.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__fontFamily" class="property item private">
+    <h3 class="name"><code>_fontFamily</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l125"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:125</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The font family that is to be rendered.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;sans-serif&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__fontSize" class="property item private">
+    <h3 class="name"><code>_fontSize</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l108"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:108</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The size of the font.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> 32</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__fontWeight" class="property item private">
+    <h3 class="name"><code>_fontWeight</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l99"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:99</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The weight of the font.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;normal&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__inputEnabled" class="property item private deprecated inherited">
     <h3 class="name"><code>_inputEnabled</code></h3>
     <span class="type">Boolean</span>
@@ -2338,54 +3022,6 @@ that &quot;destroy&quot; is called at a convenient time.</p>
 
     <div class="description">
         <p>Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__isAnimated" class="property item private">
-    <h3 class="name"><code>_isAnimated</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_Sprite.ts.html#l83"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:83</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Indicates whether or not this sprite is animated or not. 
-This sprite will not be animated if the texture used is a SINGLE_IMAGE.</p>
 
     </div>
 
@@ -2441,6 +3077,194 @@ This sprite will not be animated if the texture used is a SINGLE_IMAGE.</p>
 </div>
 
                 
+                    <div id="property__pt1" class="property item private">
+    <h3 class="name"><code>_pt1</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l317"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:317</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Geometry point used in rendering.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__pt2" class="property item private">
+    <h3 class="name"><code>_pt2</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l326"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:326</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Geometry point used in rendering.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__pt3" class="property item private">
+    <h3 class="name"><code>_pt3</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l335"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:335</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Geometry point used in rendering.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__pt4" class="property item private">
+    <h3 class="name"><code>_pt4</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l344"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:344</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Geometry point used in rendering.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property__tags" class="property item private inherited">
     <h3 class="name"><code>_tags</code></h3>
     <span class="type">Array</span>
@@ -2480,6 +3304,149 @@ By default Entitys contain no tags.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempDirty" class="property item private">
+    <h3 class="name"><code>_tempDirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l300"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:300</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__text" class="property item private">
+    <h3 class="name"><code>_text</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l91"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:91</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The text that is to be rendered.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__textAlign" class="property item private">
+    <h3 class="name"><code>_textAlign</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l134"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The alignment of the text. This can either be &quot;left&quot;, &quot;right&quot; or &quot;center&quot;</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;center&quot;</p>
     
 
     
@@ -2765,54 +3732,6 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
 </div>
 
                 
-                    <div id="property_animation" class="property item public">
-    <h3 class="name"><code>animation</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Components.AnimationManager.html" class="crosslink">Kiwi.Components.AnimationManager</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_Sprite.ts.html#l92"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:92</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The animation component that allows you to create a animation with spritesheets/texture atlas&#39;s. 
-Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_IMAGE then no animation component will be created.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="property_atlas" class="property item public inherited">
     <h3 class="name"><code>atlas</code></h3>
     <span class="type"><a href="../classes/Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
@@ -2882,17 +3801,19 @@ Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_I
             
         
         
-        <a href="../files/src_gameobjects_Sprite.ts.html#l101"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:101</code></a>
+        <a href="../files/src_gameobjects_Textfield.ts.html#l308"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:308</code></a>
         
         </p>
 
         
 
         
+            <p>Available since 1.2.0</p>
+        
     </div>
 
     <div class="description">
-        <p>The box component that controls the bounding box around this Game Object</p>
+        <p>Hitbox component</p>
 
     </div>
 
@@ -2984,6 +3905,56 @@ Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_I
 
     <div class="description">
         <p>The Clock used to update this all of this Entities components (defaults to the Game MasterClock)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_color" class="property item public">
+    <h3 class="name"><code>color</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l176"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:176</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The color of the font that is contained in this textfield.
+May be set with a string, or an array of any valid
+Kiwi.Utils.Color arguments.
+Returns a hex string prepended with &quot;#&quot;.</p>
 
     </div>
 
@@ -3127,6 +4098,147 @@ Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_I
 </div>
 
                 
+                    <div id="property_fontFamily" class="property item public">
+    <h3 class="name"><code>fontFamily</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l225"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:225</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The font family that is being used to render the text.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fontSize" class="property item public">
+    <h3 class="name"><code>fontSize</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l211"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:211</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The size on font when being displayed onscreen.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fontWeight" class="property item public">
+    <h3 class="name"><code>fontWeight</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l197"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:197</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The weight of the font.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="property_game" class="property item public inherited">
     <h3 class="name"><code>game</code></h3>
     <span class="type">Game</span>
@@ -3251,53 +4363,6 @@ Note: If the atlas that was added is of type Kiwi.Textures.TextureAtlas.SINGLE_I
 
     <div class="description">
         <p>A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_input" class="property item public">
-    <h3 class="name"><code>input</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Components.Input.html" class="crosslink">Kiwi.Components.Input</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_gameobjects_Sprite.ts.html#l109"><code>src&#x2F;gameobjects&#x2F;Sprite.ts:109</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The Input component controls the user interaction with this Game Object</p>
 
     </div>
 
@@ -3812,6 +4877,253 @@ This method should be over-ridden to handle specific game object implementations
 
     <div class="description">
         <p>The state this Entity belongs to (either the current game state or a persistent world state)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_text" class="property item public">
+    <h3 class="name"><code>text</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l161"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:161</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The text that you would like to appear in this textfield.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TEXT_ALIGN_CENTER" class="property item public">
+    <h3 class="name"><code>TEXT_ALIGN_CENTER</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l239"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:239</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A static property that contains the string to center align the text.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TEXT_ALIGN_LEFT" class="property item public">
+    <h3 class="name"><code>TEXT_ALIGN_LEFT</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l259"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:259</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A static property that contains the string to left align the text.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_TEXT_ALIGN_RIGHT" class="property item public">
+    <h3 class="name"><code>TEXT_ALIGN_RIGHT</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l249"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:249</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A static property that contains the string to right align the text.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_textAlign" class="property item public">
+    <h3 class="name"><code>textAlign</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_Textfield.ts.html#l269"><code>src&#x2F;gameobjects&#x2F;Textfield.ts:269</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.</p>
 
     </div>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\textures\TextureAtlas.ts - Kiwi.js</title>
+    <title>src/textures/TextureAtlas.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\textures\TextureAtlas.ts</h1>
+                        <h1 class="file-heading">File: src/textures/TextureAtlas.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -509,7 +509,12 @@ module Kiwi.Textures {
 			return this._type;
 		}
 		
-
+		/**
+		* Link to this atlas WebGL TextureWrapper counterpart which handles uploading the texture. 
+		* @property glTextureWrapper
+		* @type Kiwi.Renderers.GLTextureWrapper
+		* @public
+		*/
 		public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
 
 		/**
@@ -531,6 +536,22 @@ module Kiwi.Textures {
 			textureManager.registerTextureWrapper( gl, this.glTextureWrapper );
 		}
 
+		/**
+		* Disposes of the GLTextureWrapper. 
+		* @method removeGLTextureWrapper
+		* @param gl {WebGLRenderingContext} The rendering context.
+		* @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+		* @public
+		* @since 1.4.1
+		*/
+		public removeGLTextureWrapper( gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager ) {
+			if( this.glTextureWrapper ) {
+				textureManager.deregisterTextureWrapper(gl, this.glTextureWrapper);
+				this.glTextureWrapper.dispose();
+				delete this.glTextureWrapper;
+			}
+
+		}
 
 		/**
 		* Sends the texture to the video card.

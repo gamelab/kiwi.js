@@ -5813,19 +5813,28 @@ declare module Kiwi.Components {
 */
 declare module Kiwi.Components {
     /**
-    * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch
-    * and as such this class contains useful methods and callbacks you can subscribe to.
-    * By default the Input component is disabled (this is because when enabled the input component can be process intensive)
-    * but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically
-    * be enabled once you access a Signal on this class.
+    * `Input` adds interaction to `GameObjects` via `Mouse` and/or `Touch`.
+    * Callbacks and methods are supplied to ease interaction.
+    *
+    * By default, `Input` components are disabled, as they are process
+    * intensive. You may enable input by calling `enabled = true`.
+    * Alternatively, the game will automagically enable input
+    * once you access any `Signal`. Be careful when enumerating
+    * properties on this component, and be prepared to disable
+    * input again.
+    *
+    * `GameObjects.Sprite` comes with an `Input` component.
+    * Other `GameObjects` do not.
     *
     * @class Input
     * @extends Kiwi.Component
     * @namespace Kiwi.Components
     * @constructor
-    * @param owner {Object} The Object that this Component is on. Generally this will be a Entity.
-    * @param box {Kiwi.Components.Box} The box which contains the worldHitbox that is to be used for the event firing.
-    * @param [enabled=false] {boolean} If this input component should be enabled or not.
+    * @param owner {Object} Object, generally `Entity`, to own this
+    *	input component
+    * @param box {Kiwi.Components.Box} Box which contains the `worldHitbox`
+    *	used for input detection
+    * @param [enabled=false] {boolean} Whether to enable this component
     * @return {Kiwi.Components.Input}
     */
     class Input extends Component {
@@ -5838,138 +5847,170 @@ declare module Kiwi.Components {
         */
         objType(): string;
         /**
-        * The bounding box that is being used for the 'hitarea'.
+        * Bounding box that is being used for the hit area
         * @property _box
         * @type Kiwi.Components.Box
         * @private
         */
         private _box;
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hitbox.
+        * Fires callbacks when a pointer is active
+        * and has entered the entity's hitbox
         * @property _onEntered
         * @type Kiwi.Signal
         * @private
         */
         private _onEntered;
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.
+        * Fires callbacks when a pointer is active
+        * and has left the entity's hit box
         * @property _onLeft
         * @type Kiwi.Signal
         * @private
         */
         private _onLeft;
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.
+        * Fires callbacks when a pointer is active
+        * and just pressed down on the entity
         * @property _onDown
         * @type Kiwi.Signal
         * @private
         */
         private _onDown;
         /**
-        * Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.
+        * Fires callbacks when a pointer just released,
+        * either directly above the entity,
+        * or after having been pressed down above the entity.
         * @property _onUp
         * @type Kiwi.Signal
         * @private
         */
         private _onUp;
         /**
-        * Kiwi Signal for firing callbacks a entity starts being dragged.
+        * Fires callbacks when the entity starts being dragged
         * @property _onDragStarted
         * @type Kiwi.Signal
         * @private
         */
         private _onDragStarted;
         /**
-        * Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.
+        * Fires callbacks when the entity stops being dragged,
+        * such as on release
         * @property _onDragStopped
         * @type Kiwi.Signal
         * @private
         */
         private _onDragStopped;
         /**
-        * A Temporary Point object which is used whilst checking to see if there is any overlap.
+        * Temporary Point used to check for overlap
         * @property _tempPoint
         * @type Kiwi.Geom.Point
         * @private
         */
         private _tempPoint;
         /**
-        * A Temporary Circle object which is used whilst checking to see if there is any overlap.
+        * Temporary Circle used to check for overlap
         * @property _tempCircle
         * @type Kiwi.Geom.Circle
         * @private
         */
         private _tempCircle;
         /**
-        * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
+        * Fires callbacks when a pointer is active
+        * and has entered the entity's hitbox.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onEntered
         * @type Kiwi.Signal
         * @public
         */
         onEntered: Kiwi.Signal;
         /**
-        * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
+        * Fires callbacks when a pointer is active
+        * and has left the entity's hit box.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onLeft
         * @type Kiwi.Signal
         * @public
         */
         onLeft: Kiwi.Signal;
         /**
-        * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
+        * Fires callbacks when a pointer is active
+        * and just pressed down on the entity.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onDown
         * @type Kiwi.Signal
         * @public
         */
         onDown: Kiwi.Signal;
         /**
-        * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
+        * Fires callbacks when a pointer just released,
+        * either directly above the entity,
+        * or after having been pressed down above the entity.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onUp
         * @type Kiwi.Signal
         * @public
         */
         onUp: Kiwi.Signal;
         /**
-        * Returns the onDragStarted Signal.
+        * Fires callbacks when the entity starts being dragged.
+        *
         * This is READ ONLY.
+        *
         * @property onDragStarted
         * @type Kiwi.Signal
         * @public
         */
         onDragStarted: Kiwi.Signal;
         /**
-        * Returns the onDragStopped Signal.
+        * Fires callbacks when the entity stops being dragged,
+        * such as on release.
+        *
         * This is READ ONLY.
+        *
         * @property onDragStopped
         * @type Kiwi.Signal
         * @public
         */
         onDragStopped: Kiwi.Signal;
         /**
-        * A alias for the on release signal.
+        * Alias for `onUp`.
+        *
         * This is READ ONLY.
+        *
         * @property onRelease
         * @type Kiwi.Signal
         * @public
         */
         onRelease: Kiwi.Signal;
         /**
-        * A alias for the on press signal.
+        * Alias for `onDown`.
+        *
         * This is READ ONLY.
+        *
         * @property onPress
         * @type Kiwi.Signal
         * @public
         */
         onPress: Kiwi.Signal;
         /**
-        * If this input is enabled or not.
+        * Whether this input is enabled
         * @property _enabled
         * @type boolean
         * @default false
@@ -5977,21 +6018,27 @@ declare module Kiwi.Components {
         */
         private _enabled;
         /**
-        * Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.
+        * Whether this input is enabled.
+        *
+        * Note: Inputs should only be enabled when needed,
+        * as they can use processing power and slow the game down.
         * @property enabled
         * @type boolean
         * @public
         */
         enabled: boolean;
         /**
-        * If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.
+        * If a pointer is current pressing down on the input,
+        * this will be a reference to that pointer. Otherwise it will be null.
         * @property _isDown
         * @type Kiwi.Input.Pointer
+        * @default null
         * @private
         */
         private _isDown;
         /**
-        * A boolean that indicates if no pointer is currently on the pointer
+        * Whether no pointer is down on the pointer.
+        * Opposite of `_isDown`.
         * @property _isUp
         * @type boolean
         * @default true
@@ -5999,14 +6046,16 @@ declare module Kiwi.Components {
         */
         private _isUp;
         /**
-        * Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.
+        * Whether a pointer is within hitbox bounds.
+        * Refers to a pointer within hitbox bounds, or `null`.
         * @property _withinBounds
         * @type Kiwi.Input.Pointer
+        * @default null
         * @private
         */
         private _withinBounds;
         /**
-        * boolean indicating if every pointer is currently outside of the bounds.
+        * Whether every pointer is currently outside of the bounds
         * @property _outsideBounds
         * @type boolean
         * @default true
@@ -6014,7 +6063,8 @@ declare module Kiwi.Components {
         */
         private _outsideBounds;
         /**
-        * If a pointer just entered the input. Used for mouse's to indicate when to appropriately fire the down event.
+        * If a pointer just entered the input.
+        * Used for mouses to indicate when to fire the down event.
         * Note: Could be removed once mouse version of update gets updated.
         * @property _justEntered
         * @type boolean
@@ -6023,39 +6073,47 @@ declare module Kiwi.Components {
         */
         private _justEntered;
         /**
-        * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
+        * Whether a pointer is currently on this input.
+        *
         * This is READ ONLY.
+        *
         * @property isDown
         * @type boolean
         * @public
         */
         isDown: boolean;
         /**
-        * Used to see if no pointer is on this input (so it is up).
+        * Whether no pointer is on this input (so it is up).
+        *
         * This is READ ONLY.
+        *
         * @property isUp
         * @type boolean
         * @public
         */
         isUp: boolean;
         /**
-        * Check to see if any pointer is within the bounds of this input.
+        * Whether any pointer is within the bounds of this entity.
+        *
         * This is READ ONLY.
+        *
         * @property withinBounds
         * @type boolean
         * @public
         */
         withinBounds: boolean;
         /**
-        * See if no pointers are within the bounds of this entity.
+        * Whether no pointers are within the bounds of this entity.
+        *
         * This is READ ONLY.
+        *
         * @property outsideBounds
         * @type boolean
         * @public
         */
         outsideBounds: boolean;
         /**
-        * A reference to the pointer that is currently 'dragging' this Object.
+        * Reference to the pointer that is currently "dragging" this Object.
         * If not dragging then this is null.
         * @property _isDragging
         * @type Kiwi.Input.Pointer
@@ -6064,21 +6122,23 @@ declare module Kiwi.Components {
         */
         private _isDragging;
         /**
-        * The distance between the top left corner of this Objects parent and the coordinates of a Pointer.
+        * Distance between the top left corner of this object's parent
+        * and the coordinates of a Pointer.
         * @property _distance
         * @type Kiwi.Geom.Point
         * @private
         */
         private _distance;
         /**
-        * A boolean indicating if dragging is temporarly disabled. Internal use only to stop events from misfiring.
+        * Whether dragging is temporarly disabled.
+        * Internal use only to stop events from misfiring.
         * @property _tempDragDisabled
         * @type boolean
         * @private
         */
         private _tempDragDisabled;
         /**
-        * Indicates if dragging is currently enabled.
+        * Whether dragging is currently enabled.
         * @property _dragEnabled
         * @type boolean
         * @default false
@@ -6086,9 +6146,14 @@ declare module Kiwi.Components {
         */
         private _dragEnabled;
         /**
-        * This is used while dragging so that you can make the IChild 'snap' to specific numbers to give a 'grid like' effect.
-        * E.g. If you had a 32 by 32 grid down and you wanted to make an element draggable but snap to the grid you can set this to 32.
-        * Default value is one.
+        * Used while dragging so that you can make the IChild "snap"
+        * to specific numbers to give a grid-like effect.
+        *
+        * E.g. If you had a 32 by 32 grid and you wanted to make an element
+        * draggable but snap to the grid you can set this to 32.
+        *
+        * Default value is 1.
+        *
         * @property _dragDistance
         * @type number
         * @default 1
@@ -6096,7 +6161,8 @@ declare module Kiwi.Components {
         */
         private _dragDistance;
         /**
-        * If when dragging, the IChild should snap to the center of the pointer it is being dragged by.
+        * Whether, when dragging, the IChild should snap to the center
+        * of the pointer it is being dragged by.
         * @property _dragSnapToCenter
         * @type boolean
         * @default false
@@ -6104,22 +6170,32 @@ declare module Kiwi.Components {
         */
         private _dragSnapToCenter;
         /**
-        * Returns a boolean indicating if this is currently dragging something.
+        * Whether this is currently dragging something.
+        *
         * This is READ ONLY.
+        *
         * @property isDragging
         * @type boolean
         * @public
         */
         isDragging: boolean;
         /**
-        * The drag distance that is used when dragging this object. See _dragDistance for more information.
+        * Used while dragging so that you can make the IChild "snap"
+        * to specific numbers to give a grid-like effect.
+        *
+        * E.g. If you had a 32 by 32 grid and you wanted to make an element
+        * draggable but snap to the grid you can set this to 32.
+        *
+        * Default value is 1.
         * @property dragDistance
         * @type number
         * @public
         */
         dragDistance: number;
         /**
-        * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
+        * Temporary property that gets updated every frame
+        * with the pointer that is currently down on this entity
+        *
         * @property _nowDown
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6127,7 +6203,10 @@ declare module Kiwi.Components {
         */
         private _nowDown;
         /**
-        * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
+        * Temporary property that gets updated every frame
+        * with the pointer that was just released
+        * from being down on this entity
+        *
         * @property _nowUp
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6135,7 +6214,9 @@ declare module Kiwi.Components {
         */
         private _nowUp;
         /**
-        * Temporary property of the pointer that is now within the bounds of the entity
+        * Temporary property of the pointer that is now
+        * within the bounds of the entity
+        *
         * @property _nowEntered
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6143,7 +6224,9 @@ declare module Kiwi.Components {
         */
         private _nowEntered;
         /**
-        * Temporary property of the pointer that just left the bounds of the entity.
+        * Temporary property of the pointer that just
+        * left the bounds of the entity
+        *
         * @property _nowLeft
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6151,7 +6234,9 @@ declare module Kiwi.Components {
         */
         private _nowLeft;
         /**
-        * Temporary property of the pointer that just started draggging the entity.
+        * Temporary property of the pointer that just
+        * started dragging the entity
+        *
         * @property _nowDragging
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6159,54 +6244,60 @@ declare module Kiwi.Components {
         */
         private _nowDragging;
         /**
-        * Enables the dragging of this entity.
+        * Enable dragging of this entity.
+        *
         * @method enableDrag
-        * @param [snapToCenter=false] {boolean} If when dragging the Entity should snap to the center of the pointer.
-        * @param [distance=1] {number} If when dragging the Entity should snap to numbers divisible by this amount.
+        * @param [snapToCenter=false] {boolean} If when dragging the Entity
+        *	should snap to the center of the pointer
+        * @param [distance=1] {number} If when dragging the Entity
+        *	should snap to numbers divisible by this amount
         * @public
         */
         enableDrag(snapToCenter?: boolean, distance?: number): void;
         /**
-        * Disables the dragging of this entity.
+        * Disable dragging of this entity.
+        *
         * @method disableDrag
         * @public
         */
         disableDrag(): void;
         /**
-        * The update loop for the input.
+        * Update loop for the input.
         * @method update
         * @protected
         */
         update(): void;
         /**
-        * The update loop that gets executed when the game is using the touch manager.
+        * Update loop executed when the game is using the touch manager.
         * @method _updateTouch
         * @private
         */
         private _updateTouch();
         /**
-        * A private method for checking to see if a touch pointer should activate any events.
+        * Check to see if a touch pointer should activate any events.
         * @method _evaluateTouchPointer
-        * @param pointer {Kiwi.Input.Finger} The pointer you are checking against.
+        * @param pointer {Kiwi.Input.Finger} Pointer checking against
         * @private
         */
         private _evaluateTouchPointer(pointer);
         /**
-        * The update loop that runs when the mouse manager is the method for interacting with the screen.
+        * Update loop that runs when the mouse manager is
+        * the method for interacting with the screen.
         * @method _updateMouse
         * @private
         */
         private _updateMouse();
         /**
-        * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
+        * Evaluates where and what the mouse cursor is doing
+        * in relation to this box.
         * @method _evaluateMousePointer
         * @param pointer {Kiwi.Input.MouseCursor}
         * @private
         */
         private _evaluateMousePointer(pointer);
         /**
-        * Destroys the input.
-        * @method destory
+        * Destroy the input.
+        * @method destroy
         * @public
         */
         destroy(): void;
