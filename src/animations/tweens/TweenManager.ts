@@ -157,19 +157,17 @@ module Kiwi.Animations.Tweens {
 		* @public
 		*/
 		public update() {
-			var i = 0,
-				numTweens = this._tweens.length;
+			var i = 0;
 
 			if ( this._tweens.length === 0 ) {
 				return false;
 			}
 
-			while ( i < numTweens ) {
+			while ( i < this._tweens.length ) {
 				if ( this._tweens[ i ].update( this.clock.elapsed() * 1000 ) ) {
 					i++;
 				} else {
 					this._tweens.splice( i, 1 );
-					numTweens--;
 				}
 			}
 

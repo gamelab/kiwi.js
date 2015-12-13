@@ -3027,16 +3027,18 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * A State in Kiwi.JS is the main class that developers use when wanting to create a Game.
-    * States in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States.
-    * Such as one for the menu, in-game, leaderboard, e.t.c.
+    * A `State` is the main class used to create a game.
+    * States in Kiwi are used to keep different sections of a game separated.
+    * A single game may be comprised of many different States,
+    * such as one for the menu, in-game, leaderboard, e.t.c.
     * There can only ever be a single State active at a given time.
     *
     * @class State
     * @namespace Kiwi
     * @extends Kiwi.Group
     * @constructor
-    * @param name {String} Name of this State. Should be unique to differentiate itself from other States.
+    * @param name {string} Name of this State.
+    *	Should be unique to differentiate itself from other States.
     * @return {Kiwi.State}
     */
     class State extends Group {
@@ -3044,268 +3046,367 @@ declare module Kiwi {
         /**
         * Returns the type of object this state is.
         * @method objType
-        * @return {String} "State"
+        * @return {string} "State"
         * @public
         */
         objType(): string;
         /**
         * Returns the type of child this is.
         * @method childType
-        * @return {Number} Kiwi.GROUP
+        * @return {number} Kiwi.GROUP
         * @public
         */
         childType(): number;
         /**
-        * The configuration object for this State.
+        * The configuration object for this `State`.
         * @property config
         * @type Kiwi.StateConfig
         * @public
         */
         config: Kiwi.StateConfig;
         /**
-        * A reference to the Kiwi.Game that this State belongs to.
+        * A reference to the `Kiwi.Game` that this `State` belongs to.
         * @property game
         * @type Kiwi.Game
         * @public
         */
         game: Kiwi.Game;
         /**
-        * The library that this state use's for the loading of textures.
+        * The library that this state uses for the loading of textures.
         * @property textureLibrary
         * @type Kiwi.Textures.TextureLibrary
         * @public
         */
         textureLibrary: Kiwi.Textures.TextureLibrary;
         /**
-        * The library that this state use's for the loading of audio.
+        * The library that this state uses for the loading of audio.
         * @property audioLibrary
         * @type Kiwi.Sound.AudioLibrary
         * @public
         */
         audioLibrary: Kiwi.Sound.AudioLibrary;
         /**
-        * The library that this state use's for the loading of data.
+        * The library that this state uses for the loading of data.
         * @property dataLibrary
         * @type Kiwi.Files.DataLibrary
         * @public
         */
         dataLibrary: Kiwi.Files.DataLibrary;
         /**
-        * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
-        * E.g. If you loaded a image and named it 'flower', once everything has loaded you can then access the flower image by saying this.textures.flower
+        * Holds all of the textures that are avaiable to be accessed
+        * once this state has been loaded.
+        * E.g. If you loaded a image and named it "flower",
+        * once everything has loaded you can then access the flower image
+        * via `this.textures.flower`
         * @property textures
         * @type Object
         * @public
         */
         textures: any;
         /**
-        * Holds all of the audio that are avaiable to be accessed once this state has been loaded.
-        * E.g. If you loaded a piece of audio and named it 'lazerz', once everything has loaded you can then access the lazers (pew pew) by saying this.audio.lazerz
+        * Holds all of the audio assets that are avaiable to be accessed
+        * once this state has been loaded.
+        * E.g. If you loaded a piece of audio and named it "lazerz",
+        * once everything has loaded you can then access the lazers (pew pew)
+        * via `this.audio.lazerz`
         * @property audio
         * @type Object
         * @public
         */
         audio: any;
         /**
-        * Holds all of the data that are avaiable to be accessed once this state has been loaded.
-        * E.g. If you loaded a piece of data and named it 'cookieLocation', once everything has loaded you can then access the cookies by saying this.data.cookieLocation
+        * Holds all of the data assets that are avaiable to be accessed
+        * once this state has been loaded.
+        * E.g. If you loaded a piece of data and named it "cookieLocation",
+        * once everything has loaded you can then access the cookies
+        * via `this.data.cookieLocation`
         * @property data
         * @type Object
         * @public
         */
         data: any;
         /**
-        * This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
-        * Is called each time a State is switched to.
+        * Boot up the state in preparation for switching into it.
+        * This is the first method to be executed,
+        * and happens before the `init` method.
+        * Is called each time a `State` is switched to.
+        * It should not be necessary to call this method.
         * @method boot
         * @public
         */
         boot(): void;
         setType(value: number): void;
         /**
-        * Gets executed when the state has been initalised and gets switched to for the first time.
-        * This method only ever gets called once and it is before the preload method.
-        * Can have parameters passed to it by the previous state that switched to it.
+        * Overrideable method.
+        *
+        * Gets executed when the state has been initalised
+        * and gets switched to for the first time.
+        * This method only ever gets called once, before the preload method.
+        * Can have parameters passed to it by the previous state.
+        *
         * @method init
-        * @param [values] { Any }
+        * @param [values] {Any}
         * @public
         */
         init(...paramsArr: any[]): void;
         /**
-        * This method is where you would load of all the assets that are requried for this state or in the entire game.
+        * Overrideable method.
+        *
+        * This method is where you load of all the assets required
+        * for this state or in the entire game.
         *
         * @method preload
         * @public
         */
         preload(): void;
         /**
-        * This method is progressively called whilst loading files and is executed each time a file has been loaded.
-        * This can be used to create a 'progress' bar during the loading stage of a game.
+        * Overrideable method.
+        *
+        * This method is progressively called while loading files,
+        * and is executed each time a file has been loaded.
+        * This can be used to create a progress bar
+        * during the loading stage of a game.
+        *
         * @method loadProgress
-        * @param percent {Number} The percent of files that have been loaded so far. This is a number from 0 - 1.
-        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
-        * @param file {Kiwi.Files.File} The last file to have been loaded.
+        * @param percent {number} The percent of files that have been loaded
+        *	so far. This is a number from 0 to 1.
+        * @param bytesLoaded {number} Number of bytes loaded so far
+        * @param file {Kiwi.Files.File} Last file to have been loaded
         * @public
         */
         loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File): void;
         /**
-        * Gets executed when the game is finished loading and it is about to 'create' the state.
+        * Overrideable method.
+        *
+        * Executes when the game finishes loading and is about to `create`
+        * the state.
+        *
         * @method loadComplete
         * @public
         */
         loadComplete(): void;
         /**
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.loadUpdate.call( this )`.
+        *
         * The game loop that gets executed while the game is loading.
+        *
         * @method loadUpdate
         * @public
         */
         loadUpdate(): void;
         /**
-        * Is executed once all of the assets have loaded and the game is ready to be 'created'.
+        * Overrideable method.
+        *
+        * Is executed once all of the assets have loaded
+        * and the game is ready to be created.
+        *
         * @method create
         * @param [values]* {Any}
         * @public
         */
         create(...paramsArr: any[]): void;
         /**
-        * Is called every frame before the update loop. When overriding make sure you include a super call.
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.preUpdate.call( this )`.
+        *
+        * Is called every frame before the update loop.
+        *
         * @method preUpdate
         * @public
         */
         preUpdate(): void;
         /**
-        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.update.call( this )`.
+        *
+        * Executed every frame while the state is current.
+        * Updates state members and children.
+        *
+        * Generally, this is where the game runs.
+        *
         * @method update
         * @public
         */
         update(): void;
         /**
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.postUpdate.call( this )`.
+        *
         * The post update loop is executed every frame after the update method.
-        * When overriding make sure you include a super call at the end of the method.
+        *
         * @method postUpdate
         * @public
         */
         postUpdate(): void;
         /**
-        * Called after all of the layers have rendered themselves, useful for debugging.
+        * Overrideable method.
+        *
+        * Called after all of the members have rendered themselves.
+        * Useful for debugging.
+        *
         * @method postRender
         * @public
         */
         postRender(): void;
         /**
-        * Called just before this State is going to be Shut Down and another one is going to be switched too.
+        * Overrideable method.
+        *
+        * Called just before this `State` is going to be shut down,
+        * and the game switches to another `State`.
+        *
         * @method shutDown
         * @public
         */
         shutDown(): void;
         /**
-        * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
+        * Add a new image file to be loaded when the state loads assets.
         *
         * @method addImage
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param url {String} The location of the image.
-        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
-        * @param [width] {Number} The width of the image. If not passed the width will be automatically calculated.
-        * @param [height] {Number} The height of the image. If not passed the height will be automatically calculated.
-        * @param [offsetX] {Number} The offset of the image when rendering on the x axis.
-        * @param [offsetY] {Number} The offset of the image when rendering on the y axis.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the image
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
+        * @param [width] {number} Width of the image. If not passed,
+        *	the width will be automatically calculated.
+        * @param [height] {number} Height of the image. If not passed,
+        *	the height will be automatically calculated.
+        * @param [offsetX] {number} Horizontal offset of the image
+        * @param [offsetY] {number} Vertical offset of the image
         * @public
         */
         addImage(key: string, url: string, storeAsGlobal?: boolean, width?: number, height?: number, offsetX?: number, offsetY?: number): Files.File;
         /**
-        * Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.
+        * Add a new spritesheet image file to be loaded when the state loads
+        * assets.
         *
         * @method addSpriteSheet
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param url {String} The location of the image.
-        * @param frameWidth {Number} The width of a single frame in the spritesheet
-        * @param frameHeight {Number} The height of a single frame in the spritesheet
-        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
-        * @param [numCells] {Number} The number of cells/frames that are in the spritesheet. If not specified will calculate this based of the width/height of the image.
-        * @param [rows] {Number} The number of cells that are in a row. If not specified will calculate this based of the width/height of the image.
-        * @param [cols] {Number} The number of cells that are in a column. If not specified will calculate this based of the width/height of the image.
-        * @param [sheetOffsetX=0] {Number} The offset of the whole spritesheet on the x axis.
-        * @param [sheetOffsetY=0] {Number} The offset of the whole spritesheet on the y axis.
-        * @param [cellOffsetX=0] {Number} The spacing between cells on the x axis.
-        * @param [cellOffsetY=0] {Number} The spacing between cells on the y axis.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the image
+        * @param frameWidth {number} Width of a single frame in the spritesheet
+        * @param frameHeight {number} Height of a single frame in the
+        *	spritesheet
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
+        * @param [numCells] {number} Number of cells/frames in the spritesheet.
+        *	If not specified, will calculate this based on the
+        *	width/height of the image.
+        * @param [rows] {number} Number of cells in a row. If not specified,
+        *	will calculate this based of the width/height of the image.
+        * @param [cols] {number} Number of cells in a column. If not specified,
+        *	will calculate this based of the width/height of the image.
+        * @param [sheetOffsetX=0] {number} Horizontal offset of the whole
+        *	spritesheet
+        * @param [sheetOffsetY=0] {number} Vertical offset of the whole
+        *	spritesheet
+        * @param [cellOffsetX=0] {number} Horizontal spacing between cells
+        * @param [cellOffsetY=0] {number} Vertical spacing between cells
         * @public
         */
         addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal?: boolean, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number): Files.TextureFile;
         /**
-        * Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.
+        * Add a new texture atlas to be loaded when the state loads assets.
         *
         * @method addTextureAtlas
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param imageURL {String} The location of the image.
-        * @param [jsonID] {String} The id for the json file that is to be loaded. So that you can access it outside of the texture atlas.
-        * @param [jsonURL] {String} The location of the json file you have loaded.
-        * @param [storeAsGlobal=true] {boolean} If the image should be delete when switching to another state or if the other states should still be able to access this image.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param imageURL {string} Location of the image.
+        * @param [jsonID] {string} Key for the JSON file,
+        *	so that you can access it outside of the texture atlas
+        * @param [jsonURL] {string} Location of the JSON file describing the
+        *	atlas
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         * @public
         */
         addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal?: boolean): Files.TextureFile;
         /**
-        * Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.
+        * Add a JSON file to be loaded when the state loads assets.
         *
         * @method addJSON
-        * @param key {string} A key for this json so that you can access it when the loading has finished
-        * @param url {string} The location of the JSON file.
-        * @param [storeAsGlobal=true] {boolean} If the json should be deleted when switching to another state or if the other states should still be able to access this json.
+        * @param key {string} Key for this JSON so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the JSON file
+        * @param [storeAsGlobal=true] {boolean} Whether the JSON should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         * @public
         */
         addJSON(key: string, url: string, storeAsGlobal?: boolean): Files.DataFile;
         /**
-        * Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.
+        * Add a new audio file to be loaded when the state loads assets.
         *
         * @method addAudio
-        * @param key {string} A key for this audio so that you can access it when the loading has finished
-        * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
-        * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
+        * @param key {string} Key for this audio so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the audio file.
+        *	You can pass an array of urls, in which case the first supported
+        *	filetype will be used.
+        * @param [storeAsGlobal=true] {boolean} Whether the audio should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         */
         addAudio(key: string, url: any, storeAsGlobal?: boolean): any;
         /**
-        * Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.
-        * Useful for keeping track of sprites that are not used any more and need to be destroyed.
-        * @property trackingList
+        * Contains a reference to all of the objects that have ever been
+        * created for this state, generally `Kiwi.Entity` or `Kiwi.Group`.
+        * Useful for keeping track of sprites that are not used any more
+        * and need to be destroyed.
+        * @property _trackingList
         * @type Array
         * @private
         */
         private _trackingList;
         /**
-        * Adds a new Objects to the tracking list.
-        * This is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.
+        * Add a new object to the tracking list.
+        * This is an internal KiwiJS method and game devs
+        * shouldn't need to worry about it.
         * @method addToTrackingList
-        * @param child {Object} The Object which you are adding to the tracking list.
+        * @param child {object} Object to add to the tracking list.
         * @public
         */
         addToTrackingList(child: Kiwi.IChild): void;
         /**
-        * Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
-        * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * Remove an object from the tracking list.
+        * This should only need to happen when a child is destroyed.
+        * This is an internal Kiwi method and game devs
+        * shouldn't really need to worry about it.
         * @method removeFromTrackingList
-        * @param child {Object} The object which is being removed from the tracking list.
+        * @param child {object} The object which is being removed from the tracking list.
         * @public
         */
         removeFromTrackingList(child: Kiwi.IChild): void;
         /**
-        * Destroys all of Objects in the tracking list that are not currently on stage.
-        * All that currently don't have this STATE as an ancestor.
-        * Returns the number of Objects removed.
+        * Destroys all objects in the tracking list that are
+        * not currently on stage.
+        * All that currently don't have this `State` as an ancestor.
+        * Returns the number of objects removed.
         * @method destroyUnused
-        * @return {Number} The amount of objects removed.
+        * @return {number} Amount of objects removed
         * @public
         */
         destroyUnused(): number;
         /**
-        * Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.
+        * Used to mark all Entities that have been created for deletion,
+        * regardless of whether they are on the stage or not.
+        *
         * @method destroy
-        * @param [deleteAll=true] If all of the Objects ever created should have the destroy method executed also.
+        * @param [deleteAll=true] If all of the Objects ever created should
+        *	have the destroy method executed also.
         * @public
         */
         destroy(deleteAll?: boolean): void;
         /**
-        * Recursively goes through a child given and runs the destroy method on all that are passed.
+        * Recursively destroys a child and all its children.
+        *
         * @method _destroyChildren
-        * @param child {Object}
+        * @param child {object}
+        * @deprecated As of v1.4.1. This is never called.
         * @private
         */
         private _destroyChildren(child);

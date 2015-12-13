@@ -3028,13 +3028,13 @@
             "namespace": "Kiwi",
             "file": "src/core/State.ts",
             "line": 9,
-            "description": "A State in Kiwi.JS is the main class that developers use when wanting to create a Game. \nStates in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States. \nSuch as one for the menu, in-game, leaderboard, e.t.c.\nThere can only ever be a single State active at a given time.",
+            "description": "A `State` is the main class used to create a game.\nStates in Kiwi are used to keep different sections of a game separated.\nA single game may be comprised of many different States,\nsuch as one for the menu, in-game, leaderboard, e.t.c.\nThere can only ever be a single State active at a given time.",
             "extends": "Kiwi.Group",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "name",
-                    "description": "Name of this State. Should be unique to differentiate itself from other States.",
+                    "description": "Name of this State.\n\tShould be unique to differentiate itself from other States.",
                     "type": "String"
                 }
             ],
@@ -8200,7 +8200,7 @@
         },
         {
             "file": "src/animations/tweens/TweenManager.ts",
-            "line": 179,
+            "line": 177,
             "description": "Validate clock; if no valid clock is found, set one from game",
             "itemtype": "method",
             "name": "validateClock",
@@ -15790,7 +15790,7 @@
         },
         {
             "file": "src/core/Group.ts",
-            "line": 1379,
+            "line": 1389,
             "description": "A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.",
             "itemtype": "property",
             "name": "_destroyRemoveChildren",
@@ -18018,7 +18018,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 33,
+            "line": 35,
             "description": "Returns the type of object this state is.",
             "itemtype": "method",
             "name": "objType",
@@ -18034,7 +18034,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 43,
+            "line": 45,
             "description": "Returns the type of child this is.",
             "itemtype": "method",
             "name": "childType",
@@ -18050,8 +18050,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 53,
-            "description": "The configuration object for this State.",
+            "line": 55,
+            "description": "The configuration object for this `State`.",
             "itemtype": "property",
             "name": "config",
             "type": "Kiwi.StateConfig",
@@ -18063,8 +18063,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 61,
-            "description": "A reference to the Kiwi.Game that this State belongs to.",
+            "line": 63,
+            "description": "A reference to the `Kiwi.Game` that this `State` belongs to.",
             "itemtype": "property",
             "name": "game",
             "type": "Kiwi.Game",
@@ -18076,8 +18076,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 69,
-            "description": "The library that this state use's for the loading of textures.",
+            "line": 71,
+            "description": "The library that this state uses for the loading of textures.",
             "itemtype": "property",
             "name": "textureLibrary",
             "type": "Kiwi.Textures.TextureLibrary",
@@ -18089,8 +18089,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 77,
-            "description": "The library that this state use's for the loading of audio.",
+            "line": 79,
+            "description": "The library that this state uses for the loading of audio.",
             "itemtype": "property",
             "name": "audioLibrary",
             "type": "Kiwi.Sound.AudioLibrary",
@@ -18102,8 +18102,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 85,
-            "description": "The library that this state use's for the loading of data.",
+            "line": 87,
+            "description": "The library that this state uses for the loading of data.",
             "itemtype": "property",
             "name": "dataLibrary",
             "type": "Kiwi.Files.DataLibrary",
@@ -18115,8 +18115,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 93,
-            "description": "Holds all of the textures that are avaiable to be accessed once this state has been loaded.\nE.g. If you loaded a image and named it 'flower', once everything has loaded you can then access the flower image by saying this.textures.flower",
+            "line": 95,
+            "description": "Holds all of the textures that are avaiable to be accessed\nonce this state has been loaded.\nE.g. If you loaded a image and named it \"flower\",\nonce everything has loaded you can then access the flower image\nvia `this.textures.flower`",
             "itemtype": "property",
             "name": "textures",
             "type": "Object",
@@ -18128,8 +18128,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 102,
-            "description": "Holds all of the audio that are avaiable to be accessed once this state has been loaded.\nE.g. If you loaded a piece of audio and named it 'lazerz', once everything has loaded you can then access the lazers (pew pew) by saying this.audio.lazerz",
+            "line": 107,
+            "description": "Holds all of the audio assets that are avaiable to be accessed\nonce this state has been loaded.\nE.g. If you loaded a piece of audio and named it \"lazerz\",\nonce everything has loaded you can then access the lazers (pew pew)\nvia `this.audio.lazerz`",
             "itemtype": "property",
             "name": "audio",
             "type": "Object",
@@ -18141,8 +18141,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 111,
-            "description": "Holds all of the data that are avaiable to be accessed once this state has been loaded.\nE.g. If you loaded a piece of data and named it 'cookieLocation', once everything has loaded you can then access the cookies by saying this.data.cookieLocation",
+            "line": 119,
+            "description": "Holds all of the data assets that are avaiable to be accessed\nonce this state has been loaded.\nE.g. If you loaded a piece of data and named it \"cookieLocation\",\nonce everything has loaded you can then access the cookies\nvia `this.data.cookieLocation`",
             "itemtype": "property",
             "name": "data",
             "type": "Object",
@@ -18154,8 +18154,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 120,
-            "description": "This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.\nIs called each time a State is switched to.",
+            "line": 131,
+            "description": "Boot up the state in preparation for switching into it.\nThis is the first method to be executed,\nand happens before the `init` method.\nIs called each time a `State` is switched to.\nIt should not be necessary to call this method.",
             "itemtype": "method",
             "name": "boot",
             "access": "public",
@@ -18166,8 +18166,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 155,
-            "description": "Gets executed when the state has been initalised and gets switched to for the first time.\nThis method only ever gets called once and it is before the preload method.\nCan have parameters passed to it by the previous state that switched to it.",
+            "line": 169,
+            "description": "Overrideable method.\n\nGets executed when the state has been initalised\nand gets switched to for the first time.\nThis method only ever gets called once, before the preload method.\nCan have parameters passed to it by the previous state.",
             "itemtype": "method",
             "name": "init",
             "params": [
@@ -18186,8 +18186,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 165,
-            "description": "This method is where you would load of all the assets that are requried for this state or in the entire game.",
+            "line": 183,
+            "description": "Overrideable method.\n\nThis method is where you load of all the assets required\nfor this state or in the entire game.",
             "itemtype": "method",
             "name": "preload",
             "access": "public",
@@ -18198,24 +18198,24 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 173,
-            "description": "This method is progressively called whilst loading files and is executed each time a file has been loaded.\nThis can be used to create a 'progress' bar during the loading stage of a game.",
+            "line": 194,
+            "description": "Overrideable method.\n\nThis method is progressively called while loading files,\nand is executed each time a file has been loaded.\nThis can be used to create a progress bar\nduring the loading stage of a game.",
             "itemtype": "method",
             "name": "loadProgress",
             "params": [
                 {
                     "name": "percent",
-                    "description": "The percent of files that have been loaded so far. This is a number from 0 - 1.",
+                    "description": "The percent of files that have been loaded\n\tso far. This is a number from 0 to 1.",
                     "type": "Number"
                 },
                 {
                     "name": "bytesLoaded",
-                    "description": "The number of bytes that have been loaded so far.",
+                    "description": "Number of bytes loaded so far",
                     "type": "Number"
                 },
                 {
                     "name": "file",
-                    "description": "The last file to have been loaded.",
+                    "description": "Last file to have been loaded",
                     "type": "Kiwi.Files.File"
                 }
             ],
@@ -18227,8 +18227,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 184,
-            "description": "Gets executed when the game is finished loading and it is about to 'create' the state.",
+            "line": 211,
+            "description": "Overrideable method.\n\nExecutes when the game finishes loading and is about to `create`\nthe state.",
             "itemtype": "method",
             "name": "loadComplete",
             "access": "public",
@@ -18239,8 +18239,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 191,
-            "description": "The game loop that gets executed while the game is loading.",
+            "line": 222,
+            "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.loadUpdate.call( this )`.\n\nThe game loop that gets executed while the game is loading.",
             "itemtype": "method",
             "name": "loadUpdate",
             "access": "public",
@@ -18251,8 +18251,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 206,
-            "description": "Is executed once all of the assets have loaded and the game is ready to be 'created'.",
+            "line": 241,
+            "description": "Overrideable method.\n\nIs executed once all of the assets have loaded\nand the game is ready to be created.",
             "itemtype": "method",
             "name": "create",
             "params": [
@@ -18272,8 +18272,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 214,
-            "description": "Is called every frame before the update loop. When overriding make sure you include a super call.",
+            "line": 253,
+            "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.preUpdate.call( this )`.\n\nIs called every frame before the update loop.",
             "itemtype": "method",
             "name": "preUpdate",
             "access": "public",
@@ -18284,8 +18284,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 223,
-            "description": "The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.",
+            "line": 266,
+            "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.update.call( this )`.\n\nExecuted every frame while the state is current.\nUpdates state members and children.\n\nGenerally, this is where the game runs.",
             "itemtype": "method",
             "name": "update",
             "access": "public",
@@ -18296,8 +18296,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 247,
-            "description": "The post update loop is executed every frame after the update method. \nWhen overriding make sure you include a super call at the end of the method.",
+            "line": 296,
+            "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.postUpdate.call( this )`.\n\nThe post update loop is executed every frame after the update method.",
             "itemtype": "method",
             "name": "postUpdate",
             "access": "public",
@@ -18308,8 +18308,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 257,
-            "description": "Called after all of the layers have rendered themselves, useful for debugging.",
+            "line": 309,
+            "description": "Overrideable method.\n\nCalled after all of the members have rendered themselves.\nUseful for debugging.",
             "itemtype": "method",
             "name": "postRender",
             "access": "public",
@@ -18320,8 +18320,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 264,
-            "description": "Called just before this State is going to be Shut Down and another one is going to be switched too.",
+            "line": 320,
+            "description": "Overrideable method.\n\nCalled just before this `State` is going to be shut down,\nand the game switches to another `State`.",
             "itemtype": "method",
             "name": "shutDown",
             "access": "public",
@@ -18332,49 +18332,49 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 279,
-            "description": "Adds a new image file that is be loaded when the state gets up to the loading all of the assets.",
+            "line": 339,
+            "description": "Add a new image file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addImage",
             "params": [
                 {
                     "name": "key",
-                    "description": "A key for this image so that you can access it when the loading has finished.",
+                    "description": "Key for this image so that you can access it\n\twhen the loading has finished",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "The location of the image.",
+                    "description": "Location of the image",
                     "type": "String"
                 },
                 {
                     "name": "storeAsGlobal",
-                    "description": "If the image should be deleted when switching to another state or if the other states should still be able to access this image.",
+                    "description": "Whether the image should be\n\tretained as a global asset after this state is destroyed,\n\tor it should also be destroyed",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 },
                 {
                     "name": "width",
-                    "description": "The width of the image. If not passed the width will be automatically calculated.",
+                    "description": "Width of the image. If not passed,\n\tthe width will be automatically calculated.",
                     "type": "Number",
                     "optional": true
                 },
                 {
                     "name": "height",
-                    "description": "The height of the image. If not passed the height will be automatically calculated.",
+                    "description": "Height of the image. If not passed,\n\tthe height will be automatically calculated.",
                     "type": "Number",
                     "optional": true
                 },
                 {
                     "name": "offsetX",
-                    "description": "The offset of the image when rendering on the x axis.",
+                    "description": "Horizontal offset of the image",
                     "type": "Number",
                     "optional": true
                 },
                 {
                     "name": "offsetY",
-                    "description": "The offset of the image when rendering on the y axis.",
+                    "description": "Vertical offset of the image",
                     "type": "Number",
                     "optional": true
                 }
@@ -18387,218 +18387,83 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 296,
-            "description": "Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.",
+            "line": 361,
+            "description": "Add a new spritesheet image file to be loaded when the state loads\nassets.",
             "itemtype": "method",
             "name": "addSpriteSheet",
             "params": [
                 {
                     "name": "key",
-                    "description": "A key for this image so that you can access it when the loading has finished.",
+                    "description": "Key for this image so that you can access it\n\twhen the loading has finished",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "The location of the image.",
+                    "description": "Location of the image",
                     "type": "String"
                 },
                 {
                     "name": "frameWidth",
-                    "description": "The width of a single frame in the spritesheet",
+                    "description": "Width of a single frame in the spritesheet",
                     "type": "Number"
                 },
                 {
                     "name": "frameHeight",
-                    "description": "The height of a single frame in the spritesheet",
+                    "description": "Height of a single frame in the\n\tspritesheet",
                     "type": "Number"
                 },
                 {
                     "name": "storeAsGlobal",
-                    "description": "If the image should be deleted when switching to another state or if the other states should still be able to access this image.",
+                    "description": "Whether the image should be\n\tretained as a global asset after this state is destroyed,\n\tor it should also be destroyed",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 },
                 {
                     "name": "numCells",
-                    "description": "The number of cells/frames that are in the spritesheet. If not specified will calculate this based of the width/height of the image.",
+                    "description": "Number of cells/frames in the spritesheet.\n\tIf not specified, will calculate this based on the\n\twidth/height of the image.",
                     "type": "Number",
                     "optional": true
                 },
                 {
                     "name": "rows",
-                    "description": "The number of cells that are in a row. If not specified will calculate this based of the width/height of the image.",
+                    "description": "Number of cells in a row. If not specified,\n\twill calculate this based of the width/height of the image.",
                     "type": "Number",
                     "optional": true
                 },
                 {
                     "name": "cols",
-                    "description": "The number of cells that are in a column. If not specified will calculate this based of the width/height of the image.",
+                    "description": "Number of cells in a column. If not specified,\n\twill calculate this based of the width/height of the image.",
                     "type": "Number",
                     "optional": true
                 },
                 {
                     "name": "sheetOffsetX",
-                    "description": "The offset of the whole spritesheet on the x axis.",
+                    "description": "Horizontal offset of the whole\n\tspritesheet",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "sheetOffsetY",
-                    "description": "The offset of the whole spritesheet on the y axis.",
+                    "description": "Vertical offset of the whole\n\tspritesheet",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "cellOffsetX",
-                    "description": "The spacing between cells on the x axis.",
+                    "description": "Horizontal spacing between cells",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "cellOffsetY",
-                    "description": "The spacing between cells on the y axis.",
+                    "description": "Vertical spacing between cells",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.State",
-            "module": "Kiwi",
-            "namespace": "Kiwi"
-        },
-        {
-            "file": "src/core/State.ts",
-            "line": 319,
-            "description": "Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.",
-            "itemtype": "method",
-            "name": "addTextureAtlas",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "A key for this image so that you can access it when the loading has finished.",
-                    "type": "String"
-                },
-                {
-                    "name": "imageURL",
-                    "description": "The location of the image.",
-                    "type": "String"
-                },
-                {
-                    "name": "jsonID",
-                    "description": "The id for the json file that is to be loaded. So that you can access it outside of the texture atlas.",
-                    "type": "String",
-                    "optional": true
-                },
-                {
-                    "name": "jsonURL",
-                    "description": "The location of the json file you have loaded.",
-                    "type": "String",
-                    "optional": true
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If the image should be delete when switching to another state or if the other states should still be able to access this image.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.State",
-            "module": "Kiwi",
-            "namespace": "Kiwi"
-        },
-        {
-            "file": "src/core/State.ts",
-            "line": 336,
-            "description": "Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.",
-            "itemtype": "method",
-            "name": "addJSON",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "A key for this json so that you can access it when the loading has finished",
-                    "type": "String"
-                },
-                {
-                    "name": "url",
-                    "description": "The location of the JSON file.",
-                    "type": "String"
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If the json should be deleted when switching to another state or if the other states should still be able to access this json.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.State",
-            "module": "Kiwi",
-            "namespace": "Kiwi"
-        },
-        {
-            "file": "src/core/State.ts",
-            "line": 350,
-            "description": "Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.",
-            "itemtype": "method",
-            "name": "addAudio",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "A key for this audio so that you can access it when the loading has finished",
-                    "type": "String"
-                },
-                {
-                    "name": "url",
-                    "description": "The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.",
-                    "type": "String"
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "class": "Kiwi.State",
-            "module": "Kiwi",
-            "namespace": "Kiwi"
-        },
-        {
-            "file": "src/core/State.ts",
-            "line": 372,
-            "description": "Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.\nUseful for keeping track of sprites that are not used any more and need to be destroyed.",
-            "itemtype": "property",
-            "name": "trackingList",
-            "type": "Array",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.State",
-            "module": "Kiwi",
-            "namespace": "Kiwi"
-        },
-        {
-            "file": "src/core/State.ts",
-            "line": 381,
-            "description": "Adds a new Objects to the tracking list. \nThis is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.",
-            "itemtype": "method",
-            "name": "addToTrackingList",
-            "params": [
-                {
-                    "name": "child",
-                    "description": "The Object which you are adding to the tracking list.",
-                    "type": "Object"
                 }
             ],
             "access": "public",
@@ -18610,7 +18475,142 @@
         {
             "file": "src/core/State.ts",
             "line": 395,
-            "description": "Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.\nThis is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.",
+            "description": "Add a new texture atlas to be loaded when the state loads assets.",
+            "itemtype": "method",
+            "name": "addTextureAtlas",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for this image so that you can access it\n\twhen the loading has finished",
+                    "type": "String"
+                },
+                {
+                    "name": "imageURL",
+                    "description": "Location of the image.",
+                    "type": "String"
+                },
+                {
+                    "name": "jsonID",
+                    "description": "Key for the JSON file,\n\tso that you can access it outside of the texture atlas",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "jsonURL",
+                    "description": "Location of the JSON file describing the\n\tatlas",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the image should be\n\tretained as a global asset after this state is destroyed,\n\tor it should also be destroyed",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.State",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/State.ts",
+            "line": 417,
+            "description": "Add a JSON file to be loaded when the state loads assets.",
+            "itemtype": "method",
+            "name": "addJSON",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for this JSON so that you can access it\n\twhen the loading has finished",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "Location of the JSON file",
+                    "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the JSON should be\n\tretained as a global asset after this state is destroyed,\n\tor it should also be destroyed",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.State",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/State.ts",
+            "line": 434,
+            "description": "Add a new audio file to be loaded when the state loads assets.",
+            "itemtype": "method",
+            "name": "addAudio",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for this audio so that you can access it\n\twhen the loading has finished",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "Location of the audio file.\n\tYou can pass an array of urls, in which case the first supported\n\tfiletype will be used.",
+                    "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the audio should be\n\tretained as a global asset after this state is destroyed,\n\tor it should also be destroyed",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "class": "Kiwi.State",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/State.ts",
+            "line": 460,
+            "description": "Contains a reference to all of the objects that have ever been\ncreated for this state, generally `Kiwi.Entity` or `Kiwi.Group`.\nUseful for keeping track of sprites that are not used any more\nand need to be destroyed.",
+            "itemtype": "property",
+            "name": "_trackingList",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.State",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/State.ts",
+            "line": 471,
+            "description": "Add a new object to the tracking list.\nThis is an internal KiwiJS method and game devs\nshouldn't need to worry about it.",
+            "itemtype": "method",
+            "name": "addToTrackingList",
+            "params": [
+                {
+                    "name": "child",
+                    "description": "Object to add to the tracking list.",
+                    "type": "Object"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.State",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/State.ts",
+            "line": 486,
+            "description": "Remove an object from the tracking list.\nThis should only need to happen when a child is destroyed.\nThis is an internal Kiwi method and game devs\nshouldn't really need to worry about it.",
             "itemtype": "method",
             "name": "removeFromTrackingList",
             "params": [
@@ -18628,12 +18628,12 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 410,
-            "description": "Destroys all of Objects in the tracking list that are not currently on stage. \nAll that currently don't have this STATE as an ancestor.\nReturns the number of Objects removed.",
+            "line": 502,
+            "description": "Destroys all objects in the tracking list that are\nnot currently on stage. \nAll that currently don't have this `State` as an ancestor.\nReturns the number of objects removed.",
             "itemtype": "method",
             "name": "destroyUnused",
             "return": {
-                "description": "The amount of objects removed.",
+                "description": "Amount of objects removed",
                 "type": "Number"
             },
             "access": "public",
@@ -18644,14 +18644,14 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 433,
-            "description": "Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.",
+            "line": 527,
+            "description": "Used to mark all Entities that have been created for deletion,\nregardless of whether they are on the stage or not.",
             "itemtype": "method",
             "name": "destroy",
             "params": [
                 {
                     "name": "deleteAll",
-                    "description": "If all of the Objects ever created should have the destroy method executed also.",
+                    "description": "If all of the Objects ever created should\n\thave the destroy method executed also.",
                     "optional": true,
                     "optdefault": "true"
                 }
@@ -18664,8 +18664,8 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 463,
-            "description": "Recursively goes through a child given and runs the destroy method on all that are passed.",
+            "line": 571,
+            "description": "Recursively destroys a child and all its children.",
             "itemtype": "method",
             "name": "_destroyChildren",
             "params": [
@@ -18675,6 +18675,8 @@
                     "type": "Object"
                 }
             ],
+            "deprecated": true,
+            "deprecationMessage": "As of v1.4.1. This is never called.",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.State",
