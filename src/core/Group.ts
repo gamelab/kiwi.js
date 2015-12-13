@@ -1339,33 +1339,43 @@ module Kiwi {
 		* @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
 		* @public
 		*/
-		public destroy(immediate:boolean = false, destroyChildren:boolean = true) {
+		public destroy( immediate:boolean = false, destroyChildren:boolean = true ) {
 
-			if (!this.onState) immediate = true;
-			
+			if ( !this.onState ) {
+				immediate = true;
+			}
+
 			this._exists = false;
-			this._active = false
+			this._active = false;
 			this._visible = false;
 
-			if (immediate === true) {
+			if ( immediate === true ) {
 
-				if (this._tempRemoveChildren !== null) destroyChildren = this._tempRemoveChildren;
+				if ( this._tempRemoveChildren !== null ) {
+					destroyChildren = this._tempRemoveChildren;
+				}
 
-				if (destroyChildren == true) {
+				if ( destroyChildren == true ) {
 
-					//Remove all of the children.
-					for (var i = 0; i < this.members.length; i++) {
-						this.members[i].destroy(true);
+					// Remove all of the children
+					for ( var i = 0; i < this.members.length; i++ ) {
+						this.members[i].destroy( true );
 					}
 
 				} else {
 					this.removeChildren();
 				}
 
-				if (this.parent !== null) this.parent.removeChild(this);
-				if (this.state) this.state.removeFromTrackingList(this);
+				if ( this.parent !== null ) {
+					this.parent.removeChild( this );
+				}
+				if ( this.state ) {
+					this.state.removeFromTrackingList( this );
+				}
+				if ( this.components ) {
+					this.components.removeAll();
+				}
 				delete this.transform;
-				if (this.components) this.components.removeAll();
 				delete this.components;
 				delete this.game;
 				delete this.state;
