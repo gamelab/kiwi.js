@@ -10858,11 +10858,11 @@ declare module Kiwi.Renderers {
         camMatrix: Float32Array;
         /**
         * Geometry data used to create `camMatrix`
-        * @property _camMatrixOffset
+        * @property _camMatrix
         * @type Kiwi.Geom.Matrix
         * @private
         */
-        private _camMatrixOffset;
+        private _camMatrix;
         /**
         * The most recently bound texture atlas.
         * @property _currentTextureAtlas

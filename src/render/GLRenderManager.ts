@@ -141,11 +141,11 @@ module Kiwi.Renderers {
 
 		/**
 		* Geometry data used to create `camMatrix`
-		* @property _camMatrixOffset
+		* @property _camMatrix
 		* @type Kiwi.Geom.Matrix
 		* @private
 		*/
-		private _camMatrixOffset: Kiwi.Geom.Matrix;
+		private _camMatrix: Kiwi.Geom.Matrix;
 
 		/**
 		* The most recently bound texture atlas.
@@ -364,7 +364,7 @@ module Kiwi.Renderers {
 
 			//camera matrix
 			this.camMatrix = new Float32Array( [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ] );
-			this._camMatrixOffset = new Kiwi.Geom.Matrix();
+			this._camMatrix = new Kiwi.Geom.Matrix();
 
 			//stage res needs update on stage resize
 			this._game.stage.onResize.add(function (width, height) {
@@ -505,25 +505,25 @@ module Kiwi.Renderers {
 			this._textureManager.numTextureWrites = 0;
 			this._entityCount = 0;
 
-			// Set cam matrix uniform
-			var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
+			// Set cam matrix data.
 			var ct: Kiwi.Geom.Transform = camera.transform;
-			this._camMatrixOffset.identity();
-			this._camMatrixOffset.translate(
-				-ct.anchorPointX, -ct.anchorPointY );
-			this._camMatrixOffset.prependMatrix( cm );
+			this._camMatrix.setFromOffsetTransform(
+				0, 0, ct.scaleX, ct.scaleY, ct.rotation,
+				ct.anchorPointX, ct.anchorPointY );
+			this._camMatrix.append(
+				1, 0, 0, 1, ct.x - ct.anchorPointX, ct.y - ct.anchorPointY );
 
 			// Overwrite cam matrix properties rather than recreating matrix.
 			// This is necessary to keep the cam matrix synchronised
 			// with other renderers: if there is only one render batch,
 			// then `enable` will only pass the cam matrix on the first frame,
-			// and subsequent camera movements will not be passed to the shader.
-			this.camMatrix[ 0 ] = this._camMatrixOffset.a;
-			this.camMatrix[ 1 ] = this._camMatrixOffset.b;
-			this.camMatrix[ 3 ] = this._camMatrixOffset.c;
-			this.camMatrix[ 4 ] = this._camMatrixOffset.d;
-			this.camMatrix[ 6 ] = this._camMatrixOffset.tx;
-			this.camMatrix[ 7 ] = this._camMatrixOffset.ty;
+			// so subsequent camera movements will not be passed to the shader.
+			this.camMatrix[ 0 ] = this._camMatrix.a;
+			this.camMatrix[ 1 ] = this._camMatrix.b;
+			this.camMatrix[ 3 ] = this._camMatrix.c;
+			this.camMatrix[ 4 ] = this._camMatrix.d;
+			this.camMatrix[ 6 ] = this._camMatrix.tx;
+			this.camMatrix[ 7 ] = this._camMatrix.ty;
 
 			// Mandate blend mode in CocoonJS
 			// This must be called per-frame, because CocoonJS seems to
