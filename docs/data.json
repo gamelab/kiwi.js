@@ -12434,7 +12434,7 @@
             "description": "Collection of cameras",
             "itemtype": "property",
             "name": "_cameras",
-            "type": "Array",
+            "type": "array",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.CameraManager",
@@ -12487,33 +12487,33 @@
             "name": "create",
             "params": [
                 {
-                    "name": "name.",
-                    "description": "The name of the new camera.",
+                    "name": "name",
+                    "description": "Name of the new camera",
                     "type": "String"
                 },
                 {
-                    "name": "x.",
-                    "description": "The x position of the new camera.",
+                    "name": "x",
+                    "description": "Horizontal position of the new camera",
                     "type": "Number"
                 },
                 {
-                    "name": "y.",
-                    "description": "The y position of the new camera.",
+                    "name": "y",
+                    "description": "Vertical position of the new camera",
                     "type": "Number"
                 },
                 {
-                    "name": "width.",
-                    "description": "The width of the new camera.",
+                    "name": "width",
+                    "description": "Width of the new camera",
                     "type": "Number"
                 },
                 {
-                    "name": "height.",
-                    "description": "The height of the new camera.",
+                    "name": "height",
+                    "description": "Height of the new camera",
                     "type": "Number"
                 }
             ],
             "return": {
-                "description": "The new camera object.",
+                "description": "The new camera object",
                 "type": "Kiwi.Camera"
             },
             "access": "public",

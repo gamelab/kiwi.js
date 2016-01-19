@@ -1839,12 +1839,12 @@ var Kiwi;
         * Create a new Camera and add it to the collection of cameras.
         *
         * @method create
-        * @param {string} name. The name of the new camera.
-        * @param {number} x. The x position of the new camera.
-        * @param {number} y. The y position of the new camera.
-        * @param {number} width. The width of the new camera.
-        * @param {number} height. The height of the new camera.
-        * @return {Kiwi.Camera} The new camera object.
+        * @param name {string} Name of the new camera
+        * @param x {number} Horizontal position of the new camera
+        * @param y {number} Vertical position of the new camera
+        * @param width {number} Width of the new camera
+        * @param height {number} Height of the new camera
+        * @return {Kiwi.Camera} The new camera object
         * @public
         */
         CameraManager.prototype.create = function (name, x, y, width, height) {
