@@ -1795,13 +1795,17 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
-    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
+    * Used to handle the creation and management of Cameras on a `Game`.
+    * Each `Game` will create a `CameraManager` and a default `Camera`.
+    * Games currently only support the use of a single camera,
+    * the default camera `defaultCamera`.
+    * Much of this class has been written with future
+    * multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Kiwi.Game} game
+    * @param game {Kiwi.Game} Current game
     * @return {Kiwi.CameraManager}
     */
     var CameraManager = (function () {
@@ -1811,16 +1815,19 @@ var Kiwi;
             this._nextCameraID = 0;
         }
         /**
-        * Returns the type of this object
+        * Return the type of this object.
+        *
         * @method objType
-        * @return {String} "CameraManager"
+        * @return {string} "CameraManager"
         * @public
         */
         CameraManager.prototype.objType = function () {
             return "CameraManager";
         };
         /**
-        * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
+        * Initialize the `CameraManager`, creates a new `Camera`,
+        * and assigns it to `defaultCamera`.
+        *
         * @method boot
         * @public
         */
@@ -1829,26 +1836,28 @@ var Kiwi;
             this.defaultCamera = this._cameras[0];
         };
         /**
-        * Creates a new Camera and adds it to the collection of cameras.
-        * @param {String} name. The name of the new camera.
-        * @param {Number} x. The x position of the new camera.
-        * @param {Number} y. The y position of the new camera.
-        * @param {Number} width. The width of the new camera.
-        * @param {Number} height. The height of the new camera.
+        * Create a new Camera and add it to the collection of cameras.
+        *
+        * @method create
+        * @param {string} name. The name of the new camera.
+        * @param {number} x. The x position of the new camera.
+        * @param {number} y. The y position of the new camera.
+        * @param {number} width. The width of the new camera.
+        * @param {number} height. The height of the new camera.
         * @return {Kiwi.Camera} The new camera object.
         * @public
         */
         CameraManager.prototype.create = function (name, x, y, width, height) {
             var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
-            //newCamera.parent = state;
             this._cameras.push(newCamera);
             return newCamera;
         };
         /**
-        * Removes the given camera, if it is present in the camera managers camera collection.
+        * Remove the given camera, if it is present in the camera collection.
+        *
         * @method remove
         * @param camera {Kiwi.Camera}
-        * @return {boolean} True if the camera was removed, false otherwise.
+        * @return {boolean} True if the camera was removed, false otherwise
         * @public
         */
         CameraManager.prototype.remove = function (camera) {
@@ -1861,7 +1870,8 @@ var Kiwi;
             return false;
         };
         /**
-        * Calls update on all the cameras.
+        * Call update on all the cameras.
+        *
         * @method update
         * @public
         */
@@ -1874,7 +1884,8 @@ var Kiwi;
             }
         };
         /**
-        * Calls the render method on all the cameras
+        * Call the render method on all the cameras.
+        *
         * @method render
         * @public
         */
@@ -1887,7 +1898,8 @@ var Kiwi;
             }
         };
         /**
-        * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
+        * Remove all cameras in the camera Manager except the default camera.
+        *
         * @method removeAll
         * @public
         */
@@ -1895,7 +1907,8 @@ var Kiwi;
             this._cameras = [];
         };
         /**
-        * Returns all cameras to origin. Called when starting a new state.
+        * Return all cameras to origin. Called when starting a new state.
+        *
         * @method zeroAllCameras
         * @public
         * @since 1.1.0
@@ -1907,7 +1920,8 @@ var Kiwi;
             this.zeroCamera(this.defaultCamera);
         };
         /**
-        * Returns camera to origin.
+        * Return camera to origin.
+        *
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
@@ -4889,35 +4903,34 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
+    * A `Camera` is used to render a particular section of the game world
+    * on the stage. Each `Camera` has coordinates which are held in the
+    * `transform` property, and `width`/`height` properties.
+    *
+    * Note: This class may be directly instantiated, but if you want
+    * your camera registered in a `CameraManager`, you should use
+    * `CameraManager.create()` instead.
+    *
+    * A default camera is created as `game.cameras.defaultCamera`.
     *
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this camera belongs to.
-    * @param id {Number} A unique ID for this camera
-    * @param name {String} The name this camera goes by
-    * @param x {Number} The x coordinate of the camera
-    * @param y {Number} The y coordinate of the camera
-    * @param width {Number} The width of the camera
-    * @param height {Number} The cameras height
+    * @param game {Kiwi.Game} Game that this camera belongs to.
+    * @param id {number} Unique ID for this camera
+    * @param name {string} Name for this camera
+    * @param x {number} Horizontal coordinate of the camera
+    * @param y {number} Vertical coordinate of the camera
+    * @param width {number} Width of the camera
+    * @param height {number} Height of the camera
     * @return {Kiwi.Camera}
     *
     */
     var Camera = (function () {
         function Camera(game, id, name, x, y, width, height) {
-            /**
-            * If true then the camera will be resized to fit the stage when the stage is resized
-            * @property fitToStage
-            * @type boolean
-            * @default true
-            * @public
-            */
-            this.fitToStage = true;
             this._game = game;
             this.id = id;
             this.name = name;
-            //size could autoresize to fit stage
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
@@ -4925,30 +4938,36 @@ var Kiwi;
             this.transform.rotPointY = y + height / 2;
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._scratchMatrix = new Kiwi.Geom.Matrix();
+            this.fitToStage = true;
         }
         /**
-        * The type of object this is.
+        * Return the type of object that this is.
+        *
         * @method objType
-        * @return {String} "Camera"
+        * @return {string} "Camera"
         * @public
         */
         Camera.prototype.objType = function () {
             return "Camera";
         };
         /**
-        * Updates the width/height of this camera. Is used when the stage resizes.
+        * Update the width/height of this camera when the stage resizes.
+        *
         * @method _updatedStageSize
-        * @param width {Number} The new width of the camera.
-        * @param height {Number} The new height of the camera.
+        * @param width {number} New width of the camera.
+        * @param height {number} New height of the camera.
         * @private
         */
         Camera.prototype._updatedStageSize = function (width, height) {
-            this.width = width;
-            this.height = height;
+            if (this.fitToStage) {
+                this.width = width;
+                this.height = height;
+            }
         };
         Object.defineProperty(Camera.prototype, "visible", {
             /**
-            * Controls whether this Camera is rendered.
+            * Controls whether this Camera is rendered
+            *
             * @property visible
             * @type boolean
             * @public
@@ -4964,7 +4983,9 @@ var Kiwi;
         });
         Object.defineProperty(Camera.prototype, "dirty", {
             /**
-            * A value used by components to control if the camera needs re-rendering.
+            * A value used by components
+            * to control if the camera needs re-rendering.
+            *
             * @property dirty
             * @type boolean
             * @public
@@ -4984,6 +5005,7 @@ var Kiwi;
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
         * Useful for calculating coordinates with the mouse.
+        *
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -5001,6 +5023,7 @@ var Kiwi;
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
         * Similar to "transformPoint", but in reverse.
+        *
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.

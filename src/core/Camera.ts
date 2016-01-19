@@ -7,61 +7,73 @@
 module Kiwi {
 
 	/**
-	* A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
+	* A `Camera` is used to render a particular section of the game world
+	* on the stage. Each `Camera` has coordinates which are held in the
+	* `transform` property, and `width`/`height` properties.
+	*
+	* Note: This class may be directly instantiated, but if you want
+	* your camera registered in a `CameraManager`, you should use
+	* `CameraManager.create()` instead.
+	*
+	* A default camera is created as `game.cameras.defaultCamera`.
 	*
 	* @class Camera
 	* @namespace Kiwi
 	* @constructor
-	* @param game {Kiwi.Game} The game that this camera belongs to.
-	* @param id {Number} A unique ID for this camera 
-	* @param name {String} The name this camera goes by
-	* @param x {Number} The x coordinate of the camera
-	* @param y {Number} The y coordinate of the camera
-	* @param width {Number} The width of the camera
-	* @param height {Number} The cameras height
+	* @param game {Kiwi.Game} Game that this camera belongs to.
+	* @param id {number} Unique ID for this camera 
+	* @param name {string} Name for this camera
+	* @param x {number} Horizontal coordinate of the camera
+	* @param y {number} Vertical coordinate of the camera
+	* @param width {number} Width of the camera
+	* @param height {number} Height of the camera
 	* @return {Kiwi.Camera}
 	* 
 	*/
 	export class Camera {
 
-		constructor(game: Kiwi.Game, id: number, name: string,x:number,y:number,width:number,height:number) {
+		constructor( game: Kiwi.Game, id: number, name: string, x:number, y:number, width:number, height:number ) {
 
 			this._game = game;
 			this.id = id;
 			this.name = name;
-			
-			//size could autoresize to fit stage
+
 			this.width = width;
 			this.height = height;
-			this.transform = new Kiwi.Geom.Transform(x, y);
+			this.transform = new Kiwi.Geom.Transform( x, y );
 			this.transform.rotPointX = x + width / 2;
 			this.transform.rotPointY = y + height / 2;
 
-			this._game.stage.onResize.add(this._updatedStageSize, this);
+			this._game.stage.onResize.add( this._updatedStageSize, this );
 
 			this._scratchMatrix = new Kiwi.Geom.Matrix();
+
+			this.fitToStage = true;
 		}
 
 		/**
-		* The width of this camara.
+		* Width of this camera
+		*
 		* @property width
-		* @type Number
+		* @type number
 		* @public
 		*/
 		public width: number;
 
 		/**
-		* The height of this camera.
+		* Height of this camera
+		*
 		* @property height
-		* @type Number
+		* @type number
 		* @public
 		*/
 		public height: number;
 
 		/**
-		* The type of object this is.
+		* Return the type of object that this is.
+		*
 		* @method objType
-		* @return {String} "Camera"
+		* @return {string} "Camera"
 		* @public
 		*/
 		public objType() {
@@ -69,16 +81,20 @@ module Kiwi {
 		}
 
 		/**
-		* If true then the camera will be resized to fit the stage when the stage is resized
+		* Whether to resize the camera to fit the stage
+		* when the stage is resized.
+		*
 		* @property fitToStage
 		* @type boolean
 		* @default true
 		* @public
 		*/
-		public fitToStage: boolean = true;
+		public fitToStage: boolean;
 
-		/** 
-		* The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.
+		/**
+		* Controls location, scale, and rotation of camera
+		* within the game world.
+		*
 		* @property transform
 		* @type Kiwi.Geom.Transform
 		* @public
@@ -86,29 +102,34 @@ module Kiwi {
 		public transform: Kiwi.Geom.Transform;
 
 		/**
-		* Updates the width/height of this camera. Is used when the stage resizes.
+		* Update the width/height of this camera when the stage resizes.
+		*
 		* @method _updatedStageSize
-		* @param width {Number} The new width of the camera.
-		* @param height {Number} The new height of the camera.
+		* @param width {number} New width of the camera.
+		* @param height {number} New height of the camera.
 		* @private
 		*/
-		private _updatedStageSize(width: number, height: number) {
-
-			this.width = width;
-			this.height = height;
-
+		private _updatedStageSize( width: number, height: number ) {
+			if ( this.fitToStage ) {
+				this.width = width;
+				this.height = height;
+			}
 		}
 
 		/**
-		* The game this Group belongs to
-		* @property game
+		* Game this camera belongs to
+		*
+		* @property _game
 		* @type Kiwi.Game
 		* @private
 		*/
 		private _game: Kiwi.Game;
 
 		/**
-		* A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
+		* A unique identifier for this Layer within the game
+		* used internally by the framework.
+		* See the name property for a friendly version.
+		*
 		* @property id
 		* @type number
 		* @public
@@ -116,7 +137,9 @@ module Kiwi {
 		public id: number;
 
 		/**
-		* A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.
+		* A name for this Camera. This is not checked for uniqueness
+		* within the Game, but is very useful for debugging.
+		*
 		* @property name
 		* @type string
 		* @public
@@ -125,6 +148,7 @@ module Kiwi {
 
 		/**
 		* Controls whether this Camera is rendered
+		*
 		* @property _visible
 		* @type boolean
 		* @private
@@ -132,7 +156,8 @@ module Kiwi {
 		private _visible: boolean;
 
 		/**
-		* Controls whether this Camera is rendered.
+		* Controls whether this Camera is rendered
+		*
 		* @property visible
 		* @type boolean
 		* @public
@@ -140,12 +165,14 @@ module Kiwi {
 		public get visible(): boolean {
 			return this._visible;
 		}
-		public set visible(val: boolean) {
+		public set visible( val: boolean ) {
 			this._visible = val;
 		}
 
 		/**
-		* A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.
+		* A flag that indicates whether this camera needs to be rendered again
+		* at the next update loop, or if nothing has changed so it doesn't.
+		*
 		* @property _dirty
 		* @type boolean
 		* @private
@@ -154,7 +181,9 @@ module Kiwi {
 		private _dirty: boolean;
 
 		/**
-		* A value used by components to control if the camera needs re-rendering.
+		* A value used by components
+		* to control if the camera needs re-rendering.
+		*
 		* @property dirty
 		* @type boolean
 		* @public
@@ -163,7 +192,7 @@ module Kiwi {
 		public get dirty(): boolean {
 			return this._dirty;
 		}
-		public set dirty(val: boolean) {
+		public set dirty( val: boolean ) {
 			this._dirty = val;
 		}
 
@@ -182,28 +211,33 @@ module Kiwi {
 		* Apply this camera's inverted matrix to an object with x and y
 		* properties representing a point and return the transformed point.
 		* Useful for calculating coordinates with the mouse.
+		*
 		* @method transformPoint
 		* @param point {Kiwi.Geom.Point} 
 		* @return {Kiwi.Geom.Point} Transformed clone of the original Point.
 		* @public
 		*/
-		public transformPoint(point: Kiwi.Geom.Point): Kiwi.Geom.Point {
+		public transformPoint( point: Kiwi.Geom.Point ): Kiwi.Geom.Point {
 			var m,
 				np = point.clone();
 
-			this._scratchMatrix.copyFrom( this.transform.getConcatenatedMatrix() );
+			this._scratchMatrix.copyFrom(
+				this.transform.getConcatenatedMatrix() );
 
 			m = this._scratchMatrix;
-			m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
+			m.append(
+				1, 0, 0, 1,
+				-this.transform.rotPointX, -this.transform.rotPointY );
 			m.invert();
 
-			return m.transformPoint(np);
+			return m.transformPoint( np );
 		}
 
 		/**
 		* Convert from world coordinates to screen coordinates.
 		* Useful for assessing visibility.
 		* Similar to "transformPoint", but in reverse.
+		*
 		* @method transformPointToScreen
 		* @param point {Kiwi.Geom.Point}
 		* @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -214,12 +248,15 @@ module Kiwi {
 			var m,
 				np = point.clone();
 
-			this._scratchMatrix.copyFrom( this.transform.getConcatenatedMatrix() );
+			this._scratchMatrix.copyFrom(
+				this.transform.getConcatenatedMatrix() );
 
 			m = this._scratchMatrix;
-			m.append( 1,0,0,1, -this.transform.rotPointX, -this.transform.rotPointY );
+			m.append(
+				1, 0, 0, 1,
+				-this.transform.rotPointX, -this.transform.rotPointY );
 
-			return m.transformPoint(np);
+			return m.transformPoint( np );
 		}
 
 		/**
@@ -238,7 +275,7 @@ module Kiwi {
 		*/
 		public render() {
 
-			this._game.renderer.render(this);
+			this._game.renderer.render( this );
 
 		}
 

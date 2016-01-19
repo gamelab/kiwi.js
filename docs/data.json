@@ -2515,42 +2515,42 @@
             "namespace": "Kiwi",
             "file": "src/core/Camera.ts",
             "line": 9,
-            "description": "A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.",
+            "description": "A `Camera` is used to render a particular section of the game world\non the stage. Each `Camera` has coordinates which are held in the\n`transform` property, and `width`/`height` properties.\n\nNote: This class may be directly instantiated, but if you want\nyour camera registered in a `CameraManager`, you should use\n`CameraManager.create()` instead.\n\nA default camera is created as `game.cameras.defaultCamera`.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this camera belongs to.",
+                    "description": "Game that this camera belongs to.",
                     "type": "Kiwi.Game"
                 },
                 {
                     "name": "id",
-                    "description": "A unique ID for this camera",
+                    "description": "Unique ID for this camera",
                     "type": "Number"
                 },
                 {
                     "name": "name",
-                    "description": "The name this camera goes by",
+                    "description": "Name for this camera",
                     "type": "String"
                 },
                 {
                     "name": "x",
-                    "description": "The x coordinate of the camera",
+                    "description": "Horizontal coordinate of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "y",
-                    "description": "The y coordinate of the camera",
+                    "description": "Vertical coordinate of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "width",
-                    "description": "The width of the camera",
+                    "description": "Width of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "The cameras height",
+                    "description": "Height of the camera",
                     "type": "Number"
                 }
             ],
@@ -2571,12 +2571,12 @@
             "namespace": "Kiwi",
             "file": "src/core/CameraManager.ts",
             "line": 9,
-            "description": "Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager. \nGames currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.",
+            "description": "Used to handle the creation and management of Cameras on a `Game`.\nEach `Game` will create a `CameraManager` and a default `Camera`.\nGames currently only support the use of a single camera,\nthe default camera `defaultCamera`.\nMuch of this class has been written with future\nmultiple camera support in mind.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "",
+                    "description": "Current game",
                     "type": "Kiwi.Game"
                 }
             ],
@@ -12128,11 +12128,11 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 45,
-            "description": "The width of this camara.",
+            "line": 54,
+            "description": "Width of this camera",
             "itemtype": "property",
             "name": "width",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Camera",
@@ -12141,11 +12141,11 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 53,
-            "description": "The height of this camera.",
+            "line": 63,
+            "description": "Height of this camera",
             "itemtype": "property",
             "name": "height",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Camera",
@@ -12154,8 +12154,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 61,
-            "description": "The type of object this is.",
+            "line": 72,
+            "description": "Return the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -12170,8 +12170,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 71,
-            "description": "If true then the camera will be resized to fit the stage when the stage is resized",
+            "line": 83,
+            "description": "Whether to resize the camera to fit the stage\nwhen the stage is resized.",
             "itemtype": "property",
             "name": "fitToStage",
             "type": "boolean",
@@ -12184,8 +12184,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 80,
-            "description": "The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.",
+            "line": 94,
+            "description": "Controls location, scale, and rotation of camera\nwithin the game world.",
             "itemtype": "property",
             "name": "transform",
             "type": "Kiwi.Geom.Transform",
@@ -12197,19 +12197,19 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 88,
-            "description": "Updates the width/height of this camera. Is used when the stage resizes.",
+            "line": 104,
+            "description": "Update the width/height of this camera when the stage resizes.",
             "itemtype": "method",
             "name": "_updatedStageSize",
             "params": [
                 {
                     "name": "width",
-                    "description": "The new width of the camera.",
+                    "description": "New width of the camera.",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "The new height of the camera.",
+                    "description": "New height of the camera.",
                     "type": "Number"
                 }
             ],
@@ -12221,10 +12221,10 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 102,
-            "description": "The game this Group belongs to",
+            "line": 119,
+            "description": "Game this camera belongs to",
             "itemtype": "property",
-            "name": "game",
+            "name": "_game",
             "type": "Kiwi.Game",
             "access": "private",
             "tagname": "",
@@ -12234,8 +12234,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 110,
-            "description": "A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.",
+            "line": 128,
+            "description": "A unique identifier for this Layer within the game\nused internally by the framework.\nSee the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
             "type": "number",
@@ -12247,8 +12247,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 118,
-            "description": "A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.",
+            "line": 139,
+            "description": "A name for this Camera. This is not checked for uniqueness\nwithin the Game, but is very useful for debugging.",
             "itemtype": "property",
             "name": "name",
             "type": "string",
@@ -12260,7 +12260,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 126,
+            "line": 149,
             "description": "Controls whether this Camera is rendered",
             "itemtype": "property",
             "name": "_visible",
@@ -12273,8 +12273,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 134,
-            "description": "Controls whether this Camera is rendered.",
+            "line": 158,
+            "description": "Controls whether this Camera is rendered",
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -12286,8 +12286,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 147,
-            "description": "A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.",
+            "line": 172,
+            "description": "A flag that indicates whether this camera needs to be rendered again\nat the next update loop, or if nothing has changed so it doesn't.",
             "itemtype": "property",
             "name": "_dirty",
             "type": "boolean",
@@ -12301,8 +12301,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 156,
-            "description": "A value used by components to control if the camera needs re-rendering.",
+            "line": 183,
+            "description": "A value used by components\nto control if the camera needs re-rendering.",
             "itemtype": "property",
             "name": "dirty",
             "type": "boolean",
@@ -12316,7 +12316,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 170,
+            "line": 199,
             "description": "Scratch matrix used in geometry calculations",
             "itemtype": "property",
             "name": "_scratchMatrix",
@@ -12330,7 +12330,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 180,
+            "line": 209,
             "description": "Convert from screen coordinates to world coordinates.\nApply this camera's inverted matrix to an object with x and y\nproperties representing a point and return the transformed point.\nUseful for calculating coordinates with the mouse.",
             "itemtype": "method",
             "name": "transformPoint",
@@ -12353,7 +12353,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 203,
+            "line": 236,
             "description": "Convert from world coordinates to screen coordinates.\nUseful for assessing visibility.\nSimilar to \"transformPoint\", but in reverse.",
             "itemtype": "method",
             "name": "transformPointToScreen",
@@ -12377,7 +12377,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 225,
+            "line": 262,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -12389,7 +12389,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 234,
+            "line": 271,
             "description": "The render loop that is executed whilst the game is playing.",
             "itemtype": "method",
             "name": "render",
@@ -12401,8 +12401,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 29,
-            "description": "Returns the type of this object",
+            "line": 33,
+            "description": "Return the type of this object.",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -12417,8 +12417,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 39,
-            "description": "The game this object belongs to",
+            "line": 44,
+            "description": "Game this object belongs to",
             "itemtype": "property",
             "name": "_game",
             "type": "Kiwi.Game",
@@ -12430,8 +12430,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 47,
-            "description": "A collection of cameras",
+            "line": 53,
+            "description": "Collection of cameras",
             "itemtype": "property",
             "name": "_cameras",
             "type": "Array",
@@ -12443,11 +12443,11 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 55,
-            "description": "The id which will be used when next creating a camera",
+            "line": 62,
+            "description": "ID which will be used when next creating a camera",
             "itemtype": "property",
             "name": "_nextCameraID",
-            "type": "Number",
+            "type": "number",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.CameraManager",
@@ -12456,8 +12456,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 63,
-            "description": "The default camera that is on this manager.",
+            "line": 71,
+            "description": "Default camera on this manager",
             "itemtype": "property",
             "name": "defaultCamera",
             "type": "Kiwi.Camara",
@@ -12469,8 +12469,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 71,
-            "description": "Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera",
+            "line": 80,
+            "description": "Initialize the `CameraManager`, creates a new `Camera`,\nand assigns it to `defaultCamera`.",
             "itemtype": "method",
             "name": "boot",
             "access": "public",
@@ -12481,8 +12481,10 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 82,
-            "description": "Creates a new Camera and adds it to the collection of cameras.",
+            "line": 95,
+            "description": "Create a new Camera and add it to the collection of cameras.",
+            "itemtype": "method",
+            "name": "create",
             "params": [
                 {
                     "name": "name.",
@@ -12522,8 +12524,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 103,
-            "description": "Removes the given camera, if it is present in the camera managers camera collection.",
+            "line": 117,
+            "description": "Remove the given camera, if it is present in the camera collection.",
             "itemtype": "method",
             "name": "remove",
             "params": [
@@ -12534,7 +12536,7 @@
                 }
             ],
             "return": {
-                "description": "True if the camera was removed, false otherwise.",
+                "description": "True if the camera was removed, false otherwise",
                 "type": "Boolean"
             },
             "access": "public",
@@ -12545,8 +12547,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 122,
-            "description": "Calls update on all the cameras.",
+            "line": 138,
+            "description": "Call update on all the cameras.",
             "itemtype": "method",
             "name": "update",
             "access": "public",
@@ -12557,8 +12559,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 139,
-            "description": "Calls the render method on all the cameras",
+            "line": 156,
+            "description": "Call the render method on all the cameras.",
             "itemtype": "method",
             "name": "render",
             "access": "public",
@@ -12569,8 +12571,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 157,
-            "description": "Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.",
+            "line": 175,
+            "description": "Remove all cameras in the camera Manager except the default camera.",
             "itemtype": "method",
             "name": "removeAll",
             "access": "public",
@@ -12581,8 +12583,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 166,
-            "description": "Returns all cameras to origin. Called when starting a new state.",
+            "line": 185,
+            "description": "Return all cameras to origin. Called when starting a new state.",
             "itemtype": "method",
             "name": "zeroAllCameras",
             "access": "public",
@@ -12594,8 +12596,8 @@
         },
         {
             "file": "src/core/CameraManager.ts",
-            "line": 180,
-            "description": "Returns camera to origin.",
+            "line": 200,
+            "description": "Return camera to origin.",
             "itemtype": "method",
             "name": "zeroCamera",
             "params": [
@@ -53304,10 +53306,6 @@
         {
             "message": "Missing item type\nContains a list of all of the Audio objects that are on this component.",
             "line": " src/components/Sound.ts:40"
-        },
-        {
-            "message": "Missing item type\nCreates a new Camera and adds it to the collection of cameras.",
-            "line": " src/core/CameraManager.ts:82"
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",

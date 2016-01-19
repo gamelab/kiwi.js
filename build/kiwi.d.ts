@@ -1142,104 +1142,123 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
-    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
+    * Used to handle the creation and management of Cameras on a `Game`.
+    * Each `Game` will create a `CameraManager` and a default `Camera`.
+    * Games currently only support the use of a single camera,
+    * the default camera `defaultCamera`.
+    * Much of this class has been written with future
+    * multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Kiwi.Game} game
+    * @param game {Kiwi.Game} Current game
     * @return {Kiwi.CameraManager}
     */
     class CameraManager {
         constructor(game: Kiwi.Game);
         /**
-        * Returns the type of this object
+        * Return the type of this object.
+        *
         * @method objType
-        * @return {String} "CameraManager"
+        * @return {string} "CameraManager"
         * @public
         */
         objType(): string;
         /**
-        * The game this object belongs to
+        * Game this object belongs to
+        *
         * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * A collection of cameras
+        * Collection of cameras
+        *
         * @property _cameras
         * @type Array
         * @private
         */
         private _cameras;
         /**
-        * The id which will be used when next creating a camera
+        * ID which will be used when next creating a camera
+        *
         * @property _nextCameraID
-        * @type Number
+        * @type number
         * @private
         */
         private _nextCameraID;
         /**
-        * The default camera that is on this manager.
+        * Default camera on this manager
+        *
         * @property defaultCamera
         * @type Kiwi.Camara
         * @public
         */
         defaultCamera: Kiwi.Camera;
         /**
-        * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
+        * Initialize the `CameraManager`, creates a new `Camera`,
+        * and assigns it to `defaultCamera`.
+        *
         * @method boot
         * @public
         */
         boot(): void;
         /**
-        * Creates a new Camera and adds it to the collection of cameras.
-        * @param {String} name. The name of the new camera.
-        * @param {Number} x. The x position of the new camera.
-        * @param {Number} y. The y position of the new camera.
-        * @param {Number} width. The width of the new camera.
-        * @param {Number} height. The height of the new camera.
+        * Create a new Camera and add it to the collection of cameras.
+        *
+        * @method create
+        * @param {string} name. The name of the new camera.
+        * @param {number} x. The x position of the new camera.
+        * @param {number} y. The y position of the new camera.
+        * @param {number} width. The width of the new camera.
+        * @param {number} height. The height of the new camera.
         * @return {Kiwi.Camera} The new camera object.
         * @public
         */
         create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera;
         /**
-        * Removes the given camera, if it is present in the camera managers camera collection.
+        * Remove the given camera, if it is present in the camera collection.
+        *
         * @method remove
         * @param camera {Kiwi.Camera}
-        * @return {boolean} True if the camera was removed, false otherwise.
+        * @return {boolean} True if the camera was removed, false otherwise
         * @public
         */
         remove(camera: Kiwi.Camera): boolean;
         /**
-        * Calls update on all the cameras.
+        * Call update on all the cameras.
+        *
         * @method update
         * @public
         */
         update(): boolean;
         /**
-        * Calls the render method on all the cameras
+        * Call the render method on all the cameras.
+        *
         * @method render
         * @public
         */
         render(): boolean;
         /**
-        * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
+        * Remove all cameras in the camera Manager except the default camera.
+        *
         * @method removeAll
         * @public
         */
         removeAll(): void;
         /**
-        * Returns all cameras to origin. Called when starting a new state.
+        * Return all cameras to origin. Called when starting a new state.
+        *
         * @method zeroAllCameras
         * @public
         * @since 1.1.0
         */
         zeroAllCameras(): void;
         /**
-        * Returns camera to origin.
+        * Return camera to origin.
+        *
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
@@ -3419,46 +3438,59 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
+    * A `Camera` is used to render a particular section of the game world
+    * on the stage. Each `Camera` has coordinates which are held in the
+    * `transform` property, and `width`/`height` properties.
+    *
+    * Note: This class may be directly instantiated, but if you want
+    * your camera registered in a `CameraManager`, you should use
+    * `CameraManager.create()` instead.
+    *
+    * A default camera is created as `game.cameras.defaultCamera`.
     *
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this camera belongs to.
-    * @param id {Number} A unique ID for this camera
-    * @param name {String} The name this camera goes by
-    * @param x {Number} The x coordinate of the camera
-    * @param y {Number} The y coordinate of the camera
-    * @param width {Number} The width of the camera
-    * @param height {Number} The cameras height
+    * @param game {Kiwi.Game} Game that this camera belongs to.
+    * @param id {number} Unique ID for this camera
+    * @param name {string} Name for this camera
+    * @param x {number} Horizontal coordinate of the camera
+    * @param y {number} Vertical coordinate of the camera
+    * @param width {number} Width of the camera
+    * @param height {number} Height of the camera
     * @return {Kiwi.Camera}
     *
     */
     class Camera {
         constructor(game: Kiwi.Game, id: number, name: string, x: number, y: number, width: number, height: number);
         /**
-        * The width of this camara.
+        * Width of this camera
+        *
         * @property width
-        * @type Number
+        * @type number
         * @public
         */
         width: number;
         /**
-        * The height of this camera.
+        * Height of this camera
+        *
         * @property height
-        * @type Number
+        * @type number
         * @public
         */
         height: number;
         /**
-        * The type of object this is.
+        * Return the type of object that this is.
+        *
         * @method objType
-        * @return {String} "Camera"
+        * @return {string} "Camera"
         * @public
         */
         objType(): string;
         /**
-        * If true then the camera will be resized to fit the stage when the stage is resized
+        * Whether to resize the camera to fit the stage
+        * when the stage is resized.
+        *
         * @property fitToStage
         * @type boolean
         * @default true
@@ -3466,36 +3498,45 @@ declare module Kiwi {
         */
         fitToStage: boolean;
         /**
-        * The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.
+        * Controls location, scale, and rotation of camera
+        * within the game world.
+        *
         * @property transform
         * @type Kiwi.Geom.Transform
         * @public
         */
         transform: Kiwi.Geom.Transform;
         /**
-        * Updates the width/height of this camera. Is used when the stage resizes.
+        * Update the width/height of this camera when the stage resizes.
+        *
         * @method _updatedStageSize
-        * @param width {Number} The new width of the camera.
-        * @param height {Number} The new height of the camera.
+        * @param width {number} New width of the camera.
+        * @param height {number} New height of the camera.
         * @private
         */
         private _updatedStageSize(width, height);
         /**
-        * The game this Group belongs to
-        * @property game
+        * Game this camera belongs to
+        *
+        * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
+        * A unique identifier for this Layer within the game
+        * used internally by the framework.
+        * See the name property for a friendly version.
+        *
         * @property id
         * @type number
         * @public
         */
         id: number;
         /**
-        * A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.
+        * A name for this Camera. This is not checked for uniqueness
+        * within the Game, but is very useful for debugging.
+        *
         * @property name
         * @type string
         * @public
@@ -3503,20 +3544,24 @@ declare module Kiwi {
         name: string;
         /**
         * Controls whether this Camera is rendered
+        *
         * @property _visible
         * @type boolean
         * @private
         */
         private _visible;
         /**
-        * Controls whether this Camera is rendered.
+        * Controls whether this Camera is rendered
+        *
         * @property visible
         * @type boolean
         * @public
         */
         visible: boolean;
         /**
-        * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.
+        * A flag that indicates whether this camera needs to be rendered again
+        * at the next update loop, or if nothing has changed so it doesn't.
+        *
         * @property _dirty
         * @type boolean
         * @private
@@ -3524,7 +3569,9 @@ declare module Kiwi {
         */
         private _dirty;
         /**
-        * A value used by components to control if the camera needs re-rendering.
+        * A value used by components
+        * to control if the camera needs re-rendering.
+        *
         * @property dirty
         * @type boolean
         * @public
@@ -3545,6 +3592,7 @@ declare module Kiwi {
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
         * Useful for calculating coordinates with the mouse.
+        *
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -3555,6 +3603,7 @@ declare module Kiwi {
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
         * Similar to "transformPoint", but in reverse.
+        *
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
