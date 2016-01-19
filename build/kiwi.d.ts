@@ -10685,49 +10685,65 @@ interface IRenderManager {
 */
 declare module Kiwi.Renderers {
     /**
+    * Manager for rendering in Canvas mode.
     *
     * @class CanvasRenderer
     * @constructor
     * @namespace Kiwi.Renderers
     * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
     * @return {Kiwi.Renderes.CanvasRenderer}
-    *
     */
     class CanvasRenderer implements IRenderManager {
         constructor(game: Kiwi.Game);
         /**
-        * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+        * Boot method is executed when all of the DOM elements
+        * that are needed to play the game are ready
+        *
         * @method boot
         * @public
         */
         boot(): void;
         /**
-        * Returns the type of object that this is.
+        * Return the type of object that this is.
+        *
         * @method objType
         * @return {String} "CanvasRenderer"
         * @public
         */
         objType(): string;
         /**
-        * The game that this object belongs to.
+        * Game this object belongs to
+        *
         * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * The camera that is currently being used to render upon.
+        * Camera that is currently being used to render upon
+        *
         * @property _currentCamera
         * @type Kiwi.Camera
         * @private
         */
         private _currentCamera;
         /**
-        * This method recursively goes through a State's members and runs the render method of each member that is a Entity.
-        * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
+        * Geometry data used in camera projection
+        *
+        * @property _camMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        * @since 1.4.1
+        */
+        private _camMatrix;
+        /**
+        * Recursively go through a `State`'s members and
+        * run the `render` method of each member that is a `Entity`.
+        * If it is a `Group`, then this method recursively goes through
+        * that `Group`'s members in the same way.
         *
         * @method _recurse
-        * @param child {object} The child that is being checked.
+        * @param child {object} Child being checked
         * @private
         */
         _recurse(child: IChild): void;
@@ -10737,7 +10753,8 @@ declare module Kiwi.Renderers {
         endState(state: Kiwi.State): void;
         numDrawCalls: number;
         /**
-        * Renders all of the Elements that are on a particular camera.
+        * Render all of the Elements that are on a particular camera.
+        *
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
@@ -10760,6 +10777,7 @@ declare module Kiwi.Renderers {
     * Manages gl state at game initialisation, at state start and end,
     * and per frame.
     * Runs the recursive scene graph rendering sequence every frame.
+    *
     * @class GLRenderManager
     * @extends IRenderer
     * @constructor
@@ -10769,55 +10787,63 @@ declare module Kiwi.Renderers {
     class GLRenderManager implements IRenderManager {
         constructor(game: Kiwi.Game);
         /**
-        * Initialises all WebGL rendering services
+        * Initialise all WebGL rendering services.
+        *
         * @method boot
         * @public
         */
         boot(): void;
         /**
-        * The type of object that this is.
+        * Return the type of object that this is.
+        *
         * @method objType
         * @return {string} "GLRenderManager"
         * @public
         */
         objType(): string;
         /**
-        * The game that this renderer is used with.
+        * Game that this renderer is used with
+        *
         * @property _game
         * @type Game
         * @private
         */
         private _game;
         /**
-        * The texture manager object used to allocate GL Textures.
+        * Texture manager object used to allocate GL Textures
+        *
         * @property _textureManager
         * @type Kiwi.Renderes.GLTextureManager
         * @private
         */
         private _textureManager;
         /**
-        * The shader manager object used to allocate GL Shaders.
+        * Shader manager object used to allocate GL Shaders
+        *
         * @property _shaderManager
         * @type Kiwi.Renderes.GLShaderManager
         * @private
         */
         private _shaderManager;
         /**
-        * The stage resolution in pixels
+        * Stage resolution in pixels
+        *
         * @property _stageResolution
         * @type Float32Array
         * @private
         */
         private _stageResolution;
         /**
-        * The renderer object that is in use during a rendering batch.
+        * Renderer object currently in use during a rendering batch
+        *
         * @property _currentRenderer
         * @type Kiwi.Renderers.Renderer
         * @private
         */
         private _currentRenderer;
         /**
-        * The current blend mode.
+        * Current blend mode
+        *
         * @property _currentBlendMode
         * @type Kiwi.Renderers.GLBlendMode
         * @private
@@ -10826,6 +10852,7 @@ declare module Kiwi.Renderers {
         private _currentBlendMode;
         /**
         * Tally of number of entities rendered per frame
+        *
         * @property _entityCount
         * @type number
         * @default 0
@@ -10834,6 +10861,7 @@ declare module Kiwi.Renderers {
         private _entityCount;
         /**
         * Tally of number of draw calls per frame
+        *
         * @property numDrawCalls
         * @type number
         * @default 0
@@ -10842,7 +10870,8 @@ declare module Kiwi.Renderers {
         numDrawCalls: number;
         /**
         * Maximum allowable sprites to render per frame.
-        * Note: Not currently used  - candidate for deletion
+        * Note: Not currently used - candidate for deletion
+        *
         * @property _maxItems
         * @type number
         * @default 1000
@@ -10851,6 +10880,7 @@ declare module Kiwi.Renderers {
         private _maxItems;
         /**
         * Camera matrix used on graphics card
+        *
         * @property camMatrix
         * @type Float32Array
         * @public
@@ -10858,28 +10888,32 @@ declare module Kiwi.Renderers {
         camMatrix: Float32Array;
         /**
         * Geometry data used to create `camMatrix`
+        *
         * @property _camMatrix
         * @type Kiwi.Geom.Matrix
         * @private
         */
         private _camMatrix;
         /**
-        * The most recently bound texture atlas.
+        * Most recently bound texture atlas
+        *
         * @property _currentTextureAtlas
         * @type TextureAtlas
         * @private
         */
         private _currentTextureAtlas;
         /**
-        * Adds a texture to the Texture Manager.
+        * Add a texture to the Texture Manager.
+        *
         * @method addTexture
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Textures.TextureAtlas} atlas
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
         * @public
         */
         addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
-        * Removes a texture from the Texture Manager.
+        * Remove a texture from the Texture Manager.
+        *
         * @method removeTexture
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Textures.TextureAtlas} atlas
@@ -10900,7 +10934,9 @@ declare module Kiwi.Renderers {
         * can all use the same renderer/shader combination and be drawn as
         * part of the same batch.
         *
-        * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
+        * Custom gameobjects can also choose to use a shared renderer,
+        * for example in the case that a custom gameobject's
+        * rendering requirements matched the `TextureAtlasRenderer`
         * capabilities.
         *
         * @property _sharedRenderers
@@ -10909,12 +10945,13 @@ declare module Kiwi.Renderers {
         */
         private _sharedRenderers;
         /**
-        * Adds a renderer to the sharedRenderer array.
+        * Add a renderer to the sharedRenderer array.
         *
         * The rendererID is a string that must match a renderer property
         * of the Kiwi.Renderers object. If a match is found and an instance
         * does not already exist, then a renderer is instantiated and added
         * to the array.
+        *
         * @method addSharedRenderer
         * @param {string} rendererID
         * @param {object} params
@@ -10923,7 +10960,7 @@ declare module Kiwi.Renderers {
         */
         addSharedRenderer(rendererID: string, params?: any): boolean;
         /**
-        * Adds a cloned renderer to the sharedRenderer array.
+        * Add a cloned renderer to the sharedRenderer array.
         * The rendererID is a string that must match a renderer property of
         * the Kiwi.Renderers object. The cloneID is the name for the
         * cloned renderer.
@@ -10948,9 +10985,10 @@ declare module Kiwi.Renderers {
         */
         addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
         /**
-        * Requests a shared renderer. A game object that wants to use a shared
+        * Request a shared renderer. A game object that wants to use a shared
         * renderer uses this method to obtain a reference to the shared
         * renderer instance.
+        *
         * @method requestSharedRenderer
         * @param {string} rendererID
         * @param {object} params
@@ -10960,13 +10998,14 @@ declare module Kiwi.Renderers {
         */
         requestSharedRenderer(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
         /**
-        * Requests a new renderer instance. This factory method is the only
+        * Request a new renderer instance. This factory method is the only
         * way gameobjects should instantiate their own renderer.
         *
         * The rendererID is a string that must match a renderer property
         * of the Kiwi.Renderers object. If a match is found then a renderer
         * is instantiated and returned. Gameobjects which have rendering
         * requirements that do not suit batch rendering use this technique.
+        *
         * @method requestRendererInstance
         * @param {string} rendererID The name of the requested renderer
         * @param {object} params
@@ -10978,9 +11017,11 @@ declare module Kiwi.Renderers {
         /**
         * Scales the viewport according to a scale mode and space dimensions.
         *
-        * This is used internally for compatibility with CocoonJS and should not be called.
+        * This is used internally for compatibility with CocoonJS
+        * and should not be called.
+        *
         * @method scaleViewport
-        * @param gl {WebGLRenderingContext}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
         * @param mode {number} Scale mode; should be either
         *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
         *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
@@ -10995,6 +11036,7 @@ declare module Kiwi.Renderers {
         * Called when a state has been switched to.
         * The textureManager is told to clear its contents from video memory,
         * then rebuild its cache of textures from the state's texture library.
+        *
         * @method initState
         * @public
         */
@@ -11003,6 +11045,7 @@ declare module Kiwi.Renderers {
         * Performs cleanup required before switching to a different state.
         * Called whwn a state is about to be switched from.
         * The textureManager is told to empty its cache.
+        *
         * @method endState
         * @param state {Kiwi.State}
         * @public
@@ -11013,6 +11056,7 @@ declare module Kiwi.Renderers {
         * Sets up per frame gl uniforms such as the view matrix and
         * camera offset. Clears the current renderer ready for a new batch.
         * Initiates recursive render of scene graph starting at the root.
+        *
         * @method render
         * @param camera {Camera}
         * @public
@@ -11021,44 +11065,50 @@ declare module Kiwi.Renderers {
         private _sequence;
         private _batches;
         /**
-        * Creates a new render sequence
+        * Create a new render sequence.
+        *
         * @method collateRenderSequence
         * @public
         */
         collateRenderSequence(): void;
         /**
-        * Adds a child to the render sequence
-        * (may be a group with children of its own).
+        * Add a child to the render sequence
+        * (may be a group with children of its own ).
+        *
         * @method collateChild
         * @public
         */
         collateChild(child: IChild): void;
         /**
-        * Sorts the render sequence into batches.
+        * Sort the render sequence into batches.
         * Each batch requires the same renderer/shader/texture combination.
+        *
         * @method collateBatches
         * @public
         */
         collateBatches(): void;
         /**
-        * Renders all the batches
+        * Render all the batches.
+        *
         * @method renderBatches
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Camera} camera
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param camera {Kiwi.Camera} Currently rendering camera
         * @public
         */
         renderBatches(gl: WebGLRenderingContext, camera: any): void;
         /**
-        * Renders a single batch
+        * Render a single batch.
+        *
         * @method renderBatch
-        * @param {WebGLRenderingContext} gl
-        * @param {object} batch
-        * @param {Kiwi.Camera} camera
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param batch {object} Batch to render
+        * @param camera {Kiwi.Camera} Currently rendering camera
         * @public
         */
         renderBatch(gl: any, batch: any, camera: any): void;
         /**
-        * Calls the render function on a single entity
+        * Call the render function on a single entity.
+        *
         * @method renderEntity
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Entity} entity
@@ -11068,7 +11118,8 @@ declare module Kiwi.Renderers {
         */
         renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
         /**
-        * Ensures the atlas and renderer needed for a batch is setup
+        * Ensure the atlas and renderer needed for a batch is setup.
+        *
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
@@ -11076,26 +11127,29 @@ declare module Kiwi.Renderers {
         */
         setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
-        * Switch renderer to the one needed by the entity that needs rendering
+        * Switch renderer to the one needed by the entity that needs rendering.
+        *
         * @method _switchRenderer
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Kiwi.Entity}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param entity {Kiwi.Entity} Entity demanding the switch
         * @private
         */
         private _switchRenderer(gl, entity);
         /**
-        * Switch texture to the one needed by the entity that needs rendering
+        * Switch texture to the one needed by the entity that needs rendering.
+        *
         * @method _switchTexture
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Kiwi.Entity}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param entity {Kiwi.Entity} Entity demanding the switch
         * @private
         */
         private _switchTexture(gl, entity);
         /**
-        * Switch blend mode to a new set of constants
+        * Switch blend mode to a new set of constants.
+        *
         * @method _switchBlendMode
-        * @param gl {WebGLRenderingContext}
-        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
         * @private
         * @since 1.1.0
         */

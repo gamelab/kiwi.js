@@ -15524,28 +15524,32 @@ var Kiwi;
     var Renderers;
     (function (Renderers) {
         /**
+        * Manager for rendering in Canvas mode.
         *
         * @class CanvasRenderer
         * @constructor
         * @namespace Kiwi.Renderers
         * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
         * @return {Kiwi.Renderes.CanvasRenderer}
-        *
         */
         var CanvasRenderer = (function () {
             function CanvasRenderer(game) {
                 this.numDrawCalls = 0;
                 this._game = game;
+                this._camMatrix = new Kiwi.Geom.Matrix();
             }
             /**
-            * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+            * Boot method is executed when all of the DOM elements
+            * that are needed to play the game are ready
+            *
             * @method boot
             * @public
             */
             CanvasRenderer.prototype.boot = function () {
             };
             /**
-            * Returns the type of object that this is.
+            * Return the type of object that this is.
+            *
             * @method objType
             * @return {String} "CanvasRenderer"
             * @public
@@ -15554,19 +15558,22 @@ var Kiwi;
                 return "CanvasRenderer";
             };
             /**
-            * This method recursively goes through a State's members and runs the render method of each member that is a Entity.
-            * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
+            * Recursively go through a `State`'s members and
+            * run the `render` method of each member that is a `Entity`.
+            * If it is a `Group`, then this method recursively goes through
+            * that `Group`'s members in the same way.
             *
             * @method _recurse
-            * @param child {object} The child that is being checked.
+            * @param child {object} Child being checked
             * @private
             */
             CanvasRenderer.prototype._recurse = function (child) {
+                var i;
                 // Do not render non-visible objects or their children
                 if (!child.visible)
                     return;
                 if (child.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < child.members.length; i++) {
+                    for (i = 0; i < child.members.length; i++) {
                         this._recurse(child.members[i]);
                     }
                 }
@@ -15575,7 +15582,7 @@ var Kiwi;
                     child.render(this._currentCamera);
                 }
             };
-            //for gl compatibility - refactor me
+            // TODO for gl compatibility - refactor me
             CanvasRenderer.prototype.requestRendererInstance = function (rendererID, params) {
                 if (params === void 0) { params = null; }
                 return null;
@@ -15589,15 +15596,15 @@ var Kiwi;
             CanvasRenderer.prototype.endState = function (state) {
             };
             /**
-            * Renders all of the Elements that are on a particular camera.
+            * Render all of the Elements that are on a particular camera.
+            *
             * @method render
             * @param camera {Kiwi.Camera}
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
-                var root = this._game.states.current.members;
-                //clear 
-                var fillCol = this._game.stage.rgbaColor;
+                var ct, i, fillCol = this._game.stage.rgbaColor, root = this._game.states.current.members;
+                // Clear stage
                 // If there is an alpha, clear the canvas before fill
                 if (fillCol.a < 255) {
                     this._game.stage.ctx.clearRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
@@ -15610,13 +15617,13 @@ var Kiwi;
                 }
                 this.numDrawCalls = 0;
                 this._currentCamera = camera;
-                //apply camera transform, accounting for rotPoint offsets
-                var cm = camera.transform.getConcatenatedMatrix();
-                var ct = camera.transform;
+                // Apply camera transform
                 this._game.stage.ctx.save();
-                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
-                this._game.stage.ctx.transform(1, 0, 0, 1, -ct.rotPointX, -ct.rotPointY);
-                for (var i = 0; i < root.length; i++) {
+                ct = camera.transform;
+                this._camMatrix.setFromOffsetTransform(0, 0, ct.scaleX, ct.scaleY, ct.rotation, ct.anchorPointX, ct.anchorPointY);
+                this._game.stage.ctx.setTransform(this._camMatrix.a, this._camMatrix.b, this._camMatrix.c, this._camMatrix.d, this._camMatrix.tx, this._camMatrix.ty);
+                this._game.stage.ctx.transform(1, 0, 0, 1, ct.x - ct.anchorPointX, ct.y - ct.anchorPointY);
+                for (i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
                 }
                 this._game.stage.ctx.restore();
@@ -15644,6 +15651,7 @@ var Kiwi;
         * Manages gl state at game initialisation, at state start and end,
         * and per frame.
         * Runs the recursive scene graph rendering sequence every frame.
+        *
         * @class GLRenderManager
         * @extends IRenderer
         * @constructor
@@ -15653,7 +15661,8 @@ var Kiwi;
         var GLRenderManager = (function () {
             function GLRenderManager(game) {
                 /**
-                * The renderer object that is in use during a rendering batch.
+                * Renderer object currently in use during a rendering batch
+                *
                 * @property _currentRenderer
                 * @type Kiwi.Renderers.Renderer
                 * @private
@@ -15661,6 +15670,7 @@ var Kiwi;
                 this._currentRenderer = null;
                 /**
                 * Tally of number of entities rendered per frame
+                *
                 * @property _entityCount
                 * @type number
                 * @default 0
@@ -15669,6 +15679,7 @@ var Kiwi;
                 this._entityCount = 0;
                 /**
                 * Tally of number of draw calls per frame
+                *
                 * @property numDrawCalls
                 * @type number
                 * @default 0
@@ -15677,7 +15688,8 @@ var Kiwi;
                 this.numDrawCalls = 0;
                 /**
                 * Maximum allowable sprites to render per frame.
-                * Note: Not currently used  - candidate for deletion
+                * Note: Not currently used - candidate for deletion
+                *
                 * @property _maxItems
                 * @type number
                 * @default 1000
@@ -15685,7 +15697,8 @@ var Kiwi;
                 */
                 this._maxItems = 1000;
                 /**
-                * The most recently bound texture atlas.
+                * Most recently bound texture atlas
+                *
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
@@ -15704,7 +15717,9 @@ var Kiwi;
                 * can all use the same renderer/shader combination and be drawn as
                 * part of the same batch.
                 *
-                * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
+                * Custom gameobjects can also choose to use a shared renderer,
+                * for example in the case that a custom gameobject's
+                * rendering requirements matched the `TextureAtlasRenderer`
                 * capabilities.
                 *
                 * @property _sharedRenderers
@@ -15716,18 +15731,20 @@ var Kiwi;
                 this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, { mode: "DEFAULT" });
             }
             /**
-            * Initialises all WebGL rendering services
+            * Initialise all WebGL rendering services.
+            *
             * @method boot
             * @public
             */
             GLRenderManager.prototype.boot = function () {
                 this._textureManager = new Renderers.GLTextureManager();
                 this._shaderManager = new Kiwi.Shaders.ShaderManager();
-                //this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
+                //this.filters = new Kiwi.Filters.GLFilterManager( this._game, this._shaderManager );
                 this._init();
             };
             /**
-            * The type of object that this is.
+            * Return the type of object that this is.
+            *
             * @method objType
             * @return {string} "GLRenderManager"
             * @public
@@ -15736,17 +15753,19 @@ var Kiwi;
                 return "GLRenderManager";
             };
             /**
-            * Adds a texture to the Texture Manager.
+            * Add a texture to the Texture Manager.
+            *
             * @method addTexture
-            * @param {WebGLRenderingContext} gl
-            * @param {Kiwi.Textures.TextureAtlas} atlas
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
             * @public
             */
             GLRenderManager.prototype.addTexture = function (gl, atlas) {
                 this._textureManager.uploadTexture(gl, atlas);
             };
             /**
-            * Removes a texture from the Texture Manager.
+            * Remove a texture from the Texture Manager.
+            *
             * @method removeTexture
             * @param {WebGLRenderingContext} gl
             * @param {Kiwi.Textures.TextureAtlas} atlas
@@ -15757,12 +15776,13 @@ var Kiwi;
                 this._textureManager.removeTexture(gl, atlas);
             };
             /**
-            * Adds a renderer to the sharedRenderer array.
+            * Add a renderer to the sharedRenderer array.
             *
             * The rendererID is a string that must match a renderer property
             * of the Kiwi.Renderers object. If a match is found and an instance
             * does not already exist, then a renderer is instantiated and added
             * to the array.
+            *
             * @method addSharedRenderer
             * @param {string} rendererID
             * @param {object} params
@@ -15771,9 +15791,9 @@ var Kiwi;
             */
             GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
                 if (params === void 0) { params = null; }
-                //does renderer exist?
+                // Does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
-                    //already added?
+                    // Already added?
                     if (!(rendererID in this._sharedRenderers)) {
                         this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                         return true;
@@ -15782,7 +15802,7 @@ var Kiwi;
                 return false;
             };
             /**
-            * Adds a cloned renderer to the sharedRenderer array.
+            * Add a cloned renderer to the sharedRenderer array.
             * The rendererID is a string that must match a renderer property of
             * the Kiwi.Renderers object. The cloneID is the name for the
             * cloned renderer.
@@ -15810,9 +15830,9 @@ var Kiwi;
                 if (typeof params === "undefined") {
                     params = null;
                 }
-                //does renderer exist?
+                // Does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
-                    //already added?
+                    // Already added?
                     if (!(cloneID in this._sharedRenderers)) {
                         this._sharedRenderers[cloneID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                         return true;
@@ -15821,9 +15841,10 @@ var Kiwi;
                 return false;
             };
             /**
-            * Requests a shared renderer. A game object that wants to use a shared
+            * Request a shared renderer. A game object that wants to use a shared
             * renderer uses this method to obtain a reference to the shared
             * renderer instance.
+            *
             * @method requestSharedRenderer
             * @param {string} rendererID
             * @param {object} params
@@ -15842,20 +15863,21 @@ var Kiwi;
                         return this._sharedRenderers[rendererID];
                     }
                     else {
-                        Kiwi.Log.log("No renderer called " + rendererID, '#renderer', '#webgl');
+                        Kiwi.Log.log("No renderer called " + rendererID, "#renderer", "#webgl");
                     }
                 }
                 //failed request
                 return null;
             };
             /**
-            * Requests a new renderer instance. This factory method is the only
+            * Request a new renderer instance. This factory method is the only
             * way gameobjects should instantiate their own renderer.
             *
             * The rendererID is a string that must match a renderer property
             * of the Kiwi.Renderers object. If a match is found then a renderer
             * is instantiated and returned. Gameobjects which have rendering
             * requirements that do not suit batch rendering use this technique.
+            *
             * @method requestRendererInstance
             * @param {string} rendererID The name of the requested renderer
             * @param {object} params
@@ -15869,7 +15891,7 @@ var Kiwi;
                     return renderer;
                 }
                 else {
-                    Kiwi.Log.log("No renderer with id " + rendererID + " exists", '#renderer', '#webgl');
+                    Kiwi.Log.log("No renderer with id " + rendererID + " exists", "#renderer", "#webgl");
                 }
                 return null; //fail
             };
@@ -15878,22 +15900,23 @@ var Kiwi;
                 return this._filtersEnabled;
             }
     
-            public set filtersEnabled(val: boolean) {
+            public set filtersEnabled( val: boolean ) {
                 this._filtersEnabled = val;
             }
     
             private _filtersEnabled: boolean = false;
-            
+    
             /**
             * Performs initialisation required for single game instance -
             * happens once, at bootup. Sets global GL state.
             * Initialises managers for shaders and textures.
-            * Instantiates the default shared renderer (`TextureAtlasRenderer`)
+            * Instantiates the default shared renderer (`TextureAtlasRenderer`).
+            *
             * @method _init
             * @private
             */
             GLRenderManager.prototype._init = function () {
-                Kiwi.Log.log("Initialising WebGL", '#renderer', '#webgl');
+                Kiwi.Log.log("Initialising WebGL", "#renderer", "#webgl");
                 var gl = this._game.stage.gl;
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -15915,9 +15938,10 @@ var Kiwi;
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    if (this.currentRenderer)
+                    if (this.currentRenderer) {
                         this._currentRenderer.updateStageResolution(gl, this._stageResolution);
-                    //this.filters.updateFilterResolution(gl,width, height);
+                    }
+                    //this.filters.updateFilterResolution( gl, width, height );
                     // Manually override scaling under CocoonJS
                     if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                         this.scaleViewport(gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight);
@@ -15926,16 +15950,18 @@ var Kiwi;
                         this.scaleViewport(gl, Kiwi.Stage.SCALE_NONE, width, height);
                     }
                 }, this);
-                /* if (this.filtersEnabled && !this.filters.isEmpty) {
-                    this.filters.enableFrameBuffers(gl);
+                /* if ( this.filtersEnabled && !this.filters.isEmpty ) {
+                    this.filters.enableFrameBuffers( gl );
                 }*/
             };
             /**
             * Scales the viewport according to a scale mode and space dimensions.
             *
-            * This is used internally for compatibility with CocoonJS and should not be called.
+            * This is used internally for compatibility with CocoonJS
+            * and should not be called.
+            *
             * @method scaleViewport
-            * @param gl {WebGLRenderingContext}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
             * @param mode {number} Scale mode; should be either
             *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
             *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
@@ -15982,6 +16008,7 @@ var Kiwi;
             * Called when a state has been switched to.
             * The textureManager is told to clear its contents from video memory,
             * then rebuild its cache of textures from the state's texture library.
+            *
             * @method initState
             * @public
             */
@@ -15993,19 +16020,21 @@ var Kiwi;
             * Performs cleanup required before switching to a different state.
             * Called whwn a state is about to be switched from.
             * The textureManager is told to empty its cache.
+            *
             * @method endState
             * @param state {Kiwi.State}
             * @public
             */
             GLRenderManager.prototype.endState = function (state) {
                 this._textureManager.clearTextures(this._game.stage.gl);
-                Kiwi.Log.log("Ending WebGL on State", '#renderer', '#webgl');
+                Kiwi.Log.log("Ending WebGL on State", "#renderer", "#webgl");
             };
             /**
             * Manages rendering of the scene graph - called once per frame.
             * Sets up per frame gl uniforms such as the view matrix and
             * camera offset. Clears the current renderer ready for a new batch.
             * Initiates recursive render of scene graph starting at the root.
+            *
             * @method render
             * @param camera {Camera}
             * @public
@@ -16019,9 +16048,9 @@ var Kiwi;
                 // blendfunc: ONE, ONE_MINUS_SRC_ALPHA is most common, and gives
                 // bad results with alphas. When this is used on a partially
                 // transparent game canvas, it does not blend correctly.
-                // Without being able to override the browser's own object renderer,
+                // Without being able to override the browser's own renderer,
                 // this is a necessary kludge. The "clean" solution is as follows:
-                // gl.clearColor(col.r, col.g, col.b, col.a);
+                // `gl.clearColor( col.r, col.g, col.b, col.a );`
                 gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 // Reset current renderer.
@@ -16060,14 +16089,15 @@ var Kiwi;
                 this.collateRenderSequence();
                 this.collateBatches();
                 this.renderBatches(gl, camera);
-                /*if (this._filtersEnabled && !this.filters.isEmpty) {
-                    this.filters.applyFilters(gl);
-                    gl.useProgram(this._shaderManager.currentShader.shaderProgram);
-                    gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+                /*if ( this._filtersEnabled && !this.filters.isEmpty ) {
+                    this.filters.applyFilters( gl );
+                    gl.useProgram( this._shaderManager.currentShader.shaderProgram );
+                    gl.bindTexture( gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture );
                 }*/
             };
             /**
-            * Creates a new render sequence
+            * Create a new render sequence.
+            *
             * @method collateRenderSequence
             * @public
             */
@@ -16077,17 +16107,19 @@ var Kiwi;
                 this.collateChild(root);
             };
             /**
-            * Adds a child to the render sequence
-            * (may be a group with children of its own).
+            * Add a child to the render sequence
+            * (may be a group with children of its own ).
+            *
             * @method collateChild
             * @public
             */
             GLRenderManager.prototype.collateChild = function (child) {
+                var i;
                 // Do not render non-visible objects or their children
                 if (!child.visible)
                     return;
                 if (child.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < child.members.length; i++) {
+                    for (i = 0; i < child.members.length; i++) {
                         this.collateChild(child.members[i]);
                     }
                 }
@@ -16103,8 +16135,9 @@ var Kiwi;
                 }
             };
             /**
-            * Sorts the render sequence into batches.
+            * Sort the render sequence into batches.
             * Each batch requires the same renderer/shader/texture combination.
+            *
             * @method collateBatches
             * @public
             */
@@ -16116,7 +16149,7 @@ var Kiwi;
                 var batchIndex;
                 for (var i = 0; i < this._sequence.length; i++) {
                     if (!this._sequence[i].isBatchRenderer || this._sequence[i].renderer !== currentRenderer || this._sequence[i].shader !== currentShader || this._sequence[i].texture !== currentTexture) {
-                        //create a new batch
+                        // Create a new batch
                         var batchIndex = this._batches.push(new Array()) - 1;
                         currentRenderer = this._sequence[i].renderer;
                         currentShader = this._sequence[i].shader;
@@ -16126,22 +16159,25 @@ var Kiwi;
                 }
             };
             /**
-            * Renders all the batches
+            * Render all the batches.
+            *
             * @method renderBatches
-            * @param {WebGLRenderingContext} gl
-            * @param {Kiwi.Camera} camera
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param camera {Kiwi.Camera} Currently rendering camera
             * @public
             */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
-                for (var i = 0; i < this._batches.length; i++)
+                for (var i = 0; i < this._batches.length; i++) {
                     this.renderBatch(gl, this._batches[i], camera);
+                }
             };
             /**
-            * Renders a single batch
+            * Render a single batch.
+            *
             * @method renderBatch
-            * @param {WebGLRenderingContext} gl
-            * @param {object} batch
-            * @param {Kiwi.Camera} camera
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param batch {object} Batch to render
+            * @param camera {Kiwi.Camera} Currently rendering camera
             * @public
             */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
@@ -16159,14 +16195,18 @@ var Kiwi;
                 if (batch[0].entity.atlas !== this._currentTextureAtlas || batch[0].entity.atlas.dirty || (rendererSwitched && batch[0].entity.atlas == this._currentTextureAtlas))
                     this._switchTexture(gl, batch[0].entity);
                 // Manage blend mode
-                // We must always apply BlendMode under CocoonJS, because some (but not all) operations on other canvases may silently change the blend mode and not change it back.
-                if (!this._currentBlendMode.isIdentical(batch[0].entity.glRenderer.blendMode) || this._currentBlendMode.dirty || this._game.deviceTargetOption === Kiwi.TARGET_COCOON)
+                // We must always apply BlendMode under CocoonJS, because some
+                // (but not all) operations on other canvases may
+                // silently change the blend mode and not change it back.
+                if (!this._currentBlendMode.isIdentical(batch[0].entity.glRenderer.blendMode) || this._currentBlendMode.dirty || this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                     this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
+                }
                 // Render
                 this._currentRenderer.draw(gl);
             };
             /**
-            * Calls the render function on a single entity
+            * Call the render function on a single entity.
+            *
             * @method renderEntity
             * @param {WebGLRenderingContext} gl
             * @param {Kiwi.Entity} entity
@@ -16178,36 +16218,45 @@ var Kiwi;
                 this.renderBatch(gl, [entity], camera);
             };
             /**
-            * Ensures the atlas and renderer needed for a batch is setup
+            * Ensure the atlas and renderer needed for a batch is setup.
+            *
             * @method setupGLState
             * @param {WebGLRenderingContext} gl
             * @public
             * @deprecated Used internally; should not be called from external functions.
             */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
-                if (entity.atlas !== this._currentTextureAtlas)
+                if (entity.atlas !== this._currentTextureAtlas) {
                     this._switchTexture(gl, entity);
-                if (entity.glRenderer !== this._currentRenderer)
+                }
+                if (entity.glRenderer !== this._currentRenderer) {
                     this._switchRenderer(gl, entity);
+                }
             };
             /**
-            * Switch renderer to the one needed by the entity that needs rendering
+            * Switch renderer to the one needed by the entity that needs rendering.
+            *
             * @method _switchRenderer
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Kiwi.Entity}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param entity {Kiwi.Entity} Entity demanding the switch
             * @private
             */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
-                if (this._currentRenderer)
+                if (this._currentRenderer) {
                     this._currentRenderer.disable(gl);
+                }
                 this._currentRenderer = entity.glRenderer;
-                this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution });
+                this._currentRenderer.enable(gl, {
+                    camMatrix: this.camMatrix,
+                    stageResolution: this._stageResolution
+                });
             };
             /**
-            * Switch texture to the one needed by the entity that needs rendering
+            * Switch texture to the one needed by the entity that needs rendering.
+            *
             * @method _switchTexture
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Kiwi.Entity}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param entity {Kiwi.Entity} Entity demanding the switch
             * @private
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
@@ -16215,10 +16264,11 @@ var Kiwi;
                 entity.atlas.enableGL(gl, this._currentRenderer, this._textureManager);
             };
             /**
-            * Switch blend mode to a new set of constants
+            * Switch blend mode to a new set of constants.
+            *
             * @method _switchBlendMode
-            * @param gl {WebGLRenderingContext}
-            * @param blendMode {Kiwi.Renderers.GLBlendMode}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
             * @private
             * @since 1.1.0
             */

@@ -393,7 +393,7 @@
 <div class="box intro">
     <p>Manages all rendering using WebGL.
 Directly manages renderer objects, including factory methods
-for their creation. 
+for their creation.
 Creates manager objects for shaders and textures.
 Manages gl state at game initialisation, at state start and end,
 and per frame.
@@ -710,7 +710,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                     <ul class="index-list properties extends">
                         
                             <li class="index-item property private">
-                                <a href="#property__camMatrixOffset">_camMatrixOffset</a>
+                                <a href="#property__camMatrix">_camMatrix</a>
 
                                 
                                 
@@ -848,7 +848,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l334"><code>src&#x2F;render&#x2F;GLRenderManager.ts:334</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l365"><code>src&#x2F;render&#x2F;GLRenderManager.ts:365</code></a>
         
         </p>
 
@@ -862,7 +862,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
         <p>Performs initialisation required for single game instance -
 happens once, at bootup. Sets global GL state.
 Initialises managers for shaders and textures.
-Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
+Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>).</p>
 
     </div>
 
@@ -924,7 +924,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l716"><code>src&#x2F;render&#x2F;GLRenderManager.ts:716</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l803"><code>src&#x2F;render&#x2F;GLRenderManager.ts:803</code></a>
         
         </p>
 
@@ -937,7 +937,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
     </div>
 
     <div class="description">
-        <p>Switch blend mode to a new set of constants</p>
+        <p>Switch blend mode to a new set of constants.</p>
 
     </div>
 
@@ -956,7 +956,8 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -971,7 +972,8 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>New blend mode</p>
+
                     </div>
 
                     
@@ -1037,7 +1039,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l691"><code>src&#x2F;render&#x2F;GLRenderManager.ts:691</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l768"><code>src&#x2F;render&#x2F;GLRenderManager.ts:768</code></a>
         
         </p>
 
@@ -1048,7 +1050,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
     </div>
 
     <div class="description">
-        <p>Switch renderer to the one needed by the entity that needs rendering</p>
+        <p>Switch renderer to the one needed by the entity that needs rendering.</p>
 
     </div>
 
@@ -1067,7 +1069,8 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -1082,7 +1085,8 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Entity demanding the switch</p>
+
                     </div>
 
                     
@@ -1148,7 +1152,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l704"><code>src&#x2F;render&#x2F;GLRenderManager.ts:704</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l789"><code>src&#x2F;render&#x2F;GLRenderManager.ts:789</code></a>
         
         </p>
 
@@ -1159,7 +1163,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
     </div>
 
     <div class="description">
-        <p>Switch texture to the one needed by the entity that needs rendering</p>
+        <p>Switch texture to the one needed by the entity that needs rendering.</p>
 
     </div>
 
@@ -1178,7 +1182,8 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -1193,7 +1198,8 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Entity demanding the switch</p>
+
                     </div>
 
                     
@@ -1263,7 +1269,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l203"><code>src&#x2F;render&#x2F;GLRenderManager.ts:203</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l222"><code>src&#x2F;render&#x2F;GLRenderManager.ts:222</code></a>
         
         </p>
 
@@ -1274,7 +1280,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
     </div>
 
     <div class="description">
-        <p>Adds a renderer to the sharedRenderer array.</p>
+        <p>Add a renderer to the sharedRenderer array.</p>
 <p>The rendererID is a string that must match a renderer property
 of the Kiwi.Renderers object. If a match is found and an instance
 does not already exist, then a renderer is instantiated and added
@@ -1402,7 +1408,7 @@ to the array.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l231"><code>src&#x2F;render&#x2F;GLRenderManager.ts:231</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l254"><code>src&#x2F;render&#x2F;GLRenderManager.ts:254</code></a>
         
         </p>
 
@@ -1415,7 +1421,7 @@ to the array.</p>
     </div>
 
     <div class="description">
-        <p>Adds a cloned renderer to the sharedRenderer array.
+        <p>Add a cloned renderer to the sharedRenderer array.
 The rendererID is a string that must match a renderer property of
 the Kiwi.Renderers object. The cloneID is the name for the
 cloned renderer.</p>
@@ -1555,7 +1561,7 @@ renderers are more efficient than instances.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l158"><code>src&#x2F;render&#x2F;GLRenderManager.ts:158</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l173"><code>src&#x2F;render&#x2F;GLRenderManager.ts:173</code></a>
         
         </p>
 
@@ -1566,7 +1572,7 @@ renderers are more efficient than instances.</p>
     </div>
 
     <div class="description">
-        <p>Adds a texture to the Texture Manager.</p>
+        <p>Add a texture to the Texture Manager.</p>
 
     </div>
 
@@ -1585,7 +1591,8 @@ renderers are more efficient than instances.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -1600,7 +1607,8 @@ renderers are more efficient than instances.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Texture reference</p>
+
                     </div>
 
                     
@@ -1650,7 +1658,7 @@ renderers are more efficient than instances.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l31"><code>src&#x2F;render&#x2F;GLRenderManager.ts:31</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l33"><code>src&#x2F;render&#x2F;GLRenderManager.ts:33</code></a>
         
         </p>
 
@@ -1661,7 +1669,7 @@ renderers are more efficient than instances.</p>
     </div>
 
     <div class="description">
-        <p>Initialises all WebGL rendering services</p>
+        <p>Initialise all WebGL rendering services.</p>
 
     </div>
 
@@ -1707,7 +1715,7 @@ renderers are more efficient than instances.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l588"><code>src&#x2F;render&#x2F;GLRenderManager.ts:588</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l646"><code>src&#x2F;render&#x2F;GLRenderManager.ts:646</code></a>
         
         </p>
 
@@ -1718,7 +1726,7 @@ renderers are more efficient than instances.</p>
     </div>
 
     <div class="description">
-        <p>Sorts the render sequence into batches.
+        <p>Sort the render sequence into batches.
 Each batch requires the same renderer/shader/texture combination.</p>
 
     </div>
@@ -1765,7 +1773,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l561"><code>src&#x2F;render&#x2F;GLRenderManager.ts:561</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l617"><code>src&#x2F;render&#x2F;GLRenderManager.ts:617</code></a>
         
         </p>
 
@@ -1776,8 +1784,8 @@ Each batch requires the same renderer/shader/texture combination.</p>
     </div>
 
     <div class="description">
-        <p>Adds a child to the render sequence
-(may be a group with children of its own).</p>
+        <p>Add a child to the render sequence
+(may be a group with children of its own ).</p>
 
     </div>
 
@@ -1823,7 +1831,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l550"><code>src&#x2F;render&#x2F;GLRenderManager.ts:550</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l605"><code>src&#x2F;render&#x2F;GLRenderManager.ts:605</code></a>
         
         </p>
 
@@ -1834,7 +1842,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new render sequence</p>
+        <p>Create a new render sequence.</p>
 
     </div>
 
@@ -1890,7 +1898,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l453"><code>src&#x2F;render&#x2F;GLRenderManager.ts:453</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l504"><code>src&#x2F;render&#x2F;GLRenderManager.ts:504</code></a>
         
         </p>
 
@@ -1972,7 +1980,7 @@ The textureManager is told to empty its cache.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l439"><code>src&#x2F;render&#x2F;GLRenderManager.ts:439</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l488"><code>src&#x2F;render&#x2F;GLRenderManager.ts:488</code></a>
         
         </p>
 
@@ -2036,7 +2044,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l44"><code>src&#x2F;render&#x2F;GLRenderManager.ts:44</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l46"><code>src&#x2F;render&#x2F;GLRenderManager.ts:46</code></a>
         
         </p>
 
@@ -2047,7 +2055,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Return the type of object that this is.</p>
 
     </div>
 
@@ -2123,7 +2131,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l169"><code>src&#x2F;render&#x2F;GLRenderManager.ts:169</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l185"><code>src&#x2F;render&#x2F;GLRenderManager.ts:185</code></a>
         
         </p>
 
@@ -2136,7 +2144,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
     </div>
 
     <div class="description">
-        <p>Removes a texture from the Texture Manager.</p>
+        <p>Remove a texture from the Texture Manager.</p>
 
     </div>
 
@@ -2230,7 +2238,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l467"><code>src&#x2F;render&#x2F;GLRenderManager.ts:467</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l519"><code>src&#x2F;render&#x2F;GLRenderManager.ts:519</code></a>
         
         </p>
 
@@ -2243,7 +2251,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
     <div class="description">
         <p>Manages rendering of the scene graph - called once per frame.
 Sets up per frame gl uniforms such as the view matrix and
-camera offset. Clears the current renderer ready for a new batch. 
+camera offset. Clears the current renderer ready for a new batch.
 Initiates recursive render of scene graph starting at the root.</p>
 
     </div>
@@ -2335,7 +2343,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l630"><code>src&#x2F;render&#x2F;GLRenderManager.ts:630</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l692"><code>src&#x2F;render&#x2F;GLRenderManager.ts:692</code></a>
         
         </p>
 
@@ -2346,7 +2354,7 @@ Initiates recursive render of scene graph starting at the root.</p>
     </div>
 
     <div class="description">
-        <p>Renders a single batch</p>
+        <p>Render a single batch.</p>
 
     </div>
 
@@ -2365,7 +2373,8 @@ Initiates recursive render of scene graph starting at the root.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -2380,7 +2389,8 @@ Initiates recursive render of scene graph starting at the root.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Batch to render</p>
+
                     </div>
 
                     
@@ -2395,7 +2405,8 @@ Initiates recursive render of scene graph starting at the root.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Currently rendering camera</p>
+
                     </div>
 
                     
@@ -2461,7 +2472,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l618"><code>src&#x2F;render&#x2F;GLRenderManager.ts:618</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l678"><code>src&#x2F;render&#x2F;GLRenderManager.ts:678</code></a>
         
         </p>
 
@@ -2472,7 +2483,7 @@ Initiates recursive render of scene graph starting at the root.</p>
     </div>
 
     <div class="description">
-        <p>Renders all the batches</p>
+        <p>Render all the batches.</p>
 
     </div>
 
@@ -2491,7 +2502,8 @@ Initiates recursive render of scene graph starting at the root.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -2506,7 +2518,8 @@ Initiates recursive render of scene graph starting at the root.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Currently rendering camera</p>
+
                     </div>
 
                     
@@ -2580,7 +2593,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l666"><code>src&#x2F;render&#x2F;GLRenderManager.ts:666</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l737"><code>src&#x2F;render&#x2F;GLRenderManager.ts:737</code></a>
         
         </p>
 
@@ -2593,7 +2606,7 @@ Initiates recursive render of scene graph starting at the root.</p>
     </div>
 
     <div class="description">
-        <p>Calls the render function on a single entity</p>
+        <p>Call the render function on a single entity.</p>
 
     </div>
 
@@ -2712,7 +2725,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l298"><code>src&#x2F;render&#x2F;GLRenderManager.ts:298</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l328"><code>src&#x2F;render&#x2F;GLRenderManager.ts:328</code></a>
         
         </p>
 
@@ -2723,7 +2736,7 @@ Initiates recursive render of scene graph starting at the root.</p>
     </div>
 
     <div class="description">
-        <p>Requests a new renderer instance. This factory method is the only
+        <p>Request a new renderer instance. This factory method is the only
 way gameobjects should instantiate their own renderer.</p>
 <p>The rendererID is a string that must match a renderer property
 of the Kiwi.Renderers object. If a match is found then a renderer
@@ -2847,7 +2860,7 @@ requirements that do not suit batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l269"><code>src&#x2F;render&#x2F;GLRenderManager.ts:269</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l298"><code>src&#x2F;render&#x2F;GLRenderManager.ts:298</code></a>
         
         </p>
 
@@ -2858,7 +2871,7 @@ requirements that do not suit batch rendering use this technique.</p>
     </div>
 
     <div class="description">
-        <p>Requests a shared renderer. A game object that wants to use a shared
+        <p>Request a shared renderer. A game object that wants to use a shared
 renderer uses this method to obtain a reference to the shared
 renderer instance.</p>
 
@@ -2987,7 +3000,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l389"><code>src&#x2F;render&#x2F;GLRenderManager.ts:389</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l430"><code>src&#x2F;render&#x2F;GLRenderManager.ts:430</code></a>
         
         </p>
 
@@ -3001,7 +3014,8 @@ renderer instance.</p>
 
     <div class="description">
         <p>Scales the viewport according to a scale mode and space dimensions.</p>
-<p>This is used internally for compatibility with CocoonJS and should not be called.</p>
+<p>This is used internally for compatibility with CocoonJS
+and should not be called.</p>
 
     </div>
 
@@ -3020,7 +3034,8 @@ renderer instance.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Canvas rendering context</p>
+
                     </div>
 
                     
@@ -3132,7 +3147,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l679"><code>src&#x2F;render&#x2F;GLRenderManager.ts:679</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l751"><code>src&#x2F;render&#x2F;GLRenderManager.ts:751</code></a>
         
         </p>
 
@@ -3145,7 +3160,7 @@ renderer instance.</p>
     </div>
 
     <div class="description">
-        <p>Ensures the atlas and renderer needed for a batch is setup</p>
+        <p>Ensure the atlas and renderer needed for a batch is setup.</p>
 
     </div>
 
@@ -3188,8 +3203,8 @@ renderer instance.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__camMatrixOffset" class="property item private">
-    <h3 class="name"><code>_camMatrixOffset</code></h3>
+                    <div id="property__camMatrix" class="property item private">
+    <h3 class="name"><code>_camMatrix</code></h3>
     <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
 
     
@@ -3213,7 +3228,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l142"><code>src&#x2F;render&#x2F;GLRenderManager.ts:142</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l155"><code>src&#x2F;render&#x2F;GLRenderManager.ts:155</code></a>
         
         </p>
 
@@ -3260,7 +3275,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l97"><code>src&#x2F;render&#x2F;GLRenderManager.ts:97</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l105"><code>src&#x2F;render&#x2F;GLRenderManager.ts:105</code></a>
         
         </p>
 
@@ -3272,7 +3287,7 @@ renderer instance.</p>
     </div>
 
     <div class="description">
-        <p>The current blend mode.</p>
+        <p>Current blend mode</p>
 
     </div>
 
@@ -3309,7 +3324,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l89"><code>src&#x2F;render&#x2F;GLRenderManager.ts:89</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l96"><code>src&#x2F;render&#x2F;GLRenderManager.ts:96</code></a>
         
         </p>
 
@@ -3319,7 +3334,7 @@ renderer instance.</p>
     </div>
 
     <div class="description">
-        <p>The renderer object that is in use during a rendering batch.</p>
+        <p>Renderer object currently in use during a rendering batch</p>
 
     </div>
 
@@ -3356,7 +3371,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l150"><code>src&#x2F;render&#x2F;GLRenderManager.ts:150</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l164"><code>src&#x2F;render&#x2F;GLRenderManager.ts:164</code></a>
         
         </p>
 
@@ -3366,7 +3381,7 @@ renderer instance.</p>
     </div>
 
     <div class="description">
-        <p>The most recently bound texture atlas.</p>
+        <p>Most recently bound texture atlas</p>
 
     </div>
 
@@ -3403,7 +3418,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l106"><code>src&#x2F;render&#x2F;GLRenderManager.ts:106</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l115"><code>src&#x2F;render&#x2F;GLRenderManager.ts:115</code></a>
         
         </p>
 
@@ -3452,7 +3467,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l54"><code>src&#x2F;render&#x2F;GLRenderManager.ts:54</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l57"><code>src&#x2F;render&#x2F;GLRenderManager.ts:57</code></a>
         
         </p>
 
@@ -3462,7 +3477,7 @@ renderer instance.</p>
     </div>
 
     <div class="description">
-        <p>The game that this renderer is used with.</p>
+        <p>Game that this renderer is used with</p>
 
     </div>
 
@@ -3499,7 +3514,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l124"><code>src&#x2F;render&#x2F;GLRenderManager.ts:124</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l135"><code>src&#x2F;render&#x2F;GLRenderManager.ts:135</code></a>
         
         </p>
 
@@ -3510,7 +3525,7 @@ renderer instance.</p>
 
     <div class="description">
         <p>Maximum allowable sprites to render per frame.
-Note: Not currently used  - candidate for deletion</p>
+Note: Not currently used - candidate for deletion</p>
 
     </div>
 
@@ -3549,7 +3564,7 @@ Note: Not currently used  - candidate for deletion</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l70"><code>src&#x2F;render&#x2F;GLRenderManager.ts:70</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l75"><code>src&#x2F;render&#x2F;GLRenderManager.ts:75</code></a>
         
         </p>
 
@@ -3559,7 +3574,7 @@ Note: Not currently used  - candidate for deletion</p>
     </div>
 
     <div class="description">
-        <p>The shader manager object used to allocate GL Shaders.</p>
+        <p>Shader manager object used to allocate GL Shaders</p>
 
     </div>
 
@@ -3596,7 +3611,7 @@ Note: Not currently used  - candidate for deletion</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l181"><code>src&#x2F;render&#x2F;GLRenderManager.ts:181</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l198"><code>src&#x2F;render&#x2F;GLRenderManager.ts:198</code></a>
         
         </p>
 
@@ -3609,14 +3624,16 @@ Note: Not currently used  - candidate for deletion</p>
         <p>An array of renderers.</p>
 <p>Shared renderers are used for batch rendering.
 Multiple gameobjects can use the same renderer instance and add
-rendering info to a batch rather than rendering individually. 
+rendering info to a batch rather than rendering individually.
 This means only one draw call is necessary to render a number of
 objects. The most common use of this is standard 2d sprite rendering,
 and the TextureAtlasRenderer is added by default as a shared
 renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
 can all use the same renderer/shader combination and be drawn as
 part of the same batch.</p>
-<p>Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject&#39;s rendering requirements matched the TextureAtlasRenderer
+<p>Custom gameobjects can also choose to use a shared renderer,
+for example in the case that a custom gameobject&#39;s
+rendering requirements matched the <code>TextureAtlasRenderer</code>
 capabilities.</p>
 
     </div>
@@ -3654,7 +3671,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l81"><code>src&#x2F;render&#x2F;GLRenderManager.ts:81</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l87"><code>src&#x2F;render&#x2F;GLRenderManager.ts:87</code></a>
         
         </p>
 
@@ -3664,7 +3681,7 @@ capabilities.</p>
     </div>
 
     <div class="description">
-        <p>The stage resolution in pixels</p>
+        <p>Stage resolution in pixels</p>
 
     </div>
 
@@ -3701,7 +3718,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l62"><code>src&#x2F;render&#x2F;GLRenderManager.ts:62</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l66"><code>src&#x2F;render&#x2F;GLRenderManager.ts:66</code></a>
         
         </p>
 
@@ -3711,7 +3728,7 @@ capabilities.</p>
     </div>
 
     <div class="description">
-        <p>The texture manager object used to allocate GL Textures.</p>
+        <p>Texture manager object used to allocate GL Textures</p>
 
     </div>
 
@@ -3748,7 +3765,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l134"><code>src&#x2F;render&#x2F;GLRenderManager.ts:134</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l146"><code>src&#x2F;render&#x2F;GLRenderManager.ts:146</code></a>
         
         </p>
 
@@ -3795,7 +3812,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l115"><code>src&#x2F;render&#x2F;GLRenderManager.ts:115</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l125"><code>src&#x2F;render&#x2F;GLRenderManager.ts:125</code></a>
         
         </p>
 
