@@ -76,16 +76,12 @@ module Kiwi.GameObjects.Tilemap {
             
             //Not within the bounds?
             var halfWidth = this.widthInPixels * 0.5;
-
-            if (x > this.x + halfWidth || x < this.x - halfWidth) return -1;
-            if (y > this.y + this.heightInPixels || y < this.y) return -1;
-
-
-
+            if (x > halfWidth || x < -halfWidth) return -1;
+            if (y > this.heightInPixels || y < 0) return -1;
+            
             var point = this.screenToChart({ x: x, y: y });
 
             return this.getIndexFromXY(point.x, point.y);
-
         }
 
 
