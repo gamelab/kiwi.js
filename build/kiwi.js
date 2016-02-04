@@ -7012,10 +7012,9 @@ var Kiwi;
                 */
                 TileMapLayerIsometric.prototype.getIndexFromCoords = function (x, y) {
                     //Not within the bounds?
-                    var halfWidth = this.widthInPixels * 0.5;
-                    if (x > halfWidth || x < -halfWidth)
-                        return -1;
-                    if (y > this.heightInPixels || y < 0)
+                    var halfWidth = this.widthInPixels / 2;
+                    var halfHeight = this.heightInPixels / 2;
+                    if (Math.abs(x) > halfWidth - halfWidth * Math.abs(y - halfHeight) / halfHeight)
                         return -1;
                     var point = this.screenToChart({ x: x, y: y });
                     return this.getIndexFromXY(point.x, point.y);
