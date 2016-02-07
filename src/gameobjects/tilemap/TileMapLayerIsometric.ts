@@ -75,8 +75,8 @@ module Kiwi.GameObjects.Tilemap {
         public getIndexFromCoords(x: number, y: number): number {
             
             //Not within the bounds?
-            var halfWidth = this.widthInPixels / 2;
-            var halfHeight = this.heightInPixels / 2;
+            var halfWidth = this.widthInPixels * 0.5;
+            var halfHeight = this.heightInPixels * 0.5;
             if (Math.abs(x) > halfWidth - halfWidth * Math.abs(y - halfHeight) / halfHeight) return -1;
             
             var point = this.screenToChart({ x: x, y: y });
@@ -117,9 +117,10 @@ module Kiwi.GameObjects.Tilemap {
         * @public
         */
         public screenToChart(scrPt: any, tileW: number=this.tileWidth, tileH: number=this.tileHeight): any {
-            
-            var col = Math.floor((scrPt.x / (tileW / 2) + scrPt.y / (tileH / 2)) / 2);
-            var row = Math.floor((scrPt.y / (tileH / 2) - scrPt.x / (tileW / 2)) / 2);
+            var xht = scrPt.x / (tileW * 0.5);
+            var yht = scrPt.y / (tileH * 0.5);
+            var col = Math.floor((xht + yht) * 0.5);
+            var row = Math.floor((yht - xht) * 0.5);
 
             return {
                 x: col,
