@@ -10356,13 +10356,13 @@ declare module Kiwi.Animations {
         * @method start
         * @public
         */
-        start(): Tween;
+        start(): this;
         /**
         * Stops the Tween from running and removes it from the manager.
         * @method stop
         * @public
         */
-        stop(): Tween;
+        stop(): this;
         /**
         * Sets the game and the manager of this tween.
         * @method setParent
@@ -10418,7 +10418,7 @@ declare module Kiwi.Animations {
         * @param context {Any} The context the method is to have when called.
         * @public
         */
-        onUpdate(callback: any, context: any): Tween;
+        onUpdate(callback: any, context: any): this;
         /**
         * Defines a method that is to be called when this tween is finished.
         * @method onComplete
@@ -10426,7 +10426,7 @@ declare module Kiwi.Animations {
         * @param context {Any} The context the method is to have when called.
         * @public
         */
-        onComplete(callback: any, context: any): Tween;
+        onComplete(callback: any, context: any): this;
         /**
         * The update loop is executed every frame whilst the tween is running.
         * @method update
@@ -16282,7 +16282,7 @@ declare module Kiwi.Geom {
         * @return {Kiwi.Geom.Matrix} This object.
         * @public
         */
-        setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number): Matrix;
+        setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number): this;
         /**
         * Set matrix values from transform values, with rotation point data included
         * @method setFromOffsetTransform
@@ -16297,7 +16297,7 @@ declare module Kiwi.Geom {
         * @public
         * @since 1.0.1
         */
-        setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
+        setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): this;
         /**
         * Prepend values to this matrix, paramters supplied individually.
         * @method prepend
@@ -21588,7 +21588,7 @@ declare module Kiwi.Utils {
         * @return {Kiwi.Utils.Color} This object with the new color set
         * @public
         */
-        set(...params: any[]): Color;
+        set(...params: any[]): this;
         /**
         * Red channel, stored as a normalized value between 0 and 1.
         * This is most compatible with graphics hardware.

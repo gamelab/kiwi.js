@@ -496,7 +496,8 @@ var Kiwi;
                 this.states.update();
                 this.pluginManager.update();
                 this._frame++;
-                this._lastTime = this.raf.currentTime - (this._delta % this._interval);
+                this._lastTime =
+                    this.raf.currentTime - (this._delta % this._interval);
             }
             // Graphics MUST be drawn every frame to avert frame buffer issues
             // under some clients
@@ -853,8 +854,7 @@ var Kiwi;
                     r: this._color.r,
                     g: this._color.g,
                     b: this._color.b,
-                    a: this._color.a
-                };
+                    a: this._color.a };
             },
             enumerable: true,
             configurable: true
@@ -1153,6 +1153,7 @@ var Kiwi;
                 }
             }
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
+                // This has no effect in WebGL, and is thus handled separately.
                 switch (this._scaleType) {
                     case Kiwi.Stage.SCALE_FIT:
                         this.canvas.style.cssText = "idtkscale:ScaleAspectFit";
@@ -1576,9 +1577,7 @@ var Kiwi;
                 var plugins = [];
                 for (var i = 0; i < PluginManager._availablePlugins.length; i++) {
                     plugins.push({
-                        name: PluginManager._availablePlugins[i].name,
-                        version: PluginManager._availablePlugins[i].version
-                    });
+                        name: PluginManager._availablePlugins[i].name, version: PluginManager._availablePlugins[i].version });
                 }
                 return plugins;
             },
@@ -1882,6 +1881,7 @@ var Kiwi;
             if (this._cameras.length === 0) {
                 return false;
             }
+            //render each camera
             for (var i = 0; i < this._cameras.length; i++) {
                 this._cameras[i].render();
             }
@@ -2867,6 +2867,7 @@ var Kiwi;
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
+            //Loop through the arguments
             for (var i = 0; i < args.length; i++) {
                 if (this._tags.indexOf(args[i]) == -1) {
                     this._tags.push(args[i]);
@@ -3133,22 +3134,19 @@ var Kiwi;
         * @method preUpdate
         * @public
         */
-        Component.prototype.preUpdate = function () {
-        };
+        Component.prototype.preUpdate = function () { };
         /**
         * If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.
         * @method update
         * @public
         */
-        Component.prototype.update = function () {
-        };
+        Component.prototype.update = function () { };
         /**
         * Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.
         * @method postUpdate
         * @public
         */
-        Component.prototype.postUpdate = function () {
-        };
+        Component.prototype.postUpdate = function () { };
         /**
         * Destroys this component and all of the properties that exist on it.
         * @method destroy
@@ -4275,6 +4273,7 @@ var Kiwi;
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
+            //Loop through the arguments
             for (var i = 0; i < args.length; i++) {
                 if (this._tags.indexOf(args[i]) == -1) {
                     this._tags.push(args[i]);
@@ -4333,6 +4332,7 @@ var Kiwi;
                 if (this._tempRemoveChildren !== null)
                     destroyChildren = this._tempRemoveChildren;
                 if (destroyChildren == true) {
+                    //Remove all of the children.
                     for (var i = 0; i < this.members.length; i++) {
                         this.members[i].destroy(true);
                     }
@@ -4364,11 +4364,10 @@ var Kiwi;
 * @module Kiwi
 *
 */
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Kiwi;
 (function (Kiwi) {
@@ -4466,8 +4465,7 @@ var Kiwi;
         * @method preload
         * @public
         */
-        State.prototype.preload = function () {
-        };
+        State.prototype.preload = function () { };
         /**
         * This method is progressively called whilst loading files and is executed each time a file has been loaded.
         * This can be used to create a 'progress' bar during the loading stage of a game.
@@ -4477,15 +4475,13 @@ var Kiwi;
         * @param file {Kiwi.Files.File} The last file to have been loaded.
         * @public
         */
-        State.prototype.loadProgress = function (percent, bytesLoaded, file) {
-        };
+        State.prototype.loadProgress = function (percent, bytesLoaded, file) { };
         /**
         * Gets executed when the game is finished loading and it is about to 'create' the state.
         * @method loadComplete
         * @public
         */
-        State.prototype.loadComplete = function () {
-        };
+        State.prototype.loadComplete = function () { };
         /**
         * The game loop that gets executed while the game is loading.
         * @method loadUpdate
@@ -4550,15 +4546,13 @@ var Kiwi;
         * @method postRender
         * @public
         */
-        State.prototype.postRender = function () {
-        };
+        State.prototype.postRender = function () { };
         /**
         * Called just before this State is going to be Shut Down and another one is going to be switched too.
         * @method shutDown
         * @public
         */
-        State.prototype.shutDown = function () {
-        };
+        State.prototype.shutDown = function () { };
         /*
         *--------------
         * Loading Methods
@@ -4700,11 +4694,13 @@ var Kiwi;
         State.prototype.destroy = function (deleteAll) {
             if (deleteAll === void 0) { deleteAll = true; }
             if (deleteAll == true) {
+                //destroy all of the tracking list
                 while (this._trackingList.length > 0) {
                     //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
                     this._trackingList[0].destroy(true, false);
                 }
                 this._trackingList = [];
+                //destroy all of the groups members. Usually they would be apart of the trackingList 
                 while (this.members.length > 0) {
                     //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
                     this.members[0].destroy(true, false);
@@ -5168,6 +5164,8 @@ var Kiwi;
             }
             bindings = this._bindings.slice(0); //clone array in case add/remove items during dispatch
             this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
+            //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+            //reverse loop since listeners with higher priority will be added at the end of the list
             do {
                 n--;
             } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
@@ -5863,12 +5861,13 @@ var Kiwi;
                     w: this._canvas.width,
                     h: this._canvas.height,
                     hitboxes: [{
-                        x: this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT ? 0 : this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER ? -this._alignWidth * 0.5 : -this._alignWidth,
-                        y: 0,
-                        w: this.width,
-                        h: this.height
-                    }]
-                };
+                            x: this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_LEFT ? 0 :
+                                this._textAlign === Kiwi.GameObjects.TextField.TEXT_ALIGN_CENTER ?
+                                    -this._alignWidth * 0.5 : -this._alignWidth,
+                            y: 0,
+                            w: this.width,
+                            h: this.height
+                        }] };
                 this._tempDirty = false;
                 this.atlas.dirty = true;
             };
@@ -5952,7 +5951,12 @@ var Kiwi;
                 m.transformPoint(this._pt3);
                 m.transformPoint(this._pt4);
                 //Append to the xyuv and alpha arrays 
-                vertexItems.push(this._pt1.x, this._pt1.y, 0, 0, this.alpha, this._pt2.x, this._pt2.y, this._canvas.width, 0, this.alpha, this._pt3.x, this._pt3.y, this._canvas.width, this._canvas.height, this.alpha, this._pt4.x, this._pt4.y, 0, this._canvas.height, this.alpha);
+                vertexItems.push(this._pt1.x, this._pt1.y, 0, 0, this.alpha, 
+                //Top Left Point
+                this._pt2.x, this._pt2.y, this._canvas.width, 0, this.alpha, 
+                //Top Right Point
+                this._pt3.x, this._pt3.y, this._canvas.width, this._canvas.height, this.alpha, //Bottom Right Point
+                this._pt4.x, this._pt4.y, 0, this._canvas.height, this.alpha);
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
             };
@@ -6180,6 +6184,7 @@ var Kiwi;
                     if (Kiwi.Utils.Common.isString(atlas)) {
                         atlas = this.state.textures[atlas];
                     }
+                    //Does the JSON exist?
                     switch (typeof tileMapData) {
                         case 'string':
                             if (this.game.fileStore.exists(tileMapData) == false) {
@@ -6211,14 +6216,17 @@ var Kiwi;
                     this.tileHeight = (json.tileheight == undefined) ? 32 : json.tileheight;
                     this.width = json.width;
                     this.height = json.height;
+                    //Add the properties
                     for (var prop in json.properties) {
                         this.properties[prop] = json.properties[prop];
                     }
                     //Generate the Tiles needed.
                     if (json.tilesets !== "undefined" && startingCell !== -1)
                         this._generateTypesFromTileset(json.tilesets, atlas, startingCell);
+                    //Generate the layers we need
                     for (var i = 0; i < json.layers.length; i++) {
                         var layerData = json.layers[i];
+                        //Check what type it is.
                         switch (json.layers[i].type) {
                             case "tilelayer":
                                 var w = (layerData.width !== undefined) ? layerData.width : this.width;
@@ -6249,6 +6257,7 @@ var Kiwi;
                 * @private
                 */
                 TileMap.prototype._generateTypesFromTileset = function (tilesetData, atlas, startingCell) {
+                    //Loop through the tilesets
                     for (var i = 0; i < tilesetData.length; i++) {
                         var tileset = tilesetData[i];
                         //Tileset Information
@@ -6260,6 +6269,7 @@ var Kiwi;
                         var ih = tileset.imageheight - m;
                         //Drawing offsets
                         var offset = (tileset.tileoffset == undefined) ? { x: 0, y: 0 } : tileset.tileoffset;
+                        //Calculate how many tiles there are in this tileset and thus how many different tile type there can be.
                         for (var y = m; y < ih; y += th) {
                             for (var x = m; x < iw; x += tw) {
                                 //Does the cell exist? Then use that.
@@ -6270,6 +6280,7 @@ var Kiwi;
                                 startingCell++; //Increase the cell to use by one.
                             }
                         }
+                        //Add tile properties
                         for (var tp in tileset.tileproperties) {
                             var tileType = this.tileTypes[(parseInt(tileset.firstgid) + parseInt(tp))];
                             tileType.properties = tileset.tileproperties[tp];
@@ -6620,8 +6631,7 @@ var Kiwi;
                     get: function () {
                         return null;
                     },
-                    set: function (val) {
-                    },
+                    set: function (val) { },
                     enumerable: true,
                     configurable: true
                 });
@@ -6986,6 +6996,7 @@ var Kiwi;
                         width = this.width - x;
                     if (y + height > this.height)
                         height = this.height - y;
+                    //Loop through and of the tiles.
                     for (var j = y; j < y + height; j++) {
                         for (var i = x; i < x + width; i++) {
                             //Get the tile index.
@@ -7197,6 +7208,7 @@ var Kiwi;
                     var h = Kiwi.Utils.GameMath.snapToCeil(b.height, this.tileHeight) / this.tileHeight;
                     //Add one, because we want to include the very end tile.
                     var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
+                    //Loop through the tiles and make sure they are actually overlapping with the Entity.
                     for (var i = 0; i < tiles.length; i++) {
                         var t = tiles[i];
                         if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < b.top) {
@@ -7301,6 +7313,7 @@ var Kiwi;
                     var m = t.getConcatenatedMatrix();
                     //Find which ones we need to render.
                     this._calculateBoundaries(camera, m);
+                    //Loop through the tiles.
                     for (var y = this._startY; y < this._maxY; y++) {
                         for (var x = this._startX; x < this._maxX; x++) {
                             //Get the tile type
@@ -7323,7 +7336,11 @@ var Kiwi;
                             m.transformPoint(this._corner3);
                             m.transformPoint(this._corner4);
                             //Append to the xyuv array
-                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
+                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, //Top Left Point
+                            this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, //Top Right Point
+                            this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, //Bottom Right Point
+                            this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha //Bottom Left Point
+                            );
                         }
                     }
                     //Concat points to the Renderer.
@@ -7412,9 +7429,8 @@ var Kiwi;
                 TileMapLayerIsometric.prototype.getIndexFromCoords = function (x, y) {
                     //Not within the bounds?
                     var halfWidth = this.widthInPixels * 0.5;
-                    if (x > this.x + halfWidth || x < this.x - halfWidth)
-                        return -1;
-                    if (y > this.y + this.heightInPixels || y < this.y)
+                    var halfHeight = this.heightInPixels * 0.5;
+                    if (Math.abs(x) > halfWidth - halfWidth * Math.abs(y - halfHeight) / halfHeight)
                         return -1;
                     var point = this.screenToChart({ x: x, y: y });
                     return this.getIndexFromXY(point.x, point.y);
@@ -7452,10 +7468,12 @@ var Kiwi;
                 TileMapLayerIsometric.prototype.screenToChart = function (scrPt, tileW, tileH) {
                     if (tileW === void 0) { tileW = this.tileWidth; }
                     if (tileH === void 0) { tileH = this.tileHeight; }
-                    var column = Math.floor(scrPt.x / (tileW * 0.5));
-                    var row = Math.floor((scrPt.y - column * (tileH / 2)) / tileH);
+                    var xht = scrPt.x / (tileW * 0.5);
+                    var yht = scrPt.y / (tileH * 0.5);
+                    var col = Math.floor((xht + yht) * 0.5);
+                    var row = Math.floor((yht - xht) * 0.5);
                     return {
-                        x: column + row,
+                        x: col,
                         y: row
                     };
                 };
@@ -7511,6 +7529,7 @@ var Kiwi;
                     var m = t.getConcatenatedMatrix();
                     //Find which ones we need to render.
                     this._calculateBoundaries(camera, m);
+                    //Loop through the tiles.
                     for (var y = this._startY; y < this._maxY; y++) {
                         for (var x = this._startX; x < this._maxX; x++) {
                             //Get the tile type
@@ -7541,7 +7560,11 @@ var Kiwi;
                             m.transformPoint(this._corner3);
                             m.transformPoint(this._corner4);
                             //Append to the xyuv array
-                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
+                            vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, //Top Left Point
+                            this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, //Top Right Point
+                            this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, //Bottom Right Point
+                            this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha //Bottom Left Point
+                            );
                         }
                     }
                     //Concat points to the Renderer.
@@ -7840,6 +7863,8 @@ var Kiwi;
                         this.onChange.dispatch(name, this.currentAnimation);
                     }
                     else if (inheritFromTexture) {
+                        //Check to see if that animation exists on the atlas.
+                        //If so create a new version of it.
                         for (var i = 0; i < this._atlas.sequences.length; i++) {
                             if (this._atlas.sequences[i].name === name) {
                                 this.currentAnimation = this.createFromSequence(this._atlas.sequences[i], false);
@@ -8028,8 +8053,10 @@ var Kiwi;
                 */
                 get: function () {
                     if (this.autoUpdate == true && this.entity.atlas !== null && this.entity.atlas.cells && this.entity.atlas.cells[0].hitboxes) {
-                        this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
-                        this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
+                        this._hitboxOffset.x =
+                            this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
+                        this._hitboxOffset.y =
+                            this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
                     }
                     return this._hitboxOffset;
                 },
@@ -8490,9 +8517,7 @@ var Kiwi;
                 * @type Kiwi.Signal
                 * @public
                 */
-                get: function () {
-                    return this._onDragStarted;
-                },
+                get: function () { return this._onDragStarted; },
                 enumerable: true,
                 configurable: true
             });
@@ -8504,9 +8529,7 @@ var Kiwi;
                 * @type Kiwi.Signal
                 * @public
                 */
-                get: function () {
-                    return this._onDragStopped;
-                },
+                get: function () { return this._onDragStopped; },
                 enumerable: true,
                 configurable: true
             });
@@ -8618,9 +8641,7 @@ var Kiwi;
                 * @type boolean
                 * @public
                 */
-                get: function () {
-                    return (this._isDragging !== null);
-                },
+                get: function () { return (this._isDragging !== null); },
                 enumerable: true,
                 configurable: true
             });
@@ -9625,7 +9646,8 @@ var Kiwi;
                 if (gameObject.components.hasComponent('Box') == false)
                     return;
                 var box = gameObject.components.getComponent('Box');
-                var result = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) && (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
+                var result = (box.worldHitbox.x + box.worldHitbox.width > this.box.worldHitbox.x) && (box.worldHitbox.x < this.box.worldHitbox.x + this.box.worldHitbox.width) &&
+                    (box.worldHitbox.y + box.worldHitbox.height > this.box.worldHitbox.y) && (box.worldHitbox.y < this.box.worldHitbox.y + this.box.worldHitbox.height);
                 if (result) {
                     if (separateObjects)
                         ArcadePhysics.separate(this.owner, gameObject);
@@ -9929,6 +9951,7 @@ var Kiwi;
             ArcadePhysics.overlapsArrayGroup = function (array, group, separateObjects) {
                 if (separateObjects === void 0) { separateObjects = true; }
                 var result = false;
+                //loop through the array 
                 for (var i = 0; i < array.length; i++) {
                     if (typeof array[i].childType !== "undefined") {
                         if (array[i].childType() === Kiwi.GROUP) {
@@ -11238,6 +11261,7 @@ var Kiwi;
                         this.data[dataFile.key] = dataFile;
                         break;
                     default:
+                        //Image file is of unknown type and was not added to data library
                         break;
                 }
             };
@@ -13062,7 +13086,9 @@ var Kiwi;
                 this.file = !!window['File'] && !!window['FileReader'] && !!window['FileList'] && !!window['Blob'];
                 this.fileSystem = !!window['requestFileSystem'];
                 this.worker = !!window['Worker'];
-                if ('ontouchstart' in document.documentElement || (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 0)) {
+                if ('ontouchstart' in document.documentElement ||
+                    (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 0) ||
+                    (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 0)) {
                     this.touch = true;
                 }
                 if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
@@ -13147,8 +13173,7 @@ var Kiwi;
                         }
                     }
                 }
-                catch (e) {
-                }
+                catch (e) { }
             };
             /**
             *
@@ -13482,6 +13507,7 @@ var Kiwi;
                         this.textures[imageFile.key] = this._buildTextureAtlas(imageFile);
                         break;
                     default:
+                        //Image file is of unknown type and was not added to texture library
                         break;
                 }
             };
@@ -15194,14 +15220,17 @@ var Kiwi;
                     this._onStartCallbackFired = true;
                 }
                 var elapsed = (time - this._startTime) / this._duration;
-                elapsed = elapsed > 1 ? 1 : elapsed < 0 ? 0 : elapsed;
+                elapsed = elapsed > 1 ? 1 :
+                    elapsed < 0 ? 0 :
+                        elapsed;
                 var value = this._easingFunction(elapsed);
                 for (var property in this._valuesStart) {
                     var start = this._valuesStart[property];
                     var end = this._valuesEnd[property];
                     //  Add checks for object, array, numeric up front
                     if (end instanceof Array) {
-                        this._object[property] = this._interpolationFunction(end, value);
+                        this._object[property] =
+                            this._interpolationFunction(end, value);
                     }
                     else {
                         if (typeof this._object[property] === "function") {
@@ -15217,7 +15246,8 @@ var Kiwi;
                 }
                 if (elapsed === 1) {
                     this.isRunning = false;
-                    if (this._onCompleteCallback !== null && this._onCompleteCalled === false) {
+                    if (this._onCompleteCallback !== null &&
+                        this._onCompleteCalled === false) {
                         this._onCompleteCalled = true;
                         this._onCompleteCallback.call(this._onCompleteContext, this._object);
                     }
@@ -15827,7 +15857,10 @@ var Kiwi;
                 this._batches = [];
                 var batchIndex;
                 for (var i = 0; i < this._sequence.length; i++) {
-                    if (!this._sequence[i].isBatchRenderer || this._sequence[i].renderer !== currentRenderer || this._sequence[i].shader !== currentShader || this._sequence[i].texture !== currentTexture) {
+                    if (!this._sequence[i].isBatchRenderer ||
+                        this._sequence[i].renderer !== currentRenderer ||
+                        this._sequence[i].shader !== currentShader ||
+                        this._sequence[i].texture !== currentTexture) {
                         //create a new batch
                         var batchIndex = this._batches.push(new Array()) - 1;
                         currentRenderer = this._sequence[i].renderer;
@@ -15865,6 +15898,7 @@ var Kiwi;
                 }
                 // Clear renderer for fresh data
                 this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
+                // Call render functions
                 for (var i = 0; i < batch.length; i++)
                     batch[i].entity.renderGL(gl, camera);
                 // Upload textures
@@ -16594,14 +16628,10 @@ var Kiwi;
             * @public
             */
             GLArrayBuffer.squareVertices = [
-                0,
-                0,
-                100,
-                0,
-                100,
-                100,
-                0,
-                100
+                0, 0,
+                100, 0,
+                100, 100,
+                0, 100
             ];
             /**
             *
@@ -16612,14 +16642,10 @@ var Kiwi;
             * @public
             */
             GLArrayBuffer.squareUVs = [
-                0,
-                0,
-                .1,
-                0,
-                .1,
-                .1,
-                0,
-                .1
+                0, 0,
+                .1, 0,
+                .1, .1,
+                0, .1
             ];
             /**
             *
@@ -16630,10 +16656,7 @@ var Kiwi;
             * @public
             */
             GLArrayBuffer.squareCols = [
-                1,
-                1,
-                1,
-                1
+                1, 1, 1, 1
             ];
             return GLArrayBuffer;
         })();
@@ -16884,7 +16907,12 @@ var Kiwi;
             GLBlendMode.prototype.isIdentical = function (blendMode) {
                 if (this == blendMode)
                     return (true);
-                if (this._srcRGB == blendMode._srcRGB && this._dstRGB == blendMode._dstRGB && this._srcAlpha == blendMode._srcAlpha && this._dstAlpha == blendMode._dstAlpha && this._modeRGB == blendMode._modeRGB && this._modeAlpha == blendMode._modeAlpha)
+                if (this._srcRGB == blendMode._srcRGB
+                    && this._dstRGB == blendMode._dstRGB
+                    && this._srcAlpha == blendMode._srcAlpha
+                    && this._dstAlpha == blendMode._dstAlpha
+                    && this._modeRGB == blendMode._modeRGB
+                    && this._modeAlpha == blendMode._modeAlpha)
                     return (true);
                 return (false);
             };
@@ -16980,12 +17008,8 @@ var Kiwi;
             * @public
             */
             GLElementArrayBuffer.square = [
-                0,
-                1,
-                2,
-                0,
-                2,
-                3
+                0, 1, 2,
+                0, 2, 3
             ];
             return GLElementArrayBuffer;
         })();
@@ -17981,7 +18005,8 @@ var Kiwi;
                 var frameDelta, i, repeats;
                 if (this._isPlaying) {
                     // How many frames do we move, ahead or behind?
-                    frameDelta = ((this.clock.elapsed() - this._lastFrameElapsed) / this._speed) % (this.length + 1);
+                    frameDelta = ((this.clock.elapsed() -
+                        this._lastFrameElapsed) / this._speed) % (this.length + 1);
                     if (this._reverse) {
                         frameDelta *= -1;
                     }
@@ -18008,7 +18033,8 @@ var Kiwi;
                             }
                             else if (this._frameIndex < 0) {
                                 repeats = Math.ceil(Math.abs(this._frameIndex) / this.length);
-                                this._frameIndex = (this.length + this._frameIndex % this.length) % this.length;
+                                this._frameIndex = (this.length +
+                                    this._frameIndex % this.length) % this.length;
                                 if (this._onLoop != null) {
                                     for (i = 0; i < repeats; i++) {
                                         this._onLoop.dispatch();
@@ -18017,7 +18043,8 @@ var Kiwi;
                             }
                         }
                         else if (this._frameIndex < 0) {
-                            this._frameIndex = (this.length + this._frameIndex % this.length) % this.length;
+                            this._frameIndex = (this.length +
+                                this._frameIndex % this.length) % this.length;
                             // Execute the stop on the parent 
                             // to allow the isPlaying boolean to remain consistent
                             this._parent.stop();
@@ -20340,6 +20367,7 @@ var Kiwi;
                         break;
                     }
                 }
+                //Loop through the fingers and check to see that none of them are down.
                 for (var i = 0; i < this._fingers.length; i++) {
                     if (this._fingers[i].active === true) {
                         this.isDown = true;
@@ -20366,6 +20394,7 @@ var Kiwi;
                         break;
                     }
                 }
+                //loop through the fingers and check to see that none of them are down.
                 for (var i = 0; i < this._fingers.length; i++) {
                     if (this._fingers[i].active) {
                         this.isDown = true;
@@ -20467,6 +20496,7 @@ var Kiwi;
             Touch.prototype.onTouchEnter = function (event) {
                 //Stop corresponding mouse events from firing.
                 event.preventDefault();
+                // For touch enter and leave its a list of the touch points that have entered or left the target
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._enterFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -20481,6 +20511,7 @@ var Kiwi;
             Touch.prototype.onTouchLeave = function (event) {
                 //Stops corresponding mouse events from firing
                 event.preventDefault();
+                // For touch enter and leave its a list of the touch points that have entered or left the target 
                 for (var i = 0; i < event.changedTouches.length; i++) {
                     this._leaveFinger(event.changedTouches[i], event.changedTouches[i].identifier);
                 }
@@ -22283,11 +22314,16 @@ var Kiwi;
             Intersect.lineToLine = function (line1, line2, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
                 output.result = false;
-                var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
+                var denom = (line1.x1 - line1.x2) * (line2.y1 - line2.y2) -
+                    (line1.y1 - line1.y2) * (line2.x1 - line2.x2);
                 if (denom !== 0) {
                     output.result = true;
-                    output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (line2.x1 - line2.x2) - (line1.x1 - line1.x2) * (line2.x1 * line2.y2 - line2.y1 * line2.x2)) / denom;
-                    output.y = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (line2.y1 - line2.y2) - (line1.y1 - line1.y2) * (line2.x1 * line2.y2 - line2.y1 * line2.x2)) / denom;
+                    output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) *
+                        (line2.x1 - line2.x2) - (line1.x1 - line1.x2) *
+                        (line2.x1 * line2.y2 - line2.y1 * line2.x2)) / denom;
+                    output.y = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) *
+                        (line2.y1 - line2.y2) - (line1.y1 - line1.y2) *
+                        (line2.x1 * line2.y2 - line2.y1 * line2.x2)) / denom;
                 }
                 return output;
             };
@@ -22313,15 +22349,21 @@ var Kiwi;
             Intersect.lineToLineSegment = function (line1, seg, output) {
                 if (output === void 0) { output = new Geom.IntersectResult; }
                 output.result = false;
-                var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
+                var denom = (line1.x1 - line1.x2) * (seg.y1 - seg.y2) -
+                    (line1.y1 - line1.y2) * (seg.x1 - seg.x2);
                 if (denom !== 0) {
-                    output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (seg.x1 - seg.x2) - (line1.x1 - line1.x2) * (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
-                    output.y = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) * (seg.y1 - seg.y2) - (line1.y1 - line1.y2) * (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
+                    output.x = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) *
+                        (seg.x1 - seg.x2) - (line1.x1 - line1.x2) *
+                        (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
+                    output.y = ((line1.x1 * line1.y2 - line1.y1 * line1.x2) *
+                        (seg.y1 - seg.y2) - (line1.y1 - line1.y2) *
+                        (seg.x1 * seg.y2 - seg.y1 * seg.x2)) / denom;
                     var maxX = Math.max(seg.x1, seg.x2);
                     var minX = Math.min(seg.x1, seg.x2);
                     var maxY = Math.max(seg.y1, seg.y2);
                     var minY = Math.min(seg.y1, seg.y2);
-                    if ((output.x <= maxX && output.x >= minX) === true && (output.y <= maxY && output.y >= minY) === true) {
+                    if ((output.x <= maxX && output.x >= minX) === true &&
+                        (output.y <= maxY && output.y >= minY) === true) {
                         output.result = true;
                     }
                 }
@@ -22354,7 +22396,8 @@ var Kiwi;
                     var minX = Math.min(x1, x2);
                     var maxY = Math.max(y1, y2);
                     var minY = Math.min(y1, y2);
-                    if (output.x <= maxX && output.x >= minX && output.y <= maxY && output.y >= minY) {
+                    if (output.x <= maxX && output.x >= minX &&
+                        output.y <= maxY && output.y >= minY) {
                         output.result = true;
                     }
                 }
@@ -22501,7 +22544,10 @@ var Kiwi;
                 output.result = false;
                 Intersect.lineToLineSegment(line1, line2, output);
                 if (output.result === true) {
-                    if (!(output.x >= Math.min(line1.x1, line1.x2) && output.x <= Math.max(line1.x1, line1.x2) && output.y >= Math.min(line1.y1, line1.y2) && output.y <= Math.max(line1.y1, line1.y2))) {
+                    if (!(output.x >= Math.min(line1.x1, line1.x2) &&
+                        output.x <= Math.max(line1.x1, line1.x2) &&
+                        output.y >= Math.min(line1.y1, line1.y2) &&
+                        output.y <= Math.max(line1.y1, line1.y2))) {
                         output.result = false;
                     }
                 }
@@ -22524,7 +22570,8 @@ var Kiwi;
                 output.result = false;
                 Intersect.lineToRay(line1, ray, output);
                 if (output.result === true) {
-                    if (!(output.x >= Math.min(line1.x1, line1.x2) && output.x <= Math.max(line1.x1, line1.x2) && output.y >= Math.min(line1.y1, line1.y2) && output.y <= Math.max(line1.y1, line1.y2))) {
+                    if (!(output.x >= Math.min(line1.x1, line1.x2) && output.x <= Math.max(line1.x1, line1.x2)
+                        && output.y >= Math.min(line1.y1, line1.y2) && output.y <= Math.max(line1.y1, line1.y2))) {
                         output.result = false;
                     }
                 }
@@ -22557,7 +22604,8 @@ var Kiwi;
                     }
                     else {
                         //  Worst case - segment doesn't traverse center, so no perpendicular connection.
-                        if (Intersect.circleContainsPoint(circle, { x: seg.x1, y: seg.y1 }).result || Intersect.circleContainsPoint(circle, { x: seg.x2, y: seg.y2 }).result) {
+                        if (Intersect.circleContainsPoint(circle, { x: seg.x1, y: seg.y1 }).result ||
+                            Intersect.circleContainsPoint(circle, { x: seg.x2, y: seg.y2 }).result) {
                             output.result = true;
                         }
                     }
@@ -22751,7 +22799,8 @@ var Kiwi;
                     return output;
                 }
                 // If circle centroid is within the rect, it overlaps.
-                if (circleRelativeX <= halfRectWidth || circleRelativeY <= rect.height / 2) {
+                if (circleRelativeX <= halfRectWidth ||
+                    circleRelativeY <= rect.height / 2) {
                     output.result = true;
                     return output;
                 }
@@ -22760,7 +22809,8 @@ var Kiwi;
                 // own radius of this ideal corner, it overlaps.
                 cornerDistX = circleRelativeX - halfRectWidth;
                 cornerDistY = circleRelativeY - halfRectHeight;
-                output.result = cornerDistX * cornerDistX + cornerDistY * cornerDistY <= circle.radius * circle.radius;
+                output.result = cornerDistX * cornerDistX + cornerDistY * cornerDistY <=
+                    circle.radius * circle.radius;
                 return output;
             };
             /**
@@ -23378,7 +23428,12 @@ var Kiwi;
             * @public
             */
             Matrix.prototype.equals = function (matrix) {
-                return (this.a === matrix.a && this.b === matrix.b && this.c === matrix.c && this.d === matrix.d && this.tx === matrix.tx && this.ty === matrix.ty);
+                return (this.a === matrix.a &&
+                    this.b === matrix.b &&
+                    this.c === matrix.c &&
+                    this.d === matrix.d &&
+                    this.tx === matrix.tx &&
+                    this.ty === matrix.ty);
             };
             return Matrix;
         })();
@@ -24969,7 +25024,9 @@ var Kiwi;
                 // Get local matrix
                 this._cachedConcatenatedMatrix.copyFrom(this._matrix);
                 // Apply parent transform
-                if (this._parent && !this._parent.ignoreChild && !this.ignoreParent) {
+                if (this._parent &&
+                    !this._parent.ignoreChild &&
+                    !this.ignoreParent) {
                     this._cachedConcatenatedMatrix.tx -= this._parent.anchorPointX;
                     this._cachedConcatenatedMatrix.ty -= this._parent.anchorPointY;
                     this._cachedConcatenatedMatrix.prependMatrix(this.getParentMatrix());
@@ -26704,6 +26761,7 @@ var Kiwi;
                             }
                         }
                         else {
+                            //remove some
                             for (var i = this.counter.max; i < this._icons.length; i++) {
                                 this._removeIcon(this._icons[i]);
                                 this._icons[i].destroy();
@@ -26712,6 +26770,7 @@ var Kiwi;
                             }
                         }
                     }
+                    //display them all!
                     for (var i = 0; i < this._icons.length; i++) {
                         if (i > (this.counter.current - 1)) {
                             this._icons[i].style.display = 'none';
@@ -28924,6 +28983,7 @@ var Kiwi;
                         this.audio[audioFile.key] = audioFile;
                         break;
                     default:
+                        //Audio file is of unknown type and was not added to audio library
                         break;
                 }
             };
@@ -32447,6 +32507,7 @@ var Kiwi;
                     m = n;
                     n = r;
                 }
+                //now start loop
                 while (true) {
                     r = m % n;
                     if (!r)
@@ -33229,106 +33290,21 @@ var Kiwi;
                 */
                 this._data = {
                     lipsum: [
-                        "lorem",
-                        "ipsum",
-                        "dolor",
-                        "sit",
-                        "amet",
-                        "consectetur",
-                        "adipiscing",
-                        "elit",
-                        "nunc",
-                        "sagittis",
-                        "tortor",
-                        "ac",
-                        "mi",
-                        "pretium",
-                        "sed",
-                        "convallis",
-                        "massa",
-                        "pulvinar",
-                        "curabitur",
-                        "non",
-                        "turpis",
-                        "velit",
-                        "vitae",
-                        "rutrum",
-                        "odio",
-                        "aliquam",
-                        "sapien",
-                        "orci",
-                        "tempor",
-                        "sed",
-                        "elementum",
-                        "sit",
-                        "amet",
-                        "tincidunt",
-                        "sed",
-                        "risus",
-                        "etiam",
-                        "nec",
-                        "lacus",
-                        "id",
-                        "ante",
-                        "hendrerit",
-                        "malesuada",
-                        "donec",
-                        "porttitor",
-                        "magna",
-                        "eget",
-                        "libero",
-                        "pharetra",
-                        "sollicitudin",
-                        "aliquam",
-                        "mattis",
-                        "mattis",
-                        "massa",
-                        "et",
-                        "porta",
-                        "morbi",
-                        "vitae",
-                        "magna",
-                        "augue",
-                        "vestibulum",
-                        "at",
-                        "lectus",
-                        "sed",
-                        "tellus",
-                        "facilisis",
-                        "tincidunt",
-                        "suspendisse",
-                        "eros",
-                        "magna",
-                        "consequat",
-                        "at",
-                        "sollicitudin",
-                        "ac",
-                        "vestibulum",
-                        "vel",
-                        "dolor",
-                        "in",
-                        "egestas",
-                        "lacus",
-                        "quis",
-                        "lacus",
-                        "placerat",
-                        "et",
-                        "molestie",
-                        "ipsum",
-                        "scelerisque",
-                        "nullam",
-                        "sit",
-                        "amet",
-                        "tortor",
-                        "dui",
-                        "aenean",
-                        "pulvinar",
-                        "odio",
-                        "nec",
-                        "placerat",
-                        "fringilla",
-                        "neque",
-                        "dolor"
+                        "lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
+                        "adipiscing", "elit", "nunc", "sagittis", "tortor", "ac", "mi",
+                        "pretium", "sed", "convallis", "massa", "pulvinar", "curabitur",
+                        "non", "turpis", "velit", "vitae", "rutrum", "odio", "aliquam",
+                        "sapien", "orci", "tempor", "sed", "elementum", "sit", "amet",
+                        "tincidunt", "sed", "risus", "etiam", "nec", "lacus", "id", "ante",
+                        "hendrerit", "malesuada", "donec", "porttitor", "magna", "eget",
+                        "libero", "pharetra", "sollicitudin", "aliquam", "mattis", "mattis",
+                        "massa", "et", "porta", "morbi", "vitae", "magna", "augue",
+                        "vestibulum", "at", "lectus", "sed", "tellus", "facilisis",
+                        "tincidunt", "suspendisse", "eros", "magna", "consequat", "at",
+                        "sollicitudin", "ac", "vestibulum", "vel", "dolor", "in", "egestas",
+                        "lacus", "quis", "lacus", "placerat", "et", "molestie", "ipsum",
+                        "scelerisque", "nullam", "sit", "amet", "tortor", "dui", "aenean",
+                        "pulvinar", "odio", "nec", "placerat", "fringilla", "neque", "dolor"
                     ]
                 };
                 this.sow(seeds);
@@ -33714,7 +33690,8 @@ var Kiwi;
                 }
                 else {
                     this._isSetTimeOut = false;
-                    this._rafId = window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
+                    this._rafId =
+                        window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
                 }
                 this.isRunning = true;
             };
@@ -34699,9 +34676,7 @@ var Kiwi;
         for (var p in b)
             if (b.hasOwnProperty(p))
                 d[p] = b[p];
-        function __() {
-            this.constructor = d;
-        }
+        function __() { this.constructor = d; }
         __.prototype = b.prototype;
         d.prototype = new __();
     };
