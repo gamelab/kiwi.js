@@ -2987,27 +2987,27 @@
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this Stage belongs to.",
+                    "description": "Game that this Stage belongs to",
                     "type": "Kiwi.Game"
                 },
                 {
                     "name": "name",
-                    "description": "The name of the kiwi game.",
+                    "description": "Name of the kiwi game",
                     "type": "String"
                 },
                 {
                     "name": "width",
-                    "description": "The initial width of the game.",
+                    "description": "Initial width of the game",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "The initial heihgt of the game.",
+                    "description": "Initial height of the game",
                     "type": "Number"
                 },
                 {
                     "name": "scaleType",
-                    "description": "The scale method that should be used for the game.",
+                    "description": "Scale method to use. May be\n\t`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,\n\tor `Kiwi.Stage.SCALE_FIT`,",
                     "type": "Number"
                 }
             ],
@@ -17132,8 +17132,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 64,
-            "description": "Returns the type of this object.",
+            "line": 66,
+            "description": "Return the type of this object.",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -17148,8 +17148,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 74,
-            "description": "The default width of the stage.",
+            "line": 76,
+            "description": "Default width of the stage",
             "itemtype": "property",
             "name": "DEFAULT_WIDTH",
             "type": "number",
@@ -17163,8 +17163,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 84,
-            "description": "The default height of the stage.",
+            "line": 86,
+            "description": "Default height of the stage",
             "itemtype": "property",
             "name": "DEFAULT_HEIGHT",
             "type": "number",
@@ -17178,8 +17178,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 95,
-            "description": "The default scaling method used on Kiwi Games. \nThis scaling method will set the container's width/height\nto static values.",
+            "line": 96,
+            "description": "Default scaling method used on Kiwi Games.\nThis scaling method will set the container's width/height\nto static values.",
             "itemtype": "property",
             "name": "SCALE_NONE",
             "type": "number",
@@ -17193,8 +17193,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 108,
-            "description": "Scale Fit will scale the stage's width to fit its parents width.\nThe height is then calculated to maintain the aspect ratio of the\nwidth/height of the Stage.",
+            "line": 109,
+            "description": "SCALE_FIT will scale the stage's width to fit its parent's width.\nThe height is then calculated to maintain the aspect ratio of the\nwidth/height of the Stage.\n\nIn CocoonJS, it still maintains aspect ratio, but keeps the\nentire game stage on the screen.",
             "itemtype": "property",
             "name": "SCALE_FIT",
             "type": "number",
@@ -17208,8 +17208,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 120,
-            "description": "Stretch will make the stage scale to fit its parents width/height\n(by using max/min height of 100%).\nIf the parent doesn't have a height set then the height will be\nthe height of the stage.",
+            "line": 125,
+            "description": "Stretch will make the stage scale to fit its parent's width/height\n(by using max/min height of 100%).\nIf the parent doesn't have a height set then the height will be\nthe height of the stage.",
             "itemtype": "property",
             "name": "SCALE_STRETCH",
             "type": "number",
@@ -17223,7 +17223,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 133,
+            "line": 138,
             "description": "Private property that holds the scaling method that should be\napplied to the container element.",
             "itemtype": "property",
             "name": "_scaleType",
@@ -17237,7 +17237,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 143,
+            "line": 148,
             "description": "Holds type of scaling that should be applied the container element.",
             "itemtype": "property",
             "name": "scaleType",
@@ -17251,8 +17251,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 160,
-            "description": "The alpha of the stage.",
+            "line": 165,
+            "description": "Alpha of the stage",
             "itemtype": "property",
             "name": "_alpha",
             "type": "number",
@@ -17265,7 +17265,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 169,
+            "line": 174,
             "description": "Sets the alpha of the container element.\n0 = invisible, 1 = fully visible.\nNote: Because the alpha value is applied to the container,\nit will not work in CocoonJS.",
             "itemtype": "property",
             "name": "alpha",
@@ -17279,8 +17279,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 192,
-            "description": "The X coordinate of the stage.",
+            "line": 197,
+            "description": "Horizontal coordinate of the stage.",
             "itemtype": "property",
             "name": "_x",
             "type": "number",
@@ -17292,8 +17292,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 200,
-            "description": "The X coordinate of the stage. This number should be the same\nas the stage's `left` property.",
+            "line": 205,
+            "description": "Horizontal coordinate of the stage. This number should be the same\nas the stage's `left` property.",
             "itemtype": "property",
             "name": "x",
             "type": "number",
@@ -17305,8 +17305,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 219,
-            "description": "The Y coordinate of the stage.",
+            "line": 224,
+            "description": "Vertical coordinate of the stage.",
             "itemtype": "property",
             "name": "_y",
             "type": "number",
@@ -17318,8 +17318,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 227,
-            "description": "Get the Y coordinate of the stage. This number should be the same\nas the stage's `top` property.",
+            "line": 232,
+            "description": "Vertical coordinate of the stage. This number should be the same\nas the stage's `top` property.",
             "itemtype": "property",
             "name": "y",
             "type": "number",
@@ -17331,8 +17331,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 246,
-            "description": "The width of the stage.",
+            "line": 251,
+            "description": "Width of the stage",
             "itemtype": "property",
             "name": "_width",
             "type": "number",
@@ -17344,8 +17344,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 254,
-            "description": "The width of the stage. This is READ ONLY.\nSee the \"resize\" method if you need to modify this value.",
+            "line": 259,
+            "description": "Width of the stage. This is READ ONLY.\nSee the \"resize\" method if you need to modify this value.",
             "itemtype": "property",
             "name": "width",
             "type": "number",
@@ -17358,8 +17358,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 266,
-            "description": "The height of the stage",
+            "line": 271,
+            "description": "Height of the stage",
             "itemtype": "property",
             "name": "_height",
             "type": "number",
@@ -17371,8 +17371,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 274,
-            "description": "The height of the stage. This is READ ONLY.\nSee the `resize` method if you need to modify this value.",
+            "line": 279,
+            "description": "Height of the stage. This is READ ONLY.\nSee the `resize` method if you need to modify this value.",
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -17385,8 +17385,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 286,
-            "description": "A `Signal` that dispatches an event when the stage gets resized.",
+            "line": 291,
+            "description": "`Signal` that dispatches an event when the stage gets resized",
             "itemtype": "property",
             "name": "onResize",
             "type": "Kiwi.Signal",
@@ -17398,8 +17398,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 295,
-            "description": "A Signal which dispatches events when the window is resized. \nUseful to detect if the screen is now in a \"landscape\" or \"portrait\"\nview on Mobile/Cocoon devices.",
+            "line": 300,
+            "description": "`Signal` which dispatches events when the window is resized.\nUseful to detect if the screen is now in a \"landscape\" or \"portrait\"\nview on mobile/CocoonJS devices.",
             "itemtype": "property",
             "name": "onWindowResize",
             "type": "Kiwi.Signal",
@@ -17411,8 +17411,16 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 305,
-            "description": "Calculates and returns the amount that the container has been scaled\nby. Mainly used for re-calculating input coordinates. \nNote: For COCOONJS this returns 1 since COCOONJS translates the\nscale itself. This property is READ ONLY.",
+            "line": 310,
+            "description": "Amount that the container has been scaled by.\n* @property _scale\n* @type Kiwi.Geom.Point\n* @default 1\n* @private",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Stage.ts",
+            "line": 319,
+            "description": "Amount that the container has been scaled by.\nMainly used for re-calculating input coordinates.\nNote: For COCOONJS this returns 1 since COCOONJS translates the\nscale itself. This property is READ ONLY.",
             "itemtype": "property",
             "name": "scale",
             "type": "Kiwi.Geom.Point",
@@ -17425,8 +17433,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 321,
-            "description": "Calculates and returns the amount that the container has been scaled\nby on the X axis.",
+            "line": 333,
+            "description": "Amount that the container has been scaled by on the X axis",
             "itemtype": "property",
             "name": "scaleX",
             "type": "Number",
@@ -17439,8 +17447,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 333,
-            "description": "Calculates and returns the amount that the container has been scaled\nby on the Y axis.",
+            "line": 344,
+            "description": "Amount that the container has been scaled by on the Y axis",
             "itemtype": "property",
             "name": "scaleY",
             "type": "Number",
@@ -17453,7 +17461,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 345,
+            "line": 355,
             "description": "A point which determines the offset of this Stage",
             "itemtype": "property",
             "name": "offset",
@@ -17466,8 +17474,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 353,
-            "description": "The game this Stage belongs to",
+            "line": 363,
+            "description": "Game this Stage belongs to",
             "itemtype": "property",
             "name": "_game",
             "type": "Kiwi.Game",
@@ -17479,8 +17487,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 361,
-            "description": "The title of your stage",
+            "line": 371,
+            "description": "Title of the game",
             "itemtype": "property",
             "name": "name",
             "type": "string",
@@ -17492,8 +17500,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 369,
-            "description": "Whether or not this Stage is DOM ready.",
+            "line": 379,
+            "description": "Whether or not this Stage is DOM ready",
             "itemtype": "property",
             "name": "domReady",
             "type": "boolean",
@@ -17505,8 +17513,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 377,
-            "description": "The background color of the stage.",
+            "line": 387,
+            "description": "Background color of the stage",
             "itemtype": "property",
             "name": "_color",
             "type": "Kiwi.Utils.Color",
@@ -17518,7 +17526,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 386,
+            "line": 396,
             "description": "Sets the background color of the stage.\n\nThis can be any valid parameter for Kiwi.Utils.Color.\nIf passing multiple parameters, do so in a single array.\n\nThe default value is \"ffffff\" or pure white.\n\nNote for users of CocoonJS: When using the WebGL renderer,\nthe stage color will fill all parts of the screen outside the canvas.\nKiwi.js will automatically set the color to \"000000\" or pure black\nwhen using CocoonJS. If you change it, and your game does not fill\nthe entire screen, the empty portions of the screen will also change\ncolor.",
             "itemtype": "property",
             "name": "color",
@@ -17531,7 +17539,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 416,
+            "line": 426,
             "description": "Allows the setting of the background color of the stage through\ncomponent RGB colour values.\n\nThis property is an Object Literal with \"r\", \"g\", \"b\" colour streams\nof values between 0 and 255.",
             "itemtype": "property",
             "name": "rgbColor",
@@ -17544,7 +17552,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 437,
+            "line": 447,
             "description": "Allows the setting of the background color of the stage through\ncomponent RGBA colour values.\n\nThis property is an Object Literal with \"r\", \"g\", \"b\", \"a\" colour\nstreams of values between 0 and 255.\n\nNote that the alpha value is from 0-255, not 0-1. This is to\npreserve compatibility with hex-style color values, e.g. \"ff0000ff\".",
             "itemtype": "property",
             "name": "rgbaColor",
@@ -17558,7 +17566,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 463,
+            "line": 473,
             "description": "Get the normalized background color of the stage.\nReturns an object with rgba values, each being between 0 and 1.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "normalizedColor",
@@ -17571,8 +17579,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 479,
-            "description": "The webgl rendering context.",
+            "line": 489,
+            "description": "WebGL rendering context",
             "itemtype": "property",
             "name": "gl",
             "type": "WebGLRenderingContext",
@@ -17584,8 +17592,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 488,
-            "description": "The canvas rendering context.",
+            "line": 498,
+            "description": "Canvas rendering context",
             "itemtype": "property",
             "name": "ctx",
             "type": "CanvasRenderingContext2D",
@@ -17597,8 +17605,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 497,
-            "description": "The canvas element that is being rendered on.",
+            "line": 507,
+            "description": "Canvas element to which the game is rendered",
             "itemtype": "property",
             "name": "canvas",
             "type": "HTMLCanvasElement",
@@ -17610,8 +17618,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 506,
-            "description": "The debugging canvas.",
+            "line": 516,
+            "description": "Debugging canvas",
             "itemtype": "property",
             "name": "debugCanvas",
             "type": "HTMLCanvasElement",
@@ -17623,8 +17631,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 515,
-            "description": "The debug canvas rendering context.",
+            "line": 525,
+            "description": "Debug canvas rendering context",
             "itemtype": "property",
             "name": "dctx",
             "type": "CanvasRenderingContext2D",
@@ -17636,8 +17644,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 524,
-            "description": "The parent div in which the layers and input live",
+            "line": 534,
+            "description": "Parent div in which the layers and input live",
             "itemtype": "property",
             "name": "container",
             "type": "HTMLDivElement",
@@ -17649,8 +17657,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 533,
-            "description": "Stores the renderer created after context detection.",
+            "line": 543,
+            "description": "Renderer created after context detection.",
             "itemtype": "property",
             "name": "_renderer",
             "type": "any",
@@ -17663,8 +17671,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 542,
-            "description": "Get the renderer associated with the canvas context.\nThis is either a GLRenderManager or a CanvasRenderer.\nIf the Kiwi.RENDERER_WEBGL renderer was requested\nbut could not be created, it will fall back to CanvasRenderer.\nThis is READ ONLY.",
+            "line": 552,
+            "description": "Renderer associated with the canvas context.\nThis is either a `GLRenderManager` or a `CanvasRenderer`.\nIf the Kiwi.RENDERER_WEBGL renderer was requested\nbut could not be created, it will fall back to CanvasRenderer.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "renderer",
             "type": "number",
@@ -17677,15 +17685,15 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 558,
-            "description": "Is executed when the DOM has loaded and the game is just starting. \nThis is a internal method used by the core of Kiwi itself.",
+            "line": 568,
+            "description": "Execute when the DOM has loaded and the game is just starting.\nThis is an internal method used by the core of Kiwi itself.",
             "itemtype": "method",
             "name": "boot",
             "params": [
                 {
                     "name": "dom",
-                    "description": "The",
-                    "type": "HTMLElement"
+                    "description": "Booted Bootstrap containing\n\tDOM information",
+                    "type": "Kiwi.System.Bootstrap"
                 }
             ],
             "access": "public",
@@ -17696,8 +17704,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 596,
-            "description": "Gets the x/y coordinate offset of any given valid DOM Element\nfrom the top/left position of the browser\nBased on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js",
+            "line": 608,
+            "description": "Get the x/y coordinate offset of any given valid DOM Element\nfrom the top/left position of the browser.\nBased on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js",
             "itemtype": "method",
             "name": "getOffsetPoint",
             "params": [
@@ -17724,8 +17732,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 619,
-            "description": "Method that is fired when the window is resized.",
+            "line": 631,
+            "description": "Fire when the window is resized.",
             "itemtype": "method",
             "name": "_windowResized",
             "params": [
@@ -17743,8 +17751,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 632,
-            "description": "Method that is fired when the device is reoriented.",
+            "line": 644,
+            "description": "Fire when the device is reoriented.",
             "itemtype": "method",
             "name": "_orientationChanged",
             "params": [
@@ -17763,8 +17771,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 643,
-            "description": "Used to calculate new offset and scale for the stage.",
+            "line": 655,
+            "description": "Calculate new offset and scale for the stage.",
             "itemtype": "method",
             "name": "_calculateContainerScale",
             "access": "private",
@@ -17775,8 +17783,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 663,
-            "description": "Handles the creation of the canvas that the game will use and\nretrieves the context for the renderer.",
+            "line": 675,
+            "description": "Handle creation of the canvas that the game will use and\nretrieve the context for the renderer.",
             "itemtype": "method",
             "name": "_createCompositeCanvas",
             "access": "private",
@@ -17787,19 +17795,19 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 735,
+            "line": 748,
             "description": "Set the stage width and height for rendering purposes.\nThis will not effect that \"scaleType\" that it has been set to.",
             "itemtype": "method",
             "name": "resize",
             "params": [
                 {
                     "name": "width",
-                    "description": "The new Stage width.",
+                    "description": "New Stage width",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "The new Stage height.",
+                    "description": "New Stage height",
                     "type": "Number"
                 }
             ],
@@ -17811,29 +17819,29 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 758,
-            "description": "Sets the background color of the stage through component\nRGB colour values. Each parameter is a number between 0 and 255.\nThis method also returns an Object Literal with \"r\", \"g\", \"b\"\nproperties.",
+            "line": 771,
+            "description": "Set background color of the stage through component\nRGB colour values. Each parameter is a number between 0 and 255.\nThis method also returns an Object literal with \"r\", \"g\", \"b\"\nproperties.",
             "itemtype": "method",
             "name": "setRGBColor",
             "params": [
                 {
                     "name": "r",
-                    "description": "The red component. A value between 0 and 255.",
+                    "description": "Red component. A value between 0 and 255",
                     "type": "Number"
                 },
                 {
                     "name": "g",
-                    "description": "The green component. A value between 0 and 255.",
+                    "description": "Green component. A value between 0 and 255",
                     "type": "Number"
                 },
                 {
                     "name": "b",
-                    "description": "The blue component. A value between 0 and 255.",
+                    "description": "Blue component. A value between 0 and 255",
                     "type": "Number"
                 }
             ],
             "return": {
-                "description": "A Object literal containing the r,g,b properties.",
+                "description": "Object literal containing the `r,g,b` properties",
                 "type": "Object"
             },
             "access": "public",
@@ -17844,8 +17852,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 777,
-            "description": "Creates a debug canvas and adds it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on)\nand rendering/clearing of the canvas is upto the developer. \nThe context for rendering can be access via the \"dctx\" property and\nyou can use the \"clearDebugCanvas\" method to clear the canvas.",
+            "line": 790,
+            "description": "Create a debug canvas and add it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on)\nand rendering/clearing of the canvas is up to the developer.\nThe context for rendering can be accessed via the \"dctx\" property and\nyou can use the \"clearDebugCanvas\" method to clear the canvas.",
             "itemtype": "method",
             "name": "createDebugCanvas",
             "access": "public",
@@ -17856,17 +17864,15 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 814,
-            "description": "Clears the debug canvas and fills with either the color passed. \nIf not colour is passed then Red at 20% opacity is used.",
+            "line": 828,
+            "description": "Clear the debug canvas and fill with the color passed.\nIf no color is passed, then Red at 20% opacity is used.",
             "itemtype": "method",
             "name": "clearDebugCanvas",
             "params": [
                 {
-                    "name": "color",
-                    "description": "The debug color to rendering on the debug canvas.",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": "\"rgba(255,0,0,0.2)\""
+                    "name": "[color=\"rgba(",
+                    "description": "255, 0, 0, 0.2 )\"]  The debug color to rendering on the debug canvas.",
+                    "type": "String"
                 }
             ],
             "access": "public",
@@ -17877,8 +17883,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 828,
-            "description": "Toggles the visibility of the debug canvas.",
+            "line": 842,
+            "description": "Toggle the visibility of the debug canvas.",
             "itemtype": "method",
             "name": "toggleDebugCanvas",
             "access": "public",
@@ -17889,8 +17895,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 837,
-            "description": "Handles the scaling/sizing based upon the scaleType property.",
+            "line": 851,
+            "description": "Handle the scaling/sizing based upon the scaleType property.",
             "itemtype": "method",
             "name": "_scaleContainer",
             "access": "private",
@@ -17901,8 +17907,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 900,
-            "description": "Dispatches callbacks when the page containing this game gains focus.",
+            "line": 914,
+            "description": "Dispatch callbacks when the page containing this game gains focus.",
             "itemtype": "property",
             "name": "onFocus",
             "type": "Kiwi.Signal",
@@ -17915,8 +17921,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 910,
-            "description": "Dispatches callbacks when this page containing this game loses focus.",
+            "line": 924,
+            "description": "Dispatch callbacks when this page containing this game loses focus.",
             "itemtype": "property",
             "name": "onBlur",
             "type": "Kiwi.Signal",
@@ -17929,8 +17935,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 920,
-            "description": "Dispatches callbacks when the visiblity of the page changes.",
+            "line": 934,
+            "description": "Dispatch callbacks when the visiblity of the page changes.",
             "itemtype": "property",
             "name": "onVisibilityChange",
             "type": "Kiwi.Signal",
@@ -17943,8 +17949,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 930,
-            "description": "A flag indicating if the page is currently visible\n(using the Visiblity API).\nIf the Visiblity API is unsupported this will remain set to true\nregardless of focus / blur events.",
+            "line": 944,
+            "description": "Whether the page is currently visible (via the Visiblity API).\nIf the Visiblity API is unsupported this will remain set to true\nregardless of focus/blur events.",
             "itemtype": "property",
             "name": "visibility",
             "type": "boolean",
@@ -17959,12 +17965,12 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 952,
+            "line": 965,
             "description": "Contains string used to access the `hidden` property on the document.",
             "itemtype": "property",
             "name": "_visibility",
             "type": "String",
-            "default": "'hidden'",
+            "default": "\"hidden\"",
             "since": "1.3.0",
             "access": "private",
             "tagname": "",
@@ -17974,7 +17980,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 963,
+            "line": 976,
             "description": "Contains the bound version of the `_checkVisibility` method.",
             "itemtype": "property",
             "name": "_visibilityChange",
@@ -17988,8 +17994,8 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 973,
-            "description": "Fired when the page visibility changes, or the page focus/blur\nevents fire. In charge of firing the appropriate signals.",
+            "line": 986,
+            "description": "Fire when the page visibility changes, or the page focus/blur\nevents fire. In charge of firing the appropriate signals.",
             "itemtype": "method",
             "name": "_checkVisibility",
             "params": [
@@ -18008,7 +18014,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1001,
+            "line": 1014,
             "description": "Adds the focus, blur, and visibility events to the document.",
             "itemtype": "method",
             "name": "_createFocusEvents",
@@ -53334,6 +53340,10 @@
         {
             "message": "Missing item type\n---------------\nTagging System\n---------------",
             "line": " src/core/Group.ts:1262"
+        },
+        {
+            "message": "Missing item type\nAmount that the container has been scaled by.\n* @property _scale\n* @type Kiwi.Geom.Point\n* @default 1\n* @private",
+            "line": " src/core/Stage.ts:310"
         },
         {
             "message": "Missing item type\n---------------\nGeneric Properties \n---------------",

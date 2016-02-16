@@ -300,25 +300,26 @@ declare module Kiwi {
     * @class Stage
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this Stage belongs to.
-    * @param name {String} The name of the kiwi game.
-    * @param width {Number} The initial width of the game.
-    * @param height {Number} The initial heihgt of the game.
-    * @param scaleType {Number} The scale method that should be used for the game.
+    * @param game {Kiwi.Game} Game that this Stage belongs to
+    * @param name {string} Name of the kiwi game
+    * @param width {number} Initial width of the game
+    * @param height {number} Initial height of the game
+    * @param scaleType {number} Scale method to use. May be
+    *	`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
+    *	or `Kiwi.Stage.SCALE_FIT`,
     * @return {Kiwi.Stage}
-    *
     */
     class Stage {
         constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType: number);
         /**
-        * Returns the type of this object.
+        * Return the type of this object.
         * @method objType
         * @return {string} "Stage"
         * @public
         */
         objType(): string;
         /**
-        * The default width of the stage.
+        * Default width of the stage
         * @property DEFAULT_WIDTH
         * @type number
         * @default 800
@@ -327,7 +328,7 @@ declare module Kiwi {
         */
         static DEFAULT_WIDTH: number;
         /**
-        * The default height of the stage.
+        * Default height of the stage
         * @property DEFAULT_HEIGHT
         * @type number
         * @default 600
@@ -336,7 +337,7 @@ declare module Kiwi {
         */
         static DEFAULT_HEIGHT: number;
         /**
-        * The default scaling method used on Kiwi Games.
+        * Default scaling method used on Kiwi Games.
         * This scaling method will set the container's width/height
         * to static values.
         *
@@ -348,9 +349,13 @@ declare module Kiwi {
         */
         static SCALE_NONE: number;
         /**
-        * Scale Fit will scale the stage's width to fit its parents width.
+        * SCALE_FIT will scale the stage's width to fit its parent's width.
         * The height is then calculated to maintain the aspect ratio of the
         * width/height of the Stage.
+        *
+        * In CocoonJS, it still maintains aspect ratio, but keeps the
+        * entire game stage on the screen.
+        *
         * @property SCALE_FIT
         * @type number
         * @default 1
@@ -359,7 +364,7 @@ declare module Kiwi {
         */
         static SCALE_FIT: number;
         /**
-        * Stretch will make the stage scale to fit its parents width/height
+        * Stretch will make the stage scale to fit its parent's width/height
         * (by using max/min height of 100%).
         * If the parent doesn't have a height set then the height will be
         * the height of the stage.
@@ -388,7 +393,7 @@ declare module Kiwi {
         */
         scaleType: number;
         /**
-        * The alpha of the stage.
+        * Alpha of the stage
         * @property _alpha
         * @type number
         * @default 1
@@ -408,14 +413,14 @@ declare module Kiwi {
         */
         alpha: number;
         /**
-        * The X coordinate of the stage.
+        * Horizontal coordinate of the stage.
         * @property _x
         * @type number
         * @private
         */
         private _x;
         /**
-        * The X coordinate of the stage. This number should be the same
+        * Horizontal coordinate of the stage. This number should be the same
         * as the stage's `left` property.
         * @property x
         * @type number
@@ -423,14 +428,14 @@ declare module Kiwi {
         */
         x: number;
         /**
-        * The Y coordinate of the stage.
+        * Vertical coordinate of the stage.
         * @property _y
         * @type number
         * @private
         */
         private _y;
         /**
-        * Get the Y coordinate of the stage. This number should be the same
+        * Vertical coordinate of the stage. This number should be the same
         * as the stage's `top` property.
         * @property y
         * @type number
@@ -438,14 +443,14 @@ declare module Kiwi {
         */
         y: number;
         /**
-        * The width of the stage.
+        * Width of the stage
         * @property _width
         * @type number
         * @private
         */
         private _width;
         /**
-        * The width of the stage. This is READ ONLY.
+        * Width of the stage. This is READ ONLY.
         * See the "resize" method if you need to modify this value.
         * @property width
         * @type number
@@ -454,14 +459,14 @@ declare module Kiwi {
         */
         width: number;
         /**
-        * The height of the stage
+        * Height of the stage
         * @property _height
         * @type number
         * @private
         */
         private _height;
         /**
-        * The height of the stage. This is READ ONLY.
+        * Height of the stage. This is READ ONLY.
         * See the `resize` method if you need to modify this value.
         * @property height
         * @type number
@@ -470,24 +475,32 @@ declare module Kiwi {
         */
         height: number;
         /**
-        * A `Signal` that dispatches an event when the stage gets resized.
+        * `Signal` that dispatches an event when the stage gets resized
         * @property onResize
         * @type Kiwi.Signal
         * @public
         */
         onResize: Kiwi.Signal;
         /**
-        * A Signal which dispatches events when the window is resized.
+        * `Signal` which dispatches events when the window is resized.
         * Useful to detect if the screen is now in a "landscape" or "portrait"
-        * view on Mobile/Cocoon devices.
+        * view on mobile/CocoonJS devices.
         * @property onWindowResize
         * @type Kiwi.Signal
         * @public
         */
         onWindowResize: Kiwi.Signal;
         /**
-        * Calculates and returns the amount that the container has been scaled
-        * by. Mainly used for re-calculating input coordinates.
+        Amount that the container has been scaled by.
+        * @property _scale
+        * @type Kiwi.Geom.Point
+        * @default 1
+        * @private
+        */
+        private _scale;
+        /**
+        * Amount that the container has been scaled by.
+        * Mainly used for re-calculating input coordinates.
         * Note: For COCOONJS this returns 1 since COCOONJS translates the
         * scale itself. This property is READ ONLY.
         * @property scale
@@ -495,11 +508,9 @@ declare module Kiwi {
         * @default 1
         * @public
         */
-        private _scale;
         scale: Kiwi.Geom.Point;
         /**
-        * Calculates and returns the amount that the container has been scaled
-        * by on the X axis.
+        * Amount that the container has been scaled by on the X axis
         * @property scaleX
         * @type Number
         * @default 1
@@ -507,8 +518,7 @@ declare module Kiwi {
         */
         scaleX: number;
         /**
-        * Calculates and returns the amount that the container has been scaled
-        * by on the Y axis.
+        * Amount that the container has been scaled by on the Y axis
         * @property scaleY
         * @type Number
         * @default 1
@@ -523,28 +533,28 @@ declare module Kiwi {
         */
         offset: Kiwi.Geom.Point;
         /**
-        * The game this Stage belongs to
+        * Game this Stage belongs to
         * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * The title of your stage
+        * Title of the game
         * @property name
         * @type string
         * @public
         */
         name: string;
         /**
-        * Whether or not this Stage is DOM ready.
+        * Whether or not this Stage is DOM ready
         * @property domReady
         * @type boolean
         * @public
         */
         domReady: boolean;
         /**
-        * The background color of the stage.
+        * Background color of the stage
         *
         * @property _color
         * @type Kiwi.Utils.Color
@@ -609,49 +619,49 @@ declare module Kiwi {
         */
         normalizedColor: any;
         /**
-        * The webgl rendering context.
+        * WebGL rendering context
         * @property gl
         * @type WebGLRenderingContext
         * @public
         */
         gl: WebGLRenderingContext;
         /**
-        * The canvas rendering context.
+        * Canvas rendering context
         * @property ctx
         * @type CanvasRenderingContext2D
         * @public
         */
         ctx: CanvasRenderingContext2D;
         /**
-        * The canvas element that is being rendered on.
+        * Canvas element to which the game is rendered
         * @property canvas
         * @type HTMLCanvasElement
         * @public
         */
         canvas: HTMLCanvasElement;
         /**
-        * The debugging canvas.
+        * Debugging canvas
         * @property debugCanvas
         * @type HTMLCanvasElement
         * @public
         */
         debugCanvas: HTMLCanvasElement;
         /**
-        * The debug canvas rendering context.
+        * Debug canvas rendering context
         * @property dctx
         * @type CanvasRenderingContext2D
         * @public
         */
         dctx: CanvasRenderingContext2D;
         /**
-        * The parent div in which the layers and input live
+        * Parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
         * @public
         */
         container: HTMLDivElement;
         /**
-        * Stores the renderer created after context detection.
+        * Renderer created after context detection.
         * @property _renderer
         * @type any
         * @private
@@ -659,8 +669,8 @@ declare module Kiwi {
         */
         private _renderer;
         /**
-        * Get the renderer associated with the canvas context.
-        * This is either a GLRenderManager or a CanvasRenderer.
+        * Renderer associated with the canvas context.
+        * This is either a `GLRenderManager` or a `CanvasRenderer`.
         * If the Kiwi.RENDERER_WEBGL renderer was requested
         * but could not be created, it will fall back to CanvasRenderer.
         * This is READ ONLY.
@@ -671,16 +681,17 @@ declare module Kiwi {
         */
         renderer: any;
         /**
-        * Is executed when the DOM has loaded and the game is just starting.
-        * This is a internal method used by the core of Kiwi itself.
+        * Execute when the DOM has loaded and the game is just starting.
+        * This is an internal method used by the core of Kiwi itself.
         * @method boot
-        * @param dom {HTMLElement} The
+        * @param dom {Kiwi.System.Bootstrap} Booted Bootstrap containing
+        *	DOM information
         * @public
         */
         boot(dom: Kiwi.System.Bootstrap): void;
         /**
-        * Gets the x/y coordinate offset of any given valid DOM Element
-        * from the top/left position of the browser
+        * Get the x/y coordinate offset of any given valid DOM Element
+        * from the top/left position of the browser.
         * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
         * @method getOffsetPoint
         * @param {Any} element
@@ -690,14 +701,14 @@ declare module Kiwi {
         */
         getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
-        * Method that is fired when the window is resized.
+        * Fire when the window is resized.
         * @method _windowResized
         * @param event {UIEvent}
         * @private
         */
         private _windowResized(event);
         /**
-        * Method that is fired when the device is reoriented.
+        * Fire when the device is reoriented.
         * @method _orientationChanged
         * @param event {UIEvent}
         * @private
@@ -705,14 +716,14 @@ declare module Kiwi {
         */
         private _orientationChanged(event);
         /**
-        * Used to calculate new offset and scale for the stage.
+        * Calculate new offset and scale for the stage.
         * @method _calculateContainerScale
         * @private
         */
         private _calculateContainerScale();
         /**
-        * Handles the creation of the canvas that the game will use and
-        * retrieves the context for the renderer.
+        * Handle creation of the canvas that the game will use and
+        * retrieve the context for the renderer.
         *
         * @method _createCompositeCanvas
         * @private
@@ -723,30 +734,30 @@ declare module Kiwi {
         * This will not effect that "scaleType" that it has been set to.
         *
         * @method resize
-        * @param width {number} The new Stage width.
-        * @param height {number} The new Stage height.
+        * @param width {number} New Stage width
+        * @param height {number} New Stage height
         * @public
         */
         resize(width: number, height: number): void;
         /**
-        * Sets the background color of the stage through component
+        * Set background color of the stage through component
         * RGB colour values. Each parameter is a number between 0 and 255.
-        * This method also returns an Object Literal with "r", "g", "b"
+        * This method also returns an Object literal with "r", "g", "b"
         * properties.
         *
         * @method setRGBColor
-        * @param r {Number} The red component. A value between 0 and 255.
-        * @param g {Number} The green component. A value between 0 and 255.
-        * @param b {Number} The blue component. A value between 0 and 255.
-        * @return {Object} A Object literal containing the r,g,b properties.
+        * @param r {number} Red component. A value between 0 and 255
+        * @param g {number} Green component. A value between 0 and 255
+        * @param b {number} Blue component. A value between 0 and 255
+        * @return {object} Object literal containing the `r,g,b` properties
         * @public
         */
         setRGBColor(r: number, g: number, b: number): any;
         /**
-        * Creates a debug canvas and adds it above the regular game canvas.
+        * Create a debug canvas and add it above the regular game canvas.
         * The debug canvas is not created by default (even with debugging on)
-        * and rendering/clearing of the canvas is upto the developer.
-        * The context for rendering can be access via the "dctx" property and
+        * and rendering/clearing of the canvas is up to the developer.
+        * The context for rendering can be accessed via the "dctx" property and
         * you can use the "clearDebugCanvas" method to clear the canvas.
         *
         * @method createDebugCanvas
@@ -754,28 +765,28 @@ declare module Kiwi {
         */
         createDebugCanvas(): void;
         /**
-        * Clears the debug canvas and fills with either the color passed.
-        * If not colour is passed then Red at 20% opacity is used.
+        * Clear the debug canvas and fill with the color passed.
+        * If no color is passed, then Red at 20% opacity is used.
         *
         * @method clearDebugCanvas
-        * @param [color="rgba(255,0,0,0.2)"] {string} The debug color to rendering on the debug canvas.
+        * @param [color="rgba( 255, 0, 0, 0.2 )"] {string} The debug color to rendering on the debug canvas.
         * @public
         */
         clearDebugCanvas(color?: string): void;
         /**
-        * Toggles the visibility of the debug canvas.
+        * Toggle the visibility of the debug canvas.
         * @method toggleDebugCanvas
         * @public
         */
         toggleDebugCanvas(): void;
         /**
-        * Handles the scaling/sizing based upon the scaleType property.
+        * Handle the scaling/sizing based upon the scaleType property.
         * @method _scaleContainer
         * @private
         */
         private _scaleContainer();
         /**
-        * Dispatches callbacks when the page containing this game gains focus.
+        * Dispatch callbacks when the page containing this game gains focus.
         *
         * @property onFocus
         * @type Kiwi.Signal
@@ -784,7 +795,7 @@ declare module Kiwi {
         */
         onFocus: Kiwi.Signal;
         /**
-        * Dispatches callbacks when this page containing this game loses focus.
+        * Dispatch callbacks when this page containing this game loses focus.
         *
         * @property onBlur
         * @type Kiwi.Signal
@@ -793,7 +804,7 @@ declare module Kiwi {
         */
         onBlur: Kiwi.Signal;
         /**
-        * Dispatches callbacks when the visiblity of the page changes.
+        * Dispatch callbacks when the visiblity of the page changes.
         *
         * @property onVisibilityChange
         * @type Kiwi.Signal
@@ -802,10 +813,9 @@ declare module Kiwi {
         */
         onVisibilityChange: Kiwi.Signal;
         /**
-        * A flag indicating if the page is currently visible
-        * (using the Visiblity API).
+        * Whether the page is currently visible (via the Visiblity API).
         * If the Visiblity API is unsupported this will remain set to true
-        * regardless of focus / blur events.
+        * regardless of focus/blur events.
         *
         * @property visibility
         * @type boolean
@@ -820,7 +830,7 @@ declare module Kiwi {
         *
         * @property _visibility
         * @type String
-        * @default 'hidden'
+        * @default "hidden"
         * @since 1.3.0
         * @private
         */
@@ -835,7 +845,7 @@ declare module Kiwi {
         */
         private _visibilityChange;
         /**
-        * Fired when the page visibility changes, or the page focus/blur
+        * Fire when the page visibility changes, or the page focus/blur
         * events fire. In charge of firing the appropriate signals.
         *
         * @method _checkVisibility
