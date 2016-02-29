@@ -11201,6 +11201,8 @@ declare module Kiwi.Renderers {
         * @param gl {WebGLRenderingContext} Canvas rendering context
         * @param entity {Kiwi.Entity} Entity demanding the switch
         * @private
+        * @deprecated As of 1.4.1, we use a better method.
+        *	We probably shouldn't be passing an entity to a texture method.
         */
         private _switchTexture(gl, entity);
         /**

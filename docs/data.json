@@ -42036,7 +42036,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 737,
+            "line": 740,
             "description": "Call the render function on a single entity.",
             "itemtype": "method",
             "name": "renderEntity",
@@ -42068,7 +42068,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 751,
+            "line": 763,
             "description": "Ensure the atlas and renderer needed for a batch is setup.",
             "itemtype": "method",
             "name": "setupGLState",
@@ -42090,7 +42090,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 768,
+            "line": 780,
             "description": "Switch renderer to the one needed by the entity that needs rendering.",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -42115,7 +42115,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 789,
+            "line": 801,
             "description": "Switch texture to the one needed by the entity that needs rendering.",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -42133,6 +42133,8 @@
             ],
             "access": "private",
             "tagname": "",
+            "deprecated": true,
+            "deprecationMessage": "As of 1.4.1, we use a better method.\n\tWe probably shouldn't be passing an entity to a texture method.",
             "class": "Kiwi.Renderers.GLRenderManager",
             "module": "Kiwi",
             "submodule": "Renderers",
@@ -42140,7 +42142,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 803,
+            "line": 817,
             "description": "Switch blend mode to a new set of constants.",
             "itemtype": "method",
             "name": "_switchBlendMode",

@@ -16219,23 +16219,25 @@ var Kiwi;
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
                 // Acquire renderer
                 var rendererSwitched = false;
-                if (batch[0].entity.glRenderer !== this._currentRenderer) {
+                if (batch[0].renderer !== this._currentRenderer) {
                     rendererSwitched = true;
                     this._switchRenderer(gl, batch[0].entity);
                 }
                 // Clear renderer for fresh data
                 this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-                for (var i = 0; i < batch.length; i++)
+                for (var i = 0; i < batch.length; i++) {
                     batch[i].entity.renderGL(gl, camera);
+                }
                 // Upload textures
-                if (batch[0].entity.atlas !== this._currentTextureAtlas || batch[0].entity.atlas.dirty || (rendererSwitched && batch[0].entity.atlas == this._currentTextureAtlas))
-                    this._switchTexture(gl, batch[0].entity);
+                if (batch[0].texture !== this._currentTextureAtlas || batch[0].texture.dirty || (rendererSwitched && batch[0].texture == this._currentTextureAtlas)) {
+                    batch[0].texture.enableGL(gl, this._currentRenderer, this._textureManager);
+                }
                 // Manage blend mode
                 // We must always apply BlendMode under CocoonJS, because some
                 // (but not all) operations on other canvases may
                 // silently change the blend mode and not change it back.
-                if (!this._currentBlendMode.isIdentical(batch[0].entity.glRenderer.blendMode) || this._currentBlendMode.dirty || this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                    this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
+                if (!this._currentBlendMode.isIdentical(batch[0].renderer.blendMode) || this._currentBlendMode.dirty || this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this._switchBlendMode(gl, batch[0].renderer.blendMode);
                 }
                 // Render
                 this._currentRenderer.draw(gl);
@@ -16251,7 +16253,13 @@ var Kiwi;
             * @deprecated Used internally; should not be called from external functions
             */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
-                this.renderBatch(gl, [entity], camera);
+                this.renderBatch(gl, [{
+                    entity: entity,
+                    renderer: entity.glRenderer,
+                    shader: entity.glRenderer.shaderPair,
+                    isBatchRenderer: entity.glRenderer.isBatchRenderer,
+                    texture: entity.atlas
+                }], camera);
             };
             /**
             * Ensure the atlas and renderer needed for a batch is setup.
@@ -16294,6 +16302,8 @@ var Kiwi;
             * @param gl {WebGLRenderingContext} Canvas rendering context
             * @param entity {Kiwi.Entity} Entity demanding the switch
             * @private
+            * @deprecated As of 1.4.1, we use a better method.
+            *	We probably shouldn't be passing an entity to a texture method.
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
                 this._currentTextureAtlas = entity.atlas;
