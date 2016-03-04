@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -374,7 +374,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_components_Input.ts.html#l10"><code>src\components\Input.ts:10</code></a>
+            Defined in: <a href="../files/src_components_Input.ts.html#l10"><code>src&#x2F;components&#x2F;Input.ts:10</code></a>
         </div>
     
 
@@ -391,11 +391,16 @@
 
 
 <div class="box intro">
-    <p>The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch 
-and as such this class contains useful methods and callbacks you can subscribe to. 
-By default the Input component is disabled (this is because when enabled the input component can be process intensive) 
-but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically 
-be enabled once you access a Signal on this class.</p>
+    <p><code>Input</code> adds interaction to <code>GameObjects</code> via <code>Mouse</code> and/or <code>Touch</code>.
+Callbacks and methods are supplied to ease interaction.</p>
+<p>By default, <code>Input</code> components are disabled, as they are process
+intensive. You may enable input by calling <code>enabled = true</code>.
+Alternatively, the game will automagically enable input
+once you access any <code>Signal</code>. Be careful when enumerating
+properties on this component, and be prepared to disable
+input again.</p>
+<p><code>GameObjects.Sprite</code> comes with an <code>Input</code> component.
+Other <code>GameObjects</code> do not.</p>
 
 </div>
 
@@ -460,7 +465,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l10"><code>src\components\Input.ts:10</code></a>
+        <a href="../files/src_components_Input.ts.html#l10"><code>src&#x2F;components&#x2F;Input.ts:10</code></a>
         
         </p>
 
@@ -489,7 +494,8 @@ be enabled once you access a Signal on this class.</p>
                     
 
                     <div class="param-description">
-                        <p>The Object that this Component is on. Generally this will be a Entity.</p>
+                        <p>Object, generally <code>Entity</code>, to own this
+    input component</p>
 
                     </div>
 
@@ -505,7 +511,8 @@ be enabled once you access a Signal on this class.</p>
                     
 
                     <div class="param-description">
-                        <p>The box which contains the worldHitbox that is to be used for the event firing.</p>
+                        <p>Box which contains the <code>worldHitbox</code>
+    used for input detection</p>
 
                     </div>
 
@@ -522,7 +529,7 @@ be enabled once you access a Signal on this class.</p>
                     
 
                     <div class="param-description">
-                        <p>If this input component should be enabled or not.</p>
+                        <p>Whether to enable this component</p>
 
                     </div>
 
@@ -600,13 +607,6 @@ be enabled once you access a Signal on this class.</p>
                         
                             <li class="index-item method private">
                                 <a href="#method__updateTouch">_updateTouch</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_destory">destory</a>
 
                                 
                                 
@@ -1060,7 +1060,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l684"><code>src\components\Input.ts:684</code></a>
+        <a href="../files/src_components_Input.ts.html#l824"><code>src&#x2F;components&#x2F;Input.ts:824</code></a>
         
         </p>
 
@@ -1071,7 +1071,8 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.</p>
+        <p>Evaluates where and what the mouse cursor is doing
+in relation to this box.</p>
 
     </div>
 
@@ -1150,7 +1151,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l600"><code>src\components\Input.ts:600</code></a>
+        <a href="../files/src_components_Input.ts.html#l729"><code>src&#x2F;components&#x2F;Input.ts:729</code></a>
         
         </p>
 
@@ -1161,7 +1162,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>A private method for checking to see if a touch pointer should activate any events.</p>
+        <p>Check to see if a touch pointer should activate any events.</p>
 
     </div>
 
@@ -1180,7 +1181,7 @@ be enabled once you access a Signal on this class.</p>
                     
 
                     <div class="param-description">
-                        <p>The pointer you are checking against.</p>
+                        <p>Pointer checking against</p>
 
                     </div>
 
@@ -1231,7 +1232,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l640"><code>src\components\Input.ts:640</code></a>
+        <a href="../files/src_components_Input.ts.html#l777"><code>src&#x2F;components&#x2F;Input.ts:777</code></a>
         
         </p>
 
@@ -1242,7 +1243,8 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>The update loop that runs when the mouse manager is the method for interacting with the screen.</p>
+        <p>Update loop that runs when the mouse manager is
+the method for interacting with the screen.</p>
 
     </div>
 
@@ -1288,7 +1290,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l534"><code>src\components\Input.ts:534</code></a>
+        <a href="../files/src_components_Input.ts.html#l657"><code>src&#x2F;components&#x2F;Input.ts:657</code></a>
         
         </p>
 
@@ -1299,7 +1301,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>The update loop that gets executed when the game is using the touch manager.</p>
+        <p>Update loop executed when the game is using the touch manager.</p>
 
     </div>
 
@@ -1311,64 +1313,7 @@ be enabled once you access a Signal on this class.</p>
 </div>
 
                 
-                    <div id="method_destory" class="method item public">
-    <h3 class="name"><code>destory</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_Input.ts.html#l755"><code>src\components\Input.ts:755</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Destroys the input.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_destroy" class="method item public inherited">
+                    <div id="method_destroy" class="method item public">
     <h3 class="name"><code>destroy</code></h3>
 
     
@@ -1393,13 +1338,16 @@ be enabled once you access a Signal on this class.</p>
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Component.html#method_destroy">
+                Kiwi.Component
+            </a>
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#method_destroy">Kiwi.Component</a>:
+            but overwritten in
             
         
         
-        <a href="../files/src_core_Component.ts.html#l121"><code>src\core\Component.ts:121</code></a>
+        <a href="../files/src_components_Input.ts.html#l904"><code>src&#x2F;components&#x2F;Input.ts:904</code></a>
         
         </p>
 
@@ -1410,7 +1358,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>Destroys this component and all of the properties that exist on it.</p>
+        <p>Destroy the input.</p>
 
     </div>
 
@@ -1456,7 +1404,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l484"><code>src\components\Input.ts:484</code></a>
+        <a href="../files/src_components_Input.ts.html#l589"><code>src&#x2F;components&#x2F;Input.ts:589</code></a>
         
         </p>
 
@@ -1467,7 +1415,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>Disables the dragging of this entity.</p>
+        <p>Disable dragging of this entity.</p>
 
     </div>
 
@@ -1529,7 +1477,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l467"><code>src\components\Input.ts:467</code></a>
+        <a href="../files/src_components_Input.ts.html#l565"><code>src&#x2F;components&#x2F;Input.ts:565</code></a>
         
         </p>
 
@@ -1540,7 +1488,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>Enables the dragging of this entity.</p>
+        <p>Enable dragging of this entity.</p>
 
     </div>
 
@@ -1560,7 +1508,8 @@ be enabled once you access a Signal on this class.</p>
                     
 
                     <div class="param-description">
-                        <p>If when dragging the Entity should snap to the center of the pointer.</p>
+                        <p>If when dragging the Entity
+    should snap to the center of the pointer</p>
 
                     </div>
 
@@ -1577,7 +1526,8 @@ be enabled once you access a Signal on this class.</p>
                     
 
                     <div class="param-description">
-                        <p>If when dragging the Entity should snap to numbers divisible by this amount.</p>
+                        <p>If when dragging the Entity
+    should snap to numbers divisible by this amount</p>
 
                     </div>
 
@@ -1632,7 +1582,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l60"><code>src\components\Input.ts:60</code></a>
+        <a href="../files/src_components_Input.ts.html#l72"><code>src&#x2F;components&#x2F;Input.ts:72</code></a>
         
         </p>
 
@@ -1700,7 +1650,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l114"><code>src\core\Component.ts:114</code></a>
+        <a href="../files/src_core_Component.ts.html#l114"><code>src&#x2F;core&#x2F;Component.ts:114</code></a>
         
         </p>
 
@@ -1754,7 +1704,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l100"><code>src\core\Component.ts:100</code></a>
+        <a href="../files/src_core_Component.ts.html#l100"><code>src&#x2F;core&#x2F;Component.ts:100</code></a>
         
         </p>
 
@@ -1811,7 +1761,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l494"><code>src\components\Input.ts:494</code></a>
+        <a href="../files/src_components_Input.ts.html#l600"><code>src&#x2F;components&#x2F;Input.ts:600</code></a>
         
         </p>
 
@@ -1822,7 +1772,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>The update loop for the input.</p>
+        <p>Update loop for the input.</p>
 
     </div>
 
@@ -1867,7 +1817,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l70"><code>src\components\Input.ts:70</code></a>
+        <a href="../files/src_components_Input.ts.html#l82"><code>src&#x2F;components&#x2F;Input.ts:82</code></a>
         
         </p>
 
@@ -1877,7 +1827,7 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>The bounding box that is being used for the &#39;hitarea&#39;.</p>
+        <p>Bounding box that is being used for the hit area</p>
 
     </div>
 
@@ -1914,7 +1864,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l355"><code>src\components\Input.ts:355</code></a>
+        <a href="../files/src_components_Input.ts.html#l426"><code>src&#x2F;components&#x2F;Input.ts:426</code></a>
         
         </p>
 
@@ -1924,7 +1874,8 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>The distance between the top left corner of this Objects parent and the coordinates of a Pointer.</p>
+        <p>Distance between the top left corner of this object&#39;s parent
+and the coordinates of a Pointer.</p>
 
     </div>
 
@@ -1961,7 +1912,7 @@ be enabled once you access a Signal on this class.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l380"><code>src\components\Input.ts:380</code></a>
+        <a href="../files/src_components_Input.ts.html#l453"><code>src&#x2F;components&#x2F;Input.ts:453</code></a>
         
         </p>
 
@@ -1971,9 +1922,11 @@ be enabled once you access a Signal on this class.</p>
     </div>
 
     <div class="description">
-        <p>This is used while dragging so that you can make the IChild &#39;snap&#39; to specific numbers to give a &#39;grid like&#39; effect. 
-E.g. If you had a 32 by 32 grid down and you wanted to make an element draggable but snap to the grid you can set this to 32. 
-Default value is one.</p>
+        <p>Used while dragging so that you can make the IChild &quot;snap&quot;
+to specific numbers to give a grid-like effect.</p>
+<p>E.g. If you had a 32 by 32 grid and you wanted to make an element
+draggable but snap to the grid you can set this to 32.</p>
+<p>Default value is 1.</p>
 
     </div>
 
@@ -2012,7 +1965,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l371"><code>src\components\Input.ts:371</code></a>
+        <a href="../files/src_components_Input.ts.html#l444"><code>src&#x2F;components&#x2F;Input.ts:444</code></a>
         
         </p>
 
@@ -2022,7 +1975,7 @@ Default value is one.</p>
     </div>
 
     <div class="description">
-        <p>Indicates if dragging is currently enabled.</p>
+        <p>Whether dragging is currently enabled.</p>
 
     </div>
 
@@ -2061,7 +2014,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l391"><code>src\components\Input.ts:391</code></a>
+        <a href="../files/src_components_Input.ts.html#l469"><code>src&#x2F;components&#x2F;Input.ts:469</code></a>
         
         </p>
 
@@ -2071,7 +2024,8 @@ Default value is one.</p>
     </div>
 
     <div class="description">
-        <p>If when dragging, the IChild should snap to the center of the pointer it is being dragged by.</p>
+        <p>Whether, when dragging, the IChild should snap to the center
+of the pointer it is being dragged by.</p>
 
     </div>
 
@@ -2110,7 +2064,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l235"><code>src\components\Input.ts:235</code></a>
+        <a href="../files/src_components_Input.ts.html#l286"><code>src&#x2F;components&#x2F;Input.ts:286</code></a>
         
         </p>
 
@@ -2120,7 +2074,7 @@ Default value is one.</p>
     </div>
 
     <div class="description">
-        <p>If this input is enabled or not.</p>
+        <p>Whether this input is enabled</p>
 
     </div>
 
@@ -2159,7 +2113,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l257"><code>src\components\Input.ts:257</code></a>
+        <a href="../files/src_components_Input.ts.html#l314"><code>src&#x2F;components&#x2F;Input.ts:314</code></a>
         
         </p>
 
@@ -2169,10 +2123,13 @@ Default value is one.</p>
     </div>
 
     <div class="description">
-        <p>If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.</p>
+        <p>If a pointer is current pressing down on the input,
+this will be a reference to that pointer. Otherwise it will be null.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -2206,7 +2163,7 @@ Default value is one.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l345"><code>src\components\Input.ts:345</code></a>
+        <a href="../files/src_components_Input.ts.html#l416"><code>src&#x2F;components&#x2F;Input.ts:416</code></a>
         
         </p>
 
@@ -2216,7 +2173,7 @@ Default value is one.</p>
     </div>
 
     <div class="description">
-        <p>A reference to the pointer that is currently &#39;dragging&#39; this Object. 
+        <p>Reference to the pointer that is currently &quot;dragging&quot; this Object. 
 If not dragging then this is null.</p>
 
     </div>
@@ -2256,7 +2213,7 @@ If not dragging then this is null.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l265"><code>src\components\Input.ts:265</code></a>
+        <a href="../files/src_components_Input.ts.html#l324"><code>src&#x2F;components&#x2F;Input.ts:324</code></a>
         
         </p>
 
@@ -2266,7 +2223,8 @@ If not dragging then this is null.</p>
     </div>
 
     <div class="description">
-        <p>A boolean that indicates if no pointer is currently on the pointer</p>
+        <p>Whether no pointer is down on the pointer.
+Opposite of <code>_isDown</code>.</p>
 
     </div>
 
@@ -2305,7 +2263,7 @@ If not dragging then this is null.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l291"><code>src\components\Input.ts:291</code></a>
+        <a href="../files/src_components_Input.ts.html#l353"><code>src&#x2F;components&#x2F;Input.ts:353</code></a>
         
         </p>
 
@@ -2315,7 +2273,8 @@ If not dragging then this is null.</p>
     </div>
 
     <div class="description">
-        <p>If a pointer just entered the input. Used for mouse&#39;s to indicate when to appropriately fire the down event.
+        <p>If a pointer just entered the input.
+Used for mouses to indicate when to fire the down event.
 Note: Could be removed once mouse version of update gets updated.</p>
 
     </div>
@@ -2355,7 +2314,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l422"><code>src\components\Input.ts:422</code></a>
+        <a href="../files/src_components_Input.ts.html#l509"><code>src&#x2F;components&#x2F;Input.ts:509</code></a>
         
         </p>
 
@@ -2365,7 +2324,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Temporary property that gets updated everyframe with the pointer that is currently &#39;down&#39; on this entity.</p>
+        <p>Temporary property that gets updated every frame
+with the pointer that is currently down on this entity</p>
 
     </div>
 
@@ -2404,7 +2364,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l458"><code>src\components\Input.ts:458</code></a>
+        <a href="../files/src_components_Input.ts.html#l554"><code>src&#x2F;components&#x2F;Input.ts:554</code></a>
         
         </p>
 
@@ -2414,7 +2374,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Temporary property of the pointer that just started draggging the entity.</p>
+        <p>Temporary property of the pointer that just
+started dragging the entity</p>
 
     </div>
 
@@ -2453,7 +2414,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l440"><code>src\components\Input.ts:440</code></a>
+        <a href="../files/src_components_Input.ts.html#l532"><code>src&#x2F;components&#x2F;Input.ts:532</code></a>
         
         </p>
 
@@ -2463,7 +2424,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Temporary property of the pointer that is now within the bounds of the entity</p>
+        <p>Temporary property of the pointer that is now
+within the bounds of the entity</p>
 
     </div>
 
@@ -2502,7 +2464,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l449"><code>src\components\Input.ts:449</code></a>
+        <a href="../files/src_components_Input.ts.html#l543"><code>src&#x2F;components&#x2F;Input.ts:543</code></a>
         
         </p>
 
@@ -2512,7 +2474,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Temporary property of the pointer that just left the bounds of the entity.</p>
+        <p>Temporary property of the pointer that just
+left the bounds of the entity</p>
 
     </div>
 
@@ -2551,7 +2514,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l431"><code>src\components\Input.ts:431</code></a>
+        <a href="../files/src_components_Input.ts.html#l520"><code>src&#x2F;components&#x2F;Input.ts:520</code></a>
         
         </p>
 
@@ -2561,7 +2524,9 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Temporary property that gets updated everyframe with the pointer that was just &#39;released&#39; from being down on this entity</p>
+        <p>Temporary property that gets updated every frame
+with the pointer that was just released
+from being down on this entity</p>
 
     </div>
 
@@ -2600,7 +2565,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l94"><code>src\components\Input.ts:94</code></a>
+        <a href="../files/src_components_Input.ts.html#l108"><code>src&#x2F;components&#x2F;Input.ts:108</code></a>
         
         </p>
 
@@ -2610,7 +2575,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.</p>
+        <p>Fires callbacks when a pointer is active
+and just pressed down on the entity</p>
 
     </div>
 
@@ -2647,7 +2613,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l110"><code>src\components\Input.ts:110</code></a>
+        <a href="../files/src_components_Input.ts.html#l127"><code>src&#x2F;components&#x2F;Input.ts:127</code></a>
         
         </p>
 
@@ -2657,7 +2623,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Kiwi Signal for firing callbacks a entity starts being dragged.</p>
+        <p>Fires callbacks when the entity starts being dragged</p>
 
     </div>
 
@@ -2694,7 +2660,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l118"><code>src\components\Input.ts:118</code></a>
+        <a href="../files/src_components_Input.ts.html#l135"><code>src&#x2F;components&#x2F;Input.ts:135</code></a>
         
         </p>
 
@@ -2704,7 +2670,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.</p>
+        <p>Fires callbacks when the entity stops being dragged,
+such as on release</p>
 
     </div>
 
@@ -2741,7 +2708,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l78"><code>src\components\Input.ts:78</code></a>
+        <a href="../files/src_components_Input.ts.html#l90"><code>src&#x2F;components&#x2F;Input.ts:90</code></a>
         
         </p>
 
@@ -2751,7 +2718,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hitbox.</p>
+        <p>Fires callbacks when a pointer is active
+and has entered the entity&#39;s hitbox</p>
 
     </div>
 
@@ -2788,7 +2756,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l86"><code>src\components\Input.ts:86</code></a>
+        <a href="../files/src_components_Input.ts.html#l99"><code>src&#x2F;components&#x2F;Input.ts:99</code></a>
         
         </p>
 
@@ -2798,7 +2766,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.</p>
+        <p>Fires callbacks when a pointer is active
+and has left the entity&#39;s hit box</p>
 
     </div>
 
@@ -2835,7 +2804,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l102"><code>src\components\Input.ts:102</code></a>
+        <a href="../files/src_components_Input.ts.html#l117"><code>src&#x2F;components&#x2F;Input.ts:117</code></a>
         
         </p>
 
@@ -2845,7 +2814,9 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.</p>
+        <p>Fires callbacks when a pointer just released,
+either directly above the entity,
+or after having been pressed down above the entity.</p>
 
     </div>
 
@@ -2882,7 +2853,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l282"><code>src\components\Input.ts:282</code></a>
+        <a href="../files/src_components_Input.ts.html#l344"><code>src&#x2F;components&#x2F;Input.ts:344</code></a>
         
         </p>
 
@@ -2892,7 +2863,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>boolean indicating if every pointer is currently outside of the bounds.</p>
+        <p>Whether every pointer is currently outside of the bounds</p>
 
     </div>
 
@@ -2931,7 +2902,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l134"><code>src\components\Input.ts:134</code></a>
+        <a href="../files/src_components_Input.ts.html#l152"><code>src&#x2F;components&#x2F;Input.ts:152</code></a>
         
         </p>
 
@@ -2941,7 +2912,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>A Temporary Circle object which is used whilst checking to see if there is any overlap.</p>
+        <p>Temporary Circle used to check for overlap</p>
 
     </div>
 
@@ -2978,7 +2949,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l363"><code>src\components\Input.ts:363</code></a>
+        <a href="../files/src_components_Input.ts.html#l435"><code>src&#x2F;components&#x2F;Input.ts:435</code></a>
         
         </p>
 
@@ -2988,7 +2959,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>A boolean indicating if dragging is temporarly disabled. Internal use only to stop events from misfiring.</p>
+        <p>Whether dragging is temporarly disabled.
+Internal use only to stop events from misfiring.</p>
 
     </div>
 
@@ -3025,7 +2997,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l126"><code>src\components\Input.ts:126</code></a>
+        <a href="../files/src_components_Input.ts.html#l144"><code>src&#x2F;components&#x2F;Input.ts:144</code></a>
         
         </p>
 
@@ -3035,7 +3007,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>A Temporary Point object which is used whilst checking to see if there is any overlap.</p>
+        <p>Temporary Point used to check for overlap</p>
 
     </div>
 
@@ -3072,7 +3044,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l274"><code>src\components\Input.ts:274</code></a>
+        <a href="../files/src_components_Input.ts.html#l334"><code>src&#x2F;components&#x2F;Input.ts:334</code></a>
         
         </p>
 
@@ -3082,10 +3054,13 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.</p>
+        <p>Whether a pointer is within hitbox bounds.
+Refers to a pointer within hitbox bounds, or <code>null</code>.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -3116,7 +3091,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l81"><code>src\core\Component.ts:81</code></a>
+        <a href="../files/src_core_Component.ts.html#l81"><code>src&#x2F;core&#x2F;Component.ts:81</code></a>
         
         </p>
 
@@ -3164,7 +3139,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l90"><code>src\core\Component.ts:90</code></a>
+        <a href="../files/src_core_Component.ts.html#l90"><code>src&#x2F;core&#x2F;Component.ts:90</code></a>
         
         </p>
 
@@ -3213,7 +3188,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l409"><code>src\components\Input.ts:409</code></a>
+        <a href="../files/src_components_Input.ts.html#l490"><code>src&#x2F;components&#x2F;Input.ts:490</code></a>
         
         </p>
 
@@ -3223,7 +3198,11 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>The drag distance that is used when dragging this object. See _dragDistance for more information.</p>
+        <p>Used while dragging so that you can make the IChild &quot;snap&quot;
+to specific numbers to give a grid-like effect.</p>
+<p>E.g. If you had a 32 by 32 grid and you wanted to make an element
+draggable but snap to the grid you can set this to 32.</p>
+<p>Default value is 1.</p>
 
     </div>
 
@@ -3260,7 +3239,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l244"><code>src\components\Input.ts:244</code></a>
+        <a href="../files/src_components_Input.ts.html#l295"><code>src&#x2F;components&#x2F;Input.ts:295</code></a>
         
         </p>
 
@@ -3270,7 +3249,9 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.</p>
+        <p>Whether this input is enabled.</p>
+<p>Note: Inputs should only be enabled when needed,
+as they can use processing power and slow the game down.</p>
 
     </div>
 
@@ -3304,7 +3285,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l65"><code>src\core\Component.ts:65</code></a>
+        <a href="../files/src_core_Component.ts.html#l65"><code>src&#x2F;core&#x2F;Component.ts:65</code></a>
         
         </p>
 
@@ -3351,7 +3332,7 @@ Note: Could be removed once mouse version of update gets updated.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l301"><code>src\components\Input.ts:301</code></a>
+        <a href="../files/src_components_Input.ts.html#l364"><code>src&#x2F;components&#x2F;Input.ts:364</code></a>
         
         </p>
 
@@ -3361,8 +3342,8 @@ Note: Could be removed once mouse version of update gets updated.</p>
     </div>
 
     <div class="description">
-        <p>Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
-This is READ ONLY.</p>
+        <p>Whether a pointer is currently on this input.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3399,7 +3380,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l400"><code>src\components\Input.ts:400</code></a>
+        <a href="../files/src_components_Input.ts.html#l479"><code>src&#x2F;components&#x2F;Input.ts:479</code></a>
         
         </p>
 
@@ -3409,8 +3390,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating if this is currently dragging something.
-This is READ ONLY.</p>
+        <p>Whether this is currently dragging something.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3447,7 +3428,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l312"><code>src\components\Input.ts:312</code></a>
+        <a href="../files/src_components_Input.ts.html#l377"><code>src&#x2F;components&#x2F;Input.ts:377</code></a>
         
         </p>
 
@@ -3457,8 +3438,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Used to see if no pointer is on this input (so it is up).
-This is READ ONLY.</p>
+        <p>Whether no pointer is on this input (so it is up).</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3492,7 +3473,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l73"><code>src\core\Component.ts:73</code></a>
+        <a href="../files/src_core_Component.ts.html#l73"><code>src&#x2F;core&#x2F;Component.ts:73</code></a>
         
         </p>
 
@@ -3539,7 +3520,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l169"><code>src\components\Input.ts:169</code></a>
+        <a href="../files/src_components_Input.ts.html#l198"><code>src&#x2F;components&#x2F;Input.ts:198</code></a>
         
         </p>
 
@@ -3549,9 +3530,10 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
-Note: Accessing this signal enables the input.
-This is READ ONLY.</p>
+        <p>Fires callbacks when a pointer is active
+and just pressed down on the entity.</p>
+<p>Note: Accessing this signal enables the input.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3588,7 +3570,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l195"><code>src\components\Input.ts:195</code></a>
+        <a href="../files/src_components_Input.ts.html#l237"><code>src&#x2F;components&#x2F;Input.ts:237</code></a>
         
         </p>
 
@@ -3598,8 +3580,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the onDragStarted Signal.
-This is READ ONLY.</p>
+        <p>Fires callbacks when the entity starts being dragged.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3636,7 +3618,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l204"><code>src\components\Input.ts:204</code></a>
+        <a href="../files/src_components_Input.ts.html#l248"><code>src&#x2F;components&#x2F;Input.ts:248</code></a>
         
         </p>
 
@@ -3646,8 +3628,9 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the onDragStopped Signal.
-This is READ ONLY.</p>
+        <p>Fires callbacks when the entity stops being dragged,
+such as on release.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3684,7 +3667,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l143"><code>src\components\Input.ts:143</code></a>
+        <a href="../files/src_components_Input.ts.html#l160"><code>src&#x2F;components&#x2F;Input.ts:160</code></a>
         
         </p>
 
@@ -3694,9 +3677,10 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
-Note: Accessing this signal enables the input.
-This is READ ONLY.</p>
+        <p>Fires callbacks when a pointer is active
+and has entered the entity&#39;s hitbox.</p>
+<p>Note: Accessing this signal enables the input.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3733,7 +3717,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l156"><code>src\components\Input.ts:156</code></a>
+        <a href="../files/src_components_Input.ts.html#l179"><code>src&#x2F;components&#x2F;Input.ts:179</code></a>
         
         </p>
 
@@ -3743,9 +3727,10 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
-Note: Accessing this signal enables the input.
-This is READ ONLY.</p>
+        <p>Fires callbacks when a pointer is active
+and has left the entity&#39;s hit box.</p>
+<p>Note: Accessing this signal enables the input.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3782,7 +3767,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l224"><code>src\components\Input.ts:224</code></a>
+        <a href="../files/src_components_Input.ts.html#l273"><code>src&#x2F;components&#x2F;Input.ts:273</code></a>
         
         </p>
 
@@ -3792,8 +3777,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>A alias for the on press signal.
-This is READ ONLY.</p>
+        <p>Alias for <code>onDown</code>.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3830,7 +3815,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l213"><code>src\components\Input.ts:213</code></a>
+        <a href="../files/src_components_Input.ts.html#l260"><code>src&#x2F;components&#x2F;Input.ts:260</code></a>
         
         </p>
 
@@ -3840,8 +3825,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>A alias for the on release signal.
-This is READ ONLY.</p>
+        <p>Alias for <code>onUp</code>.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3878,7 +3863,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l182"><code>src\components\Input.ts:182</code></a>
+        <a href="../files/src_components_Input.ts.html#l217"><code>src&#x2F;components&#x2F;Input.ts:217</code></a>
         
         </p>
 
@@ -3888,9 +3873,11 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
-Note: Accessing this signal enables the input.
-This is READ ONLY.</p>
+        <p>Fires callbacks when a pointer just released,
+either directly above the entity,
+or after having been pressed down above the entity.</p>
+<p>Note: Accessing this signal enables the input.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3927,7 +3914,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l334"><code>src\components\Input.ts:334</code></a>
+        <a href="../files/src_components_Input.ts.html#l403"><code>src&#x2F;components&#x2F;Input.ts:403</code></a>
         
         </p>
 
@@ -3937,8 +3924,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>See if no pointers are within the bounds of this entity.
-This is READ ONLY.</p>
+        <p>Whether no pointers are within the bounds of this entity.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
@@ -3972,7 +3959,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l48"><code>src\core\Component.ts:48</code></a>
+        <a href="../files/src_core_Component.ts.html#l48"><code>src&#x2F;core&#x2F;Component.ts:48</code></a>
         
         </p>
 
@@ -4016,7 +4003,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_core_Component.ts.html#l56"><code>src\core\Component.ts:56</code></a>
+        <a href="../files/src_core_Component.ts.html#l56"><code>src&#x2F;core&#x2F;Component.ts:56</code></a>
         
         </p>
 
@@ -4065,7 +4052,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Input.ts.html#l323"><code>src\components\Input.ts:323</code></a>
+        <a href="../files/src_components_Input.ts.html#l390"><code>src&#x2F;components&#x2F;Input.ts:390</code></a>
         
         </p>
 
@@ -4075,8 +4062,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Check to see if any pointer is within the bounds of this input.
-This is READ ONLY.</p>
+        <p>Whether any pointer is within the bounds of this entity.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 

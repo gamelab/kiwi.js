@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -374,7 +374,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_State.ts.html#l9"><code>src\core\State.ts:9</code></a>
+            Defined in: <a href="../files/src_core_State.ts.html#l9"><code>src&#x2F;core&#x2F;State.ts:9</code></a>
         </div>
     
 
@@ -390,9 +390,10 @@
 
 
 <div class="box intro">
-    <p>A State in Kiwi.JS is the main class that developers use when wanting to create a Game. 
-States in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States. 
-Such as one for the menu, in-game, leaderboard, e.t.c.
+    <p>A <code>State</code> is the main class used to create a game.
+States in Kiwi are used to keep different sections of a game separated.
+A single game may be comprised of many different States,
+such as one for the menu, in-game, leaderboard, e.t.c.
 There can only ever be a single State active at a given time.</p>
 
 </div>
@@ -446,7 +447,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l9"><code>src\core\State.ts:9</code></a>
+        <a href="../files/src_core_State.ts.html#l9"><code>src&#x2F;core&#x2F;State.ts:9</code></a>
         
         </p>
 
@@ -475,7 +476,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>Name of this State. Should be unique to differentiate itself from other States.</p>
+                        <p>Name of this State.
+    Should be unique to differentiate itself from other States.</p>
 
                     </div>
 
@@ -530,10 +532,12 @@ There can only ever be a single State active at a given time.</p>
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method private">
+                            <li class="index-item method private deprecated">
                                 <a href="#method__destroyChildren">_destroyChildren</a>
 
                                 
+                                
+                                    <span class="flag deprecated">deprecated</span>
                                 
                             </li>
                         
@@ -1010,6 +1014,13 @@ There can only ever be a single State active at a given time.</p>
                                 
                             </li>
                         
+                            <li class="index-item property private">
+                                <a href="#property__trackingList">_trackingList</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property private inherited">
                                 <a href="#property__visible">_visible</a>
 
@@ -1187,13 +1198,6 @@ There can only ever be a single State active at a given time.</p>
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property_trackingList">trackingList</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item property public inherited">
                                 <a href="#property_transform">transform</a>
 
@@ -1259,7 +1263,7 @@ There can only ever be a single State active at a given time.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__destroyChildren" class="method item private">
+                    <div id="method__destroyChildren" class="method item private deprecated">
     <h3 class="name"><code>_destroyChildren</code></h3>
 
     
@@ -1278,6 +1282,8 @@ There can only ever be a single State active at a given time.</p>
 
     
 
+    
+        <span class="flag deprecated" title="As of v1.4.1. This is never called.">deprecated</span>
     
 
     
@@ -1303,18 +1309,20 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l463"><code>src\core\State.ts:463</code></a>
+        <a href="../files/src_core_State.ts.html#l571"><code>src&#x2F;core&#x2F;State.ts:571</code></a>
         
         </p>
 
 
+        
+            <p>Deprecated: As of v1.4.1. This is never called.</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Recursively goes through a child given and runs the destroy method on all that are passed.</p>
+        <p>Recursively destroys a child and all its children.</p>
 
     </div>
 
@@ -1403,7 +1411,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l350"><code>src\core\State.ts:350</code></a>
+        <a href="../files/src_core_State.ts.html#l434"><code>src&#x2F;core&#x2F;State.ts:434</code></a>
         
         </p>
 
@@ -1414,7 +1422,7 @@ There can only ever be a single State active at a given time.</p>
     </div>
 
     <div class="description">
-        <p>Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.</p>
+        <p>Add a new audio file to be loaded when the state loads assets.</p>
 
     </div>
 
@@ -1433,7 +1441,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>A key for this audio so that you can access it when the loading has finished</p>
+                        <p>Key for this audio so that you can access it
+    when the loading has finished</p>
 
                     </div>
 
@@ -1449,7 +1458,9 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.</p>
+                        <p>Location of the audio file.
+    You can pass an array of urls, in which case the first supported
+    filetype will be used.</p>
 
                     </div>
 
@@ -1466,7 +1477,9 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.</p>
+                        <p>Whether the audio should be
+    retained as a global asset after this state is destroyed,
+    or it should also be destroyed</p>
 
                     </div>
 
@@ -1528,7 +1541,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l408"><code>src\core\Group.ts:408</code></a>
+        <a href="../files/src_core_Group.ts.html#l408"><code>src&#x2F;core&#x2F;Group.ts:408</code></a>
         
         </p>
 
@@ -1640,7 +1653,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l477"><code>src\core\Group.ts:477</code></a>
+        <a href="../files/src_core_Group.ts.html#l477"><code>src&#x2F;core&#x2F;Group.ts:477</code></a>
         
         </p>
 
@@ -1768,7 +1781,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l433"><code>src\core\Group.ts:433</code></a>
+        <a href="../files/src_core_Group.ts.html#l433"><code>src&#x2F;core&#x2F;Group.ts:433</code></a>
         
         </p>
 
@@ -1896,7 +1909,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l453"><code>src\core\Group.ts:453</code></a>
+        <a href="../files/src_core_Group.ts.html#l453"><code>src&#x2F;core&#x2F;Group.ts:453</code></a>
         
         </p>
 
@@ -2053,7 +2066,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l279"><code>src\core\State.ts:279</code></a>
+        <a href="../files/src_core_State.ts.html#l339"><code>src&#x2F;core&#x2F;State.ts:339</code></a>
         
         </p>
 
@@ -2064,7 +2077,7 @@ There can only ever be a single State active at a given time.</p>
     </div>
 
     <div class="description">
-        <p>Adds a new image file that is be loaded when the state gets up to the loading all of the assets.</p>
+        <p>Add a new image file to be loaded when the state loads assets.</p>
 
     </div>
 
@@ -2083,7 +2096,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>A key for this image so that you can access it when the loading has finished.</p>
+                        <p>Key for this image so that you can access it
+    when the loading has finished</p>
 
                     </div>
 
@@ -2099,7 +2113,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The location of the image.</p>
+                        <p>Location of the image</p>
 
                     </div>
 
@@ -2116,7 +2130,9 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>If the image should be deleted when switching to another state or if the other states should still be able to access this image.</p>
+                        <p>Whether the image should be
+    retained as a global asset after this state is destroyed,
+    or it should also be destroyed</p>
 
                     </div>
 
@@ -2133,7 +2149,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The width of the image. If not passed the width will be automatically calculated.</p>
+                        <p>Width of the image. If not passed,
+    the width will be automatically calculated.</p>
 
                     </div>
 
@@ -2150,7 +2167,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The height of the image. If not passed the height will be automatically calculated.</p>
+                        <p>Height of the image. If not passed,
+    the height will be automatically calculated.</p>
 
                     </div>
 
@@ -2167,7 +2185,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The offset of the image when rendering on the x axis.</p>
+                        <p>Horizontal offset of the image</p>
 
                     </div>
 
@@ -2184,7 +2202,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The offset of the image when rendering on the y axis.</p>
+                        <p>Vertical offset of the image</p>
 
                     </div>
 
@@ -2257,7 +2275,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l336"><code>src\core\State.ts:336</code></a>
+        <a href="../files/src_core_State.ts.html#l417"><code>src&#x2F;core&#x2F;State.ts:417</code></a>
         
         </p>
 
@@ -2268,7 +2286,7 @@ There can only ever be a single State active at a given time.</p>
     </div>
 
     <div class="description">
-        <p>Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.</p>
+        <p>Add a JSON file to be loaded when the state loads assets.</p>
 
     </div>
 
@@ -2287,7 +2305,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>A key for this json so that you can access it when the loading has finished</p>
+                        <p>Key for this JSON so that you can access it
+    when the loading has finished</p>
 
                     </div>
 
@@ -2303,7 +2322,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The location of the JSON file.</p>
+                        <p>Location of the JSON file</p>
 
                     </div>
 
@@ -2320,7 +2339,9 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>If the json should be deleted when switching to another state or if the other states should still be able to access this json.</p>
+                        <p>Whether the JSON should be
+    retained as a global asset after this state is destroyed,
+    or it should also be destroyed</p>
 
                     </div>
 
@@ -2447,7 +2468,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l296"><code>src\core\State.ts:296</code></a>
+        <a href="../files/src_core_State.ts.html#l361"><code>src&#x2F;core&#x2F;State.ts:361</code></a>
         
         </p>
 
@@ -2458,7 +2479,8 @@ There can only ever be a single State active at a given time.</p>
     </div>
 
     <div class="description">
-        <p>Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.</p>
+        <p>Add a new spritesheet image file to be loaded when the state loads
+assets.</p>
 
     </div>
 
@@ -2477,7 +2499,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>A key for this image so that you can access it when the loading has finished.</p>
+                        <p>Key for this image so that you can access it
+    when the loading has finished</p>
 
                     </div>
 
@@ -2493,7 +2516,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The location of the image.</p>
+                        <p>Location of the image</p>
 
                     </div>
 
@@ -2509,7 +2532,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The width of a single frame in the spritesheet</p>
+                        <p>Width of a single frame in the spritesheet</p>
 
                     </div>
 
@@ -2525,7 +2548,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The height of a single frame in the spritesheet</p>
+                        <p>Height of a single frame in the
+    spritesheet</p>
 
                     </div>
 
@@ -2542,7 +2566,9 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>If the image should be deleted when switching to another state or if the other states should still be able to access this image.</p>
+                        <p>Whether the image should be
+    retained as a global asset after this state is destroyed,
+    or it should also be destroyed</p>
 
                     </div>
 
@@ -2559,7 +2585,9 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The number of cells/frames that are in the spritesheet. If not specified will calculate this based of the width/height of the image.</p>
+                        <p>Number of cells/frames in the spritesheet.
+    If not specified, will calculate this based on the
+    width/height of the image.</p>
 
                     </div>
 
@@ -2576,7 +2604,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The number of cells that are in a row. If not specified will calculate this based of the width/height of the image.</p>
+                        <p>Number of cells in a row. If not specified,
+    will calculate this based of the width/height of the image.</p>
 
                     </div>
 
@@ -2593,7 +2622,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The number of cells that are in a column. If not specified will calculate this based of the width/height of the image.</p>
+                        <p>Number of cells in a column. If not specified,
+    will calculate this based of the width/height of the image.</p>
 
                     </div>
 
@@ -2610,7 +2640,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The offset of the whole spritesheet on the x axis.</p>
+                        <p>Horizontal offset of the whole
+    spritesheet</p>
 
                     </div>
 
@@ -2627,7 +2658,8 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The offset of the whole spritesheet on the y axis.</p>
+                        <p>Vertical offset of the whole
+    spritesheet</p>
 
                     </div>
 
@@ -2644,7 +2676,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The spacing between cells on the x axis.</p>
+                        <p>Horizontal spacing between cells</p>
 
                     </div>
 
@@ -2661,7 +2693,7 @@ There can only ever be a single State active at a given time.</p>
                     
 
                     <div class="param-description">
-                        <p>The spacing between cells on the y axis.</p>
+                        <p>Vertical spacing between cells</p>
 
                     </div>
 
@@ -2719,7 +2751,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1279"><code>src\core\Group.ts:1279</code></a>
+        <a href="../files/src_core_Group.ts.html#l1279"><code>src&#x2F;core&#x2F;Group.ts:1279</code></a>
         
         </p>
 
@@ -2837,7 +2869,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l319"><code>src\core\State.ts:319</code></a>
+        <a href="../files/src_core_State.ts.html#l395"><code>src&#x2F;core&#x2F;State.ts:395</code></a>
         
         </p>
 
@@ -2848,7 +2880,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.</p>
+        <p>Add a new texture atlas to be loaded when the state loads assets.</p>
 
     </div>
 
@@ -2867,7 +2899,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>A key for this image so that you can access it when the loading has finished.</p>
+                        <p>Key for this image so that you can access it
+    when the loading has finished</p>
 
                     </div>
 
@@ -2883,7 +2916,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The location of the image.</p>
+                        <p>Location of the image.</p>
 
                     </div>
 
@@ -2900,7 +2933,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The id for the json file that is to be loaded. So that you can access it outside of the texture atlas.</p>
+                        <p>Key for the JSON file,
+    so that you can access it outside of the texture atlas</p>
 
                     </div>
 
@@ -2917,7 +2951,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The location of the json file you have loaded.</p>
+                        <p>Location of the JSON file describing the
+    atlas</p>
 
                     </div>
 
@@ -2934,7 +2969,9 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>If the image should be delete when switching to another state or if the other states should still be able to access this image.</p>
+                        <p>Whether the image should be
+    retained as a global asset after this state is destroyed,
+    or it should also be destroyed</p>
 
                     </div>
 
@@ -2995,7 +3032,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l381"><code>src\core\State.ts:381</code></a>
+        <a href="../files/src_core_State.ts.html#l471"><code>src&#x2F;core&#x2F;State.ts:471</code></a>
         
         </p>
 
@@ -3006,8 +3043,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Adds a new Objects to the tracking list. 
-This is an INTERNAL Kiwi method and DEVS shouldn&#39;t need to worry about it.</p>
+        <p>Add a new object to the tracking list.
+This is an internal KiwiJS method and game devs
+shouldn&#39;t need to worry about it.</p>
 
     </div>
 
@@ -3026,7 +3064,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t need to worry about it.</
                     
 
                     <div class="param-description">
-                        <p>The Object which you are adding to the tracking list.</p>
+                        <p>Object to add to the tracking list.</p>
 
                     </div>
 
@@ -3077,7 +3115,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t need to worry about it.</
             
         
         
-        <a href="../files/src_core_State.ts.html#l120"><code>src\core\State.ts:120</code></a>
+        <a href="../files/src_core_State.ts.html#l131"><code>src&#x2F;core&#x2F;State.ts:131</code></a>
         
         </p>
 
@@ -3088,8 +3126,11 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t need to worry about it.</
     </div>
 
     <div class="description">
-        <p>This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
-Is called each time a State is switched to.</p>
+        <p>Boot up the state in preparation for switching into it.
+This is the first method to be executed,
+and happens before the <code>init</code> method.
+Is called each time a <code>State</code> is switched to.
+It should not be necessary to call this method.</p>
 
     </div>
 
@@ -3154,7 +3195,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1051"><code>src\core\Group.ts:1051</code></a>
+        <a href="../files/src_core_Group.ts.html#l1051"><code>src&#x2F;core&#x2F;Group.ts:1051</code></a>
         
         </p>
 
@@ -3271,7 +3312,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l43"><code>src\core\State.ts:43</code></a>
+        <a href="../files/src_core_State.ts.html#l45"><code>src&#x2F;core&#x2F;State.ts:45</code></a>
         
         </p>
 
@@ -3339,7 +3380,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1199"><code>src\core\Group.ts:1199</code></a>
+        <a href="../files/src_core_Group.ts.html#l1199"><code>src&#x2F;core&#x2F;Group.ts:1199</code></a>
         
         </p>
 
@@ -3407,7 +3448,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l356"><code>src\core\Group.ts:356</code></a>
+        <a href="../files/src_core_Group.ts.html#l356"><code>src&#x2F;core&#x2F;Group.ts:356</code></a>
         
         </p>
 
@@ -3519,7 +3560,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l384"><code>src\core\Group.ts:384</code></a>
+        <a href="../files/src_core_Group.ts.html#l384"><code>src&#x2F;core&#x2F;Group.ts:384</code></a>
         
         </p>
 
@@ -3639,7 +3680,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l367"><code>src\core\Group.ts:367</code></a>
+        <a href="../files/src_core_Group.ts.html#l367"><code>src&#x2F;core&#x2F;Group.ts:367</code></a>
         
         </p>
 
@@ -3733,7 +3774,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1179"><code>src\core\Group.ts:1179</code></a>
+        <a href="../files/src_core_Group.ts.html#l1179"><code>src&#x2F;core&#x2F;Group.ts:1179</code></a>
         
         </p>
 
@@ -3803,7 +3844,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1159"><code>src\core\Group.ts:1159</code></a>
+        <a href="../files/src_core_Group.ts.html#l1159"><code>src&#x2F;core&#x2F;Group.ts:1159</code></a>
         
         </p>
 
@@ -3882,7 +3923,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l206"><code>src\core\State.ts:206</code></a>
+        <a href="../files/src_core_State.ts.html#l241"><code>src&#x2F;core&#x2F;State.ts:241</code></a>
         
         </p>
 
@@ -3893,7 +3934,9 @@ Is called each time a State is switched to.</p>
     </div>
 
     <div class="description">
-        <p>Is executed once all of the assets have loaded and the game is ready to be &#39;created&#39;.</p>
+        <p>Overrideable method.</p>
+<p>Is executed once all of the assets have loaded
+and the game is ready to be created.</p>
 
     </div>
 
@@ -3975,7 +4018,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l433"><code>src\core\State.ts:433</code></a>
+        <a href="../files/src_core_State.ts.html#l527"><code>src&#x2F;core&#x2F;State.ts:527</code></a>
         
         </p>
 
@@ -3986,7 +4029,8 @@ Is called each time a State is switched to.</p>
     </div>
 
     <div class="description">
-        <p>Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.</p>
+        <p>Used to mark all Entities that have been created for deletion,
+regardless of whether they are on the stage or not.</p>
 
     </div>
 
@@ -4006,7 +4050,8 @@ Is called each time a State is switched to.</p>
                     
 
                     <div class="param-description">
-                        <p>If all of the Objects ever created should have the destroy method executed also.</p>
+                        <p>If all of the Objects ever created should
+    have the destroy method executed also.</p>
 
                     </div>
 
@@ -4061,7 +4106,7 @@ Is called each time a State is switched to.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l410"><code>src\core\State.ts:410</code></a>
+        <a href="../files/src_core_State.ts.html#l502"><code>src&#x2F;core&#x2F;State.ts:502</code></a>
         
         </p>
 
@@ -4072,9 +4117,10 @@ Is called each time a State is switched to.</p>
     </div>
 
     <div class="description">
-        <p>Destroys all of Objects in the tracking list that are not currently on stage. 
-All that currently don&#39;t have this STATE as an ancestor.
-Returns the number of Objects removed.</p>
+        <p>Destroys all objects in the tracking list that are
+not currently on stage. 
+All that currently don&#39;t have this <code>State</code> as an ancestor.
+Returns the number of objects removed.</p>
 
     </div>
 
@@ -4089,7 +4135,7 @@ Returns the number of Objects removed.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>The amount of objects removed.</p>
+                    <p>Amount of objects removed</p>
 
                 
             </div>
@@ -4153,7 +4199,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l995"><code>src\core\Group.ts:995</code></a>
+        <a href="../files/src_core_Group.ts.html#l995"><code>src&#x2F;core&#x2F;Group.ts:995</code></a>
         
         </p>
 
@@ -4288,7 +4334,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1011"><code>src\core\Group.ts:1011</code></a>
+        <a href="../files/src_core_Group.ts.html#l1011"><code>src&#x2F;core&#x2F;Group.ts:1011</code></a>
         
         </p>
 
@@ -4419,7 +4465,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l602"><code>src\core\Group.ts:602</code></a>
+        <a href="../files/src_core_Group.ts.html#l602"><code>src&#x2F;core&#x2F;Group.ts:602</code></a>
         
         </p>
 
@@ -4541,7 +4587,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l626"><code>src\core\Group.ts:626</code></a>
+        <a href="../files/src_core_Group.ts.html#l626"><code>src&#x2F;core&#x2F;Group.ts:626</code></a>
         
         </p>
 
@@ -4653,7 +4699,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l668"><code>src\core\Group.ts:668</code></a>
+        <a href="../files/src_core_Group.ts.html#l668"><code>src&#x2F;core&#x2F;Group.ts:668</code></a>
         
         </p>
 
@@ -4781,7 +4827,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l643"><code>src\core\Group.ts:643</code></a>
+        <a href="../files/src_core_Group.ts.html#l643"><code>src&#x2F;core&#x2F;Group.ts:643</code></a>
         
         </p>
 
@@ -4903,7 +4949,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l693"><code>src\core\Group.ts:693</code></a>
+        <a href="../files/src_core_Group.ts.html#l693"><code>src&#x2F;core&#x2F;Group.ts:693</code></a>
         
         </p>
 
@@ -5009,7 +5055,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l793"><code>src\core\Group.ts:793</code></a>
+        <a href="../files/src_core_Group.ts.html#l793"><code>src&#x2F;core&#x2F;Group.ts:793</code></a>
         
         </p>
 
@@ -5106,7 +5152,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l706"><code>src\core\Group.ts:706</code></a>
+        <a href="../files/src_core_Group.ts.html#l706"><code>src&#x2F;core&#x2F;Group.ts:706</code></a>
         
         </p>
 
@@ -5188,7 +5234,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l820"><code>src\core\Group.ts:820</code></a>
+        <a href="../files/src_core_Group.ts.html#l820"><code>src&#x2F;core&#x2F;Group.ts:820</code></a>
         
         </p>
 
@@ -5285,7 +5331,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l724"><code>src\core\Group.ts:724</code></a>
+        <a href="../files/src_core_Group.ts.html#l724"><code>src&#x2F;core&#x2F;Group.ts:724</code></a>
         
         </p>
 
@@ -5367,7 +5413,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l849"><code>src\core\Group.ts:849</code></a>
+        <a href="../files/src_core_Group.ts.html#l849"><code>src&#x2F;core&#x2F;Group.ts:849</code></a>
         
         </p>
 
@@ -5472,7 +5518,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1314"><code>src\core\Group.ts:1314</code></a>
+        <a href="../files/src_core_Group.ts.html#l1314"><code>src&#x2F;core&#x2F;Group.ts:1314</code></a>
         
         </p>
 
@@ -5576,7 +5622,7 @@ Returns the number of Objects removed.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l155"><code>src\core\State.ts:155</code></a>
+        <a href="../files/src_core_State.ts.html#l169"><code>src&#x2F;core&#x2F;State.ts:169</code></a>
         
         </p>
 
@@ -5587,9 +5633,11 @@ Returns the number of Objects removed.</p>
     </div>
 
     <div class="description">
-        <p>Gets executed when the state has been initalised and gets switched to for the first time.
-This method only ever gets called once and it is before the preload method.
-Can have parameters passed to it by the previous state that switched to it.</p>
+        <p>Overrideable method.</p>
+<p>Gets executed when the state has been initalised
+and gets switched to for the first time.
+This method only ever gets called once, before the preload method.
+Can have parameters passed to it by the previous state.</p>
 
     </div>
 
@@ -5659,7 +5707,7 @@ Can have parameters passed to it by the previous state that switched to it.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l184"><code>src\core\State.ts:184</code></a>
+        <a href="../files/src_core_State.ts.html#l211"><code>src&#x2F;core&#x2F;State.ts:211</code></a>
         
         </p>
 
@@ -5670,7 +5718,9 @@ Can have parameters passed to it by the previous state that switched to it.</p>
     </div>
 
     <div class="description">
-        <p>Gets executed when the game is finished loading and it is about to &#39;create&#39; the state.</p>
+        <p>Overrideable method.</p>
+<p>Executes when the game finishes loading and is about to <code>create</code>
+the state.</p>
 
     </div>
 
@@ -5738,7 +5788,7 @@ Can have parameters passed to it by the previous state that switched to it.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l173"><code>src\core\State.ts:173</code></a>
+        <a href="../files/src_core_State.ts.html#l194"><code>src&#x2F;core&#x2F;State.ts:194</code></a>
         
         </p>
 
@@ -5749,8 +5799,11 @@ Can have parameters passed to it by the previous state that switched to it.</p>
     </div>
 
     <div class="description">
-        <p>This method is progressively called whilst loading files and is executed each time a file has been loaded.
-This can be used to create a &#39;progress&#39; bar during the loading stage of a game.</p>
+        <p>Overrideable method.</p>
+<p>This method is progressively called while loading files,
+and is executed each time a file has been loaded.
+This can be used to create a progress bar
+during the loading stage of a game.</p>
 
     </div>
 
@@ -5769,7 +5822,8 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
                     
 
                     <div class="param-description">
-                        <p>The percent of files that have been loaded so far. This is a number from 0 - 1.</p>
+                        <p>The percent of files that have been loaded
+    so far. This is a number from 0 to 1.</p>
 
                     </div>
 
@@ -5785,7 +5839,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
                     
 
                     <div class="param-description">
-                        <p>The number of bytes that have been loaded so far.</p>
+                        <p>Number of bytes loaded so far</p>
 
                     </div>
 
@@ -5801,7 +5855,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
                     
 
                     <div class="param-description">
-                        <p>The last file to have been loaded.</p>
+                        <p>Last file to have been loaded</p>
 
                     </div>
 
@@ -5852,7 +5906,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
             
         
         
-        <a href="../files/src_core_State.ts.html#l191"><code>src\core\State.ts:191</code></a>
+        <a href="../files/src_core_State.ts.html#l222"><code>src&#x2F;core&#x2F;State.ts:222</code></a>
         
         </p>
 
@@ -5863,7 +5917,9 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
     </div>
 
     <div class="description">
-        <p>The game loop that gets executed while the game is loading.</p>
+        <p>Extendable method. You may write your own, but it must call this
+via <code>Kiwi.State.prototype.loadUpdate.call( this )</code>.</p>
+<p>The game loop that gets executed while the game is loading.</p>
 
     </div>
 
@@ -5910,7 +5966,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
             
         
         
-        <a href="../files/src_core_Group.ts.html#l319"><code>src\core\Group.ts:319</code></a>
+        <a href="../files/src_core_Group.ts.html#l319"><code>src&#x2F;core&#x2F;Group.ts:319</code></a>
         
         </p>
 
@@ -5985,7 +6041,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
             
         
         
-        <a href="../files/src_core_State.ts.html#l33"><code>src\core\State.ts:33</code></a>
+        <a href="../files/src_core_State.ts.html#l35"><code>src&#x2F;core&#x2F;State.ts:35</code></a>
         
         </p>
 
@@ -6056,7 +6112,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
             
         
         
-        <a href="../files/src_core_State.ts.html#l257"><code>src\core\State.ts:257</code></a>
+        <a href="../files/src_core_State.ts.html#l309"><code>src&#x2F;core&#x2F;State.ts:309</code></a>
         
         </p>
 
@@ -6067,7 +6123,9 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
     </div>
 
     <div class="description">
-        <p>Called after all of the layers have rendered themselves, useful for debugging.</p>
+        <p>Overrideable method.</p>
+<p>Called after all of the members have rendered themselves.
+Useful for debugging.</p>
 
     </div>
 
@@ -6113,7 +6171,7 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
             
         
         
-        <a href="../files/src_core_State.ts.html#l247"><code>src\core\State.ts:247</code></a>
+        <a href="../files/src_core_State.ts.html#l296"><code>src&#x2F;core&#x2F;State.ts:296</code></a>
         
         </p>
 
@@ -6124,8 +6182,9 @@ This can be used to create a &#39;progress&#39; bar during the loading stage of 
     </div>
 
     <div class="description">
-        <p>The post update loop is executed every frame after the update method. 
-When overriding make sure you include a super call at the end of the method.</p>
+        <p>Extendable method. You may write your own, but it must call this
+via <code>Kiwi.State.prototype.postUpdate.call( this )</code>.</p>
+<p>The post update loop is executed every frame after the update method.</p>
 
     </div>
 
@@ -6171,7 +6230,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l165"><code>src\core\State.ts:165</code></a>
+        <a href="../files/src_core_State.ts.html#l183"><code>src&#x2F;core&#x2F;State.ts:183</code></a>
         
         </p>
 
@@ -6182,7 +6241,9 @@ When overriding make sure you include a super call at the end of the method.</p>
     </div>
 
     <div class="description">
-        <p>This method is where you would load of all the assets that are requried for this state or in the entire game.</p>
+        <p>Overrideable method.</p>
+<p>This method is where you load of all the assets required
+for this state or in the entire game.</p>
 
     </div>
 
@@ -6228,7 +6289,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l214"><code>src\core\State.ts:214</code></a>
+        <a href="../files/src_core_State.ts.html#l253"><code>src&#x2F;core&#x2F;State.ts:253</code></a>
         
         </p>
 
@@ -6239,7 +6300,9 @@ When overriding make sure you include a super call at the end of the method.</p>
     </div>
 
     <div class="description">
-        <p>Is called every frame before the update loop. When overriding make sure you include a super call.</p>
+        <p>Extendable method. You may write your own, but it must call this
+via <code>Kiwi.State.prototype.preUpdate.call( this )</code>.</p>
+<p>Is called every frame before the update loop.</p>
 
     </div>
 
@@ -6302,7 +6365,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l509"><code>src\core\Group.ts:509</code></a>
+        <a href="../files/src_core_Group.ts.html#l509"><code>src&#x2F;core&#x2F;Group.ts:509</code></a>
         
         </p>
 
@@ -6423,7 +6486,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l537"><code>src\core\Group.ts:537</code></a>
+        <a href="../files/src_core_Group.ts.html#l537"><code>src&#x2F;core&#x2F;Group.ts:537</code></a>
         
         </p>
 
@@ -6541,7 +6604,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l555"><code>src\core\Group.ts:555</code></a>
+        <a href="../files/src_core_Group.ts.html#l555"><code>src&#x2F;core&#x2F;Group.ts:555</code></a>
         
         </p>
 
@@ -6681,7 +6744,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l581"><code>src\core\Group.ts:581</code></a>
+        <a href="../files/src_core_Group.ts.html#l581"><code>src&#x2F;core&#x2F;Group.ts:581</code></a>
         
         </p>
 
@@ -6789,7 +6852,7 @@ When overriding make sure you include a super call at the end of the method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l395"><code>src\core\State.ts:395</code></a>
+        <a href="../files/src_core_State.ts.html#l486"><code>src&#x2F;core&#x2F;State.ts:486</code></a>
         
         </p>
 
@@ -6800,8 +6863,10 @@ When overriding make sure you include a super call at the end of the method.</p>
     </div>
 
     <div class="description">
-        <p>Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
-This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry about it.</p>
+        <p>Remove an object from the tracking list.
+This should only need to happen when a child is destroyed.
+This is an internal Kiwi method and game devs
+shouldn&#39;t really need to worry about it.</p>
 
     </div>
 
@@ -6878,7 +6943,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1298"><code>src\core\Group.ts:1298</code></a>
+        <a href="../files/src_core_Group.ts.html#l1298"><code>src&#x2F;core&#x2F;Group.ts:1298</code></a>
         
         </p>
 
@@ -6970,7 +7035,7 @@ This is an INTERNAL Kiwi method and DEVS shouldn&#39;t really need to worry abou
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1147"><code>src\core\Group.ts:1147</code></a>
+        <a href="../files/src_core_Group.ts.html#l1147"><code>src&#x2F;core&#x2F;Group.ts:1147</code></a>
         
         </p>
 
@@ -7068,7 +7133,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l962"><code>src\core\Group.ts:962</code></a>
+        <a href="../files/src_core_Group.ts.html#l962"><code>src&#x2F;core&#x2F;Group.ts:962</code></a>
         
         </p>
 
@@ -7198,7 +7263,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1031"><code>src\core\Group.ts:1031</code></a>
+        <a href="../files/src_core_Group.ts.html#l1031"><code>src&#x2F;core&#x2F;Group.ts:1031</code></a>
         
         </p>
 
@@ -7328,7 +7393,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l885"><code>src\core\Group.ts:885</code></a>
+        <a href="../files/src_core_Group.ts.html#l885"><code>src&#x2F;core&#x2F;Group.ts:885</code></a>
         
         </p>
 
@@ -7439,7 +7504,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_State.ts.html#l264"><code>src\core\State.ts:264</code></a>
+        <a href="../files/src_core_State.ts.html#l320"><code>src&#x2F;core&#x2F;State.ts:320</code></a>
         
         </p>
 
@@ -7450,7 +7515,9 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Called just before this State is going to be Shut Down and another one is going to be switched too.</p>
+        <p>Overrideable method.</p>
+<p>Called just before this <code>State</code> is going to be shut down,
+and the game switches to another <code>State</code>.</p>
 
     </div>
 
@@ -7513,7 +7580,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l906"><code>src\core\Group.ts:906</code></a>
+        <a href="../files/src_core_Group.ts.html#l906"><code>src&#x2F;core&#x2F;Group.ts:906</code></a>
         
         </p>
 
@@ -7641,7 +7708,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l934"><code>src\core\Group.ts:934</code></a>
+        <a href="../files/src_core_Group.ts.html#l934"><code>src&#x2F;core&#x2F;Group.ts:934</code></a>
         
         </p>
 
@@ -7752,7 +7819,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_State.ts.html#l223"><code>src\core\State.ts:223</code></a>
+        <a href="../files/src_core_State.ts.html#l266"><code>src&#x2F;core&#x2F;State.ts:266</code></a>
         
         </p>
 
@@ -7763,7 +7830,11 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>The update loop that is executed every frame while the game is &#39;playing&#39;. When overriding make sure you include a super call too.</p>
+        <p>Extendable method. You may write your own, but it must call this
+via <code>Kiwi.State.prototype.update.call( this )</code>.</p>
+<p>Executed every frame while the state is current.
+Updates state members and children.</p>
+<p>Generally, this is where the game runs.</p>
 
     </div>
 
@@ -7805,7 +7876,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1122"><code>src\core\Group.ts:1122</code></a>
+        <a href="../files/src_core_Group.ts.html#l1122"><code>src&#x2F;core&#x2F;Group.ts:1122</code></a>
         
         </p>
 
@@ -7851,7 +7922,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1379"><code>src\core\Group.ts:1379</code></a>
+        <a href="../files/src_core_Group.ts.html#l1389"><code>src&#x2F;core&#x2F;Group.ts:1389</code></a>
         
         </p>
 
@@ -7895,7 +7966,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l329"><code>src\core\Group.ts:329</code></a>
+        <a href="../files/src_core_Group.ts.html#l329"><code>src&#x2F;core&#x2F;Group.ts:329</code></a>
         
         </p>
 
@@ -7939,7 +8010,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l83"><code>src\core\Group.ts:83</code></a>
+        <a href="../files/src_core_Group.ts.html#l83"><code>src&#x2F;core&#x2F;Group.ts:83</code></a>
         
         </p>
 
@@ -7983,7 +8054,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1269"><code>src\core\Group.ts:1269</code></a>
+        <a href="../files/src_core_Group.ts.html#l1269"><code>src&#x2F;core&#x2F;Group.ts:1269</code></a>
         
         </p>
 
@@ -7997,6 +8068,56 @@ This method never gets called as the render is only worried about rendering enti
     <div class="description">
         <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
 By default Entitys contain no tags.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__trackingList" class="property item private">
+    <h3 class="name"><code>_trackingList</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_State.ts.html#l460"><code>src&#x2F;core&#x2F;State.ts:460</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Contains a reference to all of the objects that have ever been
+created for this state, generally <code>Kiwi.Entity</code> or <code>Kiwi.Group</code>.
+Useful for keeping track of sprites that are not used any more
+and need to be destroyed.</p>
 
     </div>
 
@@ -8030,7 +8151,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1234"><code>src\core\Group.ts:1234</code></a>
+        <a href="../files/src_core_Group.ts.html#l1234"><code>src&#x2F;core&#x2F;Group.ts:1234</code></a>
         
         </p>
 
@@ -8080,7 +8201,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1210"><code>src\core\Group.ts:1210</code></a>
+        <a href="../files/src_core_Group.ts.html#l1210"><code>src&#x2F;core&#x2F;Group.ts:1210</code></a>
         
         </p>
 
@@ -8126,7 +8247,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1131"><code>src\core\Group.ts:1131</code></a>
+        <a href="../files/src_core_Group.ts.html#l1131"><code>src&#x2F;core&#x2F;Group.ts:1131</code></a>
         
         </p>
 
@@ -8173,7 +8294,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l251"><code>src\core\Group.ts:251</code></a>
+        <a href="../files/src_core_Group.ts.html#l251"><code>src&#x2F;core&#x2F;Group.ts:251</code></a>
         
         </p>
 
@@ -8219,7 +8340,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l265"><code>src\core\Group.ts:265</code></a>
+        <a href="../files/src_core_Group.ts.html#l265"><code>src&#x2F;core&#x2F;Group.ts:265</code></a>
         
         </p>
 
@@ -8268,7 +8389,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_State.ts.html#l102"><code>src\core\State.ts:102</code></a>
+        <a href="../files/src_core_State.ts.html#l107"><code>src&#x2F;core&#x2F;State.ts:107</code></a>
         
         </p>
 
@@ -8278,8 +8399,11 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     </div>
 
     <div class="description">
-        <p>Holds all of the audio that are avaiable to be accessed once this state has been loaded.
-E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everything has loaded you can then access the lazers (pew pew) by saying this.audio.lazerz</p>
+        <p>Holds all of the audio assets that are avaiable to be accessed
+once this state has been loaded.
+E.g. If you loaded a piece of audio and named it &quot;lazerz&quot;,
+once everything has loaded you can then access the lazers (pew pew)
+via <code>this.audio.lazerz</code></p>
 
     </div>
 
@@ -8316,7 +8440,7 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
             
         
         
-        <a href="../files/src_core_State.ts.html#l77"><code>src\core\State.ts:77</code></a>
+        <a href="../files/src_core_State.ts.html#l79"><code>src&#x2F;core&#x2F;State.ts:79</code></a>
         
         </p>
 
@@ -8326,7 +8450,7 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
     </div>
 
     <div class="description">
-        <p>The library that this state use&#39;s for the loading of audio.</p>
+        <p>The library that this state uses for the loading of audio.</p>
 
     </div>
 
@@ -8360,7 +8484,7 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
             
         
         
-        <a href="../files/src_core_Group.ts.html#l279"><code>src\core\Group.ts:279</code></a>
+        <a href="../files/src_core_Group.ts.html#l279"><code>src&#x2F;core&#x2F;Group.ts:279</code></a>
         
         </p>
 
@@ -8407,7 +8531,7 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
             
         
         
-        <a href="../files/src_core_State.ts.html#l53"><code>src\core\State.ts:53</code></a>
+        <a href="../files/src_core_State.ts.html#l55"><code>src&#x2F;core&#x2F;State.ts:55</code></a>
         
         </p>
 
@@ -8417,7 +8541,7 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
     </div>
 
     <div class="description">
-        <p>The configuration object for this State.</p>
+        <p>The configuration object for this <code>State</code>.</p>
 
     </div>
 
@@ -8454,7 +8578,7 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
             
         
         
-        <a href="../files/src_core_State.ts.html#l111"><code>src\core\State.ts:111</code></a>
+        <a href="../files/src_core_State.ts.html#l119"><code>src&#x2F;core&#x2F;State.ts:119</code></a>
         
         </p>
 
@@ -8464,8 +8588,11 @@ E.g. If you loaded a piece of audio and named it &#39;lazerz&#39;, once everythi
     </div>
 
     <div class="description">
-        <p>Holds all of the data that are avaiable to be accessed once this state has been loaded.
-E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once everything has loaded you can then access the cookies by saying this.data.cookieLocation</p>
+        <p>Holds all of the data assets that are avaiable to be accessed
+once this state has been loaded.
+E.g. If you loaded a piece of data and named it &quot;cookieLocation&quot;,
+once everything has loaded you can then access the cookies
+via <code>this.data.cookieLocation</code></p>
 
     </div>
 
@@ -8502,7 +8629,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_State.ts.html#l85"><code>src\core\State.ts:85</code></a>
+        <a href="../files/src_core_State.ts.html#l87"><code>src&#x2F;core&#x2F;State.ts:87</code></a>
         
         </p>
 
@@ -8512,7 +8639,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
     </div>
 
     <div class="description">
-        <p>The library that this state use&#39;s for the loading of data.</p>
+        <p>The library that this state uses for the loading of data.</p>
 
     </div>
 
@@ -8546,7 +8673,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l337"><code>src\core\Group.ts:337</code></a>
+        <a href="../files/src_core_Group.ts.html#l337"><code>src&#x2F;core&#x2F;Group.ts:337</code></a>
         
         </p>
 
@@ -8593,7 +8720,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1099"><code>src\core\Group.ts:1099</code></a>
+        <a href="../files/src_core_Group.ts.html#l1099"><code>src&#x2F;core&#x2F;Group.ts:1099</code></a>
         
         </p>
 
@@ -8640,7 +8767,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_State.ts.html#l61"><code>src\core\State.ts:61</code></a>
+        <a href="../files/src_core_State.ts.html#l63"><code>src&#x2F;core&#x2F;State.ts:63</code></a>
         
         </p>
 
@@ -8650,7 +8777,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
     </div>
 
     <div class="description">
-        <p>A reference to the Kiwi.Game that this State belongs to.</p>
+        <p>A reference to the <code>Kiwi.Game</code> that this <code>State</code> belongs to.</p>
 
     </div>
 
@@ -8684,7 +8811,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l303"><code>src\core\Group.ts:303</code></a>
+        <a href="../files/src_core_Group.ts.html#l303"><code>src&#x2F;core&#x2F;Group.ts:303</code></a>
         
         </p>
 
@@ -8728,7 +8855,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l311"><code>src\core\Group.ts:311</code></a>
+        <a href="../files/src_core_Group.ts.html#l311"><code>src&#x2F;core&#x2F;Group.ts:311</code></a>
         
         </p>
 
@@ -8772,7 +8899,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l65"><code>src\core\Group.ts:65</code></a>
+        <a href="../files/src_core_Group.ts.html#l65"><code>src&#x2F;core&#x2F;Group.ts:65</code></a>
         
         </p>
 
@@ -8818,7 +8945,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l108"><code>src\core\Group.ts:108</code></a>
+        <a href="../files/src_core_Group.ts.html#l108"><code>src&#x2F;core&#x2F;Group.ts:108</code></a>
         
         </p>
 
@@ -8864,7 +8991,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l91"><code>src\core\Group.ts:91</code></a>
+        <a href="../files/src_core_Group.ts.html#l91"><code>src&#x2F;core&#x2F;Group.ts:91</code></a>
         
         </p>
 
@@ -8908,7 +9035,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l223"><code>src\core\Group.ts:223</code></a>
+        <a href="../files/src_core_Group.ts.html#l223"><code>src&#x2F;core&#x2F;Group.ts:223</code></a>
         
         </p>
 
@@ -8954,7 +9081,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l237"><code>src\core\Group.ts:237</code></a>
+        <a href="../files/src_core_Group.ts.html#l237"><code>src&#x2F;core&#x2F;Group.ts:237</code></a>
         
         </p>
 
@@ -9000,7 +9127,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l199"><code>src\core\Group.ts:199</code></a>
+        <a href="../files/src_core_Group.ts.html#l199"><code>src&#x2F;core&#x2F;Group.ts:199</code></a>
         
         </p>
 
@@ -9046,7 +9173,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_Group.ts.html#l295"><code>src\core\Group.ts:295</code></a>
+        <a href="../files/src_core_Group.ts.html#l295"><code>src&#x2F;core&#x2F;Group.ts:295</code></a>
         
         </p>
 
@@ -9093,7 +9220,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_State.ts.html#l69"><code>src\core\State.ts:69</code></a>
+        <a href="../files/src_core_State.ts.html#l71"><code>src&#x2F;core&#x2F;State.ts:71</code></a>
         
         </p>
 
@@ -9103,7 +9230,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
     </div>
 
     <div class="description">
-        <p>The library that this state use&#39;s for the loading of textures.</p>
+        <p>The library that this state uses for the loading of textures.</p>
 
     </div>
 
@@ -9140,7 +9267,7 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
             
         
         
-        <a href="../files/src_core_State.ts.html#l93"><code>src\core\State.ts:93</code></a>
+        <a href="../files/src_core_State.ts.html#l95"><code>src&#x2F;core&#x2F;State.ts:95</code></a>
         
         </p>
 
@@ -9150,56 +9277,11 @@ E.g. If you loaded a piece of data and named it &#39;cookieLocation&#39;, once e
     </div>
 
     <div class="description">
-        <p>Holds all of the textures that are avaiable to be accessed once this state has been loaded.
-E.g. If you loaded a image and named it &#39;flower&#39;, once everything has loaded you can then access the flower image by saying this.textures.flower</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_trackingList" class="property item private">
-    <h3 class="name"><code>trackingList</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_State.ts.html#l372"><code>src\core\State.ts:372</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.
-Useful for keeping track of sprites that are not used any more and need to be destroyed.</p>
+        <p>Holds all of the textures that are avaiable to be accessed
+once this state has been loaded.
+E.g. If you loaded a image and named it &quot;flower&quot;,
+once everything has loaded you can then access the flower image
+via <code>this.textures.flower</code></p>
 
     </div>
 
@@ -9233,7 +9315,7 @@ Useful for keeping track of sprites that are not used any more and need to be de
             
         
         
-        <a href="../files/src_core_Group.ts.html#l74"><code>src\core\Group.ts:74</code></a>
+        <a href="../files/src_core_Group.ts.html#l74"><code>src&#x2F;core&#x2F;Group.ts:74</code></a>
         
         </p>
 
@@ -9278,7 +9360,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1244"><code>src\core\Group.ts:1244</code></a>
+        <a href="../files/src_core_Group.ts.html#l1244"><code>src&#x2F;core&#x2F;Group.ts:1244</code></a>
         
         </p>
 
@@ -9328,7 +9410,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1219"><code>src\core\Group.ts:1219</code></a>
+        <a href="../files/src_core_Group.ts.html#l1219"><code>src&#x2F;core&#x2F;Group.ts:1219</code></a>
         
         </p>
 
@@ -9374,7 +9456,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l151"><code>src\core\Group.ts:151</code></a>
+        <a href="../files/src_core_Group.ts.html#l151"><code>src&#x2F;core&#x2F;Group.ts:151</code></a>
         
         </p>
 
@@ -9420,7 +9502,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l162"><code>src\core\Group.ts:162</code></a>
+        <a href="../files/src_core_Group.ts.html#l162"><code>src&#x2F;core&#x2F;Group.ts:162</code></a>
         
         </p>
 
@@ -9466,7 +9548,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l125"><code>src\core\Group.ts:125</code></a>
+        <a href="../files/src_core_Group.ts.html#l125"><code>src&#x2F;core&#x2F;Group.ts:125</code></a>
         
         </p>
 
@@ -9510,7 +9592,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l138"><code>src\core\Group.ts:138</code></a>
+        <a href="../files/src_core_Group.ts.html#l138"><code>src&#x2F;core&#x2F;Group.ts:138</code></a>
         
         </p>
 

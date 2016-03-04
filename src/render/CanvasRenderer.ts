@@ -1,21 +1,22 @@
 /*
-* A IRenderer is an Interface (defined as a class as the documentation does not support Interfaces just yet),
-* which outlines the methods/properties that are required any Renderer. 
-* 
+* An IRenderer is an Interface (defined as a class,
+* as the documentation does not support Interfaces just yet),
+* which outlines the methods/properties that are required any Renderer.
+*
 */
 interface IRenderManager {
-	render(camera: Kiwi.Camera);
+	render( camera: Kiwi.Camera );
 	boot();
-	initState(state: Kiwi.State);
-	endState(state: Kiwi.State);
+	initState( state: Kiwi.State );
+	endState( state: Kiwi.State );
 	numDrawCalls: number;
-	requestRendererInstance(rendererID: string,params?: any);
-	requestSharedRenderer(rendererID: string, params?: any);
+	requestRendererInstance( rendererID: string,params?: any );
+	requestSharedRenderer( rendererID: string, params?: any );
 }
 
 /**
 * Contains the classes which are related to the rendering of GameObjects.
-* 
+*
 * @module Kiwi
 * @submodule Renderers
 * @main
@@ -23,22 +24,25 @@ interface IRenderManager {
 module Kiwi.Renderers {
 
 	/**
+	* Manager for rendering in Canvas mode.
 	*
 	* @class CanvasRenderer
-	* @constructor 
+	* @constructor
 	* @namespace Kiwi.Renderers
 	* @param game {Kiwi.Game} The game that this canvas renderer belongs to.
 	* @return {Kiwi.Renderes.CanvasRenderer}
-	*
 	*/
 	export class CanvasRenderer implements IRenderManager {
 
-		constructor(game: Kiwi.Game) {
+		constructor( game: Kiwi.Game ) {
 			this._game = game;
+			this._camMatrix = new Kiwi.Geom.Matrix();
 		}
 
 		/**
-		* The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+		* Boot method is executed when all of the DOM elements
+		* that are needed to play the game are ready
+		*
 		* @method boot
 		* @public
 		*/
@@ -47,7 +51,8 @@ module Kiwi.Renderers {
 		}
 
 		/**
-		* Returns the type of object that this is.
+		* Return the type of object that this is.
+		*
 		* @method objType
 		* @return {String} "CanvasRenderer"
 		* @public
@@ -57,7 +62,8 @@ module Kiwi.Renderers {
 		}
 
 		/**
-		* The game that this object belongs to.
+		* Game this object belongs to
+		*
 		* @property _game
 		* @type Kiwi.Game
 		* @private
@@ -65,7 +71,8 @@ module Kiwi.Renderers {
 		private _game: Kiwi.Game;
 
 		/**
-		* The camera that is currently being used to render upon.
+		* Camera that is currently being used to render upon
+		*
 		* @property _currentCamera
 		* @type Kiwi.Camera
 		* @private
@@ -73,85 +80,114 @@ module Kiwi.Renderers {
 		private _currentCamera: Kiwi.Camera;
 
 		/**
-		* This method recursively goes through a State's members and runs the render method of each member that is a Entity. 
-		* If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
-		* 
+		* Geometry data used in camera projection
+		*
+		* @property _camMatrix
+		* @type Kiwi.Geom.Matrix
+		* @private
+		* @since 1.4.1
+		*/
+		private _camMatrix: Kiwi.Geom.Matrix;
+
+		/**
+		* Recursively go through a `State`'s members and
+		* run the `render` method of each member that is a `Entity`.
+		* If it is a `Group`, then this method recursively goes through
+		* that `Group`'s members in the same way.
+		*
 		* @method _recurse
-		* @param child {object} The child that is being checked.
+		* @param child {object} Child being checked
 		* @private
 		*/
-		public _recurse(child: IChild) {
-			// Do not render non-visible objects or their children
-			if (!child.visible) return;
+		public _recurse( child: IChild ) {
+			var i;
 
-			if (child.childType() === Kiwi.GROUP) {
-				for (var i = 0; i < (<Kiwi.Group>child).members.length; i++) {
-					this._recurse((<Kiwi.Group>child).members[i]);
+			// Do not render non-visible objects or their children
+			if ( !child.visible ) return;
+
+			if ( child.childType() === Kiwi.GROUP ) {
+				for ( i = 0; i < ( <Kiwi.Group>child ).members.length; i++ ) {
+					this._recurse( ( <Kiwi.Group>child ).members[ i ] );
 				}
 			} else {
 				this.numDrawCalls++;
-				child.render(this._currentCamera);
+				child.render( this._currentCamera );
 
 			}
 
 		}
 
-		//for gl compatibility - refactor me
-		public requestRendererInstance(rendererID: string, params: any = null): Kiwi.Renderers.Renderer {
+		// TODO for gl compatibility - refactor me
+		public requestRendererInstance( rendererID: string, params: any = null ): Kiwi.Renderers.Renderer {
 			return null;
 		}
 
-		public requestSharedRenderer(rendererID: string, params: any = null): Kiwi.Renderers.Renderer {
+		public requestSharedRenderer( rendererID: string, params: any = null ): Kiwi.Renderers.Renderer {
 			return null;
 		}
 
-		public initState(state:Kiwi.State) {
+		public initState( state:Kiwi.State ) {
 
 		}
 
-		public endState(state: Kiwi.State) {
+		public endState( state: Kiwi.State ) {
 
 		}
 
 		public numDrawCalls: number = 0;
 
 		/**
-		* Renders all of the Elements that are on a particular camera.
+		* Render all of the Elements that are on a particular camera.
+		*
 		* @method render
 		* @param camera {Kiwi.Camera}
 		* @public
 		*/
-		public render(camera: Kiwi.Camera) {
-			var root: IChild[] = this._game.states.current.members;
-			
-			//clear 
-			var fillCol = this._game.stage.rgbaColor;
+		public render( camera: Kiwi.Camera ) {
+			var ct:Kiwi.Geom.Transform, i,
+				fillCol = this._game.stage.rgbaColor,
+				root: IChild[] = this._game.states.current.members;
+
+			// Clear stage
 			// If there is an alpha, clear the canvas before fill
-			if(fillCol.a < 255) {
-				this._game.stage.ctx.clearRect(0,0, this._game.stage.canvas.width, this._game.stage.canvas.height);
+			if ( fillCol.a < 255 ) {
+				this._game.stage.ctx.clearRect(
+					0, 0,
+					this._game.stage.canvas.width,
+					this._game.stage.canvas.height );
 			}
-			this._game.stage.ctx.fillStyle = "rgba(" + fillCol.r + "," + fillCol.g + "," + fillCol.b + "," + fillCol.a / 255 + ")";
-			this._game.stage.ctx.fillRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
-			
+			this._game.stage.ctx.fillStyle =
+				"rgba(" + fillCol.r + "," + fillCol.g + "," +
+					fillCol.b + "," + fillCol.a / 255 + ")";
+			this._game.stage.ctx.fillRect(
+				0, 0,
+				this._game.stage.canvas.width,
+				this._game.stage.canvas.height );
+
 			// Stop drawing if there is nothing to draw
 			if ( root.length == 0 ) {
 				return;
 			}
-			
-			this.numDrawCalls = 0;    
+
+			this.numDrawCalls = 0;
 			this._currentCamera = camera;
-			
-			//apply camera transform, accounting for rotPoint offsets
-			var cm: Kiwi.Geom.Matrix = camera.transform.getConcatenatedMatrix();
-			var ct: Kiwi.Geom.Transform = camera.transform;
 
+			// Apply camera transform
 			this._game.stage.ctx.save();
-			this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
-			this._game.stage.ctx.transform( 1,0,0,1, -ct.rotPointX, -ct.rotPointY );
+			ct = camera.transform;
+			this._camMatrix.setFromOffsetTransform(
+				0, 0, ct.scaleX, ct.scaleY, ct.rotation,
+				ct.anchorPointX, ct.anchorPointY );
+			this._game.stage.ctx.setTransform(
+				this._camMatrix.a, this._camMatrix.b,
+				this._camMatrix.c, this._camMatrix.d,
+				this._camMatrix.tx, this._camMatrix.ty );
+			this._game.stage.ctx.transform(
+				1, 0, 0, 1, ct.x - ct.anchorPointX, ct.y - ct.anchorPointY );
 
-
-			for (var i = 0; i < root.length; i++) {
-				this._recurse(root[i]);
+			// Draw elements
+			for ( i = 0; i < root.length; i++ ) {
+				this._recurse( root[ i ] );
 			}
 			this._game.stage.ctx.restore();
 

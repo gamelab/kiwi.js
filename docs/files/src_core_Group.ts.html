@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\Group.ts - Kiwi.js</title>
+    <title>src/core/Group.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\core\Group.ts</h1>
+                        <h1 class="file-heading">File: src/core/Group.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -1707,33 +1707,45 @@ module Kiwi {
 		* @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
 		* @public
 		*/
-		public destroy(immediate:boolean = false, destroyChildren:boolean = true) {
+		public destroy( immediate:boolean = false, destroyChildren:boolean = true ) {
 
 			if (!this.onState) immediate = true;
-			
+
+			if ( !this.onState ) {
+				immediate = true;
+			}
+
 			this._exists = false;
-			this._active = false
+			this._active = false;
 			this._visible = false;
 
-			if (immediate === true) {
+			if ( immediate === true ) {
 
-				if (this._tempRemoveChildren !== null) destroyChildren = this._tempRemoveChildren;
+				if ( this._tempRemoveChildren !== null ) {
+					destroyChildren = this._tempRemoveChildren;
+				}
 
-				if (destroyChildren == true) {
+				if ( destroyChildren == true ) {
 
-					//Remove all of the children.
-					for (var i = 0; i &lt; this.members.length; i++) {
-						this.members[i].destroy(true);
+					// Remove all of the children
+					for ( var i = 0; i &lt; this.members.length; i++ ) {
+						this.members[i].destroy( true );
 					}
 
 				} else {
 					this.removeChildren();
 				}
 
-				if (this.parent !== null) this.parent.removeChild(this);
-				if (this.state) this.state.removeFromTrackingList(this);
+				if ( this.parent !== null ) {
+					this.parent.removeChild( this );
+				}
+				if ( this.state ) {
+					this.state.removeFromTrackingList( this );
+				}
+				if ( this.components ) {
+					this.components.removeAll();
+				}
 				delete this.transform;
-				if (this.components) this.components.removeAll();
 				delete this.components;
 				delete this.game;
 				delete this.state;

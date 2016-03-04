@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -370,7 +370,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_Camera.ts.html#l9"><code>src\core\Camera.ts:9</code></a>
+            Defined in: <a href="../files/src_core_Camera.ts.html#l9"><code>src&#x2F;core&#x2F;Camera.ts:9</code></a>
         </div>
     
 
@@ -386,7 +386,13 @@
 
 
 <div class="box intro">
-    <p>A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager&#39;s &#39;create&#39; method.</p>
+    <p>A <code>Camera</code> is used to render a particular section of the game world
+on the stage. Each <code>Camera</code> has coordinates which are held in the
+<code>transform</code> property, and <code>width</code>/<code>height</code> properties.</p>
+<p>Note: This class may be directly instantiated, but if you want
+your camera registered in a <code>CameraManager</code>, you should use
+<code>CameraManager.create()</code> instead.</p>
+<p>A default camera is created as <code>game.cameras.defaultCamera</code>.</p>
 
 </div>
 
@@ -475,7 +481,7 @@
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l9"><code>src\core\Camera.ts:9</code></a>
+        <a href="../files/src_core_Camera.ts.html#l9"><code>src&#x2F;core&#x2F;Camera.ts:9</code></a>
         
         </p>
 
@@ -504,7 +510,7 @@
                     
 
                     <div class="param-description">
-                        <p>The game that this camera belongs to.</p>
+                        <p>Game that this camera belongs to.</p>
 
                     </div>
 
@@ -520,7 +526,7 @@
                     
 
                     <div class="param-description">
-                        <p>A unique ID for this camera</p>
+                        <p>Unique ID for this camera</p>
 
                     </div>
 
@@ -536,7 +542,7 @@
                     
 
                     <div class="param-description">
-                        <p>The name this camera goes by</p>
+                        <p>Name for this camera</p>
 
                     </div>
 
@@ -552,7 +558,7 @@
                     
 
                     <div class="param-description">
-                        <p>The x coordinate of the camera</p>
+                        <p>Horizontal coordinate of the camera</p>
 
                     </div>
 
@@ -568,7 +574,7 @@
                     
 
                     <div class="param-description">
-                        <p>The y coordinate of the camera</p>
+                        <p>Vertical coordinate of the camera</p>
 
                     </div>
 
@@ -584,7 +590,7 @@
                     
 
                     <div class="param-description">
-                        <p>The width of the camera</p>
+                        <p>Width of the camera</p>
 
                     </div>
 
@@ -600,7 +606,7 @@
                     
 
                     <div class="param-description">
-                        <p>The cameras height</p>
+                        <p>Height of the camera</p>
 
                     </div>
 
@@ -717,6 +723,13 @@
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__game">_game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
                                 <a href="#property__scratchMatrix">_scratchMatrix</a>
 
                                 
@@ -741,13 +754,6 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_fitToStage">fitToStage</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_game">game</a>
 
                                 
                                 
@@ -859,7 +865,7 @@
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l88"><code>src\core\Camera.ts:88</code></a>
+        <a href="../files/src_core_Camera.ts.html#l104"><code>src&#x2F;core&#x2F;Camera.ts:104</code></a>
         
         </p>
 
@@ -870,7 +876,7 @@
     </div>
 
     <div class="description">
-        <p>Updates the width/height of this camera. Is used when the stage resizes.</p>
+        <p>Update the width/height of this camera when the stage resizes.</p>
 
     </div>
 
@@ -889,7 +895,7 @@
                     
 
                     <div class="param-description">
-                        <p>The new width of the camera.</p>
+                        <p>New width of the camera.</p>
 
                     </div>
 
@@ -905,7 +911,7 @@
                     
 
                     <div class="param-description">
-                        <p>The new height of the camera.</p>
+                        <p>New height of the camera.</p>
 
                     </div>
 
@@ -960,7 +966,7 @@
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l61"><code>src\core\Camera.ts:61</code></a>
+        <a href="../files/src_core_Camera.ts.html#l72"><code>src&#x2F;core&#x2F;Camera.ts:72</code></a>
         
         </p>
 
@@ -971,7 +977,7 @@
     </div>
 
     <div class="description">
-        <p>The type of object this is.</p>
+        <p>Return the type of object that this is.</p>
 
     </div>
 
@@ -1031,7 +1037,7 @@
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l234"><code>src\core\Camera.ts:234</code></a>
+        <a href="../files/src_core_Camera.ts.html#l271"><code>src&#x2F;core&#x2F;Camera.ts:271</code></a>
         
         </p>
 
@@ -1102,7 +1108,7 @@
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l180"><code>src\core\Camera.ts:180</code></a>
+        <a href="../files/src_core_Camera.ts.html#l209"><code>src&#x2F;core&#x2F;Camera.ts:209</code></a>
         
         </p>
 
@@ -1213,7 +1219,7 @@ Useful for calculating coordinates with the mouse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l203"><code>src\core\Camera.ts:203</code></a>
+        <a href="../files/src_core_Camera.ts.html#l236"><code>src&#x2F;core&#x2F;Camera.ts:236</code></a>
         
         </p>
 
@@ -1311,7 +1317,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l225"><code>src\core\Camera.ts:225</code></a>
+        <a href="../files/src_core_Camera.ts.html#l262"><code>src&#x2F;core&#x2F;Camera.ts:262</code></a>
         
         </p>
 
@@ -1369,7 +1375,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l147"><code>src\core\Camera.ts:147</code></a>
+        <a href="../files/src_core_Camera.ts.html#l172"><code>src&#x2F;core&#x2F;Camera.ts:172</code></a>
         
         </p>
 
@@ -1381,7 +1387,55 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn&#39;t.</p>
+        <p>A flag that indicates whether this camera needs to be rendered again
+at the next update loop, or if nothing has changed so it doesn&#39;t.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__game" class="property item private">
+    <h3 class="name"><code>_game</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l119"><code>src&#x2F;core&#x2F;Camera.ts:119</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Game this camera belongs to</p>
 
     </div>
 
@@ -1418,7 +1472,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l170"><code>src\core\Camera.ts:170</code></a>
+        <a href="../files/src_core_Camera.ts.html#l199"><code>src&#x2F;core&#x2F;Camera.ts:199</code></a>
         
         </p>
 
@@ -1467,7 +1521,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l126"><code>src\core\Camera.ts:126</code></a>
+        <a href="../files/src_core_Camera.ts.html#l149"><code>src&#x2F;core&#x2F;Camera.ts:149</code></a>
         
         </p>
 
@@ -1516,7 +1570,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l156"><code>src\core\Camera.ts:156</code></a>
+        <a href="../files/src_core_Camera.ts.html#l183"><code>src&#x2F;core&#x2F;Camera.ts:183</code></a>
         
         </p>
 
@@ -1528,7 +1582,8 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>A value used by components to control if the camera needs re-rendering.</p>
+        <p>A value used by components
+to control if the camera needs re-rendering.</p>
 
     </div>
 
@@ -1565,7 +1620,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l71"><code>src\core\Camera.ts:71</code></a>
+        <a href="../files/src_core_Camera.ts.html#l83"><code>src&#x2F;core&#x2F;Camera.ts:83</code></a>
         
         </p>
 
@@ -1575,59 +1630,13 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>If true then the camera will be resized to fit the stage when the stage is resized</p>
+        <p>Whether to resize the camera to fit the stage
+when the stage is resized.</p>
 
     </div>
 
     
         <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_game" class="property item private">
-    <h3 class="name"><code>game</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Camera.ts.html#l102"><code>src\core\Camera.ts:102</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game this Group belongs to</p>
-
-    </div>
-
     
 
     
@@ -1661,7 +1670,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l53"><code>src\core\Camera.ts:53</code></a>
+        <a href="../files/src_core_Camera.ts.html#l63"><code>src&#x2F;core&#x2F;Camera.ts:63</code></a>
         
         </p>
 
@@ -1671,7 +1680,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>The height of this camera.</p>
+        <p>Height of this camera</p>
 
     </div>
 
@@ -1708,7 +1717,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l110"><code>src\core\Camera.ts:110</code></a>
+        <a href="../files/src_core_Camera.ts.html#l128"><code>src&#x2F;core&#x2F;Camera.ts:128</code></a>
         
         </p>
 
@@ -1718,7 +1727,9 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.</p>
+        <p>A unique identifier for this Layer within the game
+used internally by the framework.
+See the name property for a friendly version.</p>
 
     </div>
 
@@ -1755,7 +1766,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l118"><code>src\core\Camera.ts:118</code></a>
+        <a href="../files/src_core_Camera.ts.html#l139"><code>src&#x2F;core&#x2F;Camera.ts:139</code></a>
         
         </p>
 
@@ -1765,7 +1776,8 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.</p>
+        <p>A name for this Camera. This is not checked for uniqueness
+within the Game, but is very useful for debugging.</p>
 
     </div>
 
@@ -1802,7 +1814,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l80"><code>src\core\Camera.ts:80</code></a>
+        <a href="../files/src_core_Camera.ts.html#l94"><code>src&#x2F;core&#x2F;Camera.ts:94</code></a>
         
         </p>
 
@@ -1812,7 +1824,8 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.</p>
+        <p>Controls location, scale, and rotation of camera
+within the game world.</p>
 
     </div>
 
@@ -1849,7 +1862,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l134"><code>src\core\Camera.ts:134</code></a>
+        <a href="../files/src_core_Camera.ts.html#l158"><code>src&#x2F;core&#x2F;Camera.ts:158</code></a>
         
         </p>
 
@@ -1859,7 +1872,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>Controls whether this Camera is rendered.</p>
+        <p>Controls whether this Camera is rendered</p>
 
     </div>
 
@@ -1896,7 +1909,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l45"><code>src\core\Camera.ts:45</code></a>
+        <a href="../files/src_core_Camera.ts.html#l54"><code>src&#x2F;core&#x2F;Camera.ts:54</code></a>
         
         </p>
 
@@ -1906,7 +1919,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>The width of this camara.</p>
+        <p>Width of this camera</p>
 
     </div>
 

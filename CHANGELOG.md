@@ -1,7 +1,7 @@
 Change Log
 =============
 
-### v1.4.0 "XXXX"
+### v1.4.0 "Cole"
 
 #### New Features
 * Much faster rendering! Render pipeline caches the results of matrix concatenation, overcoming a significant bottleneck. Also uses cached data objects during rendering, rather than recreating assets on the fly. Depending on scene composition, this may yield a 10-50% performance improvement. Hint: Objects that don't transform are more performant.
@@ -45,12 +45,12 @@ Change Log
 
 ### New Features
 
-* [Window focus/blur](https://github.com/gamelab/kiwi.js/issues/23) events added to the Stage allowing users to easily pause/resume their game. (#23) 
+* [Window focus/blur](https://github.com/gamelab/kiwi.js/issues/23) events added to the Stage allowing users to easily pause/resume their game. (#23)
 * The Animation Component will now look for sequences on their given texture atlas if one told to play could not be found. (#83)
 * `TileMapLayers` have been separated into Orthogonal and Isometric classes to keep code more maintainable as well as more succinct. (#85)
-* Additional file management methods added to the `FileStore` class. (#103) 
+* Additional file management methods added to the `FileStore` class. (#103)
 * You can now pass parameters to a states `preload` method when switching states. (#104)
-* You can now filter out messages to be logged out when using the `Kiwi.Log`. (#151) 
+* You can now filter out messages to be logged out when using the `Kiwi.Log`. (#151)
 * Much better consistency for passing file types. (#156)
 * @rydairegames added a method to get a tile when you know its index. (#160)
 * ArcadePhysics now contains a `rotateToVelocity` method. (#179)
@@ -63,11 +63,11 @@ Change Log
 
 ### Bug Fixes
 
-* Animation employs more rigorous methods which ensure the frameIndex is correct. (#184) 
+* Animation employs more rigorous methods which ensure the frameIndex is correct. (#184)
 * Timer no longer hangs when the interval is set to 0ms. (#187)
 * `setInterval` and `setTimeout` now deal with clock units. (#188)
 * IconBar positioning fixed. (#192)
-* Minor fix with the image loading when using the xhr + arraybuffer methods of loading.  
+* Minor fix with the image loading when using the xhr + arraybuffer methods of loading.
 * ArcadePhysics tile collision boxes made smaller to give better collisions.
 
 ### v1.2.3 "Williams"

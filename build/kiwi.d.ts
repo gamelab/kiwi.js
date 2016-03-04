@@ -300,25 +300,26 @@ declare module Kiwi {
     * @class Stage
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this Stage belongs to.
-    * @param name {String} The name of the kiwi game.
-    * @param width {Number} The initial width of the game.
-    * @param height {Number} The initial heihgt of the game.
-    * @param scaleType {Number} The scale method that should be used for the game.
+    * @param game {Kiwi.Game} Game that this Stage belongs to
+    * @param name {string} Name of the kiwi game
+    * @param width {number} Initial width of the game
+    * @param height {number} Initial height of the game
+    * @param scaleType {number} Scale method to use. May be
+    *	`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
+    *	or `Kiwi.Stage.SCALE_FIT`,
     * @return {Kiwi.Stage}
-    *
     */
     class Stage {
         constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType: number);
         /**
-        * Returns the type of this object.
+        * Return the type of this object.
         * @method objType
         * @return {string} "Stage"
         * @public
         */
         objType(): string;
         /**
-        * The default width of the stage.
+        * Default width of the stage
         * @property DEFAULT_WIDTH
         * @type number
         * @default 800
@@ -327,7 +328,7 @@ declare module Kiwi {
         */
         static DEFAULT_WIDTH: number;
         /**
-        * The default height of the stage.
+        * Default height of the stage
         * @property DEFAULT_HEIGHT
         * @type number
         * @default 600
@@ -336,7 +337,7 @@ declare module Kiwi {
         */
         static DEFAULT_HEIGHT: number;
         /**
-        * The default scaling method used on Kiwi Games.
+        * Default scaling method used on Kiwi Games.
         * This scaling method will set the container's width/height
         * to static values.
         *
@@ -348,9 +349,13 @@ declare module Kiwi {
         */
         static SCALE_NONE: number;
         /**
-        * Scale Fit will scale the stage's width to fit its parents width.
+        * SCALE_FIT will scale the stage's width to fit its parent's width.
         * The height is then calculated to maintain the aspect ratio of the
         * width/height of the Stage.
+        *
+        * In CocoonJS, it still maintains aspect ratio, but keeps the
+        * entire game stage on the screen.
+        *
         * @property SCALE_FIT
         * @type number
         * @default 1
@@ -359,7 +364,7 @@ declare module Kiwi {
         */
         static SCALE_FIT: number;
         /**
-        * Stretch will make the stage scale to fit its parents width/height
+        * Stretch will make the stage scale to fit its parent's width/height
         * (by using max/min height of 100%).
         * If the parent doesn't have a height set then the height will be
         * the height of the stage.
@@ -388,7 +393,7 @@ declare module Kiwi {
         */
         scaleType: number;
         /**
-        * The alpha of the stage.
+        * Alpha of the stage
         * @property _alpha
         * @type number
         * @default 1
@@ -408,14 +413,14 @@ declare module Kiwi {
         */
         alpha: number;
         /**
-        * The X coordinate of the stage.
+        * Horizontal coordinate of the stage.
         * @property _x
         * @type number
         * @private
         */
         private _x;
         /**
-        * The X coordinate of the stage. This number should be the same
+        * Horizontal coordinate of the stage. This number should be the same
         * as the stage's `left` property.
         * @property x
         * @type number
@@ -423,14 +428,14 @@ declare module Kiwi {
         */
         x: number;
         /**
-        * The Y coordinate of the stage.
+        * Vertical coordinate of the stage.
         * @property _y
         * @type number
         * @private
         */
         private _y;
         /**
-        * Get the Y coordinate of the stage. This number should be the same
+        * Vertical coordinate of the stage. This number should be the same
         * as the stage's `top` property.
         * @property y
         * @type number
@@ -438,14 +443,14 @@ declare module Kiwi {
         */
         y: number;
         /**
-        * The width of the stage.
+        * Width of the stage
         * @property _width
         * @type number
         * @private
         */
         private _width;
         /**
-        * The width of the stage. This is READ ONLY.
+        * Width of the stage. This is READ ONLY.
         * See the "resize" method if you need to modify this value.
         * @property width
         * @type number
@@ -454,14 +459,14 @@ declare module Kiwi {
         */
         width: number;
         /**
-        * The height of the stage
+        * Height of the stage
         * @property _height
         * @type number
         * @private
         */
         private _height;
         /**
-        * The height of the stage. This is READ ONLY.
+        * Height of the stage. This is READ ONLY.
         * See the `resize` method if you need to modify this value.
         * @property height
         * @type number
@@ -470,24 +475,32 @@ declare module Kiwi {
         */
         height: number;
         /**
-        * A `Signal` that dispatches an event when the stage gets resized.
+        * `Signal` that dispatches an event when the stage gets resized
         * @property onResize
         * @type Kiwi.Signal
         * @public
         */
         onResize: Kiwi.Signal;
         /**
-        * A Signal which dispatches events when the window is resized.
+        * `Signal` which dispatches events when the window is resized.
         * Useful to detect if the screen is now in a "landscape" or "portrait"
-        * view on Mobile/Cocoon devices.
+        * view on mobile/CocoonJS devices.
         * @property onWindowResize
         * @type Kiwi.Signal
         * @public
         */
         onWindowResize: Kiwi.Signal;
         /**
-        * Calculates and returns the amount that the container has been scaled
-        * by. Mainly used for re-calculating input coordinates.
+        Amount that the container has been scaled by.
+        * @property _scale
+        * @type Kiwi.Geom.Point
+        * @default 1
+        * @private
+        */
+        private _scale;
+        /**
+        * Amount that the container has been scaled by.
+        * Mainly used for re-calculating input coordinates.
         * Note: For COCOONJS this returns 1 since COCOONJS translates the
         * scale itself. This property is READ ONLY.
         * @property scale
@@ -495,11 +508,9 @@ declare module Kiwi {
         * @default 1
         * @public
         */
-        private _scale;
         scale: Kiwi.Geom.Point;
         /**
-        * Calculates and returns the amount that the container has been scaled
-        * by on the X axis.
+        * Amount that the container has been scaled by on the X axis
         * @property scaleX
         * @type Number
         * @default 1
@@ -507,8 +518,7 @@ declare module Kiwi {
         */
         scaleX: number;
         /**
-        * Calculates and returns the amount that the container has been scaled
-        * by on the Y axis.
+        * Amount that the container has been scaled by on the Y axis
         * @property scaleY
         * @type Number
         * @default 1
@@ -523,28 +533,28 @@ declare module Kiwi {
         */
         offset: Kiwi.Geom.Point;
         /**
-        * The game this Stage belongs to
+        * Game this Stage belongs to
         * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * The title of your stage
+        * Title of the game
         * @property name
         * @type string
         * @public
         */
         name: string;
         /**
-        * Whether or not this Stage is DOM ready.
+        * Whether or not this Stage is DOM ready
         * @property domReady
         * @type boolean
         * @public
         */
         domReady: boolean;
         /**
-        * The background color of the stage.
+        * Background color of the stage
         *
         * @property _color
         * @type Kiwi.Utils.Color
@@ -609,49 +619,49 @@ declare module Kiwi {
         */
         normalizedColor: any;
         /**
-        * The webgl rendering context.
+        * WebGL rendering context
         * @property gl
         * @type WebGLRenderingContext
         * @public
         */
         gl: WebGLRenderingContext;
         /**
-        * The canvas rendering context.
+        * Canvas rendering context
         * @property ctx
         * @type CanvasRenderingContext2D
         * @public
         */
         ctx: CanvasRenderingContext2D;
         /**
-        * The canvas element that is being rendered on.
+        * Canvas element to which the game is rendered
         * @property canvas
         * @type HTMLCanvasElement
         * @public
         */
         canvas: HTMLCanvasElement;
         /**
-        * The debugging canvas.
+        * Debugging canvas
         * @property debugCanvas
         * @type HTMLCanvasElement
         * @public
         */
         debugCanvas: HTMLCanvasElement;
         /**
-        * The debug canvas rendering context.
+        * Debug canvas rendering context
         * @property dctx
         * @type CanvasRenderingContext2D
         * @public
         */
         dctx: CanvasRenderingContext2D;
         /**
-        * The parent div in which the layers and input live
+        * Parent div in which the layers and input live
         * @property container
         * @type HTMLDivElement
         * @public
         */
         container: HTMLDivElement;
         /**
-        * Stores the renderer created after context detection.
+        * Renderer created after context detection.
         * @property _renderer
         * @type any
         * @private
@@ -659,8 +669,8 @@ declare module Kiwi {
         */
         private _renderer;
         /**
-        * Get the renderer associated with the canvas context.
-        * This is either a GLRenderManager or a CanvasRenderer.
+        * Renderer associated with the canvas context.
+        * This is either a `GLRenderManager` or a `CanvasRenderer`.
         * If the Kiwi.RENDERER_WEBGL renderer was requested
         * but could not be created, it will fall back to CanvasRenderer.
         * This is READ ONLY.
@@ -671,16 +681,17 @@ declare module Kiwi {
         */
         renderer: any;
         /**
-        * Is executed when the DOM has loaded and the game is just starting.
-        * This is a internal method used by the core of Kiwi itself.
+        * Execute when the DOM has loaded and the game is just starting.
+        * This is an internal method used by the core of Kiwi itself.
         * @method boot
-        * @param dom {HTMLElement} The
+        * @param dom {Kiwi.System.Bootstrap} Booted Bootstrap containing
+        *	DOM information
         * @public
         */
         boot(dom: Kiwi.System.Bootstrap): void;
         /**
-        * Gets the x/y coordinate offset of any given valid DOM Element
-        * from the top/left position of the browser
+        * Get the x/y coordinate offset of any given valid DOM Element
+        * from the top/left position of the browser.
         * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
         * @method getOffsetPoint
         * @param {Any} element
@@ -690,14 +701,14 @@ declare module Kiwi {
         */
         getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
         /**
-        * Method that is fired when the window is resized.
+        * Fire when the window is resized.
         * @method _windowResized
         * @param event {UIEvent}
         * @private
         */
         private _windowResized(event);
         /**
-        * Method that is fired when the device is reoriented.
+        * Fire when the device is reoriented.
         * @method _orientationChanged
         * @param event {UIEvent}
         * @private
@@ -705,14 +716,14 @@ declare module Kiwi {
         */
         private _orientationChanged(event);
         /**
-        * Used to calculate new offset and scale for the stage.
+        * Calculate new offset and scale for the stage.
         * @method _calculateContainerScale
         * @private
         */
         private _calculateContainerScale();
         /**
-        * Handles the creation of the canvas that the game will use and
-        * retrieves the context for the renderer.
+        * Handle creation of the canvas that the game will use and
+        * retrieve the context for the renderer.
         *
         * @method _createCompositeCanvas
         * @private
@@ -723,30 +734,30 @@ declare module Kiwi {
         * This will not effect that "scaleType" that it has been set to.
         *
         * @method resize
-        * @param width {number} The new Stage width.
-        * @param height {number} The new Stage height.
+        * @param width {number} New Stage width
+        * @param height {number} New Stage height
         * @public
         */
         resize(width: number, height: number): void;
         /**
-        * Sets the background color of the stage through component
+        * Set background color of the stage through component
         * RGB colour values. Each parameter is a number between 0 and 255.
-        * This method also returns an Object Literal with "r", "g", "b"
+        * This method also returns an Object literal with "r", "g", "b"
         * properties.
         *
         * @method setRGBColor
-        * @param r {Number} The red component. A value between 0 and 255.
-        * @param g {Number} The green component. A value between 0 and 255.
-        * @param b {Number} The blue component. A value between 0 and 255.
-        * @return {Object} A Object literal containing the r,g,b properties.
+        * @param r {number} Red component. A value between 0 and 255
+        * @param g {number} Green component. A value between 0 and 255
+        * @param b {number} Blue component. A value between 0 and 255
+        * @return {object} Object literal containing the `r,g,b` properties
         * @public
         */
         setRGBColor(r: number, g: number, b: number): any;
         /**
-        * Creates a debug canvas and adds it above the regular game canvas.
+        * Create a debug canvas and add it above the regular game canvas.
         * The debug canvas is not created by default (even with debugging on)
-        * and rendering/clearing of the canvas is upto the developer.
-        * The context for rendering can be access via the "dctx" property and
+        * and rendering/clearing of the canvas is up to the developer.
+        * The context for rendering can be accessed via the "dctx" property and
         * you can use the "clearDebugCanvas" method to clear the canvas.
         *
         * @method createDebugCanvas
@@ -754,28 +765,28 @@ declare module Kiwi {
         */
         createDebugCanvas(): void;
         /**
-        * Clears the debug canvas and fills with either the color passed.
-        * If not colour is passed then Red at 20% opacity is used.
+        * Clear the debug canvas and fill with the color passed.
+        * If no color is passed, then Red at 20% opacity is used.
         *
         * @method clearDebugCanvas
-        * @param [color="rgba(255,0,0,0.2)"] {string} The debug color to rendering on the debug canvas.
+        * @param [color="rgba( 255, 0, 0, 0.2 )"] {string} The debug color to rendering on the debug canvas.
         * @public
         */
         clearDebugCanvas(color?: string): void;
         /**
-        * Toggles the visibility of the debug canvas.
+        * Toggle the visibility of the debug canvas.
         * @method toggleDebugCanvas
         * @public
         */
         toggleDebugCanvas(): void;
         /**
-        * Handles the scaling/sizing based upon the scaleType property.
+        * Handle the scaling/sizing based upon the scaleType property.
         * @method _scaleContainer
         * @private
         */
         private _scaleContainer();
         /**
-        * Dispatches callbacks when the page containing this game gains focus.
+        * Dispatch callbacks when the page containing this game gains focus.
         *
         * @property onFocus
         * @type Kiwi.Signal
@@ -784,7 +795,7 @@ declare module Kiwi {
         */
         onFocus: Kiwi.Signal;
         /**
-        * Dispatches callbacks when this page containing this game loses focus.
+        * Dispatch callbacks when this page containing this game loses focus.
         *
         * @property onBlur
         * @type Kiwi.Signal
@@ -793,7 +804,7 @@ declare module Kiwi {
         */
         onBlur: Kiwi.Signal;
         /**
-        * Dispatches callbacks when the visiblity of the page changes.
+        * Dispatch callbacks when the visiblity of the page changes.
         *
         * @property onVisibilityChange
         * @type Kiwi.Signal
@@ -802,10 +813,9 @@ declare module Kiwi {
         */
         onVisibilityChange: Kiwi.Signal;
         /**
-        * A flag indicating if the page is currently visible
-        * (using the Visiblity API).
+        * Whether the page is currently visible (via the Visiblity API).
         * If the Visiblity API is unsupported this will remain set to true
-        * regardless of focus / blur events.
+        * regardless of focus/blur events.
         *
         * @property visibility
         * @type boolean
@@ -820,7 +830,7 @@ declare module Kiwi {
         *
         * @property _visibility
         * @type String
-        * @default 'hidden'
+        * @default "hidden"
         * @since 1.3.0
         * @private
         */
@@ -835,7 +845,7 @@ declare module Kiwi {
         */
         private _visibilityChange;
         /**
-        * Fired when the page visibility changes, or the page focus/blur
+        * Fire when the page visibility changes, or the page focus/blur
         * events fire. In charge of firing the appropriate signals.
         *
         * @method _checkVisibility
@@ -1142,104 +1152,123 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
-    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
+    * Used to handle the creation and management of Cameras on a `Game`.
+    * Each `Game` will create a `CameraManager` and a default `Camera`.
+    * Games currently only support the use of a single camera,
+    * the default camera `defaultCamera`.
+    * Much of this class has been written with future
+    * multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Kiwi.Game} game
+    * @param game {Kiwi.Game} Current game
     * @return {Kiwi.CameraManager}
     */
     class CameraManager {
         constructor(game: Kiwi.Game);
         /**
-        * Returns the type of this object
+        * Return the type of this object.
+        *
         * @method objType
-        * @return {String} "CameraManager"
+        * @return {string} "CameraManager"
         * @public
         */
         objType(): string;
         /**
-        * The game this object belongs to
+        * Game this object belongs to
+        *
         * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * A collection of cameras
+        * Collection of cameras
+        *
         * @property _cameras
-        * @type Array
+        * @type array
         * @private
         */
         private _cameras;
         /**
-        * The id which will be used when next creating a camera
+        * ID which will be used when next creating a camera
+        *
         * @property _nextCameraID
-        * @type Number
+        * @type number
         * @private
         */
         private _nextCameraID;
         /**
-        * The default camera that is on this manager.
+        * Default camera on this manager
+        *
         * @property defaultCamera
         * @type Kiwi.Camara
         * @public
         */
         defaultCamera: Kiwi.Camera;
         /**
-        * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
+        * Initialize the `CameraManager`, creates a new `Camera`,
+        * and assigns it to `defaultCamera`.
+        *
         * @method boot
         * @public
         */
         boot(): void;
         /**
-        * Creates a new Camera and adds it to the collection of cameras.
-        * @param {String} name. The name of the new camera.
-        * @param {Number} x. The x position of the new camera.
-        * @param {Number} y. The y position of the new camera.
-        * @param {Number} width. The width of the new camera.
-        * @param {Number} height. The height of the new camera.
-        * @return {Kiwi.Camera} The new camera object.
+        * Create a new Camera and add it to the collection of cameras.
+        *
+        * @method create
+        * @param name {string} Name of the new camera
+        * @param x {number} Horizontal position of the new camera
+        * @param y {number} Vertical position of the new camera
+        * @param width {number} Width of the new camera
+        * @param height {number} Height of the new camera
+        * @return {Kiwi.Camera} The new camera object
         * @public
         */
         create(name: string, x: number, y: number, width: number, height: number): Kiwi.Camera;
         /**
-        * Removes the given camera, if it is present in the camera managers camera collection.
+        * Remove the given camera, if it is present in the camera collection.
+        *
         * @method remove
         * @param camera {Kiwi.Camera}
-        * @return {boolean} True if the camera was removed, false otherwise.
+        * @return {boolean} True if the camera was removed, false otherwise
         * @public
         */
         remove(camera: Kiwi.Camera): boolean;
         /**
-        * Calls update on all the cameras.
+        * Call update on all the cameras.
+        *
         * @method update
         * @public
         */
         update(): boolean;
         /**
-        * Calls the render method on all the cameras
+        * Call the render method on all the cameras.
+        *
         * @method render
         * @public
         */
         render(): boolean;
         /**
-        * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
+        * Remove all cameras in the camera Manager except the default camera.
+        *
         * @method removeAll
         * @public
         */
         removeAll(): void;
         /**
-        * Returns all cameras to origin. Called when starting a new state.
+        * Return all cameras to origin. Called when starting a new state.
+        *
         * @method zeroAllCameras
         * @public
         * @since 1.1.0
         */
         zeroAllCameras(): void;
         /**
-        * Returns camera to origin.
+        * Return camera to origin.
+        *
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
@@ -3027,16 +3056,18 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * A State in Kiwi.JS is the main class that developers use when wanting to create a Game.
-    * States in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States.
-    * Such as one for the menu, in-game, leaderboard, e.t.c.
+    * A `State` is the main class used to create a game.
+    * States in Kiwi are used to keep different sections of a game separated.
+    * A single game may be comprised of many different States,
+    * such as one for the menu, in-game, leaderboard, e.t.c.
     * There can only ever be a single State active at a given time.
     *
     * @class State
     * @namespace Kiwi
     * @extends Kiwi.Group
     * @constructor
-    * @param name {String} Name of this State. Should be unique to differentiate itself from other States.
+    * @param name {string} Name of this State.
+    *	Should be unique to differentiate itself from other States.
     * @return {Kiwi.State}
     */
     class State extends Group {
@@ -3044,268 +3075,367 @@ declare module Kiwi {
         /**
         * Returns the type of object this state is.
         * @method objType
-        * @return {String} "State"
+        * @return {string} "State"
         * @public
         */
         objType(): string;
         /**
         * Returns the type of child this is.
         * @method childType
-        * @return {Number} Kiwi.GROUP
+        * @return {number} Kiwi.GROUP
         * @public
         */
         childType(): number;
         /**
-        * The configuration object for this State.
+        * The configuration object for this `State`.
         * @property config
         * @type Kiwi.StateConfig
         * @public
         */
         config: Kiwi.StateConfig;
         /**
-        * A reference to the Kiwi.Game that this State belongs to.
+        * A reference to the `Kiwi.Game` that this `State` belongs to.
         * @property game
         * @type Kiwi.Game
         * @public
         */
         game: Kiwi.Game;
         /**
-        * The library that this state use's for the loading of textures.
+        * The library that this state uses for the loading of textures.
         * @property textureLibrary
         * @type Kiwi.Textures.TextureLibrary
         * @public
         */
         textureLibrary: Kiwi.Textures.TextureLibrary;
         /**
-        * The library that this state use's for the loading of audio.
+        * The library that this state uses for the loading of audio.
         * @property audioLibrary
         * @type Kiwi.Sound.AudioLibrary
         * @public
         */
         audioLibrary: Kiwi.Sound.AudioLibrary;
         /**
-        * The library that this state use's for the loading of data.
+        * The library that this state uses for the loading of data.
         * @property dataLibrary
         * @type Kiwi.Files.DataLibrary
         * @public
         */
         dataLibrary: Kiwi.Files.DataLibrary;
         /**
-        * Holds all of the textures that are avaiable to be accessed once this state has been loaded.
-        * E.g. If you loaded a image and named it 'flower', once everything has loaded you can then access the flower image by saying this.textures.flower
+        * Holds all of the textures that are avaiable to be accessed
+        * once this state has been loaded.
+        * E.g. If you loaded a image and named it "flower",
+        * once everything has loaded you can then access the flower image
+        * via `this.textures.flower`
         * @property textures
         * @type Object
         * @public
         */
         textures: any;
         /**
-        * Holds all of the audio that are avaiable to be accessed once this state has been loaded.
-        * E.g. If you loaded a piece of audio and named it 'lazerz', once everything has loaded you can then access the lazers (pew pew) by saying this.audio.lazerz
+        * Holds all of the audio assets that are avaiable to be accessed
+        * once this state has been loaded.
+        * E.g. If you loaded a piece of audio and named it "lazerz",
+        * once everything has loaded you can then access the lazers (pew pew)
+        * via `this.audio.lazerz`
         * @property audio
         * @type Object
         * @public
         */
         audio: any;
         /**
-        * Holds all of the data that are avaiable to be accessed once this state has been loaded.
-        * E.g. If you loaded a piece of data and named it 'cookieLocation', once everything has loaded you can then access the cookies by saying this.data.cookieLocation
+        * Holds all of the data assets that are avaiable to be accessed
+        * once this state has been loaded.
+        * E.g. If you loaded a piece of data and named it "cookieLocation",
+        * once everything has loaded you can then access the cookies
+        * via `this.data.cookieLocation`
         * @property data
         * @type Object
         * @public
         */
         data: any;
         /**
-        * This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
-        * Is called each time a State is switched to.
+        * Boot up the state in preparation for switching into it.
+        * This is the first method to be executed,
+        * and happens before the `init` method.
+        * Is called each time a `State` is switched to.
+        * It should not be necessary to call this method.
         * @method boot
         * @public
         */
         boot(): void;
         setType(value: number): void;
         /**
-        * Gets executed when the state has been initalised and gets switched to for the first time.
-        * This method only ever gets called once and it is before the preload method.
-        * Can have parameters passed to it by the previous state that switched to it.
+        * Overrideable method.
+        *
+        * Gets executed when the state has been initalised
+        * and gets switched to for the first time.
+        * This method only ever gets called once, before the preload method.
+        * Can have parameters passed to it by the previous state.
+        *
         * @method init
-        * @param [values] { Any }
+        * @param [values] {Any}
         * @public
         */
         init(...paramsArr: any[]): void;
         /**
-        * This method is where you would load of all the assets that are requried for this state or in the entire game.
+        * Overrideable method.
+        *
+        * This method is where you load of all the assets required
+        * for this state or in the entire game.
         *
         * @method preload
         * @public
         */
         preload(): void;
         /**
-        * This method is progressively called whilst loading files and is executed each time a file has been loaded.
-        * This can be used to create a 'progress' bar during the loading stage of a game.
+        * Overrideable method.
+        *
+        * This method is progressively called while loading files,
+        * and is executed each time a file has been loaded.
+        * This can be used to create a progress bar
+        * during the loading stage of a game.
+        *
         * @method loadProgress
-        * @param percent {Number} The percent of files that have been loaded so far. This is a number from 0 - 1.
-        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
-        * @param file {Kiwi.Files.File} The last file to have been loaded.
+        * @param percent {number} The percent of files that have been loaded
+        *	so far. This is a number from 0 to 1.
+        * @param bytesLoaded {number} Number of bytes loaded so far
+        * @param file {Kiwi.Files.File} Last file to have been loaded
         * @public
         */
         loadProgress(percent: number, bytesLoaded: number, file: Kiwi.Files.File): void;
         /**
-        * Gets executed when the game is finished loading and it is about to 'create' the state.
+        * Overrideable method.
+        *
+        * Executes when the game finishes loading and is about to `create`
+        * the state.
+        *
         * @method loadComplete
         * @public
         */
         loadComplete(): void;
         /**
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.loadUpdate.call( this )`.
+        *
         * The game loop that gets executed while the game is loading.
+        *
         * @method loadUpdate
         * @public
         */
         loadUpdate(): void;
         /**
-        * Is executed once all of the assets have loaded and the game is ready to be 'created'.
+        * Overrideable method.
+        *
+        * Is executed once all of the assets have loaded
+        * and the game is ready to be created.
+        *
         * @method create
         * @param [values]* {Any}
         * @public
         */
         create(...paramsArr: any[]): void;
         /**
-        * Is called every frame before the update loop. When overriding make sure you include a super call.
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.preUpdate.call( this )`.
+        *
+        * Is called every frame before the update loop.
+        *
         * @method preUpdate
         * @public
         */
         preUpdate(): void;
         /**
-        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.update.call( this )`.
+        *
+        * Executed every frame while the state is current.
+        * Updates state members and children.
+        *
+        * Generally, this is where the game runs.
+        *
         * @method update
         * @public
         */
         update(): void;
         /**
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.postUpdate.call( this )`.
+        *
         * The post update loop is executed every frame after the update method.
-        * When overriding make sure you include a super call at the end of the method.
+        *
         * @method postUpdate
         * @public
         */
         postUpdate(): void;
         /**
-        * Called after all of the layers have rendered themselves, useful for debugging.
+        * Overrideable method.
+        *
+        * Called after all of the members have rendered themselves.
+        * Useful for debugging.
+        *
         * @method postRender
         * @public
         */
         postRender(): void;
         /**
-        * Called just before this State is going to be Shut Down and another one is going to be switched too.
+        * Overrideable method.
+        *
+        * Called just before this `State` is going to be shut down,
+        * and the game switches to another `State`.
+        *
         * @method shutDown
         * @public
         */
         shutDown(): void;
         /**
-        * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
+        * Add a new image file to be loaded when the state loads assets.
         *
         * @method addImage
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param url {String} The location of the image.
-        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
-        * @param [width] {Number} The width of the image. If not passed the width will be automatically calculated.
-        * @param [height] {Number} The height of the image. If not passed the height will be automatically calculated.
-        * @param [offsetX] {Number} The offset of the image when rendering on the x axis.
-        * @param [offsetY] {Number} The offset of the image when rendering on the y axis.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the image
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
+        * @param [width] {number} Width of the image. If not passed,
+        *	the width will be automatically calculated.
+        * @param [height] {number} Height of the image. If not passed,
+        *	the height will be automatically calculated.
+        * @param [offsetX] {number} Horizontal offset of the image
+        * @param [offsetY] {number} Vertical offset of the image
         * @public
         */
         addImage(key: string, url: string, storeAsGlobal?: boolean, width?: number, height?: number, offsetX?: number, offsetY?: number): Files.File;
         /**
-        * Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.
+        * Add a new spritesheet image file to be loaded when the state loads
+        * assets.
         *
         * @method addSpriteSheet
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param url {String} The location of the image.
-        * @param frameWidth {Number} The width of a single frame in the spritesheet
-        * @param frameHeight {Number} The height of a single frame in the spritesheet
-        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
-        * @param [numCells] {Number} The number of cells/frames that are in the spritesheet. If not specified will calculate this based of the width/height of the image.
-        * @param [rows] {Number} The number of cells that are in a row. If not specified will calculate this based of the width/height of the image.
-        * @param [cols] {Number} The number of cells that are in a column. If not specified will calculate this based of the width/height of the image.
-        * @param [sheetOffsetX=0] {Number} The offset of the whole spritesheet on the x axis.
-        * @param [sheetOffsetY=0] {Number} The offset of the whole spritesheet on the y axis.
-        * @param [cellOffsetX=0] {Number} The spacing between cells on the x axis.
-        * @param [cellOffsetY=0] {Number} The spacing between cells on the y axis.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the image
+        * @param frameWidth {number} Width of a single frame in the spritesheet
+        * @param frameHeight {number} Height of a single frame in the
+        *	spritesheet
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
+        * @param [numCells] {number} Number of cells/frames in the spritesheet.
+        *	If not specified, will calculate this based on the
+        *	width/height of the image.
+        * @param [rows] {number} Number of cells in a row. If not specified,
+        *	will calculate this based of the width/height of the image.
+        * @param [cols] {number} Number of cells in a column. If not specified,
+        *	will calculate this based of the width/height of the image.
+        * @param [sheetOffsetX=0] {number} Horizontal offset of the whole
+        *	spritesheet
+        * @param [sheetOffsetY=0] {number} Vertical offset of the whole
+        *	spritesheet
+        * @param [cellOffsetX=0] {number} Horizontal spacing between cells
+        * @param [cellOffsetY=0] {number} Vertical spacing between cells
         * @public
         */
         addSpriteSheet(key: string, url: string, frameWidth: number, frameHeight: number, storeAsGlobal?: boolean, numCells?: number, rows?: number, cols?: number, sheetOffsetX?: number, sheetOffsetY?: number, cellOffsetX?: number, cellOffsetY?: number): Files.TextureFile;
         /**
-        * Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.
+        * Add a new texture atlas to be loaded when the state loads assets.
         *
         * @method addTextureAtlas
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param imageURL {String} The location of the image.
-        * @param [jsonID] {String} The id for the json file that is to be loaded. So that you can access it outside of the texture atlas.
-        * @param [jsonURL] {String} The location of the json file you have loaded.
-        * @param [storeAsGlobal=true] {boolean} If the image should be delete when switching to another state or if the other states should still be able to access this image.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param imageURL {string} Location of the image.
+        * @param [jsonID] {string} Key for the JSON file,
+        *	so that you can access it outside of the texture atlas
+        * @param [jsonURL] {string} Location of the JSON file describing the
+        *	atlas
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         * @public
         */
         addTextureAtlas(key: string, imageURL: string, jsonID?: string, jsonURL?: string, storeAsGlobal?: boolean): Files.TextureFile;
         /**
-        * Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.
+        * Add a JSON file to be loaded when the state loads assets.
         *
         * @method addJSON
-        * @param key {string} A key for this json so that you can access it when the loading has finished
-        * @param url {string} The location of the JSON file.
-        * @param [storeAsGlobal=true] {boolean} If the json should be deleted when switching to another state or if the other states should still be able to access this json.
+        * @param key {string} Key for this JSON so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the JSON file
+        * @param [storeAsGlobal=true] {boolean} Whether the JSON should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         * @public
         */
         addJSON(key: string, url: string, storeAsGlobal?: boolean): Files.DataFile;
         /**
-        * Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.
+        * Add a new audio file to be loaded when the state loads assets.
         *
         * @method addAudio
-        * @param key {string} A key for this audio so that you can access it when the loading has finished
-        * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
-        * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
+        * @param key {string} Key for this audio so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the audio file.
+        *	You can pass an array of urls, in which case the first supported
+        *	filetype will be used.
+        * @param [storeAsGlobal=true] {boolean} Whether the audio should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         */
         addAudio(key: string, url: any, storeAsGlobal?: boolean): any;
         /**
-        * Contains a reference to all of the Objects that have ever been created for this state. Generally Kiwi.Entities or Kiwi.Groups.
-        * Useful for keeping track of sprites that are not used any more and need to be destroyed.
-        * @property trackingList
+        * Contains a reference to all of the objects that have ever been
+        * created for this state, generally `Kiwi.Entity` or `Kiwi.Group`.
+        * Useful for keeping track of sprites that are not used any more
+        * and need to be destroyed.
+        * @property _trackingList
         * @type Array
         * @private
         */
         private _trackingList;
         /**
-        * Adds a new Objects to the tracking list.
-        * This is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.
+        * Add a new object to the tracking list.
+        * This is an internal KiwiJS method and game devs
+        * shouldn't need to worry about it.
         * @method addToTrackingList
-        * @param child {Object} The Object which you are adding to the tracking list.
+        * @param child {object} Object to add to the tracking list.
         * @public
         */
         addToTrackingList(child: Kiwi.IChild): void;
         /**
-        * Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
-        * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * Remove an object from the tracking list.
+        * This should only need to happen when a child is destroyed.
+        * This is an internal Kiwi method and game devs
+        * shouldn't really need to worry about it.
         * @method removeFromTrackingList
-        * @param child {Object} The object which is being removed from the tracking list.
+        * @param child {object} The object which is being removed from the tracking list.
         * @public
         */
         removeFromTrackingList(child: Kiwi.IChild): void;
         /**
-        * Destroys all of Objects in the tracking list that are not currently on stage.
-        * All that currently don't have this STATE as an ancestor.
-        * Returns the number of Objects removed.
+        * Destroys all objects in the tracking list that are
+        * not currently on stage.
+        * All that currently don't have this `State` as an ancestor.
+        * Returns the number of objects removed.
         * @method destroyUnused
-        * @return {Number} The amount of objects removed.
+        * @return {number} Amount of objects removed
         * @public
         */
         destroyUnused(): number;
         /**
-        * Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.
+        * Used to mark all Entities that have been created for deletion,
+        * regardless of whether they are on the stage or not.
+        *
         * @method destroy
-        * @param [deleteAll=true] If all of the Objects ever created should have the destroy method executed also.
+        * @param [deleteAll=true] If all of the Objects ever created should
+        *	have the destroy method executed also.
         * @public
         */
         destroy(deleteAll?: boolean): void;
         /**
-        * Recursively goes through a child given and runs the destroy method on all that are passed.
+        * Recursively destroys a child and all its children.
+        *
         * @method _destroyChildren
-        * @param child {Object}
+        * @param child {object}
+        * @deprecated As of v1.4.1. This is never called.
         * @private
         */
         private _destroyChildren(child);
@@ -3318,46 +3448,59 @@ declare module Kiwi {
 */
 declare module Kiwi {
     /**
-    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
+    * A `Camera` is used to render a particular section of the game world
+    * on the stage. Each `Camera` has coordinates which are held in the
+    * `transform` property, and `width`/`height` properties.
+    *
+    * Note: This class may be directly instantiated, but if you want
+    * your camera registered in a `CameraManager`, you should use
+    * `CameraManager.create()` instead.
+    *
+    * A default camera is created as `game.cameras.defaultCamera`.
     *
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this camera belongs to.
-    * @param id {Number} A unique ID for this camera
-    * @param name {String} The name this camera goes by
-    * @param x {Number} The x coordinate of the camera
-    * @param y {Number} The y coordinate of the camera
-    * @param width {Number} The width of the camera
-    * @param height {Number} The cameras height
+    * @param game {Kiwi.Game} Game that this camera belongs to.
+    * @param id {number} Unique ID for this camera
+    * @param name {string} Name for this camera
+    * @param x {number} Horizontal coordinate of the camera
+    * @param y {number} Vertical coordinate of the camera
+    * @param width {number} Width of the camera
+    * @param height {number} Height of the camera
     * @return {Kiwi.Camera}
     *
     */
     class Camera {
         constructor(game: Kiwi.Game, id: number, name: string, x: number, y: number, width: number, height: number);
         /**
-        * The width of this camara.
+        * Width of this camera
+        *
         * @property width
-        * @type Number
+        * @type number
         * @public
         */
         width: number;
         /**
-        * The height of this camera.
+        * Height of this camera
+        *
         * @property height
-        * @type Number
+        * @type number
         * @public
         */
         height: number;
         /**
-        * The type of object this is.
+        * Return the type of object that this is.
+        *
         * @method objType
-        * @return {String} "Camera"
+        * @return {string} "Camera"
         * @public
         */
         objType(): string;
         /**
-        * If true then the camera will be resized to fit the stage when the stage is resized
+        * Whether to resize the camera to fit the stage
+        * when the stage is resized.
+        *
         * @property fitToStage
         * @type boolean
         * @default true
@@ -3365,36 +3508,45 @@ declare module Kiwi {
         */
         fitToStage: boolean;
         /**
-        * The Transform controls the location of the camera within the game world. Also controls the cameras scale and rotation.
+        * Controls location, scale, and rotation of camera
+        * within the game world.
+        *
         * @property transform
         * @type Kiwi.Geom.Transform
         * @public
         */
         transform: Kiwi.Geom.Transform;
         /**
-        * Updates the width/height of this camera. Is used when the stage resizes.
+        * Update the width/height of this camera when the stage resizes.
+        *
         * @method _updatedStageSize
-        * @param width {Number} The new width of the camera.
-        * @param height {Number} The new height of the camera.
+        * @param width {number} New width of the camera.
+        * @param height {number} New height of the camera.
         * @private
         */
         private _updatedStageSize(width, height);
         /**
-        * The game this Group belongs to
-        * @property game
+        * Game this camera belongs to
+        *
+        * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * A unique identifier for this Layer within the game used internally by the framework. See the name property for a friendly version.
+        * A unique identifier for this Layer within the game
+        * used internally by the framework.
+        * See the name property for a friendly version.
+        *
         * @property id
         * @type number
         * @public
         */
         id: number;
         /**
-        * A name for this Camera. This is not checked for uniqueness within the Game, but is very useful for debugging.
+        * A name for this Camera. This is not checked for uniqueness
+        * within the Game, but is very useful for debugging.
+        *
         * @property name
         * @type string
         * @public
@@ -3402,20 +3554,24 @@ declare module Kiwi {
         name: string;
         /**
         * Controls whether this Camera is rendered
+        *
         * @property _visible
         * @type boolean
         * @private
         */
         private _visible;
         /**
-        * Controls whether this Camera is rendered.
+        * Controls whether this Camera is rendered
+        *
         * @property visible
         * @type boolean
         * @public
         */
         visible: boolean;
         /**
-        * A flag that indicates whether this camera needs to be rendered again at the next update loop, or if nothing has changed so it doesn't.
+        * A flag that indicates whether this camera needs to be rendered again
+        * at the next update loop, or if nothing has changed so it doesn't.
+        *
         * @property _dirty
         * @type boolean
         * @private
@@ -3423,7 +3579,9 @@ declare module Kiwi {
         */
         private _dirty;
         /**
-        * A value used by components to control if the camera needs re-rendering.
+        * A value used by components
+        * to control if the camera needs re-rendering.
+        *
         * @property dirty
         * @type boolean
         * @public
@@ -3444,6 +3602,7 @@ declare module Kiwi {
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
         * Useful for calculating coordinates with the mouse.
+        *
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -3454,6 +3613,7 @@ declare module Kiwi {
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
         * Similar to "transformPoint", but in reverse.
+        *
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -5813,19 +5973,28 @@ declare module Kiwi.Components {
 */
 declare module Kiwi.Components {
     /**
-    * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch
-    * and as such this class contains useful methods and callbacks you can subscribe to.
-    * By default the Input component is disabled (this is because when enabled the input component can be process intensive)
-    * but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically
-    * be enabled once you access a Signal on this class.
+    * `Input` adds interaction to `GameObjects` via `Mouse` and/or `Touch`.
+    * Callbacks and methods are supplied to ease interaction.
+    *
+    * By default, `Input` components are disabled, as they are process
+    * intensive. You may enable input by calling `enabled = true`.
+    * Alternatively, the game will automagically enable input
+    * once you access any `Signal`. Be careful when enumerating
+    * properties on this component, and be prepared to disable
+    * input again.
+    *
+    * `GameObjects.Sprite` comes with an `Input` component.
+    * Other `GameObjects` do not.
     *
     * @class Input
     * @extends Kiwi.Component
     * @namespace Kiwi.Components
     * @constructor
-    * @param owner {Object} The Object that this Component is on. Generally this will be a Entity.
-    * @param box {Kiwi.Components.Box} The box which contains the worldHitbox that is to be used for the event firing.
-    * @param [enabled=false] {boolean} If this input component should be enabled or not.
+    * @param owner {Object} Object, generally `Entity`, to own this
+    *	input component
+    * @param box {Kiwi.Components.Box} Box which contains the `worldHitbox`
+    *	used for input detection
+    * @param [enabled=false] {boolean} Whether to enable this component
     * @return {Kiwi.Components.Input}
     */
     class Input extends Component {
@@ -5838,138 +6007,170 @@ declare module Kiwi.Components {
         */
         objType(): string;
         /**
-        * The bounding box that is being used for the 'hitarea'.
+        * Bounding box that is being used for the hit area
         * @property _box
         * @type Kiwi.Components.Box
         * @private
         */
         private _box;
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has entered the entities hitbox.
+        * Fires callbacks when a pointer is active
+        * and has entered the entity's hitbox
         * @property _onEntered
         * @type Kiwi.Signal
         * @private
         */
         private _onEntered;
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has left the entities hit box.
+        * Fires callbacks when a pointer is active
+        * and has left the entity's hit box
         * @property _onLeft
         * @type Kiwi.Signal
         * @private
         */
         private _onLeft;
         /**
-        * Kiwi Signal for firing callbacks when a pointer is active and has pressed down on the entity.
+        * Fires callbacks when a pointer is active
+        * and just pressed down on the entity
         * @property _onDown
         * @type Kiwi.Signal
         * @private
         */
         private _onDown;
         /**
-        * Kiwi Signal for firing callbacks when a pointer just released from either being above the entity or the pointer was initally pressed on it.
+        * Fires callbacks when a pointer just released,
+        * either directly above the entity,
+        * or after having been pressed down above the entity.
         * @property _onUp
         * @type Kiwi.Signal
         * @private
         */
         private _onUp;
         /**
-        * Kiwi Signal for firing callbacks a entity starts being dragged.
+        * Fires callbacks when the entity starts being dragged
         * @property _onDragStarted
         * @type Kiwi.Signal
         * @private
         */
         private _onDragStarted;
         /**
-        * Kiwi Signal for firing callbacks a entity stops being dragged. Like on release.
+        * Fires callbacks when the entity stops being dragged,
+        * such as on release
         * @property _onDragStopped
         * @type Kiwi.Signal
         * @private
         */
         private _onDragStopped;
         /**
-        * A Temporary Point object which is used whilst checking to see if there is any overlap.
+        * Temporary Point used to check for overlap
         * @property _tempPoint
         * @type Kiwi.Geom.Point
         * @private
         */
         private _tempPoint;
         /**
-        * A Temporary Circle object which is used whilst checking to see if there is any overlap.
+        * Temporary Circle used to check for overlap
         * @property _tempCircle
         * @type Kiwi.Geom.Circle
         * @private
         */
         private _tempCircle;
         /**
-        * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
+        * Fires callbacks when a pointer is active
+        * and has entered the entity's hitbox.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onEntered
         * @type Kiwi.Signal
         * @public
         */
         onEntered: Kiwi.Signal;
         /**
-        * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
+        * Fires callbacks when a pointer is active
+        * and has left the entity's hit box.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onLeft
         * @type Kiwi.Signal
         * @public
         */
         onLeft: Kiwi.Signal;
         /**
-        * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
+        * Fires callbacks when a pointer is active
+        * and just pressed down on the entity.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onDown
         * @type Kiwi.Signal
         * @public
         */
         onDown: Kiwi.Signal;
         /**
-        * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
+        * Fires callbacks when a pointer just released,
+        * either directly above the entity,
+        * or after having been pressed down above the entity.
+        *
         * Note: Accessing this signal enables the input.
+        *
         * This is READ ONLY.
+        *
         * @property onUp
         * @type Kiwi.Signal
         * @public
         */
         onUp: Kiwi.Signal;
         /**
-        * Returns the onDragStarted Signal.
+        * Fires callbacks when the entity starts being dragged.
+        *
         * This is READ ONLY.
+        *
         * @property onDragStarted
         * @type Kiwi.Signal
         * @public
         */
         onDragStarted: Kiwi.Signal;
         /**
-        * Returns the onDragStopped Signal.
+        * Fires callbacks when the entity stops being dragged,
+        * such as on release.
+        *
         * This is READ ONLY.
+        *
         * @property onDragStopped
         * @type Kiwi.Signal
         * @public
         */
         onDragStopped: Kiwi.Signal;
         /**
-        * A alias for the on release signal.
+        * Alias for `onUp`.
+        *
         * This is READ ONLY.
+        *
         * @property onRelease
         * @type Kiwi.Signal
         * @public
         */
         onRelease: Kiwi.Signal;
         /**
-        * A alias for the on press signal.
+        * Alias for `onDown`.
+        *
         * This is READ ONLY.
+        *
         * @property onPress
         * @type Kiwi.Signal
         * @public
         */
         onPress: Kiwi.Signal;
         /**
-        * If this input is enabled or not.
+        * Whether this input is enabled
         * @property _enabled
         * @type boolean
         * @default false
@@ -5977,21 +6178,27 @@ declare module Kiwi.Components {
         */
         private _enabled;
         /**
-        * Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.
+        * Whether this input is enabled.
+        *
+        * Note: Inputs should only be enabled when needed,
+        * as they can use processing power and slow the game down.
         * @property enabled
         * @type boolean
         * @public
         */
         enabled: boolean;
         /**
-        * If a pointer is current pressing down on the input, this will be a reference to that pointer. Otherwise it will be null.
+        * If a pointer is current pressing down on the input,
+        * this will be a reference to that pointer. Otherwise it will be null.
         * @property _isDown
         * @type Kiwi.Input.Pointer
+        * @default null
         * @private
         */
         private _isDown;
         /**
-        * A boolean that indicates if no pointer is currently on the pointer
+        * Whether no pointer is down on the pointer.
+        * Opposite of `_isDown`.
         * @property _isUp
         * @type boolean
         * @default true
@@ -5999,14 +6206,16 @@ declare module Kiwi.Components {
         */
         private _isUp;
         /**
-        * Indicates if a pointer is within the bounds or not. If one is then it referers to the pointer that is. Other it will be null.
+        * Whether a pointer is within hitbox bounds.
+        * Refers to a pointer within hitbox bounds, or `null`.
         * @property _withinBounds
         * @type Kiwi.Input.Pointer
+        * @default null
         * @private
         */
         private _withinBounds;
         /**
-        * boolean indicating if every pointer is currently outside of the bounds.
+        * Whether every pointer is currently outside of the bounds
         * @property _outsideBounds
         * @type boolean
         * @default true
@@ -6014,7 +6223,8 @@ declare module Kiwi.Components {
         */
         private _outsideBounds;
         /**
-        * If a pointer just entered the input. Used for mouse's to indicate when to appropriately fire the down event.
+        * If a pointer just entered the input.
+        * Used for mouses to indicate when to fire the down event.
         * Note: Could be removed once mouse version of update gets updated.
         * @property _justEntered
         * @type boolean
@@ -6023,39 +6233,47 @@ declare module Kiwi.Components {
         */
         private _justEntered;
         /**
-        * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
+        * Whether a pointer is currently on this input.
+        *
         * This is READ ONLY.
+        *
         * @property isDown
         * @type boolean
         * @public
         */
         isDown: boolean;
         /**
-        * Used to see if no pointer is on this input (so it is up).
+        * Whether no pointer is on this input (so it is up).
+        *
         * This is READ ONLY.
+        *
         * @property isUp
         * @type boolean
         * @public
         */
         isUp: boolean;
         /**
-        * Check to see if any pointer is within the bounds of this input.
+        * Whether any pointer is within the bounds of this entity.
+        *
         * This is READ ONLY.
+        *
         * @property withinBounds
         * @type boolean
         * @public
         */
         withinBounds: boolean;
         /**
-        * See if no pointers are within the bounds of this entity.
+        * Whether no pointers are within the bounds of this entity.
+        *
         * This is READ ONLY.
+        *
         * @property outsideBounds
         * @type boolean
         * @public
         */
         outsideBounds: boolean;
         /**
-        * A reference to the pointer that is currently 'dragging' this Object.
+        * Reference to the pointer that is currently "dragging" this Object.
         * If not dragging then this is null.
         * @property _isDragging
         * @type Kiwi.Input.Pointer
@@ -6064,21 +6282,23 @@ declare module Kiwi.Components {
         */
         private _isDragging;
         /**
-        * The distance between the top left corner of this Objects parent and the coordinates of a Pointer.
+        * Distance between the top left corner of this object's parent
+        * and the coordinates of a Pointer.
         * @property _distance
         * @type Kiwi.Geom.Point
         * @private
         */
         private _distance;
         /**
-        * A boolean indicating if dragging is temporarly disabled. Internal use only to stop events from misfiring.
+        * Whether dragging is temporarly disabled.
+        * Internal use only to stop events from misfiring.
         * @property _tempDragDisabled
         * @type boolean
         * @private
         */
         private _tempDragDisabled;
         /**
-        * Indicates if dragging is currently enabled.
+        * Whether dragging is currently enabled.
         * @property _dragEnabled
         * @type boolean
         * @default false
@@ -6086,9 +6306,14 @@ declare module Kiwi.Components {
         */
         private _dragEnabled;
         /**
-        * This is used while dragging so that you can make the IChild 'snap' to specific numbers to give a 'grid like' effect.
-        * E.g. If you had a 32 by 32 grid down and you wanted to make an element draggable but snap to the grid you can set this to 32.
-        * Default value is one.
+        * Used while dragging so that you can make the IChild "snap"
+        * to specific numbers to give a grid-like effect.
+        *
+        * E.g. If you had a 32 by 32 grid and you wanted to make an element
+        * draggable but snap to the grid you can set this to 32.
+        *
+        * Default value is 1.
+        *
         * @property _dragDistance
         * @type number
         * @default 1
@@ -6096,7 +6321,8 @@ declare module Kiwi.Components {
         */
         private _dragDistance;
         /**
-        * If when dragging, the IChild should snap to the center of the pointer it is being dragged by.
+        * Whether, when dragging, the IChild should snap to the center
+        * of the pointer it is being dragged by.
         * @property _dragSnapToCenter
         * @type boolean
         * @default false
@@ -6104,22 +6330,32 @@ declare module Kiwi.Components {
         */
         private _dragSnapToCenter;
         /**
-        * Returns a boolean indicating if this is currently dragging something.
+        * Whether this is currently dragging something.
+        *
         * This is READ ONLY.
+        *
         * @property isDragging
         * @type boolean
         * @public
         */
         isDragging: boolean;
         /**
-        * The drag distance that is used when dragging this object. See _dragDistance for more information.
+        * Used while dragging so that you can make the IChild "snap"
+        * to specific numbers to give a grid-like effect.
+        *
+        * E.g. If you had a 32 by 32 grid and you wanted to make an element
+        * draggable but snap to the grid you can set this to 32.
+        *
+        * Default value is 1.
         * @property dragDistance
         * @type number
         * @public
         */
         dragDistance: number;
         /**
-        * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
+        * Temporary property that gets updated every frame
+        * with the pointer that is currently down on this entity
+        *
         * @property _nowDown
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6127,7 +6363,10 @@ declare module Kiwi.Components {
         */
         private _nowDown;
         /**
-        * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
+        * Temporary property that gets updated every frame
+        * with the pointer that was just released
+        * from being down on this entity
+        *
         * @property _nowUp
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6135,7 +6374,9 @@ declare module Kiwi.Components {
         */
         private _nowUp;
         /**
-        * Temporary property of the pointer that is now within the bounds of the entity
+        * Temporary property of the pointer that is now
+        * within the bounds of the entity
+        *
         * @property _nowEntered
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6143,7 +6384,9 @@ declare module Kiwi.Components {
         */
         private _nowEntered;
         /**
-        * Temporary property of the pointer that just left the bounds of the entity.
+        * Temporary property of the pointer that just
+        * left the bounds of the entity
+        *
         * @property _nowLeft
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6151,7 +6394,9 @@ declare module Kiwi.Components {
         */
         private _nowLeft;
         /**
-        * Temporary property of the pointer that just started draggging the entity.
+        * Temporary property of the pointer that just
+        * started dragging the entity
+        *
         * @property _nowDragging
         * @type Kiwi.Input.Pointer
         * @default null
@@ -6159,54 +6404,60 @@ declare module Kiwi.Components {
         */
         private _nowDragging;
         /**
-        * Enables the dragging of this entity.
+        * Enable dragging of this entity.
+        *
         * @method enableDrag
-        * @param [snapToCenter=false] {boolean} If when dragging the Entity should snap to the center of the pointer.
-        * @param [distance=1] {number} If when dragging the Entity should snap to numbers divisible by this amount.
+        * @param [snapToCenter=false] {boolean} If when dragging the Entity
+        *	should snap to the center of the pointer
+        * @param [distance=1] {number} If when dragging the Entity
+        *	should snap to numbers divisible by this amount
         * @public
         */
         enableDrag(snapToCenter?: boolean, distance?: number): void;
         /**
-        * Disables the dragging of this entity.
+        * Disable dragging of this entity.
+        *
         * @method disableDrag
         * @public
         */
         disableDrag(): void;
         /**
-        * The update loop for the input.
+        * Update loop for the input.
         * @method update
         * @protected
         */
         update(): void;
         /**
-        * The update loop that gets executed when the game is using the touch manager.
+        * Update loop executed when the game is using the touch manager.
         * @method _updateTouch
         * @private
         */
         private _updateTouch();
         /**
-        * A private method for checking to see if a touch pointer should activate any events.
+        * Check to see if a touch pointer should activate any events.
         * @method _evaluateTouchPointer
-        * @param pointer {Kiwi.Input.Finger} The pointer you are checking against.
+        * @param pointer {Kiwi.Input.Finger} Pointer checking against
         * @private
         */
         private _evaluateTouchPointer(pointer);
         /**
-        * The update loop that runs when the mouse manager is the method for interacting with the screen.
+        * Update loop that runs when the mouse manager is
+        * the method for interacting with the screen.
         * @method _updateMouse
         * @private
         */
         private _updateMouse();
         /**
-        * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
+        * Evaluates where and what the mouse cursor is doing
+        * in relation to this box.
         * @method _evaluateMousePointer
         * @param pointer {Kiwi.Input.MouseCursor}
         * @private
         */
         private _evaluateMousePointer(pointer);
         /**
-        * Destroys the input.
-        * @method destory
+        * Destroy the input.
+        * @method destroy
         * @public
         */
         destroy(): void;
@@ -10493,49 +10744,65 @@ interface IRenderManager {
 */
 declare module Kiwi.Renderers {
     /**
+    * Manager for rendering in Canvas mode.
     *
     * @class CanvasRenderer
     * @constructor
     * @namespace Kiwi.Renderers
     * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
     * @return {Kiwi.Renderes.CanvasRenderer}
-    *
     */
     class CanvasRenderer implements IRenderManager {
         constructor(game: Kiwi.Game);
         /**
-        * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+        * Boot method is executed when all of the DOM elements
+        * that are needed to play the game are ready
+        *
         * @method boot
         * @public
         */
         boot(): void;
         /**
-        * Returns the type of object that this is.
+        * Return the type of object that this is.
+        *
         * @method objType
         * @return {String} "CanvasRenderer"
         * @public
         */
         objType(): string;
         /**
-        * The game that this object belongs to.
+        * Game this object belongs to
+        *
         * @property _game
         * @type Kiwi.Game
         * @private
         */
         private _game;
         /**
-        * The camera that is currently being used to render upon.
+        * Camera that is currently being used to render upon
+        *
         * @property _currentCamera
         * @type Kiwi.Camera
         * @private
         */
         private _currentCamera;
         /**
-        * This method recursively goes through a State's members and runs the render method of each member that is a Entity.
-        * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
+        * Geometry data used in camera projection
+        *
+        * @property _camMatrix
+        * @type Kiwi.Geom.Matrix
+        * @private
+        * @since 1.4.1
+        */
+        private _camMatrix;
+        /**
+        * Recursively go through a `State`'s members and
+        * run the `render` method of each member that is a `Entity`.
+        * If it is a `Group`, then this method recursively goes through
+        * that `Group`'s members in the same way.
         *
         * @method _recurse
-        * @param child {object} The child that is being checked.
+        * @param child {object} Child being checked
         * @private
         */
         _recurse(child: IChild): void;
@@ -10545,7 +10812,8 @@ declare module Kiwi.Renderers {
         endState(state: Kiwi.State): void;
         numDrawCalls: number;
         /**
-        * Renders all of the Elements that are on a particular camera.
+        * Render all of the Elements that are on a particular camera.
+        *
         * @method render
         * @param camera {Kiwi.Camera}
         * @public
@@ -10568,6 +10836,7 @@ declare module Kiwi.Renderers {
     * Manages gl state at game initialisation, at state start and end,
     * and per frame.
     * Runs the recursive scene graph rendering sequence every frame.
+    *
     * @class GLRenderManager
     * @extends IRenderer
     * @constructor
@@ -10577,55 +10846,63 @@ declare module Kiwi.Renderers {
     class GLRenderManager implements IRenderManager {
         constructor(game: Kiwi.Game);
         /**
-        * Initialises all WebGL rendering services
+        * Initialise all WebGL rendering services.
+        *
         * @method boot
         * @public
         */
         boot(): void;
         /**
-        * The type of object that this is.
+        * Return the type of object that this is.
+        *
         * @method objType
         * @return {string} "GLRenderManager"
         * @public
         */
         objType(): string;
         /**
-        * The game that this renderer is used with.
+        * Game that this renderer is used with
+        *
         * @property _game
         * @type Game
         * @private
         */
         private _game;
         /**
-        * The texture manager object used to allocate GL Textures.
+        * Texture manager object used to allocate GL Textures
+        *
         * @property _textureManager
         * @type Kiwi.Renderes.GLTextureManager
         * @private
         */
         private _textureManager;
         /**
-        * The shader manager object used to allocate GL Shaders.
+        * Shader manager object used to allocate GL Shaders
+        *
         * @property _shaderManager
         * @type Kiwi.Renderes.GLShaderManager
         * @private
         */
         private _shaderManager;
         /**
-        * The stage resolution in pixels
+        * Stage resolution in pixels
+        *
         * @property _stageResolution
         * @type Float32Array
         * @private
         */
         private _stageResolution;
         /**
-        * The renderer object that is in use during a rendering batch.
+        * Renderer object currently in use during a rendering batch
+        *
         * @property _currentRenderer
         * @type Kiwi.Renderers.Renderer
         * @private
         */
         private _currentRenderer;
         /**
-        * The current blend mode.
+        * Current blend mode
+        *
         * @property _currentBlendMode
         * @type Kiwi.Renderers.GLBlendMode
         * @private
@@ -10634,6 +10911,7 @@ declare module Kiwi.Renderers {
         private _currentBlendMode;
         /**
         * Tally of number of entities rendered per frame
+        *
         * @property _entityCount
         * @type number
         * @default 0
@@ -10642,6 +10920,7 @@ declare module Kiwi.Renderers {
         private _entityCount;
         /**
         * Tally of number of draw calls per frame
+        *
         * @property numDrawCalls
         * @type number
         * @default 0
@@ -10650,7 +10929,8 @@ declare module Kiwi.Renderers {
         numDrawCalls: number;
         /**
         * Maximum allowable sprites to render per frame.
-        * Note: Not currently used  - candidate for deletion
+        * Note: Not currently used - candidate for deletion
+        *
         * @property _maxItems
         * @type number
         * @default 1000
@@ -10659,6 +10939,7 @@ declare module Kiwi.Renderers {
         private _maxItems;
         /**
         * Camera matrix used on graphics card
+        *
         * @property camMatrix
         * @type Float32Array
         * @public
@@ -10666,28 +10947,32 @@ declare module Kiwi.Renderers {
         camMatrix: Float32Array;
         /**
         * Geometry data used to create `camMatrix`
-        * @property _camMatrixOffset
+        *
+        * @property _camMatrix
         * @type Kiwi.Geom.Matrix
         * @private
         */
-        private _camMatrixOffset;
+        private _camMatrix;
         /**
-        * The most recently bound texture atlas.
+        * Most recently bound texture atlas
+        *
         * @property _currentTextureAtlas
         * @type TextureAtlas
         * @private
         */
         private _currentTextureAtlas;
         /**
-        * Adds a texture to the Texture Manager.
+        * Add a texture to the Texture Manager.
+        *
         * @method addTexture
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Textures.TextureAtlas} atlas
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
         * @public
         */
         addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
-        * Removes a texture from the Texture Manager.
+        * Remove a texture from the Texture Manager.
+        *
         * @method removeTexture
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Textures.TextureAtlas} atlas
@@ -10708,7 +10993,9 @@ declare module Kiwi.Renderers {
         * can all use the same renderer/shader combination and be drawn as
         * part of the same batch.
         *
-        * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
+        * Custom gameobjects can also choose to use a shared renderer,
+        * for example in the case that a custom gameobject's
+        * rendering requirements matched the `TextureAtlasRenderer`
         * capabilities.
         *
         * @property _sharedRenderers
@@ -10717,12 +11004,13 @@ declare module Kiwi.Renderers {
         */
         private _sharedRenderers;
         /**
-        * Adds a renderer to the sharedRenderer array.
+        * Add a renderer to the sharedRenderer array.
         *
         * The rendererID is a string that must match a renderer property
         * of the Kiwi.Renderers object. If a match is found and an instance
         * does not already exist, then a renderer is instantiated and added
         * to the array.
+        *
         * @method addSharedRenderer
         * @param {string} rendererID
         * @param {object} params
@@ -10731,7 +11019,7 @@ declare module Kiwi.Renderers {
         */
         addSharedRenderer(rendererID: string, params?: any): boolean;
         /**
-        * Adds a cloned renderer to the sharedRenderer array.
+        * Add a cloned renderer to the sharedRenderer array.
         * The rendererID is a string that must match a renderer property of
         * the Kiwi.Renderers object. The cloneID is the name for the
         * cloned renderer.
@@ -10756,9 +11044,10 @@ declare module Kiwi.Renderers {
         */
         addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
         /**
-        * Requests a shared renderer. A game object that wants to use a shared
+        * Request a shared renderer. A game object that wants to use a shared
         * renderer uses this method to obtain a reference to the shared
         * renderer instance.
+        *
         * @method requestSharedRenderer
         * @param {string} rendererID
         * @param {object} params
@@ -10768,13 +11057,14 @@ declare module Kiwi.Renderers {
         */
         requestSharedRenderer(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
         /**
-        * Requests a new renderer instance. This factory method is the only
+        * Request a new renderer instance. This factory method is the only
         * way gameobjects should instantiate their own renderer.
         *
         * The rendererID is a string that must match a renderer property
         * of the Kiwi.Renderers object. If a match is found then a renderer
         * is instantiated and returned. Gameobjects which have rendering
         * requirements that do not suit batch rendering use this technique.
+        *
         * @method requestRendererInstance
         * @param {string} rendererID The name of the requested renderer
         * @param {object} params
@@ -10786,9 +11076,11 @@ declare module Kiwi.Renderers {
         /**
         * Scales the viewport according to a scale mode and space dimensions.
         *
-        * This is used internally for compatibility with CocoonJS and should not be called.
+        * This is used internally for compatibility with CocoonJS
+        * and should not be called.
+        *
         * @method scaleViewport
-        * @param gl {WebGLRenderingContext}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
         * @param mode {number} Scale mode; should be either
         *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
         *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
@@ -10803,6 +11095,7 @@ declare module Kiwi.Renderers {
         * Called when a state has been switched to.
         * The textureManager is told to clear its contents from video memory,
         * then rebuild its cache of textures from the state's texture library.
+        *
         * @method initState
         * @public
         */
@@ -10811,6 +11104,7 @@ declare module Kiwi.Renderers {
         * Performs cleanup required before switching to a different state.
         * Called whwn a state is about to be switched from.
         * The textureManager is told to empty its cache.
+        *
         * @method endState
         * @param state {Kiwi.State}
         * @public
@@ -10821,6 +11115,7 @@ declare module Kiwi.Renderers {
         * Sets up per frame gl uniforms such as the view matrix and
         * camera offset. Clears the current renderer ready for a new batch.
         * Initiates recursive render of scene graph starting at the root.
+        *
         * @method render
         * @param camera {Camera}
         * @public
@@ -10829,44 +11124,50 @@ declare module Kiwi.Renderers {
         private _sequence;
         private _batches;
         /**
-        * Creates a new render sequence
+        * Create a new render sequence.
+        *
         * @method collateRenderSequence
         * @public
         */
         collateRenderSequence(): void;
         /**
-        * Adds a child to the render sequence
-        * (may be a group with children of its own).
+        * Add a child to the render sequence
+        * (may be a group with children of its own ).
+        *
         * @method collateChild
         * @public
         */
         collateChild(child: IChild): void;
         /**
-        * Sorts the render sequence into batches.
+        * Sort the render sequence into batches.
         * Each batch requires the same renderer/shader/texture combination.
+        *
         * @method collateBatches
         * @public
         */
         collateBatches(): void;
         /**
-        * Renders all the batches
+        * Render all the batches.
+        *
         * @method renderBatches
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Camera} camera
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param camera {Kiwi.Camera} Currently rendering camera
         * @public
         */
         renderBatches(gl: WebGLRenderingContext, camera: any): void;
         /**
-        * Renders a single batch
+        * Render a single batch.
+        *
         * @method renderBatch
-        * @param {WebGLRenderingContext} gl
-        * @param {object} batch
-        * @param {Kiwi.Camera} camera
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param batch {object} Batch to render
+        * @param camera {Kiwi.Camera} Currently rendering camera
         * @public
         */
         renderBatch(gl: any, batch: any, camera: any): void;
         /**
-        * Calls the render function on a single entity
+        * Call the render function on a single entity.
+        *
         * @method renderEntity
         * @param {WebGLRenderingContext} gl
         * @param {Kiwi.Entity} entity
@@ -10876,7 +11177,8 @@ declare module Kiwi.Renderers {
         */
         renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
         /**
-        * Ensures the atlas and renderer needed for a batch is setup
+        * Ensure the atlas and renderer needed for a batch is setup.
+        *
         * @method setupGLState
         * @param {WebGLRenderingContext} gl
         * @public
@@ -10884,26 +11186,31 @@ declare module Kiwi.Renderers {
         */
         setupGLState(gl: WebGLRenderingContext, entity: any): void;
         /**
-        * Switch renderer to the one needed by the entity that needs rendering
+        * Switch renderer to the one needed by the entity that needs rendering.
+        *
         * @method _switchRenderer
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Kiwi.Entity}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param entity {Kiwi.Entity} Entity demanding the switch
         * @private
         */
         private _switchRenderer(gl, entity);
         /**
-        * Switch texture to the one needed by the entity that needs rendering
+        * Switch texture to the one needed by the entity that needs rendering.
+        *
         * @method _switchTexture
-        * @param gl {WebGLRenderingContext}
-        * @param entity {Kiwi.Entity}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param entity {Kiwi.Entity} Entity demanding the switch
         * @private
+        * @deprecated As of 1.4.1, we use a better method.
+        *	We probably shouldn't be passing an entity to a texture method.
         */
         private _switchTexture(gl, entity);
         /**
-        * Switch blend mode to a new set of constants
+        * Switch blend mode to a new set of constants.
+        *
         * @method _switchBlendMode
-        * @param gl {WebGLRenderingContext}
-        * @param blendMode {Kiwi.Renderers.GLBlendMode}
+        * @param gl {WebGLRenderingContext} Canvas rendering context
+        * @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
         * @private
         * @since 1.1.0
         */

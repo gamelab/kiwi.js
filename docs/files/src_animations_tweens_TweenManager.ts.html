@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animations\tweens\TweenManager.ts - Kiwi.js</title>
+    <title>src/animations/tweens/TweenManager.ts - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.0</em>
+            <em>API Docs for: 1.4.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -362,7 +362,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\animations\tweens\TweenManager.ts</h1>
+                        <h1 class="file-heading">File: src/animations/tweens/TweenManager.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -525,19 +525,17 @@ module Kiwi.Animations.Tweens {
 		* @public
 		*/
 		public update() {
-			var i = 0,
-				numTweens = this._tweens.length;
+			var i = 0;
 
 			if ( this._tweens.length === 0 ) {
 				return false;
 			}
 
-			while ( i &lt; numTweens ) {
+			while ( i &lt; this._tweens.length ) {
 				if ( this._tweens[ i ].update( this.clock.elapsed() * 1000 ) ) {
 					i++;
 				} else {
 					this._tweens.splice( i, 1 );
-					numTweens--;
 				}
 			}
 

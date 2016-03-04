@@ -527,13 +527,14 @@ var Kiwi;
     * @class Stage
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this Stage belongs to.
-    * @param name {String} The name of the kiwi game.
-    * @param width {Number} The initial width of the game.
-    * @param height {Number} The initial heihgt of the game.
-    * @param scaleType {Number} The scale method that should be used for the game.
+    * @param game {Kiwi.Game} Game that this Stage belongs to
+    * @param name {string} Name of the kiwi game
+    * @param width {number} Initial width of the game
+    * @param height {number} Initial height of the game
+    * @param scaleType {number} Scale method to use. May be
+    *	`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
+    *	or `Kiwi.Stage.SCALE_FIT`,
     * @return {Kiwi.Stage}
-    *
     */
     var Stage = (function () {
         function Stage(game, name, width, height, scaleType) {
@@ -554,7 +555,7 @@ var Kiwi;
             */
             this.offset = new Kiwi.Geom.Point();
             /**
-            * The background color of the stage.
+            * Background color of the stage
             *
             * @property _color
             * @type Kiwi.Utils.Color
@@ -562,7 +563,7 @@ var Kiwi;
             */
             this._color = new Kiwi.Utils.Color();
             /**
-            * The parent div in which the layers and input live
+            * Parent div in which the layers and input live
             * @property container
             * @type HTMLDivElement
             * @public
@@ -592,7 +593,7 @@ var Kiwi;
             this._renderer = null;
         }
         /**
-        * Returns the type of this object.
+        * Return the type of this object.
         * @method objType
         * @return {string} "Stage"
         * @public
@@ -645,7 +646,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "x", {
             /**
-            * The X coordinate of the stage. This number should be the same
+            * Horizontal coordinate of the stage. This number should be the same
             * as the stage's `left` property.
             * @property x
             * @type number
@@ -668,7 +669,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "y", {
             /**
-            * Get the Y coordinate of the stage. This number should be the same
+            * Vertical coordinate of the stage. This number should be the same
             * as the stage's `top` property.
             * @property y
             * @type number
@@ -691,7 +692,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "width", {
             /**
-            * The width of the stage. This is READ ONLY.
+            * Width of the stage. This is READ ONLY.
             * See the "resize" method if you need to modify this value.
             * @property width
             * @type number
@@ -706,7 +707,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "height", {
             /**
-            * The height of the stage. This is READ ONLY.
+            * Height of the stage. This is READ ONLY.
             * See the `resize` method if you need to modify this value.
             * @property height
             * @type number
@@ -720,6 +721,16 @@ var Kiwi;
             configurable: true
         });
         Object.defineProperty(Stage.prototype, "scale", {
+            /**
+            * Amount that the container has been scaled by.
+            * Mainly used for re-calculating input coordinates.
+            * Note: For COCOONJS this returns 1 since COCOONJS translates the
+            * scale itself. This property is READ ONLY.
+            * @property scale
+            * @type Kiwi.Geom.Point
+            * @default 1
+            * @public
+            */
             get: function () {
                 return this._scale;
             },
@@ -728,8 +739,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scaleX", {
             /**
-            * Calculates and returns the amount that the container has been scaled
-            * by on the X axis.
+            * Amount that the container has been scaled by on the X axis
             * @property scaleX
             * @type Number
             * @default 1
@@ -743,8 +753,7 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scaleY", {
             /**
-            * Calculates and returns the amount that the container has been scaled
-            * by on the Y axis.
+            * Amount that the container has been scaled by on the Y axis
             * @property scaleY
             * @type Number
             * @default 1
@@ -861,8 +870,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "renderer", {
             /**
-            * Get the renderer associated with the canvas context.
-            * This is either a GLRenderManager or a CanvasRenderer.
+            * Renderer associated with the canvas context.
+            * This is either a `GLRenderManager` or a `CanvasRenderer`.
             * If the Kiwi.RENDERER_WEBGL renderer was requested
             * but could not be created, it will fall back to CanvasRenderer.
             * This is READ ONLY.
@@ -878,10 +887,11 @@ var Kiwi;
             configurable: true
         });
         /**
-        * Is executed when the DOM has loaded and the game is just starting.
-        * This is a internal method used by the core of Kiwi itself.
+        * Execute when the DOM has loaded and the game is just starting.
+        * This is an internal method used by the core of Kiwi itself.
         * @method boot
-        * @param dom {HTMLElement} The
+        * @param dom {Kiwi.System.Bootstrap} Booted Bootstrap containing
+        *	DOM information
         * @public
         */
         Stage.prototype.boot = function (dom) {
@@ -909,8 +919,8 @@ var Kiwi;
             }
         };
         /**
-        * Gets the x/y coordinate offset of any given valid DOM Element
-        * from the top/left position of the browser
+        * Get the x/y coordinate offset of any given valid DOM Element
+        * from the top/left position of the browser.
         * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
         * @method getOffsetPoint
         * @param {Any} element
@@ -928,7 +938,7 @@ var Kiwi;
             return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
         };
         /**
-        * Method that is fired when the window is resized.
+        * Fire when the window is resized.
         * @method _windowResized
         * @param event {UIEvent}
         * @private
@@ -939,7 +949,7 @@ var Kiwi;
             this.onWindowResize.dispatch();
         };
         /**
-        * Method that is fired when the device is reoriented.
+        * Fire when the device is reoriented.
         * @method _orientationChanged
         * @param event {UIEvent}
         * @private
@@ -949,7 +959,7 @@ var Kiwi;
             this.onResize.dispatch(window.innerWidth, window.innerHeight);
         };
         /**
-        * Used to calculate new offset and scale for the stage.
+        * Calculate new offset and scale for the stage.
         * @method _calculateContainerScale
         * @private
         */
@@ -964,14 +974,14 @@ var Kiwi;
             this._scale.y = this._height / this.container.clientHeight;
         };
         /**
-        * Handles the creation of the canvas that the game will use and
-        * retrieves the context for the renderer.
+        * Handle creation of the canvas that the game will use and
+        * retrieve the context for the renderer.
         *
         * @method _createCompositeCanvas
         * @private
         */
         Stage.prototype._createCompositeCanvas = function () {
-            // If we are using cocoon then create a accelerated screen canvas
+            // If we are using CocoonJS, create an accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = document.createElement(navigator["isCocoonJS"] ? "screencanvas" : "canvas");
             }
@@ -1003,7 +1013,7 @@ var Kiwi;
                         this.gl = null;
                     }
                     else {
-                        Kiwi.Log.warn("Kiwi.Stage: 'webgl' context is not available. Using 'experimental-webgl'", "#renderer");
+                        Kiwi.Log.warn("Kiwi.Stage: \"webgl\" context is not available. Using \"experimental-webgl\"", "#renderer");
                     }
                 }
                 if (this.gl) {
@@ -1033,8 +1043,8 @@ var Kiwi;
         * This will not effect that "scaleType" that it has been set to.
         *
         * @method resize
-        * @param width {number} The new Stage width.
-        * @param height {number} The new Stage height.
+        * @param width {number} New Stage width
+        * @param height {number} New Stage height
         * @public
         */
         Stage.prototype.resize = function (width, height) {
@@ -1048,16 +1058,16 @@ var Kiwi;
             this.onResize.dispatch(this._width, this._height);
         };
         /**
-        * Sets the background color of the stage through component
+        * Set background color of the stage through component
         * RGB colour values. Each parameter is a number between 0 and 255.
-        * This method also returns an Object Literal with "r", "g", "b"
+        * This method also returns an Object literal with "r", "g", "b"
         * properties.
         *
         * @method setRGBColor
-        * @param r {Number} The red component. A value between 0 and 255.
-        * @param g {Number} The green component. A value between 0 and 255.
-        * @param b {Number} The blue component. A value between 0 and 255.
-        * @return {Object} A Object literal containing the r,g,b properties.
+        * @param r {number} Red component. A value between 0 and 255
+        * @param g {number} Green component. A value between 0 and 255
+        * @param b {number} Blue component. A value between 0 and 255
+        * @return {object} Object literal containing the `r,g,b` properties
         * @public
         */
         Stage.prototype.setRGBColor = function (r, g, b) {
@@ -1065,10 +1075,10 @@ var Kiwi;
             return this.rgbColor;
         };
         /**
-        * Creates a debug canvas and adds it above the regular game canvas.
+        * Create a debug canvas and add it above the regular game canvas.
         * The debug canvas is not created by default (even with debugging on)
-        * and rendering/clearing of the canvas is upto the developer.
-        * The context for rendering can be access via the "dctx" property and
+        * and rendering/clearing of the canvas is up to the developer.
+        * The context for rendering can be accessed via the "dctx" property and
         * you can use the "clearDebugCanvas" method to clear the canvas.
         *
         * @method createDebugCanvas
@@ -1079,7 +1089,7 @@ var Kiwi;
                 return;
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 // Not supported in CocoonJS only because we cannot add it to
-                // the container (as a container does not exist) and position
+                // the container (as a container does not exist ) and position
                 // will be hard.
                 Kiwi.Log.log("Debug canvas not supported in cocoon, creating canvas and context anyway", "#debug-canvas");
             }
@@ -1097,20 +1107,20 @@ var Kiwi;
             }
         };
         /**
-        * Clears the debug canvas and fills with either the color passed.
-        * If not colour is passed then Red at 20% opacity is used.
+        * Clear the debug canvas and fill with the color passed.
+        * If no color is passed, then Red at 20% opacity is used.
         *
         * @method clearDebugCanvas
-        * @param [color="rgba(255,0,0,0.2)"] {string} The debug color to rendering on the debug canvas.
+        * @param [color="rgba( 255, 0, 0, 0.2 )"] {string} The debug color to rendering on the debug canvas.
         * @public
         */
         Stage.prototype.clearDebugCanvas = function (color) {
-            this.dctx.fillStyle = color || "rgba(255,0,0,.2)";
+            this.dctx.fillStyle = color || "rgba( 255, 0, 0, 0.2 )";
             this.dctx.clearRect(0, 0, this.width, this.height);
             this.dctx.fillRect(0, 0, this.width, this.height);
         };
         /**
-        * Toggles the visibility of the debug canvas.
+        * Toggle the visibility of the debug canvas.
         * @method toggleDebugCanvas
         * @public
         */
@@ -1118,7 +1128,7 @@ var Kiwi;
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
         /**
-        * Handles the scaling/sizing based upon the scaleType property.
+        * Handle the scaling/sizing based upon the scaleType property.
         * @method _scaleContainer
         * @private
         */
@@ -1131,7 +1141,7 @@ var Kiwi;
                     this.container.style.maxWidth = "";
                     this.container.style.minWidth = "";
                 }
-                // To Fit or STRETCH 
+                // To Fit or STRETCH
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
                     this.container.style.minWidth = "100%";
                     this.container.style.maxWidth = "100%";
@@ -1168,10 +1178,9 @@ var Kiwi;
         };
         Object.defineProperty(Stage.prototype, "visibility", {
             /**
-            * A flag indicating if the page is currently visible
-            * (using the Visiblity API).
+            * Whether the page is currently visible (via the Visiblity API).
             * If the Visiblity API is unsupported this will remain set to true
-            * regardless of focus / blur events.
+            * regardless of focus/blur events.
             *
             * @property visibility
             * @type boolean
@@ -1190,7 +1199,7 @@ var Kiwi;
             configurable: true
         });
         /**
-        * Fired when the page visibility changes, or the page focus/blur
+        * Fire when the page visibility changes, or the page focus/blur
         * events fire. In charge of firing the appropriate signals.
         *
         * @method _checkVisibility
@@ -1235,16 +1244,16 @@ var Kiwi;
                 document.addEventListener("msvisibilitychange", this._visibilityChange);
             }
             else {
-                // Not supported. 
+                // Not supported.
                 this._visibility = null;
             }
-            window.addEventListener('pageshow', this._visibilityChange);
-            window.addEventListener('pagehide', this._visibilityChange);
-            window.addEventListener('focus', this._visibilityChange);
-            window.addEventListener('blur', this._visibilityChange);
+            window.addEventListener("pageshow", this._visibilityChange);
+            window.addEventListener("pagehide", this._visibilityChange);
+            window.addEventListener("focus", this._visibilityChange);
+            window.addEventListener("blur", this._visibilityChange);
         };
         /**
-        * The default width of the stage.
+        * Default width of the stage
         * @property DEFAULT_WIDTH
         * @type number
         * @default 800
@@ -1253,7 +1262,7 @@ var Kiwi;
         */
         Stage.DEFAULT_WIDTH = 800;
         /**
-        * The default height of the stage.
+        * Default height of the stage
         * @property DEFAULT_HEIGHT
         * @type number
         * @default 600
@@ -1262,7 +1271,7 @@ var Kiwi;
         */
         Stage.DEFAULT_HEIGHT = 600;
         /**
-        * The default scaling method used on Kiwi Games.
+        * Default scaling method used on Kiwi Games.
         * This scaling method will set the container's width/height
         * to static values.
         *
@@ -1274,9 +1283,13 @@ var Kiwi;
         */
         Stage.SCALE_NONE = 0;
         /**
-        * Scale Fit will scale the stage's width to fit its parents width.
+        * SCALE_FIT will scale the stage's width to fit its parent's width.
         * The height is then calculated to maintain the aspect ratio of the
         * width/height of the Stage.
+        *
+        * In CocoonJS, it still maintains aspect ratio, but keeps the
+        * entire game stage on the screen.
+        *
         * @property SCALE_FIT
         * @type number
         * @default 1
@@ -1285,7 +1298,7 @@ var Kiwi;
         */
         Stage.SCALE_FIT = 1;
         /**
-        * Stretch will make the stage scale to fit its parents width/height
+        * Stretch will make the stage scale to fit its parent's width/height
         * (by using max/min height of 100%).
         * If the parent doesn't have a height set then the height will be
         * the height of the stage.
@@ -1795,13 +1808,17 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Used to handle the creation and management of Cameras on a Game. Each Game will always have created for it a CameraManager and a default Camera on the manager.
-    * Games currently only usupport the use of a single camera, the default camera. Much of this class has been written with future multiple camera support in mind.
+    * Used to handle the creation and management of Cameras on a `Game`.
+    * Each `Game` will create a `CameraManager` and a default `Camera`.
+    * Games currently only support the use of a single camera,
+    * the default camera `defaultCamera`.
+    * Much of this class has been written with future
+    * multiple camera support in mind.
     *
     * @class CameraManager
     * @namespace Kiwi
     * @constructor
-    * @param {Kiwi.Game} game
+    * @param game {Kiwi.Game} Current game
     * @return {Kiwi.CameraManager}
     */
     var CameraManager = (function () {
@@ -1811,16 +1828,19 @@ var Kiwi;
             this._nextCameraID = 0;
         }
         /**
-        * Returns the type of this object
+        * Return the type of this object.
+        *
         * @method objType
-        * @return {String} "CameraManager"
+        * @return {string} "CameraManager"
         * @public
         */
         CameraManager.prototype.objType = function () {
             return "CameraManager";
         };
         /**
-        * Initializes the CameraManager, creates a new camera and assigns it to the defaultCamera
+        * Initialize the `CameraManager`, creates a new `Camera`,
+        * and assigns it to `defaultCamera`.
+        *
         * @method boot
         * @public
         */
@@ -1829,26 +1849,28 @@ var Kiwi;
             this.defaultCamera = this._cameras[0];
         };
         /**
-        * Creates a new Camera and adds it to the collection of cameras.
-        * @param {String} name. The name of the new camera.
-        * @param {Number} x. The x position of the new camera.
-        * @param {Number} y. The y position of the new camera.
-        * @param {Number} width. The width of the new camera.
-        * @param {Number} height. The height of the new camera.
-        * @return {Kiwi.Camera} The new camera object.
+        * Create a new Camera and add it to the collection of cameras.
+        *
+        * @method create
+        * @param name {string} Name of the new camera
+        * @param x {number} Horizontal position of the new camera
+        * @param y {number} Vertical position of the new camera
+        * @param width {number} Width of the new camera
+        * @param height {number} Height of the new camera
+        * @return {Kiwi.Camera} The new camera object
         * @public
         */
         CameraManager.prototype.create = function (name, x, y, width, height) {
             var newCamera = new Kiwi.Camera(this._game, this._nextCameraID++, name, x, y, width, height);
-            //newCamera.parent = state;
             this._cameras.push(newCamera);
             return newCamera;
         };
         /**
-        * Removes the given camera, if it is present in the camera managers camera collection.
+        * Remove the given camera, if it is present in the camera collection.
+        *
         * @method remove
         * @param camera {Kiwi.Camera}
-        * @return {boolean} True if the camera was removed, false otherwise.
+        * @return {boolean} True if the camera was removed, false otherwise
         * @public
         */
         CameraManager.prototype.remove = function (camera) {
@@ -1861,7 +1883,8 @@ var Kiwi;
             return false;
         };
         /**
-        * Calls update on all the cameras.
+        * Call update on all the cameras.
+        *
         * @method update
         * @public
         */
@@ -1874,7 +1897,8 @@ var Kiwi;
             }
         };
         /**
-        * Calls the render method on all the cameras
+        * Call the render method on all the cameras.
+        *
         * @method render
         * @public
         */
@@ -1887,7 +1911,8 @@ var Kiwi;
             }
         };
         /**
-        * Removes all cameras in the camera Manager except the default camera. Does nothing if in multi camera mode.
+        * Remove all cameras in the camera Manager except the default camera.
+        *
         * @method removeAll
         * @public
         */
@@ -1895,7 +1920,8 @@ var Kiwi;
             this._cameras = [];
         };
         /**
-        * Returns all cameras to origin. Called when starting a new state.
+        * Return all cameras to origin. Called when starting a new state.
+        *
         * @method zeroAllCameras
         * @public
         * @since 1.1.0
@@ -1907,7 +1933,8 @@ var Kiwi;
             this.zeroCamera(this.defaultCamera);
         };
         /**
-        * Returns camera to origin.
+        * Return camera to origin.
+        *
         * @method zeroCamera
         * @param camera {Kiwi.Camera}
         * @public
@@ -4371,14 +4398,16 @@ var Kiwi;
         Group.prototype.destroy = function (immediate, destroyChildren) {
             if (immediate === void 0) { immediate = false; }
             if (destroyChildren === void 0) { destroyChildren = true; }
-            if (!this.onState)
+            if (!this.onState) {
                 immediate = true;
+            }
             this._exists = false;
             this._active = false;
             this._visible = false;
             if (immediate === true) {
-                if (this._tempRemoveChildren !== null)
+                if (this._tempRemoveChildren !== null) {
                     destroyChildren = this._tempRemoveChildren;
+                }
                 if (destroyChildren == true) {
                     for (var i = 0; i < this.members.length; i++) {
                         this.members[i].destroy(true);
@@ -4387,13 +4416,16 @@ var Kiwi;
                 else {
                     this.removeChildren();
                 }
-                if (this.parent !== null)
+                if (this.parent !== null) {
                     this.parent.removeChild(this);
-                if (this.state)
+                }
+                if (this.state) {
                     this.state.removeFromTrackingList(this);
-                delete this.transform;
-                if (this.components)
+                }
+                if (this.components) {
                     this.components.removeAll();
+                }
+                delete this.transform;
                 delete this.components;
                 delete this.game;
                 delete this.state;
@@ -4420,16 +4452,18 @@ var __extends = this.__extends || function (d, b) {
 var Kiwi;
 (function (Kiwi) {
     /**
-    * A State in Kiwi.JS is the main class that developers use when wanting to create a Game.
-    * States in Kiwi are used keep different sections of a game seperated. So a single game maybe comprised of many different States.
-    * Such as one for the menu, in-game, leaderboard, e.t.c.
+    * A `State` is the main class used to create a game.
+    * States in Kiwi are used to keep different sections of a game separated.
+    * A single game may be comprised of many different States,
+    * such as one for the menu, in-game, leaderboard, e.t.c.
     * There can only ever be a single State active at a given time.
     *
     * @class State
     * @namespace Kiwi
     * @extends Kiwi.Group
     * @constructor
-    * @param name {String} Name of this State. Should be unique to differentiate itself from other States.
+    * @param name {string} Name of this State.
+    *	Should be unique to differentiate itself from other States.
     * @return {Kiwi.State}
     */
     var State = (function (_super) {
@@ -4437,7 +4471,7 @@ var Kiwi;
         function State(name) {
             _super.call(this, null, name);
             /**
-            * A reference to the Kiwi.Game that this State belongs to.
+            * A reference to the `Kiwi.Game` that this `State` belongs to.
             * @property game
             * @type Kiwi.Game
             * @public
@@ -4451,7 +4485,7 @@ var Kiwi;
         /**
         * Returns the type of object this state is.
         * @method objType
-        * @return {String} "State"
+        * @return {string} "State"
         * @public
         */
         State.prototype.objType = function () {
@@ -4460,15 +4494,18 @@ var Kiwi;
         /**
         * Returns the type of child this is.
         * @method childType
-        * @return {Number} Kiwi.GROUP
+        * @return {number} Kiwi.GROUP
         * @public
         */
         State.prototype.childType = function () {
             return Kiwi.GROUP;
         };
         /**
-        * This method is executed when this State is about to be switched too. This is the first method to be executed, and happens before the Init method.
-        * Is called each time a State is switched to.
+        * Boot up the state in preparation for switching into it.
+        * This is the first method to be executed,
+        * and happens before the `init` method.
+        * Is called each time a `State` is switched to.
+        * It should not be necessary to call this method.
         * @method boot
         * @public
         */
@@ -4494,11 +4531,15 @@ var Kiwi;
         *--------------
         */
         /**
-        * Gets executed when the state has been initalised and gets switched to for the first time.
-        * This method only ever gets called once and it is before the preload method.
-        * Can have parameters passed to it by the previous state that switched to it.
+        * Overrideable method.
+        *
+        * Gets executed when the state has been initalised
+        * and gets switched to for the first time.
+        * This method only ever gets called once, before the preload method.
+        * Can have parameters passed to it by the previous state.
+        *
         * @method init
-        * @param [values] { Any }
+        * @param [values] {Any}
         * @public
         */
         State.prototype.init = function () {
@@ -4508,7 +4549,10 @@ var Kiwi;
             }
         };
         /**
-        * This method is where you would load of all the assets that are requried for this state or in the entire game.
+        * Overrideable method.
+        *
+        * This method is where you load of all the assets required
+        * for this state or in the entire game.
         *
         * @method preload
         * @public
@@ -4516,25 +4560,39 @@ var Kiwi;
         State.prototype.preload = function () {
         };
         /**
-        * This method is progressively called whilst loading files and is executed each time a file has been loaded.
-        * This can be used to create a 'progress' bar during the loading stage of a game.
+        * Overrideable method.
+        *
+        * This method is progressively called while loading files,
+        * and is executed each time a file has been loaded.
+        * This can be used to create a progress bar
+        * during the loading stage of a game.
+        *
         * @method loadProgress
-        * @param percent {Number} The percent of files that have been loaded so far. This is a number from 0 - 1.
-        * @param bytesLoaded {Number} The number of bytes that have been loaded so far.
-        * @param file {Kiwi.Files.File} The last file to have been loaded.
+        * @param percent {number} The percent of files that have been loaded
+        *	so far. This is a number from 0 to 1.
+        * @param bytesLoaded {number} Number of bytes loaded so far
+        * @param file {Kiwi.Files.File} Last file to have been loaded
         * @public
         */
         State.prototype.loadProgress = function (percent, bytesLoaded, file) {
         };
         /**
-        * Gets executed when the game is finished loading and it is about to 'create' the state.
+        * Overrideable method.
+        *
+        * Executes when the game finishes loading and is about to `create`
+        * the state.
+        *
         * @method loadComplete
         * @public
         */
         State.prototype.loadComplete = function () {
         };
         /**
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.loadUpdate.call( this )`.
+        *
         * The game loop that gets executed while the game is loading.
+        *
         * @method loadUpdate
         * @public
         */
@@ -4546,7 +4604,11 @@ var Kiwi;
             }
         };
         /**
-        * Is executed once all of the assets have loaded and the game is ready to be 'created'.
+        * Overrideable method.
+        *
+        * Is executed once all of the assets have loaded
+        * and the game is ready to be created.
+        *
         * @method create
         * @param [values]* {Any}
         * @public
@@ -4558,7 +4620,11 @@ var Kiwi;
             }
         };
         /**
-        * Is called every frame before the update loop. When overriding make sure you include a super call.
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.preUpdate.call( this )`.
+        *
+        * Is called every frame before the update loop.
+        *
         * @method preUpdate
         * @public
         */
@@ -4566,7 +4632,14 @@ var Kiwi;
             this.components.preUpdate();
         };
         /**
-        * The update loop that is executed every frame while the game is 'playing'. When overriding make sure you include a super call too.
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.update.call( this )`.
+        *
+        * Executed every frame while the state is current.
+        * Updates state members and children.
+        *
+        * Generally, this is where the game runs.
+        *
         * @method update
         * @public
         */
@@ -4584,8 +4657,11 @@ var Kiwi;
             }
         };
         /**
+        * Extendable method. You may write your own, but it must call this
+        * via `Kiwi.State.prototype.postUpdate.call( this )`.
+        *
         * The post update loop is executed every frame after the update method.
-        * When overriding make sure you include a super call at the end of the method.
+        *
         * @method postUpdate
         * @public
         */
@@ -4593,14 +4669,22 @@ var Kiwi;
             this.components.postUpdate();
         };
         /**
-        * Called after all of the layers have rendered themselves, useful for debugging.
+        * Overrideable method.
+        *
+        * Called after all of the members have rendered themselves.
+        * Useful for debugging.
+        *
         * @method postRender
         * @public
         */
         State.prototype.postRender = function () {
         };
         /**
-        * Called just before this State is going to be Shut Down and another one is going to be switched too.
+        * Overrideable method.
+        *
+        * Called just before this `State` is going to be shut down,
+        * and the game switches to another `State`.
+        *
         * @method shutDown
         * @public
         */
@@ -4612,16 +4696,21 @@ var Kiwi;
         *--------------
         */
         /**
-        * Adds a new image file that is be loaded when the state gets up to the loading all of the assets.
+        * Add a new image file to be loaded when the state loads assets.
         *
         * @method addImage
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param url {String} The location of the image.
-        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
-        * @param [width] {Number} The width of the image. If not passed the width will be automatically calculated.
-        * @param [height] {Number} The height of the image. If not passed the height will be automatically calculated.
-        * @param [offsetX] {Number} The offset of the image when rendering on the x axis.
-        * @param [offsetY] {Number} The offset of the image when rendering on the y axis.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the image
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
+        * @param [width] {number} Width of the image. If not passed,
+        *	the width will be automatically calculated.
+        * @param [height] {number} Height of the image. If not passed,
+        *	the height will be automatically calculated.
+        * @param [offsetX] {number} Horizontal offset of the image
+        * @param [offsetY] {number} Vertical offset of the image
         * @public
         */
         State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
@@ -4629,21 +4718,32 @@ var Kiwi;
             return this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
         };
         /**
-        * Adds a new spritesheet image file that is be loaded when the state gets up to the loading all of the assets.
+        * Add a new spritesheet image file to be loaded when the state loads
+        * assets.
         *
         * @method addSpriteSheet
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param url {String} The location of the image.
-        * @param frameWidth {Number} The width of a single frame in the spritesheet
-        * @param frameHeight {Number} The height of a single frame in the spritesheet
-        * @param [storeAsGlobal=true] {boolean} If the image should be deleted when switching to another state or if the other states should still be able to access this image.
-        * @param [numCells] {Number} The number of cells/frames that are in the spritesheet. If not specified will calculate this based of the width/height of the image.
-        * @param [rows] {Number} The number of cells that are in a row. If not specified will calculate this based of the width/height of the image.
-        * @param [cols] {Number} The number of cells that are in a column. If not specified will calculate this based of the width/height of the image.
-        * @param [sheetOffsetX=0] {Number} The offset of the whole spritesheet on the x axis.
-        * @param [sheetOffsetY=0] {Number} The offset of the whole spritesheet on the y axis.
-        * @param [cellOffsetX=0] {Number} The spacing between cells on the x axis.
-        * @param [cellOffsetY=0] {Number} The spacing between cells on the y axis.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the image
+        * @param frameWidth {number} Width of a single frame in the spritesheet
+        * @param frameHeight {number} Height of a single frame in the
+        *	spritesheet
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
+        * @param [numCells] {number} Number of cells/frames in the spritesheet.
+        *	If not specified, will calculate this based on the
+        *	width/height of the image.
+        * @param [rows] {number} Number of cells in a row. If not specified,
+        *	will calculate this based of the width/height of the image.
+        * @param [cols] {number} Number of cells in a column. If not specified,
+        *	will calculate this based of the width/height of the image.
+        * @param [sheetOffsetX=0] {number} Horizontal offset of the whole
+        *	spritesheet
+        * @param [sheetOffsetY=0] {number} Vertical offset of the whole
+        *	spritesheet
+        * @param [cellOffsetX=0] {number} Horizontal spacing between cells
+        * @param [cellOffsetY=0] {number} Vertical spacing between cells
         * @public
         */
         State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
@@ -4651,14 +4751,19 @@ var Kiwi;
             return this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
         };
         /**
-        * Adds a new texture atlas that is to be loaded when the states gets up to the stage of loading the assets.
+        * Add a new texture atlas to be loaded when the state loads assets.
         *
         * @method addTextureAtlas
-        * @param key {String} A key for this image so that you can access it when the loading has finished.
-        * @param imageURL {String} The location of the image.
-        * @param [jsonID] {String} The id for the json file that is to be loaded. So that you can access it outside of the texture atlas.
-        * @param [jsonURL] {String} The location of the json file you have loaded.
-        * @param [storeAsGlobal=true] {boolean} If the image should be delete when switching to another state or if the other states should still be able to access this image.
+        * @param key {string} Key for this image so that you can access it
+        *	when the loading has finished
+        * @param imageURL {string} Location of the image.
+        * @param [jsonID] {string} Key for the JSON file,
+        *	so that you can access it outside of the texture atlas
+        * @param [jsonURL] {string} Location of the JSON file describing the
+        *	atlas
+        * @param [storeAsGlobal=true] {boolean} Whether the image should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         * @public
         */
         State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
@@ -4666,12 +4771,15 @@ var Kiwi;
             return this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
         };
         /**
-        * Adds a json file that is to be loaded when the state gets up to the stage of loading the assets.
+        * Add a JSON file to be loaded when the state loads assets.
         *
         * @method addJSON
-        * @param key {string} A key for this json so that you can access it when the loading has finished
-        * @param url {string} The location of the JSON file.
-        * @param [storeAsGlobal=true] {boolean} If the json should be deleted when switching to another state or if the other states should still be able to access this json.
+        * @param key {string} Key for this JSON so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the JSON file
+        * @param [storeAsGlobal=true] {boolean} Whether the JSON should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         * @public
         */
         State.prototype.addJSON = function (key, url, storeAsGlobal) {
@@ -4679,51 +4787,58 @@ var Kiwi;
             return this.game.loader.addJSON(key, url, storeAsGlobal);
         };
         /**
-        * Adds a new audio file that is to be loaded when the state gets up to the stage of loading the assets.
+        * Add a new audio file to be loaded when the state loads assets.
         *
         * @method addAudio
-        * @param key {string} A key for this audio so that you can access it when the loading has finished
-        * @param url {string} The location of the audio file. You can pass a array of urls, in which case the first supported filetype will be used.
-        * @param [storeAsGlobal=true] {boolean} If the audio should be deleted when switching to another state or if the other states should still be able to access this audio.
+        * @param key {string} Key for this audio so that you can access it
+        *	when the loading has finished
+        * @param url {string} Location of the audio file.
+        *	You can pass an array of urls, in which case the first supported
+        *	filetype will be used.
+        * @param [storeAsGlobal=true] {boolean} Whether the audio should be
+        *	retained as a global asset after this state is destroyed,
+        *	or it should also be destroyed
         */
         State.prototype.addAudio = function (key, url, storeAsGlobal) {
             if (storeAsGlobal === void 0) { storeAsGlobal = true; }
             return this.game.loader.addAudio(key, url, storeAsGlobal);
         };
         /**
-        * Adds a new Objects to the tracking list.
-        * This is an INTERNAL Kiwi method and DEVS shouldn't need to worry about it.
+        * Add a new object to the tracking list.
+        * This is an internal KiwiJS method and game devs
+        * shouldn't need to worry about it.
         * @method addToTrackingList
-        * @param child {Object} The Object which you are adding to the tracking list.
+        * @param child {object} Object to add to the tracking list.
         * @public
         */
         State.prototype.addToTrackingList = function (child) {
-            //check to see that its not already in the tracking list.
-            if (this._trackingList.indexOf(child) !== -1)
+            if (this._trackingList.indexOf(child) !== -1) {
                 return;
-            //add to the list
+            }
             this._trackingList.push(child);
         };
         /**
-        * Removes a Object from the tracking list. This should only need to happen when a child is being destroyed.
-        * This is an INTERNAL Kiwi method and DEVS shouldn't really need to worry about it.
+        * Remove an object from the tracking list.
+        * This should only need to happen when a child is destroyed.
+        * This is an internal Kiwi method and game devs
+        * shouldn't really need to worry about it.
         * @method removeFromTrackingList
-        * @param child {Object} The object which is being removed from the tracking list.
+        * @param child {object} The object which is being removed from the tracking list.
         * @public
         */
         State.prototype.removeFromTrackingList = function (child) {
-            //check to see that it is in the tracking list.
             var n = this._trackingList.indexOf(child);
             if (n > -1) {
                 this._trackingList.splice(n, 1);
             }
         };
         /**
-        * Destroys all of Objects in the tracking list that are not currently on stage.
-        * All that currently don't have this STATE as an ancestor.
-        * Returns the number of Objects removed.
+        * Destroys all objects in the tracking list that are
+        * not currently on stage.
+        * All that currently don't have this `State` as an ancestor.
+        * Returns the number of objects removed.
         * @method destroyUnused
-        * @return {Number} The amount of objects removed.
+        * @return {number} Amount of objects removed
         * @public
         */
         State.prototype.destroyUnused = function () {
@@ -4739,30 +4854,46 @@ var Kiwi;
             return d;
         };
         /**
-        * Used to mark all Entities that have been created for deletion, regardless of it they are on the stage or not.
+        * Used to mark all Entities that have been created for deletion,
+        * regardless of whether they are on the stage or not.
+        *
         * @method destroy
-        * @param [deleteAll=true] If all of the Objects ever created should have the destroy method executed also.
+        * @param [deleteAll=true] If all of the Objects ever created should
+        *	have the destroy method executed also.
         * @public
         */
         State.prototype.destroy = function (deleteAll) {
             if (deleteAll === void 0) { deleteAll = true; }
             if (deleteAll == true) {
                 while (this._trackingList.length > 0) {
-                    //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
+                    // Don't destroy group children,
+                    // as they're also on the tracking list
+                    // and we'll get to them soon enough
                     this._trackingList[0].destroy(true, false);
                 }
                 this._trackingList = [];
                 while (this.members.length > 0) {
-                    //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
-                    this.members[0].destroy(true, false);
+                    // Do destroy group children,
+                    // as we'll never visit them again
+                    this.members[0].destroy(true, true);
                 }
                 this.members = [];
             }
+            // This method can't call super,
+            // as `Kiwi.Group.prototype.destroy` will delete
+            // permanent properties and prevent the game from
+            // successfully switching back to this state.
+            // Partial duplicate functionality:
+            if (this.components) {
+                this.components.removeAll();
+            }
         };
         /**
-        * Recursively goes through a child given and runs the destroy method on all that are passed.
+        * Recursively destroys a child and all its children.
+        *
         * @method _destroyChildren
-        * @param child {Object}
+        * @param child {object}
+        * @deprecated As of v1.4.1. This is never called.
         * @private
         */
         State.prototype._destroyChildren = function (child) {
@@ -4785,35 +4916,34 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * A Camera is used to render a particular section of the game world on the stage. Each Camera has a coordinates which are held in the transform property, and a width/height. Note: This class should never be directly instantiated but instead should be made through a CameraManager's 'create' method.
+    * A `Camera` is used to render a particular section of the game world
+    * on the stage. Each `Camera` has coordinates which are held in the
+    * `transform` property, and `width`/`height` properties.
+    *
+    * Note: This class may be directly instantiated, but if you want
+    * your camera registered in a `CameraManager`, you should use
+    * `CameraManager.create()` instead.
+    *
+    * A default camera is created as `game.cameras.defaultCamera`.
     *
     * @class Camera
     * @namespace Kiwi
     * @constructor
-    * @param game {Kiwi.Game} The game that this camera belongs to.
-    * @param id {Number} A unique ID for this camera
-    * @param name {String} The name this camera goes by
-    * @param x {Number} The x coordinate of the camera
-    * @param y {Number} The y coordinate of the camera
-    * @param width {Number} The width of the camera
-    * @param height {Number} The cameras height
+    * @param game {Kiwi.Game} Game that this camera belongs to.
+    * @param id {number} Unique ID for this camera
+    * @param name {string} Name for this camera
+    * @param x {number} Horizontal coordinate of the camera
+    * @param y {number} Vertical coordinate of the camera
+    * @param width {number} Width of the camera
+    * @param height {number} Height of the camera
     * @return {Kiwi.Camera}
     *
     */
     var Camera = (function () {
         function Camera(game, id, name, x, y, width, height) {
-            /**
-            * If true then the camera will be resized to fit the stage when the stage is resized
-            * @property fitToStage
-            * @type boolean
-            * @default true
-            * @public
-            */
-            this.fitToStage = true;
             this._game = game;
             this.id = id;
             this.name = name;
-            //size could autoresize to fit stage
             this.width = width;
             this.height = height;
             this.transform = new Kiwi.Geom.Transform(x, y);
@@ -4821,30 +4951,36 @@ var Kiwi;
             this.transform.rotPointY = y + height / 2;
             this._game.stage.onResize.add(this._updatedStageSize, this);
             this._scratchMatrix = new Kiwi.Geom.Matrix();
+            this.fitToStage = true;
         }
         /**
-        * The type of object this is.
+        * Return the type of object that this is.
+        *
         * @method objType
-        * @return {String} "Camera"
+        * @return {string} "Camera"
         * @public
         */
         Camera.prototype.objType = function () {
             return "Camera";
         };
         /**
-        * Updates the width/height of this camera. Is used when the stage resizes.
+        * Update the width/height of this camera when the stage resizes.
+        *
         * @method _updatedStageSize
-        * @param width {Number} The new width of the camera.
-        * @param height {Number} The new height of the camera.
+        * @param width {number} New width of the camera.
+        * @param height {number} New height of the camera.
         * @private
         */
         Camera.prototype._updatedStageSize = function (width, height) {
-            this.width = width;
-            this.height = height;
+            if (this.fitToStage) {
+                this.width = width;
+                this.height = height;
+            }
         };
         Object.defineProperty(Camera.prototype, "visible", {
             /**
-            * Controls whether this Camera is rendered.
+            * Controls whether this Camera is rendered
+            *
             * @property visible
             * @type boolean
             * @public
@@ -4860,7 +4996,9 @@ var Kiwi;
         });
         Object.defineProperty(Camera.prototype, "dirty", {
             /**
-            * A value used by components to control if the camera needs re-rendering.
+            * A value used by components
+            * to control if the camera needs re-rendering.
+            *
             * @property dirty
             * @type boolean
             * @public
@@ -4880,6 +5018,7 @@ var Kiwi;
         * Apply this camera's inverted matrix to an object with x and y
         * properties representing a point and return the transformed point.
         * Useful for calculating coordinates with the mouse.
+        *
         * @method transformPoint
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -4897,6 +5036,7 @@ var Kiwi;
         * Convert from world coordinates to screen coordinates.
         * Useful for assessing visibility.
         * Similar to "transformPoint", but in reverse.
+        *
         * @method transformPointToScreen
         * @param point {Kiwi.Geom.Point}
         * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
@@ -8357,28 +8497,37 @@ var Kiwi;
     var Components;
     (function (Components) {
         /**
-        * The Input Component is used on GameObjects in which the user may interactive with via a Mouse or Touch
-        * and as such this class contains useful methods and callbacks you can subscribe to.
-        * By default the Input component is disabled (this is because when enabled the input component can be process intensive)
-        * but you can enabled it yourself (which is recommened) BUT in case you forget the input component will automagically
-        * be enabled once you access a Signal on this class.
+        * `Input` adds interaction to `GameObjects` via `Mouse` and/or `Touch`.
+        * Callbacks and methods are supplied to ease interaction.
+        *
+        * By default, `Input` components are disabled, as they are process
+        * intensive. You may enable input by calling `enabled = true`.
+        * Alternatively, the game will automagically enable input
+        * once you access any `Signal`. Be careful when enumerating
+        * properties on this component, and be prepared to disable
+        * input again.
+        *
+        * `GameObjects.Sprite` comes with an `Input` component.
+        * Other `GameObjects` do not.
         *
         * @class Input
         * @extends Kiwi.Component
         * @namespace Kiwi.Components
         * @constructor
-        * @param owner {Object} The Object that this Component is on. Generally this will be a Entity.
-        * @param box {Kiwi.Components.Box} The box which contains the worldHitbox that is to be used for the event firing.
-        * @param [enabled=false] {boolean} If this input component should be enabled or not.
+        * @param owner {Object} Object, generally `Entity`, to own this
+        *	input component
+        * @param box {Kiwi.Components.Box} Box which contains the `worldHitbox`
+        *	used for input detection
+        * @param [enabled=false] {boolean} Whether to enable this component
         * @return {Kiwi.Components.Input}
         */
         var Input = (function (_super) {
             __extends(Input, _super);
             function Input(owner, box, enabled) {
                 if (enabled === void 0) { enabled = false; }
-                _super.call(this, owner, 'Input');
+                _super.call(this, owner, "Input");
                 /**
-                * A reference to the pointer that is currently 'dragging' this Object.
+                * Reference to the pointer that is currently "dragging" this Object.
                 * If not dragging then this is null.
                 * @property _isDragging
                 * @type Kiwi.Input.Pointer
@@ -8387,7 +8536,7 @@ var Kiwi;
                 */
                 this._isDragging = null;
                 /**
-                * Indicates if dragging is currently enabled.
+                * Whether dragging is currently enabled.
                 * @property _dragEnabled
                 * @type boolean
                 * @default false
@@ -8395,7 +8544,8 @@ var Kiwi;
                 */
                 this._dragEnabled = false;
                 /**
-                * If when dragging, the IChild should snap to the center of the pointer it is being dragged by.
+                * Whether, when dragging, the IChild should snap to the center
+                * of the pointer it is being dragged by.
                 * @property _dragSnapToCenter
                 * @type boolean
                 * @default false
@@ -8403,7 +8553,9 @@ var Kiwi;
                 */
                 this._dragSnapToCenter = false;
                 /**
-                * Temporary property that gets updated everyframe with the pointer that is currently 'down' on this entity.
+                * Temporary property that gets updated every frame
+                * with the pointer that is currently down on this entity
+                *
                 * @property _nowDown
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8411,7 +8563,10 @@ var Kiwi;
                 */
                 this._nowDown = null;
                 /**
-                * Temporary property that gets updated everyframe with the pointer that was just 'released' from being down on this entity
+                * Temporary property that gets updated every frame
+                * with the pointer that was just released
+                * from being down on this entity
+                *
                 * @property _nowUp
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8419,7 +8574,9 @@ var Kiwi;
                 */
                 this._nowUp = null;
                 /**
-                * Temporary property of the pointer that is now within the bounds of the entity
+                * Temporary property of the pointer that is now
+                * within the bounds of the entity
+                *
                 * @property _nowEntered
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8427,7 +8584,9 @@ var Kiwi;
                 */
                 this._nowEntered = null;
                 /**
-                * Temporary property of the pointer that just left the bounds of the entity.
+                * Temporary property of the pointer that just
+                * left the bounds of the entity
+                *
                 * @property _nowLeft
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8435,7 +8594,9 @@ var Kiwi;
                 */
                 this._nowLeft = null;
                 /**
-                * Temporary property of the pointer that just started draggging the entity.
+                * Temporary property of the pointer that just
+                * started dragging the entity
+                *
                 * @property _nowDragging
                 * @type Kiwi.Input.Pointer
                 * @default null
@@ -8474,16 +8635,21 @@ var Kiwi;
             };
             Object.defineProperty(Input.prototype, "onEntered", {
                 /**
-                * Returns the onEntered Signal, that fires events when a pointer enters the hitbox of a entity.
+                * Fires callbacks when a pointer is active
+                * and has entered the entity's hitbox.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onEntered
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onEntered;
                 },
                 enumerable: true,
@@ -8491,16 +8657,21 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onLeft", {
                 /**
-                * Returns the onLeft Signal, that fires events when a pointer leaves the hitbox of a entity.
+                * Fires callbacks when a pointer is active
+                * and has left the entity's hit box.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onLeft
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onLeft;
                 },
                 enumerable: true,
@@ -8508,16 +8679,21 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onDown", {
                 /**
-                * Returns the onDown Signal, that fires events when a pointer is pressed within the bounds of the signal.
+                * Fires callbacks when a pointer is active
+                * and just pressed down on the entity.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onDown
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onDown;
                 },
                 enumerable: true,
@@ -8525,16 +8701,22 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onUp", {
                 /**
-                * Returns the onUp Signal, that fires events when a pointer is released either within the bounds or was pressed initially within the bounds..
+                * Fires callbacks when a pointer just released,
+                * either directly above the entity,
+                * or after having been pressed down above the entity.
+                *
                 * Note: Accessing this signal enables the input.
+                *
                 * This is READ ONLY.
+                *
                 * @property onUp
                 * @type Kiwi.Signal
                 * @public
                 */
                 get: function () {
-                    if (this.enabled == false)
+                    if (this.enabled == false) {
                         this.enabled = true;
+                    }
                     return this._onUp;
                 },
                 enumerable: true,
@@ -8542,8 +8724,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onDragStarted", {
                 /**
-                * Returns the onDragStarted Signal.
+                * Fires callbacks when the entity starts being dragged.
+                *
                 * This is READ ONLY.
+                *
                 * @property onDragStarted
                 * @type Kiwi.Signal
                 * @public
@@ -8556,8 +8740,11 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onDragStopped", {
                 /**
-                * Returns the onDragStopped Signal.
+                * Fires callbacks when the entity stops being dragged,
+                * such as on release.
+                *
                 * This is READ ONLY.
+                *
                 * @property onDragStopped
                 * @type Kiwi.Signal
                 * @public
@@ -8570,8 +8757,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onRelease", {
                 /**
-                * A alias for the on release signal.
+                * Alias for `onUp`.
+                *
                 * This is READ ONLY.
+                *
                 * @property onRelease
                 * @type Kiwi.Signal
                 * @public
@@ -8584,8 +8773,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "onPress", {
                 /**
-                * A alias for the on press signal.
+                * Alias for `onDown`.
+                *
                 * This is READ ONLY.
+                *
                 * @property onPress
                 * @type Kiwi.Signal
                 * @public
@@ -8598,7 +8789,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "enabled", {
                 /**
-                * Get if the input is enabled or not. Note: Inputs should only be enabled when needed, otherwise unnecessary processing does occur which can result in a slower game.
+                * Whether this input is enabled.
+                *
+                * Note: Inputs should only be enabled when needed,
+                * as they can use processing power and slow the game down.
                 * @property enabled
                 * @type boolean
                 * @public
@@ -8607,6 +8801,8 @@ var Kiwi;
                     return this._enabled;
                 },
                 set: function (val) {
+                    // Perhaps later the signals should only be set
+                    // if the input is enabled.
                     this._enabled = val;
                 },
                 enumerable: true,
@@ -8614,8 +8810,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "isDown", {
                 /**
-                * Used to see if a pointer is currently on this input. Returns a boolean indicating either true or false.
+                * Whether a pointer is currently on this input.
+                *
                 * This is READ ONLY.
+                *
                 * @property isDown
                 * @type boolean
                 * @public
@@ -8628,8 +8826,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "isUp", {
                 /**
-                * Used to see if no pointer is on this input (so it is up).
+                * Whether no pointer is on this input (so it is up).
+                *
                 * This is READ ONLY.
+                *
                 * @property isUp
                 * @type boolean
                 * @public
@@ -8642,8 +8842,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "withinBounds", {
                 /**
-                * Check to see if any pointer is within the bounds of this input.
+                * Whether any pointer is within the bounds of this entity.
+                *
                 * This is READ ONLY.
+                *
                 * @property withinBounds
                 * @type boolean
                 * @public
@@ -8656,8 +8858,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "outsideBounds", {
                 /**
-                * See if no pointers are within the bounds of this entity.
+                * Whether no pointers are within the bounds of this entity.
+                *
                 * This is READ ONLY.
+                *
                 * @property outsideBounds
                 * @type boolean
                 * @public
@@ -8670,8 +8874,10 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "isDragging", {
                 /**
-                * Returns a boolean indicating if this is currently dragging something.
+                * Whether this is currently dragging something.
+                *
                 * This is READ ONLY.
+                *
                 * @property isDragging
                 * @type boolean
                 * @public
@@ -8684,7 +8890,13 @@ var Kiwi;
             });
             Object.defineProperty(Input.prototype, "dragDistance", {
                 /**
-                * The drag distance that is used when dragging this object. See _dragDistance for more information.
+                * Used while dragging so that you can make the IChild "snap"
+                * to specific numbers to give a grid-like effect.
+                *
+                * E.g. If you had a 32 by 32 grid and you wanted to make an element
+                * draggable but snap to the grid you can set this to 32.
+                *
+                * Default value is 1.
                 * @property dragDistance
                 * @type number
                 * @public
@@ -8699,24 +8911,29 @@ var Kiwi;
                 configurable: true
             });
             /**
-            * Enables the dragging of this entity.
+            * Enable dragging of this entity.
+            *
             * @method enableDrag
-            * @param [snapToCenter=false] {boolean} If when dragging the Entity should snap to the center of the pointer.
-            * @param [distance=1] {number} If when dragging the Entity should snap to numbers divisible by this amount.
+            * @param [snapToCenter=false] {boolean} If when dragging the Entity
+            *	should snap to the center of the pointer
+            * @param [distance=1] {number} If when dragging the Entity
+            *	should snap to numbers divisible by this amount
             * @public
             */
             Input.prototype.enableDrag = function (snapToCenter, distance) {
                 if (snapToCenter === void 0) { snapToCenter = false; }
                 if (distance === void 0) { distance = 1; }
-                if (this.enabled == false)
+                if (this.enabled == false) {
                     this.enabled = true;
+                }
                 this._dragEnabled = true;
                 this._dragSnapToCenter = snapToCenter;
                 this._dragDistance = distance;
                 this._isDragging = null;
             };
             /**
-            * Disables the dragging of this entity.
+            * Disable dragging of this entity.
+            *
             * @method disableDrag
             * @public
             */
@@ -8725,7 +8942,7 @@ var Kiwi;
                 this._isDragging = null;
             };
             /**
-            * The update loop for the input.
+            * Update loop for the input.
             * @method update
             * @protected
             */
@@ -8739,14 +8956,14 @@ var Kiwi;
                 this._nowEntered = null;
                 this._nowLeft = null;
                 this._nowDragging = null;
-                //Use the appropriate method of checking.
+                // Use the appropriate method of checking.
                 if (Kiwi.DEVICE.touch) {
                     this._updateTouch();
                 }
                 else {
                     this._updateMouse();
                 }
-                //If the entity is dragging.
+                // If the entity is dragging.
                 if (this.isDragging) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
                     if (this._dragSnapToCenter === false) {
@@ -8760,13 +8977,13 @@ var Kiwi;
                 }
             };
             /**
-            * The update loop that gets executed when the game is using the touch manager.
+            * Update loop executed when the game is using the touch manager.
             * @method _updateTouch
             * @private
             */
             Input.prototype._updateTouch = function () {
                 for (var i = 0; i < this.game.input.touch.maximumPointers; i++) {
-                    //if that pointer is active then see where it is
+                    // If the pointer is active then see where it is
                     if (this.game.input.touch.fingers[i].active === true) {
                         this._evaluateTouchPointer(this.game.input.touch.fingers[i]);
                     }
@@ -8777,7 +8994,7 @@ var Kiwi;
                         this._nowUp = this.game.input.touch.fingers[i];
                     }
                 }
-                //Fire the events. LOTS OF CONDITIONS
+                // Fire the events. LOTS OF CONDITIONS
                 if (this._nowEntered !== null && this.withinBounds === false) {
                     this._withinBounds = this._nowEntered;
                     this._outsideBounds = false;
@@ -8805,7 +9022,7 @@ var Kiwi;
                     this._isUp = true;
                     this._withinBounds = null;
                     this._outsideBounds = true;
-                    //dispatch drag event
+                    // Dispatch drag event
                     if (this.isDragging === true && this._isDragging.id == this._nowUp.id) {
                         this._isDragging = null;
                         this._onDragStopped.dispatch(this.owner, this._nowUp);
@@ -8813,13 +9030,13 @@ var Kiwi;
                 }
             };
             /**
-            * A private method for checking to see if a touch pointer should activate any events.
+            * Check to see if a touch pointer should activate any events.
             * @method _evaluateTouchPointer
-            * @param pointer {Kiwi.Input.Finger} The pointer you are checking against.
+            * @param pointer {Kiwi.Input.Finger} Pointer checking against
             * @private
             */
             Input.prototype._evaluateTouchPointer = function (pointer) {
-                //if nothing isdown or what is down is the current pointer
+                // If nothing is down or what is down is the current pointer
                 if (this.isDown === false || this._isDown.id === pointer.id) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(pointer.point);
                     this._tempCircle.setTo(this._tempPoint.x, this._tempPoint.y, pointer.circle.diameter);
@@ -8847,13 +9064,14 @@ var Kiwi;
                 }
             };
             /**
-            * The update loop that runs when the mouse manager is the method for interacting with the screen.
+            * Update loop that runs when the mouse manager is
+            * the method for interacting with the screen.
             * @method _updateMouse
             * @private
             */
             Input.prototype._updateMouse = function () {
                 this._evaluateMousePointer(this.game.input.mouse.cursor);
-                //dispatch the events
+                // Dispatch the events
                 if (this._nowLeft !== null) {
                     this._onLeft.dispatch(this.owner, this._nowLeft);
                 }
@@ -8881,7 +9099,8 @@ var Kiwi;
                 }
             };
             /**
-            * Evaluates where and what the mouse cursor is doing in relation to this box. Needs a little bit more love.
+            * Evaluates where and what the mouse cursor is doing
+            * in relation to this box.
             * @method _evaluateMousePointer
             * @param pointer {Kiwi.Input.MouseCursor}
             * @private
@@ -8911,7 +9130,7 @@ var Kiwi;
                 }
                 //  Input is down (click/touch)
                 if (pointer.isDown === true) {
-                    //if is was a mouse, did it just enter?
+                    // If it was a mouse, did it just enter?
                     if (this._justEntered) {
                         this._isDown = pointer;
                         this._isUp = false;
@@ -8928,18 +9147,20 @@ var Kiwi;
                     }
                 }
                 else {
-                    if (this._tempDragDisabled === true)
+                    if (this._tempDragDisabled === true) {
                         this._tempDragDisabled = false;
+                    }
                     if (this.isDown === true) {
                         this._nowUp = pointer;
                     }
                 }
-                if (this._justEntered)
+                if (this._justEntered) {
                     this._justEntered = false;
+                }
             };
             /**
-            * Destroys the input.
-            * @method destory
+            * Destroy the input.
+            * @method destroy
             * @public
             */
             Input.prototype.destroy = function () {
@@ -8950,23 +9171,29 @@ var Kiwi;
                 delete this._isUp;
                 delete this._isDragging;
                 delete this._dragEnabled;
-                if (this._onDown)
+                if (this._onDown) {
                     this._onDown.dispose();
+                }
                 delete this._onDown;
-                if (this._onDragStarted)
+                if (this._onDragStarted) {
                     this._onDragStarted.dispose();
+                }
                 delete this._onDragStarted;
-                if (this._onUp)
+                if (this._onUp) {
                     this._onUp.dispose();
+                }
                 delete this._onUp;
-                if (this._onLeft)
+                if (this._onLeft) {
                     this._onLeft.dispose();
+                }
                 delete this._onLeft;
-                if (this._onEntered)
+                if (this._onEntered) {
                     this._onEntered.dispose();
+                }
                 delete this._onEntered;
-                if (this._onDragStopped)
+                if (this._onDragStopped) {
                     this._onDragStopped.dispose();
+                }
                 delete this._onDragStopped;
                 delete this._dragDistance;
             };
@@ -14827,17 +15054,16 @@ var Kiwi;
                 * @public
                 */
                 TweenManager.prototype.update = function () {
-                    var i = 0, numTweens = this._tweens.length;
+                    var i = 0;
                     if (this._tweens.length === 0) {
                         return false;
                     }
-                    while (i < numTweens) {
+                    while (i < this._tweens.length) {
                         if (this._tweens[i].update(this.clock.elapsed() * 1000)) {
                             i++;
                         }
                         else {
                             this._tweens.splice(i, 1);
-                            numTweens--;
                         }
                     }
                     return true;
@@ -15350,28 +15576,32 @@ var Kiwi;
     var Renderers;
     (function (Renderers) {
         /**
+        * Manager for rendering in Canvas mode.
         *
         * @class CanvasRenderer
         * @constructor
         * @namespace Kiwi.Renderers
         * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
         * @return {Kiwi.Renderes.CanvasRenderer}
-        *
         */
         var CanvasRenderer = (function () {
             function CanvasRenderer(game) {
                 this.numDrawCalls = 0;
                 this._game = game;
+                this._camMatrix = new Kiwi.Geom.Matrix();
             }
             /**
-            * The boot method is executed when all of the DOM elements that are needed to play the game are ready.
+            * Boot method is executed when all of the DOM elements
+            * that are needed to play the game are ready
+            *
             * @method boot
             * @public
             */
             CanvasRenderer.prototype.boot = function () {
             };
             /**
-            * Returns the type of object that this is.
+            * Return the type of object that this is.
+            *
             * @method objType
             * @return {String} "CanvasRenderer"
             * @public
@@ -15380,19 +15610,22 @@ var Kiwi;
                 return "CanvasRenderer";
             };
             /**
-            * This method recursively goes through a State's members and runs the render method of each member that is a Entity.
-            * If it is a Group then this method recursively goes through that Groups members the process that happened to the State's members happens to the Group's members.
+            * Recursively go through a `State`'s members and
+            * run the `render` method of each member that is a `Entity`.
+            * If it is a `Group`, then this method recursively goes through
+            * that `Group`'s members in the same way.
             *
             * @method _recurse
-            * @param child {object} The child that is being checked.
+            * @param child {object} Child being checked
             * @private
             */
             CanvasRenderer.prototype._recurse = function (child) {
+                var i;
                 // Do not render non-visible objects or their children
                 if (!child.visible)
                     return;
                 if (child.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < child.members.length; i++) {
+                    for (i = 0; i < child.members.length; i++) {
                         this._recurse(child.members[i]);
                     }
                 }
@@ -15401,7 +15634,7 @@ var Kiwi;
                     child.render(this._currentCamera);
                 }
             };
-            //for gl compatibility - refactor me
+            // TODO for gl compatibility - refactor me
             CanvasRenderer.prototype.requestRendererInstance = function (rendererID, params) {
                 if (params === void 0) { params = null; }
                 return null;
@@ -15415,15 +15648,15 @@ var Kiwi;
             CanvasRenderer.prototype.endState = function (state) {
             };
             /**
-            * Renders all of the Elements that are on a particular camera.
+            * Render all of the Elements that are on a particular camera.
+            *
             * @method render
             * @param camera {Kiwi.Camera}
             * @public
             */
             CanvasRenderer.prototype.render = function (camera) {
-                var root = this._game.states.current.members;
-                //clear 
-                var fillCol = this._game.stage.rgbaColor;
+                var ct, i, fillCol = this._game.stage.rgbaColor, root = this._game.states.current.members;
+                // Clear stage
                 // If there is an alpha, clear the canvas before fill
                 if (fillCol.a < 255) {
                     this._game.stage.ctx.clearRect(0, 0, this._game.stage.canvas.width, this._game.stage.canvas.height);
@@ -15436,13 +15669,13 @@ var Kiwi;
                 }
                 this.numDrawCalls = 0;
                 this._currentCamera = camera;
-                //apply camera transform, accounting for rotPoint offsets
-                var cm = camera.transform.getConcatenatedMatrix();
-                var ct = camera.transform;
+                // Apply camera transform
                 this._game.stage.ctx.save();
-                this._game.stage.ctx.setTransform(cm.a, cm.b, cm.c, cm.d, cm.tx, cm.ty);
-                this._game.stage.ctx.transform(1, 0, 0, 1, -ct.rotPointX, -ct.rotPointY);
-                for (var i = 0; i < root.length; i++) {
+                ct = camera.transform;
+                this._camMatrix.setFromOffsetTransform(0, 0, ct.scaleX, ct.scaleY, ct.rotation, ct.anchorPointX, ct.anchorPointY);
+                this._game.stage.ctx.setTransform(this._camMatrix.a, this._camMatrix.b, this._camMatrix.c, this._camMatrix.d, this._camMatrix.tx, this._camMatrix.ty);
+                this._game.stage.ctx.transform(1, 0, 0, 1, ct.x - ct.anchorPointX, ct.y - ct.anchorPointY);
+                for (i = 0; i < root.length; i++) {
                     this._recurse(root[i]);
                 }
                 this._game.stage.ctx.restore();
@@ -15470,6 +15703,7 @@ var Kiwi;
         * Manages gl state at game initialisation, at state start and end,
         * and per frame.
         * Runs the recursive scene graph rendering sequence every frame.
+        *
         * @class GLRenderManager
         * @extends IRenderer
         * @constructor
@@ -15479,7 +15713,8 @@ var Kiwi;
         var GLRenderManager = (function () {
             function GLRenderManager(game) {
                 /**
-                * The renderer object that is in use during a rendering batch.
+                * Renderer object currently in use during a rendering batch
+                *
                 * @property _currentRenderer
                 * @type Kiwi.Renderers.Renderer
                 * @private
@@ -15487,6 +15722,7 @@ var Kiwi;
                 this._currentRenderer = null;
                 /**
                 * Tally of number of entities rendered per frame
+                *
                 * @property _entityCount
                 * @type number
                 * @default 0
@@ -15495,6 +15731,7 @@ var Kiwi;
                 this._entityCount = 0;
                 /**
                 * Tally of number of draw calls per frame
+                *
                 * @property numDrawCalls
                 * @type number
                 * @default 0
@@ -15503,7 +15740,8 @@ var Kiwi;
                 this.numDrawCalls = 0;
                 /**
                 * Maximum allowable sprites to render per frame.
-                * Note: Not currently used  - candidate for deletion
+                * Note: Not currently used - candidate for deletion
+                *
                 * @property _maxItems
                 * @type number
                 * @default 1000
@@ -15511,7 +15749,8 @@ var Kiwi;
                 */
                 this._maxItems = 1000;
                 /**
-                * The most recently bound texture atlas.
+                * Most recently bound texture atlas
+                *
                 * @property _currentTextureAtlas
                 * @type TextureAtlas
                 * @private
@@ -15530,7 +15769,9 @@ var Kiwi;
                 * can all use the same renderer/shader combination and be drawn as
                 * part of the same batch.
                 *
-                * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
+                * Custom gameobjects can also choose to use a shared renderer,
+                * for example in the case that a custom gameobject's
+                * rendering requirements matched the `TextureAtlasRenderer`
                 * capabilities.
                 *
                 * @property _sharedRenderers
@@ -15542,18 +15783,20 @@ var Kiwi;
                 this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, { mode: "DEFAULT" });
             }
             /**
-            * Initialises all WebGL rendering services
+            * Initialise all WebGL rendering services.
+            *
             * @method boot
             * @public
             */
             GLRenderManager.prototype.boot = function () {
                 this._textureManager = new Renderers.GLTextureManager();
                 this._shaderManager = new Kiwi.Shaders.ShaderManager();
-                //this.filters = new Kiwi.Filters.GLFilterManager(this._game, this._shaderManager);
+                //this.filters = new Kiwi.Filters.GLFilterManager( this._game, this._shaderManager );
                 this._init();
             };
             /**
-            * The type of object that this is.
+            * Return the type of object that this is.
+            *
             * @method objType
             * @return {string} "GLRenderManager"
             * @public
@@ -15562,17 +15805,19 @@ var Kiwi;
                 return "GLRenderManager";
             };
             /**
-            * Adds a texture to the Texture Manager.
+            * Add a texture to the Texture Manager.
+            *
             * @method addTexture
-            * @param {WebGLRenderingContext} gl
-            * @param {Kiwi.Textures.TextureAtlas} atlas
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
             * @public
             */
             GLRenderManager.prototype.addTexture = function (gl, atlas) {
                 this._textureManager.uploadTexture(gl, atlas);
             };
             /**
-            * Removes a texture from the Texture Manager.
+            * Remove a texture from the Texture Manager.
+            *
             * @method removeTexture
             * @param {WebGLRenderingContext} gl
             * @param {Kiwi.Textures.TextureAtlas} atlas
@@ -15583,12 +15828,13 @@ var Kiwi;
                 this._textureManager.removeTexture(gl, atlas);
             };
             /**
-            * Adds a renderer to the sharedRenderer array.
+            * Add a renderer to the sharedRenderer array.
             *
             * The rendererID is a string that must match a renderer property
             * of the Kiwi.Renderers object. If a match is found and an instance
             * does not already exist, then a renderer is instantiated and added
             * to the array.
+            *
             * @method addSharedRenderer
             * @param {string} rendererID
             * @param {object} params
@@ -15597,9 +15843,9 @@ var Kiwi;
             */
             GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
                 if (params === void 0) { params = null; }
-                //does renderer exist?
+                // Does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
-                    //already added?
+                    // Already added?
                     if (!(rendererID in this._sharedRenderers)) {
                         this._sharedRenderers[rendererID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                         return true;
@@ -15608,7 +15854,7 @@ var Kiwi;
                 return false;
             };
             /**
-            * Adds a cloned renderer to the sharedRenderer array.
+            * Add a cloned renderer to the sharedRenderer array.
             * The rendererID is a string that must match a renderer property of
             * the Kiwi.Renderers object. The cloneID is the name for the
             * cloned renderer.
@@ -15636,9 +15882,9 @@ var Kiwi;
                 if (typeof params === "undefined") {
                     params = null;
                 }
-                //does renderer exist?
+                // Does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
-                    //already added?
+                    // Already added?
                     if (!(cloneID in this._sharedRenderers)) {
                         this._sharedRenderers[cloneID] = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
                         return true;
@@ -15647,9 +15893,10 @@ var Kiwi;
                 return false;
             };
             /**
-            * Requests a shared renderer. A game object that wants to use a shared
+            * Request a shared renderer. A game object that wants to use a shared
             * renderer uses this method to obtain a reference to the shared
             * renderer instance.
+            *
             * @method requestSharedRenderer
             * @param {string} rendererID
             * @param {object} params
@@ -15668,20 +15915,21 @@ var Kiwi;
                         return this._sharedRenderers[rendererID];
                     }
                     else {
-                        Kiwi.Log.log("No renderer called " + rendererID, '#renderer', '#webgl');
+                        Kiwi.Log.log("No renderer called " + rendererID, "#renderer", "#webgl");
                     }
                 }
                 //failed request
                 return null;
             };
             /**
-            * Requests a new renderer instance. This factory method is the only
+            * Request a new renderer instance. This factory method is the only
             * way gameobjects should instantiate their own renderer.
             *
             * The rendererID is a string that must match a renderer property
             * of the Kiwi.Renderers object. If a match is found then a renderer
             * is instantiated and returned. Gameobjects which have rendering
             * requirements that do not suit batch rendering use this technique.
+            *
             * @method requestRendererInstance
             * @param {string} rendererID The name of the requested renderer
             * @param {object} params
@@ -15695,7 +15943,7 @@ var Kiwi;
                     return renderer;
                 }
                 else {
-                    Kiwi.Log.log("No renderer with id " + rendererID + " exists", '#renderer', '#webgl');
+                    Kiwi.Log.log("No renderer with id " + rendererID + " exists", "#renderer", "#webgl");
                 }
                 return null; //fail
             };
@@ -15704,22 +15952,23 @@ var Kiwi;
                 return this._filtersEnabled;
             }
     
-            public set filtersEnabled(val: boolean) {
+            public set filtersEnabled( val: boolean ) {
                 this._filtersEnabled = val;
             }
     
             private _filtersEnabled: boolean = false;
-            
+    
             /**
             * Performs initialisation required for single game instance -
             * happens once, at bootup. Sets global GL state.
             * Initialises managers for shaders and textures.
-            * Instantiates the default shared renderer (`TextureAtlasRenderer`)
+            * Instantiates the default shared renderer (`TextureAtlasRenderer`).
+            *
             * @method _init
             * @private
             */
             GLRenderManager.prototype._init = function () {
-                Kiwi.Log.log("Initialising WebGL", '#renderer', '#webgl');
+                Kiwi.Log.log("Initialising WebGL", "#renderer", "#webgl");
                 var gl = this._game.stage.gl;
                 //init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
@@ -15737,13 +15986,14 @@ var Kiwi;
                 this._shaderManager.init(gl, "TextureAtlasShader");
                 //camera matrix
                 this.camMatrix = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
-                this._camMatrixOffset = new Kiwi.Geom.Matrix();
+                this._camMatrix = new Kiwi.Geom.Matrix();
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
-                    if (this.currentRenderer)
+                    if (this.currentRenderer) {
                         this._currentRenderer.updateStageResolution(gl, this._stageResolution);
-                    //this.filters.updateFilterResolution(gl,width, height);
+                    }
+                    //this.filters.updateFilterResolution( gl, width, height );
                     // Manually override scaling under CocoonJS
                     if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                         this.scaleViewport(gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight);
@@ -15752,16 +16002,18 @@ var Kiwi;
                         this.scaleViewport(gl, Kiwi.Stage.SCALE_NONE, width, height);
                     }
                 }, this);
-                /* if (this.filtersEnabled && !this.filters.isEmpty) {
-                    this.filters.enableFrameBuffers(gl);
+                /* if ( this.filtersEnabled && !this.filters.isEmpty ) {
+                    this.filters.enableFrameBuffers( gl );
                 }*/
             };
             /**
             * Scales the viewport according to a scale mode and space dimensions.
             *
-            * This is used internally for compatibility with CocoonJS and should not be called.
+            * This is used internally for compatibility with CocoonJS
+            * and should not be called.
+            *
             * @method scaleViewport
-            * @param gl {WebGLRenderingContext}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
             * @param mode {number} Scale mode; should be either
             *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
             *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
@@ -15808,6 +16060,7 @@ var Kiwi;
             * Called when a state has been switched to.
             * The textureManager is told to clear its contents from video memory,
             * then rebuild its cache of textures from the state's texture library.
+            *
             * @method initState
             * @public
             */
@@ -15819,19 +16072,21 @@ var Kiwi;
             * Performs cleanup required before switching to a different state.
             * Called whwn a state is about to be switched from.
             * The textureManager is told to empty its cache.
+            *
             * @method endState
             * @param state {Kiwi.State}
             * @public
             */
             GLRenderManager.prototype.endState = function (state) {
                 this._textureManager.clearTextures(this._game.stage.gl);
-                Kiwi.Log.log("Ending WebGL on State", '#renderer', '#webgl');
+                Kiwi.Log.log("Ending WebGL on State", "#renderer", "#webgl");
             };
             /**
             * Manages rendering of the scene graph - called once per frame.
             * Sets up per frame gl uniforms such as the view matrix and
             * camera offset. Clears the current renderer ready for a new batch.
             * Initiates recursive render of scene graph starting at the root.
+            *
             * @method render
             * @param camera {Camera}
             * @public
@@ -15845,9 +16100,9 @@ var Kiwi;
                 // blendfunc: ONE, ONE_MINUS_SRC_ALPHA is most common, and gives
                 // bad results with alphas. When this is used on a partially
                 // transparent game canvas, it does not blend correctly.
-                // Without being able to override the browser's own object renderer,
+                // Without being able to override the browser's own renderer,
                 // this is a necessary kludge. The "clean" solution is as follows:
-                // gl.clearColor(col.r, col.g, col.b, col.a);
+                // `gl.clearColor( col.r, col.g, col.b, col.a );`
                 gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 // Reset current renderer.
@@ -15862,23 +16117,21 @@ var Kiwi;
                 this.numDrawCalls = 0;
                 this._textureManager.numTextureWrites = 0;
                 this._entityCount = 0;
-                // Set cam matrix uniform
-                var cm = camera.transform.getConcatenatedMatrix();
+                // Set cam matrix data.
                 var ct = camera.transform;
-                this._camMatrixOffset.identity();
-                this._camMatrixOffset.translate(-ct.anchorPointX, -ct.anchorPointY);
-                this._camMatrixOffset.prependMatrix(cm);
+                this._camMatrix.setFromOffsetTransform(0, 0, ct.scaleX, ct.scaleY, ct.rotation, ct.anchorPointX, ct.anchorPointY);
+                this._camMatrix.append(1, 0, 0, 1, ct.x - ct.anchorPointX, ct.y - ct.anchorPointY);
                 // Overwrite cam matrix properties rather than recreating matrix.
                 // This is necessary to keep the cam matrix synchronised
                 // with other renderers: if there is only one render batch,
                 // then `enable` will only pass the cam matrix on the first frame,
-                // and subsequent camera movements will not be passed to the shader.
-                this.camMatrix[0] = this._camMatrixOffset.a;
-                this.camMatrix[1] = this._camMatrixOffset.b;
-                this.camMatrix[3] = this._camMatrixOffset.c;
-                this.camMatrix[4] = this._camMatrixOffset.d;
-                this.camMatrix[6] = this._camMatrixOffset.tx;
-                this.camMatrix[7] = this._camMatrixOffset.ty;
+                // so subsequent camera movements will not be passed to the shader.
+                this.camMatrix[0] = this._camMatrix.a;
+                this.camMatrix[1] = this._camMatrix.b;
+                this.camMatrix[3] = this._camMatrix.c;
+                this.camMatrix[4] = this._camMatrix.d;
+                this.camMatrix[6] = this._camMatrix.tx;
+                this.camMatrix[7] = this._camMatrix.ty;
                 // Mandate blend mode in CocoonJS
                 // This must be called per-frame, because CocoonJS seems to
                 // interfere with blend modes on a per-frame basis.
@@ -15888,14 +16141,15 @@ var Kiwi;
                 this.collateRenderSequence();
                 this.collateBatches();
                 this.renderBatches(gl, camera);
-                /*if (this._filtersEnabled && !this.filters.isEmpty) {
-                    this.filters.applyFilters(gl);
-                    gl.useProgram(this._shaderManager.currentShader.shaderProgram);
-                    gl.bindTexture(gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture);
+                /*if ( this._filtersEnabled && !this.filters.isEmpty ) {
+                    this.filters.applyFilters( gl );
+                    gl.useProgram( this._shaderManager.currentShader.shaderProgram );
+                    gl.bindTexture( gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture );
                 }*/
             };
             /**
-            * Creates a new render sequence
+            * Create a new render sequence.
+            *
             * @method collateRenderSequence
             * @public
             */
@@ -15905,17 +16159,19 @@ var Kiwi;
                 this.collateChild(root);
             };
             /**
-            * Adds a child to the render sequence
-            * (may be a group with children of its own).
+            * Add a child to the render sequence
+            * (may be a group with children of its own ).
+            *
             * @method collateChild
             * @public
             */
             GLRenderManager.prototype.collateChild = function (child) {
+                var i;
                 // Do not render non-visible objects or their children
                 if (!child.visible)
                     return;
                 if (child.childType() === Kiwi.GROUP) {
-                    for (var i = 0; i < child.members.length; i++) {
+                    for (i = 0; i < child.members.length; i++) {
                         this.collateChild(child.members[i]);
                     }
                 }
@@ -15931,8 +16187,9 @@ var Kiwi;
                 }
             };
             /**
-            * Sorts the render sequence into batches.
+            * Sort the render sequence into batches.
             * Each batch requires the same renderer/shader/texture combination.
+            *
             * @method collateBatches
             * @public
             */
@@ -15944,7 +16201,7 @@ var Kiwi;
                 var batchIndex;
                 for (var i = 0; i < this._sequence.length; i++) {
                     if (!this._sequence[i].isBatchRenderer || this._sequence[i].renderer !== currentRenderer || this._sequence[i].shader !== currentShader || this._sequence[i].texture !== currentTexture) {
-                        //create a new batch
+                        // Create a new batch
                         var batchIndex = this._batches.push(new Array()) - 1;
                         currentRenderer = this._sequence[i].renderer;
                         currentShader = this._sequence[i].shader;
@@ -15954,47 +16211,56 @@ var Kiwi;
                 }
             };
             /**
-            * Renders all the batches
+            * Render all the batches.
+            *
             * @method renderBatches
-            * @param {WebGLRenderingContext} gl
-            * @param {Kiwi.Camera} camera
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param camera {Kiwi.Camera} Currently rendering camera
             * @public
             */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
-                for (var i = 0; i < this._batches.length; i++)
+                for (var i = 0; i < this._batches.length; i++) {
                     this.renderBatch(gl, this._batches[i], camera);
+                }
             };
             /**
-            * Renders a single batch
+            * Render a single batch.
+            *
             * @method renderBatch
-            * @param {WebGLRenderingContext} gl
-            * @param {object} batch
-            * @param {Kiwi.Camera} camera
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param batch {object} Batch to render
+            * @param camera {Kiwi.Camera} Currently rendering camera
             * @public
             */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
                 // Acquire renderer
                 var rendererSwitched = false;
-                if (batch[0].entity.glRenderer !== this._currentRenderer) {
+                if (batch[0].renderer !== this._currentRenderer) {
                     rendererSwitched = true;
                     this._switchRenderer(gl, batch[0].entity);
                 }
                 // Clear renderer for fresh data
                 this._currentRenderer.clear(gl, { camMatrix: this.camMatrix });
-                for (var i = 0; i < batch.length; i++)
+                for (var i = 0; i < batch.length; i++) {
                     batch[i].entity.renderGL(gl, camera);
+                }
                 // Upload textures
-                if (batch[0].entity.atlas !== this._currentTextureAtlas || batch[0].entity.atlas.dirty || (rendererSwitched && batch[0].entity.atlas == this._currentTextureAtlas))
-                    this._switchTexture(gl, batch[0].entity);
+                if (batch[0].texture !== this._currentTextureAtlas || batch[0].texture.dirty || (rendererSwitched && batch[0].texture == this._currentTextureAtlas)) {
+                    batch[0].texture.enableGL(gl, this._currentRenderer, this._textureManager);
+                }
                 // Manage blend mode
-                // We must always apply BlendMode under CocoonJS, because some (but not all) operations on other canvases may silently change the blend mode and not change it back.
-                if (!this._currentBlendMode.isIdentical(batch[0].entity.glRenderer.blendMode) || this._currentBlendMode.dirty || this._game.deviceTargetOption === Kiwi.TARGET_COCOON)
-                    this._switchBlendMode(gl, batch[0].entity.glRenderer.blendMode);
+                // We must always apply BlendMode under CocoonJS, because some
+                // (but not all) operations on other canvases may
+                // silently change the blend mode and not change it back.
+                if (!this._currentBlendMode.isIdentical(batch[0].renderer.blendMode) || this._currentBlendMode.dirty || this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
+                    this._switchBlendMode(gl, batch[0].renderer.blendMode);
+                }
                 // Render
                 this._currentRenderer.draw(gl);
             };
             /**
-            * Calls the render function on a single entity
+            * Call the render function on a single entity.
+            *
             * @method renderEntity
             * @param {WebGLRenderingContext} gl
             * @param {Kiwi.Entity} entity
@@ -16003,50 +16269,68 @@ var Kiwi;
             * @deprecated Used internally; should not be called from external functions
             */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
-                this.renderBatch(gl, [entity], camera);
+                this.renderBatch(gl, [{
+                    entity: entity,
+                    renderer: entity.glRenderer,
+                    shader: entity.glRenderer.shaderPair,
+                    isBatchRenderer: entity.glRenderer.isBatchRenderer,
+                    texture: entity.atlas
+                }], camera);
             };
             /**
-            * Ensures the atlas and renderer needed for a batch is setup
+            * Ensure the atlas and renderer needed for a batch is setup.
+            *
             * @method setupGLState
             * @param {WebGLRenderingContext} gl
             * @public
             * @deprecated Used internally; should not be called from external functions.
             */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
-                if (entity.atlas !== this._currentTextureAtlas)
+                if (entity.atlas !== this._currentTextureAtlas) {
                     this._switchTexture(gl, entity);
-                if (entity.glRenderer !== this._currentRenderer)
+                }
+                if (entity.glRenderer !== this._currentRenderer) {
                     this._switchRenderer(gl, entity);
+                }
             };
             /**
-            * Switch renderer to the one needed by the entity that needs rendering
+            * Switch renderer to the one needed by the entity that needs rendering.
+            *
             * @method _switchRenderer
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Kiwi.Entity}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param entity {Kiwi.Entity} Entity demanding the switch
             * @private
             */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
-                if (this._currentRenderer)
+                if (this._currentRenderer) {
                     this._currentRenderer.disable(gl);
+                }
                 this._currentRenderer = entity.glRenderer;
-                this._currentRenderer.enable(gl, { camMatrix: this.camMatrix, stageResolution: this._stageResolution });
+                this._currentRenderer.enable(gl, {
+                    camMatrix: this.camMatrix,
+                    stageResolution: this._stageResolution
+                });
             };
             /**
-            * Switch texture to the one needed by the entity that needs rendering
+            * Switch texture to the one needed by the entity that needs rendering.
+            *
             * @method _switchTexture
-            * @param gl {WebGLRenderingContext}
-            * @param entity {Kiwi.Entity}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param entity {Kiwi.Entity} Entity demanding the switch
             * @private
+            * @deprecated As of 1.4.1, we use a better method.
+            *	We probably shouldn't be passing an entity to a texture method.
             */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
                 this._currentTextureAtlas = entity.atlas;
                 entity.atlas.enableGL(gl, this._currentRenderer, this._textureManager);
             };
             /**
-            * Switch blend mode to a new set of constants
+            * Switch blend mode to a new set of constants.
+            *
             * @method _switchBlendMode
-            * @param gl {WebGLRenderingContext}
-            * @param blendMode {Kiwi.Renderers.GLBlendMode}
+            * @param gl {WebGLRenderingContext} Canvas rendering context
+            * @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
             * @private
             * @since 1.1.0
             */
@@ -34704,7 +34988,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.4.0";
+    Kiwi.VERSION = "1.4.1";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.
