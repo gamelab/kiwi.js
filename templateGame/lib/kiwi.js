@@ -10723,6 +10723,8 @@ var Kiwi;
                         params.state = p.state;
                     if (p.tags)
                         params.tags = p.tags;
+                    if (p.crossOrigin)
+                        params.crossOrigin = p.crossOrigin;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10789,6 +10791,8 @@ var Kiwi;
                         params.state = p.state;
                     if (p.tags)
                         params.tags = p.tags;
+                    if (p.crossOrigin)
+                        params.crossOrigin = p.crossOrigin;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -10855,6 +10859,10 @@ var Kiwi;
                     jsonParams.url = p.jsonURL;
                     textureParams.metadata.jsonID = jsonParams.key;
                     jsonParams.metadata.imageID = textureParams.key;
+                    if (p.crossOrigin) {
+                        textureParams.crossOrigin = p.crossOrigin;
+                        jsonParams.crossOrigin = p.crossOrigin;
+                    }
                     if (p.state) {
                         textureParams.state = p.state;
                         jsonParams.state = p.state;
@@ -10994,6 +11002,8 @@ var Kiwi;
                         params.state = p.state;
                     if (p.tags)
                         params.tags = p.tags;
+                    if (p.crossOrigin)
+                        params.crossOrigin = p.crossOrigin;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -11031,6 +11041,8 @@ var Kiwi;
                         params.state = p.state;
                     if (p.tags)
                         params.tags = p.tags;
+                    if (p.crossOrigin)
+                        params.crossOrigin = p.crossOrigin;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -11068,6 +11080,8 @@ var Kiwi;
                         params.state = p.state;
                     if (p.tags)
                         params.tags = p.tags;
+                    if (p.crossOrigin)
+                        params.crossOrigin = p.crossOrigin;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {
@@ -11105,6 +11119,8 @@ var Kiwi;
                         params.state = p.state;
                     if (p.tags)
                         params.tags = p.tags;
+                    if (p.crossOrigin)
+                        params.crossOrigin = p.crossOrigin;
                 }
                 else {
                     if (!storeAsGlobal && this.game.states.current) {

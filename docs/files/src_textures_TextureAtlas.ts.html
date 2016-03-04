@@ -509,7 +509,12 @@ module Kiwi.Textures {
 			return this._type;
 		}
 		
-
+		/**
+		* Link to this atlas WebGL TextureWrapper counterpart which handles uploading the texture. 
+		* @property glTextureWrapper
+		* @type Kiwi.Renderers.GLTextureWrapper
+		* @public
+		*/
 		public glTextureWrapper: Kiwi.Renderers.GLTextureWrapper;
 
 		/**
@@ -531,6 +536,22 @@ module Kiwi.Textures {
 			textureManager.registerTextureWrapper( gl, this.glTextureWrapper );
 		}
 
+		/**
+		* Disposes of the GLTextureWrapper. 
+		* @method removeGLTextureWrapper
+		* @param gl {WebGLRenderingContext} The rendering context.
+		* @param textureManager {Kiwi.Renderers.GLTextureManager} The texture manager.
+		* @public
+		* @since 1.4.1
+		*/
+		public removeGLTextureWrapper( gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager ) {
+			if( this.glTextureWrapper ) {
+				textureManager.deregisterTextureWrapper(gl, this.glTextureWrapper);
+				this.glTextureWrapper.dispose();
+				delete this.glTextureWrapper;
+			}
+
+		}
 
 		/**
 		* Sends the texture to the video card.

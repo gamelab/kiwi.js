@@ -446,7 +446,9 @@ module Kiwi.Files {
 		protected _load() {
 			this.attemptCounter++;
 
-			if (this.useTagLoader) {
+			if (this.game.audio.noAudio) {
+				this.loadError(&quot;Audio is not supported. Skipping audio loading&quot;);
+			} else if (this.useTagLoader) {
 				this.tagLoader();
 			} else {
 				this.xhrLoader(&#x27;GET&#x27;, &#x27;arraybuffer&#x27;);

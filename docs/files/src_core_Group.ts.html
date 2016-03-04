@@ -474,6 +474,23 @@ module Kiwi {
 		}
 
 		/**
+		* Indicates whether or not this entity is attached to the state.
+		* @property onState
+		* @public
+		* @since 1.4.1
+		*/
+		public get onState(): boolean {
+			if (this.parent) {
+				if (this.parent.objType() === &quot;State&quot;) {
+					return true;
+				} else {
+					return this.parent.onState;
+				}
+			}
+			return false;
+		}
+
+		/**
 		* The X coordinate of this group. This is just aliased to the transform property.
 		* @property x
 		* @type Number
@@ -1608,6 +1625,8 @@ module Kiwi {
 		}
 
 
+
+
 		/**
 		* ---------------
 		* Tagging System
@@ -1689,6 +1708,8 @@ module Kiwi {
 		* @public
 		*/
 		public destroy(immediate:boolean = false, destroyChildren:boolean = true) {
+
+			if (!this.onState) immediate = true;
 			
 			this._exists = false;
 			this._active = false

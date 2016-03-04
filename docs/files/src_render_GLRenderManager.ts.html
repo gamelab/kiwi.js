@@ -535,6 +535,18 @@ module Kiwi.Renderers {
 		}
 
 		/**
+		* Removes a texture from the Texture Manager.
+		* @method removeTexture
+		* @param {WebGLRenderingContext} gl
+		* @param {Kiwi.Textures.TextureAtlas} atlas
+		* @since 1.4.1
+		* @Public
+		*/
+		public removeTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas) {
+			this._textureManager.removeTexture(gl, atlas);
+		}
+
+		/**
 		* An array of renderers.
 		*
 		* Shared renderers are used for batch rendering.

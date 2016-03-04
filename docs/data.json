@@ -13124,6 +13124,19 @@
         {
             "file": "src\\core\\Entity.ts",
             "line": 77,
+            "description": "Indicates whether or not this entity is attached to the state.",
+            "itemtype": "property",
+            "name": "onState",
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Entity",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Entity.ts",
+            "line": 94,
             "description": "X coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "x",
@@ -13136,7 +13149,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 90,
+            "line": 107,
             "description": "Y coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "y",
@@ -13149,7 +13162,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 104,
+            "line": 121,
             "description": "X coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.",
             "itemtype": "property",
             "name": "worldX",
@@ -13163,7 +13176,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 115,
+            "line": 132,
             "description": "Y coordinate of this Entity in world space; that is, after inheriting parent transforms. This is just aliased to the transform property. Property is READ-ONLY.",
             "itemtype": "property",
             "name": "worldY",
@@ -13177,7 +13190,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 126,
+            "line": 143,
             "description": "Scale X of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleX",
@@ -13190,7 +13203,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 139,
+            "line": 156,
             "description": "Scale Y coordinate of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "scaleY",
@@ -13203,7 +13216,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 153,
+            "line": 170,
             "description": "Scale both axes of this Entity. This is just aliased to the transform property. This is WRITE-ONLY.",
             "itemtype": "property",
             "name": "scale",
@@ -13217,7 +13230,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 164,
+            "line": 181,
             "description": "Rotation of this Entity. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "rotation",
@@ -13230,7 +13243,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 177,
+            "line": 194,
             "description": "The rotation point on the x-axis. This is just aliased to the rotPointX on the transform object.",
             "itemtype": "property",
             "name": "rotPointX",
@@ -13243,7 +13256,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 190,
+            "line": 207,
             "description": "The rotation point on the y-axis. This is just aliased to the rotPointY on the transform object.",
             "itemtype": "property",
             "name": "rotPointY",
@@ -13256,7 +13269,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 203,
+            "line": 220,
             "description": "The anchor point on the x-axis. This is just aliased to the rotPointX on the transform object.",
             "itemtype": "property",
             "name": "anchorPointX",
@@ -13270,7 +13283,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 217,
+            "line": 234,
             "description": "The anchor point on the y-axis. This is just aliased to the rotPointY on the transform object.",
             "itemtype": "property",
             "name": "anchorPointY",
@@ -13284,7 +13297,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 231,
+            "line": 248,
             "description": "Returns the type of child that this is.",
             "type": "Number",
             "return": {
@@ -13299,7 +13312,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 241,
+            "line": 258,
             "description": "The alpha of this entity.",
             "itemtype": "property",
             "name": "_alpha",
@@ -13312,7 +13325,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 249,
+            "line": 266,
             "description": "Alpha of this entity. A number between 0 (invisible) and 1 (completely visible).",
             "itemtype": "property",
             "name": "alpha",
@@ -13325,7 +13338,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 265,
+            "line": 282,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -13339,7 +13352,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 274,
+            "line": 291,
             "description": "Set the visibility of this entity. True or False.",
             "itemtype": "property",
             "name": "visible",
@@ -13353,7 +13366,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 288,
+            "line": 305,
             "description": "The width of the entity in pixels, pre-transform.\n\nTo obtain the actual width, multiply width by scaleX.",
             "itemtype": "property",
             "name": "width",
@@ -13367,7 +13380,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 299,
+            "line": 316,
             "description": "The height of the entity in pixels, pre-transform.\n\nTo obtain the actual height, multiply height by scaleY.",
             "itemtype": "property",
             "name": "height",
@@ -13381,7 +13394,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 310,
+            "line": 327,
             "description": "Scale to desired width, preserving aspect ratio. This function changes the scale, not the width. If the width changes, for example, as part of an animation sequence, the Entity will retain the new scale.",
             "itemtype": "method",
             "name": "scaleToWidth",
@@ -13401,7 +13414,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 321,
+            "line": 338,
             "description": "Scale to desired height, preserving aspect ratio. This function changes the scale, not the height. If the height changes, for example, as part of an animation sequence, the Entity will retain the new scale.",
             "itemtype": "method",
             "name": "scaleToHeight",
@@ -13421,7 +13434,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 332,
+            "line": 349,
             "description": "Center the anchor point. Moves the anchor point (rotPointX and Y) to precisely halfway along the width and height properties of this Entity.",
             "itemtype": "method",
             "name": "centerAnchorPoint",
@@ -13434,7 +13447,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 343,
+            "line": 360,
             "description": "The texture atlas that is to be used on this entity.",
             "itemtype": "property",
             "name": "atlas",
@@ -13447,7 +13460,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 351,
+            "line": 368,
             "description": "Holds the current cell that is being used by the entity.",
             "itemtype": "property",
             "name": "_cellIndex",
@@ -13461,7 +13474,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 360,
+            "line": 377,
             "description": "Used as a reference to a single Cell in the atlas that is to be rendered. \n\nE.g. If you had a spritesheet with 3 frames/cells and you wanted the second frame to be displayed you would change this value to 1",
             "itemtype": "property",
             "name": "cellIndex",
@@ -13475,7 +13488,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 392,
+            "line": 409,
             "description": "The Component Manager",
             "itemtype": "property",
             "name": "components",
@@ -13488,7 +13501,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 400,
+            "line": 417,
             "description": "The game this Entity belongs to",
             "itemtype": "property",
             "name": "game",
@@ -13501,7 +13514,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 408,
+            "line": 425,
             "description": "The state this Entity belongs to (either the current game state or a persistent world state)",
             "itemtype": "property",
             "name": "state",
@@ -13514,7 +13527,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 416,
+            "line": 433,
             "description": "A unique identifier for this Entity within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -13527,7 +13540,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 424,
+            "line": 441,
             "description": "A name for this Entity. This is not checked for uniqueness within the Game, but is very useful for debugging",
             "itemtype": "property",
             "name": "name",
@@ -13541,7 +13554,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 433,
+            "line": 450,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "_exists",
@@ -13554,7 +13567,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 441,
+            "line": 458,
             "description": "Toggles the existence of this Entity. An Entity that no longer exists can be garbage collected or re-allocated in a pool.",
             "itemtype": "property",
             "name": "exists",
@@ -13567,7 +13580,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 454,
+            "line": 471,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -13581,7 +13594,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 464,
+            "line": 481,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTag",
@@ -13601,7 +13614,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 483,
+            "line": 500,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -13621,7 +13634,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 499,
+            "line": 516,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -13645,7 +13658,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 520,
+            "line": 537,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -13659,7 +13672,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 529,
+            "line": 546,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -13672,7 +13685,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 543,
+            "line": 560,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -13688,7 +13701,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 553,
+            "line": 570,
             "description": "Toggles if this Entity will be rendered.",
             "itemtype": "property",
             "name": "willRender",
@@ -13704,7 +13717,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 568,
+            "line": 585,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)",
             "itemtype": "property",
             "name": "_inputEnabled",
@@ -13719,7 +13732,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 577,
+            "line": 594,
             "description": "Controls if this Entity is input enabled or not (i.e. responds to touch/mouse events)\nThis method should be over-ridden to handle specific game object implementations.",
             "itemtype": "property",
             "name": "inputEnabled",
@@ -13734,7 +13747,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 592,
+            "line": 609,
             "description": "The clock that this entity use's for time based calculations. This generated by the state on instatiation.",
             "itemtype": "property",
             "name": "_clock",
@@ -13747,7 +13760,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 600,
+            "line": 617,
             "description": "The Clock used to update this all of this Entities components (defaults to the Game MasterClock)",
             "itemtype": "property",
             "name": "clock",
@@ -13760,7 +13773,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 613,
+            "line": 630,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "_dirty",
@@ -13773,7 +13786,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 621,
+            "line": 638,
             "description": "A value used by components to control if the Entity needs re-rendering",
             "itemtype": "property",
             "name": "dirty",
@@ -13786,7 +13799,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 636,
+            "line": 653,
             "description": "The type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -13802,7 +13815,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 646,
+            "line": 663,
             "description": "This isn't called until the Entity has been added to a Group or a State.\nNote: If added to a Group, who is not 'active' (so the Groups update loop doesn't run) then each member will not execute either.",
             "itemtype": "method",
             "name": "update",
@@ -13814,7 +13827,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 660,
+            "line": 677,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "render",
@@ -13833,7 +13846,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 672,
+            "line": 689,
             "description": "Renders the entity using the canvas renderer. \nThis isn't called until the Entity has been added to a Group/State which is active.\nThis functionality is handled by the sub classes.",
             "itemtype": "method",
             "name": "renderGL",
@@ -13864,7 +13877,7 @@
         },
         {
             "file": "src\\core\\Entity.ts",
-            "line": 686,
+            "line": 703,
             "description": "Used to completely destroy this entity and of its components.\nUsed for garbage collection and developers can also use it as needed.\nIt is more reliable to use \"exists = false\", as this will ensure\nthat \"destroy\" is called at a convenient time.",
             "itemtype": "method",
             "name": "destroy",
@@ -14405,6 +14418,19 @@
         {
             "file": "src\\core\\Group.ts",
             "line": 108,
+            "description": "Indicates whether or not this entity is attached to the state.",
+            "itemtype": "property",
+            "name": "onState",
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Group",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src\\core\\Group.ts",
+            "line": 125,
             "description": "The X coordinate of this group. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "x",
@@ -14417,7 +14443,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 121,
+            "line": 138,
             "description": "The Y coordinate of this group. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "y",
@@ -14430,7 +14456,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 134,
+            "line": 151,
             "description": "The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.",
             "itemtype": "property",
             "name": "worldX",
@@ -14444,7 +14470,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 145,
+            "line": 162,
             "description": "The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.",
             "itemtype": "property",
             "name": "worldY",
@@ -14458,7 +14484,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 182,
+            "line": 199,
             "description": "The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.",
             "itemtype": "property",
             "name": "scale",
@@ -14472,7 +14498,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 206,
+            "line": 223,
             "description": "The rotation offset of this group in the X axis. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "rotPointX",
@@ -14486,7 +14512,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 220,
+            "line": 237,
             "description": "The rotation offset of this group in the Y axis. This is just aliased to the transform property.",
             "itemtype": "property",
             "name": "rotPointY",
@@ -14500,7 +14526,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 234,
+            "line": 251,
             "description": "The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.",
             "itemtype": "property",
             "name": "anchorPointX",
@@ -14514,7 +14540,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 248,
+            "line": 265,
             "description": "The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.",
             "itemtype": "property",
             "name": "anchorPointY",
@@ -14528,7 +14554,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 262,
+            "line": 279,
             "description": "The Component Manager",
             "itemtype": "property",
             "name": "components",
@@ -14541,7 +14567,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 270,
+            "line": 287,
             "description": "The game this Group belongs to",
             "itemtype": "property",
             "name": "game",
@@ -14554,7 +14580,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 278,
+            "line": 295,
             "description": "The State that this Group belongs to",
             "itemtype": "property",
             "name": "state",
@@ -14567,7 +14593,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 286,
+            "line": 303,
             "description": "A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.",
             "itemtype": "property",
             "name": "id",
@@ -14580,7 +14606,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 294,
+            "line": 311,
             "description": "The collection of children belonging to this group",
             "itemtype": "property",
             "name": "members",
@@ -14593,7 +14619,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 302,
+            "line": 319,
             "description": "Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.",
             "itemtype": "method",
             "name": "numChildren",
@@ -14609,7 +14635,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 312,
+            "line": 329,
             "description": "An indication of whether or not this group is 'dirty' and thus needs to be re-rendered or not.",
             "itemtype": "property",
             "name": "_dirty",
@@ -14622,7 +14648,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 320,
+            "line": 337,
             "description": "Sets all children of the Group to be dirty.",
             "itemtype": "property",
             "name": "dirty",
@@ -14635,7 +14661,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 339,
+            "line": 356,
             "description": "Checks if the given entity is in this group",
             "itemtype": "method",
             "name": "contains",
@@ -14658,7 +14684,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 350,
+            "line": 367,
             "description": "Checks to see if the given object is contained in this group as a descendant",
             "itemtype": "method",
             "name": "containsDescendant",
@@ -14681,7 +14707,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 367,
+            "line": 384,
             "description": "Checks to see if one child is an ansector of another child.",
             "itemtype": "method",
             "name": "containsAncestor",
@@ -14709,7 +14735,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 384,
+            "line": 401,
             "description": "-------------------------\nAdd Children methods\n-------------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14717,7 +14743,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 391,
+            "line": 408,
             "description": "Adds an Entity to this Group. The Entity must not already be in this Group.",
             "itemtype": "method",
             "name": "addChild",
@@ -14740,7 +14766,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 416,
+            "line": 433,
             "description": "Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.",
             "itemtype": "method",
             "name": "addChildAt",
@@ -14768,7 +14794,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 436,
+            "line": 453,
             "description": "Adds an Entity to this Group before another child.",
             "itemtype": "method",
             "name": "addChildBefore",
@@ -14796,7 +14822,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 460,
+            "line": 477,
             "description": "Adds an Entity to this Group after another child.",
             "itemtype": "method",
             "name": "addChildAfter",
@@ -14824,7 +14850,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 485,
+            "line": 502,
             "description": "--------------------\nRemove Children Methods\n--------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14832,7 +14858,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 492,
+            "line": 509,
             "description": "Removes an Entity from this Group if it is a child of it.",
             "itemtype": "method",
             "name": "removeChild",
@@ -14862,7 +14888,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 520,
+            "line": 537,
             "description": "Removes the Entity from this Group at the given position.",
             "itemtype": "method",
             "name": "removeChildAt",
@@ -14883,7 +14909,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 538,
+            "line": 555,
             "description": "Removes all Entities from this Group within the given range.",
             "itemtype": "method",
             "name": "removeChildren",
@@ -14916,7 +14942,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 564,
+            "line": 581,
             "description": "Removes the first Entity from this Group marked as 'alive'",
             "itemtype": "method",
             "name": "removeFirstAlive",
@@ -14943,7 +14969,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 579,
+            "line": 596,
             "description": "-------------------\nGet Children Methods\n-------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -14951,7 +14977,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 585,
+            "line": 602,
             "description": "Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.",
             "itemtype": "method",
             "name": "getAllChildren",
@@ -14978,7 +15004,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 609,
+            "line": 626,
             "description": "Get the child at a specific position in this Group by its index.",
             "itemtype": "method",
             "name": "getChildAt",
@@ -15001,7 +15027,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 626,
+            "line": 643,
             "description": "Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.",
             "itemtype": "method",
             "name": "getChildByName",
@@ -15029,7 +15055,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 651,
+            "line": 668,
             "description": "Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.",
             "itemtype": "method",
             "name": "getChildByID",
@@ -15057,7 +15083,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 676,
+            "line": 693,
             "description": "Returns the index position of the Entity or -1 if not found.",
             "itemtype": "method",
             "name": "getChildIndex",
@@ -15080,7 +15106,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 689,
+            "line": 706,
             "description": "Returns the first Entity from this Group marked as 'alive' or null if no members are alive",
             "itemtype": "method",
             "name": "getFirstAlive",
@@ -15098,7 +15124,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 707,
+            "line": 724,
             "description": "Returns the first member of the Group which is not 'alive', returns null if all members are alive.",
             "itemtype": "method",
             "name": "getFirstDead",
@@ -15116,7 +15142,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 726,
+            "line": 743,
             "description": "Returns a member at random from the group.",
             "params": [
                 {
@@ -15142,7 +15168,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 776,
+            "line": 793,
             "description": "Returns an array of children which contain the tag which is passed.",
             "itemtype": "method",
             "name": "getChildrenByTag",
@@ -15166,7 +15192,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 803,
+            "line": 820,
             "description": "Returns the first child which contains the tag passed.",
             "itemtype": "method",
             "name": "getFirstChildByTag",
@@ -15190,7 +15216,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 832,
+            "line": 849,
             "description": "Returns the last child which contains the tag passed.",
             "itemtype": "method",
             "name": "getLastChildByTag",
@@ -15214,7 +15240,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 861,
+            "line": 878,
             "description": "--------------------\nChild Depth Sorting Methods\n--------------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -15222,7 +15248,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 868,
+            "line": 885,
             "description": "Sets a new position of an existing Entity within the Group.",
             "itemtype": "method",
             "name": "setChildIndex",
@@ -15250,7 +15276,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 889,
+            "line": 906,
             "description": "Swaps the position of two existing Entities that are a direct child of this group.",
             "itemtype": "method",
             "name": "swapChildren",
@@ -15278,7 +15304,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 917,
+            "line": 934,
             "description": "Swaps the position of two existing Entities within the Group based on their index.",
             "itemtype": "method",
             "name": "swapChildrenAt",
@@ -15306,7 +15332,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 945,
+            "line": 962,
             "description": "Replaces a child Entity in this Group with a new one.",
             "itemtype": "method",
             "name": "replaceChild",
@@ -15334,7 +15360,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 978,
+            "line": 995,
             "description": "Loops through each member in the group and run a method on for each one.",
             "itemtype": "method",
             "name": "forEach",
@@ -15365,7 +15391,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 994,
+            "line": 1011,
             "description": "Loop through each member of the groups that is alive.",
             "itemtype": "method",
             "name": "forEachAlive",
@@ -15396,7 +15422,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1014,
+            "line": 1031,
             "description": "Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "setAll",
@@ -15425,7 +15451,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1034,
+            "line": 1051,
             "description": "Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.",
             "itemtype": "method",
             "name": "callAll",
@@ -15454,7 +15480,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1054,
+            "line": 1071,
             "description": "The update loop for this group.",
             "itemtype": "method",
             "name": "update",
@@ -15466,7 +15492,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1082,
+            "line": 1099,
             "description": "If an Entity no longer exists it is cleared for garbage collection or pool re-allocation",
             "itemtype": "property",
             "name": "exists",
@@ -15479,7 +15505,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1090,
+            "line": 1107,
             "description": "Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool\nThis method should be over-ridden to handle specific canvas/webgl implementations.",
             "itemtype": "property",
             "name": "exists",
@@ -15492,7 +15518,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1105,
+            "line": 1122,
             "description": "An active Entity is one that has its update method called by its parent.",
             "itemtype": "property",
             "name": "_active",
@@ -15506,7 +15532,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1114,
+            "line": 1131,
             "description": "Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.\nThis method should be over-ridden to handle specific dom/canvas/webgl implementations.",
             "itemtype": "property",
             "name": "active",
@@ -15520,7 +15546,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1130,
+            "line": 1147,
             "description": "The render method that is required by the IChild. \nThis method never gets called as the render is only worried about rendering entities.",
             "itemtype": "method",
             "name": "render",
@@ -15540,7 +15566,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1142,
+            "line": 1159,
             "description": "Returns the number of member which are marked as 'alive'",
             "itemtype": "method",
             "name": "countLiving",
@@ -15556,7 +15582,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1162,
+            "line": 1179,
             "description": "Returns the number of member which are not marked as 'alive'",
             "itemtype": "method",
             "name": "countDead",
@@ -15572,7 +15598,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1182,
+            "line": 1199,
             "description": "Clear all children from this Group",
             "itemtype": "method",
             "name": "clear",
@@ -15584,7 +15610,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1193,
+            "line": 1210,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "_willRender",
@@ -15599,7 +15625,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1202,
+            "line": 1219,
             "description": "Controls whether render is automatically called by the parent.",
             "itemtype": "property",
             "name": "willRender",
@@ -15618,7 +15644,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1217,
+            "line": 1234,
             "description": "A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.",
             "itemtype": "property",
             "name": "_visible",
@@ -15633,7 +15659,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1227,
+            "line": 1244,
             "description": "Set the visibility of this entity. True or False.",
             "itemtype": "property",
             "name": "visible",
@@ -15648,7 +15674,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1243,
+            "line": 1262,
             "description": "---------------\nTagging System\n---------------",
             "class": "Kiwi.Group",
             "module": "Kiwi",
@@ -15656,7 +15682,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1250,
+            "line": 1269,
             "description": "Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.\nBy default Entitys contain no tags.",
             "itemtype": "property",
             "name": "_tags",
@@ -15670,7 +15696,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1260,
+            "line": 1279,
             "description": "Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.\nYou can pass multiple strings to add multiple tags.",
             "itemtype": "method",
             "name": "addTag",
@@ -15690,7 +15716,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1279,
+            "line": 1298,
             "description": "Removes a Tag from this Entity.",
             "itemtype": "method",
             "name": "removeTag",
@@ -15710,7 +15736,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1295,
+            "line": 1314,
             "description": "Checks to see if this Entity has a Tag based upon a string which you pass.",
             "itemtype": "method",
             "name": "hasTag",
@@ -15734,7 +15760,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1316,
+            "line": 1335,
             "description": "Removes all children and destroys the Group.",
             "itemtype": "method",
             "name": "destroy",
@@ -15762,7 +15788,7 @@
         },
         {
             "file": "src\\core\\Group.ts",
-            "line": 1358,
+            "line": 1379,
             "description": "A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.",
             "itemtype": "property",
             "name": "_destroyRemoveChildren",
@@ -19262,7 +19288,7 @@
         },
         {
             "file": "src\\file\\AudioFile.ts",
-            "line": 89,
+            "line": 91,
             "description": "Handles loading audio in via an audio tag.",
             "itemtype": "method",
             "name": "tagLoader",
@@ -19275,7 +19301,7 @@
         },
         {
             "file": "src\\file\\AudioFile.ts",
-            "line": 138,
+            "line": 140,
             "description": "Handles decoding the arraybuffer into audio data.",
             "itemtype": "method",
             "name": "processXhr",
@@ -19294,7 +19320,7 @@
         },
         {
             "file": "src\\file\\AudioFile.ts",
-            "line": 156,
+            "line": 158,
             "description": "Attempts to decode the audio data loaded via XHR + arraybuffer.",
             "itemtype": "method",
             "name": "_decodeAudio",
@@ -22314,7 +22340,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 827,
+            "line": 828,
             "description": "Creates a new file for a spritesheet and adds the file to the loading queue.",
             "itemtype": "method",
             "name": "addSpriteSheet",
@@ -22402,7 +22428,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 906,
+            "line": 908,
             "description": "Creates new file's for loading a texture atlas and adds those files to the loading queue.",
             "itemtype": "method",
             "name": "addTextureAtlas",
@@ -22448,7 +22474,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 976,
+            "line": 983,
             "description": "Creates a new File to store a audio piece. \nThis method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nYou can override this behaviour and tell the audio data to load even if not supported by setting the 'onlyIfSupported' boolean to false.\nAlso you can now pass an array of filepaths, and the first audio filetype that is supported will be loaded.",
             "itemtype": "method",
             "name": "addAudio",
@@ -22491,7 +22517,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1039,
+            "line": 1046,
             "description": "This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nReturns a boolean if the audio file was successfully added or not to the file directory.",
             "itemtype": "method",
             "name": "_attemptToAddAudio",
@@ -22547,7 +22573,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1087,
+            "line": 1094,
             "description": "Creates a new File to store JSON and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addJSON",
@@ -22583,7 +22609,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1129,
+            "line": 1137,
             "description": "Creates a new File to store XML and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addXML",
@@ -22619,7 +22645,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1171,
+            "line": 1180,
             "description": "Creates a new File for a Binary file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addBinaryFile",
@@ -22655,7 +22681,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1213,
+            "line": 1223,
             "description": "Creates a new File to store a text file and adds it to the loading queue.",
             "itemtype": "method",
             "name": "addTextFile",
@@ -22691,7 +22717,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1255,
+            "line": 1266,
             "description": "Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. \nOtherwise it is best to leave it alone.",
             "itemtype": "method",
             "name": "destroy",
@@ -22704,7 +22730,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1297,
+            "line": 1308,
             "description": "-----------------------\nDeprecated - Functionality exists. Maps to its equalvent\n-----------------------",
             "class": "Kiwi.Files.Loader",
             "module": "Kiwi",
@@ -22713,7 +22739,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1304,
+            "line": 1315,
             "description": "Initialise the properities that are needed on this loader.\nRecommended you use the 'onQueueProgress' / 'onQueueComplete' signals instead.",
             "itemtype": "method",
             "name": "init",
@@ -22751,7 +22777,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1331,
+            "line": 1342,
             "description": "Loops through all of the files that need to be loaded and start the load event on them.",
             "itemtype": "method",
             "name": "startLoad",
@@ -22766,7 +22792,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1341,
+            "line": 1352,
             "description": "Returns a percentage of the amount that has been loaded so far.",
             "itemtype": "method",
             "name": "getPercentLoaded",
@@ -22785,7 +22811,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1353,
+            "line": 1364,
             "description": "Returns a boolean indicating if everything in the loading que has been loaded or not.",
             "itemtype": "method",
             "name": "complete",
@@ -22804,7 +22830,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1364,
+            "line": 1375,
             "description": "Quick way of getting / setting the private variable 'calculateBytes'\nTo be made into a public variable once removed.",
             "itemtype": "method",
             "name": "calculateBytes",
@@ -22829,7 +22855,7 @@
         },
         {
             "file": "src\\file\\Loader.ts",
-            "line": 1381,
+            "line": 1392,
             "description": "Returns the total number of bytes that have been loaded so far from files in the file queue.",
             "itemtype": "method",
             "name": "getBytesLoaded",
@@ -41625,6 +41651,32 @@
         {
             "file": "src\\render\\GLRenderManager.ts",
             "line": 169,
+            "description": "Removes a texture from the Texture Manager.",
+            "itemtype": "method",
+            "name": "removeTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "atlas",
+                    "description": "",
+                    "type": "Kiwi.Textures.TextureAtlas"
+                }
+            ],
+            "since": "1.4.1",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Renderers.GLRenderManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src\\render\\GLRenderManager.ts",
+            "line": 181,
             "description": "An array of renderers.\n\nShared renderers are used for batch rendering.\nMultiple gameobjects can use the same renderer instance and add\nrendering info to a batch rather than rendering individually. \nThis means only one draw call is necessary to render a number of\nobjects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared\nrenderer. Sprites, StaticImages and Tilemaps (core gameobjects)\ncan all use the same renderer/shader combination and be drawn as\npart of the same batch.\n\nCustom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer\ncapabilities.",
             "itemtype": "property",
             "name": "_sharedRenderers",
@@ -41638,7 +41690,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 191,
+            "line": 203,
             "description": "Adds a renderer to the sharedRenderer array.\n\nThe rendererID is a string that must match a renderer property\nof the Kiwi.Renderers object. If a match is found and an instance\ndoes not already exist, then a renderer is instantiated and added\nto the array.",
             "itemtype": "method",
             "name": "addSharedRenderer",
@@ -41667,7 +41719,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 219,
+            "line": 231,
             "description": "Adds a cloned renderer to the sharedRenderer array.\nThe rendererID is a string that must match a renderer property of\nthe Kiwi.Renderers object. The cloneID is the name for the\ncloned renderer.\n\nIf a match is found and an instance does not already exist,\nthen a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene\nwill use a special shader or blend mode, but others will not.\nYou can subsequently access the clones with a normal\n`requestSharedRenderer()` call. You should use this instead of\n`requestRendererInstance()` whenever possible, because shared\nrenderers are more efficient than instances.",
             "itemtype": "method",
             "name": "addSharedRendererClone",
@@ -41702,7 +41754,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 257,
+            "line": 269,
             "description": "Requests a shared renderer. A game object that wants to use a shared\nrenderer uses this method to obtain a reference to the shared\nrenderer instance.",
             "itemtype": "method",
             "name": "requestSharedRenderer",
@@ -41731,7 +41783,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 286,
+            "line": 298,
             "description": "Requests a new renderer instance. This factory method is the only\nway gameobjects should instantiate their own renderer.\n\nThe rendererID is a string that must match a renderer property\nof the Kiwi.Renderers object. If a match is found then a renderer\nis instantiated and returned. Gameobjects which have rendering\nrequirements that do not suit batch rendering use this technique.",
             "itemtype": "method",
             "name": "requestRendererInstance",
@@ -41760,7 +41812,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 322,
+            "line": 334,
             "description": "Performs initialisation required for single game instance -\nhappens once, at bootup. Sets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (`TextureAtlasRenderer`)",
             "itemtype": "method",
             "name": "_init",
@@ -41773,7 +41825,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 377,
+            "line": 389,
             "description": "Scales the viewport according to a scale mode and space dimensions.\n\nThis is used internally for compatibility with CocoonJS and should not be called.",
             "itemtype": "method",
             "name": "scaleViewport",
@@ -41809,7 +41861,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 427,
+            "line": 439,
             "description": "Performs initialisation required when switching to a different state.\nCalled when a state has been switched to.\nThe textureManager is told to clear its contents from video memory,\nthen rebuild its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
@@ -41822,7 +41874,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 441,
+            "line": 453,
             "description": "Performs cleanup required before switching to a different state.\nCalled whwn a state is about to be switched from.\nThe textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "endState",
@@ -41842,7 +41894,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 455,
+            "line": 467,
             "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and\ncamera offset. Clears the current renderer ready for a new batch. \nInitiates recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
@@ -41862,7 +41914,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 538,
+            "line": 550,
             "description": "Creates a new render sequence",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -41875,7 +41927,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 549,
+            "line": 561,
             "description": "Adds a child to the render sequence\n(may be a group with children of its own).",
             "itemtype": "method",
             "name": "collateChild",
@@ -41888,7 +41940,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 576,
+            "line": 588,
             "description": "Sorts the render sequence into batches.\nEach batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -41901,7 +41953,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 606,
+            "line": 618,
             "description": "Renders all the batches",
             "itemtype": "method",
             "name": "renderBatches",
@@ -41926,7 +41978,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 618,
+            "line": 630,
             "description": "Renders a single batch",
             "itemtype": "method",
             "name": "renderBatch",
@@ -41956,7 +42008,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 654,
+            "line": 666,
             "description": "Calls the render function on a single entity",
             "itemtype": "method",
             "name": "renderEntity",
@@ -41988,7 +42040,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 667,
+            "line": 679,
             "description": "Ensures the atlas and renderer needed for a batch is setup",
             "itemtype": "method",
             "name": "setupGLState",
@@ -42010,7 +42062,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 679,
+            "line": 691,
             "description": "Switch renderer to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchRenderer",
@@ -42035,7 +42087,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 692,
+            "line": 704,
             "description": "Switch texture to the one needed by the entity that needs rendering",
             "itemtype": "method",
             "name": "_switchTexture",
@@ -42060,7 +42112,7 @@
         },
         {
             "file": "src\\render\\GLRenderManager.ts",
-            "line": 704,
+            "line": 716,
             "description": "Switch blend mode to a new set of constants",
             "itemtype": "method",
             "name": "_switchBlendMode",
@@ -42387,6 +42439,27 @@
         {
             "file": "src\\render\\GLTextureManager.ts",
             "line": 93,
+            "description": "Removes a texture wrapper from the cache",
+            "itemtype": "method",
+            "name": "_removeTextureFromCache",
+            "params": [
+                {
+                    "name": "glTexture",
+                    "description": "",
+                    "type": "GLTextureWrapper"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Renderers.GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 112,
             "description": "Deletes a texture from memory and removes the wrapper from the cache",
             "itemtype": "method",
             "name": "_deleteTexture",
@@ -42411,7 +42484,7 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 107,
+            "line": 126,
             "description": "Uploads a texture to video memory",
             "itemtype": "method",
             "name": "_uploadTexture",
@@ -42439,7 +42512,7 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 128,
+            "line": 147,
             "description": "Uploads a texture library to video memory",
             "itemtype": "method",
             "name": "uploadTextureLibrary",
@@ -42464,7 +42537,7 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 143,
+            "line": 162,
             "description": "Uploads a single texture to video memory",
             "itemtype": "method",
             "name": "uploadTexture",
@@ -42489,7 +42562,7 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 154,
+            "line": 173,
             "description": "Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.",
             "itemtype": "method",
             "name": "registerTextureWrapper",
@@ -42515,7 +42588,7 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 170,
+            "line": 189,
             "description": "Removes all textures from video memory and clears the wrapper cache",
             "itemtype": "method",
             "name": "clearTextures",
@@ -42535,7 +42608,59 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 187,
+            "line": 205,
+            "description": "Removes a texture atlas from the texture manager.",
+            "itemtype": "method",
+            "name": "removeTexture",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "textureAtlas",
+                    "description": "",
+                    "type": "Kiwi.Textures.TextureAtlas"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Renderers.GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 217,
+            "description": "Removes a texture wrapper from the manager.",
+            "itemtype": "method",
+            "name": "deregisterTextureWrapper",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "glTextureWrapper",
+                    "description": "",
+                    "type": "GLTextureWrapper"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Renderers.GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src\\render\\GLTextureManager.ts",
+            "line": 229,
             "description": "Binds the texture ready for use, uploads it if it isn't already",
             "itemtype": "method",
             "name": "useTexture",
@@ -42570,7 +42695,7 @@
         },
         {
             "file": "src\\render\\GLTextureManager.ts",
-            "line": 228,
+            "line": 270,
             "description": "Attempts to free space in video memory.\n\nThis removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.\n\nIf there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.\n\nThis behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.",
             "itemtype": "method",
             "name": "_freeSpace",
@@ -42766,8 +42891,22 @@
             "namespace": "Kiwi.Renderers"
         },
         {
+            "file": "src\\render\\GLTextureWrapper.ts",
+            "line": 172,
+            "description": "Disposes of any links to external objects in an attempt to flag this object for garbage collection.\nYou need to make sure that the texture has been removed from the GLTextureManager.",
+            "itemtype": "method",
+            "name": "dispose",
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Renderers.GLTextureWrapper",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
             "file": "src\\sound\\Audio.ts",
-            "line": 107,
+            "line": 108,
             "description": "A unique ID that this audio gets assigned by the audio manager it belongs to when it is created.",
             "itemtype": "property",
             "name": "id",
@@ -42781,7 +42920,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 115,
+            "line": 116,
             "description": "A flag that indicates whether the sound is ready to be played or not.\nIf not then this indicates that we are awaiting a user event.",
             "itemtype": "property",
             "name": "_playable",
@@ -42795,7 +42934,38 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 124,
+            "line": 125,
+            "description": "Indicates whether the audio file was found on the filestore and so can be played.",
+            "itemtype": "property",
+            "name": "_supported",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Sound.Audio",
+            "module": "Kiwi",
+            "submodule": "Sound",
+            "namespace": "Kiwi.Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 135,
+            "description": "Indicates whether the audio file was found on the filestore and so can be played.",
+            "itemtype": "property",
+            "name": "supported",
+            "type": "boolean",
+            "access": "public",
+            "tagname": "",
+            "readonly": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Sound.Audio",
+            "module": "Kiwi",
+            "submodule": "Sound",
+            "namespace": "Kiwi.Sound"
+        },
+        {
+            "file": "src\\sound\\Audio.ts",
+            "line": 148,
             "description": "Returns whether or not the sound is 'playable' or not. \nThe only time the sound would be not 'playable' is on iOS devices when a mouse/touch event has not fired.\nDevs should treat this property as READ ONLY.",
             "itemtype": "property",
             "name": "playable",
@@ -42809,7 +42979,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 150,
+            "line": 177,
             "description": "The type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -42826,7 +42996,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 160,
+            "line": 187,
             "description": "The game that this sound belongs to.",
             "itemtype": "property",
             "name": "_game",
@@ -42840,7 +43010,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 168,
+            "line": 195,
             "description": "Web Audio API ONLY - A reference to the audio context that the game's audio manager has.",
             "itemtype": "property",
             "name": "context",
@@ -42854,7 +43024,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 176,
+            "line": 203,
             "description": "Web Audio API ONLY - A reference to the master gain node on the audio manager.",
             "itemtype": "property",
             "name": "masterGainNode",
@@ -42868,7 +43038,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 184,
+            "line": 211,
             "description": "Web Audio API ONLY - This sounds local gainNode that it uses.",
             "itemtype": "property",
             "name": "gainNode",
@@ -42882,7 +43052,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 192,
+            "line": 219,
             "description": "A boolean indicating whether or not that audio tags are being used to generate sounds.",
             "itemtype": "property",
             "name": "_usingAudioTag",
@@ -42896,7 +43066,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 200,
+            "line": 227,
             "description": "A boolean indicating whether or not the webAuduio api is being used.",
             "itemtype": "property",
             "name": "_usingWebAudio",
@@ -42910,7 +43080,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 208,
+            "line": 235,
             "description": "A private indicator of whether this audio is currently muted or not.",
             "itemtype": "property",
             "name": "_muted",
@@ -42925,7 +43095,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 217,
+            "line": 244,
             "description": "A number between 0 and 1 representing the current volume of this audio piece.",
             "itemtype": "property",
             "name": "_volume",
@@ -42940,7 +43110,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 226,
+            "line": 253,
             "description": "A boolean indicating whether this piece of audio should loop or not.",
             "itemtype": "property",
             "name": "_loop",
@@ -42954,7 +43124,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 234,
+            "line": 261,
             "description": "READ ONLY: Returns a boolean indicating if the current audio marker playing is/will loop.",
             "itemtype": "property",
             "name": "loop",
@@ -42969,7 +43139,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 245,
+            "line": 272,
             "description": "The key that was used to get the audio from the AudioLibrary.",
             "itemtype": "property",
             "name": "key",
@@ -42983,7 +43153,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 253,
+            "line": 280,
             "description": "The property containing the file information about the audio.",
             "itemtype": "property",
             "name": "_file",
@@ -42997,7 +43167,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 261,
+            "line": 288,
             "description": "This is the piece of audio that either method will use to play audio. E.g.\nIn the case of the Web Audio API this is the sound buffer source, in which the audio plays from. \nIn the case of Audio Tags this is the Audio Tag itself.",
             "itemtype": "property",
             "name": "_sound",
@@ -43011,7 +43181,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 271,
+            "line": 298,
             "description": "A boolean that controls/knows if the audio is ready to be played or not.\nThis is just an indicator of if the file has been retrieved successfully from the file store or not.",
             "itemtype": "property",
             "name": "ready",
@@ -43025,7 +43195,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 280,
+            "line": 307,
             "description": "The total duration of the audio in seconds.",
             "itemtype": "property",
             "name": "totalDuration",
@@ -43039,7 +43209,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 288,
+            "line": 315,
             "description": "The current duration of the section of audio that is being played. In milliseconds.",
             "itemtype": "property",
             "name": "duration",
@@ -43053,7 +43223,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 296,
+            "line": 323,
             "description": "Web Audio API ONLY - The audio buffer that is to be used when playing audio segments.",
             "itemtype": "property",
             "name": "_buffer",
@@ -43067,7 +43237,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 304,
+            "line": 331,
             "description": "Web Audio API ONLY - A boolean to indicate if the audio has been decoded or not yet. If not you will need to run the decode() method.",
             "itemtype": "property",
             "name": "_decoded",
@@ -43082,7 +43252,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 313,
+            "line": 340,
             "description": "A private property that holds the volume before the sound was muted. Used so that when unmuted the sound will resume at its old spot.",
             "itemtype": "property",
             "name": "_muteVolume",
@@ -43096,7 +43266,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 321,
+            "line": 348,
             "description": "Indicates whether or not the sound is currently playing.",
             "itemtype": "property",
             "name": "isPlaying",
@@ -43111,7 +43281,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 330,
+            "line": 357,
             "description": "A indicator of if the sound is currently paused.",
             "itemtype": "property",
             "name": "paused",
@@ -43126,7 +43296,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 339,
+            "line": 366,
             "description": "If the sound needs to be played but we are waiting on particular condition.\nIn the case of CocoonJS, we generally are waiting for the audio 'length' property to have a value.",
             "itemtype": "property",
             "name": "_pending",
@@ -43140,7 +43310,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 348,
+            "line": 375,
             "description": "When the audio started playing. In milliseconds",
             "itemtype": "property",
             "name": "_startTime",
@@ -43154,7 +43324,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 356,
+            "line": 383,
             "description": "When the audio is playing, this is the current time we are at with it playing. In milliseconds",
             "itemtype": "property",
             "name": "_currentTime",
@@ -43168,7 +43338,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 364,
+            "line": 391,
             "description": "A collection of all of the markers that are on this piece of audio.",
             "itemtype": "property",
             "name": "_markers",
@@ -43182,7 +43352,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 372,
+            "line": 399,
             "description": "The current marker that is being used.",
             "itemtype": "property",
             "name": "_currentMarker",
@@ -43197,7 +43367,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 381,
+            "line": 408,
             "description": "A Kiwi Signal that dispatches a event when the audio starts playing.",
             "itemtype": "property",
             "name": "onPlay",
@@ -43211,7 +43381,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 389,
+            "line": 416,
             "description": "A Kiwi Signal that dispatches a event when the audio stops playing.",
             "itemtype": "property",
             "name": "onStop",
@@ -43225,7 +43395,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 397,
+            "line": 424,
             "description": "A Kiwi Signal that dispatches a event when the audio gets paused.",
             "itemtype": "property",
             "name": "onPause",
@@ -43239,7 +43409,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 405,
+            "line": 432,
             "description": "A Kiwi Signal that dispatches a event when the audio resumes.",
             "itemtype": "property",
             "name": "onResume",
@@ -43253,7 +43423,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 413,
+            "line": 440,
             "description": "A Kiwi Signal that dispatches a event when the audio finishes and starts again, due to it looping.",
             "itemtype": "property",
             "name": "onLoop",
@@ -43267,7 +43437,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 421,
+            "line": 448,
             "description": "A Kiwi Signal that dispatches a event when the audio gets muted.",
             "itemtype": "property",
             "name": "onMute",
@@ -43281,7 +43451,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 429,
+            "line": 456,
             "description": "A Kiwi Signal that dispatches a event when the audio completes\nand does not loop.",
             "itemtype": "property",
             "name": "onComplete",
@@ -43295,7 +43465,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 438,
+            "line": 465,
             "description": "Retrieves the audio data from the file store.",
             "itemtype": "method",
             "name": "_setAudio",
@@ -43308,7 +43478,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 468,
+            "line": 495,
             "description": "Decodes the audio data to make it playable. By default the audio should already have been decoded when it was loaded.",
             "itemtype": "method",
             "name": "_decode",
@@ -43321,7 +43491,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 493,
+            "line": 520,
             "description": "Used to control the current volume for this sound. 0 is silent, 1 is full volume.",
             "itemtype": "property",
             "name": "volume",
@@ -43335,7 +43505,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 527,
+            "line": 554,
             "description": "Mutes the sound and makes it 'silent'. \nThis will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.",
             "itemtype": "property",
             "name": "mute",
@@ -43349,7 +43519,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 557,
+            "line": 584,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -43386,7 +43556,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 571,
+            "line": 598,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -43406,7 +43576,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 589,
+            "line": 616,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -43434,7 +43604,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 669,
+            "line": 696,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -43447,7 +43617,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 697,
+            "line": 724,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -43460,7 +43630,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 710,
+            "line": 737,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -43473,7 +43643,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 745,
+            "line": 772,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -43486,7 +43656,7 @@
         },
         {
             "file": "src\\sound\\Audio.ts",
-            "line": 794,
+            "line": 821,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",
@@ -45254,7 +45424,21 @@
         },
         {
             "file": "src\\textures\\TextureAtlas.ts",
-            "line": 147,
+            "line": 144,
+            "description": "Link to this atlas WebGL TextureWrapper counterpart which handles uploading the texture.",
+            "itemtype": "property",
+            "name": "glTextureWrapper",
+            "type": "Kiwi.Renderers.GLTextureWrapper",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Textures.TextureAtlas",
+            "module": "Kiwi",
+            "submodule": "Textures",
+            "namespace": "Kiwi.Textures"
+        },
+        {
+            "file": "src\\textures\\TextureAtlas.ts",
+            "line": 152,
             "description": "Creates a GLTextureWrapper to allow the atlas to communicate efficiently with the video card. This is mostly an internal method.\n\nIf you are extending TextureAtlas to incorporate multiple textures, you will need to override this method.",
             "itemtype": "method",
             "name": "createGLTextureWrapper",
@@ -45280,7 +45464,33 @@
         },
         {
             "file": "src\\textures\\TextureAtlas.ts",
-            "line": 167,
+            "line": 171,
+            "description": "Disposes of the GLTextureWrapper.",
+            "itemtype": "method",
+            "name": "removeGLTextureWrapper",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "The rendering context.",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "textureManager",
+                    "description": "The texture manager.",
+                    "type": "Kiwi.Renderers.GLTextureManager"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Textures.TextureAtlas",
+            "module": "Kiwi",
+            "submodule": "Textures",
+            "namespace": "Kiwi.Textures"
+        },
+        {
+            "file": "src\\textures\\TextureAtlas.ts",
+            "line": 188,
             "description": "Sends the texture to the video card.",
             "itemtype": "method",
             "name": "enableGL",
@@ -45311,7 +45521,7 @@
         },
         {
             "file": "src\\textures\\TextureAtlas.ts",
-            "line": 186,
+            "line": 207,
             "description": "Will reload the texture into video memory for WebGL rendering.",
             "itemtype": "method",
             "name": "refreshTextureGL",
@@ -45332,7 +45542,7 @@
         },
         {
             "file": "src\\textures\\TextureAtlas.ts",
-            "line": 202,
+            "line": 223,
             "description": "Will populate this texture atlas with information based on a JSON file that was passed.",
             "itemtype": "method",
             "name": "readJSON",
@@ -45429,7 +45639,28 @@
         },
         {
             "file": "src\\textures\\TextureLibrary.ts",
-            "line": 87,
+            "line": 86,
+            "description": "Removes a texture atlas from the library.",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "atlas",
+                    "description": "",
+                    "type": "Kiwi.Textures.TextureAtlas"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Textures.TextureLibrary",
+            "module": "Kiwi",
+            "submodule": "Textures",
+            "namespace": "Kiwi.Textures"
+        },
+        {
+            "file": "src\\textures\\TextureLibrary.ts",
+            "line": 105,
             "description": "Adds a new image file to the texture library.",
             "itemtype": "method",
             "name": "addFromFile",
@@ -45449,7 +45680,7 @@
         },
         {
             "file": "src\\textures\\TextureLibrary.ts",
-            "line": 116,
+            "line": 134,
             "description": "Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.",
             "itemtype": "method",
             "name": "_rebuildImage",
@@ -45473,7 +45704,7 @@
         },
         {
             "file": "src\\textures\\TextureLibrary.ts",
-            "line": 162,
+            "line": 180,
             "description": "Used to build a new texture atlas based on the image file provided. Internal use only.",
             "itemtype": "method",
             "name": "_buildTextureAtlas",
@@ -45497,7 +45728,7 @@
         },
         {
             "file": "src\\textures\\TextureLibrary.ts",
-            "line": 189,
+            "line": 207,
             "description": "Builds a spritesheet atlas from the an image file that is provided.",
             "itemtype": "method",
             "name": "_buildSpriteSheet",
@@ -45521,7 +45752,7 @@
         },
         {
             "file": "src\\textures\\TextureLibrary.ts",
-            "line": 205,
+            "line": 223,
             "description": "Builds a single image atlas from a image file that is provided.",
             "itemtype": "method",
             "name": "_buildImage",
@@ -45545,7 +45776,7 @@
         },
         {
             "file": "src\\textures\\TextureLibrary.ts",
-            "line": 217,
+            "line": 235,
             "description": "Rebuild the library from a fileStore. Clears the library and repopulates it.",
             "itemtype": "method",
             "name": "rebuild",
@@ -53060,31 +53291,31 @@
         },
         {
             "message": "Missing item type\nReturns the type of child that this is.",
-            "line": " src\\core\\Entity.ts:231"
+            "line": " src\\core\\Entity.ts:248"
         },
         {
             "message": "Missing item type\n-------------------------\nAdd Children methods\n-------------------------",
-            "line": " src\\core\\Group.ts:384"
+            "line": " src\\core\\Group.ts:401"
         },
         {
             "message": "Missing item type\n--------------------\nRemove Children Methods\n--------------------",
-            "line": " src\\core\\Group.ts:485"
+            "line": " src\\core\\Group.ts:502"
         },
         {
             "message": "Missing item type\n-------------------\nGet Children Methods\n-------------------",
-            "line": " src\\core\\Group.ts:579"
+            "line": " src\\core\\Group.ts:596"
         },
         {
             "message": "Missing item type\nReturns a member at random from the group.",
-            "line": " src\\core\\Group.ts:726"
+            "line": " src\\core\\Group.ts:743"
         },
         {
             "message": "Missing item type\n--------------------\nChild Depth Sorting Methods\n--------------------",
-            "line": " src\\core\\Group.ts:861"
+            "line": " src\\core\\Group.ts:878"
         },
         {
             "message": "Missing item type\n---------------\nTagging System\n---------------",
-            "line": " src\\core\\Group.ts:1243"
+            "line": " src\\core\\Group.ts:1262"
         },
         {
             "message": "Missing item type\n---------------\nGeneric Properties \n---------------",
@@ -53144,7 +53375,7 @@
         },
         {
             "message": "Missing item type\n-----------------------\nDeprecated - Functionality exists. Maps to its equalvent\n-----------------------",
-            "line": " src\\file\\Loader.ts:1297"
+            "line": " src\\file\\Loader.ts:1308"
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",

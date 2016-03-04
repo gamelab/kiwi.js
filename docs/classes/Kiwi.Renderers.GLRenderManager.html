@@ -633,6 +633,13 @@ Runs the recursive scene graph rendering sequence every frame.</p>
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_removeTexture">removeTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_render">render</a>
 
                                 
@@ -841,7 +848,7 @@ Runs the recursive scene graph rendering sequence every frame.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l322"><code>src\render\GLRenderManager.ts:322</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l334"><code>src\render\GLRenderManager.ts:334</code></a>
         
         </p>
 
@@ -917,7 +924,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l704"><code>src\render\GLRenderManager.ts:704</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l716"><code>src\render\GLRenderManager.ts:716</code></a>
         
         </p>
 
@@ -1030,7 +1037,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l679"><code>src\render\GLRenderManager.ts:679</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l691"><code>src\render\GLRenderManager.ts:691</code></a>
         
         </p>
 
@@ -1141,7 +1148,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l692"><code>src\render\GLRenderManager.ts:692</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l704"><code>src\render\GLRenderManager.ts:704</code></a>
         
         </p>
 
@@ -1256,7 +1263,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>)</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l191"><code>src\render\GLRenderManager.ts:191</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l203"><code>src\render\GLRenderManager.ts:203</code></a>
         
         </p>
 
@@ -1395,7 +1402,7 @@ to the array.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l219"><code>src\render\GLRenderManager.ts:219</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l231"><code>src\render\GLRenderManager.ts:231</code></a>
         
         </p>
 
@@ -1700,7 +1707,7 @@ renderers are more efficient than instances.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l576"><code>src\render\GLRenderManager.ts:576</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l588"><code>src\render\GLRenderManager.ts:588</code></a>
         
         </p>
 
@@ -1758,7 +1765,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l549"><code>src\render\GLRenderManager.ts:549</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l561"><code>src\render\GLRenderManager.ts:561</code></a>
         
         </p>
 
@@ -1816,7 +1823,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l538"><code>src\render\GLRenderManager.ts:538</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l550"><code>src\render\GLRenderManager.ts:550</code></a>
         
         </p>
 
@@ -1883,7 +1890,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l441"><code>src\render\GLRenderManager.ts:441</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l453"><code>src\render\GLRenderManager.ts:453</code></a>
         
         </p>
 
@@ -1965,7 +1972,7 @@ The textureManager is told to empty its cache.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l427"><code>src\render\GLRenderManager.ts:427</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l439"><code>src\render\GLRenderManager.ts:439</code></a>
         
         </p>
 
@@ -2066,6 +2073,119 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
 </div>
 
                 
+                    <div id="method_removeTexture" class="method item public">
+    <h3 class="name"><code>removeTexture</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>atlas</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l169"><code>src\render\GLRenderManager.ts:169</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.4.1</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Removes a texture from the Texture Manager.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">atlas</code>
+                        <span class="type"><a href="../classes/Kiwi.Textures.TextureAtlas.html" class="crosslink">Kiwi.Textures.TextureAtlas</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_render" class="method item public">
     <h3 class="name"><code>render</code></h3>
 
@@ -2110,7 +2230,7 @@ then rebuild its cache of textures from the state&#39;s texture library.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l455"><code>src\render\GLRenderManager.ts:455</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l467"><code>src\render\GLRenderManager.ts:467</code></a>
         
         </p>
 
@@ -2215,7 +2335,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l618"><code>src\render\GLRenderManager.ts:618</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l630"><code>src\render\GLRenderManager.ts:630</code></a>
         
         </p>
 
@@ -2341,7 +2461,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l606"><code>src\render\GLRenderManager.ts:606</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l618"><code>src\render\GLRenderManager.ts:618</code></a>
         
         </p>
 
@@ -2460,7 +2580,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l654"><code>src\render\GLRenderManager.ts:654</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l666"><code>src\render\GLRenderManager.ts:666</code></a>
         
         </p>
 
@@ -2592,7 +2712,7 @@ Initiates recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l286"><code>src\render\GLRenderManager.ts:286</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l298"><code>src\render\GLRenderManager.ts:298</code></a>
         
         </p>
 
@@ -2727,7 +2847,7 @@ requirements that do not suit batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l257"><code>src\render\GLRenderManager.ts:257</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l269"><code>src\render\GLRenderManager.ts:269</code></a>
         
         </p>
 
@@ -2867,7 +2987,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l377"><code>src\render\GLRenderManager.ts:377</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l389"><code>src\render\GLRenderManager.ts:389</code></a>
         
         </p>
 
@@ -3012,7 +3132,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l667"><code>src\render\GLRenderManager.ts:667</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l679"><code>src\render\GLRenderManager.ts:679</code></a>
         
         </p>
 
@@ -3476,7 +3596,7 @@ Note: Not currently used  - candidate for deletion</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l169"><code>src\render\GLRenderManager.ts:169</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l181"><code>src\render\GLRenderManager.ts:181</code></a>
         
         </p>
 

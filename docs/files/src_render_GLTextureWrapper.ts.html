@@ -386,11 +386,11 @@ module Kiwi.Renderers {
 	*/
 	export class GLTextureWrapper {
 
-		constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas,upload:boolean = false) {
+		constructor(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas, upload:boolean = false) {
 			this.textureAtlas = atlas;
 			this._image = atlas.image;
 			this._numBytes = this._image.width * this._image.height * 4;
-			this.createTexture(gl);
+			this.createTexture( gl );
 			if (upload) this.uploadTexture(gl);
 
 		}
@@ -535,6 +535,18 @@ module Kiwi.Renderers {
 			this._uploaded = false;
 			this._created = false;
 			return true;
+		}
+
+		/**
+		* Disposes of any links to external objects in an attempt to flag this object for garbage collection.
+		* You need to make sure that the texture has been removed from the GLTextureManager.
+		* @method dispose
+		* @public
+		* @since 1.4.1
+		*/
+		public dispose() {
+			delete this._image;
+			delete this.textureAtlas;
 		}
 
 	}

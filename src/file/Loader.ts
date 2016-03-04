@@ -800,6 +800,7 @@ module Kiwi.Files {
 				if (p.xhrLoading) params.xhrLoading = p.xhrLoading;//forces blob loading
 				if (p.state) params.state = p.state;
 				if (p.tags) params.tags = p.tags;
+				if (p.crossOrigin) params.crossOrigin = p.crossOrigin;
 
 			} else {
 
@@ -873,6 +874,7 @@ module Kiwi.Files {
 				if (p.xhrLoading) params.xhrLoading = p.xhrLoading;//forces blob loading
 				if (p.state) params.state = p.state;
 				if (p.tags) params.tags = p.tags;
+				if (p.crossOrigin) params.crossOrigin = p.crossOrigin;
 
 			} else {
 
@@ -950,6 +952,11 @@ module Kiwi.Files {
 
 				textureParams.metadata.jsonID = jsonParams.key;
 				jsonParams.metadata.imageID = textureParams.key;
+
+				if( p.crossOrigin ) {
+					textureParams.crossOrigin = p.crossOrigin;
+					jsonParams.crossOrigin = p.crossOrigin;
+				}
 
 				if (p.state) {
 					textureParams.state = p.state;
@@ -1111,6 +1118,7 @@ module Kiwi.Files {
 				if (p.parse) params.parse = p.parse;
 				if (p.state) params.state = p.state;
 				if (p.tags) params.tags = p.tags;
+				if (p.crossOrigin) params.crossOrigin = p.crossOrigin;
 
 			} else {
 
@@ -1153,6 +1161,7 @@ module Kiwi.Files {
 				if (p.parse) params.parse = p.parse;
 				if (p.state) params.state = p.state;
 				if (p.tags) params.tags = p.tags;
+				if (p.crossOrigin) params.crossOrigin = p.crossOrigin;
 
 			} else {
 
@@ -1195,6 +1204,7 @@ module Kiwi.Files {
 				if (p.parse) params.parse = p.parse;
 				if (p.state) params.state = p.state;
 				if (p.tags) params.tags = p.tags;
+				if (p.crossOrigin) params.crossOrigin = p.crossOrigin;
 
 			} else {
 
@@ -1237,6 +1247,7 @@ module Kiwi.Files {
 				if (p.parse) params.parse = p.parse;
 				if (p.state) params.state = p.state;
 				if (p.tags) params.tags = p.tags;
+				if (p.crossOrigin) params.crossOrigin = p.crossOrigin;
 
 			} else {
 
