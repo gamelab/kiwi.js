@@ -4113,270 +4113,298 @@ declare module Kiwi.GameObjects {
     }
 }
 /**
-* Kiwi - GameObjects
-* @module Kiwi
-* @submodule GameObjects
-*
-*/
+Kiwi - GameObjects
+@module Kiwi
+@submodule GameObjects
+**/
 declare module Kiwi.GameObjects {
-    /**
-    * TextField is a GameObject that is used when you are wanting to render
-    * text onto the current State.
-    *
-    * TextField has width/height and a hitbox, but because text is difficult
-    * to measure, these may not be 100% accurate. It does not have an
-    * "Input" component either, although you may choose to add one. Be aware
-    * of these limitations.
-    *
-    * Note that there also exists a "Textfield" object. This is simply a
-    * legacy alias of "TextField", which was renamed in v1.2.0 for naming
-    * standardization purposes.
-    *
-    * @class TextField
-    * @namespace Kiwi.GameObjects
-    * @extends Kiwi.Entity
-    * @constructor
-    * @param state {Kiwi.State} The state that this TextField belongs to
-    * @param text {String} The text that is contained within this textfield.
-    * @param [x=0] {Number} The new x coordinate from the Position component
-    * @param [y=0] {Number} The new y coordinate from the Position component
-    * @param [color="#000000"] {String} The color of the text.
-    * @param [size=32] {Number} The size of the text in pixels.
-    * @param [weight="normal"] {String} The weight of the text.
-    * @param [fontFamily="sans-serif"] {String} The font family that is to be used when rendering.
-    * @return {TextField} This Game Object.
-    */
     class TextField extends Kiwi.Entity {
+        /**
+        TextField is a GameObject that renders text.
+
+        TextField has width/height and a hitbox, but because text is difficult
+        to measure, these may not be 100% accurate. It does not have an
+        `Input` component either, although you may choose to add one. Be aware
+        of these limitations.
+
+        Note that there also exists a `Textfield` object. This is simply a
+        legacy alias of `TextField`, which was renamed in v1.2.0 for naming
+        standardization purposes.
+
+        @class TextField
+        @namespace Kiwi.GameObjects
+        @extends Kiwi.Entity
+        @constructor
+        @param state {Kiwi.State} State this TextField belongs to
+        @param text {string} Text contained within this textfield
+        @param [x=0] {number} Horizontal position
+        @param [y=0] {number} Vertical position
+        @param [color="#000000"] {string} Color of the text
+        @param [size=32] {number} Size of the text in pixels
+        @param [weight="normal"] {string} Weight of the text
+        @param [fontFamily="sans-serif"] {string} Font family to be used
+        **/
         constructor(state: Kiwi.State, text: string, x?: number, y?: number, color?: string, size?: number, weight?: string, fontFamily?: string);
         /**
-        * Returns the type of object that this is.
-        *
-        * Note: This is not camel-cased because of an error in early development.
-        * To preserve API compatibility, all 1.x.x releases retail this form.
-        * This will be fixed in v2.
-        * @method objType
-        * @return {string} "Textfield"
-        * @public
-        */
+        Return the type of object that this is.
+
+        Note: This is not camel-cased because of an error in early development.
+        To preserve API compatibility, all 1.x.x releases retail this form.
+        This will be fixed in v2.
+
+        @method objType
+        @return {string} "Textfield"
+        @public
+        **/
         objType(): string;
         /**
-        * The text that is to be rendered.
-        * @property _text
-        * @type string
-        * @private
-        */
+        Text string to render
+
+        @property _text
+        @type string
+        @private
+        **/
         private _text;
         /**
-        * The weight of the font.
-        * @property _fontWeight
-        * @type string
-        * @default "normal"
-        * @private
-        */
+        Weight of the font
+
+        @property _fontWeight
+        @type string
+        @default "normal"
+        @private
+        **/
         private _fontWeight;
         /**
-        * The size of the font.
-        * @property _fontSize
-        * @type number
-        * @default 32
-        * @private
-        */
+        Size of the font
+
+        @property _fontSize
+        @type number
+        @default 32
+        @private
+        **/
         private _fontSize;
         /**
-        * The color of the text.
-        * @property _fontColor
-        * @type Kiwi.Utils.Color
-        * @private
-        */
+        Color of the text
+
+        @property _fontColor
+        @type Kiwi.Utils.Color
+        @private
+        **/
         private _fontColor;
         /**
-        * The font family that is to be rendered.
-        * @property _fontFamily
-        * @type string
-        * @default "sans-serif"
-        * @private
-        */
+        Font family to be rendered
+
+        @property _fontFamily
+        @type string
+        @default "sans-serif"
+        @private
+        **/
         private _fontFamily;
         /**
-        * The alignment of the text. This can either be "left", "right" or "center"
-        * @property _textAlign
-        * @type string
-        * @default "center"
-        * @private
-        */
+        Alignment of the text.
+        This can either be "left", "right" or "center".
+
+        @property _textAlign
+        @type string
+        @default "center"
+        @private
+        **/
         private _textAlign;
         /**
-        * The pixel width of the text. Used internally for alignment purposes.
-        * @property _alignWidth
-        * @type number
-        * @default 0
-        * @private
-        * @since 1.1.0
-        */
+        Pixel width of the text. Used internally for alignment purposes.
+        This is distinct from canvas width, which will be larger than
+        text width.
+
+        @property _alignWidth
+        @type number
+        @default 0
+        @private
+        @since 1.1.0
+        **/
         private _alignWidth;
         /**
-        * The baseline of the text to be rendered.
-        * @property _baseline
-        * @type string
-        * @private
-        */
+        Baseline of the text to be rendered
+
+        @property _baseline
+        @type string
+        @private
+        **/
         private _baseline;
         /**
-        * The text that you would like to appear in this textfield.
-        * @property text
-        * @type string
-        * @public
-        */
+        Text string to render
+
+        @property text
+        @type string
+        @public
+        **/
         text: string;
         /**
-        * The color of the font that is contained in this textfield.
-        * May be set with a string, or an array of any valid
-        * Kiwi.Utils.Color arguments.
-        * Returns a hex string prepended with "#".
-        * @property color
-        * @type string
-        * @public
-        */
+        Color of the font of this textfield.
+        May be set with a string, or an array of any valid
+        Kiwi.Utils.Color arguments.
+        Returns a hex string prepended with "#".
+
+        @property color
+        @type string
+        @public
+        **/
         color: any;
         /**
-        * The weight of the font.
-        * @property fontWeight
-        * @type string
-        * @public
-        */
+        Weight of the font
+
+        @property fontWeight
+        @type string
+        @public
+        **/
         fontWeight: string;
         /**
-        * The size on font when being displayed onscreen.
-        * @property fontSize
-        * @type number
-        * @public
-        */
+        Point size of font
+
+        @property fontSize
+        @type number
+        @public
+        **/
         fontSize: number;
         /**
-        * The font family that is being used to render the text.
-        * @property fontFamily
-        * @type string
-        * @public
-        */
+        Font family used to render the text
+
+        @property fontFamily
+        @type string
+        @public
+        **/
         fontFamily: string;
         /**
-        * A static property that contains the string to center align the text.
-        * @property TEXT_ALIGN_CENTER
-        * @type string
-        * @static
-        * @final
-        * @public
-        */
+        Static property that contains the string to center align the text
+
+        @property TEXT_ALIGN_CENTER
+        @type string
+        @static
+        @final
+        @public
+        **/
         static TEXT_ALIGN_CENTER: string;
         /**
-        * A static property that contains the string to right align the text.
-        * @property TEXT_ALIGN_RIGHT
-        * @type string
-        * @static
-        * @final
-        * @public
-        */
+        Static property that contains the string to right align the text
+
+        @property TEXT_ALIGN_RIGHT
+        @type string
+        @static
+        @final
+        @public
+        **/
         static TEXT_ALIGN_RIGHT: string;
         /**
-        * A static property that contains the string to left align the text.
-        * @property TEXT_ALIGN_LEFT
-        * @type string
-        * @static
-        * @final
-        * @public
-        */
+        Static property that contains the string to left align the text
+
+        @property TEXT_ALIGN_LEFT
+        @type string
+        @static
+        @final
+        @public
+        **/
         static TEXT_ALIGN_LEFT: string;
         /**
-        * Alignment of the text. You can either use the static TEXT_ALIGN constants or pass a string.
-        * @property textAlign
-        * @type string
-        * @public
-        */
+        Alignment of the text. You can either use the static
+        `TEXT_ALIGN` constants or pass a string.
+
+        @property textAlign
+        @type string
+        @public
+        **/
         textAlign: string;
         /**
-        * The canvas element which the text is rendered onto.
-        * @property _canvas
-        * @type HTMLCanvasElement.
-        * @private
-        */
+        Canvas element into which the text is rendered
+
+        @property _canvas
+        @type HTMLCanvasElement
+        @private
+        **/
         private _canvas;
         /**
-        * The context for the canvas element. Used whilst rendering text.
-        * @property _ctx
-        * @type CanvasRenderingContext2D
-        * @private
-        */
+        Context for the canvas element. Used while rendering text.
+
+        @property _ctx
+        @type CanvasRenderingContext2D
+        @private
+        **/
         private _ctx;
         /**
-        * If the temporary canvas is dirty and needs to be re-rendered. Only used when the text field rendering is being optimised.
-        * @property _tempDirty
-        * @type boolean
-        * @private
-        */
+        Whether the temporary canvas is dirty and needs to be re-rendered
+
+        @property _tempDirty
+        @type boolean
+        @private
+        **/
         private _tempDirty;
         /**
-        * Hitbox component
-        * @property box
-        * @type Kiwi.Components.Box
-        * @public
-        * @since 1.2.0
-        */
+        Hitbox component
+
+        @property box
+        @type Kiwi.Components.Box
+        @public
+        @since 1.2.0
+        **/
         box: Kiwi.Components.Box;
         /**
-        * Geometry point used in rendering.
-        *
-        * @property _pt1
-        * @type Kiwi.Geom.Point
-        * @private
-        */
+        Geometry point used in rendering
+
+        @property _pt1
+        @type Kiwi.Geom.Point
+        @private
+        **/
         private _pt1;
         /**
-        * Geometry point used in rendering.
-        *
-        * @property _pt2
-        * @type Kiwi.Geom.Point
-        * @private
-        */
+        Geometry point used in rendering
+
+        @property _pt2
+        @type Kiwi.Geom.Point
+        @private
+        **/
         private _pt2;
         /**
-        * Geometry point used in rendering.
-        *
-        * @property _pt3
-        * @type Kiwi.Geom.Point
-        * @private
-        */
+        Geometry point used in rendering
+
+        @property _pt3
+        @type Kiwi.Geom.Point
+        @private
+        **/
         private _pt3;
         /**
-        * Geometry point used in rendering.
-        *
-        * @property _pt4
-        * @type Kiwi.Geom.Point
-        * @private
-        */
+        Geometry point used in rendering
+
+        @property _pt4
+        @type Kiwi.Geom.Point
+        @private
+        **/
         private _pt4;
         /**
-        * This method is used to render the text to an offscreen-canvas which is held in a TextureAtlas (which is generated upon the instanitation of this class).
-        * This is so that the canvas doesn't render it every frame as it can be costly and so that it can be used in WebGL with the TextureAtlasRenderer.
-        *
-        * @method _renderText
-        * @private
-        */
+        Render the text to an off-screen canvas held in a `TextureAtlas`
+        (which is generated upon the instantiation of this class).
+        This is so that the canvas doesn't render it every frame,
+        as text rendering can be costly,
+        and so that it can be used in WebGL with the `TextureAtlasRenderer`.
+
+        @method _renderText
+        @private
+        **/
         private _renderText();
         /**
-        * Called by the Layer to which this Game Object is attached
-        * @method render
-        * @param {Kiwi.Camera}
-        * @public
-        */
+        Draw the TextField to the canvas.
+
+        @method render
+        @param camera {Kiwi.Camera} Current camera
+        @public
+        **/
         render(camera: Kiwi.Camera): void;
         /**
-        * Renders the GameObject using WebGL.
-        * @method renderGL
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Camera} camera
-        * @param {Object} params
-        * @public
-        */
+        Render the GameObject using WebGL.
+
+        @method renderGL
+        @param gl {WebGLRenderingContext} GL rendering context
+        @param camera {Kiwi.Camera} Current camera
+        @param params {Object} Optional parameters (unused)
+        @public
+        **/
         renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
         destroy(immediate?: boolean): void;
     }
