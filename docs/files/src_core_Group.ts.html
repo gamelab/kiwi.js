@@ -1709,8 +1709,6 @@ module Kiwi {
 		*/
 		public destroy( immediate:boolean = false, destroyChildren:boolean = true ) {
 
-			if (!this.onState) immediate = true;
-
 			if ( !this.onState ) {
 				immediate = true;
 			}

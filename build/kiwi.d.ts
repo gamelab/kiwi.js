@@ -1021,127 +1021,105 @@ declare module Kiwi {
     }
 }
 /**
-*
-* @module Kiwi
-*
-*/
+@module Kiwi
+**/
 declare module Kiwi {
-    /**
-    * The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
-    * Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
-    * Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
-    * When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
-    * exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
-    * If the plugin has a "create" function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
-    * an instance of an object.
-    * The plugin manager update function is called every update loop. If an object was created by the "create" function and it has an "update" function, that function will be called in turn.
-    * @class PluginManager
-    * @namespace Kiwi
-    * @constructor
-    * @param game {Kiwi.Game} The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.
-    * @param plugins {string[]} The entities position on the x axis.
-    * @return {Kiwi.PluginManager} This PluginManager.
-    *
-    */
     class PluginManager {
+        /**
+        The plugin manager registers plugins, checks plugin dependencies,
+        and calls designated functions on each registered plugin at boot time,
+        and during the update loop if required.
+
+        Plugins are registered on the global Kiwi instance.
+        This will apply to any game created on the webpage.
+        Once a plugin in registered it is allocated a place on the
+        `Kiwi.Plugins` name space, e.g. `FooPlugin` will be accessible at
+        `Kiwi.Plugins.FooPlugin`.
+
+        When a game instance is created, it can contain a list of
+        required plugins in the configuration object.
+        At this point the plugin manager will validate that the plugins exist,
+        and that dependencies are met
+        (both Kiwi version and versions of other required plugins).
+        If the plugin has a `create` function, the plugin manager instance will
+        call that function as part of the boot process.
+        The `create` function may do anything, but usually it would create an
+        instance of an object.
+
+        The plugin manager `update` function is called
+        every update loop. If an object was created by the `create` function
+        and it has an `update` function, that function will be called in turn.
+
+        @class PluginManager
+        @namespace Kiwi
+        @constructor
+        @param game {Kiwi.Game} State that this entity belongs to.
+            Used to generate the Unique ID and for garbage collection.
+        @param plugins {string[]} List of plugins to validate and load
+        @return {Kiwi.PluginManager}
+        **/
         constructor(game: Kiwi.Game, plugins: string[]);
         /**
-        * An array of plugins which have been included in the webpage and registered successfully.
-        * @property _availablePlugins
-        * @type Array
-        * @static
-        * @private
-        */
+        Array of plugins which have been included in the webpage
+        and registered successfully.
+
+        @property _availablePlugins
+        @type array
+        @static
+        @private
+        **/
         private static _availablePlugins;
         /**
-        * An array of objects represetning all available plugins, each containing the name and version number of an available plugin
-        * @property getAvailablePlugins
-        * @type Array
-        * @static
-        * @private
-        */
+        Array of objects representing all available plugins,
+        each containing the name and version number of an available plugin
+
+        @property getAvailablePlugins
+        @type array
+        @static
+        @public
+        **/
         static availablePlugins: any;
-        /**
-        * Registers a plugin object as available. Any game instance can choose to use the plugin.
-        * Plugins need only be registered once per webpage. If registered a second time it will be ignored.
-        * Two plugins with the same names cannot be reigstered simultaneously, even if different versions.
-        * @method register
-        * @param {object} plugin
-        * @public
-        * @static
-        */
         static register(plugin: any): void;
         /**
-        * Identifies the object as a PluginManager.
-        * @property objType
-        * @type {string} "PluginManager"
-        * @public
-        */
+        Identifies the object as a PluginManager.
+
+        @property objType
+        @type string
+        @default "PluginManager"
+        @public
+        **/
         objType: string;
         /**
-        * A reference to the game instance that owns the PluginManager.
-        * @property objType
-        * @type Kiwi.Game
-        * @private
-        */
+        Game instance that owns the PluginManager
+
+        @property _game
+        @type Kiwi.Game
+        @private
+        **/
         private _game;
         /**
-        * An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.
-        * @property _plugins
-        * @type Array
-        * @private
-        */
+        Array of plugin names which the game instance has been configured
+        to use. Each name must match the constructor function for the plugin.
+
+        @property _plugins
+        @type array
+        @private
+        **/
         private _plugins;
         /**
-        * An array of objects that contain a boot function, each of which will be called when PluginManager.boot is invoked.
-        * @property _bootObjects
-        * @type Array
-        * @private
-        */
+        Array of objects that contain a boot function,
+        each of which will be called when `PluginManager.boot` is invoked.
+
+        @property _bootObjects
+        @type array
+        @private
+        **/
         private _bootObjects;
-        /**
-        * Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object
-        * is checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.
-        * This will ignore plugin that are registered but not used by the game instance.
-        * @method validatePlugins
-        * @public
-        */
         validatePlugins(): void;
-        /**
-        * Returns whether a valid minimum version of a plugin exists.
-        * @method validMinimumPluginVersionExists
-        * @param name {string} Name of plugin
-        * @param version {string} Minimum version
-        * @return boolean
-        * @public
-        */
         validMinimumPluginVersionExists(name: string, version: string): boolean;
-        /**
-        * Returns true if a plugin identified by the supplied pluginName is registered.
-        * @method pluginIsRegistered
-        * @param {string} pluginName
-        * @public
-        */
         pluginIsRegistered(pluginName: string): boolean;
-        /**
-        * Called after all other core objects and services created by the Kiwi.Game constructor are created.
-        * Attempts to find a "create" function on each plugin and calls it if it exists.
-        * The create function may return an object on which a boot function exists - to be called during boot process.
-        * @method _createPlugins
-        * @private
-        */
         private _createPlugins();
-        /**
-        * Calls the boot functions on any objects that plugins used by the game instance have designated during creation.
-        * @method boot
-        * @public
-        */
         boot(): void;
-        /**
-        * Calls the update functions on any objects that plugins used by the game instance have designated during creation.
-        * @method update
-        * @public
-        */
         update(): void;
     }
 }

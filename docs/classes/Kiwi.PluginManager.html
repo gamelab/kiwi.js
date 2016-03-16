@@ -370,7 +370,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_PluginManager.ts.html#l9"><code>src&#x2F;core&#x2F;PluginManager.ts:9</code></a>
+            Defined in: <a href="../files/src_core_PluginManager.ts.html#l10"><code>src&#x2F;core&#x2F;PluginManager.ts:10</code></a>
         </div>
     
 
@@ -386,14 +386,26 @@
 
 
 <div class="box intro">
-    <p>The plugin manager registers plugins, checks plugin dependencies, and calls designated functions on each registered plugin at boot time, and during the update loop if required.
-Plugins are registered on the global Kiwi instance. Once a plugin in registered it is allocated a place on the Kiwi.Plugins name space.
-Eg. FooPlugin will be accessible at Kiwi.Plugins.FooPlugin.
-When a game instance is created, it can contain a list of required plugins in the configuration object. At this point the plugin manager will validate that the plugins
-exist, and that dependencies are met (both Kiwi version and versions of other required plugins).
-If the plugin has a &quot;create&quot; function, the plugin manager instance will call that function as part of the boot process. The create function may do anything, but usually it would create
-an instance of an object. 
-The plugin manager update function is called every update loop. If an object was created by the &quot;create&quot; function and it has an &quot;update&quot; function, that function will be called in turn.</p>
+    <p>The plugin manager registers plugins, checks plugin dependencies,
+and calls designated functions on each registered plugin at boot time,
+and during the update loop if required.</p>
+<p>Plugins are registered on the global Kiwi instance.
+This will apply to any game created on the webpage.
+Once a plugin in registered it is allocated a place on the
+<code>Kiwi.Plugins</code> name space, e.g. <code>FooPlugin</code> will be accessible at
+<code>Kiwi.Plugins.FooPlugin</code>.</p>
+<p>When a game instance is created, it can contain a list of
+required plugins in the configuration object.
+At this point the plugin manager will validate that the plugins exist,
+and that dependencies are met
+(both Kiwi version and versions of other required plugins).
+If the plugin has a <code>create</code> function, the plugin manager instance will
+call that function as part of the boot process.
+The <code>create</code> function may do anything, but usually it would create an
+instance of an object.</p>
+<p>The plugin manager <code>update</code> function is called
+every update loop. If an object was created by the <code>create</code> function
+and it has an <code>update</code> function, that function will be called in turn.</p>
 
 </div>
 
@@ -452,7 +464,7 @@ The plugin manager update function is called every update loop. If an object was
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l9"><code>src&#x2F;core&#x2F;PluginManager.ts:9</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l10"><code>src&#x2F;core&#x2F;PluginManager.ts:10</code></a>
         
         </p>
 
@@ -481,7 +493,8 @@ The plugin manager update function is called every update loop. If an object was
                     
 
                     <div class="param-description">
-                        <p>The state that this entity belongs to. Used to generate the Unique ID and for garbage collection.</p>
+                        <p>State that this entity belongs to.
+    Used to generate the Unique ID and for garbage collection.</p>
 
                     </div>
 
@@ -497,7 +510,7 @@ The plugin manager update function is called every update loop. If an object was
                     
 
                     <div class="param-description">
-                        <p>The entities position on the x axis.</p>
+                        <p>List of plugins to validate and load</p>
 
                     </div>
 
@@ -517,8 +530,6 @@ The plugin manager update function is called every update loop. If an object was
                     
                         <span class="type"><a href="../classes/Kiwi.PluginManager.html" class="crosslink">Kiwi.PluginManager</a></span>:
                     
-                    <p>This PluginManager.</p>
-
                 
             </div>
         </div>
@@ -632,13 +643,20 @@ The plugin manager update function is called every update loop. If an object was
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__plugins">_plugins</a>
+                                <a href="#property__game">_game</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
+                                <a href="#property__plugins">_plugins</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_getAvailablePlugins">getAvailablePlugins</a>
 
                                 
@@ -648,13 +666,6 @@ The plugin manager update function is called every update loop. If an object was
                             </li>
                         
                             <li class="index-item property public">
-                                <a href="#property_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
                                 <a href="#property_objType">objType</a>
 
                                 
@@ -709,7 +720,7 @@ The plugin manager update function is called every update loop. If an object was
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l239"><code>src&#x2F;core&#x2F;PluginManager.ts:239</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l413"><code>src&#x2F;core&#x2F;PluginManager.ts:413</code></a>
         
         </p>
 
@@ -720,9 +731,11 @@ The plugin manager update function is called every update loop. If an object was
     </div>
 
     <div class="description">
-        <p>Called after all other core objects and services created by the Kiwi.Game constructor are created.
-Attempts to find a &quot;create&quot; function on each plugin and calls it if it exists.
-The create function may return an object on which a boot function exists - to be called during boot process.</p>
+        <p>Attempt to find a <code>create</code> function on each plugin, and call it
+if it exists. Called after all other core objects and services
+created by the <code>Kiwi.Game</code> constructor are created.</p>
+<p>The <code>create</code> function may return an object on which a
+<code>boot</code> function exists - to be called during boot process.</p>
 
     </div>
 
@@ -768,7 +781,7 @@ The create function may return an object on which a boot function exists - to be
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l256"><code>src&#x2F;core&#x2F;PluginManager.ts:256</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l439"><code>src&#x2F;core&#x2F;PluginManager.ts:439</code></a>
         
         </p>
 
@@ -779,7 +792,8 @@ The create function may return an object on which a boot function exists - to be
     </div>
 
     <div class="description">
-        <p>Calls the boot functions on any objects that plugins used by the game instance have designated during creation.</p>
+        <p>Call the <code>boot</code> functions on any objects that plugins
+used by the game instance have designated during creation.</p>
 
     </div>
 
@@ -809,6 +823,10 @@ The create function may return an object on which a boot function exists - to be
     
 
     
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
 
     
 
@@ -835,7 +853,7 @@ The create function may return an object on which a boot function exists - to be
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l223"><code>src&#x2F;core&#x2F;PluginManager.ts:223</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l389"><code>src&#x2F;core&#x2F;PluginManager.ts:389</code></a>
         
         </p>
 
@@ -846,7 +864,8 @@ The create function may return an object on which a boot function exists - to be
     </div>
 
     <div class="description">
-        <p>Returns true if a plugin identified by the supplied pluginName is registered.</p>
+        <p>Return <code>true</code> if a plugin identified by the supplied <code>pluginName</code>
+is registered.</p>
 
     </div>
 
@@ -875,6 +894,18 @@ The create function may return an object on which a boot function exists - to be
         </div>
     
 
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>boolean</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -927,7 +958,7 @@ The create function may return an object on which a boot function exists - to be
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l61"><code>src&#x2F;core&#x2F;PluginManager.ts:61</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l88"><code>src&#x2F;core&#x2F;PluginManager.ts:88</code></a>
         
         </p>
 
@@ -938,9 +969,12 @@ The create function may return an object on which a boot function exists - to be
     </div>
 
     <div class="description">
-        <p>Registers a plugin object as available. Any game instance can choose to use the plugin.
-Plugins need only be registered once per webpage. If registered a second time it will be ignored.
-Two plugins with the same names cannot be reigstered simultaneously, even if different versions.</p>
+        <p>Register a plugin object as available.</p>
+<p>Any game instance can choose to use the plugin.
+Plugins need only be registered once per webpage.
+If registered a second time it will be ignored.
+Two plugins with the same names cannot be reigstered simultaneously,
+even if different versions.</p>
 
     </div>
 
@@ -1009,7 +1043,7 @@ Two plugins with the same names cannot be reigstered simultaneously, even if dif
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l272"><code>src&#x2F;core&#x2F;PluginManager.ts:272</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l462"><code>src&#x2F;core&#x2F;PluginManager.ts:462</code></a>
         
         </p>
 
@@ -1020,7 +1054,8 @@ Two plugins with the same names cannot be reigstered simultaneously, even if dif
     </div>
 
     <div class="description">
-        <p>Calls the update functions on any objects that plugins used by the game instance have designated during creation.</p>
+        <p>Call the <code>update</code> functions on any objects that plugins
+used by the game instance have designated during creation.</p>
 
     </div>
 
@@ -1066,7 +1101,7 @@ Two plugins with the same names cannot be reigstered simultaneously, even if dif
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l128"><code>src&#x2F;core&#x2F;PluginManager.ts:128</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l183"><code>src&#x2F;core&#x2F;PluginManager.ts:183</code></a>
         
         </p>
 
@@ -1077,8 +1112,12 @@ Two plugins with the same names cannot be reigstered simultaneously, even if dif
     </div>
 
     <div class="description">
-        <p>Builds a list of valid plugins used by the game instance. Each plugin name that is supplied in the Kiwi.Game constructor configuration object<br>is checked against the Kiwi.Plugins namespace to ensure that a property of the same name exists.
-This will ignore plugin that are registered but not used by the game instance.</p>
+        <p>Build a list of valid plugins used by the game instance.
+Each plugin name that is supplied in the <code>Kiwi.Game</code> constructor
+configuration object is checked against the <code>Kiwi.Plugins</code>
+namespace to ensure that a property of the same name exists.
+This will ignore plugins that are registered but not used
+by the game instance.</p>
 
     </div>
 
@@ -1144,7 +1183,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l206"><code>src&#x2F;core&#x2F;PluginManager.ts:206</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l368"><code>src&#x2F;core&#x2F;PluginManager.ts:368</code></a>
         
         </p>
 
@@ -1155,7 +1194,7 @@ This will ignore plugin that are registered but not used by the game instance.</
     </div>
 
     <div class="description">
-        <p>Returns whether a valid minimum version of a plugin exists.</p>
+        <p>Return whether a valid minimum version of a plugin exists.</p>
 
     </div>
 
@@ -1254,7 +1293,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l36"><code>src&#x2F;core&#x2F;PluginManager.ts:36</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l52"><code>src&#x2F;core&#x2F;PluginManager.ts:52</code></a>
         
         </p>
 
@@ -1264,7 +1303,8 @@ This will ignore plugin that are registered but not used by the game instance.</
     </div>
 
     <div class="description">
-        <p>An array of plugins which have been included in the webpage and registered successfully.</p>
+        <p>Array of plugins which have been included in the webpage
+and registered successfully.</p>
 
     </div>
 
@@ -1301,7 +1341,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l120"><code>src&#x2F;core&#x2F;PluginManager.ts:120</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l171"><code>src&#x2F;core&#x2F;PluginManager.ts:171</code></a>
         
         </p>
 
@@ -1311,7 +1351,55 @@ This will ignore plugin that are registered but not used by the game instance.</
     </div>
 
     <div class="description">
-        <p>An array of objects that contain a boot function, each of which will be called when PluginManager.boot is invoked.</p>
+        <p>Array of objects that contain a boot function,
+each of which will be called when <code>PluginManager.boot</code> is invoked.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__game" class="property item private">
+    <h3 class="name"><code>_game</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_PluginManager.ts.html#l152"><code>src&#x2F;core&#x2F;PluginManager.ts:152</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Game instance that owns the PluginManager</p>
 
     </div>
 
@@ -1348,7 +1436,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l112"><code>src&#x2F;core&#x2F;PluginManager.ts:112</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l161"><code>src&#x2F;core&#x2F;PluginManager.ts:161</code></a>
         
         </p>
 
@@ -1358,7 +1446,8 @@ This will ignore plugin that are registered but not used by the game instance.</
     </div>
 
     <div class="description">
-        <p>An array of plugin names which the game instance has been configured to use. Each name must match the constructor function for the plugin.</p>
+        <p>Array of plugin names which the game instance has been configured
+to use. Each name must match the constructor function for the plugin.</p>
 
     </div>
 
@@ -1370,14 +1459,14 @@ This will ignore plugin that are registered but not used by the game instance.</
 </div>
 
                 
-                    <div id="property_getAvailablePlugins" class="property item private">
+                    <div id="property_getAvailablePlugins" class="property item public">
     <h3 class="name"><code>getAvailablePlugins</code></h3>
     <span class="type">Array</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -1397,7 +1486,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l45"><code>src&#x2F;core&#x2F;PluginManager.ts:45</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l63"><code>src&#x2F;core&#x2F;PluginManager.ts:63</code></a>
         
         </p>
 
@@ -1407,7 +1496,8 @@ This will ignore plugin that are registered but not used by the game instance.</
     </div>
 
     <div class="description">
-        <p>An array of objects represetning all available plugins, each containing the name and version number of an available plugin</p>
+        <p>Array of objects representing all available plugins,
+each containing the name and version number of an available plugin</p>
 
     </div>
 
@@ -1421,7 +1511,7 @@ This will ignore plugin that are registered but not used by the game instance.</
                 
                     <div id="property_objType" class="property item public">
     <h3 class="name"><code>objType</code></h3>
-    <span class="type">String "PluginManager"</span>
+    <span class="type">String</span>
 
     
 
@@ -1444,7 +1534,7 @@ This will ignore plugin that are registered but not used by the game instance.</
             
         
         
-        <a href="../files/src_core_PluginManager.ts.html#l94"><code>src&#x2F;core&#x2F;PluginManager.ts:94</code></a>
+        <a href="../files/src_core_PluginManager.ts.html#l140"><code>src&#x2F;core&#x2F;PluginManager.ts:140</code></a>
         
         </p>
 
@@ -1459,52 +1549,7 @@ This will ignore plugin that are registered but not used by the game instance.</
     </div>
 
     
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_objType" class="property item private">
-    <h3 class="name"><code>objType</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_PluginManager.ts.html#l104"><code>src&#x2F;core&#x2F;PluginManager.ts:104</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A reference to the game instance that owns the PluginManager.</p>
-
-    </div>
-
+        <p><strong>Default:</strong> &quot;PluginManager&quot;</p>
     
 
     
