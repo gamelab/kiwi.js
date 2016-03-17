@@ -2392,48 +2392,44 @@
             "namespace": "Kiwi.Components",
             "file": "src/components/Box.ts",
             "line": 10,
-            "description": "The Box Component is used to handle the various 'bounds' that each GameObject has. \nThere are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:\n\nRawBounds: The bounding box of the GameObject before rotation/scale.\n\nRawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.\n\nBounds: The bounding box of the GameObject after rotation/scale.\n\nHitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.\n\nWorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.\n\nWorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.",
+            "description": "The Box Component is used to handle the various bounds\nof each GameObject.\n\nAll bounds are rectangles.\nThere are two main different types of bounds: Bounds and Hitbox.\nEach has three variants:\n\n* `rawBounds`: Bounding box of the GameObject before rotation/scale.\n* `rawHitbox`: Hitbox of the GameObject before rotation/scale.\n  This can be modified to be different than the normal bounds but if\n  not specified it will be the same as the raw bounds.\n* `bounds`: Bounding box of the GameObject after rotation/scale.\n* `hitbox`: Hitbox of the GameObject after rotation/scale.\n  If you modified the raw hitbox then this one will be modified\n  as well, otherwise it will be the same as the normal bounds.\n* `worldBounds`: Bounding box of the Entity using its world coordinates\n  and after rotation/scale.\n* `worldHitbox`: Hitbox of the Entity using its world coordinates\n  and after rotation/scale.\n\nNOTE: If you want to alter the hitbox, you must set `hitbox`\nto a new `Geom.Rect` object. This will update internal Box values.",
             "extends": "Kiwi.Component",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "parent",
-                    "description": "The entity that this box belongs to.",
+                    "description": "Entity that this box belongs to",
                     "type": "Kiwi.Entity"
                 },
                 {
                     "name": "x",
-                    "description": "Its position on the x axis",
+                    "description": "Horizontal position",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "y",
-                    "description": "Its position on the y axis",
+                    "description": "Vertical position",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "width",
-                    "description": "The width of the box.",
+                    "description": "Width of the box",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 },
                 {
                     "name": "height",
-                    "description": "The height of the box.",
+                    "description": "Height of the box",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
                 }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Components.Box"
-            }
+            ]
         },
         "Kiwi.Components.Input": {
             "name": "Kiwi.Components.Input",
@@ -10679,8 +10675,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 58,
-            "description": "The entity that this box belongs to.",
+            "line": 70,
+            "description": "Entity that this box belongs to",
             "itemtype": "property",
             "name": "entity",
             "type": "Kiwi.Entity",
@@ -10693,8 +10689,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 67,
-            "description": "The type of object that this is.",
+            "line": 80,
+            "description": "Type of object that this is",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -10710,13 +10706,13 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 78,
-            "description": "Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).\nOr if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had. \nThis property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.",
+            "line": 92,
+            "description": "Whether the hitbox should update automatically to match the hitbox\nof the current cell on the entity this Box component is attached to\n(default behaviour).\nIf the hitbox shouldn't auto update, it will keep its last value.\n\nThis property is automatically set to `false` when you override\nthe hitbox, but you can set this to true afterwards.",
             "itemtype": "property",
             "name": "autoUpdate",
             "type": "boolean",
             "default": "true",
-            "access": "private",
+            "access": "public",
             "tagname": "",
             "class": "Kiwi.Components.Box",
             "module": "Kiwi",
@@ -10725,8 +10721,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 91,
-            "description": "Indicates whether or not this component needs re-rendering/updating or not.",
+            "line": 109,
+            "description": "Whether this component needs re-rendering/updating or not",
             "itemtype": "property",
             "name": "dirty",
             "type": "boolean",
@@ -10741,8 +10737,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 102,
-            "description": "Contains offset point for the hitbox",
+            "line": 120,
+            "description": "Offset point for the hitbox",
             "itemtype": "property",
             "name": "_hitboxOffset",
             "type": "Kiwi.Geom.Point",
@@ -10755,8 +10751,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 112,
-            "description": "Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.\nThis is without rotation or scaling.\nThis is a READ ONLY property.",
+            "line": 132,
+            "description": "Offset value of the hitbox as a point on the X/Y axis.\nThis is without rotation or scaling.\nThis is a READ ONLY property.",
             "itemtype": "property",
             "name": "hitboxOffset",
             "type": "Kiwi.Geom.Point",
@@ -10769,8 +10765,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 135,
-            "description": "Contains the offset rectangle for the raw hitbox.",
+            "line": 159,
+            "description": "Offset rectangle for the raw hitbox",
             "itemtype": "property",
             "name": "_rawHitbox",
             "type": "Kiwi.Geom.Rectangle",
@@ -10783,8 +10779,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 144,
-            "description": "Returns the raw hitbox rectangle for the developer to use. \n'Raw' means where it would be without rotation or scaling.\nThis is READ ONLY.",
+            "line": 170,
+            "description": "Raw hitbox rectangle.\n\"Raw\" means where it would be without rotation or scaling.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawHitbox",
             "type": "Kiwi.Geom.Rectangle",
@@ -10797,8 +10793,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 175,
-            "description": "The transformed or 'normal' hitbox for the entity. This is its box after rotation/scale.",
+            "line": 205,
+            "description": "Transformed or \"normal\" hitbox for the entity.\nThis is its box after rotation/scale.",
             "itemtype": "property",
             "name": "_transformedHitbox",
             "type": "Kiwi.Geom.Rectangle",
@@ -10811,8 +10807,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 184,
-            "description": "The transformed 'world' hitbox for the entity. This is its box after rotation/scale.",
+            "line": 216,
+            "description": "Transformed \"world\" hitbox for the entity.\nThis is its box after rotation/scale.",
             "itemtype": "property",
             "name": "_worldHitbox",
             "type": "Kiwi.Geom.Rectangle",
@@ -10825,8 +10821,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 193,
-            "description": "The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.",
+            "line": 227,
+            "description": "\"Normal\" or transformed hitbox for the entity.\nThis is its box after rotation/Kiwi.Geom.Rectangle.\n\nYou cannot modify this value in place. You must set it to\na new `Kiwi.Geom.Rectangle` object, which will update\ninternal records.",
             "itemtype": "property",
             "name": "hitbox",
             "type": "Kiwi.Geom.Rectangle",
@@ -10839,8 +10835,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 222,
-            "description": "Returns the transformed hitbox for the entity using its 'world' coordinates.\nThis is READ ONLY.",
+            "line": 260,
+            "description": "Transformed hitbox for the entity\nusing its \"world\" coordinates.\n\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "worldHitbox",
             "type": "Kiwi.Geom.Rectangle",
@@ -10853,8 +10849,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 237,
-            "description": "The 'raw' bounds of entity. This is its bounds before rotation/scale.\nThis for property is only for storage of the values and should be accessed via the getter 'rawBounds' so that it can update.",
+            "line": 277,
+            "description": "\"Raw\" bounds of entity. These are its bounds before rotation/scale.\nThis property is only for storage of the values\nand should be accessed via the getter `rawBounds` so it can update.",
             "itemtype": "property",
             "name": "_rawBounds",
             "type": "Kiwi.Geom.Rectangle",
@@ -10867,8 +10863,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 249,
-            "description": "Returns the 'raw' bounds for this entity.\nThis is READ ONLY.",
+            "line": 289,
+            "description": "\"Raw\" bounds for this entity.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawBounds",
             "type": "Kiwi.Geom.Rectangle",
@@ -10881,8 +10877,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 267,
-            "description": "Contains the 'raw' center point for the bounds.",
+            "line": 307,
+            "description": "\"Raw\" center point for the bounds",
             "itemtype": "property",
             "name": "Kiwi.Geom.Point",
             "type": "Kiwi.Geom.Point",
@@ -10895,8 +10891,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 276,
-            "description": "Returns the raw center point of the box.\nThis is READ ONLY.",
+            "line": 317,
+            "description": "Raw center point of the box.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "rawCenter",
             "type": "Kiwi.Geom.Point",
@@ -10909,7 +10905,7 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 290,
+            "line": 332,
             "description": "Scratch matrix used in geometry calculations",
             "itemtype": "property",
             "name": "_scratchMatrix",
@@ -10924,8 +10920,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 301,
-            "description": "Contains the center point after the box has been transformed.",
+            "line": 343,
+            "description": "Center point after the box has been transformed",
             "itemtype": "property",
             "name": "_transformedCenter",
             "type": "Kiwi.Geom.Point",
@@ -10938,8 +10934,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 310,
-            "description": "Returns the center point for the box after it has been transformed.\nWorld coordinates.\nThis is READ ONLY.",
+            "line": 353,
+            "description": "Center point for the box after it has been transformed.\nWorld coordinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "center",
             "type": "Kiwi.Geom.Point",
@@ -10952,8 +10948,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 331,
-            "description": "Contains the transformed or 'normal' bounds for this entity.",
+            "line": 375,
+            "description": "Transformed or \"normal\" bounds for this entity",
             "itemtype": "property",
             "name": "_transformedBounds",
             "type": "Kiwi.Geom.Rectangle",
@@ -10966,8 +10962,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 340,
-            "description": "The 'world' transformed bounds for this entity.",
+            "line": 385,
+            "description": "\"World\" transformed bounds for this entity",
             "itemtype": "property",
             "name": "_worldBounds",
             "type": "Kiwi.Geom.Rectangle",
@@ -10980,8 +10976,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 349,
-            "description": "Returns the 'transformed' or 'normal' bounds for this box. \nThis is READ ONLY.",
+            "line": 395,
+            "description": "\"Transformed\" or \"normal\" bounds for this box.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "bounds",
             "type": "Kiwi.Geom.Rectangle",
@@ -10994,8 +10990,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 362,
-            "description": "Returns the 'transformed' bounds for this entity using the world coodinates.\nThis is READ ONLY.",
+            "line": 410,
+            "description": "\"Transformed\" bounds for this entity using the world coodinates.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "worldBounds",
             "type": "Kiwi.Geom.Rectangle",
@@ -11008,8 +11004,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 375,
-            "description": "Private internal method only. Used to calculate the transformed bounds after rotation/scale.",
+            "line": 429,
+            "description": "Calculate the transformed bounds after rotation/scale.",
             "itemtype": "method",
             "name": "_rotateRect",
             "params": [
@@ -11039,8 +11035,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 406,
-            "description": "A private method that is used to calculate the transformed hitbox's coordinates after rotation.",
+            "line": 471,
+            "description": "Calculate the transformed hitbox's coordinates after rotation.",
             "itemtype": "method",
             "name": "_rotateHitbox",
             "params": [
@@ -11070,19 +11066,19 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 438,
-            "description": "Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.",
+            "line": 518,
+            "description": "Draw the various bounds on a context that is passed.\nUseful for debugging with the debug canvas.",
             "itemtype": "method",
             "name": "draw",
             "params": [
                 {
                     "name": "ctx",
-                    "description": "Context of the canvas that this box component is to be rendered on top of.",
+                    "description": "Rendering context\n\tto draw the box to",
                     "type": "CanvasRenderingContext2D"
                 },
                 {
                     "name": "camera",
-                    "description": "A camera that should be taken into account before rendered. This is the default camera by default.",
+                    "description": "Camera to use for drawing.\n\tThis is the default camera by default.",
                     "type": "Kiwi.Camera",
                     "optional": true
                 }
@@ -11096,29 +11092,29 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 477,
-            "description": "Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.\nThe points passed can be maybe in any order, as the are checked for validity first.",
+            "line": 575,
+            "description": "Method which takes four Points and then converts it into\na Rectangle, which represents the area those points covered.\nThe points passed can be in any order,\nas they are checked for validity first.",
             "itemtype": "method",
             "name": "extents",
             "params": [
                 {
                     "name": "topLeftPoint",
-                    "description": "The top left Point that the Rectangle should have.",
+                    "description": "Rectangle corner",
                     "type": "Kiwi.Geom.Point"
                 },
                 {
                     "name": "topRightPoint",
-                    "description": "The top right Point that the Rectangle should have.",
+                    "description": "Rectangle corner",
                     "type": "Kiwi.Geom.Point"
                 },
                 {
                     "name": "bottomRightPoint",
-                    "description": "The bottom right Point that the Rectangle should have.",
+                    "description": "Rectangle corner",
                     "type": "Kiwi.Geom.Point"
                 },
                 {
                     "name": "bottomLeftPoint",
-                    "description": "The bottom left Point that the Rectangle should have.",
+                    "description": "Rectangle corner",
                     "type": "Kiwi.Geom.Point"
                 }
             ],
@@ -11132,8 +11128,8 @@
         },
         {
             "file": "src/components/Box.ts",
-            "line": 501,
-            "description": "Destroys this component and all of the links it may have to other objects.",
+            "line": 611,
+            "description": "Destroy this component and all of the links it may have\nto other objects.",
             "itemtype": "method",
             "name": "destroy",
             "access": "public",

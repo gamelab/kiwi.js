@@ -8200,60 +8200,69 @@ var Kiwi;
     })(Components = Kiwi.Components || (Kiwi.Components = {}));
 })(Kiwi || (Kiwi = {}));
 /**
-*
-* @module Kiwi
-* @submodule Components
-*
-*/
+@module Kiwi
+@submodule Components
+**/
 var Kiwi;
 (function (Kiwi) {
     var Components;
     (function (Components) {
-        /**
-        * The Box Component is used to handle the various 'bounds' that each GameObject has.
-        * There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:
-        *
-        * RawBounds: The bounding box of the GameObject before rotation/scale.
-        *
-        * RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.
-        *
-        * Bounds: The bounding box of the GameObject after rotation/scale.
-        *
-        * Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.
-        *
-        * WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.
-        *
-        * WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.
-        *
-        * @class Box
-        * @extends Kiwi.Component
-        * @namespace Kiwi.Components
-        * @constructor
-        * @param parent {Kiwi.Entity} The entity that this box belongs to.
-        * @param [x=0] {Number} Its position on the x axis
-        * @param [y=0] {Number} Its position on the y axis
-        * @param [width=0] {Number} The width of the box.
-        * @param [height=0] {Number} The height of the box.
-        * @return {Kiwi.Components.Box}
-        */
         var Box = (function (_super) {
             __extends(Box, _super);
+            /**
+            The Box Component is used to handle the various bounds
+            of each GameObject.
+    
+            All bounds are rectangles.
+            There are two main different types of bounds: Bounds and Hitbox.
+            Each has three variants:
+    
+            * `rawBounds`: Bounding box of the GameObject before rotation/scale.
+            * `rawHitbox`: Hitbox of the GameObject before rotation/scale.
+              This can be modified to be different than the normal bounds but if
+              not specified it will be the same as the raw bounds.
+            * `bounds`: Bounding box of the GameObject after rotation/scale.
+            * `hitbox`: Hitbox of the GameObject after rotation/scale.
+              If you modified the raw hitbox then this one will be modified
+              as well, otherwise it will be the same as the normal bounds.
+            * `worldBounds`: Bounding box of the Entity using its world coordinates
+              and after rotation/scale.
+            * `worldHitbox`: Hitbox of the Entity using its world coordinates
+              and after rotation/scale.
+    
+            NOTE: If you want to alter the hitbox, you must set `hitbox`
+            to a new `Geom.Rect` object. This will update internal Box values.
+    
+            @class Box
+            @extends Kiwi.Component
+            @namespace Kiwi.Components
+            @constructor
+            @param parent {Kiwi.Entity} Entity that this box belongs to
+            @param [x=0] {number} Horizontal position
+            @param [y=0] {number} Vertical position
+            @param [width=0] {number} Width of the box
+            @param [height=0] {number} Height of the box
+            **/
             function Box(parent, x, y, width, height) {
                 if (x === void 0) { x = 0; }
                 if (y === void 0) { y = 0; }
                 if (width === void 0) { width = 0; }
                 if (height === void 0) { height = 0; }
-                _super.call(this, parent, 'Box');
+                _super.call(this, parent, "Box");
                 /**
-                * Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
-                * Or if the hitbox shouldn't auto update. Which will mean it will stay the same as the last value it had.
-                * This property is automatically set to 'false' when you override the hitboxes width/height, but you can set this to true afterwards.
-                *
-                * @property autoUpdate
-                * @type boolean
-                * @default true
-                * @private
-                */
+                Whether the hitbox should update automatically to match the hitbox
+                of the current cell on the entity this Box component is attached to
+                (default behaviour).
+                If the hitbox shouldn't auto update, it will keep its last value.
+        
+                This property is automatically set to `false` when you override
+                the hitbox, but you can set this to true afterwards.
+        
+                @property autoUpdate
+                @type boolean
+                @default true
+                @public
+                **/
                 this.autoUpdate = true;
                 this.entity = parent;
                 this._rawBounds = new Kiwi.Geom.Rectangle(x, y, width, height);
@@ -8265,24 +8274,26 @@ var Kiwi;
                 this._scratchMatrix = new Kiwi.Geom.Matrix();
             }
             /**
-            * The type of object that this is.
-            * @method objType
-            * @return {string} "Box"
-            * @public
-            */
+            Type of object that this is
+    
+            @method objType
+            @return {string} "Box"
+            @public
+            **/
             Box.prototype.objType = function () {
                 return "Box";
             };
             Object.defineProperty(Box.prototype, "hitboxOffset", {
-                /**
-                * Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
-                * This is without rotation or scaling.
-                * This is a READ ONLY property.
-                * @property hitboxOffset
-                * @type Kiwi.Geom.Point
-                * @public
-                */
                 get: function () {
+                    /**
+                    Offset value of the hitbox as a point on the X/Y axis.
+                    This is without rotation or scaling.
+                    This is a READ ONLY property.
+        
+                    @property hitboxOffset
+                    @type Kiwi.Geom.Point
+                    @public
+                    **/
                     if (this.autoUpdate == true && this.entity.atlas !== null && this.entity.atlas.cells && this.entity.atlas.cells[0].hitboxes) {
                         this._hitboxOffset.x = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].x || 0;
                         this._hitboxOffset.y = this.entity.atlas.cells[this.entity.cellIndex].hitboxes[0].y || 0;
@@ -8293,18 +8304,21 @@ var Kiwi;
                 configurable: true
             });
             Object.defineProperty(Box.prototype, "rawHitbox", {
-                /**
-                * Returns the raw hitbox rectangle for the developer to use.
-                * 'Raw' means where it would be without rotation or scaling.
-                * This is READ ONLY.
-                * @property rawHitbox
-                * @type Kiwi.Geom.Rectangle
-                * @public
-                */
                 get: function () {
+                    /**
+                    Raw hitbox rectangle.
+                    "Raw" means where it would be without rotation or scaling.
+                    This is READ ONLY.
+        
+                    @property rawHitbox
+                    @type Kiwi.Geom.Rectangle
+                    @public
+                    **/
                     this._rawHitbox.x = this.rawBounds.x + this.hitboxOffset.x;
                     this._rawHitbox.y = this.rawBounds.y + this.hitboxOffset.y;
-                    //If the hitbox has not already been set, then update the width/height based upon the current cell that the entity has.
+                    // If the hitbox has not already been set,
+                    // then update the width/height based upon
+                    // the current cell that the entity has.
                     if (this.autoUpdate == true) {
                         var atlas = this.entity.atlas;
                         if (atlas !== null && atlas.cells && atlas.cells[0].hitboxes) {
@@ -8323,17 +8337,23 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "hitbox", {
                 /**
-                * The 'normal' or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.
-                * @property hitbox
-                * @type Kiwi.Geom.Rectangle
-                * @public
-                */
+                "Normal" or transformed hitbox for the entity.
+                This is its box after rotation/Kiwi.Geom.Rectangle.
+        
+                You cannot modify this value in place. You must set it to
+                a new `Kiwi.Geom.Rectangle` object, which will update
+                internal records.
+        
+                @property hitbox
+                @type Kiwi.Geom.Rectangle
+                @public
+                **/
                 get: function () {
                     this._transformedHitbox = this._rotateHitbox(this.rawHitbox.clone());
                     return this._transformedHitbox;
                 },
                 set: function (value) {
-                    //Use custom hitbox defined by user.
+                    // Use custom hitbox defined by user.
                     this._hitboxOffset.x = value.x;
                     this._hitboxOffset.y = value.y;
                     this._rawHitbox = value;
@@ -8346,12 +8366,14 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "worldHitbox", {
                 /**
-                * Returns the transformed hitbox for the entity using its 'world' coordinates.
-                * This is READ ONLY.
-                * @property worldHitbox
-                * @type Kiwi.Geom.Rectangle
-                * @public
-                */
+                Transformed hitbox for the entity
+                using its "world" coordinates.
+        
+                This is READ ONLY.
+                @property worldHitbox
+                @type Kiwi.Geom.Rectangle
+                @public
+                **/
                 get: function () {
                     this._worldHitbox = this._rotateHitbox(this.rawHitbox.clone(), true);
                     return this._worldHitbox;
@@ -8361,12 +8383,13 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "rawBounds", {
                 /**
-                * Returns the 'raw' bounds for this entity.
-                * This is READ ONLY.
-                * @property rawBounds
-                * @type Kiwi.Geom.Rectangle
-                * @public
-                */
+                "Raw" bounds for this entity.
+                This is READ ONLY.
+        
+                @property rawBounds
+                @type Kiwi.Geom.Rectangle
+                @public
+                **/
                 get: function () {
                     this._rawBounds.x = this.entity.x;
                     this._rawBounds.y = this.entity.y;
@@ -8379,12 +8402,13 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "rawCenter", {
                 /**
-                * Returns the raw center point of the box.
-                * This is READ ONLY.
-                * @property rawCenter
-                * @type Kiwi.Geom.Point
-                * @public
-                */
+                Raw center point of the box.
+                This is READ ONLY.
+        
+                @property rawCenter
+                @type Kiwi.Geom.Point
+                @public
+                **/
                 get: function () {
                     this._rawCenter.x = this.rawBounds.x + this.rawBounds.width / 2;
                     this._rawCenter.y = this.rawBounds.y + this.rawBounds.height / 2;
@@ -8395,13 +8419,14 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "center", {
                 /**
-                * Returns the center point for the box after it has been transformed.
-                * World coordinates.
-                * This is READ ONLY.
-                * @property center
-                * @type Kiwi.Geom.Point
-                * @public
-                */
+                Center point for the box after it has been transformed.
+                World coordinates.
+                This is READ ONLY.
+        
+                @property center
+                @type Kiwi.Geom.Point
+                @public
+                **/
                 get: function () {
                     var m = this.entity.transform.getConcatenatedMatrix();
                     this._transformedCenter = m.transformPoint(new Kiwi.Geom.Point(this.entity.width / 2 - this.entity.anchorPointX, this.entity.height / 2 - this.entity.anchorPointY));
@@ -8412,12 +8437,13 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "bounds", {
                 /**
-                * Returns the 'transformed' or 'normal' bounds for this box.
-                * This is READ ONLY.
-                * @property bounds
-                * @type Kiwi.Geom.Rectangle
-                * @public
-                */
+                "Transformed" or "normal" bounds for this box.
+                This is READ ONLY.
+        
+                @property bounds
+                @type Kiwi.Geom.Rectangle
+                @public
+                **/
                 get: function () {
                     this._transformedBounds = this._rotateRect(this.rawBounds.clone());
                     return this._transformedBounds;
@@ -8427,12 +8453,13 @@ var Kiwi;
             });
             Object.defineProperty(Box.prototype, "worldBounds", {
                 /**
-                * Returns the 'transformed' bounds for this entity using the world coodinates.
-                * This is READ ONLY.
-                * @property worldBounds
-                * @type Kiwi.Geom.Rectangle
-                * @public
-                */
+                "Transformed" bounds for this entity using the world coodinates.
+                This is READ ONLY.
+        
+                @property worldBounds
+                @type Kiwi.Geom.Rectangle
+                @public
+                **/
                 get: function () {
                     this._worldBounds = this._rotateRect(this.rawBounds.clone(), true);
                     return this._worldBounds;
@@ -8440,15 +8467,47 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            /**
-            * Private internal method only. Used to calculate the transformed bounds after rotation/scale.
-            * @method _rotateRect
-            * @param rect {Kiwi.Geom.Rectangle}
-            * @param [useWorldCoords=false] {Boolean}
-            * @return {Kiwi.Geom.Rectangle}
-            * @private
-            */
             Box.prototype._rotateRect = function (rect, useWorldCoords) {
+                /**
+                Calculate the transformed bounds after rotation/scale.
+    
+                @method _rotateRect
+                @param rect {Kiwi.Geom.Rectangle}
+                @param [useWorldCoords=false] {Boolean}
+                @return {Kiwi.Geom.Rectangle}
+                @private
+                **/
+                if (useWorldCoords === void 0) { useWorldCoords = false; }
+                var out = new Kiwi.Geom.Rectangle(), t = this.entity.transform, m = this._scratchMatrix.copyFrom(t.getConcatenatedMatrix());
+                // Use world coordinates?
+                if (!useWorldCoords) {
+                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
+                }
+                out = this.extents(m.transformPoint({
+                    x: -t.rotPointX,
+                    y: -t.rotPointY
+                }), m.transformPoint({
+                    x: -t.rotPointX + rect.width,
+                    y: -t.rotPointY
+                }), m.transformPoint({
+                    x: -t.rotPointX + rect.width,
+                    y: -t.rotPointY + rect.height
+                }), m.transformPoint({
+                    x: -t.rotPointX,
+                    y: -t.rotPointY + rect.height
+                }));
+                return out;
+            };
+            Box.prototype._rotateHitbox = function (rect, useWorldCoords) {
+                /**
+                Calculate the transformed hitbox's coordinates after rotation.
+    
+                @method _rotateHitbox
+                @param rect {Kiwi.Geom.Rectangle}
+                @param [useWorldCoords=false] {Boolean}
+                @return {Kiwi.Geom.Rectangle}
+                @private
+                **/
                 if (useWorldCoords === void 0) { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
@@ -8457,37 +8516,33 @@ var Kiwi;
                 if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
                 }
-                out = this.extents(m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY }), m.transformPoint({ x: -t.rotPointX + rect.width, y: -t.rotPointY + rect.height }), m.transformPoint({ x: -t.rotPointX, y: -t.rotPointY + rect.height }));
+                out = this.extents(m.transformPoint({
+                    x: -t.rotPointX + this._hitboxOffset.x,
+                    y: -t.rotPointY + this._hitboxOffset.y
+                }), m.transformPoint({
+                    x: -t.rotPointX + rect.width + this._hitboxOffset.x,
+                    y: -t.rotPointY + this._hitboxOffset.y
+                }), m.transformPoint({
+                    x: -t.rotPointX + rect.width + this._hitboxOffset.x,
+                    y: -t.rotPointY + rect.height + this._hitboxOffset.y
+                }), m.transformPoint({
+                    x: -t.rotPointX + this._hitboxOffset.x,
+                    y: -t.rotPointY + rect.height + this._hitboxOffset.y
+                }));
                 return out;
             };
-            /**
-            * A private method that is used to calculate the transformed hitbox's coordinates after rotation.
-            * @method _rotateHitbox
-            * @param rect {Kiwi.Geom.Rectangle}
-            * @param [useWorldCoords=false] {Boolean}
-            * @return {Kiwi.Geom.Rectangle}
-            * @private
-            */
-            Box.prototype._rotateHitbox = function (rect, useWorldCoords) {
-                if (useWorldCoords === void 0) { useWorldCoords = false; }
-                var out = new Kiwi.Geom.Rectangle();
-                var t = this.entity.transform;
-                var m = this._scratchMatrix.copyFrom(t.getConcatenatedMatrix());
-                //Use world coordinates?
-                if (!useWorldCoords) {
-                    m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
-                }
-                out = this.extents(m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + rect.width + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }), m.transformPoint({ x: -t.rotPointX + this._hitboxOffset.x, y: -t.rotPointY + rect.height + this._hitboxOffset.y }));
-                return out;
-            };
-            /**
-            * Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.
-            * @method draw
-            * @param ctx {CanvasRenderingContext2D} Context of the canvas that this box component is to be rendered on top of.
-            * @param [camera] {Kiwi.Camera} A camera that should be taken into account before rendered. This is the default camera by default.
-            * @public
-            */
             Box.prototype.draw = function (ctx, camera) {
+                /**
+                Draw the various bounds on a context that is passed.
+                Useful for debugging with the debug canvas.
+    
+                @method draw
+                @param ctx {CanvasRenderingContext2D} Rendering context
+                    to draw the box to
+                @param [camera] {Kiwi.Camera} Camera to use for drawing.
+                    This is the default camera by default.
+                @public
+                **/
                 if (camera === void 0) { camera = this.game.cameras.defaultCamera; }
                 var t = this.entity.transform;
                 var ct = camera.transform;
@@ -8511,31 +8566,33 @@ var Kiwi;
                 ctx.strokeStyle = "cyan";
                 ctx.strokeRect(this.worldHitbox.x, this.worldHitbox.y, this.worldHitbox.width, this.worldHitbox.height);
             };
-            /**
-            * Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
-            * The points passed can be maybe in any order, as the are checked for validity first.
-            *
-            * @method extents
-            * @param topLeftPoint {Kiwi.Geom.Point} The top left Point that the Rectangle should have.
-            * @param topRightPoint {Kiwi.Geom.Point} The top right Point that the Rectangle should have.
-            * @param bottomRightPoint {Kiwi.Geom.Point} The bottom right Point that the Rectangle should have.
-            * @param bottomLeftPoint {Kiwi.Geom.Point} The bottom left Point that the Rectangle should have.
-            * @return {Kiwi.Geom.Rectangle} The new Rectangle that represents the area the points covered.
-            * @return Rectangle
-            */
             Box.prototype.extents = function (topLeftPoint, topRightPoint, bottomRightPoint, bottomLeftPoint) {
-                var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
-                var right = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x);
-                var top = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
-                var bottom = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
+                /**
+                Method which takes four Points and then converts it into
+                a Rectangle, which represents the area those points covered.
+                The points passed can be in any order,
+                as they are checked for validity first.
+    
+                @method extents
+                @param topLeftPoint {Kiwi.Geom.Point} Rectangle corner
+                @param topRightPoint {Kiwi.Geom.Point} Rectangle corner
+                @param bottomRightPoint {Kiwi.Geom.Point} Rectangle corner
+                @param bottomLeftPoint {Kiwi.Geom.Point} Rectangle corner
+                @return {Kiwi.Geom.Rectangle} Rectangle that represents
+                    the area the points covered.
+                @return Rectangle
+                **/
+                var left = Math.min(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x), right = Math.max(topLeftPoint.x, topRightPoint.x, bottomRightPoint.x, bottomLeftPoint.x), top = Math.min(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y), bottom = Math.max(topLeftPoint.y, topRightPoint.y, bottomRightPoint.y, bottomLeftPoint.y);
                 return new Kiwi.Geom.Rectangle(left, top, right - left, bottom - top);
             };
-            /**
-            * Destroys this component and all of the links it may have to other objects.
-            * @method destroy
-            * @public
-            */
             Box.prototype.destroy = function () {
+                /**
+                Destroy this component and all of the links it may have
+                to other objects.
+    
+                @method destroy
+                @public
+                **/
                 _super.prototype.destroy.call(this);
                 delete this.entity;
             };

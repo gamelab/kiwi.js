@@ -391,14 +391,27 @@
 
 
 <div class="box intro">
-    <p>The Box Component is used to handle the various &#39;bounds&#39; that each GameObject has. 
-There are two main different types of bounds (Bounds and Hitbox) with each one having three variants (each one is a rectangle) depending on what you are wanting:</p>
-<p>RawBounds: The bounding box of the GameObject before rotation/scale.</p>
-<p>RawHitbox: The hitbox of the GameObject before rotation/scale. This can be modified to be different than the normal bounds but if not specified it will be the same as the raw bounds.</p>
-<p>Bounds: The bounding box of the GameObject after rotation/scale.</p>
-<p>Hitbox: The hitbox of the GameObject after rotation/scale. If you modified the raw hitbox then this one will be modified as well, otherwise it will be the same as the normal bounds.</p>
-<p>WorldBounds: The bounding box of the Entity using its world coordinates and after rotation/scale.</p>
-<p>WorldHitbox: The hitbox of the Entity using its world coordinates and after rotation/scale.</p>
+    <p>The Box Component is used to handle the various bounds
+of each GameObject.</p>
+<p>All bounds are rectangles.
+There are two main different types of bounds: Bounds and Hitbox.
+Each has three variants:</p>
+<ul>
+<li><code>rawBounds</code>: Bounding box of the GameObject before rotation/scale.</li>
+<li><code>rawHitbox</code>: Hitbox of the GameObject before rotation/scale.
+This can be modified to be different than the normal bounds but if
+not specified it will be the same as the raw bounds.</li>
+<li><code>bounds</code>: Bounding box of the GameObject after rotation/scale.</li>
+<li><code>hitbox</code>: Hitbox of the GameObject after rotation/scale.
+If you modified the raw hitbox then this one will be modified
+as well, otherwise it will be the same as the normal bounds.</li>
+<li><code>worldBounds</code>: Bounding box of the Entity using its world coordinates
+and after rotation/scale.</li>
+<li><code>worldHitbox</code>: Hitbox of the Entity using its world coordinates
+and after rotation/scale.</li>
+</ul>
+<p>NOTE: If you want to alter the hitbox, you must set <code>hitbox</code>
+to a new <code>Geom.Rect</code> object. This will update internal Box values.</p>
 
 </div>
 
@@ -446,10 +459,6 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>
-        </span>
     
 
     
@@ -504,7 +513,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>The entity that this box belongs to.</p>
+                        <p>Entity that this box belongs to</p>
 
                     </div>
 
@@ -521,7 +530,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>Its position on the x axis</p>
+                        <p>Horizontal position</p>
 
                     </div>
 
@@ -538,7 +547,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>Its position on the y axis</p>
+                        <p>Vertical position</p>
 
                     </div>
 
@@ -555,7 +564,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>The width of the box.</p>
+                        <p>Width of the box</p>
 
                     </div>
 
@@ -572,7 +581,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>The height of the box.</p>
+                        <p>Height of the box</p>
 
                     </div>
 
@@ -583,18 +592,6 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Components.Box.html" class="crosslink">Kiwi.Components.Box</a></span>:
-                    
-                
-            </div>
-        </div>
     
 
     
@@ -770,7 +767,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                                 
                             </li>
                         
-                            <li class="index-item property private">
+                            <li class="index-item property public">
                                 <a href="#property_autoUpdate">autoUpdate</a>
 
                                 
@@ -959,7 +956,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
             
         
         
-        <a href="../files/src_components_Box.ts.html#l406"><code>src&#x2F;components&#x2F;Box.ts:406</code></a>
+        <a href="../files/src_components_Box.ts.html#l471"><code>src&#x2F;components&#x2F;Box.ts:471</code></a>
         
         </p>
 
@@ -970,7 +967,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
     </div>
 
     <div class="description">
-        <p>A private method that is used to calculate the transformed hitbox&#39;s coordinates after rotation.</p>
+        <p>Calculate the transformed hitbox&#39;s coordinates after rotation.</p>
 
     </div>
 
@@ -1087,7 +1084,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
             
         
         
-        <a href="../files/src_components_Box.ts.html#l375"><code>src&#x2F;components&#x2F;Box.ts:375</code></a>
+        <a href="../files/src_components_Box.ts.html#l429"><code>src&#x2F;components&#x2F;Box.ts:429</code></a>
         
         </p>
 
@@ -1098,7 +1095,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
     </div>
 
     <div class="description">
-        <p>Private internal method only. Used to calculate the transformed bounds after rotation/scale.</p>
+        <p>Calculate the transformed bounds after rotation/scale.</p>
 
     </div>
 
@@ -1195,7 +1192,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
             
         
         
-        <a href="../files/src_components_Box.ts.html#l501"><code>src&#x2F;components&#x2F;Box.ts:501</code></a>
+        <a href="../files/src_components_Box.ts.html#l611"><code>src&#x2F;components&#x2F;Box.ts:611</code></a>
         
         </p>
 
@@ -1206,7 +1203,8 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
     </div>
 
     <div class="description">
-        <p>Destroys this component and all of the links it may have to other objects.</p>
+        <p>Destroy this component and all of the links it may have
+to other objects.</p>
 
     </div>
 
@@ -1268,7 +1266,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
             
         
         
-        <a href="../files/src_components_Box.ts.html#l438"><code>src&#x2F;components&#x2F;Box.ts:438</code></a>
+        <a href="../files/src_components_Box.ts.html#l518"><code>src&#x2F;components&#x2F;Box.ts:518</code></a>
         
         </p>
 
@@ -1279,7 +1277,8 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
     </div>
 
     <div class="description">
-        <p>Draws the various bounds on a context that is passed. Useful for debugging and using in combination with the debug canvas.</p>
+        <p>Draw the various bounds on a context that is passed.
+Useful for debugging with the debug canvas.</p>
 
     </div>
 
@@ -1298,7 +1297,8 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>Context of the canvas that this box component is to be rendered on top of.</p>
+                        <p>Rendering context
+    to draw the box to</p>
 
                     </div>
 
@@ -1315,7 +1315,8 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
                     
 
                     <div class="param-description">
-                        <p>A camera that should be taken into account before rendered. This is the default camera by default.</p>
+                        <p>Camera to use for drawing.
+    This is the default camera by default.</p>
 
                     </div>
 
@@ -1396,7 +1397,7 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
             
         
         
-        <a href="../files/src_components_Box.ts.html#l477"><code>src&#x2F;components&#x2F;Box.ts:477</code></a>
+        <a href="../files/src_components_Box.ts.html#l575"><code>src&#x2F;components&#x2F;Box.ts:575</code></a>
         
         </p>
 
@@ -1407,8 +1408,10 @@ There are two main different types of bounds (Bounds and Hitbox) with each one h
     </div>
 
     <div class="description">
-        <p>Method which takes four Points and then converts it into a Rectangle, which represents the area those points covered.
-The points passed can be maybe in any order, as the are checked for validity first.</p>
+        <p>Method which takes four Points and then converts it into
+a Rectangle, which represents the area those points covered.
+The points passed can be in any order,
+as they are checked for validity first.</p>
 
     </div>
 
@@ -1427,7 +1430,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
                     
 
                     <div class="param-description">
-                        <p>The top left Point that the Rectangle should have.</p>
+                        <p>Rectangle corner</p>
 
                     </div>
 
@@ -1443,7 +1446,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
                     
 
                     <div class="param-description">
-                        <p>The top right Point that the Rectangle should have.</p>
+                        <p>Rectangle corner</p>
 
                     </div>
 
@@ -1459,7 +1462,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
                     
 
                     <div class="param-description">
-                        <p>The bottom right Point that the Rectangle should have.</p>
+                        <p>Rectangle corner</p>
 
                     </div>
 
@@ -1475,7 +1478,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
                     
 
                     <div class="param-description">
-                        <p>The bottom left Point that the Rectangle should have.</p>
+                        <p>Rectangle corner</p>
 
                     </div>
 
@@ -1542,7 +1545,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
             
         
         
-        <a href="../files/src_components_Box.ts.html#l67"><code>src&#x2F;components&#x2F;Box.ts:67</code></a>
+        <a href="../files/src_components_Box.ts.html#l80"><code>src&#x2F;components&#x2F;Box.ts:80</code></a>
         
         </p>
 
@@ -1553,7 +1556,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
     </div>
 
     <div class="description">
-        <p>The type of object that this is.</p>
+        <p>Type of object that this is</p>
 
     </div>
 
@@ -1774,7 +1777,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
             
         
         
-        <a href="../files/src_components_Box.ts.html#l102"><code>src&#x2F;components&#x2F;Box.ts:102</code></a>
+        <a href="../files/src_components_Box.ts.html#l120"><code>src&#x2F;components&#x2F;Box.ts:120</code></a>
         
         </p>
 
@@ -1784,7 +1787,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
     </div>
 
     <div class="description">
-        <p>Contains offset point for the hitbox</p>
+        <p>Offset point for the hitbox</p>
 
     </div>
 
@@ -1821,7 +1824,7 @@ The points passed can be maybe in any order, as the are checked for validity fir
             
         
         
-        <a href="../files/src_components_Box.ts.html#l237"><code>src&#x2F;components&#x2F;Box.ts:237</code></a>
+        <a href="../files/src_components_Box.ts.html#l277"><code>src&#x2F;components&#x2F;Box.ts:277</code></a>
         
         </p>
 
@@ -1831,8 +1834,9 @@ The points passed can be maybe in any order, as the are checked for validity fir
     </div>
 
     <div class="description">
-        <p>The &#39;raw&#39; bounds of entity. This is its bounds before rotation/scale.
-This for property is only for storage of the values and should be accessed via the getter &#39;rawBounds&#39; so that it can update.</p>
+        <p>&quot;Raw&quot; bounds of entity. These are its bounds before rotation/scale.
+This property is only for storage of the values
+and should be accessed via the getter <code>rawBounds</code> so it can update.</p>
 
     </div>
 
@@ -1869,7 +1873,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l135"><code>src&#x2F;components&#x2F;Box.ts:135</code></a>
+        <a href="../files/src_components_Box.ts.html#l159"><code>src&#x2F;components&#x2F;Box.ts:159</code></a>
         
         </p>
 
@@ -1879,7 +1883,7 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>Contains the offset rectangle for the raw hitbox.</p>
+        <p>Offset rectangle for the raw hitbox</p>
 
     </div>
 
@@ -1916,7 +1920,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l290"><code>src&#x2F;components&#x2F;Box.ts:290</code></a>
+        <a href="../files/src_components_Box.ts.html#l332"><code>src&#x2F;components&#x2F;Box.ts:332</code></a>
         
         </p>
 
@@ -1965,7 +1969,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l331"><code>src&#x2F;components&#x2F;Box.ts:331</code></a>
+        <a href="../files/src_components_Box.ts.html#l375"><code>src&#x2F;components&#x2F;Box.ts:375</code></a>
         
         </p>
 
@@ -1975,7 +1979,7 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>Contains the transformed or &#39;normal&#39; bounds for this entity.</p>
+        <p>Transformed or &quot;normal&quot; bounds for this entity</p>
 
     </div>
 
@@ -2012,7 +2016,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l301"><code>src&#x2F;components&#x2F;Box.ts:301</code></a>
+        <a href="../files/src_components_Box.ts.html#l343"><code>src&#x2F;components&#x2F;Box.ts:343</code></a>
         
         </p>
 
@@ -2022,7 +2026,7 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>Contains the center point after the box has been transformed.</p>
+        <p>Center point after the box has been transformed</p>
 
     </div>
 
@@ -2059,7 +2063,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l175"><code>src&#x2F;components&#x2F;Box.ts:175</code></a>
+        <a href="../files/src_components_Box.ts.html#l205"><code>src&#x2F;components&#x2F;Box.ts:205</code></a>
         
         </p>
 
@@ -2069,7 +2073,8 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>The transformed or &#39;normal&#39; hitbox for the entity. This is its box after rotation/scale.</p>
+        <p>Transformed or &quot;normal&quot; hitbox for the entity.
+This is its box after rotation/scale.</p>
 
     </div>
 
@@ -2106,7 +2111,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l340"><code>src&#x2F;components&#x2F;Box.ts:340</code></a>
+        <a href="../files/src_components_Box.ts.html#l385"><code>src&#x2F;components&#x2F;Box.ts:385</code></a>
         
         </p>
 
@@ -2116,7 +2121,7 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>The &#39;world&#39; transformed bounds for this entity.</p>
+        <p>&quot;World&quot; transformed bounds for this entity</p>
 
     </div>
 
@@ -2153,7 +2158,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l184"><code>src&#x2F;components&#x2F;Box.ts:184</code></a>
+        <a href="../files/src_components_Box.ts.html#l216"><code>src&#x2F;components&#x2F;Box.ts:216</code></a>
         
         </p>
 
@@ -2163,7 +2168,8 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>The transformed &#39;world&#39; hitbox for the entity. This is its box after rotation/scale.</p>
+        <p>Transformed &quot;world&quot; hitbox for the entity.
+This is its box after rotation/scale.</p>
 
     </div>
 
@@ -2221,14 +2227,14 @@ This for property is only for storage of the values and should be accessed via t
 </div>
 
                 
-                    <div id="property_autoUpdate" class="property item private">
+                    <div id="property_autoUpdate" class="property item public">
     <h3 class="name"><code>autoUpdate</code></h3>
     <span class="type">Boolean</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -2246,7 +2252,7 @@ This for property is only for storage of the values and should be accessed via t
             
         
         
-        <a href="../files/src_components_Box.ts.html#l78"><code>src&#x2F;components&#x2F;Box.ts:78</code></a>
+        <a href="../files/src_components_Box.ts.html#l92"><code>src&#x2F;components&#x2F;Box.ts:92</code></a>
         
         </p>
 
@@ -2256,9 +2262,12 @@ This for property is only for storage of the values and should be accessed via t
     </div>
 
     <div class="description">
-        <p>Controls whether the hitbox should update automatically to match the hitbox of the current cell on the entity this Box component is attached to (default behaviour).
-Or if the hitbox shouldn&#39;t auto update. Which will mean it will stay the same as the last value it had. 
-This property is automatically set to &#39;false&#39; when you override the hitboxes width/height, but you can set this to true afterwards.</p>
+        <p>Whether the hitbox should update automatically to match the hitbox
+of the current cell on the entity this Box component is attached to
+(default behaviour).
+If the hitbox shouldn&#39;t auto update, it will keep its last value.</p>
+<p>This property is automatically set to <code>false</code> when you override
+the hitbox, but you can set this to true afterwards.</p>
 
     </div>
 
@@ -2297,7 +2306,7 @@ This property is automatically set to &#39;false&#39; when you override the hitb
             
         
         
-        <a href="../files/src_components_Box.ts.html#l349"><code>src&#x2F;components&#x2F;Box.ts:349</code></a>
+        <a href="../files/src_components_Box.ts.html#l395"><code>src&#x2F;components&#x2F;Box.ts:395</code></a>
         
         </p>
 
@@ -2307,7 +2316,7 @@ This property is automatically set to &#39;false&#39; when you override the hitb
     </div>
 
     <div class="description">
-        <p>Returns the &#39;transformed&#39; or &#39;normal&#39; bounds for this box. 
+        <p>&quot;Transformed&quot; or &quot;normal&quot; bounds for this box.
 This is READ ONLY.</p>
 
     </div>
@@ -2345,7 +2354,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l310"><code>src&#x2F;components&#x2F;Box.ts:310</code></a>
+        <a href="../files/src_components_Box.ts.html#l353"><code>src&#x2F;components&#x2F;Box.ts:353</code></a>
         
         </p>
 
@@ -2355,7 +2364,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the center point for the box after it has been transformed.
+        <p>Center point for the box after it has been transformed.
 World coordinates.
 This is READ ONLY.</p>
 
@@ -2396,7 +2405,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l91"><code>src&#x2F;components&#x2F;Box.ts:91</code></a>
+        <a href="../files/src_components_Box.ts.html#l109"><code>src&#x2F;components&#x2F;Box.ts:109</code></a>
         
         </p>
 
@@ -2408,7 +2417,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Indicates whether or not this component needs re-rendering/updating or not.</p>
+        <p>Whether this component needs re-rendering/updating or not</p>
 
     </div>
 
@@ -2445,7 +2454,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l58"><code>src&#x2F;components&#x2F;Box.ts:58</code></a>
+        <a href="../files/src_components_Box.ts.html#l70"><code>src&#x2F;components&#x2F;Box.ts:70</code></a>
         
         </p>
 
@@ -2455,7 +2464,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>The entity that this box belongs to.</p>
+        <p>Entity that this box belongs to</p>
 
     </div>
 
@@ -2536,7 +2545,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l193"><code>src&#x2F;components&#x2F;Box.ts:193</code></a>
+        <a href="../files/src_components_Box.ts.html#l227"><code>src&#x2F;components&#x2F;Box.ts:227</code></a>
         
         </p>
 
@@ -2546,7 +2555,11 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>The &#39;normal&#39; or transformed hitbox for the entity. This is its box after rotation/Kiwi.Geom.Rectangle.</p>
+        <p>&quot;Normal&quot; or transformed hitbox for the entity.
+This is its box after rotation/Kiwi.Geom.Rectangle.</p>
+<p>You cannot modify this value in place. You must set it to
+a new <code>Kiwi.Geom.Rectangle</code> object, which will update
+internal records.</p>
 
     </div>
 
@@ -2583,7 +2596,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l112"><code>src&#x2F;components&#x2F;Box.ts:112</code></a>
+        <a href="../files/src_components_Box.ts.html#l132"><code>src&#x2F;components&#x2F;Box.ts:132</code></a>
         
         </p>
 
@@ -2593,7 +2606,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the offset value of the hitbox as a point for the X/Y axis for the developer to use.
+        <p>Offset value of the hitbox as a point on the X/Y axis.
 This is without rotation or scaling.
 This is a READ ONLY property.</p>
 
@@ -2632,7 +2645,7 @@ This is a READ ONLY property.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l267"><code>src&#x2F;components&#x2F;Box.ts:267</code></a>
+        <a href="../files/src_components_Box.ts.html#l307"><code>src&#x2F;components&#x2F;Box.ts:307</code></a>
         
         </p>
 
@@ -2642,7 +2655,7 @@ This is a READ ONLY property.</p>
     </div>
 
     <div class="description">
-        <p>Contains the &#39;raw&#39; center point for the bounds.</p>
+        <p>&quot;Raw&quot; center point for the bounds</p>
 
     </div>
 
@@ -2767,7 +2780,7 @@ This is a READ ONLY property.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l249"><code>src&#x2F;components&#x2F;Box.ts:249</code></a>
+        <a href="../files/src_components_Box.ts.html#l289"><code>src&#x2F;components&#x2F;Box.ts:289</code></a>
         
         </p>
 
@@ -2777,7 +2790,7 @@ This is a READ ONLY property.</p>
     </div>
 
     <div class="description">
-        <p>Returns the &#39;raw&#39; bounds for this entity.
+        <p>&quot;Raw&quot; bounds for this entity.
 This is READ ONLY.</p>
 
     </div>
@@ -2815,7 +2828,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l276"><code>src&#x2F;components&#x2F;Box.ts:276</code></a>
+        <a href="../files/src_components_Box.ts.html#l317"><code>src&#x2F;components&#x2F;Box.ts:317</code></a>
         
         </p>
 
@@ -2825,7 +2838,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the raw center point of the box.
+        <p>Raw center point of the box.
 This is READ ONLY.</p>
 
     </div>
@@ -2863,7 +2876,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l144"><code>src&#x2F;components&#x2F;Box.ts:144</code></a>
+        <a href="../files/src_components_Box.ts.html#l170"><code>src&#x2F;components&#x2F;Box.ts:170</code></a>
         
         </p>
 
@@ -2873,8 +2886,8 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the raw hitbox rectangle for the developer to use. 
-&#39;Raw&#39; means where it would be without rotation or scaling.
+        <p>Raw hitbox rectangle.
+&quot;Raw&quot; means where it would be without rotation or scaling.
 This is READ ONLY.</p>
 
     </div>
@@ -2958,7 +2971,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l362"><code>src&#x2F;components&#x2F;Box.ts:362</code></a>
+        <a href="../files/src_components_Box.ts.html#l410"><code>src&#x2F;components&#x2F;Box.ts:410</code></a>
         
         </p>
 
@@ -2968,7 +2981,7 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the &#39;transformed&#39; bounds for this entity using the world coodinates.
+        <p>&quot;Transformed&quot; bounds for this entity using the world coodinates.
 This is READ ONLY.</p>
 
     </div>
@@ -3006,7 +3019,7 @@ This is READ ONLY.</p>
             
         
         
-        <a href="../files/src_components_Box.ts.html#l222"><code>src&#x2F;components&#x2F;Box.ts:222</code></a>
+        <a href="../files/src_components_Box.ts.html#l260"><code>src&#x2F;components&#x2F;Box.ts:260</code></a>
         
         </p>
 
@@ -3016,8 +3029,9 @@ This is READ ONLY.</p>
     </div>
 
     <div class="description">
-        <p>Returns the transformed hitbox for the entity using its &#39;world&#39; coordinates.
-This is READ ONLY.</p>
+        <p>Transformed hitbox for the entity
+using its &quot;world&quot; coordinates.</p>
+<p>This is READ ONLY.</p>
 
     </div>
 
