@@ -374,7 +374,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_State.ts.html#l9"><code>src&#x2F;core&#x2F;State.ts:9</code></a>
+            Defined in: <a href="../files/src_core_State.ts.html#l7"><code>src&#x2F;core&#x2F;State.ts:7</code></a>
         </div>
     
 
@@ -393,8 +393,54 @@
     <p>A <code>State</code> is the main class used to create a game.
 States in Kiwi are used to keep different sections of a game separated.
 A single game may be comprised of many different States,
-such as one for the menu, in-game, leaderboard, e.t.c.
+such as one for the menu, in-game, leaderboard, etc.
 There can only ever be a single State active at a given time.</p>
+<p><strong>About the State lifecycle</strong></p>
+<p>Developers should know how the State works, as most of the game takes place
+inside it. You are expected to alter State behavior to suit your purposes.
+However, you must ensure that you do not break its regular behavior.</p>
+<p>When you switch into a State, it runs a series of methods.
+These prepare the State for operation.
+You can insert custom code into this sequence,
+but be aware that the game is only ready for certain actions
+after certain stages in the switch process. In particular,
+be careful about creating objects before the <code>create</code> phase,
+because textures and other assets have not been set yet.
+Objects created before <code>create</code> may lose their textures.</p>
+<p>The order is as follows:</p>
+<ol>
+<li><code>init()</code> (may receive parameters from prior State)</li>
+<li><code>preload()</code> (declare asset loading here)</li>
+<li><code>loadUpdate()</code> EXTEND (executes during loading)</li>
+<li><code>loadProgress()</code> (runs every time a file is loaded)</li>
+<li><code>loadComplete()</code> (runs when loading is complete)</li>
+<li><code>create()</code> (all data is available; it is safe to create game objects)</li>
+</ol>
+<p>Once the switch is complete, the State immediately begins to run
+the update loop. This runs as follows:</p>
+<ol>
+<li><code>preUpdate()</code> EXTEND (updates state ComponentManager)</li>
+<li><code>update()</code> EXTEND (updates all children)</li>
+<li><code>postUpdate()</code> EXTEND (updates state ComponentManager)</li>
+<li>...render (not part of State; executed by the main game loop)</li>
+<li><code>postRender()</code></li>
+</ol>
+<p>Finally, when you switch to another State, the State runs the following
+method:</p>
+<ul>
+<li><code>shutdown()</code></li>
+</ul>
+<p>You may override any of these methods entirely, with the exception of
+those marked EXTEND. These methods perform some vital function.
+You may modify them via extension, for example:</p>
+<pre class="code prettyprint"><code>myState.update = function() {
+
+    // Extend
+    Kiwi.State.prototype.update.call( this );
+
+    // Custom code...
+};</code></pre>
+<p>The most common functions are <code>preload()</code>, <code>create()</code>, and <code>update()</code>.</p>
 
 </div>
 
@@ -447,7 +493,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l9"><code>src&#x2F;core&#x2F;State.ts:9</code></a>
+        <a href="../files/src_core_State.ts.html#l7"><code>src&#x2F;core&#x2F;State.ts:7</code></a>
         
         </p>
 
@@ -1309,7 +1355,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l571"><code>src&#x2F;core&#x2F;State.ts:571</code></a>
+        <a href="../files/src_core_State.ts.html#l623"><code>src&#x2F;core&#x2F;State.ts:623</code></a>
         
         </p>
 
@@ -1411,7 +1457,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l434"><code>src&#x2F;core&#x2F;State.ts:434</code></a>
+        <a href="../files/src_core_State.ts.html#l486"><code>src&#x2F;core&#x2F;State.ts:486</code></a>
         
         </p>
 
@@ -2066,7 +2112,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l339"><code>src&#x2F;core&#x2F;State.ts:339</code></a>
+        <a href="../files/src_core_State.ts.html#l391"><code>src&#x2F;core&#x2F;State.ts:391</code></a>
         
         </p>
 
@@ -2275,7 +2321,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l417"><code>src&#x2F;core&#x2F;State.ts:417</code></a>
+        <a href="../files/src_core_State.ts.html#l469"><code>src&#x2F;core&#x2F;State.ts:469</code></a>
         
         </p>
 
@@ -2468,7 +2514,7 @@ There can only ever be a single State active at a given time.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l361"><code>src&#x2F;core&#x2F;State.ts:361</code></a>
+        <a href="../files/src_core_State.ts.html#l413"><code>src&#x2F;core&#x2F;State.ts:413</code></a>
         
         </p>
 
@@ -2869,7 +2915,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l395"><code>src&#x2F;core&#x2F;State.ts:395</code></a>
+        <a href="../files/src_core_State.ts.html#l447"><code>src&#x2F;core&#x2F;State.ts:447</code></a>
         
         </p>
 
@@ -3032,7 +3078,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l471"><code>src&#x2F;core&#x2F;State.ts:471</code></a>
+        <a href="../files/src_core_State.ts.html#l523"><code>src&#x2F;core&#x2F;State.ts:523</code></a>
         
         </p>
 
@@ -3115,7 +3161,7 @@ shouldn&#39;t need to worry about it.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l131"><code>src&#x2F;core&#x2F;State.ts:131</code></a>
+        <a href="../files/src_core_State.ts.html#l183"><code>src&#x2F;core&#x2F;State.ts:183</code></a>
         
         </p>
 
@@ -3312,7 +3358,7 @@ It should not be necessary to call this method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l45"><code>src&#x2F;core&#x2F;State.ts:45</code></a>
+        <a href="../files/src_core_State.ts.html#l97"><code>src&#x2F;core&#x2F;State.ts:97</code></a>
         
         </p>
 
@@ -3923,7 +3969,7 @@ It should not be necessary to call this method.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l241"><code>src&#x2F;core&#x2F;State.ts:241</code></a>
+        <a href="../files/src_core_State.ts.html#l293"><code>src&#x2F;core&#x2F;State.ts:293</code></a>
         
         </p>
 
@@ -4018,7 +4064,7 @@ and the game is ready to be created.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l527"><code>src&#x2F;core&#x2F;State.ts:527</code></a>
+        <a href="../files/src_core_State.ts.html#l579"><code>src&#x2F;core&#x2F;State.ts:579</code></a>
         
         </p>
 
@@ -4106,7 +4152,7 @@ regardless of whether they are on the stage or not.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l502"><code>src&#x2F;core&#x2F;State.ts:502</code></a>
+        <a href="../files/src_core_State.ts.html#l554"><code>src&#x2F;core&#x2F;State.ts:554</code></a>
         
         </p>
 
@@ -5622,7 +5668,7 @@ Returns the number of objects removed.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l169"><code>src&#x2F;core&#x2F;State.ts:169</code></a>
+        <a href="../files/src_core_State.ts.html#l221"><code>src&#x2F;core&#x2F;State.ts:221</code></a>
         
         </p>
 
@@ -5707,7 +5753,7 @@ Can have parameters passed to it by the previous state.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l211"><code>src&#x2F;core&#x2F;State.ts:211</code></a>
+        <a href="../files/src_core_State.ts.html#l263"><code>src&#x2F;core&#x2F;State.ts:263</code></a>
         
         </p>
 
@@ -5788,7 +5834,7 @@ the state.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l194"><code>src&#x2F;core&#x2F;State.ts:194</code></a>
+        <a href="../files/src_core_State.ts.html#l246"><code>src&#x2F;core&#x2F;State.ts:246</code></a>
         
         </p>
 
@@ -5906,7 +5952,7 @@ during the loading stage of a game.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l222"><code>src&#x2F;core&#x2F;State.ts:222</code></a>
+        <a href="../files/src_core_State.ts.html#l274"><code>src&#x2F;core&#x2F;State.ts:274</code></a>
         
         </p>
 
@@ -6041,7 +6087,7 @@ via <code>Kiwi.State.prototype.loadUpdate.call( this )</code>.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l35"><code>src&#x2F;core&#x2F;State.ts:35</code></a>
+        <a href="../files/src_core_State.ts.html#l87"><code>src&#x2F;core&#x2F;State.ts:87</code></a>
         
         </p>
 
@@ -6112,7 +6158,7 @@ via <code>Kiwi.State.prototype.loadUpdate.call( this )</code>.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l309"><code>src&#x2F;core&#x2F;State.ts:309</code></a>
+        <a href="../files/src_core_State.ts.html#l361"><code>src&#x2F;core&#x2F;State.ts:361</code></a>
         
         </p>
 
@@ -6171,7 +6217,7 @@ Useful for debugging.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l296"><code>src&#x2F;core&#x2F;State.ts:296</code></a>
+        <a href="../files/src_core_State.ts.html#l348"><code>src&#x2F;core&#x2F;State.ts:348</code></a>
         
         </p>
 
@@ -6230,7 +6276,7 @@ via <code>Kiwi.State.prototype.postUpdate.call( this )</code>.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l183"><code>src&#x2F;core&#x2F;State.ts:183</code></a>
+        <a href="../files/src_core_State.ts.html#l235"><code>src&#x2F;core&#x2F;State.ts:235</code></a>
         
         </p>
 
@@ -6289,7 +6335,7 @@ for this state or in the entire game.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l253"><code>src&#x2F;core&#x2F;State.ts:253</code></a>
+        <a href="../files/src_core_State.ts.html#l305"><code>src&#x2F;core&#x2F;State.ts:305</code></a>
         
         </p>
 
@@ -6852,7 +6898,7 @@ via <code>Kiwi.State.prototype.preUpdate.call( this )</code>.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l486"><code>src&#x2F;core&#x2F;State.ts:486</code></a>
+        <a href="../files/src_core_State.ts.html#l538"><code>src&#x2F;core&#x2F;State.ts:538</code></a>
         
         </p>
 
@@ -7504,7 +7550,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_State.ts.html#l320"><code>src&#x2F;core&#x2F;State.ts:320</code></a>
+        <a href="../files/src_core_State.ts.html#l372"><code>src&#x2F;core&#x2F;State.ts:372</code></a>
         
         </p>
 
@@ -7819,7 +7865,7 @@ and the game switches to another <code>State</code>.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l266"><code>src&#x2F;core&#x2F;State.ts:266</code></a>
+        <a href="../files/src_core_State.ts.html#l318"><code>src&#x2F;core&#x2F;State.ts:318</code></a>
         
         </p>
 
@@ -8104,7 +8150,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l460"><code>src&#x2F;core&#x2F;State.ts:460</code></a>
+        <a href="../files/src_core_State.ts.html#l512"><code>src&#x2F;core&#x2F;State.ts:512</code></a>
         
         </p>
 
@@ -8389,7 +8435,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_State.ts.html#l107"><code>src&#x2F;core&#x2F;State.ts:107</code></a>
+        <a href="../files/src_core_State.ts.html#l159"><code>src&#x2F;core&#x2F;State.ts:159</code></a>
         
         </p>
 
@@ -8440,7 +8486,7 @@ via <code>this.audio.lazerz</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l79"><code>src&#x2F;core&#x2F;State.ts:79</code></a>
+        <a href="../files/src_core_State.ts.html#l131"><code>src&#x2F;core&#x2F;State.ts:131</code></a>
         
         </p>
 
@@ -8531,7 +8577,7 @@ via <code>this.audio.lazerz</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l55"><code>src&#x2F;core&#x2F;State.ts:55</code></a>
+        <a href="../files/src_core_State.ts.html#l107"><code>src&#x2F;core&#x2F;State.ts:107</code></a>
         
         </p>
 
@@ -8578,7 +8624,7 @@ via <code>this.audio.lazerz</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l119"><code>src&#x2F;core&#x2F;State.ts:119</code></a>
+        <a href="../files/src_core_State.ts.html#l171"><code>src&#x2F;core&#x2F;State.ts:171</code></a>
         
         </p>
 
@@ -8629,7 +8675,7 @@ via <code>this.data.cookieLocation</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l87"><code>src&#x2F;core&#x2F;State.ts:87</code></a>
+        <a href="../files/src_core_State.ts.html#l139"><code>src&#x2F;core&#x2F;State.ts:139</code></a>
         
         </p>
 
@@ -8767,7 +8813,7 @@ via <code>this.data.cookieLocation</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l63"><code>src&#x2F;core&#x2F;State.ts:63</code></a>
+        <a href="../files/src_core_State.ts.html#l115"><code>src&#x2F;core&#x2F;State.ts:115</code></a>
         
         </p>
 
@@ -9220,7 +9266,7 @@ via <code>this.data.cookieLocation</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l71"><code>src&#x2F;core&#x2F;State.ts:71</code></a>
+        <a href="../files/src_core_State.ts.html#l123"><code>src&#x2F;core&#x2F;State.ts:123</code></a>
         
         </p>
 
@@ -9267,7 +9313,7 @@ via <code>this.data.cookieLocation</code></p>
             
         
         
-        <a href="../files/src_core_State.ts.html#l95"><code>src&#x2F;core&#x2F;State.ts:95</code></a>
+        <a href="../files/src_core_State.ts.html#l147"><code>src&#x2F;core&#x2F;State.ts:147</code></a>
         
         </p>
 

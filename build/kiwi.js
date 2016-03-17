@@ -4480,10 +4480,8 @@ var Kiwi;
     Kiwi.Group = Group;
 })(Kiwi || (Kiwi = {}));
 /**
-*
-* @module Kiwi
-*
-*/
+@module Kiwi
+**/
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -4493,30 +4491,84 @@ var __extends = this.__extends || function (d, b) {
 var Kiwi;
 (function (Kiwi) {
     /**
-    * A `State` is the main class used to create a game.
-    * States in Kiwi are used to keep different sections of a game separated.
-    * A single game may be comprised of many different States,
-    * such as one for the menu, in-game, leaderboard, e.t.c.
-    * There can only ever be a single State active at a given time.
-    *
-    * @class State
-    * @namespace Kiwi
-    * @extends Kiwi.Group
-    * @constructor
-    * @param name {string} Name of this State.
-    *	Should be unique to differentiate itself from other States.
-    * @return {Kiwi.State}
-    */
+    A `State` is the main class used to create a game.
+    States in Kiwi are used to keep different sections of a game separated.
+    A single game may be comprised of many different States,
+    such as one for the menu, in-game, leaderboard, etc.
+    There can only ever be a single State active at a given time.
+
+    **About the State lifecycle**
+
+    Developers should know how the State works, as most of the game takes place
+    inside it. You are expected to alter State behavior to suit your purposes.
+    However, you must ensure that you do not break its regular behavior.
+
+    When you switch into a State, it runs a series of methods.
+    These prepare the State for operation.
+    You can insert custom code into this sequence,
+    but be aware that the game is only ready for certain actions
+    after certain stages in the switch process. In particular,
+    be careful about creating objects before the `create` phase,
+    because textures and other assets have not been set yet.
+    Objects created before `create` may lose their textures.
+
+    The order is as follows:
+
+    1. `init()` (may receive parameters from prior State)
+    2. `preload()` (declare asset loading here)
+    3. `loadUpdate()` EXTEND (executes during loading)
+    4. `loadProgress()` (runs every time a file is loaded)
+    5. `loadComplete()` (runs when loading is complete)
+    6. `create()` (all data is available; it is safe to create game objects)
+
+    Once the switch is complete, the State immediately begins to run
+    the update loop. This runs as follows:
+
+    1. `preUpdate()` EXTEND (updates state ComponentManager)
+    2. `update()` EXTEND (updates all children)
+    3. `postUpdate()` EXTEND (updates state ComponentManager)
+    4. ...render (not part of State; executed by the main game loop)
+    5. `postRender()`
+
+    Finally, when you switch to another State, the State runs the following
+    method:
+
+    * `shutdown()`
+
+    You may override any of these methods entirely, with the exception of
+    those marked EXTEND. These methods perform some vital function.
+    You may modify them via extension, for example:
+
+    ```
+    myState.update = function() {
+
+        // Extend
+        Kiwi.State.prototype.update.call( this );
+
+        // Custom code...
+    };
+    ```
+
+    The most common functions are `preload()`, `create()`, and `update()`.
+
+    @class State
+    @namespace Kiwi
+    @extends Kiwi.Group
+    @constructor
+    @param name {string} Name of this State.
+        Should be unique to differentiate itself from other States.
+    @return {Kiwi.State}
+    **/
     var State = (function (_super) {
         __extends(State, _super);
         function State(name) {
             _super.call(this, null, name);
             /**
-            * A reference to the `Kiwi.Game` that this `State` belongs to.
-            * @property game
-            * @type Kiwi.Game
-            * @public
-            */
+            A reference to the `Kiwi.Game` that this `State` belongs to.
+            @property game
+            @type Kiwi.Game
+            @public
+            **/
             this.game = null;
             this.config = new Kiwi.StateConfig(this, name);
             this.components = new Kiwi.ComponentManager(Kiwi.STATE, this);
@@ -4524,32 +4576,32 @@ var Kiwi;
             this._trackingList = [];
         }
         /**
-        * Returns the type of object this state is.
-        * @method objType
-        * @return {string} "State"
-        * @public
-        */
+        Returns the type of object this state is.
+        @method objType
+        @return {string} "State"
+        @public
+        **/
         State.prototype.objType = function () {
             return "State";
         };
         /**
-        * Returns the type of child this is.
-        * @method childType
-        * @return {number} Kiwi.GROUP
-        * @public
-        */
+        Returns the type of child this is.
+        @method childType
+        @return {number} Kiwi.GROUP
+        @public
+        **/
         State.prototype.childType = function () {
             return Kiwi.GROUP;
         };
         /**
-        * Boot up the state in preparation for switching into it.
-        * This is the first method to be executed,
-        * and happens before the `init` method.
-        * Is called each time a `State` is switched to.
-        * It should not be necessary to call this method.
-        * @method boot
-        * @public
-        */
+        Boot up the state in preparation for switching into it.
+        This is the first method to be executed,
+        and happens before the `init` method.
+        Is called each time a `State` is switched to.
+        It should not be necessary to call this method.
+        @method boot
+        @public
+        **/
         State.prototype.boot = function () {
             this.textureLibrary = new Kiwi.Textures.TextureLibrary(this.game);
             this.textures = this.textureLibrary.textures;
@@ -4559,30 +4611,30 @@ var Kiwi;
             this.data = this.dataLibrary.data;
         };
         /*
-        * Currently unused.
-        */
+        Currently unused.
+        **/
         State.prototype.setType = function (value) {
             if (this.config.isInitialised === false) {
                 this.config.type = value;
             }
         };
         /*
-        *--------------
-        * Methods that are to be Over-Ridden by Devs.
-        *--------------
+        -------------
+        Methods that are to be Over-Ridden by Devs.
+        -------------
         */
         /**
-        * Overrideable method.
-        *
-        * Gets executed when the state has been initalised
-        * and gets switched to for the first time.
-        * This method only ever gets called once, before the preload method.
-        * Can have parameters passed to it by the previous state.
-        *
-        * @method init
-        * @param [values] {Any}
-        * @public
-        */
+        Overrideable method.
+
+        Gets executed when the state has been initalised
+        and gets switched to for the first time.
+        This method only ever gets called once, before the preload method.
+        Can have parameters passed to it by the previous state.
+
+        @method init
+        @param [values] {Any}
+        @public
+        **/
         State.prototype.init = function () {
             var paramsArr = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -4590,53 +4642,53 @@ var Kiwi;
             }
         };
         /**
-        * Overrideable method.
-        *
-        * This method is where you load of all the assets required
-        * for this state or in the entire game.
-        *
-        * @method preload
-        * @public
-        */
+        Overrideable method.
+
+        This method is where you load of all the assets required
+        for this state or in the entire game.
+
+        @method preload
+        @public
+        **/
         State.prototype.preload = function () {
         };
         /**
-        * Overrideable method.
-        *
-        * This method is progressively called while loading files,
-        * and is executed each time a file has been loaded.
-        * This can be used to create a progress bar
-        * during the loading stage of a game.
-        *
-        * @method loadProgress
-        * @param percent {number} The percent of files that have been loaded
-        *	so far. This is a number from 0 to 1.
-        * @param bytesLoaded {number} Number of bytes loaded so far
-        * @param file {Kiwi.Files.File} Last file to have been loaded
-        * @public
-        */
+        Overrideable method.
+
+        This method is progressively called while loading files,
+        and is executed each time a file has been loaded.
+        This can be used to create a progress bar
+        during the loading stage of a game.
+
+        @method loadProgress
+        @param percent {number} The percent of files that have been loaded
+            so far. This is a number from 0 to 1.
+        @param bytesLoaded {number} Number of bytes loaded so far
+        @param file {Kiwi.Files.File} Last file to have been loaded
+        @public
+        **/
         State.prototype.loadProgress = function (percent, bytesLoaded, file) {
         };
         /**
-        * Overrideable method.
-        *
-        * Executes when the game finishes loading and is about to `create`
-        * the state.
-        *
-        * @method loadComplete
-        * @public
-        */
+        Overrideable method.
+
+        Executes when the game finishes loading and is about to `create`
+        the state.
+
+        @method loadComplete
+        @public
+        **/
         State.prototype.loadComplete = function () {
         };
         /**
-        * Extendable method. You may write your own, but it must call this
-        * via `Kiwi.State.prototype.loadUpdate.call( this )`.
-        *
-        * The game loop that gets executed while the game is loading.
-        *
-        * @method loadUpdate
-        * @public
-        */
+        Extendable method. You may write your own, but it must call this
+        via `Kiwi.State.prototype.loadUpdate.call( this )`.
+
+        The game loop that gets executed while the game is loading.
+
+        @method loadUpdate
+        @public
+        **/
         State.prototype.loadUpdate = function () {
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].active === true) {
@@ -4645,15 +4697,15 @@ var Kiwi;
             }
         };
         /**
-        * Overrideable method.
-        *
-        * Is executed once all of the assets have loaded
-        * and the game is ready to be created.
-        *
-        * @method create
-        * @param [values]* {Any}
-        * @public
-        */
+        Overrideable method.
+
+        Is executed once all of the assets have loaded
+        and the game is ready to be created.
+
+        @method create
+        @param [values]* {Any}
+        @public
+        **/
         State.prototype.create = function () {
             var paramsArr = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -4661,29 +4713,29 @@ var Kiwi;
             }
         };
         /**
-        * Extendable method. You may write your own, but it must call this
-        * via `Kiwi.State.prototype.preUpdate.call( this )`.
-        *
-        * Is called every frame before the update loop.
-        *
-        * @method preUpdate
-        * @public
-        */
+        Extendable method. You may write your own, but it must call this
+        via `Kiwi.State.prototype.preUpdate.call( this )`.
+
+        Is called every frame before the update loop.
+
+        @method preUpdate
+        @public
+        **/
         State.prototype.preUpdate = function () {
             this.components.preUpdate();
         };
         /**
-        * Extendable method. You may write your own, but it must call this
-        * via `Kiwi.State.prototype.update.call( this )`.
-        *
-        * Executed every frame while the state is current.
-        * Updates state members and children.
-        *
-        * Generally, this is where the game runs.
-        *
-        * @method update
-        * @public
-        */
+        Extendable method. You may write your own, but it must call this
+        via `Kiwi.State.prototype.update.call( this )`.
+
+        Executed every frame while the state is current.
+        Updates state members and children.
+
+        Generally, this is where the game runs.
+
+        @method update
+        @public
+        **/
         State.prototype.update = function () {
             this.components.update();
             for (var i = 0; i < this.members.length; i++) {
@@ -4698,160 +4750,160 @@ var Kiwi;
             }
         };
         /**
-        * Extendable method. You may write your own, but it must call this
-        * via `Kiwi.State.prototype.postUpdate.call( this )`.
-        *
-        * The post update loop is executed every frame after the update method.
-        *
-        * @method postUpdate
-        * @public
-        */
+        Extendable method. You may write your own, but it must call this
+        via `Kiwi.State.prototype.postUpdate.call( this )`.
+
+        The post update loop is executed every frame after the update method.
+
+        @method postUpdate
+        @public
+        **/
         State.prototype.postUpdate = function () {
             this.components.postUpdate();
         };
         /**
-        * Overrideable method.
-        *
-        * Called after all of the members have rendered themselves.
-        * Useful for debugging.
-        *
-        * @method postRender
-        * @public
-        */
+        Overrideable method.
+
+        Called after all of the members have rendered themselves.
+        Useful for debugging.
+
+        @method postRender
+        @public
+        **/
         State.prototype.postRender = function () {
         };
         /**
-        * Overrideable method.
-        *
-        * Called just before this `State` is going to be shut down,
-        * and the game switches to another `State`.
-        *
-        * @method shutDown
-        * @public
-        */
+        Overrideable method.
+
+        Called just before this `State` is going to be shut down,
+        and the game switches to another `State`.
+
+        @method shutDown
+        @public
+        **/
         State.prototype.shutDown = function () {
         };
         /*
-        *--------------
-        * Loading Methods
-        *--------------
+        -------------
+        Loading Methods
+        -------------
         */
         /**
-        * Add a new image file to be loaded when the state loads assets.
-        *
-        * @method addImage
-        * @param key {string} Key for this image so that you can access it
-        *	when the loading has finished
-        * @param url {string} Location of the image
-        * @param [storeAsGlobal=true] {boolean} Whether the image should be
-        *	retained as a global asset after this state is destroyed,
-        *	or it should also be destroyed
-        * @param [width] {number} Width of the image. If not passed,
-        *	the width will be automatically calculated.
-        * @param [height] {number} Height of the image. If not passed,
-        *	the height will be automatically calculated.
-        * @param [offsetX] {number} Horizontal offset of the image
-        * @param [offsetY] {number} Vertical offset of the image
-        * @public
-        */
+        Add a new image file to be loaded when the state loads assets.
+
+        @method addImage
+        @param key {string} Key for this image so that you can access it
+            when the loading has finished
+        @param url {string} Location of the image
+        @param [storeAsGlobal=true] {boolean} Whether the image should be
+            retained as a global asset after this state is destroyed,
+            or it should also be destroyed
+        @param [width] {number} Width of the image. If not passed,
+            the width will be automatically calculated.
+        @param [height] {number} Height of the image. If not passed,
+            the height will be automatically calculated.
+        @param [offsetX] {number} Horizontal offset of the image
+        @param [offsetY] {number} Vertical offset of the image
+        @public
+        **/
         State.prototype.addImage = function (key, url, storeAsGlobal, width, height, offsetX, offsetY) {
             if (storeAsGlobal === void 0) { storeAsGlobal = true; }
             return this.game.loader.addImage(key, url, width, height, offsetX, offsetY, storeAsGlobal);
         };
         /**
-        * Add a new spritesheet image file to be loaded when the state loads
-        * assets.
-        *
-        * @method addSpriteSheet
-        * @param key {string} Key for this image so that you can access it
-        *	when the loading has finished
-        * @param url {string} Location of the image
-        * @param frameWidth {number} Width of a single frame in the spritesheet
-        * @param frameHeight {number} Height of a single frame in the
-        *	spritesheet
-        * @param [storeAsGlobal=true] {boolean} Whether the image should be
-        *	retained as a global asset after this state is destroyed,
-        *	or it should also be destroyed
-        * @param [numCells] {number} Number of cells/frames in the spritesheet.
-        *	If not specified, will calculate this based on the
-        *	width/height of the image.
-        * @param [rows] {number} Number of cells in a row. If not specified,
-        *	will calculate this based of the width/height of the image.
-        * @param [cols] {number} Number of cells in a column. If not specified,
-        *	will calculate this based of the width/height of the image.
-        * @param [sheetOffsetX=0] {number} Horizontal offset of the whole
-        *	spritesheet
-        * @param [sheetOffsetY=0] {number} Vertical offset of the whole
-        *	spritesheet
-        * @param [cellOffsetX=0] {number} Horizontal spacing between cells
-        * @param [cellOffsetY=0] {number} Vertical spacing between cells
-        * @public
-        */
+        Add a new spritesheet image file to be loaded when the state loads
+        assets.
+
+        @method addSpriteSheet
+        @param key {string} Key for this image so that you can access it
+            when the loading has finished
+        @param url {string} Location of the image
+        @param frameWidth {number} Width of a single frame in the spritesheet
+        @param frameHeight {number} Height of a single frame in the
+            spritesheet
+        @param [storeAsGlobal=true] {boolean} Whether the image should be
+            retained as a global asset after this state is destroyed,
+            or it should also be destroyed
+        @param [numCells] {number} Number of cells/frames in the spritesheet.
+            If not specified, will calculate this based on the
+            width/height of the image.
+        @param [rows] {number} Number of cells in a row. If not specified,
+            will calculate this based of the width/height of the image.
+        @param [cols] {number} Number of cells in a column. If not specified,
+            will calculate this based of the width/height of the image.
+        @param [sheetOffsetX=0] {number} Horizontal offset of the whole
+            spritesheet
+        @param [sheetOffsetY=0] {number} Vertical offset of the whole
+            spritesheet
+        @param [cellOffsetX=0] {number} Horizontal spacing between cells
+        @param [cellOffsetY=0] {number} Vertical spacing between cells
+        @public
+        **/
         State.prototype.addSpriteSheet = function (key, url, frameWidth, frameHeight, storeAsGlobal, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY) {
             if (storeAsGlobal === void 0) { storeAsGlobal = true; }
             return this.game.loader.addSpriteSheet(key, url, frameWidth, frameHeight, numCells, rows, cols, sheetOffsetX, sheetOffsetY, cellOffsetX, cellOffsetY, storeAsGlobal);
         };
         /**
-        * Add a new texture atlas to be loaded when the state loads assets.
-        *
-        * @method addTextureAtlas
-        * @param key {string} Key for this image so that you can access it
-        *	when the loading has finished
-        * @param imageURL {string} Location of the image.
-        * @param [jsonID] {string} Key for the JSON file,
-        *	so that you can access it outside of the texture atlas
-        * @param [jsonURL] {string} Location of the JSON file describing the
-        *	atlas
-        * @param [storeAsGlobal=true] {boolean} Whether the image should be
-        *	retained as a global asset after this state is destroyed,
-        *	or it should also be destroyed
-        * @public
-        */
+        Add a new texture atlas to be loaded when the state loads assets.
+
+        @method addTextureAtlas
+        @param key {string} Key for this image so that you can access it
+            when the loading has finished
+        @param imageURL {string} Location of the image.
+        @param [jsonID] {string} Key for the JSON file,
+            so that you can access it outside of the texture atlas
+        @param [jsonURL] {string} Location of the JSON file describing the
+            atlas
+        @param [storeAsGlobal=true] {boolean} Whether the image should be
+            retained as a global asset after this state is destroyed,
+            or it should also be destroyed
+        @public
+        **/
         State.prototype.addTextureAtlas = function (key, imageURL, jsonID, jsonURL, storeAsGlobal) {
             if (storeAsGlobal === void 0) { storeAsGlobal = true; }
             return this.game.loader.addTextureAtlas(key, imageURL, jsonID, jsonURL, storeAsGlobal);
         };
         /**
-        * Add a JSON file to be loaded when the state loads assets.
-        *
-        * @method addJSON
-        * @param key {string} Key for this JSON so that you can access it
-        *	when the loading has finished
-        * @param url {string} Location of the JSON file
-        * @param [storeAsGlobal=true] {boolean} Whether the JSON should be
-        *	retained as a global asset after this state is destroyed,
-        *	or it should also be destroyed
-        * @public
-        */
+        Add a JSON file to be loaded when the state loads assets.
+        
+        @method addJSON
+        @param key {string} Key for this JSON so that you can access it
+            when the loading has finished
+        @param url {string} Location of the JSON file
+        @param [storeAsGlobal=true] {boolean} Whether the JSON should be
+            retained as a global asset after this state is destroyed,
+            or it should also be destroyed
+        @public
+        **/
         State.prototype.addJSON = function (key, url, storeAsGlobal) {
             if (storeAsGlobal === void 0) { storeAsGlobal = true; }
             return this.game.loader.addJSON(key, url, storeAsGlobal);
         };
         /**
-        * Add a new audio file to be loaded when the state loads assets.
-        *
-        * @method addAudio
-        * @param key {string} Key for this audio so that you can access it
-        *	when the loading has finished
-        * @param url {string} Location of the audio file.
-        *	You can pass an array of urls, in which case the first supported
-        *	filetype will be used.
-        * @param [storeAsGlobal=true] {boolean} Whether the audio should be
-        *	retained as a global asset after this state is destroyed,
-        *	or it should also be destroyed
-        */
+        Add a new audio file to be loaded when the state loads assets.
+        
+        @method addAudio
+        @param key {string} Key for this audio so that you can access it
+            when the loading has finished
+        @param url {string} Location of the audio file.
+            You can pass an array of urls, in which case the first supported
+            filetype will be used.
+        @param [storeAsGlobal=true] {boolean} Whether the audio should be
+            retained as a global asset after this state is destroyed,
+            or it should also be destroyed
+        **/
         State.prototype.addAudio = function (key, url, storeAsGlobal) {
             if (storeAsGlobal === void 0) { storeAsGlobal = true; }
             return this.game.loader.addAudio(key, url, storeAsGlobal);
         };
         /**
-        * Add a new object to the tracking list.
-        * This is an internal KiwiJS method and game devs
-        * shouldn't need to worry about it.
-        * @method addToTrackingList
-        * @param child {object} Object to add to the tracking list.
-        * @public
-        */
+        Add a new object to the tracking list.
+        This is an internal KiwiJS method and game devs
+        shouldn't need to worry about it.
+        @method addToTrackingList
+        @param child {object} Object to add to the tracking list.
+        @public
+        **/
         State.prototype.addToTrackingList = function (child) {
             if (this._trackingList.indexOf(child) !== -1) {
                 return;
@@ -4859,14 +4911,14 @@ var Kiwi;
             this._trackingList.push(child);
         };
         /**
-        * Remove an object from the tracking list.
-        * This should only need to happen when a child is destroyed.
-        * This is an internal Kiwi method and game devs
-        * shouldn't really need to worry about it.
-        * @method removeFromTrackingList
-        * @param child {object} The object which is being removed from the tracking list.
-        * @public
-        */
+        Remove an object from the tracking list.
+        This should only need to happen when a child is destroyed.
+        This is an internal Kiwi method and game devs
+        shouldn't really need to worry about it.
+        @method removeFromTrackingList
+        @param child {object} The object which is being removed from the tracking list.
+        @public
+        **/
         State.prototype.removeFromTrackingList = function (child) {
             var n = this._trackingList.indexOf(child);
             if (n > -1) {
@@ -4874,14 +4926,14 @@ var Kiwi;
             }
         };
         /**
-        * Destroys all objects in the tracking list that are
-        * not currently on stage.
-        * All that currently don't have this `State` as an ancestor.
-        * Returns the number of objects removed.
-        * @method destroyUnused
-        * @return {number} Amount of objects removed
-        * @public
-        */
+        Destroys all objects in the tracking list that are
+        not currently on stage.
+        All that currently don't have this `State` as an ancestor.
+        Returns the number of objects removed.
+        @method destroyUnused
+        @return {number} Amount of objects removed
+        @public
+        **/
         State.prototype.destroyUnused = function () {
             var d = 0;
             for (var i = 0; i < this._trackingList.length; i++) {
@@ -4895,14 +4947,14 @@ var Kiwi;
             return d;
         };
         /**
-        * Used to mark all Entities that have been created for deletion,
-        * regardless of whether they are on the stage or not.
-        *
-        * @method destroy
-        * @param [deleteAll=true] If all of the Objects ever created should
-        *	have the destroy method executed also.
-        * @public
-        */
+        Used to mark all Entities that have been created for deletion,
+        regardless of whether they are on the stage or not.
+
+        @method destroy
+        @param [deleteAll=true] If all of the Objects ever created should
+            have the destroy method executed also.
+        @public
+        **/
         State.prototype.destroy = function (deleteAll) {
             if (deleteAll === void 0) { deleteAll = true; }
             if (deleteAll == true) {
@@ -4930,13 +4982,13 @@ var Kiwi;
             }
         };
         /**
-        * Recursively destroys a child and all its children.
-        *
-        * @method _destroyChildren
-        * @param child {object}
-        * @deprecated As of v1.4.1. This is never called.
-        * @private
-        */
+        Recursively destroys a child and all its children.
+
+        @method _destroyChildren
+        @param child {object}
+        @deprecated As of v1.4.1. This is never called.
+        @private
+        **/
         State.prototype._destroyChildren = function (child) {
             if (child.childType() == Kiwi.GROUP) {
                 for (var i = 0; i < child.members.length; i++) {

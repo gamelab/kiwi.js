@@ -3023,8 +3023,8 @@
             "module": "Kiwi",
             "namespace": "Kiwi",
             "file": "src/core/State.ts",
-            "line": 9,
-            "description": "A `State` is the main class used to create a game.\nStates in Kiwi are used to keep different sections of a game separated.\nA single game may be comprised of many different States,\nsuch as one for the menu, in-game, leaderboard, e.t.c.\nThere can only ever be a single State active at a given time.",
+            "line": 7,
+            "description": "A `State` is the main class used to create a game.\nStates in Kiwi are used to keep different sections of a game separated.\nA single game may be comprised of many different States,\nsuch as one for the menu, in-game, leaderboard, etc.\nThere can only ever be a single State active at a given time.\n\n**About the State lifecycle**\n\nDevelopers should know how the State works, as most of the game takes place\ninside it. You are expected to alter State behavior to suit your purposes.\nHowever, you must ensure that you do not break its regular behavior.\n\nWhen you switch into a State, it runs a series of methods.\nThese prepare the State for operation.\nYou can insert custom code into this sequence,\nbut be aware that the game is only ready for certain actions\nafter certain stages in the switch process. In particular,\nbe careful about creating objects before the `create` phase,\nbecause textures and other assets have not been set yet.\nObjects created before `create` may lose their textures.\n\nThe order is as follows:\n\n1. `init()` (may receive parameters from prior State)\n2. `preload()` (declare asset loading here)\n3. `loadUpdate()` EXTEND (executes during loading)\n4. `loadProgress()` (runs every time a file is loaded)\n5. `loadComplete()` (runs when loading is complete)\n6. `create()` (all data is available; it is safe to create game objects)\n\nOnce the switch is complete, the State immediately begins to run\nthe update loop. This runs as follows:\n\n1. `preUpdate()` EXTEND (updates state ComponentManager)\n2. `update()` EXTEND (updates all children)\n3. `postUpdate()` EXTEND (updates state ComponentManager)\n4. ...render (not part of State; executed by the main game loop)\n5. `postRender()`\n\nFinally, when you switch to another State, the State runs the following\nmethod:\n\n* `shutdown()`\n\nYou may override any of these methods entirely, with the exception of\nthose marked EXTEND. These methods perform some vital function.\nYou may modify them via extension, for example:\n\n```\nmyState.update = function() {\n\n\t// Extend\n\tKiwi.State.prototype.update.call( this );\n\n\t// Custom code...\n};\n```\n\nThe most common functions are `preload()`, `create()`, and `update()`.",
             "extends": "Kiwi.Group",
             "is_constructor": 1,
             "params": [
@@ -18017,7 +18017,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 35,
+            "line": 87,
             "description": "Returns the type of object this state is.",
             "itemtype": "method",
             "name": "objType",
@@ -18033,7 +18033,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 45,
+            "line": 97,
             "description": "Returns the type of child this is.",
             "itemtype": "method",
             "name": "childType",
@@ -18049,7 +18049,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 55,
+            "line": 107,
             "description": "The configuration object for this `State`.",
             "itemtype": "property",
             "name": "config",
@@ -18062,7 +18062,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 63,
+            "line": 115,
             "description": "A reference to the `Kiwi.Game` that this `State` belongs to.",
             "itemtype": "property",
             "name": "game",
@@ -18075,7 +18075,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 71,
+            "line": 123,
             "description": "The library that this state uses for the loading of textures.",
             "itemtype": "property",
             "name": "textureLibrary",
@@ -18088,7 +18088,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 79,
+            "line": 131,
             "description": "The library that this state uses for the loading of audio.",
             "itemtype": "property",
             "name": "audioLibrary",
@@ -18101,7 +18101,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 87,
+            "line": 139,
             "description": "The library that this state uses for the loading of data.",
             "itemtype": "property",
             "name": "dataLibrary",
@@ -18114,7 +18114,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 95,
+            "line": 147,
             "description": "Holds all of the textures that are avaiable to be accessed\nonce this state has been loaded.\nE.g. If you loaded a image and named it \"flower\",\nonce everything has loaded you can then access the flower image\nvia `this.textures.flower`",
             "itemtype": "property",
             "name": "textures",
@@ -18127,7 +18127,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 107,
+            "line": 159,
             "description": "Holds all of the audio assets that are avaiable to be accessed\nonce this state has been loaded.\nE.g. If you loaded a piece of audio and named it \"lazerz\",\nonce everything has loaded you can then access the lazers (pew pew)\nvia `this.audio.lazerz`",
             "itemtype": "property",
             "name": "audio",
@@ -18140,7 +18140,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 119,
+            "line": 171,
             "description": "Holds all of the data assets that are avaiable to be accessed\nonce this state has been loaded.\nE.g. If you loaded a piece of data and named it \"cookieLocation\",\nonce everything has loaded you can then access the cookies\nvia `this.data.cookieLocation`",
             "itemtype": "property",
             "name": "data",
@@ -18153,7 +18153,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 131,
+            "line": 183,
             "description": "Boot up the state in preparation for switching into it.\nThis is the first method to be executed,\nand happens before the `init` method.\nIs called each time a `State` is switched to.\nIt should not be necessary to call this method.",
             "itemtype": "method",
             "name": "boot",
@@ -18165,7 +18165,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 169,
+            "line": 221,
             "description": "Overrideable method.\n\nGets executed when the state has been initalised\nand gets switched to for the first time.\nThis method only ever gets called once, before the preload method.\nCan have parameters passed to it by the previous state.",
             "itemtype": "method",
             "name": "init",
@@ -18185,7 +18185,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 183,
+            "line": 235,
             "description": "Overrideable method.\n\nThis method is where you load of all the assets required\nfor this state or in the entire game.",
             "itemtype": "method",
             "name": "preload",
@@ -18197,7 +18197,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 194,
+            "line": 246,
             "description": "Overrideable method.\n\nThis method is progressively called while loading files,\nand is executed each time a file has been loaded.\nThis can be used to create a progress bar\nduring the loading stage of a game.",
             "itemtype": "method",
             "name": "loadProgress",
@@ -18226,7 +18226,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 211,
+            "line": 263,
             "description": "Overrideable method.\n\nExecutes when the game finishes loading and is about to `create`\nthe state.",
             "itemtype": "method",
             "name": "loadComplete",
@@ -18238,7 +18238,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 222,
+            "line": 274,
             "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.loadUpdate.call( this )`.\n\nThe game loop that gets executed while the game is loading.",
             "itemtype": "method",
             "name": "loadUpdate",
@@ -18250,7 +18250,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 241,
+            "line": 293,
             "description": "Overrideable method.\n\nIs executed once all of the assets have loaded\nand the game is ready to be created.",
             "itemtype": "method",
             "name": "create",
@@ -18271,7 +18271,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 253,
+            "line": 305,
             "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.preUpdate.call( this )`.\n\nIs called every frame before the update loop.",
             "itemtype": "method",
             "name": "preUpdate",
@@ -18283,7 +18283,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 266,
+            "line": 318,
             "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.update.call( this )`.\n\nExecuted every frame while the state is current.\nUpdates state members and children.\n\nGenerally, this is where the game runs.",
             "itemtype": "method",
             "name": "update",
@@ -18295,7 +18295,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 296,
+            "line": 348,
             "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.postUpdate.call( this )`.\n\nThe post update loop is executed every frame after the update method.",
             "itemtype": "method",
             "name": "postUpdate",
@@ -18307,7 +18307,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 309,
+            "line": 361,
             "description": "Overrideable method.\n\nCalled after all of the members have rendered themselves.\nUseful for debugging.",
             "itemtype": "method",
             "name": "postRender",
@@ -18319,7 +18319,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 320,
+            "line": 372,
             "description": "Overrideable method.\n\nCalled just before this `State` is going to be shut down,\nand the game switches to another `State`.",
             "itemtype": "method",
             "name": "shutDown",
@@ -18331,7 +18331,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 339,
+            "line": 391,
             "description": "Add a new image file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addImage",
@@ -18386,7 +18386,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 361,
+            "line": 413,
             "description": "Add a new spritesheet image file to be loaded when the state loads\nassets.",
             "itemtype": "method",
             "name": "addSpriteSheet",
@@ -18473,7 +18473,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 395,
+            "line": 447,
             "description": "Add a new texture atlas to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addTextureAtlas",
@@ -18516,7 +18516,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 417,
+            "line": 469,
             "description": "Add a JSON file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addJSON",
@@ -18547,7 +18547,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 434,
+            "line": 486,
             "description": "Add a new audio file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addAudio",
@@ -18576,7 +18576,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 460,
+            "line": 512,
             "description": "Contains a reference to all of the objects that have ever been\ncreated for this state, generally `Kiwi.Entity` or `Kiwi.Group`.\nUseful for keeping track of sprites that are not used any more\nand need to be destroyed.",
             "itemtype": "property",
             "name": "_trackingList",
@@ -18589,7 +18589,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 471,
+            "line": 523,
             "description": "Add a new object to the tracking list.\nThis is an internal KiwiJS method and game devs\nshouldn't need to worry about it.",
             "itemtype": "method",
             "name": "addToTrackingList",
@@ -18608,7 +18608,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 486,
+            "line": 538,
             "description": "Remove an object from the tracking list.\nThis should only need to happen when a child is destroyed.\nThis is an internal Kiwi method and game devs\nshouldn't really need to worry about it.",
             "itemtype": "method",
             "name": "removeFromTrackingList",
@@ -18627,7 +18627,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 502,
+            "line": 554,
             "description": "Destroys all objects in the tracking list that are\nnot currently on stage. \nAll that currently don't have this `State` as an ancestor.\nReturns the number of objects removed.",
             "itemtype": "method",
             "name": "destroyUnused",
@@ -18643,7 +18643,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 527,
+            "line": 579,
             "description": "Used to mark all Entities that have been created for deletion,\nregardless of whether they are on the stage or not.",
             "itemtype": "method",
             "name": "destroy",
@@ -18663,7 +18663,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 571,
+            "line": 623,
             "description": "Recursively destroys a child and all its children.",
             "itemtype": "method",
             "name": "_destroyChildren",
