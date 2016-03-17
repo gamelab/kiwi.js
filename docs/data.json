@@ -3306,77 +3306,71 @@
             "namespace": "Kiwi.Files",
             "file": "src/file/File.ts",
             "line": 10,
-            "description": "Base class which handles the loading of an external data file an xhr. \nTextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.\n\nAlso can contain information about the file (like file size, last modified, e.t.c.)\nUses an object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.",
+            "description": "Base class which handles the loading of an external data file.\nTextureFile, AudioFile contain fallback loading via tags\nand all extended Files contain methods for processing the files.\n\nAlso can contain information about the file\n(like file size, last modified, etc).\nUses an object literal in its constructor since 1.2\n(which is preferred), but also contains previous construction support.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this file is for",
+                    "description": "Game that this file is for",
                     "type": "Kiwi.Game"
                 },
                 {
                     "name": "params",
-                    "description": "Options for this file.",
+                    "description": "Options for this file",
                     "type": "Object",
                     "props": [
                         {
                             "name": "key",
-                            "description": "User defined name for this file. This would be how the user would access it in the file store.",
+                            "description": "User defined name for this file.\n\t\tHow the user accesses it in the file store.",
                             "type": "String"
                         },
                         {
                             "name": "url",
-                            "description": "Location of the file to be loaded.",
+                            "description": "Location of the file to be loaded",
                             "type": "String"
                         },
                         {
                             "name": "metadata",
-                            "description": "Any metadata to be associated with the file.",
-                            "type": "Object",
-                            "optional": true,
-                            "optdefault": "{}"
+                            "description": "{object} Any metadata to be associated\n\t\twith the file",
+                            "optional": true
                         },
                         {
                             "name": "state",
-                            "description": "The state that this file belongs to. Used for defining global assets vs local assets.",
+                            "description": "State that this file\n\t\tbelongs to. Used for defining global assets vs local assets.",
                             "type": "Kiwi.State",
                             "optional": true,
                             "optdefault": "null"
                         },
                         {
                             "name": "fileStore",
-                            "description": "The filestore that this file should be save in automatically when loaded.",
+                            "description": "Filestore\n\t\tthat this file should be saved in when loaded",
                             "type": "Kiwi.Files.FileStore",
                             "optional": true,
                             "optdefault": "null"
                         },
                         {
                             "name": "type",
-                            "description": "The type of file this is.",
+                            "description": "Type of file this is.\n\t\tChoose one of the following:\n\t\t* Kiwi.Files.AUDIO\n\t\t* Kiwi.Files.BINARY_DATA\n\t\t* Kiwi.Files.IMAGE\n\t\t* Kiwi.Files.JSON\n\t\t* Kiwi.Files.SPRITE_SHEET\n\t\t* Kiwi.Files.TEXT_DATA\n\t\t* Kiwi.Files.TEXTUREATLAS\n\t\t* Kiwi.Files.UNKNOWN\n\t\t* Kiwi.Files.XML",
                             "type": "Number",
                             "optional": true,
                             "optdefault": "UNKNOWN"
                         },
                         {
                             "name": "tags",
-                            "description": "Any tags to be associated with this file.",
+                            "description": "Any tags\n\t\tto be associated with this file",
                             "type": "Array",
                             "optional": true
                         },
                         {
                             "name": "timeout",
-                            "description": "Sets the timeout delay when loading via ajax.",
+                            "description": "Timeout delay\n\t\twhen loading via ajax",
                             "type": "Number",
                             "optional": true,
                             "optdefault": "TIMEOUT_DELAY"
                         }
                     ]
                 }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Files.File"
-            }
+            ]
         },
         "Kiwi.Files.FileStore": {
             "name": "Kiwi.Files.FileStore",
@@ -19614,39 +19608,39 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 60,
-            "description": "Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.",
+            "line": 81,
+            "description": "Assign properties and variables for the constructor\nas in pre 1.2 Kiwi versions.",
             "itemtype": "method",
             "name": "_parseParamsOld",
             "since": "1.2.0",
             "params": [
                 {
                     "name": "dataType",
-                    "description": "The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.",
+                    "description": "Type of file that is being loaded.\n\tFor this you can use the STATIC properties that are\n\tlocated on this class for quick code completion.",
                     "type": "Number"
                 },
                 {
                     "name": "path",
-                    "description": "The location of the file that is to be loaded.",
+                    "description": "Location of the file that is to be loaded",
                     "type": "String"
                 },
                 {
                     "name": "name",
-                    "description": "A name for the file. If no name is specified then the files name will be used.",
+                    "description": "A name for the file.\n\tIf no name is specified then the file's name will be used.",
                     "type": "String",
                     "optional": true,
-                    "optdefault": "''"
+                    "optdefault": "\"\""
                 },
                 {
                     "name": "saveToFileStore",
-                    "description": "If the file should be saved on the file store or not.",
+                    "description": "If the file should be\n\tsaved on the file store or not.",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 },
                 {
                     "name": "storeAsGlobal",
-                    "description": "If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.",
+                    "description": "If this file should be\n\tstored as a global file, or if it should be destroyed\n\twhen this state gets switched out.",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
@@ -19661,8 +19655,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 89,
-            "description": "Sets properties for this instance based on an object literal passed. Used when the class is being created.",
+            "line": 117,
+            "description": "Set properties for this instance based on an object literal passed.\nUsed when the class is being created.",
             "itemtype": "method",
             "name": "parseParams",
             "since": "1.2.0",
@@ -19675,39 +19669,39 @@
                     "props": [
                         {
                             "name": "metadata",
-                            "description": "{Object} Any metadata to be associated with the file.",
+                            "description": "{object} Any metadata\n\t\tto be associated with the file.",
                             "optional": true
                         },
                         {
                             "name": "state",
-                            "description": "The state that this file belongs to. Used for defining global assets vs local assets.",
+                            "description": "State this file\n\t\tbelongs to.\n\t\tUsed for defining global assets vs local assets.",
                             "type": "Kiwi.State",
                             "optional": true,
                             "optdefault": "null"
                         },
                         {
                             "name": "fileStore",
-                            "description": "The filestore that this file should be save in automatically when loaded.",
+                            "description": "Filestore\n\t\tthat this file should be save in automatically when loaded.",
                             "type": "Kiwi.Files.FileStore",
                             "optional": true,
                             "optdefault": "null"
                         },
                         {
                             "name": "type",
-                            "description": "The type of file this is.",
+                            "description": "Type of file this is",
                             "type": "Number",
                             "optional": true,
                             "optdefault": "UNKNOWN"
                         },
                         {
                             "name": "tags",
-                            "description": "Any tags to be associated with this file.",
+                            "description": "Any tags to be associated\n\t\twith this file.",
                             "type": "Array",
                             "optional": true
                         },
                         {
                             "name": "timeout",
-                            "description": "Sets the timeout delay when loading via ajax.",
+                            "description": "Sets the\n\t\ttimeout delay when loading via ajax.",
                             "type": "Number",
                             "optional": true,
                             "optdefault": "TIMEOUT_DELAY"
@@ -19724,14 +19718,14 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 131,
-            "description": "Gets the file details from the URL passed. Name, extension, and path are extracted.",
+            "line": 167,
+            "description": "Gets the file details from the URL passed.\nName, extension, and path are extracted.",
             "itemtype": "method",
             "name": "_assignFileDetails",
             "params": [
                 {
                     "name": "url",
-                    "description": "",
+                    "description": "Path to resource",
                     "type": "String"
                 }
             ],
@@ -19745,7 +19739,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 159,
+            "line": 195,
             "description": "Returns the type of this object",
             "itemtype": "method",
             "name": "objType",
@@ -19762,8 +19756,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 169,
-            "description": "The game that this file belongs to.",
+            "line": 206,
+            "description": "Game this file belongs to",
             "itemtype": "property",
             "name": "game",
             "type": "Kiwi.Game",
@@ -19777,23 +19771,14 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 179,
-            "description": "---------------\nGeneric Properties \n---------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 185,
-            "description": "Indicates if this file can be loaded in parallel to other files. \nThis is usually only used files are using the tag loaders and not XHR.",
+            "line": 223,
+            "description": "Indicates if this file can be loaded in parallel to other files.\nThis is usually only used files are using the tag loaders and not XHR.",
             "itemtype": "property",
             "name": "_loadInParallel",
-            "type": "Boolean",
+            "type": "boolean",
             "default": "false",
             "since": "1.2.0",
-            "access": "private",
+            "access": "protected",
             "tagname": "",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -19802,15 +19787,15 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 197,
-            "description": "READ ONLY: Indicates if this file can be loaded in parallel to other files. \nThis is usually only used files are using the tag loaders and not XHR.",
+            "line": 235,
+            "description": "READ ONLY: Indicates if this file can be loaded\nin parallel to other files.\nThis is usually only used files are using the tag loaders and not XHR.",
             "itemtype": "property",
             "name": "loadInParallel",
-            "type": "Boolean",
+            "type": "boolean",
             "default": "false",
             "readonly": "",
             "since": "1.2.0",
-            "access": "private",
+            "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
@@ -19819,8 +19804,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 212,
-            "description": "The filestore this file should be added to when it has loaded. \nThis can be replaced with a custom one if wanted.",
+            "line": 251,
+            "description": "Filestore this file should be added to when it has loaded.\nThis can be replaced with a custom one if wanted.",
             "itemtype": "property",
             "name": "fileStore",
             "type": "Kiwi.Files.FileStore",
@@ -19834,11 +19819,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 223,
-            "description": "If this file is using tag loading instead of the XHR method. \nOnly used by extended classes",
+            "line": 262,
+            "description": "If this file is using tag loading instead of the XHR method.\nOnly used by extended classes.",
             "itemtype": "property",
             "name": "useTagLoader",
-            "type": "Boolean",
+            "type": "boolean",
             "since": "1.2.0",
             "access": "protected",
             "tagname": "",
@@ -19849,11 +19834,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 234,
-            "description": "The 'key' is the user defined name and the users way of accessing this file once loaded.",
+            "line": 273,
+            "description": "User-defined name and way of accessing this file once loaded",
             "itemtype": "property",
             "name": "key",
-            "type": "String",
+            "type": "string",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -19863,8 +19848,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 242,
-            "description": "A dictionary, stores any information relating to this file.\nUsed when loading images that are to be used as a spritesheet or texture atlas.",
+            "line": 282,
+            "description": "A dictionary, stores any information relating to this file.\nUsed when loading images that are to be used as a spritesheet\nor texture atlas.",
             "itemtype": "property",
             "name": "data",
             "type": "Any",
@@ -19877,80 +19862,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 251,
-            "description": "Holds the type of data that is being loaded. \nThis should be used with the STATIC properties that hold the various datatypes that can be loaded.",
+            "line": 293,
+            "description": "Holds the type of data that is being loaded.\nThis should be used with the STATIC properties that hold the various datatypes that can be loaded.",
             "itemtype": "property",
             "name": "dataType",
-            "type": "String",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 262,
-            "description": "---------------\nFile Information\n---------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 268,
-            "description": "The name of the file being loaded.",
-            "itemtype": "property",
-            "name": "name",
-            "type": "String",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 278,
-            "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
-            "itemtype": "property",
-            "name": "path",
-            "type": "String",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 289,
-            "description": "The extension of the file that is being loaded.\nThis is based upon what the file path that the developer specifies.",
-            "itemtype": "property",
-            "name": "extension",
-            "type": "String",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 300,
-            "description": "The full filepath including the file itself.",
-            "itemtype": "property",
-            "name": "URL",
-            "type": "String",
-            "since": "1.2.0",
+            "type": "string",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -19961,10 +19877,11 @@
         {
             "file": "src/file/File.ts",
             "line": 310,
-            "description": "The type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading OR if you use 'loadDetails' before hand.\nThe value is based off of the 'Content-Type' of the XHR's response header returns.",
+            "description": "Name of the file being loaded.",
             "itemtype": "property",
-            "name": "type",
-            "type": "String",
+            "name": "name",
+            "type": "string",
+            "since": "1.2.0",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -19974,12 +19891,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 321,
-            "description": "The size of the file that was/is being loaded. \nOnly has a value when the file was loaded by the XHR method OR you request the file information beforehand using 'loadDetails'.",
+            "line": 320,
+            "description": "Location of where the file is placed without the file itself\n(so without the file's name).\nExample: If the file is `images/awesomeImage.png` then the filepath\nwill be `images/`.",
             "itemtype": "property",
-            "name": "size",
-            "type": "Number",
-            "default": "0",
+            "name": "path",
+            "type": "string",
             "since": "1.2.0",
             "access": "public",
             "tagname": "",
@@ -19991,7 +19907,13 @@
         {
             "file": "src/file/File.ts",
             "line": 333,
-            "description": "---------------\nCallbacks\n---------------",
+            "description": "Extension of the file that is being loaded.\nThis is based upon the file path that the developer specifies.",
+            "itemtype": "property",
+            "name": "extension",
+            "type": "string",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
             "class": "Kiwi.Files.File",
             "module": "Kiwi",
             "submodule": "Files",
@@ -19999,8 +19921,53 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 339,
-            "description": "Signal which dispatches events when the file has successfully loaded.",
+            "line": 344,
+            "description": "Full filepath including the file itself",
+            "itemtype": "property",
+            "name": "URL",
+            "type": "string",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.File",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/File.ts",
+            "line": 354,
+            "description": "Type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading\nOR if you use `loadDetails` beforehand.\nThe value is based off of the `Content-Type` of the XHR's\nresponse header returns.",
+            "itemtype": "property",
+            "name": "type",
+            "type": "string",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.File",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/File.ts",
+            "line": 367,
+            "description": "Size of the file that was/is being loaded.\nOnly has a value when the file was loaded by the XHR method\nOR you request the file information beforehand using `loadDetails`.",
+            "itemtype": "property",
+            "name": "size",
+            "type": "number",
+            "default": "0",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.File",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/File.ts",
+            "line": 386,
+            "description": "Signal which dispatches events when the file has successfully loaded",
             "itemtype": "property",
             "name": "onComplete",
             "type": "Kiwi.Signal",
@@ -20014,8 +19981,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 349,
-            "description": "Signal which dispatches events when the file is loading. \nNot guarenteed to dispatch events as it depends on the method of loading being performed",
+            "line": 396,
+            "description": "Signal which dispatches events when the file is loading.\nNot guaranteed to dispatch events\nas it depends on the method of loading being performed.",
             "itemtype": "property",
             "name": "onProgress",
             "type": "Kiwi.Signal",
@@ -20029,17 +19996,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 361,
-            "description": "---------------\nLoading\n---------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 367,
-            "description": "The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.",
+            "line": 415,
+            "description": "Particular piece of data that the developer wanted loaded.\nThis is in a format that is based upon the datatype passed.",
             "itemtype": "property",
             "name": "data",
             "type": "Any",
@@ -20052,11 +20010,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 375,
-            "description": "The number of milliseconds that the XHR should wait before timing out.\nSet this to NULL if you want it to not timeout.\n\nDefault changed in v1.3.1 to null",
+            "line": 425,
+            "description": "Number of milliseconds that the XHR should wait before timing out.\nSet this to `null` if you want it to not timeout.\n\nDefault changed in v1.3.1 to `null`.",
             "itemtype": "property",
             "name": "timeOutDelay",
-            "type": "Number",
+            "type": "number",
             "default": "null",
             "access": "public",
             "tagname": "",
@@ -20067,11 +20025,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 388,
-            "description": "The default number of milliseconds that the XHR should wait before timing out.\nBy default this is set to NULL, and so requests will not timeout.\n\nDefault changed in v1.3.1 to null",
+            "line": 438,
+            "description": "Default number of milliseconds that the XHR should wait\nbefore timing out.\nBy default this is set to `null`, and so requests will not timeout.\n\nDefault changed in v1.3.1 to `null`.",
             "itemtype": "property",
             "name": "TIMEOUT_DELAY",
-            "type": "Number",
+            "type": "number",
             "static": 1,
             "since": "1.2.0",
             "default": "null",
@@ -20084,11 +20042,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 403,
-            "description": "The number of attempts at loading there have currently been at loading the file.\nThis is only used with XHR methods of loading.",
+            "line": 454,
+            "description": "Current number of attempts at loading the file.\nThis is only used with XHR methods of loading.",
             "itemtype": "property",
             "name": "attemptCounter",
-            "type": "Number",
+            "type": "number",
             "access": "protected",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -20098,11 +20056,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 412,
-            "description": "The maximum attempts at loading the file that there is allowed.",
+            "line": 464,
+            "description": "Maximum attempts at loading the file allowed",
             "itemtype": "property",
             "name": "maxLoadAttempts",
-            "type": "Number",
+            "type": "number",
             "default": "2",
             "access": "public",
             "tagname": "",
@@ -20113,11 +20071,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 421,
-            "description": "The default maximum attempts at loading the file that there is allowed.",
+            "line": 474,
+            "description": "Default maximum attempts at loading the file allowed",
             "itemtype": "property",
             "name": "MAX_LOAD_ATTEMPTS",
-            "type": "Number",
+            "type": "number",
             "default": "2",
             "static": 1,
             "since": "1.2.0",
@@ -20130,8 +20088,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 432,
-            "description": "Starts the loading process for this file. \nPassing parameters to this method has been deprecated and only exists for backwards compatibility.",
+            "line": 493,
+            "description": "Start the loading process for this file.\nPassing parameters to this method has been deprecated\nand only exists for backwards compatibility.",
             "itemtype": "method",
             "name": "load",
             "access": "public",
@@ -20143,8 +20101,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 463,
-            "description": "Increments the counter, and calls the approprate loading method.",
+            "line": 544,
+            "description": "Increment the counter, and call the approprate loading method.",
             "itemtype": "method",
             "name": "_load",
             "since": "1.2.0",
@@ -20157,8 +20115,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 475,
-            "description": "Should be called by the loading method. Dispatches the 'onProgress' callback.",
+            "line": 558,
+            "description": "Dispatch the `onProgress` callback.\nShould be called by the loading method.",
             "itemtype": "method",
             "name": "loadProgress",
             "since": "1.2.0",
@@ -20171,8 +20129,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 486,
-            "description": "Called by the loading methods when the file has been loaded and successfully processed.\nDispatches the 'onComplete' callback and sets the appropriate properties.",
+            "line": 573,
+            "description": "Dispatch the `onComplete` callback\nand sets the appropriate properties.\nCalled by the loading methods when the file has been loaded\nand successfully processed.",
             "itemtype": "method",
             "name": "loadSuccess",
             "since": "1.2.0",
@@ -20185,14 +20143,14 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 512,
-            "description": "Executed when the loading process fails. \nThis could be for any reason",
+            "line": 603,
+            "description": "Report loading failure.\nExecuted when the loading process fails.\nThis could be for any reason.",
             "itemtype": "method",
             "name": "loadError",
             "params": [
                 {
                     "name": "error",
-                    "description": "The event / reason for the file to not be loaded.",
+                    "description": "Event or reason for the file to not be loaded",
                     "type": "Any"
                 }
             ],
@@ -20206,30 +20164,21 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 541,
-            "description": "---------------\nXHR Loading \n---------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 547,
-            "description": "Sets up a XHR loader based on the properties of this file and parameters passed.",
+            "line": 651,
+            "description": "Set up a XHR loader based on the properties of this file\nand parameters passed.",
             "itemtype": "method",
             "name": "xhrLoader",
             "params": [
                 {
                     "name": "method",
-                    "description": "The method this request should be made in.",
+                    "description": "Method this request should be made in",
                     "type": "String",
                     "optional": true,
                     "optdefault": "\"GET\""
                 },
                 {
                     "name": "responseType",
-                    "description": "The type of response we are expecting.",
+                    "description": "Type of response we are expecting",
                     "type": "String",
                     "optional": true,
                     "optdefault": "\"text\""
@@ -20250,8 +20199,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 594,
-            "description": "Progress event fired whilst the file is loading via XHR.",
+            "line": 700,
+            "description": "Fire progress event file file is loading via XHR.",
             "itemtype": "method",
             "name": "xhrOnProgress",
             "params": [
@@ -20270,8 +20219,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 609,
-            "description": "Fired when the file has been loaded. \nChecks that the response contains information before marking it as a success.",
+            "line": 717,
+            "description": "Run when the file has been loaded.\nChecks that the response contains information\nbefore marking it as a success.",
             "itemtype": "method",
             "name": "xhrOnLoad",
             "params": [
@@ -20290,8 +20239,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 635,
-            "description": "Contains the logic for processing the information retrieved via XHR.\nAssigns the data property. \nThis method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.",
+            "line": 745,
+            "description": "Assign the data property retrieved via XHR.\nThis method is also in charge of calling `loadSuccess` or `loadError`\nwhen processing is complete.",
             "itemtype": "method",
             "name": "processXhr",
             "params": [
@@ -20309,8 +20258,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 649,
-            "description": "The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.",
+            "line": 759,
+            "description": "`XMLHttpRequest` object. This only has a value if\nthe XHR method of load is being used, otherwise this is `null`.",
             "itemtype": "property",
             "name": "_xhr",
             "type": "XMLHttpRequest",
@@ -20323,20 +20272,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 657,
-            "description": "-----------------\nLoading Status\n-----------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 663,
-            "description": "The time at which the loading started.",
+            "line": 775,
+            "description": "Time at which loading started",
             "itemtype": "property",
             "name": "timeStarted",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "access": "public",
             "tagname": "",
@@ -20347,11 +20287,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 672,
-            "description": "The time at which progress in loading the file was last occurred.\nOnly contains a value when using XHR methods of loading.",
+            "line": 785,
+            "description": "Time at which progress in loading the file was last occurred.\nOnly contains a value when using XHR methods of loading.",
             "itemtype": "property",
             "name": "lastProgress",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -20361,11 +20301,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 681,
-            "description": "The time at which the load finished.",
+            "line": 795,
+            "description": "Time at which the load finished",
             "itemtype": "property",
             "name": "timeFinished",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "access": "public",
             "tagname": "",
@@ -20376,11 +20316,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 691,
-            "description": "The duration or how long it took to load the file. In milliseconds.",
+            "line": 806,
+            "description": "Duration or how long it took to load the file in milliseconds",
             "itemtype": "property",
             "name": "duration",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "access": "public",
             "tagname": "",
@@ -20391,8 +20331,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 701,
-            "description": "Is executed when this file starts loading. \nGets the time and resets properties used in file loading.",
+            "line": 819,
+            "description": "Get the time and reset properties used in file loading.\nIs executed when this file starts loading.",
             "itemtype": "method",
             "name": "_start",
             "access": "private",
@@ -20404,8 +20344,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 717,
-            "description": "Is executed when this file stops loading.",
+            "line": 837,
+            "description": "Set properties upon load stop.\nIs executed when this file stops loading.",
             "itemtype": "method",
             "name": "_stop",
             "access": "private",
@@ -20417,8 +20357,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 732,
-            "description": "If file loading failed or encountered an error and so was not laoded",
+            "line": 853,
+            "description": "Whether file loading failed or encountered an error so was not loaded",
             "itemtype": "property",
             "name": "hasError",
             "type": "boolean",
@@ -20432,8 +20372,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 741,
-            "description": "Holds the error (if there was one) when loading the file.",
+            "line": 863,
+            "description": "Holds the error (if there was one) when loading the file",
             "itemtype": "property",
             "name": "error",
             "type": "Any",
@@ -20446,8 +20386,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 749,
-            "description": "If loading was successful or not.",
+            "line": 872,
+            "description": "Whether loading was successful or not",
             "itemtype": "property",
             "name": "success",
             "type": "boolean",
@@ -20460,8 +20400,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 757,
-            "description": "Indication if the file is currently being loaded or not.",
+            "line": 881,
+            "description": "Whether the file is currently being loaded or not",
             "itemtype": "property",
             "name": "loading",
             "type": "boolean",
@@ -20474,8 +20414,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 765,
-            "description": "Indicates if the file has attempted to load.\nThis is regardless of whether it was a success or not.",
+            "line": 890,
+            "description": "Whether the file has attempted to load,\nregardless of whether it was a success or not",
             "itemtype": "property",
             "name": "complete",
             "type": "boolean",
@@ -20489,11 +20429,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 775,
-            "description": "The amount of percent loaded the file is. This is out of 100.",
+            "line": 901,
+            "description": "Percentage of file loaded",
             "itemtype": "property",
             "name": "percentLoaded",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -20503,11 +20443,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 783,
-            "description": "The number of bytes that have currently been loaded. \nUseful when wanting to know exactly how much data has been transferred.\nOnly has a value when using the XHR method of loading.",
+            "line": 910,
+            "description": "Number of bytes that have currently been loaded.\nUseful when wanting to know exactly how much data has been transferred.\nOnly has a value when using the XHR method of loading.",
             "itemtype": "property",
             "name": "bytesLoaded",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "access": "public",
             "tagname": "",
@@ -20518,11 +20458,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 796,
-            "description": "The total number of bytes that the file consists off.\nOnly has a value when using the XHR method of loading \nor you are getting the file details before hand.",
+            "line": 923,
+            "description": "Total number of bytes that the file consists of.\nOnly has a value when using the XHR method of loading\nor you are getting the file details beforehand.",
             "itemtype": "property",
             "name": "bytesTotal",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "access": "public",
             "tagname": "",
@@ -20533,17 +20473,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 808,
-            "description": "--------------------\nXHR Header Information\n--------------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 814,
-            "description": "The callback method to be executed when the file details have been retrieved.",
+            "line": 941,
+            "description": "Callback method to be executed when file details have been retrieved",
             "itemtype": "property",
             "name": "headCompleteCallback",
             "type": "Any",
@@ -20557,8 +20488,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 823,
-            "description": "The context the 'headCompleteCallback' should be executed in..\nThe callback is the following arguments. \n1. If the details were recieved",
+            "line": 951,
+            "description": "Context `headCompleteCallback` should be executed in.\nThe callback is the following arguments.\n1. If the details were recieved",
             "itemtype": "property",
             "name": "headCompleteContext",
             "type": "Any",
@@ -20572,8 +20503,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 835,
-            "description": "An indication of whether this files information has been retrieved or not.",
+            "line": 963,
+            "description": "Whether this file's information has been retrieved or not",
             "itemtype": "property",
             "name": "detailsReceived",
             "type": "boolean",
@@ -20588,8 +20519,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 845,
-            "description": "Makes a XHR HEAD request to get information about the file that is going to be downloaded.\nThis is particularly useful when you are wanting to check how large a file is before loading all of the content.",
+            "line": 976,
+            "description": "Make a XHR `HEAD` request to get information about the file\nthat is going to be downloaded.\nThis is particularly useful when you are wanting to check\nhow large a file is before loading all of the content.",
             "itemtype": "method",
             "name": "loadDetails",
             "params": [
@@ -20620,8 +20551,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 871,
-            "description": "Retrieves the HEAD information from the XHR. \nThis method is used for both 'load' and 'loadDetails' methods.",
+            "line": 1009,
+            "description": "Retrieve the `HEAD` information from the XHR.\nThis method is used for both `load` and `loadDetails` methods.",
             "itemtype": "method",
             "name": "_getXhrHeaderInfo",
             "since": "1.2.0",
@@ -20634,8 +20565,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 896,
-            "description": "Sets up a XMLHttpRequest object and sends a HEAD request.",
+            "line": 1036,
+            "description": "Set up a `XMLHttpRequest` object and sends a `HEAD` request.",
             "itemtype": "method",
             "name": "xhrHeadRequest",
             "since": "1.2.0",
@@ -20648,8 +20579,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 914,
-            "description": "Executed when a xhr head request fails",
+            "line": 1058,
+            "description": "Execute when a XHR `HEAD` request fails",
             "itemtype": "method",
             "name": "xhrHeadOnError",
             "params": [
@@ -20668,8 +20599,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 928,
-            "description": "Executed when a XHR head request has loaded.\nChecks that the status of the request is 200 before classifying it as a success.",
+            "line": 1074,
+            "description": "Execute when a XHR `HEAD` request has loaded.\nChecks that the status of the request is `200`\nbefore classifying it as a success.",
             "itemtype": "method",
             "name": "xhrHeadOnLoad",
             "params": [
@@ -20688,20 +20619,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 949,
-            "description": "--------------------\nMISC\n--------------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 955,
-            "description": "The Entity Tag that is assigned to the file. O\nOnly has a value when either using the XHR loader OR when requesting the file details.",
+            "line": 1102,
+            "description": "Entity Tag that is assigned to the file.\nOnly has a value when either using the XHR loader\nOR when requesting the file details.",
             "itemtype": "property",
             "name": "ETag",
-            "type": "String",
+            "type": "string",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -20711,12 +20633,12 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 964,
-            "description": "The last date/time that this file was last modified. \nOnly has a value when using the XHR method of loading OR when requesting the file details.",
+            "line": 1113,
+            "description": "Date/time that this file was last modified.\nOnly has a value when using the XHR method of loading\nOR when requesting the file details.",
             "itemtype": "property",
             "name": "lastModified",
-            "type": "String",
-            "default": "''",
+            "type": "string",
+            "default": "\"\"",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -20726,17 +20648,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 975,
-            "description": "--------------------\nTagging + State\n--------------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 981,
-            "description": "The state that added the entity - or null if it was added as global",
+            "line": 1132,
+            "description": "State that added the entity - or `null` if it was added as global",
             "itemtype": "property",
             "name": "ownerState",
             "type": "Kiwi.State",
@@ -20749,11 +20662,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 990,
-            "description": "Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.",
+            "line": 1142,
+            "description": "Any tags that are on this file. This can be used to grab files/objects\non the whole game that have these particular tag.",
             "itemtype": "property",
             "name": "_tags",
-            "type": "String[]",
+            "type": "string[]",
             "default": "[]",
             "access": "private",
             "tagname": "",
@@ -20764,14 +20677,14 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1000,
-            "description": "Adds a new tag to this file.",
+            "line": 1156,
+            "description": "Add a new tag to this file.",
             "itemtype": "method",
             "name": "addTag",
             "params": [
                 {
                     "name": "tag",
-                    "description": "The tag that you would like to add",
+                    "description": "Tag to add",
                     "type": "String"
                 }
             ],
@@ -20784,14 +20697,14 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1013,
-            "description": "Removes a tag from this file.",
+            "line": 1172,
+            "description": "Remove a tag from this file.",
             "itemtype": "method",
             "name": "removeTag",
             "params": [
                 {
                     "name": "tag",
-                    "description": "The tag that is to be removed.",
+                    "description": "Tag to remove",
                     "type": "String"
                 }
             ],
@@ -20804,19 +20717,19 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1027,
-            "description": "Checks to see if a tag that is passed exists on this file.\nReturns a boolean that is used as a indication of the results. \nTrue means that the tag exists on this file.",
+            "line": 1189,
+            "description": "Checks to see if a tag that is passed exists on this file.\nReturns whether the tag exists on this file.",
             "itemtype": "method",
             "name": "hasTag",
             "params": [
                 {
                     "name": "tag",
-                    "description": "The tag you are checking to see exists.",
+                    "description": "Tag to check",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "If the tag does exist on this file or not.",
+                "description": "Whether the tag exists on this file",
                 "type": "Boolean"
             },
             "access": "public",
@@ -20828,17 +20741,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1045,
-            "description": "-------------------\nFile Type\n-------------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 1051,
-            "description": "A STATIC property that has the number associated with the IMAGE Datatype.",
+            "line": 1212,
+            "description": "Static property defining the IMAGE Datatype",
             "itemtype": "property",
             "name": "IMAGE",
             "type": "number",
@@ -20854,8 +20758,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1063,
-            "description": "A STATIC property that has the number associated with the SPRITE_SHEET Datatype.",
+            "line": 1225,
+            "description": "Static property defining the SPRITE_SHEET Datatype",
             "itemtype": "property",
             "name": "SPRITE_SHEET",
             "type": "number",
@@ -20871,8 +20775,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1075,
-            "description": "A STATIC property that has the number associated with the TEXTURE_ATLAS Datatype.",
+            "line": 1238,
+            "description": "Static property defining the TEXTURE_ATLAS Datatype",
             "itemtype": "property",
             "name": "TEXTUREATLAS",
             "type": "number",
@@ -20888,8 +20792,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1087,
-            "description": "A STATIC property that has the number associated with the AUDIO Datatype.",
+            "line": 1251,
+            "description": "Static property defining the AUDIO Datatype",
             "itemtype": "property",
             "name": "AUDIO",
             "type": "number",
@@ -20905,8 +20809,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1099,
-            "description": "A STATIC property that has the number associated with the JSON Datatype.",
+            "line": 1264,
+            "description": "Static property defining the JSON Datatype",
             "itemtype": "property",
             "name": "JSON",
             "type": "number",
@@ -20922,8 +20826,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1111,
-            "description": "A STATIC property that has the number associated with the XML Datatype.",
+            "line": 1277,
+            "description": "Static property defining the XML Datatype",
             "itemtype": "property",
             "name": "XML",
             "type": "number",
@@ -20939,8 +20843,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1123,
-            "description": "A STATIC property that has the number associated with the BINARY_DATA Datatype.",
+            "line": 1290,
+            "description": "Static property defining the BINARY_DATA Datatype",
             "itemtype": "property",
             "name": "BINARY_DATA",
             "type": "number",
@@ -20956,8 +20860,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1135,
-            "description": "A STATIC property that has the number associated with the TEXT_DATA Datatype.",
+            "line": 1303,
+            "description": "Static property defining the TEXT_DATA Datatype",
             "itemtype": "property",
             "name": "TEXT_DATA",
             "type": "number",
@@ -20973,7 +20877,7 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1146,
+            "line": 1315,
             "itemtype": "property",
             "name": "UNKNOWN",
             "type": "number",
@@ -20989,8 +20893,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1157,
-            "description": "An indication of if this file is texture. This is READ ONLY.",
+            "line": 1326,
+            "description": "Whether this file is texture. This is READ ONLY.",
             "itemtype": "property",
             "name": "isTexture",
             "type": "boolean",
@@ -21004,8 +20908,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1169,
-            "description": "An indication of if this file is a piece of audio. This is READ ONLY.",
+            "line": 1340,
+            "description": "Whether this file is a piece of audio. This is READ ONLY.",
             "itemtype": "property",
             "name": "isAudio",
             "type": "boolean",
@@ -21019,8 +20923,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1181,
-            "description": "An indication of if this file is data. This is READ ONLY.",
+            "line": 1354,
+            "description": "Whether this file is data. This is READ ONLY.",
             "itemtype": "property",
             "name": "isData",
             "type": "boolean",
@@ -21034,17 +20938,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1192,
-            "description": "------------------\nClean Up\n------------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 1198,
-            "description": "Destroys all external object references on this object.",
+            "line": 1375,
+            "description": "Destroy all external object references on this object",
             "itemtype": "method",
             "name": "destroy",
             "since": "1.2.0",
@@ -21057,20 +20952,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1227,
-            "description": "------------------\nDeprecated\n------------------",
-            "class": "Kiwi.Files.File",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/File.ts",
-            "line": 1233,
-            "description": "The name of the file being loaded.",
+            "line": 1410,
+            "description": "Name of the file being loaded",
             "itemtype": "property",
             "name": "fileName",
-            "type": "String",
+            "type": "string",
             "deprecated": true,
             "deprecationMessage": "Use `name`. Deprecated as of 1.2.0",
             "access": "public",
@@ -21082,11 +20968,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1247,
-            "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
+            "line": 1425,
+            "description": "Location of where the file is placed without the file itself\n(so without the file's name).\nExample: If the file you are load is located at\n`images/awesomeImage.png` then the filepath will be `images/`.",
             "itemtype": "property",
             "name": "filePath",
-            "type": "String",
+            "type": "string",
             "deprecated": true,
             "deprecationMessage": "Use `path`. Deprecated as of 1.2.0",
             "access": "public",
@@ -21098,11 +20984,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1262,
-            "description": "The location of where the file is placed without the file itself (So without the files name).\nExample: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'",
+            "line": 1443,
+            "description": "Extension of the filename.\nExample: If the file you are load is located at\n`images/awesomeImage.png` then the extension will be `png`.",
             "itemtype": "property",
             "name": "filePath",
-            "type": "String",
+            "type": "string",
             "deprecated": true,
             "deprecationMessage": "Use `extension`. Deprecated as of 1.2.0",
             "access": "public",
@@ -21114,11 +21000,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1277,
-            "description": "The full filepath including the file itself.",
+            "line": 1460,
+            "description": "Full filepath including the file itself",
             "itemtype": "property",
             "name": "fileURL",
-            "type": "String",
+            "type": "string",
             "deprecated": true,
             "deprecationMessage": "Use `URL`. Deprecated as of 1.2.0",
             "access": "public",
@@ -21130,11 +21016,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1291,
-            "description": "The type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading OR if you use 'getFileDetails' before hand.\nThe value is based off of the 'Content-Type' of the XHR's response header returns.",
+            "line": 1475,
+            "description": "Type of file that is being loaded.\nIs only ever given a value when used with the XHR method of loading\nOR if you use `getFileDetails` beforehand.\nThe value is based off of the `Content-Type` of the XHR's\nresponse header returns.",
             "itemtype": "property",
             "name": "fileType",
-            "type": "String",
+            "type": "string",
             "deprecated": true,
             "deprecationMessage": "Use `type`. Deprecated as of 1.2.0",
             "access": "public",
@@ -21146,11 +21032,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1307,
-            "description": "The size of the file that was/is being loaded. \nOnly has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.",
+            "line": 1494,
+            "description": "Size of the file that was/is being loaded.\nOnly has a value when the file was loaded by the XHR method\nOR you request the file information beforehand using `getFileDetails`.",
             "itemtype": "property",
             "name": "fileSize",
-            "type": "Number",
+            "type": "number",
             "deprecated": true,
             "deprecationMessage": "Use `size`. Deprecated as of 1.2.0",
             "access": "public",
@@ -21162,8 +21048,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1323,
-            "description": "A method that is to be executed when this file has finished loading.",
+            "line": 1512,
+            "description": "Method to be executed when this file has finished loading,\nbut actually does nothing.",
             "itemtype": "property",
             "name": "onCompleteCallback",
             "type": "Any",
@@ -21179,8 +21065,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1334,
-            "description": "A method that is to be executed while this file is loading.",
+            "line": 1525,
+            "description": "Method that is to be executed while this file is loading,\nbut actually does nothing.",
             "itemtype": "property",
             "name": "onProgressCallback",
             "type": "Any",
@@ -21196,11 +21082,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1345,
-            "description": "The status of this file that is being loaded. \nOnly used/has a value when the file was/is being loaded by the XHR method.",
+            "line": 1538,
+            "description": "Status of this file that is being loaded.\nOnly used/has a value when the file was/is being loaded\nby the XHR method.",
             "itemtype": "property",
             "name": "status",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "deprecated": true,
             "deprecationMessage": "Deprecated as of 1.2.0",
@@ -21213,12 +21099,12 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1357,
-            "description": "The status piece of text that the XHR returns.",
+            "line": 1552,
+            "description": "Status message that the XHR returns",
             "itemtype": "property",
             "name": "statusText",
-            "type": "String",
-            "default": "''",
+            "type": "string",
+            "default": "\"\"",
             "deprecated": true,
             "deprecationMessage": "Deprecated as of 1.2.0",
             "access": "public",
@@ -21230,11 +21116,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1367,
-            "description": "The ready state of the XHR loader whilst loading.",
+            "line": 1563,
+            "description": "Ready state of the XHR loader while loading",
             "itemtype": "property",
             "name": "readyState",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "deprecated": true,
             "deprecationMessage": "Deprecated as of 1.2.0",
@@ -21247,8 +21133,8 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1377,
-            "description": "If this file has timeout when it was loading.",
+            "line": 1574,
+            "description": "Whether this file has timed out when it was loading",
             "itemtype": "property",
             "name": "hasTimedOut",
             "type": "boolean",
@@ -21264,11 +21150,11 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1387,
-            "description": "If the file timed out or not.",
+            "line": 1585,
+            "description": "Whether the file timed out or not",
             "itemtype": "property",
             "name": "timedOut",
-            "type": "Number",
+            "type": "number",
             "default": "0",
             "deprecated": true,
             "deprecationMessage": "Deprecated as of 1.2.0",
@@ -21281,13 +21167,13 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1397,
-            "description": "The response that is given by the XHR loader when loading is complete.",
+            "line": 1596,
+            "description": "Response given by the XHR loader when loading is complete",
             "itemtype": "property",
             "name": "buffer",
             "type": "Any",
             "deprecated": true,
-            "deprecationMessage": "Use 'data' instead. Deprecated as of 1.2.0",
+            "deprecationMessage": "Use `data` instead. Deprecated as of 1.2.0",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -21297,35 +21183,35 @@
         },
         {
             "file": "src/file/File.ts",
-            "line": 1407,
-            "description": "Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.\nThis is particularly useful when you are wanting to check how large a file is before loading all of the content.",
+            "line": 1612,
+            "description": "Attempt to make the file send a XHR `HEAD` request\nto get information about the file that is going to be downloaded.\nThis is particularly useful when you are wanting to check\nhow large a file is before loading all of the content.",
             "itemtype": "method",
             "name": "getFileDetails",
             "params": [
                 {
                     "name": "callback",
-                    "description": "The callback to send this FileInfo object to.",
+                    "description": "Callback to send this `FileInfo`\n\tobject to",
                     "type": "Any",
                     "optional": true,
                     "optdefault": "null"
                 },
                 {
                     "name": "maxLoadAttempts",
-                    "description": "The maximum amount of load attempts. Only set this if it is different from the default.",
+                    "description": "Maximum amount of load attempts\n\tOnly set this if it is different from the default.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "1"
                 },
                 {
                     "name": "timeout",
-                    "description": "The timeout delay. By default this is the same as the timeout delay property set on this file.",
+                    "description": "Timeout delay.\n\tBy default this is the same as the\n\ttimeout delay property set on this file.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "this.timeOutDelay"
                 }
             ],
             "deprecated": true,
-            "deprecationMessage": "Use 'loadDetails' instead. Deprecated as of 1.2.0",
+            "deprecationMessage": "Use `loadDetails` instead. Deprecated as of 1.2.0",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.Files.File",
@@ -53342,54 +53228,6 @@
         {
             "message": "Missing item type\nAmount that the container has been scaled by.\n* @property _scale\n* @type Kiwi.Geom.Point\n* @default 1\n* @private",
             "line": " src/core/Stage.ts:310"
-        },
-        {
-            "message": "Missing item type\n---------------\nGeneric Properties \n---------------",
-            "line": " src/file/File.ts:179"
-        },
-        {
-            "message": "Missing item type\n---------------\nFile Information\n---------------",
-            "line": " src/file/File.ts:262"
-        },
-        {
-            "message": "Missing item type\n---------------\nCallbacks\n---------------",
-            "line": " src/file/File.ts:333"
-        },
-        {
-            "message": "Missing item type\n---------------\nLoading\n---------------",
-            "line": " src/file/File.ts:361"
-        },
-        {
-            "message": "Missing item type\n---------------\nXHR Loading \n---------------",
-            "line": " src/file/File.ts:541"
-        },
-        {
-            "message": "Missing item type\n-----------------\nLoading Status\n-----------------",
-            "line": " src/file/File.ts:657"
-        },
-        {
-            "message": "Missing item type\n--------------------\nXHR Header Information\n--------------------",
-            "line": " src/file/File.ts:808"
-        },
-        {
-            "message": "Missing item type\n--------------------\nMISC\n--------------------",
-            "line": " src/file/File.ts:949"
-        },
-        {
-            "message": "Missing item type\n--------------------\nTagging + State\n--------------------",
-            "line": " src/file/File.ts:975"
-        },
-        {
-            "message": "Missing item type\n-------------------\nFile Type\n-------------------",
-            "line": " src/file/File.ts:1045"
-        },
-        {
-            "message": "Missing item type\n------------------\nClean Up\n------------------",
-            "line": " src/file/File.ts:1192"
-        },
-        {
-            "message": "Missing item type\n------------------\nDeprecated\n------------------",
-            "line": " src/file/File.ts:1227"
         },
         {
             "message": "Missing item type\n-----------------------------\nBytes Loaded Methods \n-----------------------------",

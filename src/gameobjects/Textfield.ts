@@ -580,7 +580,7 @@ module Kiwi.GameObjects {
 			m.transformPoint( this._pt3 );
 			m.transformPoint( this._pt4 );
 
-			//Append to the xyuv and alpha arrays
+			// Append to the xyuv and alpha arrays
 			var vertexItems = [];
 			vertexItems.push(
 

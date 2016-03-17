@@ -7821,930 +7821,772 @@ declare module Kiwi.Files {
     }
 }
 /**
-*
-* @module Kiwi
-* @submodule Files
-*
-*/
+@module Kiwi
+@submodule Files
+**/
 declare module Kiwi.Files {
-    /**
-    * Base class which handles the loading of an external data file an xhr.
-    * TextureFile, AudioFile contain fallback loading via tags and all extended Files contain methods for processing the files.
-    *
-    * Also can contain information about the file (like file size, last modified, e.t.c.)
-    * Uses an object literal in its constructor since 1.2 (which is preferred), but also contains previous construction support.
-    *
-    * @class File
-    * @namespace Kiwi.Files
-    * @constructor
-    * @param game {Kiwi.Game} The game that this file is for
-    * @param params {Object} Options for this file.
-    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
-    *   @param params.url {String} Location of the file to be loaded.
-    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
-    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-    *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-    *   @param [params.tags] {Array} Any tags to be associated with this file.
-    *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
-    * @return {Kiwi.Files.File}
-    *
-    */
     class File {
+        /**
+        Base class which handles the loading of an external data file.
+        TextureFile, AudioFile contain fallback loading via tags
+        and all extended Files contain methods for processing the files.
+
+        Also can contain information about the file
+        (like file size, last modified, etc).
+        Uses an object literal in its constructor since 1.2
+        (which is preferred), but also contains previous construction support.
+
+        @class File
+        @namespace Kiwi.Files
+        @constructor
+        @param game {Kiwi.Game} Game that this file is for
+        @param params {object} Options for this file
+            @param params.key {string} User defined name for this file.
+                How the user accesses it in the file store.
+            @param params.url {string} Location of the file to be loaded
+            @param [params.metadata={}] {object} Any metadata to be associated
+                with the file
+            @param [params.state=null] {Kiwi.State} State that this file
+                belongs to. Used for defining global assets vs local assets.
+            @param [params.fileStore=null] {Kiwi.Files.FileStore} Filestore
+                that this file should be saved in when loaded
+            @param [params.type=UNKNOWN] {number} Type of file this is.
+                Choose one of the following:
+                * Kiwi.Files.AUDIO
+                * Kiwi.Files.BINARY_DATA
+                * Kiwi.Files.IMAGE
+                * Kiwi.Files.JSON
+                * Kiwi.Files.SPRITE_SHEET
+                * Kiwi.Files.TEXT_DATA
+                * Kiwi.Files.TEXTUREATLAS
+                * Kiwi.Files.UNKNOWN
+                * Kiwi.Files.XML
+            @param [params.tags] {array} Any tags
+                to be associated with this file
+            @param [params.timeout=TIMEOUT_DELAY] {number} Timeout delay
+                when loading via ajax
+        **/
         constructor(game: Kiwi.Game, params: any);
-        /**
-        * Assigns properties and variables for the constructor as in pre 1.2 Kiwi versions.
-        *
-        * @method _parseParamsOld
-        * @since 1.2.0
-        * @param dataType {Number} The type of file that is being loaded. For this you can use the STATIC properties that are located on this class for quick code completion.
-        * @param path {String} The location of the file that is to be loaded.
-        * @param [name=''] {String} A name for the file. If no name is specified then the files name will be used.
-        * @param [saveToFileStore=true] {Boolean} If the file should be saved on the file store or not.
-        * @param [storeAsGlobal=true] {Boolean} If this file should be stored as a global file, or if it should be destroyed when this state gets switched out.
-        * @private
-        */
         private _parseParamsOld(dataType, url, name?, saveToFileStore?, storeAsGlobal?);
-        /**
-        * Sets properties for this instance based on an object literal passed. Used when the class is being created.
-        *
-        * @method parseParams
-        * @since 1.2.0
-        * @param [params] {Object}
-        *   @param [params.metadata={}] {Object} Any metadata to be associated with the file.
-        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-        *   @param [params.tags] {Array} Any tags to be associated with this file.
-        *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
-        * @protected
-        */
         protected parseParams(params: any): void;
-        /**
-        * Gets the file details from the URL passed. Name, extension, and path are extracted.
-        *
-        * @method _assignFileDetails
-        * @param url {String}
-        * @private
-        * @since 1.2.0
-        */
         private _assignFileDetails(url);
         /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} "File"
-        * @public
-        */
+        Returns the type of this object
+
+        @method objType
+        @return {string} "File"
+        @public
+        **/
         objType(): string;
         /**
-        * The game that this file belongs to.
-        * @property game
-        * @type Kiwi.Game
-        * @since 1.2.0
-        * @public
-        */
+        Game this file belongs to
+
+        @property game
+        @type Kiwi.Game
+        @since 1.2.0
+        @public
+        **/
         game: Kiwi.Game;
         /**
-        * ---------------
-        * Generic Properties
-        * ---------------
+        Indicates if this file can be loaded in parallel to other files.
+        This is usually only used files are using the tag loaders and not XHR.
+
+        @property _loadInParallel
+        @type boolean
+        @default false
+        @since 1.2.0
+        @protected
         **/
-        /**
-        * Indicates if this file can be loaded in parallel to other files.
-        * This is usually only used files are using the tag loaders and not XHR.
-        *
-        * @property _loadInParallel
-        * @type Boolean
-        * @default false
-        * @since 1.2.0
-        * @private
-        */
         protected _loadInParallel: boolean;
         /**
-        * READ ONLY: Indicates if this file can be loaded in parallel to other files.
-        * This is usually only used files are using the tag loaders and not XHR.
-        *
-        * @property loadInParallel
-        * @type Boolean
-        * @default false
-        * @readOnly
-        * @since 1.2.0
-        * @private
-        */
+        READ ONLY: Indicates if this file can be loaded
+        in parallel to other files.
+        This is usually only used files are using the tag loaders and not XHR.
+
+        @property loadInParallel
+        @type boolean
+        @default false
+        @readOnly
+        @since 1.2.0
+        @public
+        **/
         loadInParallel: boolean;
         /**
-        * The filestore this file should be added to when it has loaded.
-        * This can be replaced with a custom one if wanted.
-        *
-        * @property fileStore
-        * @type Kiwi.Files.FileStore
-        * @since 1.2.0
-        * @public
-        */
+        Filestore this file should be added to when it has loaded.
+        This can be replaced with a custom one if wanted.
+
+        @property fileStore
+        @type Kiwi.Files.FileStore
+        @since 1.2.0
+        @public
+        **/
         fileStore: Kiwi.Files.FileStore;
         /**
-        * If this file is using tag loading instead of the XHR method.
-        * Only used by extended classes
-        *
-        * @property useTagLoader
-        * @type Boolean
-        * @since 1.2.0
-        * @protected
-        */
+        If this file is using tag loading instead of the XHR method.
+        Only used by extended classes.
+
+        @property useTagLoader
+        @type boolean
+        @since 1.2.0
+        @protected
+        **/
         protected useTagLoader: boolean;
         /**
-        * The 'key' is the user defined name and the users way of accessing this file once loaded.
-        * @property key
-        * @type String
-        * @public
-        */
+        User-defined name and way of accessing this file once loaded
+
+        @property key
+        @type string
+        @public
+        **/
         key: string;
         /**
-        * A dictionary, stores any information relating to this file.
-        * Used when loading images that are to be used as a spritesheet or texture atlas.
-        * @property data
-        * @type Any
-        * @public
-        */
+        A dictionary, stores any information relating to this file.
+        Used when loading images that are to be used as a spritesheet
+        or texture atlas.
+
+        @property data
+        @type Any
+        @public
+        **/
         metadata: any;
         /**
-        * Holds the type of data that is being loaded.
-        * This should be used with the STATIC properties that hold the various datatypes that can be loaded.
-        *
-        * @property dataType
-        * @type String
-        * @public
-        */
+        Holds the type of data that is being loaded.
+        This should be used with the STATIC properties that hold the various datatypes that can be loaded.
+
+        @property dataType
+        @type string
+        @public
+        **/
         dataType: number;
         /**
-        * ---------------
-        * File Information
-        * ---------------
-        */
-        /**
-        * The name of the file being loaded.
-        *
-        * @property name
-        * @type String
-        * @since 1.2.0
-        * @public
-        */
+        Name of the file being loaded.
+
+        @property name
+        @type string
+        @since 1.2.0
+        @public
+        **/
         name: string;
         /**
-        * The location of where the file is placed without the file itself (So without the files name).
-        * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
-        *
-        * @property path
-        * @type String
-        * @since 1.2.0
-        * @public
-        */
+        Location of where the file is placed without the file itself
+        (so without the file's name).
+        Example: If the file is `images/awesomeImage.png` then the filepath
+        will be `images/`.
+
+        @property path
+        @type string
+        @since 1.2.0
+        @public
+        **/
         path: string;
         /**
-        * The extension of the file that is being loaded.
-        * This is based upon what the file path that the developer specifies.
-        *
-        * @property extension
-        * @type String
-        * @since 1.2.0
-        * @public
-        */
+        Extension of the file that is being loaded.
+        This is based upon the file path that the developer specifies.
+
+        @property extension
+        @type string
+        @since 1.2.0
+        @public
+        **/
         extension: string;
         /**
-        * The full filepath including the file itself.
-        *
-        * @property URL
-        * @type String
-        * @since 1.2.0
-        * @public
-        */
+        Full filepath including the file itself
+
+        @property URL
+        @type string
+        @since 1.2.0
+        @public
+        **/
         URL: string;
         /**
-        * The type of file that is being loaded.
-        * Is only ever given a value when used with the XHR method of loading OR if you use 'loadDetails' before hand.
-        * The value is based off of the 'Content-Type' of the XHR's response header returns.
-        *
-        * @property type
-        * @type String
-        * @public
-        */
+        Type of file that is being loaded.
+        Is only ever given a value when used with the XHR method of loading
+        OR if you use `loadDetails` beforehand.
+        The value is based off of the `Content-Type` of the XHR's
+        response header returns.
+
+        @property type
+        @type string
+        @public
+        **/
         type: string;
         /**
-        * The size of the file that was/is being loaded.
-        * Only has a value when the file was loaded by the XHR method OR you request the file information beforehand using 'loadDetails'.
-        *
-        * @property size
-        * @type Number
-        * @default 0
-        * @since 1.2.0
-        * @public
-        */
+        Size of the file that was/is being loaded.
+        Only has a value when the file was loaded by the XHR method
+        OR you request the file information beforehand using `loadDetails`.
+
+        @property size
+        @type number
+        @default 0
+        @since 1.2.0
+        @public
+        **/
         size: number;
         /**
-        * ---------------
-        * Callbacks
-        * ---------------
-        */
-        /**
-        * Signal which dispatches events when the file has successfully loaded.
-        *
-        * @property onComplete
-        * @type Kiwi.Signal
-        * @since 1.2.0
-        * @public
-        */
+        Signal which dispatches events when the file has successfully loaded
+
+        @property onComplete
+        @type Kiwi.Signal
+        @since 1.2.0
+        @public
+        **/
         onComplete: Kiwi.Signal;
         /**
-        * Signal which dispatches events when the file is loading.
-        * Not guarenteed to dispatch events as it depends on the method of loading being performed
-        *
-        * @property onProgress
-        * @type Kiwi.Signal
-        * @since 1.2.0
-        * @public
-        */
+        Signal which dispatches events when the file is loading.
+        Not guaranteed to dispatch events
+        as it depends on the method of loading being performed.
+
+        @property onProgress
+        @type Kiwi.Signal
+        @since 1.2.0
+        @public
+        **/
         onProgress: Kiwi.Signal;
         /**
-        * ---------------
-        * Loading
-        * ---------------
+        Particular piece of data that the developer wanted loaded.
+        This is in a format that is based upon the datatype passed.
+
+        @property data
+        @type Any
+        @public
         **/
-        /**
-        * The particular piece of data that the developer wanted loaded. This is in a format that is based upon the datatype passed.
-        * @property data
-        * @type Any
-        * @public
-        */
         data: any;
         /**
-        * The number of milliseconds that the XHR should wait before timing out.
-        * Set this to NULL if you want it to not timeout.
-        *
-        * Default changed in v1.3.1 to null
-        *
-        * @property timeOutDelay
-        * @type Number
-        * @default null
-        * @public
-        */
+        Number of milliseconds that the XHR should wait before timing out.
+        Set this to `null` if you want it to not timeout.
+
+        Default changed in v1.3.1 to `null`.
+
+        @property timeOutDelay
+        @type number
+        @default null
+        @public
+        **/
         timeOutDelay: number;
         /**
-        * The default number of milliseconds that the XHR should wait before timing out.
-        * By default this is set to NULL, and so requests will not timeout.
-        *
-        * Default changed in v1.3.1 to null
-        *
-        * @property TIMEOUT_DELAY
-        * @type Number
-        * @static
-        * @since 1.2.0
-        * @default null
-        * @public
-        */
+        Default number of milliseconds that the XHR should wait
+        before timing out.
+        By default this is set to `null`, and so requests will not timeout.
+
+        Default changed in v1.3.1 to `null`.
+
+        @property TIMEOUT_DELAY
+        @type number
+        @static
+        @since 1.2.0
+        @default null
+        @public
+        **/
         static TIMEOUT_DELAY: number;
         /**
-        * The number of attempts at loading there have currently been at loading the file.
-        * This is only used with XHR methods of loading.
-        * @property attemptCounter
-        * @type Number
-        * @protected
-        */
+        Current number of attempts at loading the file.
+        This is only used with XHR methods of loading.
+
+        @property attemptCounter
+        @type number
+        @protected
+        **/
         protected attemptCounter: number;
         /**
-        * The maximum attempts at loading the file that there is allowed.
-        * @property maxLoadAttempts
-        * @type Number
-        * @default 2
-        * @public
-        */
+        Maximum attempts at loading the file allowed
+
+        @property maxLoadAttempts
+        @type number
+        @default 2
+        @public
+        **/
         maxLoadAttempts: number;
         /**
-        * The default maximum attempts at loading the file that there is allowed.
-        * @property MAX_LOAD_ATTEMPTS
-        * @type Number
-        * @default 2
-        * @static
-        * @since 1.2.0
-        * @public
-        */
-        static MAX_LOAD_ATTEMPTS: number;
-        /**
-        * Starts the loading process for this file.
-        * Passing parameters to this method has been deprecated and only exists for backwards compatibility.
-        *
-        * @method load
-        * @public
-        */
-        load(onCompleteCallback?: any, onProgressCallback?: any, customFileStore?: Kiwi.Files.FileStore, maxLoadAttempts?: number, timeout?: number): void;
-        /**
-        * Increments the counter, and calls the approprate loading method.
-        * @method _load
-        * @since 1.2.0
-        * @protected
-        */
-        protected _load(): void;
-        /**
-        * Should be called by the loading method. Dispatches the 'onProgress' callback.
-        * @method loadProgress
-        * @since 1.2.0
-        * @protected
-        */
-        protected loadProgress(): void;
-        /**
-        * Called by the loading methods when the file has been loaded and successfully processed.
-        * Dispatches the 'onComplete' callback and sets the appropriate properties.
-        * @method loadSuccess
-        * @since 1.2.0
-        * @protected
-        */
-        protected loadSuccess(): void;
-        /**
-        * Executed when the loading process fails.
-        * This could be for any reason
-        *
-        * @method loadError
-        * @param error {Any} The event / reason for the file to not be loaded.
-        * @since 1.2.0
-        * @protected
-        */
-        protected loadError(error: any): void;
-        /**
-        * ---------------
-        * XHR Loading
-        * ---------------
+        Default maximum attempts at loading the file allowed
+
+        @property MAX_LOAD_ATTEMPTS
+        @type number
+        @default 2
+        @static
+        @since 1.2.0
+        @public
         **/
-        /**
-        * Sets up a XHR loader based on the properties of this file and parameters passed.
-        *
-        * @method xhrLoader
-        * @param [method="GET"] {String} The method this request should be made in.
-        * @param [responseType="text"] {String} The type of response we are expecting.
-        * @param [timeoutDelay] {Number}
-        * @protected
-        */
+        static MAX_LOAD_ATTEMPTS: number;
+        load(onCompleteCallback?: any, onProgressCallback?: any, customFileStore?: Kiwi.Files.FileStore, maxLoadAttempts?: number, timeout?: number): void;
+        protected _load(): void;
+        protected loadProgress(): void;
+        protected loadSuccess(): void;
+        protected loadError(error: any): void;
         protected xhrLoader(method?: string, responseType?: string, timeoutDelay?: number): void;
-        /**
-        * Progress event fired whilst the file is loading via XHR.
-        * @method xhrOnProgress
-        * @param event {Any}
-        * @protected
-        */
         protected xhrOnProgress(event: any): void;
-        /**
-        * Fired when the file has been loaded.
-        * Checks that the response contains information before marking it as a success.
-        *
-        * @method xhrOnLoad
-        * @param event {Any}
-        * @protected
-        */
         protected xhrOnLoad(event: any): void;
-        /**
-        * Contains the logic for processing the information retrieved via XHR.
-        * Assigns the data property.
-        * This method is also in charge of calling 'loadSuccess' (or 'loadError') when processing is complete.
-        *
-        * @method processXhr
-        * @param response
-        * @protected
-        */
         protected processXhr(response: any): void;
         /**
-        * The XMLHttpRequest object. This only has a value if the xhr method of load is being used, otherwise this is null.
-        * @property _xhr
-        * @type XMLHttpRequest
-        * @protected
-        */
+        `XMLHttpRequest` object. This only has a value if
+        the XHR method of load is being used, otherwise this is `null`.
+
+        @property _xhr
+        @type XMLHttpRequest
+        @protected
+        **/
         protected _xhr: XMLHttpRequest;
         /**
-        * -----------------
-        * Loading Status
-        * -----------------
+        Time at which loading started
+
+        @property timeStarted
+        @type number
+        @default 0
+        @public
         **/
-        /**
-        * The time at which the loading started.
-        * @property timeStarted
-        * @type Number
-        * @default 0
-        * @public
-        */
         timeStarted: number;
         /**
-        * The time at which progress in loading the file was last occurred.
-        * Only contains a value when using XHR methods of loading.
-        * @property lastProgress
-        * @type Number
-        * @public
-        */
+        Time at which progress in loading the file was last occurred.
+        Only contains a value when using XHR methods of loading.
+
+        @property lastProgress
+        @type number
+        @public
+        **/
         lastProgress: number;
         /**
-        * The time at which the load finished.
-        * @property timeFinished
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Time at which the load finished
+
+        @property timeFinished
+        @type number
+        @default 0
+        @public
+        **/
         timeFinished: number;
         /**
-        * The duration or how long it took to load the file. In milliseconds.
-        * @property duration
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Duration or how long it took to load the file in milliseconds
+
+        @property duration
+        @type number
+        @default 0
+        @public
+        **/
         duration: number;
-        /**
-        * Is executed when this file starts loading.
-        * Gets the time and resets properties used in file loading.
-        * @method _start
-        * @private
-        */
         private _start();
-        /**
-        * Is executed when this file stops loading.
-        * @method _stop
-        * @private
-        */
         private _stop();
         /**
-        * If file loading failed or encountered an error and so was not laoded
-        * @property hasError
-        * @type boolean
-        * @default false
-        * @public
-        */
+        Whether file loading failed or encountered an error so was not loaded
+
+        @property hasError
+        @type boolean
+        @default false
+        @public
+        **/
         hasError: boolean;
         /**
-        * Holds the error (if there was one) when loading the file.
-        * @property error
-        * @type Any
-        * @public
-        */
+        Holds the error (if there was one) when loading the file
+
+        @property error
+        @type Any
+        @public
+        **/
         error: any;
         /**
-        * If loading was successful or not.
-        * @property success
-        * @type boolean
-        * @public
-        */
+        Whether loading was successful or not
+
+        @property success
+        @type boolean
+        @public
+        **/
         success: boolean;
         /**
-        * Indication if the file is currently being loaded or not.
-        * @property loading
-        * @type boolean
-        * @public
-        */
+        Whether the file is currently being loaded or not
+
+        @property loading
+        @type boolean
+        @public
+        **/
         loading: boolean;
         /**
-        * Indicates if the file has attempted to load.
-        * This is regardless of whether it was a success or not.
-        * @property complete
-        * @type boolean
-        * @default false
-        * @public
-        */
+        Whether the file has attempted to load,
+        regardless of whether it was a success or not
+
+        @property complete
+        @type boolean
+        @default false
+        @public
+        **/
         complete: boolean;
         /**
-        * The amount of percent loaded the file is. This is out of 100.
-        * @property percentLoaded
-        * @type Number
-        * @public
-        */
+        Percentage of file loaded
+
+        @property percentLoaded
+        @type number
+        @public
+        **/
         percentLoaded: number;
         /**
-        * The number of bytes that have currently been loaded.
-        * Useful when wanting to know exactly how much data has been transferred.
-        * Only has a value when using the XHR method of loading.
-        *
-        * @property bytesLoaded
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Number of bytes that have currently been loaded.
+        Useful when wanting to know exactly how much data has been transferred.
+        Only has a value when using the XHR method of loading.
+
+        @property bytesLoaded
+        @type number
+        @default 0
+        @public
+        **/
         bytesLoaded: number;
         /**
-        * The total number of bytes that the file consists off.
-        * Only has a value when using the XHR method of loading
-        * or you are getting the file details before hand.
-        *
-        * @property bytesTotal
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Total number of bytes that the file consists of.
+        Only has a value when using the XHR method of loading
+        or you are getting the file details beforehand.
+
+        @property bytesTotal
+        @type number
+        @default 0
+        @public
+        **/
         bytesTotal: number;
         /**
-        * --------------------
-        * XHR Header Information
-        * --------------------
+        Callback method to be executed when file details have been retrieved
+
+        @property headCompleteCallback
+        @type Any
+        @since 1.2.0
+        @private
         **/
-        /**
-        * The callback method to be executed when the file details have been retrieved.
-        * @property headCompleteCallback
-        * @type Any
-        * @since 1.2.0
-        * @private
-        */
         private headCompleteCallback;
         /**
-        * The context the 'headCompleteCallback' should be executed in..
-        * The callback is the following arguments.
-        * 1. If the details were recieved
-        *
-        * @property headCompleteContext
-        * @type Any
-        * @since 1.2.0
-        * @private
-        */
+        Context `headCompleteCallback` should be executed in.
+        The callback is the following arguments.
+        1. If the details were recieved
+
+        @property headCompleteContext
+        @type Any
+        @since 1.2.0
+        @private
+        **/
         private headCompleteContext;
         /**
-        * An indication of whether this files information has been retrieved or not.
-        * @property detailsReceived
-        * @type boolean
-        * @default false
-        * @since 1.2.0
-        * @public
-        */
+        Whether this file's information has been retrieved or not
+
+        @property detailsReceived
+        @type boolean
+        @default false
+        @since 1.2.0
+        @public
+        **/
         detailsReceived: boolean;
-        /**
-        * Makes a XHR HEAD request to get information about the file that is going to be downloaded.
-        * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
-        *
-        * @method loadDetails
-        * @param [callback] {Any}
-        * @param [context] {Any}
-        * @return {Boolean} If the request was made
-        * @since 1.2.0
-        * @public
-        */
         loadDetails(callback?: any, context?: any): boolean;
-        /**
-        * Retrieves the HEAD information from the XHR.
-        * This method is used for both 'load' and 'loadDetails' methods.
-        *
-        * @method _getXhrHeaderInfo
-        * @since 1.2.0
-        * @private
-        */
         private _getXhrHeaderInfo();
-        /**
-        * Sets up a XMLHttpRequest object and sends a HEAD request.
-        * @method xhrHeadRequest
-        * @since 1.2.0
-        * @private
-        */
         private xhrHeadRequest();
-        /**
-        * Executed when a xhr head request fails
-        * @method xhrHeadOnError
-        * @param event {Any}
-        * @private
-        */
         private xhrHeadOnError(event);
-        /**
-        * Executed when a XHR head request has loaded.
-        * Checks that the status of the request is 200 before classifying it as a success.
-        * @method xhrHeadOnLoad
-        * @param event {Any}
-        * @private
-        */
         private xhrHeadOnLoad(event);
         /**
-        * --------------------
-        * MISC
-        * --------------------
+        Entity Tag that is assigned to the file.
+        Only has a value when either using the XHR loader
+        OR when requesting the file details.
+
+        @property ETag
+        @type string
+        @public
         **/
-        /**
-        * The Entity Tag that is assigned to the file. O
-        * Only has a value when either using the XHR loader OR when requesting the file details.
-        * @property ETag
-        * @type String
-        * @public
-        */
         ETag: string;
         /**
-        * The last date/time that this file was last modified.
-        * Only has a value when using the XHR method of loading OR when requesting the file details.
-        * @property lastModified
-        * @type String
-        * @default ''
-        * @public
-        */
+        Date/time that this file was last modified.
+        Only has a value when using the XHR method of loading
+        OR when requesting the file details.
+
+        @property lastModified
+        @type string
+        @default ""
+        @public
+        **/
         lastModified: string;
         /**
-        * --------------------
-        * Tagging + State
-        * --------------------
+        State that added the entity - or `null` if it was added as global
+
+        @property ownerState
+        @type Kiwi.State
+        @public
         **/
-        /**
-        * The state that added the entity - or null if it was added as global
-        * @property ownerState
-        * @type Kiwi.State
-        * @public
-        */
         ownerState: Kiwi.State;
         /**
-        * Any tags that are on this file. This can be used to grab files/objects on the whole game that have these particular tag.
-        * @property _tags
-        * @type String[]
-        * @default []
-        * @private
-        */
+        Any tags that are on this file. This can be used to grab files/objects
+        on the whole game that have these particular tag.
+
+        @property _tags
+        @type string[]
+        @default []
+        @private
+        **/
         private _tags;
-        /**
-        * Adds a new tag to this file.
-        * @method addTag
-        * @param tag {String} The tag that you would like to add
-        * @public
-        */
         addTag(tag: string): void;
-        /**
-        * Removes a tag from this file.
-        * @method removeTag
-        * @param tag {String} The tag that is to be removed.
-        * @public
-        */
         removeTag(tag: string): void;
-        /**
-        * Checks to see if a tag that is passed exists on this file.
-        * Returns a boolean that is used as a indication of the results.
-        * True means that the tag exists on this file.
-        *
-        * @method hasTag
-        * @param tag {String} The tag you are checking to see exists.
-        * @return {Boolean} If the tag does exist on this file or not.
-        * @public
-        */
         hasTag(tag: string): boolean;
         /**
-        * -------------------
-        * File Type
-        * -------------------
+        Static property defining the IMAGE Datatype
+
+        @property IMAGE
+        @type number
+        @static
+        @final
+        @default 0
+        @public
         **/
-        /**
-        * A STATIC property that has the number associated with the IMAGE Datatype.
-        * @property IMAGE
-        * @type number
-        * @static
-        * @final
-        * @default 0
-        * @public
-        */
         static IMAGE: number;
         /**
-        * A STATIC property that has the number associated with the SPRITE_SHEET Datatype.
-        * @property SPRITE_SHEET
-        * @type number
-        * @static
-        * @final
-        * @default 1
-        * @public
-        */
+        Static property defining the SPRITE_SHEET Datatype
+
+        @property SPRITE_SHEET
+        @type number
+        @static
+        @final
+        @default 1
+        @public
+        **/
         static SPRITE_SHEET: number;
         /**
-        * A STATIC property that has the number associated with the TEXTURE_ATLAS Datatype.
-        * @property TEXTUREATLAS
-        * @type number
-        * @static
-        * @final
-        * @default 2
-        * @public
-        */
+        Static property defining the TEXTURE_ATLAS Datatype
+
+        @property TEXTUREATLAS
+        @type number
+        @static
+        @final
+        @default 2
+        @public
+        **/
         static TEXTURE_ATLAS: number;
         /**
-        * A STATIC property that has the number associated with the AUDIO Datatype.
-        * @property AUDIO
-        * @type number
-        * @static
-        * @final
-        * @default 3
-        * @public
-        */
+        Static property defining the AUDIO Datatype
+
+        @property AUDIO
+        @type number
+        @static
+        @final
+        @default 3
+        @public
+        **/
         static AUDIO: number;
         /**
-        * A STATIC property that has the number associated with the JSON Datatype.
-        * @property JSON
-        * @type number
-        * @static
-        * @final
-        * @default 4
-        * @public
-        */
+        Static property defining the JSON Datatype
+
+        @property JSON
+        @type number
+        @static
+        @final
+        @default 4
+        @public
+        **/
         static JSON: number;
         /**
-        * A STATIC property that has the number associated with the XML Datatype.
-        * @property XML
-        * @type number
-        * @static
-        * @final
-        * @default 5
-        * @public
-        */
+        Static property defining the XML Datatype
+
+        @property XML
+        @type number
+        @static
+        @final
+        @default 5
+        @public
+        **/
         static XML: number;
         /**
-        * A STATIC property that has the number associated with the BINARY_DATA Datatype.
-        * @property BINARY_DATA
-        * @type number
-        * @static
-        * @final
-        * @default 6
-        * @public
-        */
+        Static property defining the BINARY_DATA Datatype
+
+        @property BINARY_DATA
+        @type number
+        @static
+        @final
+        @default 6
+        @public
+        **/
         static BINARY_DATA: number;
         /**
-        * A STATIC property that has the number associated with the TEXT_DATA Datatype.
-        * @property TEXT_DATA
-        * @type number
-        * @static
-        * @final
-        * @default 7
-        * @public
-        */
+        Static property defining the TEXT_DATA Datatype
+
+        @property TEXT_DATA
+        @type number
+        @static
+        @final
+        @default 7
+        @public
+        **/
         static TEXT_DATA: number;
         /**
-        *
-        * @property UNKNOWN
-        * @type number
-        * @static
-        * @final
-        * @default 8
-        * @public
-        */
+
+        @property UNKNOWN
+        @type number
+        @static
+        @final
+        @default 8
+        @public
+        **/
         static UNKNOWN: number;
         /**
-        * An indication of if this file is texture. This is READ ONLY.
-        * @property isTexture
-        * @type boolean
-        * @readOnly
-        * @public
-        */
+        Whether this file is texture. This is READ ONLY.
+
+        @property isTexture
+        @type boolean
+        @readOnly
+        @public
+        **/
         isTexture: boolean;
         /**
-        * An indication of if this file is a piece of audio. This is READ ONLY.
-        * @property isAudio
-        * @type boolean
-        * @readOnly
-        * @public
-        */
+        Whether this file is a piece of audio. This is READ ONLY.
+
+        @property isAudio
+        @type boolean
+        @readOnly
+        @public
+        **/
         isAudio: boolean;
         /**
-        * An indication of if this file is data. This is READ ONLY.
-        * @property isData
-        * @type boolean
-        * @readOnly
-        * @public
-        */
-        isData: boolean;
-        /**
-        * ------------------
-        * Clean Up
-        * ------------------
+        Whether this file is data. This is READ ONLY.
+
+        @property isData
+        @type boolean
+        @readOnly
+        @public
         **/
-        /**
-        * Destroys all external object references on this object.
-        * @method destroy
-        * @since 1.2.0
-        * @public
-        */
+        isData: boolean;
         destroy(): void;
         /**
-        * ------------------
-        * Deprecated
-        * ------------------
+        Name of the file being loaded
+
+        @property fileName
+        @type string
+        @deprecated Use `name`. Deprecated as of 1.2.0
+        @public
         **/
-        /**
-        * The name of the file being loaded.
-        * @property fileName
-        * @type String
-        * @deprecated Use `name`. Deprecated as of 1.2.0
-        * @public
-        */
         fileName: string;
         /**
-        * The location of where the file is placed without the file itself (So without the files name).
-        * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
-        * @property filePath
-        * @type String
-        * @deprecated Use `path`. Deprecated as of 1.2.0
-        * @public
-        */
+        Location of where the file is placed without the file itself
+        (so without the file's name).
+        Example: If the file you are load is located at
+        `images/awesomeImage.png` then the filepath will be `images/`.
+
+        @property filePath
+        @type string
+        @deprecated Use `path`. Deprecated as of 1.2.0
+        @public
+        **/
         filePath: string;
         /**
-        * The location of where the file is placed without the file itself (So without the files name).
-        * Example: If the file you are load is located at 'images/awesomeImage.png' then the filepath will be 'images/'
-        * @property filePath
-        * @type String
-        * @deprecated Use `extension`. Deprecated as of 1.2.0
-        * @public
-        */
+        Extension of the filename.
+        Example: If the file you are load is located at
+        `images/awesomeImage.png` then the extension will be `png`.
+
+        @property filePath
+        @type string
+        @deprecated Use `extension`. Deprecated as of 1.2.0
+        @public
+        **/
         fileExtension: string;
         /**
-        * The full filepath including the file itself.
-        * @property fileURL
-        * @type String
-        * @deprecated Use `URL`. Deprecated as of 1.2.0
-        * @public
-        */
+        Full filepath including the file itself
+
+        @property fileURL
+        @type string
+        @deprecated Use `URL`. Deprecated as of 1.2.0
+        @public
+        **/
         fileURL: string;
         /**
-        * The type of file that is being loaded.
-        * Is only ever given a value when used with the XHR method of loading OR if you use 'getFileDetails' before hand.
-        * The value is based off of the 'Content-Type' of the XHR's response header returns.
-        * @property fileType
-        * @type String
-        * @deprecated Use `type`. Deprecated as of 1.2.0
-        * @public
-        */
+        Type of file that is being loaded.
+        Is only ever given a value when used with the XHR method of loading
+        OR if you use `getFileDetails` beforehand.
+        The value is based off of the `Content-Type` of the XHR's
+        response header returns.
+
+        @property fileType
+        @type string
+        @deprecated Use `type`. Deprecated as of 1.2.0
+        @public
+        **/
         fileType: string;
         /**
-        * The size of the file that was/is being loaded.
-        * Only has a value when the file was loaded by the XHR method OR you request the file information before hand using 'getFileDetails'.
-        * @property fileSize
-        * @type Number
-        * @deprecated Use `size`. Deprecated as of 1.2.0
-        * @public
-        */
+        Size of the file that was/is being loaded.
+        Only has a value when the file was loaded by the XHR method
+        OR you request the file information beforehand using `getFileDetails`.
+
+        @property fileSize
+        @type number
+        @deprecated Use `size`. Deprecated as of 1.2.0
+        @public
+        **/
         fileSize: number;
         /**
-        * A method that is to be executed when this file has finished loading.
-        * @property onCompleteCallback
-        * @type Any
-        * @default null
-        * @deprecated Use `onComplete`. Deprecated as of 1.2.0
-        * @public
-        */
+        Method to be executed when this file has finished loading,
+        but actually does nothing.
+
+        @property onCompleteCallback
+        @type Any
+        @default null
+        @deprecated Use `onComplete`. Deprecated as of 1.2.0
+        @public
+        **/
+        onCompleteCallback: any;
         /**
-        * A method that is to be executed while this file is loading.
-        * @property onProgressCallback
-        * @type Any
-        * @default null
-        * @deprecated Use `onProgress`. Deprecated as of 1.2.0
-        * @public
-        */
+        Method that is to be executed while this file is loading,
+        but actually does nothing.
+
+        @property onProgressCallback
+        @type Any
+        @default null
+        @deprecated Use `onProgress`. Deprecated as of 1.2.0
+        @public
+        **/
+        onProgressCallback: any;
         /**
-        * The status of this file that is being loaded.
-        * Only used/has a value when the file was/is being loaded by the XHR method.
-        * @property status
-        * @type Number
-        * @default 0
-        * @deprecated Deprecated as of 1.2.0
-        * @public
-        */
+        Status of this file that is being loaded.
+        Only used/has a value when the file was/is being loaded
+        by the XHR method.
+
+        @property status
+        @type number
+        @default 0
+        @deprecated Deprecated as of 1.2.0
+        @public
+        **/
         status: number;
         /**
-        * The status piece of text that the XHR returns.
-        * @property statusText
-        * @type String
-        * @default ''
-        * @deprecated Deprecated as of 1.2.0
-        * @public
-        */
+        Status message that the XHR returns
+
+        @property statusText
+        @type string
+        @default ""
+        @deprecated Deprecated as of 1.2.0
+        @public
+        **/
         statusText: string;
         /**
-        * The ready state of the XHR loader whilst loading.
-        * @property readyState
-        * @type Number
-        * @default 0
-        * @deprecated Deprecated as of 1.2.0
-        * @public
-        */
+        Ready state of the XHR loader while loading
+
+        @property readyState
+        @type number
+        @default 0
+        @deprecated Deprecated as of 1.2.0
+        @public
+        **/
         readyState: number;
         /**
-        * If this file has timeout when it was loading.
-        * @property hasTimedOut
-        * @type boolean
-        * @default false
-        * @deprecated Deprecated as of 1.2.0
-        * @public
-        */
+        Whether this file has timed out when it was loading
+
+        @property hasTimedOut
+        @type boolean
+        @default false
+        @deprecated Deprecated as of 1.2.0
+        @public
+        **/
         hasTimedOut: boolean;
         /**
-        * If the file timed out or not.
-        * @property timedOut
-        * @type Number
-        * @default 0
-        * @deprecated Deprecated as of 1.2.0
-        * @public
-        */
+        Whether the file timed out or not
+
+        @property timedOut
+        @type number
+        @default 0
+        @deprecated Deprecated as of 1.2.0
+        @public
+        **/
         timedOut: number;
         /**
-        * The response that is given by the XHR loader when loading is complete.
-        * @property buffer
-        * @type Any
-        * @deprecated Use 'data' instead. Deprecated as of 1.2.0
-        * @public
-        */
+        Response given by the XHR loader when loading is complete
+
+        @property buffer
+        @type Any
+        @deprecated Use `data` instead. Deprecated as of 1.2.0
+        @public
+        **/
         buffer: any;
-        /**
-        * Attempts to make the file send a XHR HEAD request to get information about the file that is going to be downloaded.
-        * This is particularly useful when you are wanting to check how large a file is before loading all of the content.
-        * @method getFileDetails
-        * @param [callback=null] {Any} The callback to send this FileInfo object to.
-        * @param [maxLoadAttempts=1] {number} The maximum amount of load attempts. Only set this if it is different from the default.
-        * @param [timeout=this.timeOutDelay] {number} The timeout delay. By default this is the same as the timeout delay property set on this file.
-        * @deprecated Use 'loadDetails' instead. Deprecated as of 1.2.0
-        * @private
-        */
         getFileDetails(callback?: any, maxLoadAttempts?: number, timeout?: number): void;
     }
 }
