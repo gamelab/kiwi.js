@@ -1148,7 +1148,7 @@ module Kiwi.Files {
 		@default []
 		@private
 		**/
-		private _tags: string[];
+		private _tags: string[] = [];
 
 
 		public addTag( tag: string ) {

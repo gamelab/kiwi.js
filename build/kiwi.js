@@ -11994,6 +11994,16 @@ var Kiwi;
                 **/
                 this.lastModified = "";
                 /**
+                Any tags that are on this file. This can be used to grab files/objects
+                on the whole game that have these particular tag.
+        
+                @property _tags
+                @type string[]
+                @default []
+                @private
+                **/
+                this._tags = [];
+                /**
                 Method to be executed when this file has finished loading,
                 but actually does nothing.
         
