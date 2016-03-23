@@ -370,7 +370,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_Camera.ts.html#l9"><code>src&#x2F;core&#x2F;Camera.ts:9</code></a>
+            Defined in: <a href="../files/src_core_Camera.ts.html#l8"><code>src&#x2F;core&#x2F;Camera.ts:8</code></a>
         </div>
     
 
@@ -481,7 +481,7 @@ your camera registered in a <code>CameraManager</code>, you should use
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l9"><code>src&#x2F;core&#x2F;Camera.ts:9</code></a>
+        <a href="../files/src_core_Camera.ts.html#l8"><code>src&#x2F;core&#x2F;Camera.ts:8</code></a>
         
         </p>
 
@@ -510,7 +510,7 @@ your camera registered in a <code>CameraManager</code>, you should use
                     
 
                     <div class="param-description">
-                        <p>Game that this camera belongs to.</p>
+                        <p>Game that this camera belongs to</p>
 
                     </div>
 
@@ -660,6 +660,13 @@ your camera registered in a <code>CameraManager</code>, you should use
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                        
+                            <li class="index-item method private">
+                                <a href="#method__getCameraTransformMatrix">_getCameraTransformMatrix</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method private">
                                 <a href="#method__updatedStageSize">_updatedStageSize</a>
@@ -815,6 +822,83 @@ your camera registered in a <code>CameraManager</code>, you should use
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method__getCameraTransformMatrix" class="method item private">
+    <h3 class="name"><code>_getCameraTransformMatrix</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Camera.ts.html#l216"><code>src&#x2F;core&#x2F;Camera.ts:216</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.4.1</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return the camera transformation matrix.</p>
+<p>This is not a standard transform matrix. To make cameras work
+as expected, they must be offset by a specific distance.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>Kiwi.Geom.Matrix</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method__updatedStageSize" class="method item private">
     <h3 class="name"><code>_updatedStageSize</code></h3>
 
@@ -865,7 +949,7 @@ your camera registered in a <code>CameraManager</code>, you should use
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l104"><code>src&#x2F;core&#x2F;Camera.ts:104</code></a>
+        <a href="../files/src_core_Camera.ts.html#l109"><code>src&#x2F;core&#x2F;Camera.ts:109</code></a>
         
         </p>
 
@@ -895,7 +979,7 @@ your camera registered in a <code>CameraManager</code>, you should use
                     
 
                     <div class="param-description">
-                        <p>New width of the camera.</p>
+                        <p>New width of the camera</p>
 
                     </div>
 
@@ -911,7 +995,7 @@ your camera registered in a <code>CameraManager</code>, you should use
                     
 
                     <div class="param-description">
-                        <p>New height of the camera.</p>
+                        <p>New height of the camera</p>
 
                     </div>
 
@@ -966,7 +1050,7 @@ your camera registered in a <code>CameraManager</code>, you should use
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l72"><code>src&#x2F;core&#x2F;Camera.ts:72</code></a>
+        <a href="../files/src_core_Camera.ts.html#l76"><code>src&#x2F;core&#x2F;Camera.ts:76</code></a>
         
         </p>
 
@@ -1037,7 +1121,7 @@ your camera registered in a <code>CameraManager</code>, you should use
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l271"><code>src&#x2F;core&#x2F;Camera.ts:271</code></a>
+        <a href="../files/src_core_Camera.ts.html#l296"><code>src&#x2F;core&#x2F;Camera.ts:296</code></a>
         
         </p>
 
@@ -1048,7 +1132,7 @@ your camera registered in a <code>CameraManager</code>, you should use
     </div>
 
     <div class="description">
-        <p>The render loop that is executed whilst the game is playing.</p>
+        <p>Render this camera view. Part of the main game loop.</p>
 
     </div>
 
@@ -1108,7 +1192,7 @@ your camera registered in a <code>CameraManager</code>, you should use
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l209"><code>src&#x2F;core&#x2F;Camera.ts:209</code></a>
+        <a href="../files/src_core_Camera.ts.html#l243"><code>src&#x2F;core&#x2F;Camera.ts:243</code></a>
         
         </p>
 
@@ -1119,10 +1203,12 @@ your camera registered in a <code>CameraManager</code>, you should use
     </div>
 
     <div class="description">
-        <p>Convert from screen coordinates to world coordinates.
-Apply this camera&#39;s inverted matrix to an object with x and y
-properties representing a point and return the transformed point.
+        <p>Convert from screen coordinates to world coordinates.</p>
+<p>Invert the camera transformation and apply it to a point.
 Useful for calculating coordinates with the mouse.</p>
+<p>Note that, because cameras do not create a transformation
+in the same way that game objects do,
+this is not just a matrix inversion.</p>
 
     </div>
 
@@ -1160,7 +1246,7 @@ Useful for calculating coordinates with the mouse.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Geom.Point.html" class="crosslink">Kiwi.Geom.Point</a></span>:
                     
-                    <p>Transformed clone of the original Point.</p>
+                    <p>Transformed clone of the original Point</p>
 
                 
             </div>
@@ -1219,7 +1305,7 @@ Useful for calculating coordinates with the mouse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l236"><code>src&#x2F;core&#x2F;Camera.ts:236</code></a>
+        <a href="../files/src_core_Camera.ts.html#l266"><code>src&#x2F;core&#x2F;Camera.ts:266</code></a>
         
         </p>
 
@@ -1233,8 +1319,8 @@ Useful for calculating coordinates with the mouse.</p>
 
     <div class="description">
         <p>Convert from world coordinates to screen coordinates.
-Useful for assessing visibility.
-Similar to &quot;transformPoint&quot;, but in reverse.</p>
+Useful for assessing visibility.</p>
+<p>Similar to <code>transformPoint</code>, but in reverse.</p>
 
     </div>
 
@@ -1317,7 +1403,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l262"><code>src&#x2F;core&#x2F;Camera.ts:262</code></a>
+        <a href="../files/src_core_Camera.ts.html#l286"><code>src&#x2F;core&#x2F;Camera.ts:286</code></a>
         
         </p>
 
@@ -1328,7 +1414,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
     </div>
 
     <div class="description">
-        <p>The update loop that is executed every frame.</p>
+        <p>Update every frame. You may override this method; it is empty.</p>
 
     </div>
 
@@ -1375,7 +1461,7 @@ Similar to &quot;transformPoint&quot;, but in reverse.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l172"><code>src&#x2F;core&#x2F;Camera.ts:172</code></a>
+        <a href="../files/src_core_Camera.ts.html#l177"><code>src&#x2F;core&#x2F;Camera.ts:177</code></a>
         
         </p>
 
@@ -1425,7 +1511,7 @@ at the next update loop, or if nothing has changed so it doesn&#39;t.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l119"><code>src&#x2F;core&#x2F;Camera.ts:119</code></a>
+        <a href="../files/src_core_Camera.ts.html#l124"><code>src&#x2F;core&#x2F;Camera.ts:124</code></a>
         
         </p>
 
@@ -1472,7 +1558,7 @@ at the next update loop, or if nothing has changed so it doesn&#39;t.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l199"><code>src&#x2F;core&#x2F;Camera.ts:199</code></a>
+        <a href="../files/src_core_Camera.ts.html#l204"><code>src&#x2F;core&#x2F;Camera.ts:204</code></a>
         
         </p>
 
@@ -1521,7 +1607,7 @@ at the next update loop, or if nothing has changed so it doesn&#39;t.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l149"><code>src&#x2F;core&#x2F;Camera.ts:149</code></a>
+        <a href="../files/src_core_Camera.ts.html#l154"><code>src&#x2F;core&#x2F;Camera.ts:154</code></a>
         
         </p>
 
@@ -1570,7 +1656,7 @@ at the next update loop, or if nothing has changed so it doesn&#39;t.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l183"><code>src&#x2F;core&#x2F;Camera.ts:183</code></a>
+        <a href="../files/src_core_Camera.ts.html#l188"><code>src&#x2F;core&#x2F;Camera.ts:188</code></a>
         
         </p>
 
@@ -1620,7 +1706,7 @@ to control if the camera needs re-rendering.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l83"><code>src&#x2F;core&#x2F;Camera.ts:83</code></a>
+        <a href="../files/src_core_Camera.ts.html#l87"><code>src&#x2F;core&#x2F;Camera.ts:87</code></a>
         
         </p>
 
@@ -1670,7 +1756,7 @@ when the stage is resized.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l63"><code>src&#x2F;core&#x2F;Camera.ts:63</code></a>
+        <a href="../files/src_core_Camera.ts.html#l67"><code>src&#x2F;core&#x2F;Camera.ts:67</code></a>
         
         </p>
 
@@ -1717,7 +1803,7 @@ when the stage is resized.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l128"><code>src&#x2F;core&#x2F;Camera.ts:128</code></a>
+        <a href="../files/src_core_Camera.ts.html#l133"><code>src&#x2F;core&#x2F;Camera.ts:133</code></a>
         
         </p>
 
@@ -1727,9 +1813,9 @@ when the stage is resized.</p>
     </div>
 
     <div class="description">
-        <p>A unique identifier for this Layer within the game
+        <p>Unique identifier for this camera within the game
 used internally by the framework.
-See the name property for a friendly version.</p>
+See the <code>name</code> property for a friendly version.</p>
 
     </div>
 
@@ -1766,7 +1852,7 @@ See the name property for a friendly version.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l139"><code>src&#x2F;core&#x2F;Camera.ts:139</code></a>
+        <a href="../files/src_core_Camera.ts.html#l144"><code>src&#x2F;core&#x2F;Camera.ts:144</code></a>
         
         </p>
 
@@ -1776,8 +1862,8 @@ See the name property for a friendly version.</p>
     </div>
 
     <div class="description">
-        <p>A name for this Camera. This is not checked for uniqueness
-within the Game, but is very useful for debugging.</p>
+        <p>A name for this camera. This is not checked for uniqueness
+within the game, but is very useful for debugging.</p>
 
     </div>
 
@@ -1814,7 +1900,7 @@ within the Game, but is very useful for debugging.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l94"><code>src&#x2F;core&#x2F;Camera.ts:94</code></a>
+        <a href="../files/src_core_Camera.ts.html#l98"><code>src&#x2F;core&#x2F;Camera.ts:98</code></a>
         
         </p>
 
@@ -1824,8 +1910,7 @@ within the Game, but is very useful for debugging.</p>
     </div>
 
     <div class="description">
-        <p>Controls location, scale, and rotation of camera
-within the game world.</p>
+        <p>Controls location, scale, and rotation of camera within the game world</p>
 
     </div>
 
@@ -1862,7 +1947,7 @@ within the game world.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l158"><code>src&#x2F;core&#x2F;Camera.ts:158</code></a>
+        <a href="../files/src_core_Camera.ts.html#l163"><code>src&#x2F;core&#x2F;Camera.ts:163</code></a>
         
         </p>
 
@@ -1909,7 +1994,7 @@ within the game world.</p>
             
         
         
-        <a href="../files/src_core_Camera.ts.html#l54"><code>src&#x2F;core&#x2F;Camera.ts:54</code></a>
+        <a href="../files/src_core_Camera.ts.html#l58"><code>src&#x2F;core&#x2F;Camera.ts:58</code></a>
         
         </p>
 

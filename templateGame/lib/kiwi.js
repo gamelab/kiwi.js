@@ -5113,6 +5113,7 @@ var Kiwi;
             @method _getCameraTransformMatrix
             @return Kiwi.Geom.Matrix
             @private
+            @since 1.4.1
             **/
             this._scratchMatrix.setFromTransform(this.transform.anchorPointX, this.transform.anchorPointY, this.transform.scaleX, this.transform.scaleY, this.transform.rotation);
             this._scratchMatrix.append(1, 0, 0, 1, this.transform.x - this.transform.anchorPointX, this.transform.y - this.transform.anchorPointY);
@@ -5134,18 +5135,6 @@ var Kiwi;
             @return {Kiwi.Geom.Point} Transformed clone of the original Point
             @public
             **/
-            // var m,
-            // 	np = point.clone();
-            // this._scratchMatrix.copyFrom(
-            // 	this.transform.getConcatenatedMatrix() );
-            // m = this._scratchMatrix;
-            // m.append(
-            // 	1, 0, 0, 1,
-            // 	-this.transform.rotPointX, -this.transform.rotPointY );
-            // m.invert();
-            // return m.transformPoint( np );
-            // var m = this._getCameraTransformMatrix().invert();
-            // return m.transformPoint( point.clone() );
             return this._getCameraTransformMatrix().invert().transformPoint(point.clone());
         };
         Camera.prototype.transformPointToScreen = function (point) {
@@ -5161,15 +5150,6 @@ var Kiwi;
             @public
             @since 1.2.0
             **/
-            // var m,
-            // 	np = point.clone();
-            // this._scratchMatrix.copyFrom(
-            // 	this.transform.getConcatenatedMatrix() );
-            // m = this._scratchMatrix;
-            // m.append(
-            // 	1, 0, 0, 1,
-            // 	-this.transform.rotPointX, -this.transform.rotPointY );
-            // return m.transformPoint( np );
             return this._getCameraTransformMatrix().transformPoint(point.clone());
         };
         Camera.prototype.update = function () {

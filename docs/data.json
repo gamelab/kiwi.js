@@ -2510,13 +2510,13 @@
             "module": "Kiwi",
             "namespace": "Kiwi",
             "file": "src/core/Camera.ts",
-            "line": 9,
+            "line": 8,
             "description": "A `Camera` is used to render a particular section of the game world\non the stage. Each `Camera` has coordinates which are held in the\n`transform` property, and `width`/`height` properties.\n\nNote: This class may be directly instantiated, but if you want\nyour camera registered in a `CameraManager`, you should use\n`CameraManager.create()` instead.\n\nA default camera is created as `game.cameras.defaultCamera`.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "Game that this camera belongs to.",
+                    "description": "Game that this camera belongs to",
                     "type": "Kiwi.Game"
                 },
                 {
@@ -12114,7 +12114,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 54,
+            "line": 58,
             "description": "Width of this camera",
             "itemtype": "property",
             "name": "width",
@@ -12127,7 +12127,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 63,
+            "line": 67,
             "description": "Height of this camera",
             "itemtype": "property",
             "name": "height",
@@ -12140,7 +12140,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 72,
+            "line": 76,
             "description": "Return the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -12156,7 +12156,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 83,
+            "line": 87,
             "description": "Whether to resize the camera to fit the stage\nwhen the stage is resized.",
             "itemtype": "property",
             "name": "fitToStage",
@@ -12170,8 +12170,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 94,
-            "description": "Controls location, scale, and rotation of camera\nwithin the game world.",
+            "line": 98,
+            "description": "Controls location, scale, and rotation of camera within the game world",
             "itemtype": "property",
             "name": "transform",
             "type": "Kiwi.Geom.Transform",
@@ -12183,19 +12183,19 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 104,
+            "line": 109,
             "description": "Update the width/height of this camera when the stage resizes.",
             "itemtype": "method",
             "name": "_updatedStageSize",
             "params": [
                 {
                     "name": "width",
-                    "description": "New width of the camera.",
+                    "description": "New width of the camera",
                     "type": "Number"
                 },
                 {
                     "name": "height",
-                    "description": "New height of the camera.",
+                    "description": "New height of the camera",
                     "type": "Number"
                 }
             ],
@@ -12207,7 +12207,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 119,
+            "line": 124,
             "description": "Game this camera belongs to",
             "itemtype": "property",
             "name": "_game",
@@ -12220,8 +12220,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 128,
-            "description": "A unique identifier for this Layer within the game\nused internally by the framework.\nSee the name property for a friendly version.",
+            "line": 133,
+            "description": "Unique identifier for this camera within the game\nused internally by the framework.\nSee the `name` property for a friendly version.",
             "itemtype": "property",
             "name": "id",
             "type": "number",
@@ -12233,8 +12233,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 139,
-            "description": "A name for this Camera. This is not checked for uniqueness\nwithin the Game, but is very useful for debugging.",
+            "line": 144,
+            "description": "A name for this camera. This is not checked for uniqueness\nwithin the game, but is very useful for debugging.",
             "itemtype": "property",
             "name": "name",
             "type": "string",
@@ -12246,7 +12246,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 149,
+            "line": 154,
             "description": "Controls whether this Camera is rendered",
             "itemtype": "property",
             "name": "_visible",
@@ -12259,7 +12259,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 158,
+            "line": 163,
             "description": "Controls whether this Camera is rendered",
             "itemtype": "property",
             "name": "visible",
@@ -12272,7 +12272,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 172,
+            "line": 177,
             "description": "A flag that indicates whether this camera needs to be rendered again\nat the next update loop, or if nothing has changed so it doesn't.",
             "itemtype": "property",
             "name": "_dirty",
@@ -12287,7 +12287,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 183,
+            "line": 188,
             "description": "A value used by components\nto control if the camera needs re-rendering.",
             "itemtype": "property",
             "name": "dirty",
@@ -12302,7 +12302,7 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 199,
+            "line": 204,
             "description": "Scratch matrix used in geometry calculations",
             "itemtype": "property",
             "name": "_scratchMatrix",
@@ -12316,8 +12316,24 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 209,
-            "description": "Convert from screen coordinates to world coordinates.\nApply this camera's inverted matrix to an object with x and y\nproperties representing a point and return the transformed point.\nUseful for calculating coordinates with the mouse.",
+            "line": 216,
+            "description": "Return the camera transformation matrix.\n\nThis is not a standard transform matrix. To make cameras work\nas expected, they must be offset by a specific distance.",
+            "itemtype": "method",
+            "name": "_getCameraTransformMatrix",
+            "return": {
+                "description": "Kiwi.Geom.Matrix"
+            },
+            "access": "private",
+            "tagname": "",
+            "since": "1.4.1",
+            "class": "Kiwi.Camera",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Camera.ts",
+            "line": 243,
+            "description": "Convert from screen coordinates to world coordinates.\n\nInvert the camera transformation and apply it to a point.\nUseful for calculating coordinates with the mouse.\n\nNote that, because cameras do not create a transformation\nin the same way that game objects do,\nthis is not just a matrix inversion.",
             "itemtype": "method",
             "name": "transformPoint",
             "params": [
@@ -12328,7 +12344,7 @@
                 }
             ],
             "return": {
-                "description": "Transformed clone of the original Point.",
+                "description": "Transformed clone of the original Point",
                 "type": "Kiwi.Geom.Point"
             },
             "access": "public",
@@ -12339,8 +12355,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 236,
-            "description": "Convert from world coordinates to screen coordinates.\nUseful for assessing visibility.\nSimilar to \"transformPoint\", but in reverse.",
+            "line": 266,
+            "description": "Convert from world coordinates to screen coordinates.\nUseful for assessing visibility.\n\nSimilar to `transformPoint`, but in reverse.",
             "itemtype": "method",
             "name": "transformPointToScreen",
             "params": [
@@ -12363,8 +12379,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 262,
-            "description": "The update loop that is executed every frame.",
+            "line": 286,
+            "description": "Update every frame. You may override this method; it is empty.",
             "itemtype": "method",
             "name": "update",
             "access": "public",
@@ -12375,8 +12391,8 @@
         },
         {
             "file": "src/core/Camera.ts",
-            "line": 271,
-            "description": "The render loop that is executed whilst the game is playing.",
+            "line": 296,
+            "description": "Render this camera view. Part of the main game loop.",
             "itemtype": "method",
             "name": "render",
             "access": "public",
