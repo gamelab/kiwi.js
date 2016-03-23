@@ -211,7 +211,32 @@ module Kiwi {
 		**/
 		private _scratchMatrix: Kiwi.Geom.Matrix;
 
+		private _getCameraTransformMatrix(): Kiwi.Geom.Matrix {
 
+			/**
+			Return the camera transformation matrix.
+
+			This is not a standard transform matrix. To make cameras work
+			as expected, they must be offset by a specific distance.
+
+			@method _getCameraTransformMatrix
+			@return Kiwi.Geom.Matrix
+			@private
+			@since 1.4.1
+			**/
+
+			this._scratchMatrix.setFromTransform(
+				this.transform.anchorPointX, this.transform.anchorPointY,
+				this.transform.scaleX, this.transform.scaleY,
+				this.transform.rotation );
+			this._scratchMatrix.append(
+				1, 0,
+				0, 1,
+				this.transform.x - this.transform.anchorPointX,
+				this.transform.y - this.transform.anchorPointY );
+
+			return this._scratchMatrix;
+		}
 
 		public transformPoint( point: Kiwi.Geom.Point ): Kiwi.Geom.Point {
 
@@ -231,19 +256,9 @@ module Kiwi {
 			@public
 			**/
 
-			var m,
-				np = point.clone();
-
-			this._scratchMatrix.copyFrom(
-				this.transform.getConcatenatedMatrix() );
-
-			m = this._scratchMatrix;
-			m.append(
-				1, 0, 0, 1,
-				-this.transform.rotPointX, -this.transform.rotPointY );
-			m.invert();
-
-			return m.transformPoint( np );
+			return this._getCameraTransformMatrix().
+				invert().
+				transformPoint( point.clone() );
 		}
 
 		public transformPointToScreen( point: Kiwi.Geom.Point ): Kiwi.Geom.Point {
@@ -261,18 +276,8 @@ module Kiwi {
 			@since 1.2.0
 			**/
 
-			var m,
-				np = point.clone();
-
-			this._scratchMatrix.copyFrom(
-				this.transform.getConcatenatedMatrix() );
-
-			m = this._scratchMatrix;
-			m.append(
-				1, 0, 0, 1,
-				-this.transform.rotPointX, -this.transform.rotPointY );
-
-			return m.transformPoint( np );
+			return this._getCameraTransformMatrix().
+				transformPoint( point.clone() );
 		}
 
 

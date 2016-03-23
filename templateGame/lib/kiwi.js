@@ -5002,37 +5002,34 @@ var Kiwi;
     Kiwi.State = State;
 })(Kiwi || (Kiwi = {}));
 /**
-*
-* @module Kiwi
-*
-*/
+@module Kiwi
+**/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * A `Camera` is used to render a particular section of the game world
-    * on the stage. Each `Camera` has coordinates which are held in the
-    * `transform` property, and `width`/`height` properties.
-    *
-    * Note: This class may be directly instantiated, but if you want
-    * your camera registered in a `CameraManager`, you should use
-    * `CameraManager.create()` instead.
-    *
-    * A default camera is created as `game.cameras.defaultCamera`.
-    *
-    * @class Camera
-    * @namespace Kiwi
-    * @constructor
-    * @param game {Kiwi.Game} Game that this camera belongs to.
-    * @param id {number} Unique ID for this camera
-    * @param name {string} Name for this camera
-    * @param x {number} Horizontal coordinate of the camera
-    * @param y {number} Vertical coordinate of the camera
-    * @param width {number} Width of the camera
-    * @param height {number} Height of the camera
-    * @return {Kiwi.Camera}
-    *
-    */
     var Camera = (function () {
+        /**
+        A `Camera` is used to render a particular section of the game world
+        on the stage. Each `Camera` has coordinates which are held in the
+        `transform` property, and `width`/`height` properties.
+
+        Note: This class may be directly instantiated, but if you want
+        your camera registered in a `CameraManager`, you should use
+        `CameraManager.create()` instead.
+
+        A default camera is created as `game.cameras.defaultCamera`.
+
+        @class Camera
+        @namespace Kiwi
+        @constructor
+        @param game {Kiwi.Game} Game that this camera belongs to
+        @param id {number} Unique ID for this camera
+        @param name {string} Name for this camera
+        @param x {number} Horizontal coordinate of the camera
+        @param y {number} Vertical coordinate of the camera
+        @param width {number} Width of the camera
+        @param height {number} Height of the camera
+        @return {Kiwi.Camera}
+        **/
         function Camera(game, id, name, x, y, width, height) {
             this._game = game;
             this.id = id;
@@ -5047,24 +5044,24 @@ var Kiwi;
             this.fitToStage = true;
         }
         /**
-        * Return the type of object that this is.
-        *
-        * @method objType
-        * @return {string} "Camera"
-        * @public
-        */
+        Return the type of object that this is.
+
+        @method objType
+        @return {string} "Camera"
+        @public
+        **/
         Camera.prototype.objType = function () {
             return "Camera";
         };
-        /**
-        * Update the width/height of this camera when the stage resizes.
-        *
-        * @method _updatedStageSize
-        * @param width {number} New width of the camera.
-        * @param height {number} New height of the camera.
-        * @private
-        */
         Camera.prototype._updatedStageSize = function (width, height) {
+            /**
+            Update the width/height of this camera when the stage resizes.
+
+            @method _updatedStageSize
+            @param width {number} New width of the camera
+            @param height {number} New height of the camera
+            @private
+            **/
             if (this.fitToStage) {
                 this.width = width;
                 this.height = height;
@@ -5072,12 +5069,12 @@ var Kiwi;
         };
         Object.defineProperty(Camera.prototype, "visible", {
             /**
-            * Controls whether this Camera is rendered
-            *
-            * @property visible
-            * @type boolean
-            * @public
-            */
+            Controls whether this Camera is rendered
+    
+            @property visible
+            @type boolean
+            @public
+            **/
             get: function () {
                 return this._visible;
             },
@@ -5089,14 +5086,14 @@ var Kiwi;
         });
         Object.defineProperty(Camera.prototype, "dirty", {
             /**
-            * A value used by components
-            * to control if the camera needs re-rendering.
-            *
-            * @property dirty
-            * @type boolean
-            * @public
-            * @deprecated As of 1.1.0, no use has been found for this property.
-            */
+            A value used by components
+            to control if the camera needs re-rendering.
+    
+            @property dirty
+            @type boolean
+            @public
+            @deprecated As of 1.1.0, no use has been found for this property.
+            **/
             get: function () {
                 return this._dirty;
             },
@@ -5106,56 +5103,90 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-        /**
-        * Convert from screen coordinates to world coordinates.
-        * Apply this camera's inverted matrix to an object with x and y
-        * properties representing a point and return the transformed point.
-        * Useful for calculating coordinates with the mouse.
-        *
-        * @method transformPoint
-        * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
-        * @public
-        */
+        Camera.prototype._getCameraTransformMatrix = function () {
+            /**
+            Return the camera transformation matrix.
+
+            This is not a standard transform matrix. To make cameras work
+            as expected, they must be offset by a specific distance.
+
+            @method _getCameraTransformMatrix
+            @return Kiwi.Geom.Matrix
+            @private
+            **/
+            this._scratchMatrix.setFromTransform(this.transform.anchorPointX, this.transform.anchorPointY, this.transform.scaleX, this.transform.scaleY, this.transform.rotation);
+            this._scratchMatrix.append(1, 0, 0, 1, this.transform.x - this.transform.anchorPointX, this.transform.y - this.transform.anchorPointY);
+            return this._scratchMatrix;
+        };
         Camera.prototype.transformPoint = function (point) {
-            var m, np = point.clone();
-            this._scratchMatrix.copyFrom(this.transform.getConcatenatedMatrix());
-            m = this._scratchMatrix;
-            m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
-            m.invert();
-            return m.transformPoint(np);
+            /**
+            Convert from screen coordinates to world coordinates.
+
+            Invert the camera transformation and apply it to a point.
+            Useful for calculating coordinates with the mouse.
+
+            Note that, because cameras do not create a transformation
+            in the same way that game objects do,
+            this is not just a matrix inversion.
+
+            @method transformPoint
+            @param point {Kiwi.Geom.Point}
+            @return {Kiwi.Geom.Point} Transformed clone of the original Point
+            @public
+            **/
+            // var m,
+            // 	np = point.clone();
+            // this._scratchMatrix.copyFrom(
+            // 	this.transform.getConcatenatedMatrix() );
+            // m = this._scratchMatrix;
+            // m.append(
+            // 	1, 0, 0, 1,
+            // 	-this.transform.rotPointX, -this.transform.rotPointY );
+            // m.invert();
+            // return m.transformPoint( np );
+            // var m = this._getCameraTransformMatrix().invert();
+            // return m.transformPoint( point.clone() );
+            return this._getCameraTransformMatrix().invert().transformPoint(point.clone());
         };
-        /**
-        * Convert from world coordinates to screen coordinates.
-        * Useful for assessing visibility.
-        * Similar to "transformPoint", but in reverse.
-        *
-        * @method transformPointToScreen
-        * @param point {Kiwi.Geom.Point}
-        * @return {Kiwi.Geom.Point} Transformed clone of the original Point.
-        * @public
-        * @since 1.2.0
-        */
         Camera.prototype.transformPointToScreen = function (point) {
-            var m, np = point.clone();
-            this._scratchMatrix.copyFrom(this.transform.getConcatenatedMatrix());
-            m = this._scratchMatrix;
-            m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
-            return m.transformPoint(np);
+            /**
+            Convert from world coordinates to screen coordinates.
+            Useful for assessing visibility.
+
+            Similar to `transformPoint`, but in reverse.
+
+            @method transformPointToScreen
+            @param point {Kiwi.Geom.Point}
+            @return {Kiwi.Geom.Point} Transformed clone of the original Point.
+            @public
+            @since 1.2.0
+            **/
+            // var m,
+            // 	np = point.clone();
+            // this._scratchMatrix.copyFrom(
+            // 	this.transform.getConcatenatedMatrix() );
+            // m = this._scratchMatrix;
+            // m.append(
+            // 	1, 0, 0, 1,
+            // 	-this.transform.rotPointX, -this.transform.rotPointY );
+            // return m.transformPoint( np );
+            return this._getCameraTransformMatrix().transformPoint(point.clone());
         };
-        /**
-        * The update loop that is executed every frame.
-        * @method update
-        * @public
-        */
         Camera.prototype.update = function () {
+            /**
+            Update every frame. You may override this method; it is empty.
+
+            @method update
+            @public
+            **/
         };
-        /**
-        * The render loop that is executed whilst the game is playing.
-        * @method render
-        * @public
-        */
         Camera.prototype.render = function () {
+            /**
+            Render this camera view. Part of the main game loop.
+
+            @method render
+            @public
+            **/
             this._game.renderer.render(this);
         };
         return Camera;
