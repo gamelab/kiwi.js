@@ -15142,114 +15142,153 @@ declare module Kiwi.Input {
     }
 }
 /**
-*
-* @module Kiwi
-* @submodule Input
-*
-*/
+
+@module Kiwi
+@submodule Input
+
+**/
 declare module Kiwi.Input {
     /**
-    * Holds the information about a Mouse Cursor, such as the position of the
-    * cursor, the mouse wheel's delta, the button that was used, e.t.c.
-    * Note: A mouse cursor is always active.
-    *
-    * @class MouseCursor
-    * @namespace Kiwi.Input
-    * @extends Pointer
-    */
+    Holds the information about a Mouse Cursor, such as the position of the
+    cursor, the mouse wheel's delta, the button that was used, etc.
+
+    Note: A mouse cursor is always active.
+
+    @class MouseCursor
+    @namespace Kiwi.Input
+    @extends Pointer
+    **/
     class MouseCursor extends Pointer {
         /**
-        * The type of object this class is.
-        * @method objType
-        * @return {string} "MouseCursor"
-        * @public
-        */
+        Type of object this class is
+
+        @method objType
+        @return {string} "MouseCursor"
+        @public
+        **/
         objType(): string;
         /**
-        * The offset of the mouse wheel on the X axis.
-        * @property wheelDeltaX
-        * @type number
-        * @default 0
-        * @public
-        */
+        Horizontal offset of the mouse wheel
+
+        @property wheelDeltaX
+        @type number
+        @default 0
+        @public
+        **/
         wheelDeltaX: number;
         /**
-        * The offset of the mouse wheel on the Y axis.
-        * @property wheelDeltaY
-        * @type number
-        * @default 0
-        * @public
-        */
+        Vertical offset of the mouse wheel
+
+        @property wheelDeltaY
+        @type number
+        @default 0
+        @public
+        **/
         wheelDeltaY: number;
         /**
-        * If the ctrl key is down.
-        * @property ctrlKey
-        * @type boolean
-        * @public
-        */
+        If the ctrl key is down
+
+        @property ctrlKey
+        @type boolean
+        @public
+        **/
         ctrlKey: boolean;
         /**
-        * If the shift key is down.
-        * @property shiftKey
-        * @type boolean
-        * @public
-        */
+        If the shift key is down
+
+        @property shiftKey
+        @type boolean
+        @public
+        **/
         shiftKey: boolean;
         /**
-        * If the alt key is down.
-        * @property altKey
-        * @type boolean
-        * @public
-        */
+        If the alt key is down
+
+        @property altKey
+        @type boolean
+        @public
+        **/
         altKey: boolean;
         /**
-        * The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0
-        * @property button
-        * @type number
-        * @public
-        */
+        Button that was last toggled.
+
+        - 0: Left or main mouse button
+        - 1: Middle or scroll wheel mouse button
+        - 2: Right or secondary mouse button
+
+        Note that this is the last button to go down, or up.
+        For example, if you clicked the left button down, clicked the middle
+        button down, released the middle button, then released the left button,
+        this value would follow the sequence 0, 1, 1, 0.
+
+        @property button
+        @type number
+        @public
+        **/
         button: number;
         /**
-        * Indicates if the "preventDefault" method should be executed whenever a 'down' mouse event occurs.
-        * @property preventDown
-        * @type boolean
-        * @public
-        */
+        Indicates if the `preventDefault` method should be executed
+        whenever a "down" mouse event occurs
+
+        @property preventDown
+        @type boolean
+        @default true
+        @public
+        **/
         preventDown: boolean;
         /**
-        * Indicates if the "preventDefault" method should be executed whenever a 'up' mouse event occurs.
-        * @property preventUp
-        * @type boolean
-        * @public
-        */
+        Indicates if the `preventDefault` method should be executed
+        whenever an "up" mouse event occurs
+
+        @property preventUp
+        @type boolean
+        @default true
+        @public
+        **/
         preventUp: boolean;
         /**
-        * Indicates if the "preventDefault" method should be executed whenever a 'wheel' mouse event occurs.
-        * @property preventWheel
-        * @type boolean
-        * @public
-        */
+        Indicates if the `preventDefault` method should be executed
+        whenever a "wheel" mouse event occurs
+
+        @property preventWheel
+        @type boolean
+        @default true
+        @public
+        **/
         preventWheel: boolean;
         /**
-        * Gets executed when the mouse cursor gets initally pressed.
-        * @method start
-        * @param {event} event
-        * @public
-        */
+        Execute when the mouse cursor gets initially pressed.
+
+        @method start
+        @param {Event} System mouse event
+        @public
+        **/
         start(event: any): void;
         /**
-        * Gets executed when the mouse cursor gets initally released.
-        * @method stop
-        * @param {event} event
-        * @public
-        */
+        Execute when the mouse cursor gets released.
+
+        @method stop
+        @param {Event} System mouse event
+        @public
+        **/
         stop(event: any): void;
         /**
-        * When the mouse wheel event fires and the mouse's delta changes.
-        * @method wheel
-        * @param {event} event
-        * @public
-        */
+        Execute when the mouse cursor gets moved.
+
+        This ensures that key modifiers are more accurately updated.
+
+        @method move
+        @param {Event} System mouse event
+        @public
+        **/
+        move(event: any): void;
+        /**
+        When the mouse wheel event fires and the mouse's delta changes.
+
+        @method wheel
+        @param {Event} System mouse event
+        @public
+        **/
         wheel(event: any): void;
     }
 }

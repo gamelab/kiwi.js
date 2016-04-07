@@ -78,8 +78,16 @@ module Kiwi.Input {
 		public altKey: boolean;
 
 		/**
-		Button that got pressed. Eg. If the LEFT mouse button was pressed,
-		this number would be 0.
+		Button that was last toggled.
+
+		- 0: Left or main mouse button
+		- 1: Middle or scroll wheel mouse button
+		- 2: Right or secondary mouse button
+
+		Note that this is the last button to go down, or up.
+		For example, if you clicked the left button down, clicked the middle
+		button down, released the middle button, then released the left button,
+		this value would follow the sequence 0, 1, 1, 0.
 
 		@property button
 		@type number
@@ -121,7 +129,7 @@ module Kiwi.Input {
 		public preventWheel: boolean = true;
 
 		/**
-		Execute when the mouse cursor gets initally pressed.
+		Execute when the mouse cursor gets initially pressed.
 
 		@method start
 		@param {Event} System mouse event
@@ -142,7 +150,7 @@ module Kiwi.Input {
 		}
 
 		/**
-		Execute when the mouse cursor gets initally released.
+		Execute when the mouse cursor gets released.
 
 		@method stop
 		@param {Event} System mouse event
@@ -154,8 +162,28 @@ module Kiwi.Input {
 				event.preventDefault();
 			}
 
+			this.button = event.button;
+
 			this.move( event );
 			super.stop( event );
+		}
+
+		/**
+		Execute when the mouse cursor gets moved.
+
+		This ensures that key modifiers are more accurately updated.
+
+		@method move
+		@param {Event} System mouse event
+		@public
+		**/
+		public move ( event ) {
+
+			super.move( event );
+
+			this.ctrlKey = event.ctrlKey;
+			this.shiftKey = event.shiftKey;
+			this.altKey = event.altKey;
 		}
 
 		/**

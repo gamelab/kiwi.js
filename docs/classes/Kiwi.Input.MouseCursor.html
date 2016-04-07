@@ -392,8 +392,8 @@
 
 <div class="box intro">
     <p>Holds the information about a Mouse Cursor, such as the position of the
-cursor, the mouse wheel&#39;s delta, the button that was used, e.t.c.
-Note: A mouse cursor is always active.</p>
+cursor, the mouse wheel&#39;s delta, the button that was used, etc.</p>
+<p>Note: A mouse cursor is always active.</p>
 
 </div>
 
@@ -422,6 +422,13 @@ Note: A mouse cursor is always active.</p>
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
+                        
+                            <li class="index-item method public">
+                                <a href="#method_move">move</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method public">
                                 <a href="#method_objType">objType</a>
@@ -538,6 +545,98 @@ Note: A mouse cursor is always active.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method_move" class="method item public">
+    <h3 class="name"><code>move</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>System</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_input_MouseCursor.ts.html#l171"><code>src&#x2F;input&#x2F;MouseCursor.ts:171</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Execute when the mouse cursor gets moved.</p>
+<p>This ensures that key modifiers are more accurately updated.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">System</code>
+                        <span class="type">Event</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>mouse event</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_objType" class="method item public">
     <h3 class="name"><code>objType</code></h3>
 
@@ -576,7 +675,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l21"><code>src&#x2F;input&#x2F;MouseCursor.ts:21</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l22"><code>src&#x2F;input&#x2F;MouseCursor.ts:22</code></a>
         
         </p>
 
@@ -587,7 +686,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>The type of object this class is.</p>
+        <p>Type of object this class is</p>
 
     </div>
 
@@ -622,7 +721,7 @@ Note: A mouse cursor is always active.</p>
             
                 <li class="arg">
                     
-                        <code>event</code>
+                        <code>System</code>
                     
                 </li>
             
@@ -657,7 +756,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l105"><code>src&#x2F;input&#x2F;MouseCursor.ts:105</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l131"><code>src&#x2F;input&#x2F;MouseCursor.ts:131</code></a>
         
         </p>
 
@@ -668,7 +767,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>Gets executed when the mouse cursor gets initally pressed.</p>
+        <p>Execute when the mouse cursor gets initially pressed.</p>
 
     </div>
 
@@ -680,14 +779,15 @@ Note: A mouse cursor is always active.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">event</code>
+                        <code class="param-name">System</code>
                         <span class="type">Event</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>mouse event</p>
+
                     </div>
 
                     
@@ -712,7 +812,7 @@ Note: A mouse cursor is always active.</p>
             
                 <li class="arg">
                     
-                        <code>event</code>
+                        <code>System</code>
                     
                 </li>
             
@@ -747,7 +847,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l123"><code>src&#x2F;input&#x2F;MouseCursor.ts:123</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l152"><code>src&#x2F;input&#x2F;MouseCursor.ts:152</code></a>
         
         </p>
 
@@ -758,7 +858,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>Gets executed when the mouse cursor gets initally released.</p>
+        <p>Execute when the mouse cursor gets released.</p>
 
     </div>
 
@@ -770,14 +870,15 @@ Note: A mouse cursor is always active.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">event</code>
+                        <code class="param-name">System</code>
                         <span class="type">Event</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>mouse event</p>
+
                     </div>
 
                     
@@ -802,7 +903,7 @@ Note: A mouse cursor is always active.</p>
             
                 <li class="arg">
                     
-                        <code>event</code>
+                        <code>System</code>
                     
                 </li>
             
@@ -837,7 +938,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l137"><code>src&#x2F;input&#x2F;MouseCursor.ts:137</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l189"><code>src&#x2F;input&#x2F;MouseCursor.ts:189</code></a>
         
         </p>
 
@@ -860,14 +961,15 @@ Note: A mouse cursor is always active.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">event</code>
+                        <code class="param-name">System</code>
                         <span class="type">Event</span>
                     
 
                     
 
                     <div class="param-description">
-                         
+                        <p>mouse event</p>
+
                     </div>
 
                     
@@ -916,7 +1018,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l65"><code>src&#x2F;input&#x2F;MouseCursor.ts:65</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l71"><code>src&#x2F;input&#x2F;MouseCursor.ts:71</code></a>
         
         </p>
 
@@ -926,7 +1028,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>If the alt key is down.</p>
+        <p>If the alt key is down</p>
 
     </div>
 
@@ -963,7 +1065,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l73"><code>src&#x2F;input&#x2F;MouseCursor.ts:73</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l80"><code>src&#x2F;input&#x2F;MouseCursor.ts:80</code></a>
         
         </p>
 
@@ -973,7 +1075,16 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0</p>
+        <p>Button that was last toggled.</p>
+<ul>
+<li>0: Left or main mouse button</li>
+<li>1: Middle or scroll wheel mouse button</li>
+<li>2: Right or secondary mouse button</li>
+</ul>
+<p>Note that this is the last button to go down, or up.
+For example, if you clicked the left button down, clicked the middle
+button down, released the middle button, then released the left button,
+this value would follow the sequence 0, 1, 1, 0.</p>
 
     </div>
 
@@ -1010,7 +1121,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l49"><code>src&#x2F;input&#x2F;MouseCursor.ts:49</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l53"><code>src&#x2F;input&#x2F;MouseCursor.ts:53</code></a>
         
         </p>
 
@@ -1020,7 +1131,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>If the ctrl key is down.</p>
+        <p>If the ctrl key is down</p>
 
     </div>
 
@@ -1057,7 +1168,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l81"><code>src&#x2F;input&#x2F;MouseCursor.ts:81</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l98"><code>src&#x2F;input&#x2F;MouseCursor.ts:98</code></a>
         
         </p>
 
@@ -1067,10 +1178,13 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#39;down&#39; mouse event occurs.</p>
+        <p>Indicates if the <code>preventDefault</code> method should be executed
+whenever a &quot;down&quot; mouse event occurs</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1104,7 +1218,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l89"><code>src&#x2F;input&#x2F;MouseCursor.ts:89</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l109"><code>src&#x2F;input&#x2F;MouseCursor.ts:109</code></a>
         
         </p>
 
@@ -1114,10 +1228,13 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#39;up&#39; mouse event occurs.</p>
+        <p>Indicates if the <code>preventDefault</code> method should be executed
+whenever an &quot;up&quot; mouse event occurs</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1151,7 +1268,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l97"><code>src&#x2F;input&#x2F;MouseCursor.ts:97</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l120"><code>src&#x2F;input&#x2F;MouseCursor.ts:120</code></a>
         
         </p>
 
@@ -1161,10 +1278,13 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>Indicates if the &quot;preventDefault&quot; method should be executed whenever a &#39;wheel&#39; mouse event occurs.</p>
+        <p>Indicates if the <code>preventDefault</code> method should be executed
+whenever a &quot;wheel&quot; mouse event occurs</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> true</p>
     
 
     
@@ -1198,7 +1318,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l57"><code>src&#x2F;input&#x2F;MouseCursor.ts:57</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l62"><code>src&#x2F;input&#x2F;MouseCursor.ts:62</code></a>
         
         </p>
 
@@ -1208,7 +1328,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>If the shift key is down.</p>
+        <p>If the shift key is down</p>
 
     </div>
 
@@ -1245,7 +1365,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l31"><code>src&#x2F;input&#x2F;MouseCursor.ts:31</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l33"><code>src&#x2F;input&#x2F;MouseCursor.ts:33</code></a>
         
         </p>
 
@@ -1255,7 +1375,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>The offset of the mouse wheel on the X axis.</p>
+        <p>Horizontal offset of the mouse wheel</p>
 
     </div>
 
@@ -1294,7 +1414,7 @@ Note: A mouse cursor is always active.</p>
             
         
         
-        <a href="../files/src_input_MouseCursor.ts.html#l40"><code>src&#x2F;input&#x2F;MouseCursor.ts:40</code></a>
+        <a href="../files/src_input_MouseCursor.ts.html#l43"><code>src&#x2F;input&#x2F;MouseCursor.ts:43</code></a>
         
         </p>
 
@@ -1304,7 +1424,7 @@ Note: A mouse cursor is always active.</p>
     </div>
 
     <div class="description">
-        <p>The offset of the mouse wheel on the Y axis.</p>
+        <p>Vertical offset of the mouse wheel</p>
 
     </div>
 

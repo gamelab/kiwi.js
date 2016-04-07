@@ -5292,7 +5292,7 @@
             "namespace": "Kiwi.Input",
             "file": "src/input/MouseCursor.ts",
             "line": 10,
-            "description": "Holds the information about a Mouse Cursor, such as the position of the\ncursor, the mouse wheel's delta, the button that was used, e.t.c.\nNote: A mouse cursor is always active.",
+            "description": "Holds the information about a Mouse Cursor, such as the position of the\ncursor, the mouse wheel's delta, the button that was used, etc.\n\nNote: A mouse cursor is always active.",
             "extends": "Pointer"
         },
         "Kiwi.Input.Pointer": {
@@ -37878,8 +37878,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 21,
-            "description": "The type of object this class is.",
+            "line": 22,
+            "description": "Type of object this class is",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -37895,8 +37895,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 31,
-            "description": "The offset of the mouse wheel on the X axis.",
+            "line": 33,
+            "description": "Horizontal offset of the mouse wheel",
             "itemtype": "property",
             "name": "wheelDeltaX",
             "type": "number",
@@ -37910,8 +37910,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 40,
-            "description": "The offset of the mouse wheel on the Y axis.",
+            "line": 43,
+            "description": "Vertical offset of the mouse wheel",
             "itemtype": "property",
             "name": "wheelDeltaY",
             "type": "number",
@@ -37925,8 +37925,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 49,
-            "description": "If the ctrl key is down.",
+            "line": 53,
+            "description": "If the ctrl key is down",
             "itemtype": "property",
             "name": "ctrlKey",
             "type": "boolean",
@@ -37939,8 +37939,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 57,
-            "description": "If the shift key is down.",
+            "line": 62,
+            "description": "If the shift key is down",
             "itemtype": "property",
             "name": "shiftKey",
             "type": "boolean",
@@ -37953,8 +37953,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 65,
-            "description": "If the alt key is down.",
+            "line": 71,
+            "description": "If the alt key is down",
             "itemtype": "property",
             "name": "altKey",
             "type": "boolean",
@@ -37967,8 +37967,8 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 73,
-            "description": "The button that got pressed. Eg. If the LEFT mouse button was pressed this number would be 0",
+            "line": 80,
+            "description": "Button that was last toggled.\n\n- 0: Left or main mouse button\n- 1: Middle or scroll wheel mouse button\n- 2: Right or secondary mouse button\n\nNote that this is the last button to go down, or up.\nFor example, if you clicked the left button down, clicked the middle\nbutton down, released the middle button, then released the left button,\nthis value would follow the sequence 0, 1, 1, 0.",
             "itemtype": "property",
             "name": "button",
             "type": "number",
@@ -37981,11 +37981,12 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 81,
-            "description": "Indicates if the \"preventDefault\" method should be executed whenever a 'down' mouse event occurs.",
+            "line": 98,
+            "description": "Indicates if the `preventDefault` method should be executed\nwhenever a \"down\" mouse event occurs",
             "itemtype": "property",
             "name": "preventDown",
             "type": "boolean",
+            "default": "true",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Input.MouseCursor",
@@ -37995,11 +37996,12 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 89,
-            "description": "Indicates if the \"preventDefault\" method should be executed whenever a 'up' mouse event occurs.",
+            "line": 109,
+            "description": "Indicates if the `preventDefault` method should be executed\nwhenever an \"up\" mouse event occurs",
             "itemtype": "property",
             "name": "preventUp",
             "type": "boolean",
+            "default": "true",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Input.MouseCursor",
@@ -38009,11 +38011,12 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 97,
-            "description": "Indicates if the \"preventDefault\" method should be executed whenever a 'wheel' mouse event occurs.",
+            "line": 120,
+            "description": "Indicates if the `preventDefault` method should be executed\nwhenever a \"wheel\" mouse event occurs",
             "itemtype": "property",
             "name": "preventWheel",
             "type": "boolean",
+            "default": "true",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Input.MouseCursor",
@@ -38023,14 +38026,14 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 105,
-            "description": "Gets executed when the mouse cursor gets initally pressed.",
+            "line": 131,
+            "description": "Execute when the mouse cursor gets initially pressed.",
             "itemtype": "method",
             "name": "start",
             "params": [
                 {
-                    "name": "event",
-                    "description": "",
+                    "name": "System",
+                    "description": "mouse event",
                     "type": "Event"
                 }
             ],
@@ -38043,14 +38046,14 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 123,
-            "description": "Gets executed when the mouse cursor gets initally released.",
+            "line": 152,
+            "description": "Execute when the mouse cursor gets released.",
             "itemtype": "method",
             "name": "stop",
             "params": [
                 {
-                    "name": "event",
-                    "description": "",
+                    "name": "System",
+                    "description": "mouse event",
                     "type": "Event"
                 }
             ],
@@ -38063,14 +38066,34 @@
         },
         {
             "file": "src/input/MouseCursor.ts",
-            "line": 137,
+            "line": 171,
+            "description": "Execute when the mouse cursor gets moved.\n\nThis ensures that key modifiers are more accurately updated.",
+            "itemtype": "method",
+            "name": "move",
+            "params": [
+                {
+                    "name": "System",
+                    "description": "mouse event",
+                    "type": "Event"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Input.MouseCursor",
+            "module": "Kiwi",
+            "submodule": "Input",
+            "namespace": "Kiwi.Input"
+        },
+        {
+            "file": "src/input/MouseCursor.ts",
+            "line": 189,
             "description": "When the mouse wheel event fires and the mouse's delta changes.",
             "itemtype": "method",
             "name": "wheel",
             "params": [
                 {
-                    "name": "event",
-                    "description": "",
+                    "name": "System",
+                    "description": "mouse event",
                     "type": "Event"
                 }
             ],
