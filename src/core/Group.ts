@@ -666,15 +666,13 @@ module Kiwi {
 
 				var index: number = this.getChildIndex( child );
 
-				if ( index > -1 ) {
-					this.members.splice( index, 1 );
+				if ( this.removeChildAt( index ) ) {
 					child.parent = null;
 
 					if ( destroy ) {
 						child.destroy();
 					}
 				}
-
 			}
 
 			return child;
@@ -691,9 +689,11 @@ module Kiwi {
 			**/
 
 			if ( this.members[ index ] ) {
-				var child: Kiwi.IChild = this.members[ index ];
+				var child: Kiwi.IChild = this.members.splice( index, 1 )[ 0 ];
 
-				return this.removeChild( child );
+				child.parent = null;
+
+				return child;
 			} else {
 				return null;
 			}
@@ -1497,12 +1497,13 @@ module Kiwi {
 			/**
 			Clear all children from this Group.
 
+			This maps to a default call to `removeChildren()`.
+
 			@method clear
 			@public
 			**/
 
-			this.members.length = 0;
-
+			this.removeChildren();
 		}
 
 		/**
