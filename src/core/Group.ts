@@ -436,15 +436,14 @@ module Kiwi {
 			@public
 			**/
 
-			// TODO: MAKE RECURSIVE
-			return ( this.members.indexOf( child ) === -1 ) ? false : true;
+			return this.members.indexOf( child ) !== -1;
 		}
 
 		public containsDescendant( child: Kiwi.IChild ): boolean {
 
 			/**
 			Check whether the given entity is in this group,
-			or one of this group's descendants
+			or one of this group's descendants.
 
 			@method containsDescendant
 			@param child {object} IChild to check
@@ -455,8 +454,10 @@ module Kiwi {
 			for ( var i = 0; i < this.members.length; i++ ) {
 				var curMember: any = this.members[ i ];
 				if ( curMember.id === child.id ||
-					curMember.childType() === Kiwi.Group &&
-					curMember.containsDesendant( child ) ) {
+					(
+						curMember.childType() === Kiwi.GROUP &&
+						curMember.containsDescendant( child )
+					) ) {
 
 					return true;
 				}
@@ -471,9 +472,13 @@ module Kiwi {
 			/**
 			Check whether a `Group` is an ancestor of another entity.
 
+			This may be called as a static method, i.e.
+			`Kiwi.Group.prototype.containsAncestor()`.
+
 			@method containsAncestor
 			@param descendant {object} Entity to check
 			@param ancestor {Group} Group to check
+			@static
 			@return {boolean}
 			@public
 			**/
@@ -485,10 +490,14 @@ module Kiwi {
 				return false;
 			}
 			if ( descendant.parent === ancestor ) {
-				return true; //desendants parent is the same?
+
+				// Parent found
+				return true;
 			}
 			return descendant.parent.containsAncestor(
-				descendant.parent, ancestor ); //keep going up the chain.
+
+				// Recurse up the scene hierarchy
+				descendant.parent, ancestor );
 		}
 
 
