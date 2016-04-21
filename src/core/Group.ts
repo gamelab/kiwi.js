@@ -1216,15 +1216,9 @@ module Kiwi {
 
 			if ( index > -1 ) {
 
-				// Remove the new child from its current parent
-				if ( newChild.parent ) {
-					newChild.parent.removeChild( newChild );
-				}
-
 				this.removeChildAt( index );
 
 				this.addChildAt( newChild, index );
-				newChild.parent = null;
 
 				return true;
 			}
