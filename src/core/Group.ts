@@ -104,9 +104,15 @@ module Kiwi {
 		private _parent: Kiwi.Group = null;
 
 		/**
-		Sets the parent of this entity.
-		Note that this also sets the transforms parent of this entity
-		to be the passed groups transform.
+		Parent of this group.
+
+		Do not alter this property directly.
+		If you want to change this group's position in the scene hierarchy,
+		use `addChild` and related methods.
+		If you do set `parent`, it may result in unexpected behavior.
+
+		Note that this also sets `transform.parent` of this entity
+		to be the passed group's transform.
 
 		@property parent
 		@type Kiwi.Group
@@ -114,13 +120,10 @@ module Kiwi {
 		**/
 		public set parent( val: Kiwi.Group ) {
 
-			// Check to see if the parent is not an descendor
-			// if ( this.containsDescendant( val ) === false ) {
-				this.transform.parent = ( val !== null ) ?
-					val.transform :
-					null;
-				this._parent = val;
-			// }
+			this.transform.parent = ( val !== null ) ?
+				val.transform :
+				null;
+			this._parent = val;
 		}
 		public get parent(): Kiwi.Group {
 			return this._parent;
@@ -508,19 +511,56 @@ module Kiwi {
 		*/
 
 
+		private _validateChild( child: any ): boolean {
+
+			/**
+			Return whether a child may be added to this group.
+
+			A child is disqualified if it:
+			- is a `State`, which may not have parents
+			- would be its own parent
+			- would be its own descendant
+
+			If a child fails the check, its UUID will be logged.
+
+			@method _validateChild
+			@param child {IChild} Child to validate
+			@return {boolean} Whether the child is validated
+			@private
+			**/
+
+			if (
+				child.childType() === Kiwi.STATE ||
+				child === this ||
+				this.containsAncestor( this, child ) ) {
+
+				Kiwi.Log.warn(
+					"#Group",
+					"Child failed validation check and will not be added.",
+					"UUID:",
+					child.id );
+
+				return false;
+			}
+			return true;
+		}
+
+
 		public addChild( child: Kiwi.IChild ): Kiwi.IChild {
 
 			/**
 			Add a child to this `Group`.
 
-			The child may be an `Entity` or `Group`.
-			It cannot be a `State`, nor can it be this very `Group`.
+			The child must be valid to add.
+			A valid child must be an `Entity` or `Group`.
+			It cannot be a `State`.
+			It cannot be this very `Group`, or an ancestor of it.
 
 			The child will be removed from its current parents, if any.
 
 			@method addChild
 			@param child {object} Child to be added
-			@return {object} Child that was added
+			@return {object} Child to have been added
 			@public
 			**/
 
@@ -528,19 +568,17 @@ module Kiwi {
 			// Implement feature where you can pass many children to be added.
 			// Modify this script to work via the `arguments` property.
 
-			// Make sure you aren't adding a state or itself
-			if ( child.childType() === Kiwi.STATE || child === this ) {
-				return;
-			}
+			if ( this._validateChild( child ) ) {
 
-			// Remove prior parentage
-			if ( child.parent !== null ) {
-				child.parent.removeChild( child );
-			}
+				// Remove prior parentage
+				if ( child.parent !== null ) {
+					child.parent.removeChild( child );
+				}
 
-			// Add child to this group
-			this.members.push( child );
-			child.parent = this;
+				// Add child to this group
+				this.members.push( child );
+				child.parent = this;
+			}
 
 			return child;
 		}
@@ -552,28 +590,26 @@ module Kiwi {
 			Use this to place a child behind or in front of other objects
 			in the scene graph.
 
-			The child may be an `Entity` or `Group`.
-			It cannot be a `State`, nor can it be this very `Group`.
+			The child must be valid per the criteria in `addChild`.
 
 			The child will be removed from its current parents, if any.
 
 			@method addChildAt
 			@param child {object} Child to be added
 			@param index {number} Index at which to insert the child
-			@return {object} Child that was added
+			@return {object} Child to have been added
 			@public
 			**/
 
-			if ( child.childType() === Kiwi.STATE || child === this ) {
-				return;
-			}
+			if ( this._validateChild( child ) ) {
 
-			if ( child.parent !== null ) {
-				child.parent.removeChild( child );
-			}
+				if ( child.parent !== null ) {
+					child.parent.removeChild( child );
+				}
 
-			this.members.splice( index, 0, child );
-			child.parent = this;
+				this.members.splice( index, 0, child );
+				child.parent = this;
+			}
 
 			return child;
 		}
@@ -585,19 +621,20 @@ module Kiwi {
 			/**
 			Add a child to this Group, just behind another child.
 
-			The child may be an `Entity` or `Group`.
-			It cannot be a `State`, nor can it be this very `Group`.
+			The child must be valid per the criteria in `addChild`.
 
 			The child will be removed from its current parents, if any.
 
 			@method addChildBefore
 			@param child {object} Child to be added
 			@param beforeChild {Entity} Child before which to add the child
-			@return {object} Child that was added
+			@return {object} Child to have been added
 			@public
 			**/
 
-			if ( beforeChild.transform.parent === this.transform ) {
+			if (
+				beforeChild.transform.parent === this.transform &&
+				this._validateChild( child ) ) {
 
 				if ( child.parent !== null ) {
 					child.parent.removeChild( child );
@@ -620,19 +657,20 @@ module Kiwi {
 			/**
 			Add an Entity to this Group, just above another child.
 
-			The child may be an `Entity` or `Group`.
-			It cannot be a `State`, nor can it be this very `Group`.
+			The child must be valid per the criteria in `addChild`.
 
 			The child will be removed from its current parents, if any.
 
 			@method addChildAfter
 			@param child {object} Child to be added
 			@param afterChild {object} Child after which to add the child
-			@return {object} Child that was added
+			@return {object} Child to have been added
 			@public
 			**/
 
-			if ( afterChild.transform.parent === this.transform ) {
+			if (
+				afterChild.transform.parent === this.transform &&
+				this._validateChild( child ) ) {
 
 				if ( child.parent !== null ) {
 					child.parent.removeChild( child );
