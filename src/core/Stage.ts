@@ -561,7 +561,7 @@ module Kiwi {
 		@type HTMLCanvasElement
 		@public
 		**/
-		public canvas: HTMLCanvasElement;
+		public canvas: any;
 
 		/**
 		Debugging canvas
@@ -756,18 +756,17 @@ module Kiwi {
 			@private
 			**/
 
+			// Create canvas
+			this.canvas = document.createElement( "canvas" );
+
 			// If we are using CocoonJS, create an accelerated screen canvas
 			if ( this._game.deviceTargetOption == Kiwi.TARGET_COCOON ) {
-				this.canvas = <HTMLCanvasElement>document.createElement(
-					navigator[ "isCocoonJS" ] ? "screencanvas" : "canvas" );
+				this.canvas.screencanvas = true;
 
 			// Otherwise default to normal canvas
 			} else {
-				this.canvas =
-					<HTMLCanvasElement>document.createElement( "canvas" );
 				this.canvas.style.width = "100%";
 				this.canvas.style.height = "100%";
-
 			}
 
 			this.canvas.id = this._game.id + "compositeCanvas";
