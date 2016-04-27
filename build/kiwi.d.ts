@@ -285,582 +285,502 @@ declare module Kiwi {
     }
 }
 /**
-*
-* @module Kiwi
-*
-*/
+
+@module Kiwi
+
+**/
 declare module Kiwi {
-    /**
-    * Each game contains a single Stage which controls the creation and
-    * management of main domElements required for a Kiwi game to work.
-    * This includes the Canvas and the rendering contexts,
-    * as well as the width/height of the game and the position it should be
-    * on the screen.
-    *
-    * @class Stage
-    * @namespace Kiwi
-    * @constructor
-    * @param game {Kiwi.Game} Game that this Stage belongs to
-    * @param name {string} Name of the kiwi game
-    * @param width {number} Initial width of the game
-    * @param height {number} Initial height of the game
-    * @param scaleType {number} Scale method to use. May be
-    *	`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
-    *	or `Kiwi.Stage.SCALE_FIT`,
-    * @return {Kiwi.Stage}
-    */
     class Stage {
-        constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType: number);
         /**
-        * Return the type of this object.
-        * @method objType
-        * @return {string} "Stage"
-        * @public
-        */
+        Each game contains a single Stage which controls the creation and
+        management of main domElements required for a Kiwi game to work.
+        This includes the Canvas and the rendering contexts,
+        as well as the width/height of the game and the position it should be
+        on the screen.
+
+        @class Stage
+        @namespace Kiwi
+        @constructor
+        @param game {Kiwi.Game} Game that this Stage belongs to
+        @param name {string} Name of the kiwi game
+        @param width {number} Initial width of the game
+        @param height {number} Initial height of the game
+        @param scaleType {number} Scale method to use. May be
+            `Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
+            or `Kiwi.Stage.SCALE_FIT`.
+        @return {Kiwi.Stage}
+        **/
+        constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType: number);
         objType(): string;
         /**
-        * Default width of the stage
-        * @property DEFAULT_WIDTH
-        * @type number
-        * @default 800
-        * @public
-        * @static
-        */
+        Default width of the stage
+
+        @property DEFAULT_WIDTH
+        @type number
+        @default 800
+        @public
+        @static
+        **/
         static DEFAULT_WIDTH: number;
         /**
-        * Default height of the stage
-        * @property DEFAULT_HEIGHT
-        * @type number
-        * @default 600
-        * @public
-        * @static
-        */
+        Default height of the stage
+
+        @property DEFAULT_HEIGHT
+        @type number
+        @default 600
+        @public
+        @static
+        **/
         static DEFAULT_HEIGHT: number;
         /**
-        * Default scaling method used on Kiwi Games.
-        * This scaling method will set the container's width/height
-        * to static values.
-        *
-        * @property SCALE_NONE
-        * @type number
-        * @default 0
-        * @public
-        * @static
-        */
+        Default scaling method used on Kiwi games.
+        This scaling method will set the container's width/height
+        to static values.
+
+        @property SCALE_NONE
+        @type number
+        @default 0
+        @public
+        @static
+        **/
         static SCALE_NONE: number;
         /**
-        * SCALE_FIT will scale the stage's width to fit its parent's width.
-        * The height is then calculated to maintain the aspect ratio of the
-        * width/height of the Stage.
-        *
-        * In CocoonJS, it still maintains aspect ratio, but keeps the
-        * entire game stage on the screen.
-        *
-        * @property SCALE_FIT
-        * @type number
-        * @default 1
-        * @public
-        * @static
-        */
+        SCALE_FIT will scale the stage's width to fit its parent's width.
+        The height is then calculated to maintain the aspect ratio of the
+        width/height of the Stage.
+
+        In CocoonJS, it still maintains aspect ratio, but keeps the
+        entire game stage on the screen.
+
+        @property SCALE_FIT
+        @type number
+        @default 1
+        @public
+        @static
+        **/
         static SCALE_FIT: number;
         /**
-        * Stretch will make the stage scale to fit its parent's width/height
-        * (by using max/min height of 100%).
-        * If the parent doesn't have a height set then the height will be
-        * the height of the stage.
-        * @property SCALE_STRETCH
-        * @type number
-        * @default 2
-        * @public
-        * @static
-        */
+        Stretch will make the stage scale to fit its parent's width/height
+        (by using max/min height of 100%).
+        If the parent doesn't have a height set then the height will be
+        the height of the stage.
+
+        @property SCALE_STRETCH
+        @type number
+        @default 2
+        @public
+        @static
+        **/
         static SCALE_STRETCH: number;
         /**
-        * Private property that holds the scaling method that should be
-        * applied to the container element.
-        * @property _scaleType
-        * @type number
-        * @default Kiwi.Stage.SCALE_NONE
-        * @private
-        */
+        Scaling method that should be applied to the container element
+
+        @property _scaleType
+        @type number
+        @default Kiwi.Stage.SCALE_NONE
+        @private
+        **/
         private _scaleType;
         /**
-        * Holds type of scaling that should be applied the container element.
-        * @property scaleType
-        * @type number
-        * @default Kiwi.Stage.SCALE_NONE
-        * @public
-        */
+        Type of scaling that should be applied the container element.
+
+        @property scaleType
+        @type number
+        @default Kiwi.Stage.SCALE_NONE
+        @public
+        **/
         scaleType: number;
         /**
-        * Alpha of the stage
-        * @property _alpha
-        * @type number
-        * @default 1
-        * @private
-        */
+        Alpha of the stage
+
+        @property _alpha
+        @type number
+        @default 1
+        @private
+        **/
         private _alpha;
         /**
-        * Sets the alpha of the container element.
-        * 0 = invisible, 1 = fully visible.
-        * Note: Because the alpha value is applied to the container,
-        * it will not work in CocoonJS.
-        *
-        * @property alpha
-        * @type number
-        * @default 1
-        * @public
-        */
+        Alpha of the container element.
+        0 = invisible, 1 = fully visible.
+        Note: Because the alpha value is applied to the container,
+        it will not work in CocoonJS.
+
+        @property alpha
+        @type number
+        @default 1
+        @public
+        **/
         alpha: number;
         /**
-        * Horizontal coordinate of the stage.
-        * @property _x
-        * @type number
-        * @private
-        */
+        Horizontal coordinate of the stage
+
+        @property _x
+        @type number
+        @private
+        **/
         private _x;
         /**
-        * Horizontal coordinate of the stage. This number should be the same
-        * as the stage's `left` property.
-        * @property x
-        * @type number
-        * @public
-        */
+        Horizontal coordinate of the stage. This number should be the same
+        as the stage's `left` property.
+
+        @property x
+        @type number
+        @public
+        **/
         x: number;
         /**
-        * Vertical coordinate of the stage.
-        * @property _y
-        * @type number
-        * @private
-        */
+        Vertical coordinate of the stage
+
+        @property _y
+        @type number
+        @private
+        **/
         private _y;
         /**
-        * Vertical coordinate of the stage. This number should be the same
-        * as the stage's `top` property.
-        * @property y
-        * @type number
-        * @public
-        */
+        Vertical coordinate of the stage. This number should be the same
+        as the stage's `top` property.
+
+        @property y
+        @type number
+        @public
+        **/
         y: number;
         /**
-        * Width of the stage
-        * @property _width
-        * @type number
-        * @private
-        */
+        Width of the stage
+
+        @property _width
+        @type number
+        @private
+        **/
         private _width;
         /**
-        * Width of the stage. This is READ ONLY.
-        * See the "resize" method if you need to modify this value.
-        * @property width
-        * @type number
-        * @public
-        * @readonly
-        */
+        Width of the stage. This is READ ONLY.
+        See the "resize" method if you need to modify this value.
+
+        @property width
+        @type number
+        @public
+        @readonly
+        **/
         width: number;
         /**
-        * Height of the stage
-        * @property _height
-        * @type number
-        * @private
-        */
+        Height of the stage
+
+        @property _height
+        @type number
+        @private
+        **/
         private _height;
         /**
-        * Height of the stage. This is READ ONLY.
-        * See the `resize` method if you need to modify this value.
-        * @property height
-        * @type number
-        * @public
-        * @readonly
-        */
+        Height of the stage. This is READ ONLY.
+        See the `resize` method if you need to modify this value.
+
+        @property height
+        @type number
+        @public
+        @readonly
+        **/
         height: number;
         /**
-        * `Signal` that dispatches an event when the stage gets resized
-        * @property onResize
-        * @type Kiwi.Signal
-        * @public
-        */
+        `Signal` that dispatches an event when the stage gets resized
+
+        @property onResize
+        @type Kiwi.Signal
+        @public
+        **/
         onResize: Kiwi.Signal;
         /**
-        * `Signal` which dispatches events when the window is resized.
-        * Useful to detect if the screen is now in a "landscape" or "portrait"
-        * view on mobile/CocoonJS devices.
-        * @property onWindowResize
-        * @type Kiwi.Signal
-        * @public
-        */
+        `Signal` which dispatches events when the window is resized.
+        Useful to detect if the screen is now in a "landscape" or "portrait"
+        view on mobile/CocoonJS devices.
+
+        @property onWindowResize
+        @type Kiwi.Signal
+        @public
+        **/
         onWindowResize: Kiwi.Signal;
         /**
-        Amount that the container has been scaled by.
-        * @property _scale
-        * @type Kiwi.Geom.Point
-        * @default 1
-        * @private
-        */
+        Amount that the container has been scaled by
+
+        @property _scale
+        @type Kiwi.Geom.Point
+        @default 1
+        @private
+        **/
         private _scale;
         /**
-        * Amount that the container has been scaled by.
-        * Mainly used for re-calculating input coordinates.
-        * Note: For COCOONJS this returns 1 since COCOONJS translates the
-        * scale itself. This property is READ ONLY.
-        * @property scale
-        * @type Kiwi.Geom.Point
-        * @default 1
-        * @public
-        */
+        Amount that the container has been scaled by.
+        Mainly used for re-calculating input coordinates.
+
+        Note: For COCOONJS this returns 1 since COCOONJS translates the
+        scale itself. This property is READ ONLY.
+
+        @property scale
+        @type Kiwi.Geom.Point
+        @default 1
+        @public
+        **/
         scale: Kiwi.Geom.Point;
         /**
-        * Amount that the container has been scaled by on the X axis
-        * @property scaleX
-        * @type Number
-        * @default 1
-        * @public
-        */
+        Amount that the container has been scaled by on the X axis
+
+        @property scaleX
+        @type Number
+        @default 1
+        @public
+        **/
         scaleX: number;
         /**
-        * Amount that the container has been scaled by on the Y axis
-        * @property scaleY
-        * @type Number
-        * @default 1
-        * @public
-        */
+        Amount that the container has been scaled by on the Y axis
+
+        @property scaleY
+        @type Number
+        @default 1
+        @public
+        **/
         scaleY: number;
         /**
-        * A point which determines the offset of this Stage
-        * @property offset
-        * @type Kiwi.Geom.Point
-        * @public
-        */
+        Geometric `Point` which determines the offset of this `Stage`
+
+        @property offset
+        @type Kiwi.Geom.Point
+        @public
+        **/
         offset: Kiwi.Geom.Point;
         /**
-        * Game this Stage belongs to
-        * @property _game
-        * @type Kiwi.Game
-        * @private
-        */
+        `Game` this `Stage` belongs to
+
+        @property _game
+        @type Kiwi.Game
+        @private
+        **/
         private _game;
         /**
-        * Title of the game
-        * @property name
-        * @type string
-        * @public
-        */
+        Title of the game
+
+        @property name
+        @type string
+        @public
+        **/
         name: string;
         /**
-        * Whether or not this Stage is DOM ready
-        * @property domReady
-        * @type boolean
-        * @public
-        */
+        Whether or not this Stage is DOM ready
+
+        @property domReady
+        @type boolean
+        @public
+        **/
         domReady: boolean;
         /**
-        * Background color of the stage
-        *
-        * @property _color
-        * @type Kiwi.Utils.Color
-        * @public
-        */
+        Background color of the stage
+
+        @property _color
+        @type Kiwi.Utils.Color
+        @public
+        **/
         _color: Kiwi.Utils.Color;
         /**
-        * Sets the background color of the stage.
-        *
-        * This can be any valid parameter for Kiwi.Utils.Color.
-        * If passing multiple parameters, do so in a single array.
-        *
-        * The default value is "ffffff" or pure white.
-        *
-        * Note for users of CocoonJS: When using the WebGL renderer,
-        * the stage color will fill all parts of the screen outside the canvas.
-        * Kiwi.js will automatically set the color to "000000" or pure black
-        * when using CocoonJS. If you change it, and your game does not fill
-        * the entire screen, the empty portions of the screen will also change
-        * color.
-        *
-        * @property color
-        * @type string
-        * @public
-        */
+        Background color of the stage.
+
+        This can be any valid parameter for Kiwi.Utils.Color.
+        If passing multiple parameters, do so in a single array.
+
+        The default value is "ffffff" or pure white.
+
+        Note for users of CocoonJS: When using the WebGL renderer,
+        the stage color will fill all parts of the screen outside the canvas.
+        Kiwi.js will automatically set the color to "000000" or pure black
+        when using CocoonJS. If you change it, and your game does not fill
+        the entire screen, the empty portions of the screen will also change
+        color.
+
+        @property color
+        @type string
+        @public
+        **/
         color: any;
         /**
-        * Allows the setting of the background color of the stage through
-        * component RGB colour values.
-        *
-        * This property is an Object Literal with "r", "g", "b" colour streams
-        * of values between 0 and 255.
-        *
-        * @property rgbColor
-        * @type Object
-        * @public
-        */
+        Allows the setting of the background color of the stage through
+        component RGB colour values.
+
+        This property returns an Object literal
+        with "r", "g", "b" colour streams of values between 0 and 255.
+        You must assign it to this object for it to take effect.
+
+        @property rgbColor
+        @type Object
+        @public
+        **/
         rgbColor: any;
         /**
-        * Allows the setting of the background color of the stage through
-        * component RGBA colour values.
-        *
-        * This property is an Object Literal with "r", "g", "b", "a" colour
-        * streams of values between 0 and 255.
-        *
-        * Note that the alpha value is from 0-255, not 0-1. This is to
-        * preserve compatibility with hex-style color values, e.g. "ff0000ff".
-        *
-        * @property rgbaColor
-        * @type Object
-        * @public
-        * @since 1.1.0
-        */
+        Allows the setting of the background color of the stage through
+        component RGBA colour values.
+
+        This property returns an Object literal
+        with "r", "g", "b" colour streams of values between 0 and 255.
+        You must assign it to this object for it to take effect.
+
+        Note that the alpha value is from 0-255, not 0-1. This is to
+        preserve compatibility with hex-style color values, e.g. "ff0000ff".
+
+        @property rgbaColor
+        @type Object
+        @public
+        @since 1.1.0
+        **/
         rgbaColor: any;
         /**
-        * Get the normalized background color of the stage.
-        * Returns an object with rgba values, each being between 0 and 1.
-        * This is READ ONLY.
-        * @property normalizedColor
-        * @type string
-        * @public
-        */
+        Get the normalized background color of the stage.
+        Returns an object with rgba values, each being between 0 and 1.
+        This is READ ONLY.
+
+        @property normalizedColor
+        @type string
+        @public
+        **/
         normalizedColor: any;
         /**
-        * WebGL rendering context
-        * @property gl
-        * @type WebGLRenderingContext
-        * @public
-        */
+        WebGL rendering context
+
+        @property gl
+        @type WebGLRenderingContext
+        @public
+        **/
         gl: WebGLRenderingContext;
         /**
-        * Canvas rendering context
-        * @property ctx
-        * @type CanvasRenderingContext2D
-        * @public
-        */
+        Canvas rendering context
+
+        @property ctx
+        @type CanvasRenderingContext2D
+        @public
+        **/
         ctx: CanvasRenderingContext2D;
         /**
-        * Canvas element to which the game is rendered
-        * @property canvas
-        * @type HTMLCanvasElement
-        * @public
-        */
-        canvas: HTMLCanvasElement;
+        Canvas element to which the game is rendered
+
+        @property canvas
+        @type HTMLCanvasElement
+        @public
+        **/
+        canvas: any;
         /**
-        * Debugging canvas
-        * @property debugCanvas
-        * @type HTMLCanvasElement
-        * @public
-        */
+        Debugging canvas
+
+        @property debugCanvas
+        @type HTMLCanvasElement
+        @public
+        **/
         debugCanvas: HTMLCanvasElement;
         /**
-        * Debug canvas rendering context
-        * @property dctx
-        * @type CanvasRenderingContext2D
-        * @public
-        */
+        Debug canvas rendering context
+
+        @property dctx
+        @type CanvasRenderingContext2D
+        @public
+        **/
         dctx: CanvasRenderingContext2D;
         /**
-        * Parent div in which the layers and input live
-        * @property container
-        * @type HTMLDivElement
-        * @public
-        */
+        Parent div in which the layers and input live
+
+        @property container
+        @type HTMLDivElement
+        @public
+        **/
         container: HTMLDivElement;
         /**
-        * Renderer created after context detection.
-        * @property _renderer
-        * @type any
-        * @private
-        * @since 1.1.0
-        */
+        Renderer created after context detection
+
+        @property _renderer
+        @type any
+        @private
+        @since 1.1.0
+        **/
         private _renderer;
         /**
-        * Renderer associated with the canvas context.
-        * This is either a `GLRenderManager` or a `CanvasRenderer`.
-        * If the Kiwi.RENDERER_WEBGL renderer was requested
-        * but could not be created, it will fall back to CanvasRenderer.
-        * This is READ ONLY.
-        * @property renderer
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Renderer associated with the canvas context.
+        This is either a `GLRenderManager` or a `CanvasRenderer`.
+        If the Kiwi.RENDERER_WEBGL renderer was requested
+        but could not be created, it will fall back to CanvasRenderer.
+        This is READ ONLY.
+
+        @property renderer
+        @type number
+        @public
+        @since 1.1.0
+        **/
         renderer: any;
-        /**
-        * Execute when the DOM has loaded and the game is just starting.
-        * This is an internal method used by the core of Kiwi itself.
-        * @method boot
-        * @param dom {Kiwi.System.Bootstrap} Booted Bootstrap containing
-        *	DOM information
-        * @public
-        */
         boot(dom: Kiwi.System.Bootstrap): void;
-        /**
-        * Get the x/y coordinate offset of any given valid DOM Element
-        * from the top/left position of the browser.
-        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
-        * @method getOffsetPoint
-        * @param {Any} element
-        * @param {Kiwi.Geom.Point} output
-        * @return {Kiwi.Geom.Point}
-        * @public
-        */
         getOffsetPoint(element: any, output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
-        /**
-        * Fire when the window is resized.
-        * @method _windowResized
-        * @param event {UIEvent}
-        * @private
-        */
         private _windowResized(event);
-        /**
-        * Fire when the device is reoriented.
-        * @method _orientationChanged
-        * @param event {UIEvent}
-        * @private
-        * @since 1.1.1
-        */
         private _orientationChanged(event);
-        /**
-        * Calculate new offset and scale for the stage.
-        * @method _calculateContainerScale
-        * @private
-        */
         private _calculateContainerScale();
-        /**
-        * Handle creation of the canvas that the game will use and
-        * retrieve the context for the renderer.
-        *
-        * @method _createCompositeCanvas
-        * @private
-        */
         private _createCompositeCanvas();
-        /**
-        * Set the stage width and height for rendering purposes.
-        * This will not effect that "scaleType" that it has been set to.
-        *
-        * @method resize
-        * @param width {number} New Stage width
-        * @param height {number} New Stage height
-        * @public
-        */
         resize(width: number, height: number): void;
-        /**
-        * Set background color of the stage through component
-        * RGB colour values. Each parameter is a number between 0 and 255.
-        * This method also returns an Object literal with "r", "g", "b"
-        * properties.
-        *
-        * @method setRGBColor
-        * @param r {number} Red component. A value between 0 and 255
-        * @param g {number} Green component. A value between 0 and 255
-        * @param b {number} Blue component. A value between 0 and 255
-        * @return {object} Object literal containing the `r,g,b` properties
-        * @public
-        */
         setRGBColor(r: number, g: number, b: number): any;
-        /**
-        * Create a debug canvas and add it above the regular game canvas.
-        * The debug canvas is not created by default (even with debugging on)
-        * and rendering/clearing of the canvas is up to the developer.
-        * The context for rendering can be accessed via the "dctx" property and
-        * you can use the "clearDebugCanvas" method to clear the canvas.
-        *
-        * @method createDebugCanvas
-        * @public
-        */
         createDebugCanvas(): void;
-        /**
-        * Clear the debug canvas and fill with the color passed.
-        * If no color is passed, then Red at 20% opacity is used.
-        *
-        * @method clearDebugCanvas
-        * @param [color="rgba( 255, 0, 0, 0.2 )"] {string} The debug color to rendering on the debug canvas.
-        * @public
-        */
         clearDebugCanvas(color?: string): void;
-        /**
-        * Toggle the visibility of the debug canvas.
-        * @method toggleDebugCanvas
-        * @public
-        */
         toggleDebugCanvas(): void;
-        /**
-        * Handle the scaling/sizing based upon the scaleType property.
-        * @method _scaleContainer
-        * @private
-        */
         private _scaleContainer();
         /**
-        * Dispatch callbacks when the page containing this game gains focus.
-        *
-        * @property onFocus
-        * @type Kiwi.Signal
-        * @since 1.3.0
-        * @public
-        */
+        Dispatch callbacks when the page containing this game gains focus.
+
+        @property onFocus
+        @type Kiwi.Signal
+        @since 1.3.0
+        @public
+        **/
         onFocus: Kiwi.Signal;
         /**
-        * Dispatch callbacks when this page containing this game loses focus.
-        *
-        * @property onBlur
-        * @type Kiwi.Signal
-        * @since 1.3.0
-        * @public
-        */
+        Dispatch callbacks when this page containing this game loses focus.
+
+        @property onBlur
+        @type Kiwi.Signal
+        @since 1.3.0
+        @public
+        **/
         onBlur: Kiwi.Signal;
         /**
-        * Dispatch callbacks when the visiblity of the page changes.
-        *
-        * @property onVisibilityChange
-        * @type Kiwi.Signal
-        * @since 1.3.0
-        * @public
-        */
+        Dispatch callbacks when the visiblity of the page changes.
+
+        @property onVisibilityChange
+        @type Kiwi.Signal
+        @since 1.3.0
+        @public
+        **/
         onVisibilityChange: Kiwi.Signal;
         /**
-        * Whether the page is currently visible (via the Visiblity API).
-        * If the Visiblity API is unsupported this will remain set to true
-        * regardless of focus/blur events.
-        *
-        * @property visibility
-        * @type boolean
-        * @default true
-        * @readOnly
-        * @since 1.3.0
-        * @public
-        */
+        Whether the page is currently visible (via the Visiblity API).
+        If the Visiblity API is unsupported this will remain set to true
+        regardless of focus/blur events.
+
+        @property visibility
+        @type boolean
+        @default true
+        @readOnly
+        @since 1.3.0
+        @public
+        **/
         visibility: boolean;
         /**
-        * Contains string used to access the `hidden` property on the document.
-        *
-        * @property _visibility
-        * @type String
-        * @default "hidden"
-        * @since 1.3.0
-        * @private
-        */
+        Contains string used to access the `hidden` property on the document.
+
+        @property _visibility
+        @type String
+        @default "hidden"
+        @since 1.3.0
+        @private
+        **/
         private _visibility;
         /**
-        * Contains the bound version of the `_checkVisibility` method.
-        *
-        * @property _visibilityChange
-        * @type any
-        * @since 1.3.0
-        * @private
-        */
+        Contains the bound version of the `_checkVisibility` method.
+
+        @property _visibilityChange
+        @type any
+        @since 1.3.0
+        @private
+        **/
         private _visibilityChange;
-        /**
-        * Fire when the page visibility changes, or the page focus/blur
-        * events fire. In charge of firing the appropriate signals.
-        *
-        * @method _checkVisibility
-        * @param event {Any}
-        * @since 1.3.0
-        * @private
-        */
         private _checkVisibility(event);
-        /**
-        * Adds the focus, blur, and visibility events to the document.
-        *
-        * @method _createFocusEvents
-        * @since 1.3.0
-        * @private
-        */
         private _createFocusEvents();
     }
 }
@@ -2394,636 +2314,387 @@ declare module Kiwi {
     }
 }
 /**
-*
-* @module Kiwi
-*
-*/
+
+@module Kiwi
+
+**/
 declare module Kiwi {
-    /**
-    * The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
-    * The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
-    *
-    * @class Group
-    * @namespace Kiwi
-    * @constructor
-    * @param state {Kiwi.State} The State that this Group is a part of.
-    * @param [name=''] {String} The name of this group.
-    * @return {Kiwi.Group}
-    *
-    */
     class Group implements Kiwi.IChild {
-        constructor(state: Kiwi.State, name?: string);
         /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} "Group"
-        * @public
-        */
+        The group class is central to creating the scene graph
+        that contains all objects in a state.
+        A group can contain entities or other groups,
+        thereby enabling a nested tree scene graph.
+        The members of the Group's coordinates are also in relation to
+        the Group that they were added to.
+        So if you moved an entire Group,
+        each member of that Group would also "move".
+
+        @class Group
+        @namespace Kiwi
+        @constructor
+        @param state {Kiwi.State} State that this Group is a part of
+        @param [name=""] {string} Name of this group
+        **/
+        constructor(state: Kiwi.State, name?: string);
         objType(): string;
         childType(): number;
         /**
-        * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging.
-        * @property name
-        * @type string
-        * @default ''
-        * @public
-        */
+        Name for this Group. This is not checked for uniqueness
+        within the game, but is very useful for debugging.
+
+        @property name
+        @type string
+        @default ""
+        @public
+        **/
         name: string;
         /**
-        * The transform object for this group.
-        * Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.
-        * @property transform
-        * @type Kiwi.Geom.Transform
-        * @public
-        */
+        Transform object for this group.
+        Transform handles the calculation of coordinates/rotation/scale etc
+        in the game world.
+
+        @property transform
+        @type Kiwi.Geom.Transform
+        @public
+        **/
         transform: Kiwi.Geom.Transform;
         /**
-        * The parent group of this group.
-        * @property _parent
-        * @type Kiwi.Group
-        * @private
-        */
+        Parent group of this group.
+
+        @property _parent
+        @type Kiwi.Group
+        @private
+        **/
         private _parent;
         /**
-        * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
-        * @property parent
-        * @type Kiwi.Group
-        * @public
-        */
+        Parent of this group.
+
+        Do not alter this property directly.
+        If you want to change this group's position in the scene hierarchy,
+        use `addChild` and related methods.
+        If you do set `parent`, it may result in unexpected behavior.
+
+        Note that this also sets `transform.parent` of this entity
+        to be the passed group's transform.
+
+        @property parent
+        @type Kiwi.Group
+        @public
+        **/
         parent: Kiwi.Group;
         /**
-        * Indicates whether or not this entity is attached to the state.
-        * @property onState
-        * @public
-        * @since 1.4.1
-        */
+        Indicates whether or not this entity is attached to the state.
+
+        NOTE: This was implemented in 1.4.1
+        but is not officially supported until 1.5.0.
+
+        @property onState
+        @public
+        @since 1.4.1
+        **/
         onState: boolean;
         /**
-        * The X coordinate of this group. This is just aliased to the transform property.
-        * @property x
-        * @type Number
-        * @public
-        */
+        Horizontal coordinate of this group.
+        This is just aliased to the `transform` property.
+
+        @property x
+        @type number
+        @public
+        **/
         x: number;
         /**
-        * The Y coordinate of this group. This is just aliased to the transform property.
-        * @property y
-        * @type Number
-        * @public
-        */
+        Vertical coordinate of this group.
+        This is just aliased to the `transform` property.
+
+        @property y
+        @type number
+        @public
+        **/
         y: number;
         /**
-        * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
-        * @property worldX
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Horizontal coordinate of this group in world space;
+        that is, after parent transforms.
+        This is just aliased to the `transform` property.
+        This is READ-ONLY.
+
+        @property worldX
+        @type number
+        @public
+        @since 1.1.0
+        **/
         worldX: number;
         /**
-        * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
-        * @property worldY
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Vertical coordinate of this group in world space;
+        that is, after parent transforms.
+        This is just aliased to the `transform` property.
+        This is READ-ONLY.
+
+        @property worldY
+        @type number
+        @public
+        @since 1.1.0
+        **/
         worldY: number;
         scaleX: number;
         scaleY: number;
         /**
-        * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
-        * @property scale
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Scale of this group.
+        This is just aliased to the `transform` property.
+        This is WRITE-ONLY.
+
+        @property scale
+        @type number
+        @public
+        @since 1.1.0
+        **/
         scale: number;
         rotation: number;
         /**
-        * The rotation offset of this group in the X axis. This is just aliased to the transform property.
-        * @property rotPointX
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Rotation offset of this group in the X axis.
+        This is just aliased to the `transform` property.
+
+        @property rotPointX
+        @type number
+        @public
+        @since 1.1.0
+        **/
         rotPointX: number;
         /**
-        * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
-        * @property rotPointY
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Rotation offset of this group in the Y axis.
+        This is just aliased to the `transform` property.
+
+        @property rotPointY
+        @type number
+        @public
+        @since 1.1.0
+        **/
         rotPointY: number;
         /**
-        * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
-        * @property anchorPointX
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Anchor point offset of this group in the X axis.
+        This is just aliased to the `transform` property,
+        and is in turn an alias of rotPointX.
+
+        @property anchorPointX
+        @type number
+        @public
+        @since 1.1.0
+        **/
         anchorPointX: number;
         /**
-        * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
-        * @property anchorPointY
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        The anchor point offset of this group in the Y axis.
+        This is just aliased to the `transform` property,
+        and is in turn an alias of rotPointY.
+
+        @property anchorPointY
+        @type number
+        @public
+        @since 1.1.0
+        **/
         anchorPointY: number;
         /**
-        * The Component Manager
-        * @property components
-        * @type Kiwi.ComponentManager
-        * @public
-        */
+        Component manager; automatically updates every frame
+
+        @property components
+        @type Kiwi.ComponentManager
+        @public
+        **/
         components: Kiwi.ComponentManager;
         /**
-        * The game this Group belongs to
-        * @property game
-        * @type Kiwi.Game
-        * @public
-        */
+        Game to which this Group belongs
+
+        @property game
+        @type Kiwi.Game
+        @public
+        **/
         game: Kiwi.Game;
         /**
-        * The State that this Group belongs to
-        * @property state
-        * @type Kiwi.State
-        * @public
+        State to which this Group belongs
+
+        @property state
+        @type Kiwi.State
+        @public
         **/
         state: Kiwi.State;
         /**
-        * A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.
-        * @property id
-        * @type string
-        * @public
-        */
+        Unique identifier for this Group within the game,
+        used internally by the framework.
+        See the `name` property for a friendly version.
+
+        @property id
+        @type string
+        @public
+        **/
         id: string;
         /**
-        * The collection of children belonging to this group
-        * @property members
-        * @type Array
-        * @public
-        */
+        Collection of children belonging to this group
+
+        @property members
+        @type array
+        @public
+        **/
         members: Kiwi.IChild[];
-        /**
-        * Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.
-        * @method numChildren
-        * @return {Number} The number of children in this Group
-        * @public
-        */
         numChildren(): number;
         /**
-        * An indication of whether or not this group is 'dirty' and thus needs to be re-rendered or not.
-        * @property _dirty
-        * @type boolean
-        * @private
-        */
+        Whether this group is "dirty" and thus needs to be re-rendered
+        in some way.
+
+        @property _dirty
+        @type boolean
+        @private
+        **/
         private _dirty;
         /**
-        * Sets all children of the Group to be dirty.
-        * @property dirty
-        * @type boolean
-        * @public
-        */
+        Dirtiness of the Group and all its children.
+        Setting this will update dirtiness of children immediately.
+
+        @property dirty
+        @type boolean
+        @public
+        **/
         dirty: boolean;
-        /**
-        * Checks if the given entity is in this group
-        * @method contains
-        * @param child {IChild} The IChild that you want to checked.
-        * @return {boolean} true if entity exists in group.
-        * @public
-        */
         contains(child: Kiwi.IChild): boolean;
-        /**
-        * Checks to see if the given object is contained in this group as a descendant
-        * @method containsDescendant
-        * @param child {object} The IChild that you want to check.
-        * @return {boolean}
-        * @public
-        */
         containsDescendant(child: Kiwi.IChild): boolean;
-        /**
-        * Checks to see if one child is an ansector of another child.
-        * @method containsAncestor
-        * @param descendant {object} The object that you are checking.
-        * @param ancestor {Group} The parent (ancestor) that you are checking for.
-        * @return {boolean}
-        * @public
-        */
         containsAncestor(descendant: Kiwi.IChild, ancestor: Kiwi.Group): boolean;
-        /**
-        * -------------------------
-        * Add Children methods
-        * -------------------------
-        **/
-        /**
-        * Adds an Entity to this Group. The Entity must not already be in this Group.
-        * @method addChild
-        * @param child {object} The child to be added.
-        * @return {object} The child that was added.
-        * @public
-        */
+        private _validateChild(child);
         addChild(child: Kiwi.IChild): Kiwi.IChild;
-        /**
-        * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
-        * @method addChildAt
-        * @param child {object} The child to be added.
-        * @param index {Number} The index the child will be set at.
-        * @return {object} The child.
-        * @public
-        */
         addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild;
-        /**
-        * Adds an Entity to this Group before another child.
-        * @method addChildBefore
-        * @param child {object} The child to be added.
-        * @param beforeChild {Entity} The child before which the child will be added.
-        * @return {object} The child.
-        * @public
-        */
         addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild;
-        /**
-        * Adds an Entity to this Group after another child.
-        * @method addChildAfter
-        * @param child {object} The child to be added.
-        * @param beforeChild {object} The child after which the child will be added.
-        * @return {object} The child.
-        * @public
-        */
         addChildAfter(child: Kiwi.IChild, afterChild: Kiwi.IChild): Kiwi.IChild;
-        /**
-        * --------------------
-        * Remove Children Methods
-        * --------------------
-        **/
-        /**
-        * Removes an Entity from this Group if it is a child of it.
-        * @method removeChild
-        * @param child {object} The child to be removed.
-        * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {object} The child.
-        * @public
-        */
         removeChild(child: Kiwi.IChild, destroy?: boolean): Kiwi.IChild;
-        /**
-        * Removes the Entity from this Group at the given position.
-        * @method removeChildAt
-        * @param index {Number} The index of the child to be removed.
-        * @return {object} The child, or null.
-        */
         removeChildAt(index: number): Kiwi.IChild;
-        /**
-        * Removes all Entities from this Group within the given range.
-        * @method removeChildren
-        * @param begin {Number} The begining index.
-        * @param end {Number} The last index of the range.
-        * @param destroy {Number} If the children should be destroyed as well.
-        * @return {Number} The number of removed entities.
-        * @public
-        */
         removeChildren(begin?: number, end?: number, destroy?: boolean): number;
-        /**
-        * Removes the first Entity from this Group marked as 'alive'
-        * @method removeFirstAlive
-        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {object} The Entity that was removed from this Group if alive, otherwise null
-        * @public
-        * @deprecated in v1.1.0
-        */
         removeFirstAlive(destroy?: boolean): Kiwi.IChild;
-        /**
-        * -------------------
-        * Get Children Methods
-        * -------------------
-        **/
-        /**
-        * Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.
-        * @method getAllChildren
-        * @param getGroups {boolean} Optional: Whether to include Groups in the results. When false, will only collect GameObjects.
-        * @param destinationArray {Array} Optional: The array in which to store the results.
-        * @return {Array}
-        * @since 1.1.0
-        */
         getAllChildren(getGroups?: boolean, destinationArray?: IChild[]): IChild[];
-        /**
-        * Get the child at a specific position in this Group by its index.
-        * @method getChildAt
-        * @param index {Number} The index of the child
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
         getChildAt(index: number): Kiwi.IChild;
-        /**
-        * Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
-        * @method getChildByName
-        * @param name {String} The name of the child.
-        * @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
         getChildByName(name: string, recurse?: boolean): Kiwi.IChild;
-        /**
-        * Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
-        * @method getChildByID
-        * @param id {String} The ID of the child.
-        * @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
         getChildByID(id: string, recurse?: boolean): Kiwi.IChild;
-        /**
-        * Returns the index position of the Entity or -1 if not found.
-        * @method getChildIndex
-        * @param child {object} The child.
-        * @return {Number} The index of the child or -1 if not found.
-        * @public
-        */
         getChildIndex(child: Kiwi.IChild): number;
-        /**
-        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
-        * @method getFirstAlive
-        * @return {object}
-        * @public
-        * @deprecated in v1.1.0
-        */
         getFirstAlive(): Kiwi.IChild;
-        /**
-        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
-        * @method getFirstDead
-        * @return {object}
-        * @public
-        * @deprecated in v1.1.0
-        */
         getFirstDead(): Kiwi.IChild;
-        /**
-        * Returns a member at random from the group.
-        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {object}	A child from the members list.
-        * @public
-        */
         getRandom(start?: number, length?: number): Kiwi.IChild;
-        /**
-        * Returns an array of children which contain the tag which is passed.
-        * @method getChildrenByTag
-        * @param tag {string}
-        * @return {Array}
-        * @public
-        * @since 1.1.0
-        */
         getChildrenByTag(tag: string): IChild[];
-        /**
-        * Returns the first child which contains the tag passed.
-        * @method getFirstChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
         getFirstChildByTag(tag: string): IChild;
-        /**
-        * Returns the last child which contains the tag passed.
-        * @method getLastChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
         getLastChildByTag(tag: string): IChild;
-        /**
-        * --------------------
-        * Child Depth Sorting Methods
-        * --------------------
-        **/
-        /**
-        * Sets a new position of an existing Entity within the Group.
-        * @method setChildIndex
-        * @param child {object} The child in this Group to change.
-        * @param index {Number} The index for the child to be set at.
-        * @return {boolean} true if the Entity was moved to the new position, otherwise false.
-        * @public
-        */
         setChildIndex(child: Kiwi.IChild, index: number): boolean;
-        /**
-        * Swaps the position of two existing Entities that are a direct child of this group.
-        * @method swapChildren
-        * @param child1 {object} The first child in this Group to swap.
-        * @param child2 {object} The second child in this Group to swap.
-        * @return {boolean} true if the Entities were swapped successfully, otherwise false.
-        * @public
-        */
         swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild): boolean;
-        /**
-        * Swaps the position of two existing Entities within the Group based on their index.
-        * @method swapChildrenAt
-        * @param index1 {Number} The position of the first Entity in this Group to swap.
-        * @param index2 {Number} The position of the second Entity in this Group to swap.
-        * @return {boolean} true if the Entities were swapped successfully, otherwise false.
-        * @public
-        */
         swapChildrenAt(index1: number, index2: number): boolean;
-        /**
-        * Replaces a child Entity in this Group with a new one.
-        * @method replaceChild
-        * @param oldChild {object} The Entity in this Group to be removed.
-        * @param newChild {object} The new Entity to insert into this Group at the old Entities position.
-        * @return {boolean} true if the Entities were replaced successfully, otherwise false.
-        * @public
-        */
         replaceChild(oldChild: Kiwi.IChild, newChild: Kiwi.IChild): boolean;
-        /**
-        * Loops through each member in the group and run a method on for each one.
-        * @method forEach
-        * @param context {any} The context that the callbacks are to have when called.
-        * @param callback {any} The callback method to execute on each member.
-        * @param [params]* {any} Any extra parameters.
-        * @public
-        */
         forEach(context: any, callback: any, ...params: any[]): void;
-        /**
-        * Loop through each member of the groups that is alive.
-        * @method forEachAlive
-        * @param context {any} The context that the callbacks are to have when called.
-        * @param callback {any} The callback method to execute on each member.
-        * @param [params]* {any} Any extra parameters.
-        * @public
-        */
         forEachAlive(context: any, callback: any, ...params: any[]): void;
-        /**
-        * Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
-        * @method setAll
-        * @param componentName {string} The name of the component to set the property on - set to null to set a property on the entity.
-        * @param property {string} The name of the property to set.
-        * @param value {any} The value to set the property to.
-        * @public
-        */
         setAll(componentName: string, property: string, value: any): void;
-        /**
-        * Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
-        * @method callAll
-        * @param componentName {string} The name of the component to call the function on - set to null to call a function on the entity.
-        * @param functionName {string} The name of the function to call.
-        * @param args {Array} An array of arguments to pas to the function.
-        * @public
-        */
         callAll(componentName: string, functionName: string, args?: any[]): void;
-        /**
-        * The update loop for this group.
-        * @method update
-        * @public
-        */
         update(): void;
         /**
-        * If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-        * @property exists
-        * @type boolean
-        * @private
-        */
+        Whether the `Group` exists. If an `IChild` no longer exists,
+        it is cleared for garbage collection or pool re-allocation.
+
+        @property _exists
+        @type boolean
+        @private
+        **/
         private _exists;
         /**
-        * Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-        * This method should be over-ridden to handle specific canvas/webgl implementations.
-        * @property exists
-        * @type boolean
-        * @public
-        */
+        Toggles the existence of this `Group`.
+        An `IChild` that no longer exists can be garbage collected
+        or re-allocated in a pool.
+
+        @property exists
+        @type boolean
+        @public
+        **/
         exists: boolean;
         /**
-        * An active Entity is one that has its update method called by its parent.
-        * @property _active
-        * @type boolean
-        * @default true
-        * @private
-        */
+        Whether the `Group` is active. An active IChild will have `update`
+        called by its parent.
+
+        @property _active
+        @type boolean
+        @default true
+        @private
+        **/
         private _active;
         /**
-        * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
-        * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
-        * @property active
-        * @type boolean
-        * @default true
-        * @public
-        */
+        Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
+        This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+        @property active
+        @type boolean
+        @default true
+        @public
+        **/
         active: boolean;
-        /**
-        * The render method that is required by the IChild.
-        * This method never gets called as the render is only worried about rendering entities.
-        * @method render
-        * @param camera {Kiwi.Camera}
-        * @public
-        * @deprecated
-        */
         render(camera: Kiwi.Camera): void;
-        /**
-        * Returns the number of member which are marked as 'alive'
-        * @method countLiving
-        * @return {Number}
-        * @public
-        */
         countLiving(): number;
-        /**
-        * Returns the number of member which are not marked as 'alive'
-        * @method countDead
-        * @return {Number}
-        * @public
-        */
         countDead(): number;
-        /**
-        * Clear all children from this Group
-        * @method clear
-        * @public
-        */
         clear(): void;
         /**
-        * Controls whether render is automatically called by the parent.
-        * @property _willRender
-        * @type Boolean
-        * @private
-        * @deprecated Use _visible instead
-        */
+        Controls whether render is automatically called by the parent
+
+        @property _willRender
+        @type boolean
+        @private
+        @deprecated Use _visible instead
+        **/
         private _willRender;
         /**
-        * Controls whether render is automatically called by the parent.
-        * @property willRender
-        * @type boolean
-        * @return {boolean}
-        * @public
-        * @deprecated Use visible instead
-        */
+        Controls whether render is automatically called by the parent
+
+        @property willRender
+        @type boolean
+        @public
+        @deprecated Use visible instead
+        **/
         willRender: boolean;
         /**
-        * A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
-        * @property _visible
-        * @type boolean
-        * @default true
-        * @private
-        * @since 1.0.1
-        */
+        Whether this is visible or not.
+        Note that groups do not have alpha,
+        so this is the only way to control visibility.
+
+        @property _visible
+        @type boolean
+        @default true
+        @private
+        @since 1.0.1
+        **/
         private _visible;
         /**
-        * Set the visibility of this entity. True or False.
-        * @property visible
-        * @type boolean
-        * @default true
-        * @public
-        * @since 1.0.1
-        */
+        Whether this is visible or not.
+        Note that groups do not have alpha,
+        so this is the only way to control visibility.
+
+        @property visible
+        @type boolean
+        @default true
+        @public
+        @since 1.0.1
+        **/
         visible: boolean;
         /**
-        * ---------------
-        * Tagging System
-        * ---------------
+        Tags that are on this Entity.
+        This can be used to grab GameObjects or Groups on the whole game
+        which have these particular tags.
+
+        By default there are no tags.
+
+        @property _tags
+        @type array
+        @default []
+        @since 1.1.0
+        @private
         **/
-        /**
-        * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
-        * By default Entitys contain no tags.
-        * @property _tags
-        * @type Array
-        * @since 1.1.0
-        * @private
-        */
         private _tags;
-        /**
-        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
-        * You can pass multiple strings to add multiple tags.
-        * @method addTag
-        * @param tag {string} The tag that you would like to add to this Entity.
-        * @since 1.1.0
-        * @public
-        */
         addTag(...args: any[]): void;
-        /**
-        * Removes a Tag from this Entity.
-        * @method removeTag
-        * @param tag {string} The tag that you would like to remove from this Entity.
-        * @since 1.1.0
-        * @public
-        */
         removeTag(...args: any[]): void;
-        /**
-        * Checks to see if this Entity has a Tag based upon a string which you pass.
-        * @method hasTag
-        * @param tag {string}
-        * @since 1.1.0
-        * @return {boolean}
-        * @public
-        */
         hasTag(tag: string): boolean;
-        /**
-        * Removes all children and destroys the Group.
-        * @method destroy
-        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
-        * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
-        * @public
-        */
         destroy(immediate?: boolean, destroyChildren?: boolean): void;
         /**
-        * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
-        * @property _destroyRemoveChildren
-        * @type boolean
-        * @private
-        */
+        Whether the group's children should be destroyed
+
+        @property _tempRemoveChildren
+        @type boolean
+        @default null
+        @private
+        **/
         private _tempRemoveChildren;
     }
 }

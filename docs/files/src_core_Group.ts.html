@@ -367,40 +367,44 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* 
-* @module Kiwi
-* 
-*/
+
+@module Kiwi
+
+**/
 
 module Kiwi {
-
-	/**
-	* The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
-	* The members of the Group&#x27;s coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also &#x27;move&#x27;.
-	* 
-	* @class Group
-	* @namespace Kiwi
-	* @constructor
-	* @param state {Kiwi.State} The State that this Group is a part of.
-	* @param [name=&#x27;&#x27;] {String} The name of this group. 
-	* @return {Kiwi.Group}
-	* 
-	*/
 	export class Group implements Kiwi.IChild {
 
-		constructor(state: Kiwi.State, name: string = &#x27;&#x27;) {
+		/**
+		The group class is central to creating the scene graph
+		that contains all objects in a state.
+		A group can contain entities or other groups,
+		thereby enabling a nested tree scene graph.
+		The members of the Group&#x27;s coordinates are also in relation to
+		the Group that they were added to.
+		So if you moved an entire Group,
+		each member of that Group would also &quot;move&quot;.
 
-			//prevents the state going AHHH...since the state extends group.
-			if (state !== null) {
+		@class Group
+		@namespace Kiwi
+		@constructor
+		@param state {Kiwi.State} State that this Group is a part of
+		@param [name=&quot;&quot;] {string} Name of this group
+		**/
+
+		constructor( state: Kiwi.State, name: string = &quot;&quot; ) {
+
+			// Prevents the state going AHHH... since the state extends group
+			if ( state !== null ) {
 				this.state = state;
 				this.game = this.state.game;
 				this.id = this.game.rnd.uuid();
-				this.state.addToTrackingList(this);
+				this.state.addToTrackingList( this );
 			}
 
-			//  Properties
+			// Properties
 			this.name = name;
-			this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
+			this.components = new Kiwi.ComponentManager( Kiwi.GROUP, this );
 
 			this._exists = true;
 			this._active = true;
@@ -410,78 +414,102 @@ module Kiwi {
 			this.members = [];
 		}
 
-		/**
-		* Returns the type of this object
-		* @method objType
-		* @return {String} &quot;Group&quot;
-		* @public
-		*/
 		public objType(): string {
+
+			/**
+			Return the type of this object.
+
+			@method objType
+			@return {string} &quot;Group&quot;
+			@public
+			**/
+
 			return &quot;Group&quot;;
 		}
 
-		/*
-		* Represents the type of child that this is. 
-		* @method childType
-		* @return number
-		* @public
-		*/
 		public childType(): number {
+
+			/**
+			Return the type of child that this is (&#x60;Kiwi.GROUP&#x60;).
+
+			@method childType
+			@return {number} Kiwi.GROUP
+			@public
+			**/
+
 			return Kiwi.GROUP;
 		}
 
 		/**
-		* A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging.
-		* @property name
-		* @type string
-		* @default &#x27;&#x27;
-		* @public
-		*/
-		public name: string = &#x27;&#x27;;
+		Name for this Group. This is not checked for uniqueness
+		within the game, but is very useful for debugging.
+
+		@property name
+		@type string
+		@default &quot;&quot;
+		@public
+		**/
+		public name: string = &quot;&quot;;
 
 		/**
-		* The transform object for this group. 
-		* Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.
-		* @property transform
-		* @type Kiwi.Geom.Transform
-		* @public
-		*/
+		Transform object for this group.
+		Transform handles the calculation of coordinates/rotation/scale etc
+		in the game world.
+
+		@property transform
+		@type Kiwi.Geom.Transform
+		@public
+		**/
 		public transform: Kiwi.Geom.Transform;
 
 		/**
-		* The parent group of this group.
-		* @property _parent
-		* @type Kiwi.Group
-		* @private
-		*/
+		Parent group of this group.
+
+		@property _parent
+		@type Kiwi.Group
+		@private
+		**/
 		private _parent: Kiwi.Group = null;
 
 		/**
-		* Set&#x27;s the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
-		* @property parent
-		* @type Kiwi.Group
-		* @public
-		*/
-		public set parent(val: Kiwi.Group) {
-			//check to see if the parent is not an descendor
-			//if (this.containsDescendant(val) === false) {
-				this.transform.parent = (val !== null) ? val.transform : null;
-				this._parent = val;
-			//}
+		Parent of this group.
+
+		Do not alter this property directly.
+		If you want to change this group&#x27;s position in the scene hierarchy,
+		use &#x60;addChild&#x60; and related methods.
+		If you do set &#x60;parent&#x60;, it may result in unexpected behavior.
+
+		Note that this also sets &#x60;transform.parent&#x60; of this entity
+		to be the passed group&#x27;s transform.
+
+		@property parent
+		@type Kiwi.Group
+		@public
+		**/
+		public set parent( val: Kiwi.Group ) {
+
+			this.transform.parent = ( val !== null ) ?
+				val.transform :
+				null;
+			this._parent = val;
 		}
 		public get parent(): Kiwi.Group {
 			return this._parent;
 		}
 
 		/**
-		* Indicates whether or not this entity is attached to the state.
-		* @property onState
-		* @public
-		* @since 1.4.1
-		*/
+		Indicates whether or not this entity is attached to the state.
+
+		NOTE: This was implemented in 1.4.1
+		but is not officially supported until 1.5.0.
+
+		@property onState
+		@public
+		@since 1.4.1
+		**/
 		public get onState(): boolean {
-			if (this.parent) {
-				if (this.parent.objType() === &quot;State&quot;) {
+			if ( this.parent ) {
+				if ( this.parent.objType() === &quot;State&quot; ) {
 					return true;
 				} else {
 					return this.parent.onState;
@@ -491,229 +519,276 @@ module Kiwi {
 		}
 
 		/**
-		* The X coordinate of this group. This is just aliased to the transform property.
-		* @property x
-		* @type Number
-		* @public
-		*/
+		Horizontal coordinate of this group.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property x
+		@type number
+		@public
+		**/
 		public get x(): number {
 			return this.transform.x;
 		}
-		public set x(value: number) {
+		public set x( value: number ) {
 			this.transform.x = value;
 		}
 
 		/**
-		* The Y coordinate of this group. This is just aliased to the transform property.
-		* @property y
-		* @type Number
-		* @public
-		*/
+		Vertical coordinate of this group.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property y
+		@type number
+		@public
+		**/
 		public get y(): number {
 			return this.transform.y;
 		}
-		public set y(value: number) {
+		public set y( value: number ) {
 			this.transform.y = value;
 		}
 
 		/**
-		* The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
-		* @property worldX
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
+		Horizontal coordinate of this group in world space;
+		that is, after parent transforms.
+		This is just aliased to the &#x60;transform&#x60; property.
+		This is READ-ONLY.
+
+		@property worldX
+		@type number
+		@public
+		@since 1.1.0
+		**/
 		public get worldX(): number {
 			return this.transform.worldX;
 		}
 
 		/**
-		* The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
-		* @property worldY
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
+		Vertical coordinate of this group in world space;
+		that is, after parent transforms.
+		This is just aliased to the &#x60;transform&#x60; property.
+		This is READ-ONLY.
+
+		@property worldY
+		@type number
+		@public
+		@since 1.1.0
+		**/
 		public get worldY(): number {
 			return this.transform.worldY;
 		}
 
 		/*
-		* The Scale X of this group. This is just aliased to the transform property.
-		* @property scaleX
-		* @type Number
-		* @public
-		*/
+		Horizontal scale of this group.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property scaleX
+		@type number
+		@public
+		**/
 		public get scaleX(): number {
 			return this.transform.scaleX;
 		}
-		public set scaleX(value: number) {
+		public set scaleX( value: number ) {
 			this.transform.scaleX = value;
 		}
 
 		/*
-		* The Scale Y coordinate of this group. This is just aliased to the transform property.
-		* @property scaleY
-		* @type Number
-		* @public
-		*/
+		Vertical scale of this group.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property scaleY
+		@type number
+		@public
+		**/
 		public get scaleY(): number {
 			return this.transform.scaleY;
 		}
-		public set scaleY(value: number) {
+		public set scaleY( value: number ) {
 			this.transform.scaleY = value;
 		}
 
 		/**
-		* The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
-		* @property scale
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
-		public set scale(value: number) {
+		Scale of this group.
+		This is just aliased to the &#x60;transform&#x60; property.
+		This is WRITE-ONLY.
+
+		@property scale
+		@type number
+		@public
+		@since 1.1.0
+		**/
+		public set scale( value: number ) {
 			this.transform.scale = value;
 		}
 
 		/*
-		* The rotation of this group. This is just aliased to the transform property.
-		* @property rotation
-		* @type Number
-		* @public
-		*/
+		Rotation of this group.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property rotation
+		@type number
+		@public
+		**/
 		public get rotation(): number {
 			return this.transform.rotation;
 		}
-		public set rotation(value: number) {
+		public set rotation( value: number ) {
 			this.transform.rotation = value;
 		}
 
 		/**
-		* The rotation offset of this group in the X axis. This is just aliased to the transform property.
-		* @property rotPointX
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
+		Rotation offset of this group in the X axis.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property rotPointX
+		@type number
+		@public
+		@since 1.1.0
+		**/
 		public get rotPointX(): number {
 			return this.transform.rotPointX;
 		}
-		public set rotPointX(value: number) {
+		public set rotPointX( value: number ) {
 			this.transform.rotPointX = value;
 		}
 
 		/**
-		* The rotation offset of this group in the Y axis. This is just aliased to the transform property.
-		* @property rotPointY
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
+		Rotation offset of this group in the Y axis.
+		This is just aliased to the &#x60;transform&#x60; property.
+
+		@property rotPointY
+		@type number
+		@public
+		@since 1.1.0
+		**/
 		public get rotPointY(): number {
 			return this.transform.rotPointY;
 		}
-		public set rotPointY(value: number) {
+		public set rotPointY( value: number ) {
 			this.transform.rotPointY = value;
 		}
 
 		/**
-		* The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
-		* @property anchorPointX
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
+		Anchor point offset of this group in the X axis.
+		This is just aliased to the &#x60;transform&#x60; property,
+		and is in turn an alias of rotPointX.
+
+		@property anchorPointX
+		@type number
+		@public
+		@since 1.1.0
+		**/
 		public get anchorPointX(): number {
 			return this.transform.anchorPointX;
 		}
-		public set anchorPointX(value: number) {
+		public set anchorPointX( value: number ) {
 			this.transform.anchorPointX = value;
 		}
 
 		/**
-		* The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
-		* @property anchorPointY
-		* @type number
-		* @public
-		* @since 1.1.0
-		*/
+		The anchor point offset of this group in the Y axis.
+		This is just aliased to the &#x60;transform&#x60; property,
+		and is in turn an alias of rotPointY.
+
+		@property anchorPointY
+		@type number
+		@public
+		@since 1.1.0
+		**/
 		public get anchorPointY(): number {
 			return this.transform.anchorPointY;
 		}
-		public set anchorPointY(value: number) {
+		public set anchorPointY( value: number ) {
 			this.transform.anchorPointY = value;
 		}
 
 		/**
-		* The Component Manager
-		* @property components
-		* @type Kiwi.ComponentManager
-		* @public
-		*/
+		Component manager; automatically updates every frame
+
+		@property components
+		@type Kiwi.ComponentManager
+		@public
+		**/
 		public components: Kiwi.ComponentManager;
 
 		/**
-		* The game this Group belongs to
-		* @property game
-		* @type Kiwi.Game
-		* @public
-		*/
+		Game to which this Group belongs
+
+		@property game
+		@type Kiwi.Game
+		@public
+		**/
 		public game: Kiwi.Game = null;
 
 		/**
-		* The State that this Group belongs to
-		* @property state
-		* @type Kiwi.State
-		* @public
+		State to which this Group belongs
+
+		@property state
+		@type Kiwi.State
+		@public
 		**/
 		public state: Kiwi.State = null;
 
 		/**
-		* A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.
-		* @property id
-		* @type string
-		* @public
-		*/
+		Unique identifier for this Group within the game,
+		used internally by the framework.
+		See the &#x60;name&#x60; property for a friendly version.
+
+		@property id
+		@type string
+		@public
+		**/
 		public id: string;
-		
+
 		/**
-		* The collection of children belonging to this group 
-		* @property members
-		* @type Array
-		* @public
-		*/
+		Collection of children belonging to this group
+
+		@property members
+		@type array
+		@public
+		**/
 		public members: Kiwi.IChild[];
-		
-		/** 
-		* Returns the total number of children in this Group. Doesn&#x27;t distinguish between alive and dead children.
-		* @method numChildren
-		* @return {Number} The number of children in this Group
-		* @public
-		*/
+
 		public numChildren(): number {
+
+			/**
+			Return the total number of children in this Group.
+			Note that this still counts children with &#x60;exists=false&#x60;,
+			as they are only completely removed at the end of the frame.
+
+			@method numChildren
+			@return {number} Number of children in this Group
+			@public
+			**/
+
 			return this.members.length;
 		}
 
 		/**
-		* An indication of whether or not this group is &#x27;dirty&#x27; and thus needs to be re-rendered or not.
-		* @property _dirty
-		* @type boolean
-		* @private
-		*/
+		Whether this group is &quot;dirty&quot; and thus needs to be re-rendered
+		in some way.
+
+		@property _dirty
+		@type boolean
+		@private
+		**/
 		private _dirty: boolean = true;
 
 		/**
-		* Sets all children of the Group to be dirty.
-		* @property dirty
-		* @type boolean
-		* @public
-		*/
-		public set dirty(value: boolean) {
-			if (value !== undefined) {
+		Dirtiness of the Group and all its children.
+		Setting this will update dirtiness of children immediately.
+
+		@property dirty
+		@type boolean
+		@public
+		**/
+		public set dirty( value: boolean ) {
+			if ( value !== undefined ) {
 				this._dirty = value;
 
-				for (var i = 0; i &lt; this.members.length; i++) {
-					this.members[i].dirty = value;
+				for ( var i = 0; i &lt; this.members.length; i++ ) {
+					this.members[ i ].dirty = value;
 				}
 			}
 		}
@@ -721,120 +796,221 @@ module Kiwi {
 			return this._dirty;
 		}
 
-		/**
-		* Checks if the given entity is in this group
-		* @method contains
-		* @param child {IChild} The IChild that you want to checked.
-		* @return {boolean} true if entity exists in group.
-		* @public
-		*/
-		public contains(child: Kiwi.IChild): boolean {                                         // MAKE RECURSIVE
-			return (this.members.indexOf(child) === -1) ? false : true;
+		public contains( child: Kiwi.IChild ): boolean {
+
+			/**
+			Check whether the given entity is in this group.
+
+			@method contains
+			@param child {IChild} IChild to check
+			@return {boolean} Whether entity exists in group
+			@public
+			**/
+
+			return this.members.indexOf( child ) !== -1;
 		}
 
-		/**
-		* Checks to see if the given object is contained in this group as a descendant
-		* @method containsDescendant
-		* @param child {object} The IChild that you want to check.
-		* @return {boolean}
-		* @public
-		*/
-		public containsDescendant(child: Kiwi.IChild): boolean {
-			for (var i = 0; i &lt; this.members.length; i++) {
-				var curMember: any = this.members[i];
-				if (curMember.id == child.id || curMember.childType() == Kiwi.Group &amp;&amp; curMember.containsDesendant(child)) {
+		public containsDescendant( child: Kiwi.IChild ): boolean {
+
+			/**
+			Check whether the given entity is in this group,
+			or one of this group&#x27;s descendants.
+
+			@method containsDescendant
+			@param child {object} IChild to check
+			@return {boolean}
+			@public
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				var curMember: any = this.members[ i ];
+				if ( curMember.id === child.id ||
+					(
+						curMember.childType() === Kiwi.GROUP &amp;&amp;
+						curMember.containsDescendant( child )
+					) ) {
+
 					return true;
 				}
 			}
 			return false;
 		}
 
-		/**
-		* Checks to see if one child is an ansector of another child.
-		* @method containsAncestor
-		* @param descendant {object} The object that you are checking.
-		* @param ancestor {Group} The parent (ancestor) that you are checking for.
-		* @return {boolean}
-		* @public
-		*/ 
-		public containsAncestor(descendant: Kiwi.IChild, ancestor:Kiwi.Group): boolean {
-			if (descendant.parent === null || descendant.parent === undefined) {
-				return false;   
+		public containsAncestor(
+			descendant: Kiwi.IChild,
+			ancestor: Kiwi.Group ): boolean {
+
+			/**
+			Check whether a &#x60;Group&#x60; is an ancestor of another entity.
+
+			This may be called as a static method, i.e.
+			&#x60;Kiwi.Group.prototype.containsAncestor()&#x60;.
+
+			@method containsAncestor
+			@param descendant {object} Entity to check
+			@param ancestor {Group} Group to check
+			@static
+			@return {boolean}
+			@public
+			**/
+
+			if (
+				descendant.parent === null ||
+				descendant.parent === undefined ) {
+
+				return false;
 			}
-			if (descendant.parent == ancestor) return true; //desendants parent is the same? 
-			return descendant.parent.containsAncestor(descendant.parent, ancestor); //keep going up the chain.
+			if ( descendant.parent === ancestor ) {
+
+				// Parent found
+				return true;
+			}
+			return descendant.parent.containsAncestor(
+
+				// Recurse up the scene hierarchy
+				descendant.parent, ancestor );
 		}
 
 
-		/**
-		* -------------------------
-		* Add Children methods
-		* -------------------------
-		**/
-
-
-		/**
-		* Adds an Entity to this Group. The Entity must not already be in this Group.
-		* @method addChild
-		* @param child {object} The child to be added.
-		* @return {object} The child that was added.
-		* @public
+		/*
+		-------------------------
+		Add Children methods
+		-------------------------
 		*/
-		public addChild(child: Kiwi.IChild): Kiwi.IChild {              
 
-			//Implement feature where you can pass as many children to be added. Modify this script to work via the &#x27;arguments&#x27; property
 
-			//make sure you aren&#x27;t adding a state or itself
-			if (child.childType() === Kiwi.STATE || child == this) return;
+		private _validateChild( child: any ): boolean {
 
-			//make sure it is not itself.
-			if (child.parent !== null) 
-				child.parent.removeChild(child);
-			
-			//check to see if the child is already part of a group.
-			this.members.push(child);
-			child.parent = this;
-			
+			/**
+			Return whether a child may be added to this group.
+
+			A child is disqualified if it:
+			- is a &#x60;State&#x60;, which may not have parents
+			- would be its own parent
+			- would be its own descendant
+
+			If a child fails the check, its UUID will be logged.
+
+			@method _validateChild
+			@param child {IChild} Child to validate
+			@return {boolean} Whether the child is validated
+			@private
+			**/
+
+			if (
+				child.childType() === Kiwi.STATE ||
+				child === this ||
+				this.containsAncestor( this, child ) ) {
+
+				Kiwi.Log.warn(
+					&quot;#Group&quot;,
+					&quot;Child failed validation check and will not be added.&quot;,
+					&quot;UUID:&quot;,
+					child.id );
+
+				return false;
+			}
+			return true;
+		}
+
+
+		public addChild( child: Kiwi.IChild ): Kiwi.IChild {
+
+			/**
+			Add a child to this &#x60;Group&#x60;.
+
+			The child must be valid to add.
+			A valid child must be an &#x60;Entity&#x60; or &#x60;Group&#x60;.
+			It cannot be a &#x60;State&#x60;.
+			It cannot be this very &#x60;Group&#x60;, or an ancestor of it.
+
+			The child will be removed from its current parents, if any.
+
+			@method addChild
+			@param child {object} Child to be added
+			@return {object} Child to have been added
+			@public
+			**/
+
+			// TODO:
+			// Implement feature where you can pass many children to be added.
+			// Modify this script to work via the &#x60;arguments&#x60; property.
+
+			if ( this._validateChild( child ) ) {
+
+				// Remove prior parentage
+				if ( child.parent !== null ) {
+					child.parent.removeChild( child );
+				}
+
+				// Add child to this group
+				this.members.push( child );
+				child.parent = this;
+			}
+
 			return child;
 		}
-		 
-		/**
-		* Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
-		* @method addChildAt
-		* @param child {object} The child to be added.
-		* @param index {Number} The index the child will be set at.
-		* @return {object} The child.
-		* @public
-		*/
-		public addChildAt(child: Kiwi.IChild, index: number): Kiwi.IChild {
 
-			if (child.childType() === Kiwi.STATE || child == this) return;
+		public addChildAt( child: Kiwi.IChild, index: number ): Kiwi.IChild {
 
-			if (child.parent !== null) child.parent.removeChild(child);
+			/**
+			Add a child to this Group, at the specific child index.
+			Use this to place a child behind or in front of other objects
+			in the scene graph.
 
-			this.members.splice(index, 0, child);
-			child.parent = this;
+			The child must be valid per the criteria in &#x60;addChild&#x60;.
+
+			The child will be removed from its current parents, if any.
+
+			@method addChildAt
+			@param child {object} Child to be added
+			@param index {number} Index at which to insert the child
+			@return {object} Child to have been added
+			@public
+			**/
+
+			if ( this._validateChild( child ) ) {
+
+				if ( child.parent !== null ) {
+					child.parent.removeChild( child );
+				}
+
+				this.members.splice( index, 0, child );
+				child.parent = this;
+			}
 
 			return child;
 		}
 
-		/**
-		* Adds an Entity to this Group before another child. 
-		* @method addChildBefore
-		* @param child {object} The child to be added.
-		* @param beforeChild {Entity} The child before which the child will be added.
-		* @return {object} The child.
-		* @public
-		*/
-		public addChildBefore(child: Kiwi.IChild, beforeChild: Kiwi.IChild): Kiwi.IChild {                      
+		public addChildBefore(
+			child: Kiwi.IChild,
+			beforeChild: Kiwi.IChild ): Kiwi.IChild {
 
-			if (beforeChild.transform.parent === this.transform) {
+			/**
+			Add a child to this Group, just behind another child.
 
-				if (child.parent !== null) child.parent.removeChild(child);
+			The child must be valid per the criteria in &#x60;addChild&#x60;.
+
+			The child will be removed from its current parents, if any.
+
+			@method addChildBefore
+			@param child {object} Child to be added
+			@param beforeChild {Entity} Child before which to add the child
+			@return {object} Child to have been added
+			@public
+			**/
+
+			if (
+				beforeChild.transform.parent === this.transform &amp;&amp;
+				this._validateChild( child ) ) {
+
+				if ( child.parent !== null ) {
+					child.parent.removeChild( child );
+				}
 
 				var index: number = this.getChildIndex( beforeChild );
 
-				this.members.splice(index, 0, child);
+				this.members.splice( index, 0, child );
 				child.parent = this;
 			}
 
@@ -842,23 +1018,35 @@ module Kiwi {
 
 		}
 
-		/**
-		* Adds an Entity to this Group after another child. 
-		* @method addChildAfter
-		* @param child {object} The child to be added.
-		* @param beforeChild {object} The child after which the child will be added.
-		* @return {object} The child.
-		* @public
-		*/
-		public addChildAfter(child: Kiwi.IChild, afterChild: Kiwi.IChild): Kiwi.IChild {
-		   
-			if (afterChild.transform.parent === this.transform) {
+		public addChildAfter(
+			child: Kiwi.IChild,
+			afterChild: Kiwi.IChild ): Kiwi.IChild {
 
-				if (child.parent !== null) child.parent.removeChild(child);
+			/**
+			Add an Entity to this Group, just above another child.
 
-				var index: number = this.getChildIndex(afterChild) + 1;
+			The child must be valid per the criteria in &#x60;addChild&#x60;.
 
-				this.members.splice(index, 0, child);
+			The child will be removed from its current parents, if any.
+
+			@method addChildAfter
+			@param child {object} Child to be added
+			@param afterChild {object} Child after which to add the child
+			@return {object} Child to have been added
+			@public
+			**/
+
+			if (
+				afterChild.transform.parent === this.transform &amp;&amp;
+				this._validateChild( child ) ) {
+
+				if ( child.parent !== null ) {
+					child.parent.removeChild( child );
+				}
+
+				var index: number = this.getChildIndex( afterChild ) + 1;
+
+				this.members.splice( index, 0, child );
 				child.parent = this;
 			}
 
@@ -867,163 +1055,202 @@ module Kiwi {
 		}
 
 
-		/**
-		* --------------------
-		* Remove Children Methods
-		* --------------------
-		**/
-
-
-		/**
-		* Removes an Entity from this Group if it is a child of it.
-		* @method removeChild
-		* @param child {object} The child to be removed.
-		* @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-		* @return {object} The child.
-		* @public
+		/*
+		--------------------
+		Remove Children Methods
+		--------------------
 		*/
-		public removeChild(child: Kiwi.IChild, destroy:boolean=false): Kiwi.IChild {   
 
-			if (child.parent === this) {
 
-				var index: number = this.getChildIndex(child);
+		public removeChild(
+			child: Kiwi.IChild,
+			destroy: boolean = false ): Kiwi.IChild {
 
-				if (index &gt; -1) {
-					this.members.splice(index, 1);
+			/**
+			Remove a child from this Group.
+			The child must be a member of this specific group.
+
+			@method removeChild
+			@param child {object} Child to be removed
+			@param [destroy=false] {boolean} Whether to destroy the child
+			@return {object} Child that was removed
+			@public
+			**/
+
+			if ( child.parent === this ) {
+
+				var index: number = this.getChildIndex( child );
+
+				if ( this.removeChildAt( index ) ) {
 					child.parent = null;
-					
-					if (destroy) {
+
+					if ( destroy ) {
 						child.destroy();
 					}
 				}
-
-			} 
+			}
 
 			return child;
 		}
 
-		/**
-		* Removes the Entity from this Group at the given position.
-		* @method removeChildAt
-		* @param index {Number} The index of the child to be removed.
-		* @return {object} The child, or null.
-		*/
-		public removeChildAt(index: number): Kiwi.IChild {
+		public removeChildAt( index: number ): Kiwi.IChild {
 
-			if (this.members[index]) {
-				var child: Kiwi.IChild = this.members[index];
+			/**
+			Remove a child from this Group at a specific member index.
 
-				return this.removeChild(child);
+			@method removeChildAt
+			@param index {number} Index of the child to be removed
+			@return {object} Child removed, or &#x60;null&#x60;
+			**/
+
+			if ( this.members[ index ] ) {
+				var child: Kiwi.IChild = this.members.splice( index, 1 )[ 0 ];
+
+				child.parent = null;
+
+				return child;
 			} else {
 				return null;
 			}
 
 		}
 
-		/**
-		* Removes all Entities from this Group within the given range. 
-		* @method removeChildren
-		* @param begin {Number} The begining index.
-		* @param end {Number} The last index of the range.
-		* @param destroy {Number} If the children should be destroyed as well.
-		* @return {Number} The number of removed entities.
-		* @public
-		*/
-		public removeChildren(begin: number = 0, end: number = 0x7fffffff, destroy:boolean = false): number {
+		public removeChildren(
+			begin: number = 0,
+			end: number = 0x7fffffff,
+			destroy: boolean = false ): number {
+
+			/**
+			Remove all children from this Group, within the given range.
+
+			For example, &#x60;removeChildren( 3, 5 )&#x60; will remove children
+			at member indices 3 and 4 (but not 5).
+
+			@method removeChildren
+			@param [begin=0] {number} Beginning index
+			@param [end=2147483647] {number} Last index of the range
+			@param [destroy=false] {number} Whether to destroy children
+			@return {number} Number of removed entities
+			@public
+			**/
 
 			end -= begin;
-			
-			var removed: Kiwi.IChild[] = this.members.splice(begin, end);
 
-			for (var i = 0; i &lt; removed.length; i++) {
-				removed[i].parent = null;
+			var removed: Kiwi.IChild[] = this.members.splice( begin, end );
 
-				if (destroy) {
-					removed[i].destroy();
+			for ( var i = 0; i &lt; removed.length; i++ ) {
+				removed[ i ].parent = null;
+
+				if ( destroy ) {
+					removed[ i ].destroy();
 				}
 			}
 
 			return removed.length;
 		}
 
-		/**
-		* Removes the first Entity from this Group marked as &#x27;alive&#x27;
-		* @method removeFirstAlive
-		* @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-		* @return {object} The Entity that was removed from this Group if alive, otherwise null
-		* @public
-		* @deprecated in v1.1.0
-		*/
-		public removeFirstAlive(destroy: boolean = false): Kiwi.IChild {
+		public removeFirstAlive( destroy: boolean = false ): Kiwi.IChild {
 
-			return this.removeChild(this.getFirstAlive(), destroy);
+			/**
+			Remove the first child from this Group marked as &#x60;alive&#x60;.
+
+			@method removeFirstAlive
+			@param [destroy=false] {boolean} Whether to destroy the child
+			@return {object} Child removed, or &#x60;null&#x60;
+			@public
+			@deprecated in v1.1.0
+			**/
+
+			return this.removeChild( this.getFirstAlive(), destroy );
 
 		}
 
 
-		/**
-		* -------------------
-		* Get Children Methods
-		* -------------------
-		**/
-
-		/**
-		* Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.
-		* @method getAllChildren
-		* @param getGroups {boolean} Optional: Whether to include Groups in the results. When false, will only collect GameObjects.
-		* @param destinationArray {Array} Optional: The array in which to store the results.
-		* @return {Array}
-		* @since 1.1.0
+		/*
+		-------------------
+		Get Children Methods
+		-------------------
 		*/
-		public getAllChildren(getGroups: boolean = true, destinationArray: IChild[] = []): IChild[] {
-			for( var i = 0;  i &lt; this.members.length;  i++) {
-				if(this.members[i].objType() == &quot;Group&quot;) {
-					if(getGroups) {
-						destinationArray.push(this.members[i]);
+
+		public getAllChildren(
+			getGroups: boolean = true,
+			destinationArray: IChild[] = [] ): IChild[] {
+
+			/**
+			Get all children of this Group.
+			By default, this will search the entire sub-graph,
+			including children of children etc.
+
+			@method getAllChildren
+			@param [getGroups=true] {boolean} Whether to include Groups
+				in the results
+			@param [destinationArray] {array} Array in which to store
+				the results
+			@return {array}
+			@since 1.1.0
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].objType() === &quot;Group&quot; ) {
+					if ( getGroups ) {
+						destinationArray.push( this.members[ i ] );
 					}
-					(&lt;Kiwi.Group&gt;this.members[i]).getAllChildren(getGroups, destinationArray);
-				}
-				else {
-					destinationArray.push(this.members[i]);
+					( &lt;Kiwi.Group&gt;this.members[ i ] ).getAllChildren(
+						getGroups, destinationArray );
+				} else {
+					destinationArray.push( this.members[ i ] );
 				}
 			}
 			return destinationArray;
 		}
 
+		public getChildAt( index: number ): Kiwi.IChild {
 
-		/**
-		* Get the child at a specific position in this Group by its index.
-		* @method getChildAt
-		* @param index {Number} The index of the child
-		* @return {object} The child, if found or null if not.
-		* @public
-		*/
-		public getChildAt(index: number): Kiwi.IChild {
+			/**
+			Get the child at a specific position in this Group by its index.
 
-			if (this.members[index]) {
-				return this.members[index];
+			@method getChildAt
+			@param index {number} Index of the child
+			@return {object} Child if found, or &#x60;null&#x60; if not
+			@public
+			**/
+
+			if ( this.members[ index ] ) {
+				return this.members[ index ];
 			} else {
 				return null;
 			}
 
 		}
 
-		/**
-		* Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
-		* @method getChildByName
-		* @param name {String} The name of the child.
-		* @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
-		* @return {object} The child, if found or null if not.
-		* @public
-		*/
-		public getChildByName(name: string, recurse: boolean = false): Kiwi.IChild {
-			for (var i = 0; i &lt; this.members.length; i++) {
-				if (this.members[i].name === name) {
-					return this.members[i];
-				}
-				else if(this.members[i].objType() == &quot;Group&quot;  &amp;&amp;  recurse) {
-					var groupResponse = (&lt;Kiwi.Group&gt;this.members[i]).getChildByName( name, true );
-					if(groupResponse !== null) {
+		public getChildByName(
+			name: string,
+			recurse: boolean = false ): Kiwi.IChild {
+
+			/**
+			Get a child from this Group by its name.
+			By default this will not check sub-groups,
+			but if you supply the &#x60;recurse&#x60; flag
+			it will check the entire scene graph under this object.
+
+			@method getChildByName
+			@param name {string} Name of the child
+			@param [recurse=false] {boolean} Whether to search child groups
+			@return {object} Child if found, or &#x60;null&#x60; if not
+			@public
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].name === name ) {
+					return this.members[ i ];
+				} else if (
+					this.members[ i ].objType() === &quot;Group&quot; &amp;&amp;
+					recurse ) {
+
+					var groupResponse =
+						( &lt;Kiwi.Group&gt;this.members[ i ] ).getChildByName(
+							name, true );
+					if ( groupResponse !== null ) {
 						return groupResponse;
 					}
 				}
@@ -1033,22 +1260,34 @@ module Kiwi {
 
 		}
 
-		/**
-		* Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
-		* @method getChildByID
-		* @param id {String} The ID of the child.
-		* @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
-		* @return {object} The child, if found or null if not.
-		* @public
-		*/
-		public getChildByID(id: string, recurse: boolean = false): Kiwi.IChild {
-			for (var i = 0; i &lt; this.members.length; i++) {
-				if (this.members[i].id === id) {
-					return this.members[i];
-				}
-				else if(this.members[i].objType() == &quot;Group&quot;  &amp;&amp;  recurse) {
-					var groupResponse = (&lt;Kiwi.Group&gt;this.members[i]).getChildByID( id, true );
-					if(groupResponse !== null) {
+		public getChildByID(
+			id: string,
+			recurse: boolean = false ): Kiwi.IChild {
+
+			/**
+			Get a child from this Group by its UUID (&#x60;child.id&#x60;).
+			By default this will not check sub-groups,
+			but if you supply the &#x60;recurse&#x60; flag
+			it will check the entire scene graph under this object.
+
+			@method getChildByID
+			@param id {string} UUID of the child.
+			@param [recurse=false] {boolean} Whether to search child groups
+			@return {object} Child if found, or &#x60;null&#x60; if not
+			@public
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].id === id ) {
+					return this.members[ i ];
+				} else if (
+					this.members[ i ].objType() === &quot;Group&quot; &amp;&amp;
+					recurse ) {
+
+					var groupResponse =
+						( &lt;Kiwi.Group&gt;this.members[ i ] ).getChildByID(
+							id, true );
+					if ( groupResponse !== null ) {
 						return groupResponse;
 					}
 				}
@@ -1058,49 +1297,57 @@ module Kiwi {
 
 		}
 
-		/**
-		* Returns the index position of the Entity or -1 if not found.
-		* @method getChildIndex
-		* @param child {object} The child.
-		* @return {Number} The index of the child or -1 if not found.
-		* @public
-		*/
-		public getChildIndex(child: Kiwi.IChild): number {
+		public getChildIndex( child: Kiwi.IChild ): number {
 
-			return this.members.indexOf(child);
+			/**
+			Return the index position of the child, or &#x60;-1&#x60; if not found.
+
+			@method getChildIndex
+			@param child {object} Child to find
+			@return {number} Index of the child, or &#x60;-1&#x60; if not found.
+			@public
+			**/
+
+			return this.members.indexOf( child );
 
 		}
 
-		/**
-		* Returns the first Entity from this Group marked as &#x27;alive&#x27; or null if no members are alive
-		* @method getFirstAlive
-		* @return {object}
-		* @public
-		* @deprecated in v1.1.0
-		*/
 		public getFirstAlive(): Kiwi.IChild {
 
-			for (var i = 0; i &lt; this.members.length; i++) {
-				if (this.members[i].exists === true) {
-					return this.members[i];
+			/**
+			Return the first child from this Group marked as &#x60;exists=true&#x60;,
+			or &#x60;null&#x60; if no members are alive.
+
+			@method getFirstAlive
+			@return {IChild} First living child, or &#x60;null&#x60;
+			@public
+			@deprecated in v1.1.0
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].exists === true ) {
+					return this.members[ i ];
 				}
 			}
 
 			return null;
 		}
 
-		/**
-		* Returns the first member of the Group which is not &#x27;alive&#x27;, returns null if all members are alive.
-		* @method getFirstDead
-		* @return {object}
-		* @public
-		* @deprecated in v1.1.0
-		*/
 		public getFirstDead(): Kiwi.IChild {
 
-			for (var i = 0; i &lt; this.members.length; i++) {
-				if (this.members[i].exists === false) {
-					return this.members[i];
+			/**
+			Return the first member of the Group marked as &#x60;exists=false&#x60;.
+			Returns &#x60;null&#x60; if all members are alive.
+
+			@method getFirstDead
+			@return {IChild} First dead child, or &#x60;null&#x60;
+			@public
+			@deprecated in v1.1.0
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].exists === false ) {
+					return this.members[ i ];
 				}
 			}
 
@@ -1108,190 +1355,214 @@ module Kiwi {
 
 		}
 
-		/**
-		* Returns a member at random from the group.
-		* @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-		* @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-		* @return {object}	A child from the members list.
-		* @public
-		*/
-		public getRandom(start: number = 0, length: number = 0): Kiwi.IChild {
+		public getRandom(
+			start: number = 0,
+			length: number = 0 ): Kiwi.IChild {
 
-			if (this.members.length === 0) {
+			/**
+			Return a member at random from the group.
+
+			@method getRandom
+			@param [start=0] {number} Start of sequence to randomly sample
+			@param [length=0] {number} Length of sequence to randomly sample.
+				If &#x60;0&#x60;, will sample to the end of the array.
+			@return {object} Child selected
+			@public
+			**/
+
+			if ( this.members.length === 0 ) {
 				return null;
 			}
-			/*
-			if (length === 0) {
-				length = this.members.length;
-			}
-
-			if (start &lt; 0 || start &gt; length) {
-				start = 0;
-			}
-
-			var rnd = start + (Math.random() * (start + length));
-
-			if (rnd &gt; this.members.length) {
-				return this.members[this.members.length - 1];
-
-			} else {
-				return this.members[rnd];
-			}
-			*/
 
 			// Comply start to viable range
-			start = Kiwi.Utils.GameMath.clamp(start, this.members.length - 1);
+			start = Kiwi.Utils.GameMath.clamp(
+				start, this.members.length - 1 );
 
 			// Comply length to fit
-			if(length === 0) {
+			if ( length === 0 ) {
 				length = this.members.length;
 			}
-			if(this.members.length &lt;= start + length) {
+			if ( this.members.length &lt;= start + length ) {
 				length = this.members.length - start - 1;
 			}
 
 			// Create and truncate random index
 			var rnd = start + Math.random() * length;
-			rnd = Math.floor(rnd);
+			rnd = Math.floor( rnd );
 
 			// Return
-			return this.members[rnd];
+			return this.members[ rnd ];
 		}
 
-		/**
-		* Returns an array of children which contain the tag which is passed.
-		* @method getChildrenByTag
-		* @param tag {string}
-		* @return {Array}
-		* @public
-		* @since 1.1.0
+		public getChildrenByTag( tag: string ): IChild[] {
+
+			/**
+			Return an array of children containing a specified tag.
+
+			@method getChildrenByTag
+			@param tag {string} Tag to check
+			@return {array} List of children with that tag
+			@public
+			@since 1.1.0
+			**/
+
+			var children = [];
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+
+				if ( this.members[ i ].hasTag( tag ) ) {
+					children.push( this.members[ i ] );
+				}
+
+				if ( this.members[ i ].childType() === Kiwi.GROUP ) {
+					children = children.concat(
+						( &lt;Kiwi.Group&gt;this.members[ i ] ).getChildrenByTag(
+							tag ) );
+				}
+
+			}
+
+			return children;
+		}
+
+		public getFirstChildByTag( tag: string ): IChild {
+
+			/**
+	 		Return the first child containing a specified tag.
+	 		This recursively searches within groups.
+
+	 		@method getFirstChildByTag
+	 		@param tag {string} Tag to check
+	 		@return {IChild} Tagged child, or &#x60;null&#x60;
+	 		@public
+	 		@since 1.3.0
+			**/
+
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+
+				if ( this.members[ i ].hasTag( tag ) ) {
+					return this.members[ i ];
+				}
+
+				if ( this.members[ i ].childType() === Kiwi.GROUP ) {
+					var child =
+						( ( &lt;Kiwi.Group&gt;this.members[ i ] ).getFirstChildByTag(
+							tag ) );
+
+					if ( child ) {
+						return child;
+					}
+				}
+
+			}
+
+			return null;
+		}
+
+		public getLastChildByTag( tag: string ): IChild {
+
+			/**
+	 		Return the last child containing the specified tag.
+	 		This recursively searches within groups.
+
+	 		@method getLastChildByTag
+	 		@param tag {string} Tag to check
+	 		@return {IChild} Tagged child, or &#x60;null&#x60;
+	 		@public
+	 		@since 1.3.0
+			**/
+
+			for ( var i = this.members.length - 1; i &gt;= 0; i-- ) {
+
+				if ( this.members[ i ].hasTag( tag ) ) {
+					return this.members[ i ];
+				}
+
+				if ( this.members[ i ].childType() === Kiwi.GROUP ) {
+					var child =
+						( ( &lt;Kiwi.Group&gt;this.members[ i ] ).getLastChildByTag(
+							tag ) );
+
+					if ( child ) {
+						return child;
+					}
+				}
+
+			}
+
+			return null;
+		}
+
+
+		/*
+		--------------------
+		Child Depth Sorting Methods
+		--------------------
 		*/
-        public getChildrenByTag(tag: string): IChild[] {
-
-            var children = [];
-
-            for (var i = 0; i &lt; this.members.length; i++) {
-
-                if (this.members[i].hasTag(tag)) {
-                    children.push(this.members[i]);
-                }
-
-                if (this.members[i].childType() == Kiwi.GROUP) {
-                    children = children.concat((&lt;Kiwi.Group&gt;this.members[i]).getChildrenByTag(tag));
-                }
-
-            }
-
-            return children;
-        }
-
-        /**
-        * Returns the first child which contains the tag passed.
-        * @method getFirstChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
-        public getFirstChildByTag(tag: string): IChild {
-
-            for (var i = 0; i &lt; this.members.length; i++) {
-
-                if ( this.members[i].hasTag(tag) ) {
-                    return this.members[i];
-                }
-
-                if ( this.members[i].childType() == Kiwi.GROUP ) {
-                    var child = ((&lt;Kiwi.Group&gt;this.members[i]).getFirstChildByTag(tag));
-
-                    if (child) {
-                        return child;
-                    }
-                }
-
-            }
-            
-            return null;   
-        }
-
-        /**
-        * Returns the last child which contains the tag passed.
-        * @method getLastChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
-        public getLastChildByTag(tag: string): IChild {
-
-            for (var i = this.members.length - 1; i &gt;= 0; i--) {
-
-                if (this.members[i].hasTag(tag)) {
-                    return this.members[i];
-                }
-
-                if (this.members[i].childType() == Kiwi.GROUP) {
-                    var child = ((&lt;Kiwi.Group&gt;this.members[i]).getLastChildByTag(tag));
-
-                    if (child) {
-                        return child;
-                    }
-                }
-
-            }
-
-            return null;
-        }
-
-		/**
-		* --------------------
-		* Child Depth Sorting Methods
-		* --------------------
-		**/
 
 
-		/**
-		* Sets a new position of an existing Entity within the Group.
-		* @method setChildIndex
-		* @param child {object} The child in this Group to change.
-		* @param index {Number} The index for the child to be set at.
-		* @return {boolean} true if the Entity was moved to the new position, otherwise false.
-		* @public
-		*/
-		public setChildIndex(child: Kiwi.IChild, index: number): boolean {
-		
-			//  If the Entity isn&#x27;t in this Group, or is already at that index then bail out
-			if (child.parent !== this || this.getChildIndex(child) === index) {
+		public setChildIndex( child: Kiwi.IChild, index: number ): boolean {
+
+			/**
+			Move a child to a new depth index within the &#x60;Group&#x60;.
+
+			This method will fail if the child is not a child of this group,
+			or if it is already at the specified index.
+
+			@method setChildIndex
+			@param child {object} Child to change
+			@param index {number} Index to which to send the child
+			@return {boolean} Whether the child was successfully moved
+			@public
+			**/
+
+			// If the Entity isn&#x27;t in this Group,
+			// or is already at that index, then bail out
+			if (
+				child.parent !== this ||
+				this.getChildIndex( child ) === index ) {
+
 				return false;
 			}
 
-			this.removeChild(child);
-			this.addChildAt(child, index);
+			this.removeChild( child );
+			this.addChildAt( child, index );
 
 			return true;
 		}
 
-		/**
-		* Swaps the position of two existing Entities that are a direct child of this group.
-		* @method swapChildren
-		* @param child1 {object} The first child in this Group to swap.
-		* @param child2 {object} The second child in this Group to swap.
-		* @return {boolean} true if the Entities were swapped successfully, otherwise false.
-		* @public
-		*/
-		public swapChildren(child1: Kiwi.IChild, child2: Kiwi.IChild):boolean {
-		
-			//  If either Entity isn&#x27;t in this Group, or is already at that index then bail out
-			if (child1.parent !== this || child2.parent !== this) {
+		public swapChildren(
+			child1: Kiwi.IChild,
+			child2: Kiwi.IChild ): boolean {
+
+			/**
+			Swap the position of two existing direct children of this &#x60;Group&#x60;.
+
+			This method will fail if either child is not a child of this group,
+			or if they are at the same index (i.e. they are the same object).
+
+			@method swapChildren
+			@param child1 {object} First child to swap
+			@param child2 {object} Second child to swap
+			@return {boolean} Whether the children were successfully swapped
+			@public
+			**/
+
+			// If either Entity isn&#x27;t in this Group,
+			// or is already at that index, then bail out
+			if (
+				child1.parent !== this ||
+				child2.parent !== this ) {
+
 				return false;
 			}
 
-			var index1 = this.getChildIndex(child1);
-			var index2 = this.getChildIndex(child2);
+			var index1 = this.getChildIndex( child1 );
+			var index2 = this.getChildIndex( child2 );
 
-			if (index1 !== -1 &amp;&amp; index2 !== -1 &amp;&amp; index1 !== index2) {
-				this.members[index1] = child2;
-				this.members[index2] = child1;
+			if ( index1 !== -1 &amp;&amp; index2 !== -1 &amp;&amp; index1 !== index2 ) {
+				this.members[ index1 ] = child2;
+				this.members[ index2 ] = child1;
 
 				return true;
 			}
@@ -1299,27 +1570,36 @@ module Kiwi {
 			return false;
 		}
 
-		/**
-		* Swaps the position of two existing Entities within the Group based on their index.
-		* @method swapChildrenAt
-		* @param index1 {Number} The position of the first Entity in this Group to swap.
-		* @param index2 {Number} The position of the second Entity in this Group to swap.
-		* @return {boolean} true if the Entities were swapped successfully, otherwise false.
-		* @public
-		*/
-		public swapChildrenAt(index1: number, index2: number): boolean {
-			 
-			var child1: Kiwi.IChild = this.getChildAt(index1);
-			var child2: Kiwi.IChild = this.getChildAt(index2);
+		public swapChildrenAt( index1: number, index2: number ): boolean {
 
-			if (child1 !== null &amp;&amp; child2 !== null) {
-				//  If either Entity isn&#x27;t in this Group, or is already at that index then bail out
-				if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
+			/**
+			Swap the position of two existing children of the Group,
+			based on their member indices.
+
+			@method swapChildrenAt
+			@param index1 {number} Index of the first child to swap
+			@param index2 {number} Index of the second child to swap
+			@return {boolean} Whether children were swapped successfully
+			@public
+			**/
+
+			var child1: Kiwi.IChild = this.getChildAt( index1 );
+			var child2: Kiwi.IChild = this.getChildAt( index2 );
+
+			if ( child1 !== null &amp;&amp; child2 !== null ) {
+
+				// If either Entity isn&#x27;t in this Group,
+				// or is already at that index, then bail out
+				if (
+					child1 === child2 ||
+					child1.parent !== this ||
+					child2.parent !== this ) {
+
 					return false;
 				}
 
-				this.members[index1] = child2;
-				this.members[index2] = child1;
+				this.members[ index1 ] = child2;
+				this.members[ index2 ] = child1;
 
 				return true;
 			}
@@ -1327,32 +1607,33 @@ module Kiwi {
 			return false;
 		}
 
-		/**
-		* Replaces a child Entity in this Group with a new one.
-		* @method replaceChild
-		* @param oldChild {object} The Entity in this Group to be removed.
-		* @param newChild {object} The new Entity to insert into this Group at the old Entities position.
-		* @return {boolean} true if the Entities were replaced successfully, otherwise false.
-		* @public
-		*/
-		public replaceChild(oldChild: Kiwi.IChild, newChild: Kiwi.IChild): boolean {
-			
-			//fall through if replacing child with the same child
-			if (oldChild === newChild) return false;
+		public replaceChild(
+			oldChild: Kiwi.IChild,
+			newChild: Kiwi.IChild ): boolean {
 
-			// get the index of the existing child
-			var index: number = this.getChildIndex(oldChild);
+			/**
+			Replace a child in this Group with a new one.
 
-			if (index &gt; -1) {
-				// remove the new child from the group if the group contains it, so it can be reinserted in new position
-				if (newChild.parent) {
-					newChild.parent.removeChild(newChild);
-				}
+			@method replaceChild
+			@param oldChild {object} Child in this Group to be removed
+			@param newChild {object} Child to insert at old child&#x27;s position
+			@return {boolean} Whether child was replaced successfully
+			@public
+			**/
 
-				this.removeChildAt(index);
+			// Fall through if replacing child with the same child
+			if ( oldChild === newChild ) {
+				return false;
+			}
 
-				this.addChildAt(newChild, index); 
-				newChild.parent = null;
+			// Get the index of the existing child
+			var index: number = this.getChildIndex( oldChild );
+
+			if ( index &gt; -1 ) {
+
+				this.removeChildAt( index );
+
+				this.addChildAt( newChild, index );
 
 				return true;
 			}
@@ -1360,104 +1641,153 @@ module Kiwi {
 			return false;
 		}
 
-		/**
-		* Loops through each member in the group and run a method on for each one.
-		* @method forEach
-		* @param context {any} The context that the callbacks are to have when called.
-		* @param callback {any} The callback method to execute on each member.
-		* @param [params]* {any} Any extra parameters.
-		* @public
-		*/
-		public forEach(context, callback, ...params: any[]) {
+		public forEach( context, callback, ...params: any[] ) {
 
-			if (this.members.length &gt; 0) {
-				this.members.forEach((child) =&gt; callback.apply(context, [child].concat(params)));
+			/**
+			Loop through each group member and run a method on each one.
+
+			The callback method will receive each child as its first parameter,
+			followed by any additional parameters provided to this method.
+
+			@method forEach
+			@param context {any} Execution context for callbacks
+			@param callback {any} Method to execute on each member
+			@param [params]* {any} Any extra parameters
+			@public
+			**/
+
+			if ( this.members.length &gt; 0 ) {
+				this.members.forEach( ( child ) =&gt; callback.apply(
+					context, [ child ].concat( params ) ) );
 			}
 
 		}
 
-		/**
-		* Loop through each member of the groups that is alive. 
-		* @method forEachAlive
-		* @param context {any} The context that the callbacks are to have when called.
-		* @param callback {any} The callback method to execute on each member.
-		* @param [params]* {any} Any extra parameters.
-		* @public
-		*/
-		public forEachAlive(context, callback, ...params: any[]) {
+		public forEachAlive( context, callback, ...params: any[] ) {
 
-			if (this.members.length &gt; 0) {
-				
-				this.members.forEach((child) =&gt; {
-					if (child.exists) callback.apply(context, [child].concat(params));
-				});
-				
+			/**
+			Loop through each member of the group that exists.
+			This is useful for avoiding just-deleted game objects.
+
+			The callback method will receive each child as its first parameter,
+			followed by any additional parameters provided to this method.
+
+			@method forEachAlive
+			@param context {any} Execution context for callbacks
+			@param callback {any} Method to execute on each member
+			@param [params]* {any} Any extra parameters
+			@public
+			**/
+
+			if ( this.members.length &gt; 0 ) {
+
+				this.members.forEach( ( child ) =&gt; {
+					if ( child.exists ) {
+						callback.apply( context, [ child ].concat( params ) );
+					}
+				} );
+
 			}
 
 		}
 
-		/**
-		* Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
-		* @method setAll
-		* @param componentName {string} The name of the component to set the property on - set to null to set a property on the entity.
-		* @param property {string} The name of the property to set.
-		* @param value {any} The value to set the property to.
-		* @public
-		*/
-		public setAll(componentName: string,property: string, value: any) {
-			if (componentName === null) {
-				for (var i: number = 0; i &lt; this.members.length; i++) {
-					this.members[i][property] = value;
+		public setAll( componentName: string, property: string, value: any ) {
+
+			/**
+			Set a property on every member. If &#x60;componentName&#x60; is &#x60;null&#x60;,
+			the property is set on the child itself.
+			Otherwise it is set on the named component.
+
+			Uses runtime string property lookups.
+			Not optimal for large groups if speed is an issue.
+
+			@method setAll
+			@param componentName {string} Name of the component to set
+				the property on. Set to &#x60;null&#x60; to set a property on the child.
+			@param property {string} Name of the property to set
+			@param value {any} Value to which to set the property
+			@public
+			**/
+
+			if ( componentName === null ) {
+				for ( var i: number = 0; i &lt; this.members.length; i++ ) {
+					this.members[ i ][ property ] = value;
 				}
 			} else {
-				for (var i: number = 0; i &lt; this.members.length; i++) {
-					this.members[i][componentName][property] = value;
+				for ( var i: number = 0; i &lt; this.members.length; i++ ) {
+					this.members[ i ][ componentName ][ property ] = value;
 				}
 			}
 		}
 
-		/**
-		* Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
-		* @method callAll
-		* @param componentName {string} The name of the component to call the function on - set to null to call a function on the entity.
-		* @param functionName {string} The name of the function to call.
-		* @param args {Array} An array of arguments to pas to the function.
-		* @public
-		*/
-		public callAll(componentName: string,functionName: string, args?: any[]) {
-			if (componentName === null) {
-				for (var i: number = 0; i &lt; this.members.length; i++) {
-					this.members[i][functionName].apply(this.members[i], args);
+		public callAll(
+			componentName: string,
+			functionName: string,
+			args?: any[] ) {
+
+			/**
+			Call a function on every member. If &#x60;componentName&#x60; is &#x60;null&#x60;,
+			the function is called on the child itself.
+			Otherwise it is called on the named component.
+
+			Uses runtime string property lookups.
+			Not optimal for large groups if speed is an issue.
+
+			@method callAll
+			@param componentName {string} Name of the component to call
+				the function on. Set to &#x60;null&#x60; to call a function on the child.
+			@param functionName {string} Name of the function to call
+			@param args {array} Array of arguments to pass to the function
+			@public
+			**/
+
+			if ( componentName === null ) {
+				for ( var i: number = 0; i &lt; this.members.length; i++ ) {
+					this.members[ i ][ functionName ].apply(
+						this.members[ i ], args );
 				}
 			} else {
-				for (var i: number = 0; i &lt; this.members.length; i++) {
-					this.members[i][componentName][functionName].apply(this.members[i][componentName], args);
+				for ( var i: number = 0; i &lt; this.members.length; i++ ) {
+					this.members[ i ][ componentName ][ functionName ].apply(
+						this.members[ i ][ componentName ], args );
 				}
 			}
 		}
 
-		/**
-		* The update loop for this group.
-		* @method update
-		* @public
-		*/
 		public update() {
+
+			/**
+			Update this group. This is automatically called per frame,
+			if the group is &#x60;active&#x60;.
+
+			This method will first call &#x60;preUpdate&#x60; on components;
+			then &#x60;update&#x60; on components;
+			then &#x60;update&#x60; on all members, calling &#x60;destroy&#x60; on those
+			with &#x60;exists= false&#x60;;
+			then &#x60;postUpdate&#x60; on components.
+
+			You may extend this function, although we recommend that you use
+			&#x60;Component&#x60; objects instead.
+
+			@method update
+			@public
+			**/
 
 			this.components.preUpdate();
 
 			this.components.update();
-			if (this.members.length &gt; 0) {
+			if ( this.members.length &gt; 0 ) {
 
-				for (var i = 0; i &lt; this.members.length; i++) {
-					if (this.members[i].active === true) {
-						this.members[i].update();
-					} 
+				for ( var i = 0; i &lt; this.members.length; i++ ) {
+					if ( this.members[ i ].active === true ) {
+						this.members[ i ].update();
+					}
 
-					if(this.members[i].exists === false) {
-						this.members[i].destroy( true );
+					if ( this.members[ i ].exists === false ) {
+						this.members[ i ].destroy( true );
 					}
 				}
-				
+
 			}
 
 			this.components.postUpdate();
@@ -1465,159 +1795,182 @@ module Kiwi {
 		}
 
 		/**
-		* If an Entity no longer exists it is cleared for garbage collection or pool re-allocation
-		* @property exists 
-		* @type boolean
-		* @private
-		*/
+		Whether the &#x60;Group&#x60; exists. If an &#x60;IChild&#x60; no longer exists,
+		it is cleared for garbage collection or pool re-allocation.
+
+		@property _exists
+		@type boolean
+		@private
+		**/
 		private _exists: boolean;
 
 		/**
-		* Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-		* This method should be over-ridden to handle specific canvas/webgl implementations.
-		* @property exists
-		* @type boolean
-		* @public
-		*/
-		public set exists(value: boolean) {
+		Toggles the existence of this &#x60;Group&#x60;.
+		An &#x60;IChild&#x60; that no longer exists can be garbage collected
+		or re-allocated in a pool.
+
+		@property exists
+		@type boolean
+		@public
+		**/
+		public set exists( value: boolean ) {
 			this._exists = value;
 		}
 
-		public get exists():boolean {
+		public get exists(): boolean {
 			return this._exists;
 		}
 
 		/**
-		* An active Entity is one that has its update method called by its parent.
-		* @property _active
-		* @type boolean
-		* @default true
-		* @private
-		*/
+		Whether the &#x60;Group&#x60; is active. An active IChild will have &#x60;update&#x60;
+		called by its parent.
+
+		@property _active
+		@type boolean
+		@default true
+		@private
+		**/
 		private _active: boolean;
 
 		/**
-		* Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
-		* This method should be over-ridden to handle specific dom/canvas/webgl implementations.
-		* @property active
-		* @type boolean
-		* @default true
-		* @public
-		*/
-		public set active(value: boolean) {
+		Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
+		This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+		@property active
+		@type boolean
+		@default true
+		@public
+		**/
+		public set active( value: boolean ) {
 			this._active = value;
 		}
-
-		public get active():boolean {
+		public get active(): boolean {
 			return this._active;
 		}
 
-		/**
-		* The render method that is required by the IChild. 
-		* This method never gets called as the render is only worried about rendering entities.
-		* @method render
-		* @param camera {Kiwi.Camera}
-		* @public
-		* @deprecated
-		*/
-		public render(camera:Kiwi.Camera) {
+		public render( camera: Kiwi.Camera ) {
+
+			/**
+			Render method that is required by the IChild.
+
+			This method never gets called,
+			as the renderer is only worried about rendering entities.
+
+			@method render
+			@param camera {Kiwi.Camera} Currently rendering camera
+			@public
+			@deprecated
+			**/
 
 		}
 
-		/**
-		* Returns the number of member which are marked as &#x27;alive&#x27;
-		* @method countLiving
-		* @return {Number} 
-		* @public
-		*/
-		public countLiving():number { 
+		public countLiving(): number {
+
+			/**
+			Return the number of members which have &#x60;exists=true&#x60;.
+
+			@method countLiving
+			@return {number} Number of extant members
+			@public
+			**/
 
 			var total: number = 0;
 
-			for (var i = 0; i &lt; this.members.length; i++) {
-				if (this.members[i].exists === true) {
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].exists === true ) {
 					total++;
 				}
 			}
 
 			return total;
-		
+
 		}
 
-		/**
-		* Returns the number of member which are not marked as &#x27;alive&#x27;
-		* @method countDead
-		* @return {Number} 
-		* @public
-		*/
-		public countDead(): number { 
-		
+		public countDead(): number {
+
+			/**
+			Return the number of members which have &#x60;exists=false&#x60;.
+
+			@method countDead
+			@return {number} Number of non-extant members
+			@public
+			**/
+
 			var total: number = 0;
 
-			for (var i = 0; i &lt; this.members.length; i++) {
-				if (this.members[i].exists === false) {
+			for ( var i = 0; i &lt; this.members.length; i++ ) {
+				if ( this.members[ i ].exists === false ) {
 					total++;
 				}
 			}
 
 			return total;
-		
+
 		}
 
-		/**
-		* Clear all children from this Group
-		* @method clear
-		* @public
-		*/
 		public clear() {
 
-			this.members.length = 0;
+			/**
+			Clear all children from this Group.
 
+			This maps to a default call to &#x60;removeChildren()&#x60;.
+
+			@method clear
+			@public
+			**/
+
+			this.removeChildren();
 		}
- 
+
 		/**
-		* Controls whether render is automatically called by the parent.
-		* @property _willRender
-		* @type Boolean
-		* @private
-		* @deprecated Use _visible instead
-		*/
+		Controls whether render is automatically called by the parent
+
+		@property _willRender
+		@type boolean
+		@private
+		@deprecated Use _visible instead
+		**/
 		private _willRender: boolean;
 
 		/**
-		* Controls whether render is automatically called by the parent.
-		* @property willRender
-		* @type boolean
-		* @return {boolean}
-		* @public
-		* @deprecated Use visible instead
-		*/
-		public set willRender(value: boolean) {
+		Controls whether render is automatically called by the parent
+
+		@property willRender
+		@type boolean
+		@public
+		@deprecated Use visible instead
+		**/
+		public set willRender( value: boolean ) {
 			this._willRender = value;
 		}
-		public get willRender():boolean {
+		public get willRender(): boolean {
 			return this._willRender;
 		}
 
 		/**
-		* A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.
-		* @property _visible
-		* @type boolean
-		* @default true
-		* @private
-		* @since 1.0.1
-		*/
+		Whether this is visible or not.
+		Note that groups do not have alpha,
+		so this is the only way to control visibility.
+
+		@property _visible
+		@type boolean
+		@default true
+		@private
+		@since 1.0.1
+		**/
 		private _visible: boolean;
 
 		/**
-		* Set the visibility of this entity. True or False.
-		* @property visible
-		* @type boolean
-		* @default true
-		* @public
-		* @since 1.0.1
-		*/
-		public set visible(value: boolean) {
+		Whether this is visible or not.
+		Note that groups do not have alpha,
+		so this is the only way to control visibility.
+
+		@property visible
+		@type boolean
+		@default true
+		@public
+		@since 1.0.1
+		**/
+		public set visible( value: boolean ) {
 			this._visible = value;
 		}
 		public get visible(): boolean {
@@ -1627,71 +1980,86 @@ module Kiwi {
 
 
 
-		/**
-		* ---------------
-		* Tagging System
-		* ---------------
-		**/
-
-
-		/**
-		* Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
-		* By default Entitys contain no tags.
-		* @property _tags
-		* @type Array
-		* @since 1.1.0
-		* @private
+		/*
+		---------------
+		Tagging System
+		---------------
 		*/
+
+
+		/**
+		Tags that are on this Entity.
+		This can be used to grab GameObjects or Groups on the whole game
+		which have these particular tags.
+
+		By default there are no tags.
+
+		@property _tags
+		@type array
+		@default []
+		@since 1.1.0
+		@private
+		**/
 		private _tags: string[] = [];
 
-		/**
-		* Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
-		* You can pass multiple strings to add multiple tags.
-		* @method addTag
-		* @param tag {string} The tag that you would like to add to this Entity.
-		* @since 1.1.0
-		* @public
-		*/
-		public addTag(...args: any[]) {
+		public addTag( ...args: any[] ) {
 
-			//Loop through the arguments
-			for (var i = 0; i &lt; args.length; i++) {
-				if (this._tags.indexOf(args[i]) == -1) {
-					this._tags.push(args[i]);
+			/**
+			Add a new tag to this &#x60;Group&#x60;.
+			Useful for distinguishing between the same type of GameObject.
+
+			You can pass multiple strings to add multiple tags.
+
+			@method addTag
+			@param tag {string} Tag to add
+			@since 1.1.0
+			@public
+			**/
+
+			// Loop through the arguments
+			for ( var i = 0; i &lt; args.length; i++ ) {
+				if ( this._tags.indexOf( args[ i ] ) === -1 ) {
+					this._tags.push( args[ i ] );
 				}
 			}
 
 		}
 
-		/**
-		* Removes a Tag from this Entity.
-		* @method removeTag
-		* @param tag {string} The tag that you would like to remove from this Entity.
-		* @since 1.1.0
-		* @public
-		*/
-		public removeTag(...args: any[]) {
+		public removeTag( ...args: any[] ) {
 
-			for (var i = 0; i &lt; args.length; i++) {
-				var index = this._tags.indexOf(args[i]);
-				if (index !== -1) this._tags.splice(index, 1);
+			/**
+			Remove a Tag from this &#x60;Group&#x60;, if it is present.
+
+			@method removeTag
+			@param tag {string} Tag to remove
+			@since 1.1.0
+			@public
+			**/
+
+			for ( var i = 0; i &lt; args.length; i++ ) {
+				var index = this._tags.indexOf( args[ i ] );
+				if ( index !== -1 ) {
+					this._tags.splice( index, 1 );
+				}
 			}
 
 		}
 
-		/**
-		* Checks to see if this Entity has a Tag based upon a string which you pass.
-		* @method hasTag
-		* @param tag {string} 
-		* @since 1.1.0
-		* @return {boolean}
-		* @public 
-		*/
-		public hasTag(tag: string): boolean {
+		public hasTag( tag: string ): boolean {
+
+			/**
+			Return whether this &#x60;Group&#x60; has a specified tag.
+
+			@method hasTag
+			@param tag {string} Tag to check
+			@since 1.1.0
+			@return {boolean}
+			@public
+			**/
 
 			var len = this._tags.length;
-			while (len--) {
-				if (this._tags[len] === tag) {
+			while ( len-- ) {
+				if ( this._tags[ len ] === tag ) {
 					return true;
 				}
 			}
@@ -1699,15 +2067,21 @@ module Kiwi {
 			return false;
 		}
 
+		public destroy(
+			immediate: boolean = false,
+			destroyChildren: boolean = true ) {
 
-		/**
-		* Removes all children and destroys the Group. 
-		* @method destroy
-		* @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
-		* @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
-		* @public
-		*/
-		public destroy( immediate:boolean = false, destroyChildren:boolean = true ) {
+			/**
+			Remove all children and destroy the &#x60;Group&#x60;.
+
+			@method destroy
+			@param [immediate=false] {boolean} Whether the object should be
+				immediately removed, or should be removed at
+				the end of the next &#x60;update&#x60; loop.
+			@param [destroyChildren=true] {boolean} Whether all of the children
+				on the group should also have their &#x60;destroy&#x60; methods called
+			@public
+			**/
 
 			if ( !this.onState ) {
 				immediate = true;
@@ -1723,11 +2097,11 @@ module Kiwi {
 					destroyChildren = this._tempRemoveChildren;
 				}
 
-				if ( destroyChildren == true ) {
+				if ( destroyChildren === true ) {
 
 					// Remove all of the children
 					for ( var i = 0; i &lt; this.members.length; i++ ) {
-						this.members[i].destroy( true );
+						this.members[ i ].destroy( true );
 					}
 
 				} else {
@@ -1755,11 +2129,13 @@ module Kiwi {
 		}
 
 		/**
-		* A temporary property that holds a boolean indicating whether or not the group&#x27;s children should be destroyed or not.
-		* @property _destroyRemoveChildren
-		* @type boolean
-		* @private
-		*/
+		Whether the group&#x27;s children should be destroyed
+
+		@property _tempRemoveChildren
+		@type boolean
+		@default null
+		@private
+		**/
 		private _tempRemoveChildren: boolean = null;
 
 	}

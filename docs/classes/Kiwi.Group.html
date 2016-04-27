@@ -370,7 +370,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_Group.ts.html#l9"><code>src&#x2F;core&#x2F;Group.ts:9</code></a>
+            Defined in: <a href="../files/src_core_Group.ts.html#l10"><code>src&#x2F;core&#x2F;Group.ts:10</code></a>
         </div>
     
 
@@ -386,8 +386,14 @@
 
 
 <div class="box intro">
-    <p>The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
-The members of the Group&#39;s coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also &#39;move&#39;.</p>
+    <p>The group class is central to creating the scene graph
+that contains all objects in a state.
+A group can contain entities or other groups,
+thereby enabling a nested tree scene graph.
+The members of the Group&#39;s coordinates are also in relation to
+the Group that they were added to.
+So if you moved an entire Group,
+each member of that Group would also &quot;move&quot;.</p>
 
 </div>
 
@@ -409,7 +415,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
                 <li class="arg">
                     
-                        <code class="optional">[name=&#x27;&#x27;]</code>
+                        <code class="optional">[name=&quot;&quot;]</code>
                     
                 </li>
             
@@ -417,10 +423,6 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
-        </span>
     
 
     
@@ -446,7 +448,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l9"><code>src&#x2F;core&#x2F;Group.ts:9</code></a>
+        <a href="../files/src_core_Group.ts.html#l10"><code>src&#x2F;core&#x2F;Group.ts:10</code></a>
         
         </p>
 
@@ -475,7 +477,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The State that this Group is a part of.</p>
+                        <p>State that this Group is a part of</p>
 
                     </div>
 
@@ -484,7 +486,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
                 <li class="param">
                     
-                        <code class="param-name optional">[name=&#x27;&#x27;]</code>
+                        <code class="param-name optional">[name=&quot;&quot;]</code>
                         <span class="type">String</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -492,7 +494,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The name of this group.</p>
+                        <p>Name of this group</p>
 
                     </div>
 
@@ -503,18 +505,6 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>:
-                    
-                
-            </div>
-        </div>
     
 
     
@@ -546,6 +536,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                        
+                            <li class="index-item method private">
+                                <a href="#method__validateChild">_validateChild</a>
+
+                                
+                                
+                            </li>
                         
                             <li class="index-item method public">
                                 <a href="#method_addChild">addChild</a>
@@ -590,6 +587,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item method public">
+                                <a href="#method_childType">childType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
                                 <a href="#method_clear">clear</a>
 
                                 
@@ -606,6 +610,8 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             <li class="index-item method public">
                                 <a href="#method_containsAncestor">containsAncestor</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -721,6 +727,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                         
                             <li class="index-item method public">
                                 <a href="#method_getLastChildByTag">getLastChildByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public">
+                                <a href="#method_getRandom">getRandom</a>
 
                                 
                                 
@@ -853,14 +866,14 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__destroyRemoveChildren">_destroyRemoveChildren</a>
+                                <a href="#property__dirty">_dirty</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__dirty">_dirty</a>
+                                <a href="#property__exists">_exists</a>
 
                                 
                                 
@@ -875,6 +888,13 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                         
                             <li class="index-item property private">
                                 <a href="#property__tags">_tags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__tempRemoveChildren">_tempRemoveChildren</a>
 
                                 
                                 
@@ -926,13 +946,6 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                         
                             <li class="index-item property public">
                                 <a href="#property_dirty">dirty</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property_exists">exists</a>
 
                                 
                                 
@@ -1080,6 +1093,122 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method__validateChild" class="method item private">
+    <h3 class="name"><code>_validateChild</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l516"><code>src&#x2F;core&#x2F;Group.ts:516</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return whether a child may be added to this group.</p>
+<p>A child is disqualified if it:</p>
+<ul>
+<li>is a <code>State</code>, which may not have parents</li>
+<li>would be its own parent</li>
+<li>would be its own descendant</li>
+</ul>
+<p>If a child fails the check, its UUID will be logged.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">IChild</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to validate</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the child is validated</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method_addChild" class="method item public">
     <h3 class="name"><code>addChild</code></h3>
 
@@ -1128,7 +1257,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l408"><code>src&#x2F;core&#x2F;Group.ts:408</code></a>
+        <a href="../files/src_core_Group.ts.html#l551"><code>src&#x2F;core&#x2F;Group.ts:551</code></a>
         
         </p>
 
@@ -1139,7 +1268,12 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
     </div>
 
     <div class="description">
-        <p>Adds an Entity to this Group. The Entity must not already be in this Group.</p>
+        <p>Add a child to this <code>Group</code>.</p>
+<p>The child must be valid to add.
+A valid child must be an <code>Entity</code> or <code>Group</code>.
+It cannot be a <code>State</code>.
+It cannot be this very <code>Group</code>, or an ancestor of it.</p>
+<p>The child will be removed from its current parents, if any.</p>
 
     </div>
 
@@ -1158,7 +1292,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The child to be added.</p>
+                        <p>Child to be added</p>
 
                     </div>
 
@@ -1178,7 +1312,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child that was added.</p>
+                    <p>Child to have been added</p>
 
                 
             </div>
@@ -1204,7 +1338,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
                 <li class="arg">
                     
-                        <code>beforeChild</code>
+                        <code>afterChild</code>
                     
                 </li>
             
@@ -1243,7 +1377,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l477"><code>src&#x2F;core&#x2F;Group.ts:477</code></a>
+        <a href="../files/src_core_Group.ts.html#l657"><code>src&#x2F;core&#x2F;Group.ts:657</code></a>
         
         </p>
 
@@ -1254,7 +1388,9 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
     </div>
 
     <div class="description">
-        <p>Adds an Entity to this Group after another child.</p>
+        <p>Add an Entity to this Group, just above another child.</p>
+<p>The child must be valid per the criteria in <code>addChild</code>.</p>
+<p>The child will be removed from its current parents, if any.</p>
 
     </div>
 
@@ -1273,7 +1409,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The child to be added.</p>
+                        <p>Child to be added</p>
 
                     </div>
 
@@ -1282,14 +1418,14 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
                 <li class="param">
                     
-                        <code class="param-name">beforeChild</code>
+                        <code class="param-name">afterChild</code>
                         <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The child after which the child will be added.</p>
+                        <p>Child after which to add the child</p>
 
                     </div>
 
@@ -1309,7 +1445,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child.</p>
+                    <p>Child to have been added</p>
 
                 
             </div>
@@ -1374,7 +1510,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l433"><code>src&#x2F;core&#x2F;Group.ts:433</code></a>
+        <a href="../files/src_core_Group.ts.html#l588"><code>src&#x2F;core&#x2F;Group.ts:588</code></a>
         
         </p>
 
@@ -1385,7 +1521,11 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
     </div>
 
     <div class="description">
-        <p>Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.</p>
+        <p>Add a child to this Group, at the specific child index.
+Use this to place a child behind or in front of other objects
+in the scene graph.</p>
+<p>The child must be valid per the criteria in <code>addChild</code>.</p>
+<p>The child will be removed from its current parents, if any.</p>
 
     </div>
 
@@ -1404,7 +1544,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The child to be added.</p>
+                        <p>Child to be added</p>
 
                     </div>
 
@@ -1420,7 +1560,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The index the child will be set at.</p>
+                        <p>Index at which to insert the child</p>
 
                     </div>
 
@@ -1440,7 +1580,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child.</p>
+                    <p>Child to have been added</p>
 
                 
             </div>
@@ -1505,7 +1645,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l453"><code>src&#x2F;core&#x2F;Group.ts:453</code></a>
+        <a href="../files/src_core_Group.ts.html#l621"><code>src&#x2F;core&#x2F;Group.ts:621</code></a>
         
         </p>
 
@@ -1516,7 +1656,9 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
     </div>
 
     <div class="description">
-        <p>Adds an Entity to this Group before another child.</p>
+        <p>Add a child to this Group, just behind another child.</p>
+<p>The child must be valid per the criteria in <code>addChild</code>.</p>
+<p>The child will be removed from its current parents, if any.</p>
 
     </div>
 
@@ -1535,7 +1677,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The child to be added.</p>
+                        <p>Child to be added</p>
 
                     </div>
 
@@ -1551,7 +1693,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
 
                     <div class="param-description">
-                        <p>The child before which the child will be added.</p>
+                        <p>Child before which to add the child</p>
 
                     </div>
 
@@ -1571,7 +1713,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child.</p>
+                    <p>Child to have been added</p>
 
                 
             </div>
@@ -1626,7 +1768,7 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1279"><code>src&#x2F;core&#x2F;Group.ts:1279</code></a>
+        <a href="../files/src_core_Group.ts.html#l1639"><code>src&#x2F;core&#x2F;Group.ts:1639</code></a>
         
         </p>
 
@@ -1639,8 +1781,9 @@ The members of the Group&#39;s coordinates are also in relation to the Group tha
     </div>
 
     <div class="description">
-        <p>Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
-You can pass multiple strings to add multiple tags.</p>
+        <p>Add a new tag to this <code>Group</code>.
+Useful for distinguishing between the same type of GameObject.</p>
+<p>You can pass multiple strings to add multiple tags.</p>
 
     </div>
 
@@ -1659,7 +1802,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The tag that you would like to add to this Entity.</p>
+                        <p>Tag to add</p>
 
                     </div>
 
@@ -1732,7 +1875,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1051"><code>src&#x2F;core&#x2F;Group.ts:1051</code></a>
+        <a href="../files/src_core_Group.ts.html#l1360"><code>src&#x2F;core&#x2F;Group.ts:1360</code></a>
         
         </p>
 
@@ -1743,7 +1886,11 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.</p>
+        <p>Call a function on every member. If <code>componentName</code> is <code>null</code>,
+the function is called on the child itself.
+Otherwise it is called on the named component.</p>
+<p>Uses runtime string property lookups.
+Not optimal for large groups if speed is an issue.</p>
 
     </div>
 
@@ -1762,7 +1909,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The name of the component to call the function on - set to null to call a function on the entity.</p>
+                        <p>Name of the component to call
+    the function on. Set to <code>null</code> to call a function on the child.</p>
 
                     </div>
 
@@ -1778,7 +1926,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The name of the function to call.</p>
+                        <p>Name of the function to call</p>
 
                     </div>
 
@@ -1794,7 +1942,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>An array of arguments to pas to the function.</p>
+                        <p>Array of arguments to pass to the function</p>
 
                     </div>
 
@@ -1805,6 +1953,81 @@ You can pass multiple strings to add multiple tags.</p>
         </div>
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method_childType" class="method item public">
+    <h3 class="name"><code>childType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l64"><code>src&#x2F;core&#x2F;Group.ts:64</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the type of child that this is (<code>Kiwi.GROUP</code>).</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Kiwi.GROUP</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1845,7 +2068,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1199"><code>src&#x2F;core&#x2F;Group.ts:1199</code></a>
+        <a href="../files/src_core_Group.ts.html#l1544"><code>src&#x2F;core&#x2F;Group.ts:1544</code></a>
         
         </p>
 
@@ -1856,7 +2079,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Clear all children from this Group</p>
+        <p>Clear all children from this Group.</p>
+<p>This maps to a default call to <code>removeChildren()</code>.</p>
 
     </div>
 
@@ -1916,7 +2140,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l356"><code>src&#x2F;core&#x2F;Group.ts:356</code></a>
+        <a href="../files/src_core_Group.ts.html#l433"><code>src&#x2F;core&#x2F;Group.ts:433</code></a>
         
         </p>
 
@@ -1927,7 +2151,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Checks if the given entity is in this group</p>
+        <p>Check whether the given entity is in this group.</p>
 
     </div>
 
@@ -1946,7 +2170,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The IChild that you want to checked.</p>
+                        <p>IChild to check</p>
 
                     </div>
 
@@ -1966,7 +2190,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if entity exists in group.</p>
+                    <p>Whether entity exists in group</p>
 
                 
             </div>
@@ -2015,6 +2239,8 @@ You can pass multiple strings to add multiple tags.</p>
     
 
     
+        <span class="flag static">static</span>
+    
 
     
 
@@ -2031,7 +2257,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l384"><code>src&#x2F;core&#x2F;Group.ts:384</code></a>
+        <a href="../files/src_core_Group.ts.html#l475"><code>src&#x2F;core&#x2F;Group.ts:475</code></a>
         
         </p>
 
@@ -2042,7 +2268,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Checks to see if one child is an ansector of another child.</p>
+        <p>Check whether a <code>Group</code> is an ancestor of another entity.</p>
+<p>This may be called as a static method, i.e.
+<code>Kiwi.Group.prototype.containsAncestor()</code>.</p>
 
     </div>
 
@@ -2061,7 +2289,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The object that you are checking.</p>
+                        <p>Entity to check</p>
 
                     </div>
 
@@ -2077,7 +2305,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The parent (ancestor) that you are checking for.</p>
+                        <p>Group to check</p>
 
                     </div>
 
@@ -2154,7 +2382,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l367"><code>src&#x2F;core&#x2F;Group.ts:367</code></a>
+        <a href="../files/src_core_Group.ts.html#l447"><code>src&#x2F;core&#x2F;Group.ts:447</code></a>
         
         </p>
 
@@ -2165,7 +2393,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Checks to see if the given object is contained in this group as a descendant</p>
+        <p>Check whether the given entity is in this group,
+or one of this group&#39;s descendants.</p>
 
     </div>
 
@@ -2184,7 +2413,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The IChild that you want to check.</p>
+                        <p>IChild to check</p>
 
                     </div>
 
@@ -2251,7 +2480,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1179"><code>src&#x2F;core&#x2F;Group.ts:1179</code></a>
+        <a href="../files/src_core_Group.ts.html#l1522"><code>src&#x2F;core&#x2F;Group.ts:1522</code></a>
         
         </p>
 
@@ -2262,7 +2491,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the number of member which are not marked as &#39;alive&#39;</p>
+        <p>Return the number of members which have <code>exists=false</code>.</p>
 
     </div>
 
@@ -2277,6 +2506,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Number</span>:
                     
+                    <p>Number of non-extant members</p>
+
                 
             </div>
         </div>
@@ -2324,7 +2555,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1159"><code>src&#x2F;core&#x2F;Group.ts:1159</code></a>
+        <a href="../files/src_core_Group.ts.html#l1500"><code>src&#x2F;core&#x2F;Group.ts:1500</code></a>
         
         </p>
 
@@ -2335,7 +2566,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the number of member which are marked as &#39;alive&#39;</p>
+        <p>Return the number of members which have <code>exists=true</code>.</p>
 
     </div>
 
@@ -2350,6 +2581,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Number</span>:
                     
+                    <p>Number of extant members</p>
+
                 
             </div>
         </div>
@@ -2409,7 +2642,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1335"><code>src&#x2F;core&#x2F;Group.ts:1335</code></a>
+        <a href="../files/src_core_Group.ts.html#l1706"><code>src&#x2F;core&#x2F;Group.ts:1706</code></a>
         
         </p>
 
@@ -2420,7 +2653,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Removes all children and destroys the Group.</p>
+        <p>Remove all children and destroy the <code>Group</code>.</p>
 
     </div>
 
@@ -2440,7 +2673,9 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>If the object should be immediately removed or if it should be removed at the end of the next update loop.</p>
+                        <p>Whether the object should be
+    immediately removed, or should be removed at
+    the end of the next <code>update</code> loop.</p>
 
                     </div>
 
@@ -2457,7 +2692,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>If all of the children on the group should also have their destroy methods called.</p>
+                        <p>Whether all of the children
+    on the group should also have their <code>destroy</code> methods called</p>
 
                     </div>
 
@@ -2530,7 +2766,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l995"><code>src&#x2F;core&#x2F;Group.ts:995</code></a>
+        <a href="../files/src_core_Group.ts.html#l1278"><code>src&#x2F;core&#x2F;Group.ts:1278</code></a>
         
         </p>
 
@@ -2541,7 +2777,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Loops through each member in the group and run a method on for each one.</p>
+        <p>Loop through each group member and run a method on each one.</p>
+<p>The callback method will receive each child as its first parameter,
+followed by any additional parameters provided to this method.</p>
 
     </div>
 
@@ -2560,7 +2798,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The context that the callbacks are to have when called.</p>
+                        <p>Execution context for callbacks</p>
 
                     </div>
 
@@ -2576,7 +2814,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The callback method to execute on each member.</p>
+                        <p>Method to execute on each member</p>
 
                     </div>
 
@@ -2595,7 +2833,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>Any extra parameters.</p>
+                        <p>Any extra parameters</p>
 
                     </div>
 
@@ -2668,7 +2906,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1011"><code>src&#x2F;core&#x2F;Group.ts:1011</code></a>
+        <a href="../files/src_core_Group.ts.html#l1300"><code>src&#x2F;core&#x2F;Group.ts:1300</code></a>
         
         </p>
 
@@ -2679,7 +2917,10 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Loop through each member of the groups that is alive.</p>
+        <p>Loop through each member of the group that exists.
+This is useful for avoiding just-deleted game objects.</p>
+<p>The callback method will receive each child as its first parameter,
+followed by any additional parameters provided to this method.</p>
 
     </div>
 
@@ -2698,7 +2939,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The context that the callbacks are to have when called.</p>
+                        <p>Execution context for callbacks</p>
 
                     </div>
 
@@ -2714,7 +2955,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The callback method to execute on each member.</p>
+                        <p>Method to execute on each member</p>
 
                     </div>
 
@@ -2733,7 +2974,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>Any extra parameters.</p>
+                        <p>Any extra parameters</p>
 
                     </div>
 
@@ -2759,13 +3000,13 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="arg">
                     
-                        <code>getGroups</code>
+                        <code class="optional">[getGroups=true]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>destinationArray</code>
+                        <code class="optional">[destinationArray]</code>
                     
                 </li>
             
@@ -2802,7 +3043,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l602"><code>src&#x2F;core&#x2F;Group.ts:602</code></a>
+        <a href="../files/src_core_Group.ts.html#l811"><code>src&#x2F;core&#x2F;Group.ts:811</code></a>
         
         </p>
 
@@ -2815,7 +3056,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.</p>
+        <p>Get all children of this Group.
+By default, this will search the entire sub-graph,
+including children of children etc.</p>
 
     </div>
 
@@ -2827,14 +3070,16 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">getGroups</code>
+                        <code class="param-name optional">[getGroups=true]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optional: Whether to include Groups in the results. When false, will only collect GameObjects.</p>
+                        <p>Whether to include Groups
+    in the results</p>
 
                     </div>
 
@@ -2843,14 +3088,16 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">destinationArray</code>
+                        <code class="param-name optional">[destinationArray]</code>
                         <span class="type">Array</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optional: The array in which to store the results.</p>
+                        <p>Array in which to store
+    the results</p>
 
                     </div>
 
@@ -2927,7 +3174,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l626"><code>src&#x2F;core&#x2F;Group.ts:626</code></a>
+        <a href="../files/src_core_Group.ts.html#l841"><code>src&#x2F;core&#x2F;Group.ts:841</code></a>
         
         </p>
 
@@ -2957,7 +3204,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The index of the child</p>
+                        <p>Index of the child</p>
 
                     </div>
 
@@ -2977,7 +3224,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child, if found or null if not.</p>
+                    <p>Child if found, or <code>null</code> if not</p>
 
                 
             </div>
@@ -3003,7 +3250,7 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="arg">
                     
-                        <code>recurse</code>
+                        <code class="optional">[recurse=false]</code>
                     
                 </li>
             
@@ -3042,7 +3289,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l668"><code>src&#x2F;core&#x2F;Group.ts:668</code></a>
+        <a href="../files/src_core_Group.ts.html#l899"><code>src&#x2F;core&#x2F;Group.ts:899</code></a>
         
         </p>
 
@@ -3053,7 +3300,10 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.</p>
+        <p>Get a child from this Group by its UUID (<code>child.id</code>).
+By default this will not check sub-groups,
+but if you supply the <code>recurse</code> flag
+it will check the entire scene graph under this object.</p>
 
     </div>
 
@@ -3072,7 +3322,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The ID of the child.</p>
+                        <p>UUID of the child.</p>
 
                     </div>
 
@@ -3081,14 +3331,15 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">recurse</code>
+                        <code class="param-name optional">[recurse=false]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Whether to search child groups for the child. Default FALSE.</p>
+                        <p>Whether to search child groups</p>
 
                     </div>
 
@@ -3108,7 +3359,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child, if found or null if not.</p>
+                    <p>Child if found, or <code>null</code> if not</p>
 
                 
             </div>
@@ -3134,7 +3385,7 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="arg">
                     
-                        <code>recurse</code>
+                        <code class="optional">[recurse=false]</code>
                     
                 </li>
             
@@ -3173,7 +3424,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l643"><code>src&#x2F;core&#x2F;Group.ts:643</code></a>
+        <a href="../files/src_core_Group.ts.html#l862"><code>src&#x2F;core&#x2F;Group.ts:862</code></a>
         
         </p>
 
@@ -3184,7 +3435,10 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.</p>
+        <p>Get a child from this Group by its name.
+By default this will not check sub-groups,
+but if you supply the <code>recurse</code> flag
+it will check the entire scene graph under this object.</p>
 
     </div>
 
@@ -3203,7 +3457,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The name of the child.</p>
+                        <p>Name of the child</p>
 
                     </div>
 
@@ -3212,14 +3466,15 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">recurse</code>
+                        <code class="param-name optional">[recurse=false]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Whether to search child groups for the child. Default FALSE.</p>
+                        <p>Whether to search child groups</p>
 
                     </div>
 
@@ -3239,7 +3494,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child, if found or null if not.</p>
+                    <p>Child if found, or <code>null</code> if not</p>
 
                 
             </div>
@@ -3298,7 +3553,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l693"><code>src&#x2F;core&#x2F;Group.ts:693</code></a>
+        <a href="../files/src_core_Group.ts.html#l934"><code>src&#x2F;core&#x2F;Group.ts:934</code></a>
         
         </p>
 
@@ -3309,7 +3564,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the index position of the Entity or -1 if not found.</p>
+        <p>Return the index position of the child, or <code>-1</code> if not found.</p>
 
     </div>
 
@@ -3328,7 +3583,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The child.</p>
+                        <p>Child to find</p>
 
                     </div>
 
@@ -3348,7 +3603,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>The index of the child or -1 if not found.</p>
+                    <p>Index of the child, or <code>-1</code> if not found.</p>
 
                 
             </div>
@@ -3407,7 +3662,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l793"><code>src&#x2F;core&#x2F;Group.ts:793</code></a>
+        <a href="../files/src_core_Group.ts.html#l1031"><code>src&#x2F;core&#x2F;Group.ts:1031</code></a>
         
         </p>
 
@@ -3420,7 +3675,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns an array of children which contain the tag which is passed.</p>
+        <p>Return an array of children containing a specified tag.</p>
 
     </div>
 
@@ -3439,7 +3694,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Tag to check</p>
+
                     </div>
 
                     
@@ -3458,6 +3714,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Array</span>:
                     
+                    <p>List of children with that tag</p>
+
                 
             </div>
         </div>
@@ -3476,7 +3734,7 @@ You can pass multiple strings to add multiple tags.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type">IChild</span>
         </span>
     
 
@@ -3507,7 +3765,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l706"><code>src&#x2F;core&#x2F;Group.ts:706</code></a>
+        <a href="../files/src_core_Group.ts.html#l949"><code>src&#x2F;core&#x2F;Group.ts:949</code></a>
         
         </p>
 
@@ -3520,7 +3778,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the first Entity from this Group marked as &#39;alive&#39; or null if no members are alive</p>
+        <p>Return the first child from this Group marked as <code>exists=true</code>,
+or <code>null</code> if no members are alive.</p>
 
     </div>
 
@@ -3533,8 +3792,10 @@ You can pass multiple strings to add multiple tags.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type">IChild</span>:
                     
+                    <p>First living child, or <code>null</code></p>
+
                 
             </div>
         </div>
@@ -3592,7 +3853,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l820"><code>src&#x2F;core&#x2F;Group.ts:820</code></a>
+        <a href="../files/src_core_Group.ts.html#l1062"><code>src&#x2F;core&#x2F;Group.ts:1062</code></a>
         
         </p>
 
@@ -3605,7 +3866,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the first child which contains the tag passed.</p>
+        <p>Return the first child containing a specified tag.
+This recursively searches within groups.</p>
 
     </div>
 
@@ -3624,7 +3886,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Tag to check</p>
+
                     </div>
 
                     
@@ -3643,6 +3906,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">IChild</span>:
                     
+                    <p>Tagged child, or <code>null</code></p>
+
                 
             </div>
         </div>
@@ -3661,7 +3926,7 @@ You can pass multiple strings to add multiple tags.</p>
 
     
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type">IChild</span>
         </span>
     
 
@@ -3692,7 +3957,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l724"><code>src&#x2F;core&#x2F;Group.ts:724</code></a>
+        <a href="../files/src_core_Group.ts.html#l970"><code>src&#x2F;core&#x2F;Group.ts:970</code></a>
         
         </p>
 
@@ -3705,7 +3970,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the first member of the Group which is not &#39;alive&#39;, returns null if all members are alive.</p>
+        <p>Return the first member of the Group marked as <code>exists=false</code>.
+Returns <code>null</code> if all members are alive.</p>
 
     </div>
 
@@ -3718,8 +3984,10 @@ You can pass multiple strings to add multiple tags.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="type">IChild</span>:
                     
+                    <p>First dead child, or <code>null</code></p>
+
                 
             </div>
         </div>
@@ -3777,7 +4045,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l849"><code>src&#x2F;core&#x2F;Group.ts:849</code></a>
+        <a href="../files/src_core_Group.ts.html#l1096"><code>src&#x2F;core&#x2F;Group.ts:1096</code></a>
         
         </p>
 
@@ -3790,7 +4058,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the last child which contains the tag passed.</p>
+        <p>Return the last child containing the specified tag.
+This recursively searches within groups.</p>
 
     </div>
 
@@ -3809,7 +4078,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Tag to check</p>
+
                     </div>
 
                     
@@ -3828,6 +4098,142 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">IChild</span>:
                     
+                    <p>Tagged child, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getRandom" class="method item public">
+    <h3 class="name"><code>getRandom</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[start=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[length=0]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l994"><code>src&#x2F;core&#x2F;Group.ts:994</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return a member at random from the group.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[start=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Start of sequence to randomly sample</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[length=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Length of sequence to randomly sample.
+    If <code>0</code>, will sample to the end of the array.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child selected</p>
+
                 
             </div>
         </div>
@@ -3885,7 +4291,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1314"><code>src&#x2F;core&#x2F;Group.ts:1314</code></a>
+        <a href="../files/src_core_Group.ts.html#l1682"><code>src&#x2F;core&#x2F;Group.ts:1682</code></a>
         
         </p>
 
@@ -3898,7 +4304,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Checks to see if this Entity has a Tag based upon a string which you pass.</p>
+        <p>Return whether this <code>Group</code> has a specified tag.</p>
 
     </div>
 
@@ -3917,7 +4323,8 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Tag to check</p>
+
                     </div>
 
                     
@@ -3983,7 +4390,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l319"><code>src&#x2F;core&#x2F;Group.ts:319</code></a>
+        <a href="../files/src_core_Group.ts.html#l387"><code>src&#x2F;core&#x2F;Group.ts:387</code></a>
         
         </p>
 
@@ -3994,7 +4401,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the total number of children in this Group. Doesn&#39;t distinguish between alive and dead children.</p>
+        <p>Return the total number of children in this Group.
+Note that this still counts children with <code>exists=false</code>,
+as they are only completely removed at the end of the frame.</p>
 
     </div>
 
@@ -4009,7 +4418,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>The number of children in this Group</p>
+                    <p>Number of children in this Group</p>
 
                 
             </div>
@@ -4058,7 +4467,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l45"><code>src&#x2F;core&#x2F;Group.ts:45</code></a>
+        <a href="../files/src_core_Group.ts.html#l51"><code>src&#x2F;core&#x2F;Group.ts:51</code></a>
         
         </p>
 
@@ -4069,7 +4478,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Returns the type of this object</p>
+        <p>Return the type of this object.</p>
 
     </div>
 
@@ -4149,7 +4558,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l509"><code>src&#x2F;core&#x2F;Group.ts:509</code></a>
+        <a href="../files/src_core_Group.ts.html#l701"><code>src&#x2F;core&#x2F;Group.ts:701</code></a>
         
         </p>
 
@@ -4160,7 +4569,8 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Removes an Entity from this Group if it is a child of it.</p>
+        <p>Remove a child from this Group.
+The child must be a member of this specific group.</p>
 
     </div>
 
@@ -4179,7 +4589,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The child to be removed.</p>
+                        <p>Child to be removed</p>
 
                     </div>
 
@@ -4196,7 +4606,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>If the entity that gets removed should be destroyed as well.</p>
+                        <p>Whether to destroy the child</p>
 
                     </div>
 
@@ -4216,7 +4626,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child.</p>
+                    <p>Child that was removed</p>
 
                 
             </div>
@@ -4273,7 +4683,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l537"><code>src&#x2F;core&#x2F;Group.ts:537</code></a>
+        <a href="../files/src_core_Group.ts.html#l730"><code>src&#x2F;core&#x2F;Group.ts:730</code></a>
         
         </p>
 
@@ -4284,7 +4694,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Removes the Entity from this Group at the given position.</p>
+        <p>Remove a child from this Group at a specific member index.</p>
 
     </div>
 
@@ -4303,7 +4713,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The index of the child to be removed.</p>
+                        <p>Index of the child to be removed</p>
 
                     </div>
 
@@ -4323,7 +4733,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Object</span>:
                     
-                    <p>The child, or null.</p>
+                    <p>Child removed, or <code>null</code></p>
 
                 
             </div>
@@ -4343,19 +4753,19 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="arg">
                     
-                        <code>begin</code>
+                        <code class="optional">[begin=0]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>end</code>
+                        <code class="optional">[end=2147483647]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>destroy</code>
+                        <code class="optional">[destroy=false]</code>
                     
                 </li>
             
@@ -4394,7 +4804,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l555"><code>src&#x2F;core&#x2F;Group.ts:555</code></a>
+        <a href="../files/src_core_Group.ts.html#l755"><code>src&#x2F;core&#x2F;Group.ts:755</code></a>
         
         </p>
 
@@ -4405,7 +4815,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Removes all Entities from this Group within the given range.</p>
+        <p>Remove all children from this Group, within the given range.</p>
+<p>For example, <code>removeChildren( 3, 5 )</code> will remove children
+at member indices 3 and 4 (but not 5).</p>
 
     </div>
 
@@ -4417,14 +4829,15 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">begin</code>
+                        <code class="param-name optional">[begin=0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The begining index.</p>
+                        <p>Beginning index</p>
 
                     </div>
 
@@ -4433,14 +4846,15 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">end</code>
+                        <code class="param-name optional">[end=2147483647]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The last index of the range.</p>
+                        <p>Last index of the range</p>
 
                     </div>
 
@@ -4449,14 +4863,15 @@ You can pass multiple strings to add multiple tags.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">destroy</code>
+                        <code class="param-name optional">[destroy=false]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>If the children should be destroyed as well.</p>
+                        <p>Whether to destroy children</p>
 
                     </div>
 
@@ -4476,7 +4891,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Number</span>:
                     
-                    <p>The number of removed entities.</p>
+                    <p>Number of removed entities</p>
 
                 
             </div>
@@ -4537,7 +4952,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l581"><code>src&#x2F;core&#x2F;Group.ts:581</code></a>
+        <a href="../files/src_core_Group.ts.html#l786"><code>src&#x2F;core&#x2F;Group.ts:786</code></a>
         
         </p>
 
@@ -4550,7 +4965,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Removes the first Entity from this Group marked as &#39;alive&#39;</p>
+        <p>Remove the first child from this Group marked as <code>alive</code>.</p>
 
     </div>
 
@@ -4570,7 +4985,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>If the entity should run the destroy method when it is removed.</p>
+                        <p>Whether to destroy the child</p>
 
                     </div>
 
@@ -4590,7 +5005,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
                         <span class="type">Object</span>:
                     
-                    <p>The Entity that was removed from this Group if alive, otherwise null</p>
+                    <p>Child removed, or <code>null</code></p>
 
                 
             </div>
@@ -4645,7 +5060,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1298"><code>src&#x2F;core&#x2F;Group.ts:1298</code></a>
+        <a href="../files/src_core_Group.ts.html#l1662"><code>src&#x2F;core&#x2F;Group.ts:1662</code></a>
         
         </p>
 
@@ -4658,7 +5073,7 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>Removes a Tag from this Entity.</p>
+        <p>Remove a Tag from this <code>Group</code>, if it is present.</p>
 
     </div>
 
@@ -4677,7 +5092,7 @@ You can pass multiple strings to add multiple tags.</p>
                     
 
                     <div class="param-description">
-                        <p>The tag that you would like to remove from this Entity.</p>
+                        <p>Tag to remove</p>
 
                     </div>
 
@@ -4740,7 +5155,7 @@ You can pass multiple strings to add multiple tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1147"><code>src&#x2F;core&#x2F;Group.ts:1147</code></a>
+        <a href="../files/src_core_Group.ts.html#l1484"><code>src&#x2F;core&#x2F;Group.ts:1484</code></a>
         
         </p>
 
@@ -4751,8 +5166,9 @@ You can pass multiple strings to add multiple tags.</p>
     </div>
 
     <div class="description">
-        <p>The render method that is required by the IChild. 
-This method never gets called as the render is only worried about rendering entities.</p>
+        <p>Render method that is required by the IChild.</p>
+<p>This method never gets called,
+as the renderer is only worried about rendering entities.</p>
 
     </div>
 
@@ -4771,7 +5187,8 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                         
+                        <p>Currently rendering camera</p>
+
                     </div>
 
                     
@@ -4841,7 +5258,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l962"><code>src&#x2F;core&#x2F;Group.ts:962</code></a>
+        <a href="../files/src_core_Group.ts.html#l1246"><code>src&#x2F;core&#x2F;Group.ts:1246</code></a>
         
         </p>
 
@@ -4852,7 +5269,7 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Replaces a child Entity in this Group with a new one.</p>
+        <p>Replace a child in this Group with a new one.</p>
 
     </div>
 
@@ -4871,7 +5288,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The Entity in this Group to be removed.</p>
+                        <p>Child in this Group to be removed</p>
 
                     </div>
 
@@ -4887,7 +5304,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The new Entity to insert into this Group at the old Entities position.</p>
+                        <p>Child to insert at old child&#39;s position</p>
 
                     </div>
 
@@ -4907,7 +5324,7 @@ This method never gets called as the render is only worried about rendering enti
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if the Entities were replaced successfully, otherwise false.</p>
+                    <p>Whether child was replaced successfully</p>
 
                 
             </div>
@@ -4974,7 +5391,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1031"><code>src&#x2F;core&#x2F;Group.ts:1031</code></a>
+        <a href="../files/src_core_Group.ts.html#l1328"><code>src&#x2F;core&#x2F;Group.ts:1328</code></a>
         
         </p>
 
@@ -4985,7 +5402,11 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.</p>
+        <p>Set a property on every member. If <code>componentName</code> is <code>null</code>,
+the property is set on the child itself.
+Otherwise it is set on the named component.</p>
+<p>Uses runtime string property lookups.
+Not optimal for large groups if speed is an issue.</p>
 
     </div>
 
@@ -5004,7 +5425,8 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The name of the component to set the property on - set to null to set a property on the entity.</p>
+                        <p>Name of the component to set
+    the property on. Set to <code>null</code> to set a property on the child.</p>
 
                     </div>
 
@@ -5020,7 +5442,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The name of the property to set.</p>
+                        <p>Name of the property to set</p>
 
                     </div>
 
@@ -5036,7 +5458,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The value to set the property to.</p>
+                        <p>Value to which to set the property</p>
 
                     </div>
 
@@ -5107,7 +5529,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l885"><code>src&#x2F;core&#x2F;Group.ts:885</code></a>
+        <a href="../files/src_core_Group.ts.html#l1138"><code>src&#x2F;core&#x2F;Group.ts:1138</code></a>
         
         </p>
 
@@ -5118,7 +5540,9 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Sets a new position of an existing Entity within the Group.</p>
+        <p>Move a child to a new depth index within the <code>Group</code>.</p>
+<p>This method will fail if the child is not a child of this group,
+or if it is already at the specified index.</p>
 
     </div>
 
@@ -5137,7 +5561,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The child in this Group to change.</p>
+                        <p>Child to change</p>
 
                     </div>
 
@@ -5153,7 +5577,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The index for the child to be set at.</p>
+                        <p>Index to which to send the child</p>
 
                     </div>
 
@@ -5173,7 +5597,7 @@ This method never gets called as the render is only worried about rendering enti
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if the Entity was moved to the new position, otherwise false.</p>
+                    <p>Whether the child was successfully moved</p>
 
                 
             </div>
@@ -5238,7 +5662,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l906"><code>src&#x2F;core&#x2F;Group.ts:906</code></a>
+        <a href="../files/src_core_Group.ts.html#l1170"><code>src&#x2F;core&#x2F;Group.ts:1170</code></a>
         
         </p>
 
@@ -5249,7 +5673,9 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Swaps the position of two existing Entities that are a direct child of this group.</p>
+        <p>Swap the position of two existing direct children of this <code>Group</code>.</p>
+<p>This method will fail if either child is not a child of this group,
+or if they are at the same index (i.e. they are the same object).</p>
 
     </div>
 
@@ -5268,7 +5694,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The first child in this Group to swap.</p>
+                        <p>First child to swap</p>
 
                     </div>
 
@@ -5284,7 +5710,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The second child in this Group to swap.</p>
+                        <p>Second child to swap</p>
 
                     </div>
 
@@ -5304,7 +5730,7 @@ This method never gets called as the render is only worried about rendering enti
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if the Entities were swapped successfully, otherwise false.</p>
+                    <p>Whether the children were successfully swapped</p>
 
                 
             </div>
@@ -5369,7 +5795,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l934"><code>src&#x2F;core&#x2F;Group.ts:934</code></a>
+        <a href="../files/src_core_Group.ts.html#l1207"><code>src&#x2F;core&#x2F;Group.ts:1207</code></a>
         
         </p>
 
@@ -5380,7 +5806,8 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Swaps the position of two existing Entities within the Group based on their index.</p>
+        <p>Swap the position of two existing children of the Group,
+based on their member indices.</p>
 
     </div>
 
@@ -5399,7 +5826,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The position of the first Entity in this Group to swap.</p>
+                        <p>Index of the first child to swap</p>
 
                     </div>
 
@@ -5415,7 +5842,7 @@ This method never gets called as the render is only worried about rendering enti
                     
 
                     <div class="param-description">
-                        <p>The position of the second Entity in this Group to swap.</p>
+                        <p>Index of the second child to swap</p>
 
                     </div>
 
@@ -5435,7 +5862,7 @@ This method never gets called as the render is only worried about rendering enti
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>true if the Entities were swapped successfully, otherwise false.</p>
+                    <p>Whether children were swapped successfully</p>
 
                 
             </div>
@@ -5480,7 +5907,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1071"><code>src&#x2F;core&#x2F;Group.ts:1071</code></a>
+        <a href="../files/src_core_Group.ts.html#l1391"><code>src&#x2F;core&#x2F;Group.ts:1391</code></a>
         
         </p>
 
@@ -5491,7 +5918,15 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>The update loop for this group.</p>
+        <p>Update this group. This is automatically called per frame,
+if the group is <code>active</code>.</p>
+<p>This method will first call <code>preUpdate</code> on components;
+then <code>update</code> on components;
+then <code>update</code> on all members, calling <code>destroy</code> on those
+with <code>exists= false</code>;
+then <code>postUpdate</code> on components.</p>
+<p>You may extend this function, although we recommend that you use
+<code>Component</code> objects instead.</p>
 
     </div>
 
@@ -5536,7 +5971,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1122"><code>src&#x2F;core&#x2F;Group.ts:1122</code></a>
+        <a href="../files/src_core_Group.ts.html#l1456"><code>src&#x2F;core&#x2F;Group.ts:1456</code></a>
         
         </p>
 
@@ -5546,59 +5981,13 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>An active Entity is one that has its update method called by its parent.</p>
+        <p>Whether the <code>Group</code> is active. An active IChild will have <code>update</code>
+called by its parent.</p>
 
     </div>
 
     
         <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__destroyRemoveChildren" class="property item private">
-    <h3 class="name"><code>_destroyRemoveChildren</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Group.ts.html#l1389"><code>src&#x2F;core&#x2F;Group.ts:1389</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A temporary property that holds a boolean indicating whether or not the group&#39;s children should be destroyed or not.</p>
-
-    </div>
-
     
 
     
@@ -5632,7 +6021,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l329"><code>src&#x2F;core&#x2F;Group.ts:329</code></a>
+        <a href="../files/src_core_Group.ts.html#l400"><code>src&#x2F;core&#x2F;Group.ts:400</code></a>
         
         </p>
 
@@ -5642,7 +6031,56 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>An indication of whether or not this group is &#39;dirty&#39; and thus needs to be re-rendered or not.</p>
+        <p>Whether this group is &quot;dirty&quot; and thus needs to be re-rendered
+in some way.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__exists" class="property item private">
+    <h3 class="name"><code>_exists</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1429"><code>src&#x2F;core&#x2F;Group.ts:1429</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the <code>Group</code> exists. If an <code>IChild</code> no longer exists,
+it is cleared for garbage collection or pool re-allocation.</p>
 
     </div>
 
@@ -5679,7 +6117,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l83"><code>src&#x2F;core&#x2F;Group.ts:83</code></a>
+        <a href="../files/src_core_Group.ts.html#l97"><code>src&#x2F;core&#x2F;Group.ts:97</code></a>
         
         </p>
 
@@ -5689,7 +6127,7 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>The parent group of this group.</p>
+        <p>Parent group of this group.</p>
 
     </div>
 
@@ -5726,7 +6164,7 @@ This method never gets called as the render is only worried about rendering enti
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1269"><code>src&#x2F;core&#x2F;Group.ts:1269</code></a>
+        <a href="../files/src_core_Group.ts.html#l1622"><code>src&#x2F;core&#x2F;Group.ts:1622</code></a>
         
         </p>
 
@@ -5738,11 +6176,64 @@ This method never gets called as the render is only worried about rendering enti
     </div>
 
     <div class="description">
-        <p>Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
-By default Entitys contain no tags.</p>
+        <p>Tags that are on this Entity.
+This can be used to grab GameObjects or Groups on the whole game
+which have these particular tags.</p>
+<p>By default there are no tags.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> []</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempRemoveChildren" class="property item private">
+    <h3 class="name"><code>_tempRemoveChildren</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1763"><code>src&#x2F;core&#x2F;Group.ts:1763</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the group&#39;s children should be destroyed</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
     
 
     
@@ -5776,7 +6267,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1234"><code>src&#x2F;core&#x2F;Group.ts:1234</code></a>
+        <a href="../files/src_core_Group.ts.html#l1581"><code>src&#x2F;core&#x2F;Group.ts:1581</code></a>
         
         </p>
 
@@ -5788,7 +6279,9 @@ By default Entitys contain no tags.</p>
     </div>
 
     <div class="description">
-        <p>A boolean that indicates whether or not this entity is visible or not. Note that is does not get set to false if the alpha is 0.</p>
+        <p>Whether this is visible or not.
+Note that groups do not have alpha,
+so this is the only way to control visibility.</p>
 
     </div>
 
@@ -5829,7 +6322,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1210"><code>src&#x2F;core&#x2F;Group.ts:1210</code></a>
+        <a href="../files/src_core_Group.ts.html#l1556"><code>src&#x2F;core&#x2F;Group.ts:1556</code></a>
         
         </p>
 
@@ -5841,7 +6334,7 @@ By default Entitys contain no tags.</p>
     </div>
 
     <div class="description">
-        <p>Controls whether render is automatically called by the parent.</p>
+        <p>Controls whether render is automatically called by the parent</p>
 
     </div>
 
@@ -5878,7 +6371,7 @@ By default Entitys contain no tags.</p>
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1131"><code>src&#x2F;core&#x2F;Group.ts:1131</code></a>
+        <a href="../files/src_core_Group.ts.html#l1467"><code>src&#x2F;core&#x2F;Group.ts:1467</code></a>
         
         </p>
 
@@ -5928,7 +6421,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l251"><code>src&#x2F;core&#x2F;Group.ts:251</code></a>
+        <a href="../files/src_core_Group.ts.html#l304"><code>src&#x2F;core&#x2F;Group.ts:304</code></a>
         
         </p>
 
@@ -5940,7 +6433,9 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     </div>
 
     <div class="description">
-        <p>The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.</p>
+        <p>Anchor point offset of this group in the X axis.
+This is just aliased to the <code>transform</code> property,
+and is in turn an alias of rotPointX.</p>
 
     </div>
 
@@ -5977,7 +6472,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l265"><code>src&#x2F;core&#x2F;Group.ts:265</code></a>
+        <a href="../files/src_core_Group.ts.html#l321"><code>src&#x2F;core&#x2F;Group.ts:321</code></a>
         
         </p>
 
@@ -5989,7 +6484,9 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     </div>
 
     <div class="description">
-        <p>The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.</p>
+        <p>The anchor point offset of this group in the Y axis.
+This is just aliased to the <code>transform</code> property,
+and is in turn an alias of rotPointY.</p>
 
     </div>
 
@@ -6026,7 +6523,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l279"><code>src&#x2F;core&#x2F;Group.ts:279</code></a>
+        <a href="../files/src_core_Group.ts.html#l338"><code>src&#x2F;core&#x2F;Group.ts:338</code></a>
         
         </p>
 
@@ -6036,7 +6533,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     </div>
 
     <div class="description">
-        <p>The Component Manager</p>
+        <p>Component manager; automatically updates every frame</p>
 
     </div>
 
@@ -6073,7 +6570,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l337"><code>src&#x2F;core&#x2F;Group.ts:337</code></a>
+        <a href="../files/src_core_Group.ts.html#l410"><code>src&#x2F;core&#x2F;Group.ts:410</code></a>
         
         </p>
 
@@ -6083,54 +6580,8 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     </div>
 
     <div class="description">
-        <p>Sets all children of the Group to be dirty.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_exists" class="property item private">
-    <h3 class="name"><code>exists</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Group.ts.html#l1099"><code>src&#x2F;core&#x2F;Group.ts:1099</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If an Entity no longer exists it is cleared for garbage collection or pool re-allocation</p>
+        <p>Dirtiness of the Group and all its children.
+Setting this will update dirtiness of children immediately.</p>
 
     </div>
 
@@ -6167,7 +6618,7 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1107"><code>src&#x2F;core&#x2F;Group.ts:1107</code></a>
+        <a href="../files/src_core_Group.ts.html#l1439"><code>src&#x2F;core&#x2F;Group.ts:1439</code></a>
         
         </p>
 
@@ -6177,8 +6628,9 @@ This method should be over-ridden to handle specific dom/canvas/webgl implementa
     </div>
 
     <div class="description">
-        <p>Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-This method should be over-ridden to handle specific canvas/webgl implementations.</p>
+        <p>Toggles the existence of this <code>Group</code>.
+An <code>IChild</code> that no longer exists can be garbage collected
+or re-allocated in a pool.</p>
 
     </div>
 
@@ -6215,7 +6667,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l287"><code>src&#x2F;core&#x2F;Group.ts:287</code></a>
+        <a href="../files/src_core_Group.ts.html#l347"><code>src&#x2F;core&#x2F;Group.ts:347</code></a>
         
         </p>
 
@@ -6225,7 +6677,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The game this Group belongs to</p>
+        <p>Game to which this Group belongs</p>
 
     </div>
 
@@ -6262,7 +6714,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l303"><code>src&#x2F;core&#x2F;Group.ts:303</code></a>
+        <a href="../files/src_core_Group.ts.html#l365"><code>src&#x2F;core&#x2F;Group.ts:365</code></a>
         
         </p>
 
@@ -6272,7 +6724,9 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>A unique identifier for this Group within the game used internally by the framework. See the name property for a friendly version.</p>
+        <p>Unique identifier for this Group within the game,
+used internally by the framework.
+See the <code>name</code> property for a friendly version.</p>
 
     </div>
 
@@ -6309,7 +6763,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l311"><code>src&#x2F;core&#x2F;Group.ts:311</code></a>
+        <a href="../files/src_core_Group.ts.html#l376"><code>src&#x2F;core&#x2F;Group.ts:376</code></a>
         
         </p>
 
@@ -6319,7 +6773,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The collection of children belonging to this group</p>
+        <p>Collection of children belonging to this group</p>
 
     </div>
 
@@ -6356,7 +6810,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l65"><code>src&#x2F;core&#x2F;Group.ts:65</code></a>
+        <a href="../files/src_core_Group.ts.html#l75"><code>src&#x2F;core&#x2F;Group.ts:75</code></a>
         
         </p>
 
@@ -6366,12 +6820,13 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging.</p>
+        <p>Name for this Group. This is not checked for uniqueness
+within the game, but is very useful for debugging.</p>
 
     </div>
 
     
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
+        <p><strong>Default:</strong> &quot;&quot;</p>
     
 
     
@@ -6405,7 +6860,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l108"><code>src&#x2F;core&#x2F;Group.ts:108</code></a>
+        <a href="../files/src_core_Group.ts.html#l132"><code>src&#x2F;core&#x2F;Group.ts:132</code></a>
         
         </p>
 
@@ -6418,6 +6873,8 @@ This method should be over-ridden to handle specific canvas/webgl implementation
 
     <div class="description">
         <p>Indicates whether or not this entity is attached to the state.</p>
+<p>NOTE: This was implemented in 1.4.1
+but is not officially supported until 1.5.0.</p>
 
     </div>
 
@@ -6454,7 +6911,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l91"><code>src&#x2F;core&#x2F;Group.ts:91</code></a>
+        <a href="../files/src_core_Group.ts.html#l106"><code>src&#x2F;core&#x2F;Group.ts:106</code></a>
         
         </p>
 
@@ -6464,7 +6921,13 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>Set&#39;s the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.</p>
+        <p>Parent of this group.</p>
+<p>Do not alter this property directly.
+If you want to change this group&#39;s position in the scene hierarchy,
+use <code>addChild</code> and related methods.
+If you do set <code>parent</code>, it may result in unexpected behavior.</p>
+<p>Note that this also sets <code>transform.parent</code> of this entity
+to be the passed group&#39;s transform.</p>
 
     </div>
 
@@ -6501,7 +6964,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l223"><code>src&#x2F;core&#x2F;Group.ts:223</code></a>
+        <a href="../files/src_core_Group.ts.html#l272"><code>src&#x2F;core&#x2F;Group.ts:272</code></a>
         
         </p>
 
@@ -6513,7 +6976,8 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The rotation offset of this group in the X axis. This is just aliased to the transform property.</p>
+        <p>Rotation offset of this group in the X axis.
+This is just aliased to the <code>transform</code> property.</p>
 
     </div>
 
@@ -6550,7 +7014,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l237"><code>src&#x2F;core&#x2F;Group.ts:237</code></a>
+        <a href="../files/src_core_Group.ts.html#l288"><code>src&#x2F;core&#x2F;Group.ts:288</code></a>
         
         </p>
 
@@ -6562,7 +7026,8 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The rotation offset of this group in the Y axis. This is just aliased to the transform property.</p>
+        <p>Rotation offset of this group in the Y axis.
+This is just aliased to the <code>transform</code> property.</p>
 
     </div>
 
@@ -6599,7 +7064,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l199"><code>src&#x2F;core&#x2F;Group.ts:199</code></a>
+        <a href="../files/src_core_Group.ts.html#l243"><code>src&#x2F;core&#x2F;Group.ts:243</code></a>
         
         </p>
 
@@ -6611,7 +7076,9 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.</p>
+        <p>Scale of this group.
+This is just aliased to the <code>transform</code> property.
+This is WRITE-ONLY.</p>
 
     </div>
 
@@ -6648,7 +7115,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l295"><code>src&#x2F;core&#x2F;Group.ts:295</code></a>
+        <a href="../files/src_core_Group.ts.html#l356"><code>src&#x2F;core&#x2F;Group.ts:356</code></a>
         
         </p>
 
@@ -6658,7 +7125,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The State that this Group belongs to</p>
+        <p>State to which this Group belongs</p>
 
     </div>
 
@@ -6695,7 +7162,7 @@ This method should be over-ridden to handle specific canvas/webgl implementation
             
         
         
-        <a href="../files/src_core_Group.ts.html#l74"><code>src&#x2F;core&#x2F;Group.ts:74</code></a>
+        <a href="../files/src_core_Group.ts.html#l86"><code>src&#x2F;core&#x2F;Group.ts:86</code></a>
         
         </p>
 
@@ -6705,8 +7172,9 @@ This method should be over-ridden to handle specific canvas/webgl implementation
     </div>
 
     <div class="description">
-        <p>The transform object for this group. 
-Transform handles the calculation of coordinates/rotation/scale e.t.c in the Game World.</p>
+        <p>Transform object for this group.
+Transform handles the calculation of coordinates/rotation/scale etc
+in the game world.</p>
 
     </div>
 
@@ -6743,7 +7211,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1244"><code>src&#x2F;core&#x2F;Group.ts:1244</code></a>
+        <a href="../files/src_core_Group.ts.html#l1594"><code>src&#x2F;core&#x2F;Group.ts:1594</code></a>
         
         </p>
 
@@ -6755,7 +7223,9 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
     </div>
 
     <div class="description">
-        <p>Set the visibility of this entity. True or False.</p>
+        <p>Whether this is visible or not.
+Note that groups do not have alpha,
+so this is the only way to control visibility.</p>
 
     </div>
 
@@ -6796,7 +7266,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l1219"><code>src&#x2F;core&#x2F;Group.ts:1219</code></a>
+        <a href="../files/src_core_Group.ts.html#l1566"><code>src&#x2F;core&#x2F;Group.ts:1566</code></a>
         
         </p>
 
@@ -6808,7 +7278,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
     </div>
 
     <div class="description">
-        <p>Controls whether render is automatically called by the parent.</p>
+        <p>Controls whether render is automatically called by the parent</p>
 
     </div>
 
@@ -6845,7 +7315,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l151"><code>src&#x2F;core&#x2F;Group.ts:151</code></a>
+        <a href="../files/src_core_Group.ts.html#l183"><code>src&#x2F;core&#x2F;Group.ts:183</code></a>
         
         </p>
 
@@ -6857,7 +7327,10 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
     </div>
 
     <div class="description">
-        <p>The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.</p>
+        <p>Horizontal coordinate of this group in world space;
+that is, after parent transforms.
+This is just aliased to the <code>transform</code> property.
+This is READ-ONLY.</p>
 
     </div>
 
@@ -6894,7 +7367,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l162"><code>src&#x2F;core&#x2F;Group.ts:162</code></a>
+        <a href="../files/src_core_Group.ts.html#l198"><code>src&#x2F;core&#x2F;Group.ts:198</code></a>
         
         </p>
 
@@ -6906,7 +7379,10 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
     </div>
 
     <div class="description">
-        <p>The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.</p>
+        <p>Vertical coordinate of this group in world space;
+that is, after parent transforms.
+This is just aliased to the <code>transform</code> property.
+This is READ-ONLY.</p>
 
     </div>
 
@@ -6943,7 +7419,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l125"><code>src&#x2F;core&#x2F;Group.ts:125</code></a>
+        <a href="../files/src_core_Group.ts.html#l153"><code>src&#x2F;core&#x2F;Group.ts:153</code></a>
         
         </p>
 
@@ -6953,7 +7429,8 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
     </div>
 
     <div class="description">
-        <p>The X coordinate of this group. This is just aliased to the transform property.</p>
+        <p>Horizontal coordinate of this group.
+This is just aliased to the <code>transform</code> property.</p>
 
     </div>
 
@@ -6990,7 +7467,7 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
             
         
         
-        <a href="../files/src_core_Group.ts.html#l138"><code>src&#x2F;core&#x2F;Group.ts:138</code></a>
+        <a href="../files/src_core_Group.ts.html#l168"><code>src&#x2F;core&#x2F;Group.ts:168</code></a>
         
         </p>
 
@@ -7000,7 +7477,8 @@ Transform handles the calculation of coordinates/rotation/scale e.t.c in the Gam
     </div>
 
     <div class="description">
-        <p>The Y coordinate of this group. This is just aliased to the transform property.</p>
+        <p>Vertical coordinate of this group.
+This is just aliased to the <code>transform</code> property.</p>
 
     </div>
 

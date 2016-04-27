@@ -511,63 +511,65 @@ var Kiwi;
     Kiwi.Game = Game;
 })(Kiwi || (Kiwi = {}));
 /**
-*
-* @module Kiwi
-*
-*/
+
+@module Kiwi
+
+**/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * Each game contains a single Stage which controls the creation and
-    * management of main domElements required for a Kiwi game to work.
-    * This includes the Canvas and the rendering contexts,
-    * as well as the width/height of the game and the position it should be
-    * on the screen.
-    *
-    * @class Stage
-    * @namespace Kiwi
-    * @constructor
-    * @param game {Kiwi.Game} Game that this Stage belongs to
-    * @param name {string} Name of the kiwi game
-    * @param width {number} Initial width of the game
-    * @param height {number} Initial height of the game
-    * @param scaleType {number} Scale method to use. May be
-    *	`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
-    *	or `Kiwi.Stage.SCALE_FIT`,
-    * @return {Kiwi.Stage}
-    */
     var Stage = (function () {
+        /**
+        Each game contains a single Stage which controls the creation and
+        management of main domElements required for a Kiwi game to work.
+        This includes the Canvas and the rendering contexts,
+        as well as the width/height of the game and the position it should be
+        on the screen.
+
+        @class Stage
+        @namespace Kiwi
+        @constructor
+        @param game {Kiwi.Game} Game that this Stage belongs to
+        @param name {string} Name of the kiwi game
+        @param width {number} Initial width of the game
+        @param height {number} Initial height of the game
+        @param scaleType {number} Scale method to use. May be
+            `Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
+            or `Kiwi.Stage.SCALE_FIT`.
+        @return {Kiwi.Stage}
+        **/
         function Stage(game, name, width, height, scaleType) {
             /**
-            * Private property that holds the scaling method that should be
-            * applied to the container element.
-            * @property _scaleType
-            * @type number
-            * @default Kiwi.Stage.SCALE_NONE
-            * @private
-            */
+            Scaling method that should be applied to the container element
+    
+            @property _scaleType
+            @type number
+            @default Kiwi.Stage.SCALE_NONE
+            @private
+            **/
             this._scaleType = Kiwi.Stage.SCALE_NONE;
             /**
-            * A point which determines the offset of this Stage
-            * @property offset
-            * @type Kiwi.Geom.Point
-            * @public
-            */
+            Geometric `Point` which determines the offset of this `Stage`
+    
+            @property offset
+            @type Kiwi.Geom.Point
+            @public
+            **/
             this.offset = new Kiwi.Geom.Point();
             /**
-            * Background color of the stage
-            *
-            * @property _color
-            * @type Kiwi.Utils.Color
-            * @public
-            */
+            Background color of the stage
+    
+            @property _color
+            @type Kiwi.Utils.Color
+            @public
+            **/
             this._color = new Kiwi.Utils.Color();
             /**
-            * Parent div in which the layers and input live
-            * @property container
-            * @type HTMLDivElement
-            * @public
-            */
+            Parent div in which the layers and input live
+    
+            @property container
+            @type HTMLDivElement
+            @public
+            **/
             this.container = null;
             this._game = game;
             this.name = name;
@@ -592,13 +594,14 @@ var Kiwi;
             this.onVisibilityChange = new Kiwi.Signal();
             this._renderer = null;
         }
-        /**
-        * Return the type of this object.
-        * @method objType
-        * @return {string} "Stage"
-        * @public
-        */
         Stage.prototype.objType = function () {
+            /**
+            Return the type of this object.
+
+            @method objType
+            @return {string} "Stage"
+            @public
+            **/
             return "Stage";
         };
         Object.defineProperty(Stage.prototype, "scaleType", {
@@ -606,12 +609,13 @@ var Kiwi;
                 return this._scaleType;
             },
             /**
-            * Holds type of scaling that should be applied the container element.
-            * @property scaleType
-            * @type number
-            * @default Kiwi.Stage.SCALE_NONE
-            * @public
-            */
+            Type of scaling that should be applied the container element.
+    
+            @property scaleType
+            @type number
+            @default Kiwi.Stage.SCALE_NONE
+            @public
+            **/
             set: function (val) {
                 this._scaleType = val;
                 this._scaleContainer();
@@ -621,16 +625,16 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "alpha", {
             /**
-            * Sets the alpha of the container element.
-            * 0 = invisible, 1 = fully visible.
-            * Note: Because the alpha value is applied to the container,
-            * it will not work in CocoonJS.
-            *
-            * @property alpha
-            * @type number
-            * @default 1
-            * @public
-            */
+            Alpha of the container element.
+            0 = invisible, 1 = fully visible.
+            Note: Because the alpha value is applied to the container,
+            it will not work in CocoonJS.
+    
+            @property alpha
+            @type number
+            @default 1
+            @public
+            **/
             get: function () {
                 return this._alpha;
             },
@@ -646,12 +650,13 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "x", {
             /**
-            * Horizontal coordinate of the stage. This number should be the same
-            * as the stage's `left` property.
-            * @property x
-            * @type number
-            * @public
-            */
+            Horizontal coordinate of the stage. This number should be the same
+            as the stage's `left` property.
+    
+            @property x
+            @type number
+            @public
+            **/
             get: function () {
                 return this._x;
             },
@@ -669,12 +674,13 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "y", {
             /**
-            * Vertical coordinate of the stage. This number should be the same
-            * as the stage's `top` property.
-            * @property y
-            * @type number
-            * @public
-            */
+            Vertical coordinate of the stage. This number should be the same
+            as the stage's `top` property.
+    
+            @property y
+            @type number
+            @public
+            **/
             get: function () {
                 return this._y;
             },
@@ -692,13 +698,14 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "width", {
             /**
-            * Width of the stage. This is READ ONLY.
-            * See the "resize" method if you need to modify this value.
-            * @property width
-            * @type number
-            * @public
-            * @readonly
-            */
+            Width of the stage. This is READ ONLY.
+            See the "resize" method if you need to modify this value.
+    
+            @property width
+            @type number
+            @public
+            @readonly
+            **/
             get: function () {
                 return this._width;
             },
@@ -707,13 +714,14 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "height", {
             /**
-            * Height of the stage. This is READ ONLY.
-            * See the `resize` method if you need to modify this value.
-            * @property height
-            * @type number
-            * @public
-            * @readonly
-            */
+            Height of the stage. This is READ ONLY.
+            See the `resize` method if you need to modify this value.
+    
+            @property height
+            @type number
+            @public
+            @readonly
+            **/
             get: function () {
                 return this._height;
             },
@@ -722,15 +730,17 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scale", {
             /**
-            * Amount that the container has been scaled by.
-            * Mainly used for re-calculating input coordinates.
-            * Note: For COCOONJS this returns 1 since COCOONJS translates the
-            * scale itself. This property is READ ONLY.
-            * @property scale
-            * @type Kiwi.Geom.Point
-            * @default 1
-            * @public
-            */
+            Amount that the container has been scaled by.
+            Mainly used for re-calculating input coordinates.
+    
+            Note: For COCOONJS this returns 1 since COCOONJS translates the
+            scale itself. This property is READ ONLY.
+    
+            @property scale
+            @type Kiwi.Geom.Point
+            @default 1
+            @public
+            **/
             get: function () {
                 return this._scale;
             },
@@ -739,12 +749,13 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scaleX", {
             /**
-            * Amount that the container has been scaled by on the X axis
-            * @property scaleX
-            * @type Number
-            * @default 1
-            * @public
-            */
+            Amount that the container has been scaled by on the X axis
+    
+            @property scaleX
+            @type Number
+            @default 1
+            @public
+            **/
             get: function () {
                 return this._scale.x;
             },
@@ -753,12 +764,13 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scaleY", {
             /**
-            * Amount that the container has been scaled by on the Y axis
-            * @property scaleY
-            * @type Number
-            * @default 1
-            * @public
-            */
+            Amount that the container has been scaled by on the Y axis
+    
+            @property scaleY
+            @type Number
+            @default 1
+            @public
+            **/
             get: function () {
                 return this._scale.y;
             },
@@ -767,24 +779,24 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "color", {
             /**
-            * Sets the background color of the stage.
-            *
-            * This can be any valid parameter for Kiwi.Utils.Color.
-            * If passing multiple parameters, do so in a single array.
-            *
-            * The default value is "ffffff" or pure white.
-            *
-            * Note for users of CocoonJS: When using the WebGL renderer,
-            * the stage color will fill all parts of the screen outside the canvas.
-            * Kiwi.js will automatically set the color to "000000" or pure black
-            * when using CocoonJS. If you change it, and your game does not fill
-            * the entire screen, the empty portions of the screen will also change
-            * color.
-            *
-            * @property color
-            * @type string
-            * @public
-            */
+            Background color of the stage.
+    
+            This can be any valid parameter for Kiwi.Utils.Color.
+            If passing multiple parameters, do so in a single array.
+    
+            The default value is "ffffff" or pure white.
+    
+            Note for users of CocoonJS: When using the WebGL renderer,
+            the stage color will fill all parts of the screen outside the canvas.
+            Kiwi.js will automatically set the color to "000000" or pure black
+            when using CocoonJS. If you change it, and your game does not fill
+            the entire screen, the empty portions of the screen will also change
+            color.
+    
+            @property color
+            @type string
+            @public
+            **/
             get: function () {
                 return this._color.getHex();
             },
@@ -799,18 +811,23 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "rgbColor", {
             /**
-            * Allows the setting of the background color of the stage through
-            * component RGB colour values.
-            *
-            * This property is an Object Literal with "r", "g", "b" colour streams
-            * of values between 0 and 255.
-            *
-            * @property rgbColor
-            * @type Object
-            * @public
-            */
+            Allows the setting of the background color of the stage through
+            component RGB colour values.
+    
+            This property returns an Object literal
+            with "r", "g", "b" colour streams of values between 0 and 255.
+            You must assign it to this object for it to take effect.
+    
+            @property rgbColor
+            @type Object
+            @public
+            **/
             get: function () {
-                return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255 };
+                return {
+                    r: this._color.r * 255,
+                    g: this._color.g * 255,
+                    b: this._color.b * 255
+                };
             },
             set: function (val) {
                 this._color.r255 = val.r;
@@ -822,22 +839,28 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "rgbaColor", {
             /**
-            * Allows the setting of the background color of the stage through
-            * component RGBA colour values.
-            *
-            * This property is an Object Literal with "r", "g", "b", "a" colour
-            * streams of values between 0 and 255.
-            *
-            * Note that the alpha value is from 0-255, not 0-1. This is to
-            * preserve compatibility with hex-style color values, e.g. "ff0000ff".
-            *
-            * @property rgbaColor
-            * @type Object
-            * @public
-            * @since 1.1.0
-            */
+            Allows the setting of the background color of the stage through
+            component RGBA colour values.
+    
+            This property returns an Object literal
+            with "r", "g", "b" colour streams of values between 0 and 255.
+            You must assign it to this object for it to take effect.
+    
+            Note that the alpha value is from 0-255, not 0-1. This is to
+            preserve compatibility with hex-style color values, e.g. "ff0000ff".
+    
+            @property rgbaColor
+            @type Object
+            @public
+            @since 1.1.0
+            **/
             get: function () {
-                return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255, a: this._color.a * 255 };
+                return {
+                    r: this._color.r * 255,
+                    g: this._color.g * 255,
+                    b: this._color.b * 255,
+                    a: this._color.a * 255
+                };
             },
             set: function (val) {
                 this._color.r255 = val.r;
@@ -850,13 +873,14 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "normalizedColor", {
             /**
-            * Get the normalized background color of the stage.
-            * Returns an object with rgba values, each being between 0 and 1.
-            * This is READ ONLY.
-            * @property normalizedColor
-            * @type string
-            * @public
-            */
+            Get the normalized background color of the stage.
+            Returns an object with rgba values, each being between 0 and 1.
+            This is READ ONLY.
+    
+            @property normalizedColor
+            @type string
+            @public
+            **/
             get: function () {
                 return {
                     r: this._color.r,
@@ -870,31 +894,33 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "renderer", {
             /**
-            * Renderer associated with the canvas context.
-            * This is either a `GLRenderManager` or a `CanvasRenderer`.
-            * If the Kiwi.RENDERER_WEBGL renderer was requested
-            * but could not be created, it will fall back to CanvasRenderer.
-            * This is READ ONLY.
-            * @property renderer
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Renderer associated with the canvas context.
+            This is either a `GLRenderManager` or a `CanvasRenderer`.
+            If the Kiwi.RENDERER_WEBGL renderer was requested
+            but could not be created, it will fall back to CanvasRenderer.
+            This is READ ONLY.
+    
+            @property renderer
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this._renderer;
             },
             enumerable: true,
             configurable: true
         });
-        /**
-        * Execute when the DOM has loaded and the game is just starting.
-        * This is an internal method used by the core of Kiwi itself.
-        * @method boot
-        * @param dom {Kiwi.System.Bootstrap} Booted Bootstrap containing
-        *	DOM information
-        * @public
-        */
         Stage.prototype.boot = function (dom) {
+            /**
+            Execute when the DOM has loaded and the game is just starting.
+            This is an internal method used by the core of Kiwi itself.
+
+            @method boot
+            @param dom {Kiwi.System.Bootstrap} Booted `Bootstrap` containing
+                DOM information
+            @public
+            **/
             var _this = this;
             var self = this;
             this.domReady = true;
@@ -918,17 +944,20 @@ var Kiwi;
                 this._calculateContainerScale();
             }
         };
-        /**
-        * Get the x/y coordinate offset of any given valid DOM Element
-        * from the top/left position of the browser.
-        * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
-        * @method getOffsetPoint
-        * @param {Any} element
-        * @param {Kiwi.Geom.Point} output
-        * @return {Kiwi.Geom.Point}
-        * @public
-        */
         Stage.prototype.getOffsetPoint = function (element, output) {
+            /**
+            Get the x/y coordinate offset of any given valid DOM Element
+            from the top/left position of the browser.
+
+            Based on jQuery offset
+            https://github.com/jquery/jquery/blob/master/src/offset.js
+
+            @method getOffsetPoint
+            @param element {Any} DOM element to assess
+            @param [output] {Kiwi.Geom.Point} Point to store output
+            @return {Kiwi.Geom.Point} Point containing output x/y coordinates
+            @public
+            **/
             if (output === void 0) { output = new Kiwi.Geom.Point; }
             var box = element.getBoundingClientRect();
             var clientTop = element.clientTop || document.body.clientTop || 0;
@@ -937,33 +966,36 @@ var Kiwi;
             var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
             return output.setTo(box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop);
         };
-        /**
-        * Fire when the window is resized.
-        * @method _windowResized
-        * @param event {UIEvent}
-        * @private
-        */
         Stage.prototype._windowResized = function (event) {
+            /**
+            Fire when the window is resized.
+
+            @method _windowResized
+            @param event {UIEvent}
+            @private
+            **/
             this._calculateContainerScale();
             // Dispatch window resize event
             this.onWindowResize.dispatch();
         };
-        /**
-        * Fire when the device is reoriented.
-        * @method _orientationChanged
-        * @param event {UIEvent}
-        * @private
-        * @since 1.1.1
-        */
         Stage.prototype._orientationChanged = function (event) {
+            /**
+            Fire when the device is reoriented.
+
+            @method _orientationChanged
+            @param event {UIEvent}
+            @private
+            @since 1.1.1
+            **/
             this.onResize.dispatch(window.innerWidth, window.innerHeight);
         };
-        /**
-        * Calculate new offset and scale for the stage.
-        * @method _calculateContainerScale
-        * @private
-        */
         Stage.prototype._calculateContainerScale = function () {
+            /**
+            Calculate new offset and scale for the stage.
+
+            @method _calculateContainerScale
+            @private
+            **/
             // Calculate the scale twice
             // This will give the correct scale upon completion the second run
             // Temporary fix until the Scale Manager is implemented
@@ -973,20 +1005,21 @@ var Kiwi;
             this._scale.x = this._width / this.container.clientWidth;
             this._scale.y = this._height / this.container.clientHeight;
         };
-        /**
-        * Handle creation of the canvas that the game will use and
-        * retrieve the context for the renderer.
-        *
-        * @method _createCompositeCanvas
-        * @private
-        */
         Stage.prototype._createCompositeCanvas = function () {
+            /**
+            Handle creation of the canvas that the game will use,
+            and retrieve the context for the renderer.
+
+            @method _createCompositeCanvas
+            @private
+            **/
+            // Create canvas
+            this.canvas = document.createElement("canvas");
             // If we are using CocoonJS, create an accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
-                this.canvas = document.createElement(navigator["isCocoonJS"] ? "screencanvas" : "canvas");
+                this.canvas.screencanvas = true;
             }
             else {
-                this.canvas = document.createElement("canvas");
                 this.canvas.style.width = "100%";
                 this.canvas.style.height = "100%";
             }
@@ -1006,14 +1039,14 @@ var Kiwi;
                 if (!this.gl) {
                     this.gl = this.canvas.getContext("experimental-webgl");
                     if (!this.gl) {
-                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available despite the device apparently supporting it. Reverting to CANVAS.", "#renderer");
+                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available " + "despite the device apparently supporting it. " + "Reverting to CANVAS.", "#renderer");
                         // Reset to canvas mode
                         this.ctx = this.canvas.getContext("2d");
                         this.ctx.fillStyle = "#fff";
                         this.gl = null;
                     }
                     else {
-                        Kiwi.Log.warn("Kiwi.Stage: \"webgl\" context is not available. Using \"experimental-webgl\"", "#renderer");
+                        Kiwi.Log.warn("Kiwi.Stage: `webgl` context is not available. " + "Using `experimental-webgl`", "#renderer");
                     }
                 }
                 if (this.gl) {
@@ -1023,7 +1056,7 @@ var Kiwi;
                     this.ctx = null;
                 }
             }
-            // Create render manager
+            // Create render manager.
             // This is reported back to the Kiwi.Game that created the Stage.
             if (this.ctx) {
                 this._renderer = new Kiwi.Renderers.CanvasRenderer(this._game);
@@ -1038,16 +1071,16 @@ var Kiwi;
                 document.body.appendChild(this.canvas);
             }
         };
-        /**
-        * Set the stage width and height for rendering purposes.
-        * This will not effect that "scaleType" that it has been set to.
-        *
-        * @method resize
-        * @param width {number} New Stage width
-        * @param height {number} New Stage height
-        * @public
-        */
         Stage.prototype.resize = function (width, height) {
+            /**
+            Set the stage width and height for rendering purposes.
+            This will not effect that "scaleType" that it has been set to.
+
+            @method resize
+            @param width {number} New Stage width
+            @param height {number} New Stage height
+            @public
+            **/
             this.canvas.height = height;
             this.canvas.width = width;
             this._height = height;
@@ -1057,41 +1090,42 @@ var Kiwi;
             }
             this.onResize.dispatch(this._width, this._height);
         };
-        /**
-        * Set background color of the stage through component
-        * RGB colour values. Each parameter is a number between 0 and 255.
-        * This method also returns an Object literal with "r", "g", "b"
-        * properties.
-        *
-        * @method setRGBColor
-        * @param r {number} Red component. A value between 0 and 255
-        * @param g {number} Green component. A value between 0 and 255
-        * @param b {number} Blue component. A value between 0 and 255
-        * @return {object} Object literal containing the `r,g,b` properties
-        * @public
-        */
         Stage.prototype.setRGBColor = function (r, g, b) {
+            /**
+            Set background color of the stage through component
+            RGB colour values. Each parameter is a number between 0 and 255.
+            This method also returns an Object literal with "r", "g", "b"
+            properties.
+
+            @method setRGBColor
+            @param r {number} Red component. A value between 0 and 255
+            @param g {number} Green component. A value between 0 and 255
+            @param b {number} Blue component. A value between 0 and 255
+            @return {object} Object literal containing the `r,g,b` properties
+            @public
+            **/
             this.rgbColor = { r: r, g: g, b: b };
             return this.rgbColor;
         };
-        /**
-        * Create a debug canvas and add it above the regular game canvas.
-        * The debug canvas is not created by default (even with debugging on)
-        * and rendering/clearing of the canvas is up to the developer.
-        * The context for rendering can be accessed via the "dctx" property and
-        * you can use the "clearDebugCanvas" method to clear the canvas.
-        *
-        * @method createDebugCanvas
-        * @public
-        */
         Stage.prototype.createDebugCanvas = function () {
-            if (Kiwi.Utils.Common.isUndefined(this.debugCanvas) == false)
+            /**
+            Create a debug canvas and add it above the regular game canvas.
+            The debug canvas is not created by default (even with debugging on)
+            and rendering/clearing of the canvas is up to the developer.
+            The context for rendering can be accessed via the `dctx` property.
+            You can use the `clearDebugCanvas` method to clear the canvas.
+
+            @method createDebugCanvas
+            @public
+            **/
+            if (Kiwi.Utils.Common.isUndefined(this.debugCanvas) == false) {
                 return;
+            }
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 // Not supported in CocoonJS only because we cannot add it to
                 // the container (as a container does not exist ) and position
                 // will be hard.
-                Kiwi.Log.log("Debug canvas not supported in cocoon, creating canvas and context anyway", "#debug-canvas");
+                Kiwi.Log.log("Debug canvas not supported in cocoon, " + "creating canvas and context anyway", "#debug-canvas");
             }
             this.debugCanvas = document.createElement("canvas");
             this.debugCanvas.id = this._game.id + "debugCanvas";
@@ -1106,33 +1140,36 @@ var Kiwi;
                 this.container.appendChild(this.debugCanvas);
             }
         };
-        /**
-        * Clear the debug canvas and fill with the color passed.
-        * If no color is passed, then Red at 20% opacity is used.
-        *
-        * @method clearDebugCanvas
-        * @param [color="rgba( 255, 0, 0, 0.2 )"] {string} The debug color to rendering on the debug canvas.
-        * @public
-        */
         Stage.prototype.clearDebugCanvas = function (color) {
+            /**
+            Clear the debug canvas and fill with the color passed.
+            If no color is passed, then red at 20% opacity is used.
+
+            @method clearDebugCanvas
+            @param [color="rgba( 255, 0, 0, 0.2 )"] {string} Debug color
+                to tint the debug canvas.
+            @public
+            **/
             this.dctx.fillStyle = color || "rgba( 255, 0, 0, 0.2 )";
             this.dctx.clearRect(0, 0, this.width, this.height);
             this.dctx.fillRect(0, 0, this.width, this.height);
         };
-        /**
-        * Toggle the visibility of the debug canvas.
-        * @method toggleDebugCanvas
-        * @public
-        */
         Stage.prototype.toggleDebugCanvas = function () {
+            /**
+            Toggle the visibility of the debug canvas.
+
+            @method toggleDebugCanvas
+            @public
+            **/
             this.debugCanvas.style.display = (this.debugCanvas.style.display === "none") ? "block" : "none";
         };
-        /**
-        * Handle the scaling/sizing based upon the scaleType property.
-        * @method _scaleContainer
-        * @private
-        */
         Stage.prototype._scaleContainer = function () {
+            /**
+            Handle the scaling/sizing based upon the `scaleType` property.
+
+            @method _scaleContainer
+            @private
+            **/
             if (this._game.deviceTargetOption == Kiwi.TARGET_BROWSER) {
                 var clientWidth = this.container.clientWidth;
                 this.container.style.width = String(this._width + "px");
@@ -1178,17 +1215,17 @@ var Kiwi;
         };
         Object.defineProperty(Stage.prototype, "visibility", {
             /**
-            * Whether the page is currently visible (via the Visiblity API).
-            * If the Visiblity API is unsupported this will remain set to true
-            * regardless of focus/blur events.
-            *
-            * @property visibility
-            * @type boolean
-            * @default true
-            * @readOnly
-            * @since 1.3.0
-            * @public
-            */
+            Whether the page is currently visible (via the Visiblity API).
+            If the Visiblity API is unsupported this will remain set to true
+            regardless of focus/blur events.
+    
+            @property visibility
+            @type boolean
+            @default true
+            @readOnly
+            @since 1.3.0
+            @public
+            **/
             get: function () {
                 if (this._visibility) {
                     return !document[this._visibility];
@@ -1198,16 +1235,16 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-        /**
-        * Fire when the page visibility changes, or the page focus/blur
-        * events fire. In charge of firing the appropriate signals.
-        *
-        * @method _checkVisibility
-        * @param event {Any}
-        * @since 1.3.0
-        * @private
-        */
         Stage.prototype._checkVisibility = function (event) {
+            /**
+            Fire when the page visibility changes, or the page focus/blur
+            events fire. In charge of firing the appropriate signals.
+
+            @method _checkVisibility
+            @param event {Any}
+            @since 1.3.0
+            @private
+            **/
             if (event.type === "focus" || event.type === "pageshow") {
                 this.onFocus.dispatch(event);
                 return;
@@ -1221,14 +1258,14 @@ var Kiwi;
                 return;
             }
         };
-        /**
-        * Adds the focus, blur, and visibility events to the document.
-        *
-        * @method _createFocusEvents
-        * @since 1.3.0
-        * @private
-        */
         Stage.prototype._createFocusEvents = function () {
+            /**
+            Add the focus, blur, and visibility events to the document.
+
+            @method _createFocusEvents
+            @since 1.3.0
+            @private
+            **/
             this._visibility = "hidden";
             this._visibilityChange = this._checkVisibility.bind(this);
             if ("hidden" in document) {
@@ -1253,61 +1290,64 @@ var Kiwi;
             window.addEventListener("blur", this._visibilityChange);
         };
         /**
-        * Default width of the stage
-        * @property DEFAULT_WIDTH
-        * @type number
-        * @default 800
-        * @public
-        * @static
-        */
+        Default width of the stage
+
+        @property DEFAULT_WIDTH
+        @type number
+        @default 800
+        @public
+        @static
+        **/
         Stage.DEFAULT_WIDTH = 800;
         /**
-        * Default height of the stage
-        * @property DEFAULT_HEIGHT
-        * @type number
-        * @default 600
-        * @public
-        * @static
-        */
+        Default height of the stage
+
+        @property DEFAULT_HEIGHT
+        @type number
+        @default 600
+        @public
+        @static
+        **/
         Stage.DEFAULT_HEIGHT = 600;
         /**
-        * Default scaling method used on Kiwi Games.
-        * This scaling method will set the container's width/height
-        * to static values.
-        *
-        * @property SCALE_NONE
-        * @type number
-        * @default 0
-        * @public
-        * @static
-        */
+        Default scaling method used on Kiwi games.
+        This scaling method will set the container's width/height
+        to static values.
+
+        @property SCALE_NONE
+        @type number
+        @default 0
+        @public
+        @static
+        **/
         Stage.SCALE_NONE = 0;
         /**
-        * SCALE_FIT will scale the stage's width to fit its parent's width.
-        * The height is then calculated to maintain the aspect ratio of the
-        * width/height of the Stage.
-        *
-        * In CocoonJS, it still maintains aspect ratio, but keeps the
-        * entire game stage on the screen.
-        *
-        * @property SCALE_FIT
-        * @type number
-        * @default 1
-        * @public
-        * @static
-        */
+        SCALE_FIT will scale the stage's width to fit its parent's width.
+        The height is then calculated to maintain the aspect ratio of the
+        width/height of the Stage.
+
+        In CocoonJS, it still maintains aspect ratio, but keeps the
+        entire game stage on the screen.
+
+        @property SCALE_FIT
+        @type number
+        @default 1
+        @public
+        @static
+        **/
         Stage.SCALE_FIT = 1;
         /**
-        * Stretch will make the stage scale to fit its parent's width/height
-        * (by using max/min height of 100%).
-        * If the parent doesn't have a height set then the height will be
-        * the height of the stage.
-        * @property SCALE_STRETCH
-        * @type number
-        * @default 2
-        * @public
-        * @static
-        */
+        Stretch will make the stage scale to fit its parent's width/height
+        (by using max/min height of 100%).
+        If the parent doesn't have a height set then the height will be
+        the height of the stage.
+
+        @property SCALE_STRETCH
+        @type number
+        @default 2
+        @public
+        @static
+        **/
         Stage.SCALE_STRETCH = 2;
         return Stage;
     })();
@@ -3257,92 +3297,110 @@ var Kiwi;
     Kiwi.Component = Component;
 })(Kiwi || (Kiwi = {}));
 /**
-*
-* @module Kiwi
-*
-*/
+
+@module Kiwi
+
+**/
 var Kiwi;
 (function (Kiwi) {
-    /**
-    * The group class is central to creating the scene graph that contains all objects in a state. A group can contain entities or other groups, thereby enabling a nested tree scene graph.
-    * The members of the Group's coordinates are also in relation to the Group that they were added to. So if you moved an entire Group, each member of that Group would also 'move'.
-    *
-    * @class Group
-    * @namespace Kiwi
-    * @constructor
-    * @param state {Kiwi.State} The State that this Group is a part of.
-    * @param [name=''] {String} The name of this group.
-    * @return {Kiwi.Group}
-    *
-    */
     var Group = (function () {
+        /**
+        The group class is central to creating the scene graph
+        that contains all objects in a state.
+        A group can contain entities or other groups,
+        thereby enabling a nested tree scene graph.
+        The members of the Group's coordinates are also in relation to
+        the Group that they were added to.
+        So if you moved an entire Group,
+        each member of that Group would also "move".
+
+        @class Group
+        @namespace Kiwi
+        @constructor
+        @param state {Kiwi.State} State that this Group is a part of
+        @param [name=""] {string} Name of this group
+        **/
         function Group(state, name) {
-            if (name === void 0) { name = ''; }
+            if (name === void 0) { name = ""; }
             /**
-            * A name for this Group. This is not checked for uniqueness within the Game, but is very useful for debugging.
-            * @property name
-            * @type string
-            * @default ''
-            * @public
-            */
-            this.name = '';
+            Name for this Group. This is not checked for uniqueness
+            within the game, but is very useful for debugging.
+    
+            @property name
+            @type string
+            @default ""
+            @public
+            **/
+            this.name = "";
             /**
-            * The parent group of this group.
-            * @property _parent
-            * @type Kiwi.Group
-            * @private
-            */
+            Parent group of this group.
+    
+            @property _parent
+            @type Kiwi.Group
+            @private
+            **/
             this._parent = null;
             /**
-            * The game this Group belongs to
-            * @property game
-            * @type Kiwi.Game
-            * @public
-            */
+            Game to which this Group belongs
+    
+            @property game
+            @type Kiwi.Game
+            @public
+            **/
             this.game = null;
             /**
-            * The State that this Group belongs to
-            * @property state
-            * @type Kiwi.State
-            * @public
+            State to which this Group belongs
+    
+            @property state
+            @type Kiwi.State
+            @public
             **/
             this.state = null;
             /**
-            * An indication of whether or not this group is 'dirty' and thus needs to be re-rendered or not.
-            * @property _dirty
-            * @type boolean
-            * @private
-            */
-            this._dirty = true;
-            /**
-            * ---------------
-            * Tagging System
-            * ---------------
+            Whether this group is "dirty" and thus needs to be re-rendered
+            in some way.
+    
+            @property _dirty
+            @type boolean
+            @private
             **/
-            /**
-            * Any tags that are on this Entity. This can be used to grab GameObjects or Groups on the whole game which have these particular tags.
-            * By default Entitys contain no tags.
-            * @property _tags
-            * @type Array
-            * @since 1.1.0
-            * @private
+            this._dirty = true;
+            /*
+            ---------------
+            Tagging System
+            ---------------
             */
+            /**
+            Tags that are on this Entity.
+            This can be used to grab GameObjects or Groups on the whole game
+            which have these particular tags.
+    
+            By default there are no tags.
+    
+            @property _tags
+            @type array
+            @default []
+            @since 1.1.0
+            @private
+            **/
             this._tags = [];
             /**
-            * A temporary property that holds a boolean indicating whether or not the group's children should be destroyed or not.
-            * @property _destroyRemoveChildren
-            * @type boolean
-            * @private
-            */
+            Whether the group's children should be destroyed
+    
+            @property _tempRemoveChildren
+            @type boolean
+            @default null
+            @private
+            **/
             this._tempRemoveChildren = null;
-            //prevents the state going AHHH...since the state extends group.
+            // Prevents the state going AHHH... since the state extends group
             if (state !== null) {
                 this.state = state;
                 this.game = this.state.game;
                 this.id = this.game.rnd.uuid();
                 this.state.addToTrackingList(this);
             }
-            //  Properties
+            // Properties
             this.name = name;
             this.components = new Kiwi.ComponentManager(Kiwi.GROUP, this);
             this._exists = true;
@@ -3351,22 +3409,24 @@ var Kiwi;
             this.transform = new Kiwi.Geom.Transform();
             this.members = [];
         }
-        /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} "Group"
-        * @public
-        */
         Group.prototype.objType = function () {
+            /**
+            Return the type of this object.
+
+            @method objType
+            @return {string} "Group"
+            @public
+            **/
             return "Group";
         };
-        /*
-        * Represents the type of child that this is.
-        * @method childType
-        * @return number
-        * @public
-        */
         Group.prototype.childType = function () {
+            /**
+            Return the type of child that this is (`Kiwi.GROUP`).
+
+            @method childType
+            @return {number} Kiwi.GROUP
+            @public
+            **/
             return Kiwi.GROUP;
         };
         Object.defineProperty(Group.prototype, "parent", {
@@ -3374,28 +3434,38 @@ var Kiwi;
                 return this._parent;
             },
             /**
-            * Set's the parent of this entity. Note that this also sets the transforms parent of this entity to be the passed groups transform.
-            * @property parent
-            * @type Kiwi.Group
-            * @public
-            */
+            Parent of this group.
+    
+            Do not alter this property directly.
+            If you want to change this group's position in the scene hierarchy,
+            use `addChild` and related methods.
+            If you do set `parent`, it may result in unexpected behavior.
+    
+            Note that this also sets `transform.parent` of this entity
+            to be the passed group's transform.
+    
+            @property parent
+            @type Kiwi.Group
+            @public
+            **/
             set: function (val) {
-                //check to see if the parent is not an descendor
-                //if (this.containsDescendant(val) === false) {
                 this.transform.parent = (val !== null) ? val.transform : null;
                 this._parent = val;
-                //}
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Group.prototype, "onState", {
             /**
-            * Indicates whether or not this entity is attached to the state.
-            * @property onState
-            * @public
-            * @since 1.4.1
-            */
+            Indicates whether or not this entity is attached to the state.
+    
+            NOTE: This was implemented in 1.4.1
+            but is not officially supported until 1.5.0.
+    
+            @property onState
+            @public
+            @since 1.4.1
+            **/
             get: function () {
                 if (this.parent) {
                     if (this.parent.objType() === "State") {
@@ -3412,11 +3482,13 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "x", {
             /**
-            * The X coordinate of this group. This is just aliased to the transform property.
-            * @property x
-            * @type Number
-            * @public
-            */
+            Horizontal coordinate of this group.
+            This is just aliased to the `transform` property.
+    
+            @property x
+            @type number
+            @public
+            **/
             get: function () {
                 return this.transform.x;
             },
@@ -3428,11 +3500,13 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "y", {
             /**
-            * The Y coordinate of this group. This is just aliased to the transform property.
-            * @property y
-            * @type Number
-            * @public
-            */
+            Vertical coordinate of this group.
+            This is just aliased to the `transform` property.
+    
+            @property y
+            @type number
+            @public
+            **/
             get: function () {
                 return this.transform.y;
             },
@@ -3444,12 +3518,16 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "worldX", {
             /**
-            * The X coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
-            * @property worldX
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Horizontal coordinate of this group in world space;
+            that is, after parent transforms.
+            This is just aliased to the `transform` property.
+            This is READ-ONLY.
+    
+            @property worldX
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this.transform.worldX;
             },
@@ -3458,12 +3536,16 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "worldY", {
             /**
-            * The Y coordinate of this group in world space; that is, after parent transforms. This is just aliased to the transform property. This is READ-ONLY.
-            * @property worldY
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Vertical coordinate of this group in world space;
+            that is, after parent transforms.
+            This is just aliased to the `transform` property.
+            This is READ-ONLY.
+    
+            @property worldY
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this.transform.worldY;
             },
@@ -3472,11 +3554,13 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "scaleX", {
             /*
-            * The Scale X of this group. This is just aliased to the transform property.
-            * @property scaleX
-            * @type Number
-            * @public
-            */
+            Horizontal scale of this group.
+            This is just aliased to the `transform` property.
+    
+            @property scaleX
+            @type number
+            @public
+            **/
             get: function () {
                 return this.transform.scaleX;
             },
@@ -3488,11 +3572,13 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "scaleY", {
             /*
-            * The Scale Y coordinate of this group. This is just aliased to the transform property.
-            * @property scaleY
-            * @type Number
-            * @public
-            */
+            Vertical scale of this group.
+            This is just aliased to the `transform` property.
+    
+            @property scaleY
+            @type number
+            @public
+            **/
             get: function () {
                 return this.transform.scaleY;
             },
@@ -3504,12 +3590,15 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "scale", {
             /**
-            * The scale of this group. This is just aliased to the transform property. This is WRITE-ONLY.
-            * @property scale
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Scale of this group.
+            This is just aliased to the `transform` property.
+            This is WRITE-ONLY.
+    
+            @property scale
+            @type number
+            @public
+            @since 1.1.0
+            **/
             set: function (value) {
                 this.transform.scale = value;
             },
@@ -3518,11 +3607,13 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "rotation", {
             /*
-            * The rotation of this group. This is just aliased to the transform property.
-            * @property rotation
-            * @type Number
-            * @public
-            */
+            Rotation of this group.
+            This is just aliased to the `transform` property.
+    
+            @property rotation
+            @type number
+            @public
+            **/
             get: function () {
                 return this.transform.rotation;
             },
@@ -3534,12 +3625,14 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "rotPointX", {
             /**
-            * The rotation offset of this group in the X axis. This is just aliased to the transform property.
-            * @property rotPointX
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Rotation offset of this group in the X axis.
+            This is just aliased to the `transform` property.
+    
+            @property rotPointX
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this.transform.rotPointX;
             },
@@ -3551,12 +3644,14 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "rotPointY", {
             /**
-            * The rotation offset of this group in the Y axis. This is just aliased to the transform property.
-            * @property rotPointY
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Rotation offset of this group in the Y axis.
+            This is just aliased to the `transform` property.
+    
+            @property rotPointY
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this.transform.rotPointY;
             },
@@ -3568,12 +3663,15 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "anchorPointX", {
             /**
-            * The anchor point offset of this group in the X axis. This is just aliased to the transform property, and is in turn an alias of rotPointX.
-            * @property anchorPointX
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            Anchor point offset of this group in the X axis.
+            This is just aliased to the `transform` property,
+            and is in turn an alias of rotPointX.
+    
+            @property anchorPointX
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this.transform.anchorPointX;
             },
@@ -3585,12 +3683,15 @@ var Kiwi;
         });
         Object.defineProperty(Group.prototype, "anchorPointY", {
             /**
-            * The anchor point offset of this group in the Y axis. This is just aliased to the transform property, and is in turn an alias of rotPointY.
-            * @property anchorPointY
-            * @type number
-            * @public
-            * @since 1.1.0
-            */
+            The anchor point offset of this group in the Y axis.
+            This is just aliased to the `transform` property,
+            and is in turn an alias of rotPointY.
+    
+            @property anchorPointY
+            @type number
+            @public
+            @since 1.1.0
+            **/
             get: function () {
                 return this.transform.anchorPointY;
             },
@@ -3600,13 +3701,16 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-        /**
-        * Returns the total number of children in this Group. Doesn't distinguish between alive and dead children.
-        * @method numChildren
-        * @return {Number} The number of children in this Group
-        * @public
-        */
         Group.prototype.numChildren = function () {
+            /**
+            Return the total number of children in this Group.
+            Note that this still counts children with `exists=false`,
+            as they are only completely removed at the end of the frame.
+
+            @method numChildren
+            @return {number} Number of children in this Group
+            @public
+            **/
             return this.members.length;
         };
         Object.defineProperty(Group.prototype, "dirty", {
@@ -3614,11 +3718,13 @@ var Kiwi;
                 return this._dirty;
             },
             /**
-            * Sets all children of the Group to be dirty.
-            * @property dirty
-            * @type boolean
-            * @public
-            */
+            Dirtiness of the Group and all its children.
+            Setting this will update dirtiness of children immediately.
+    
+            @property dirty
+            @type boolean
+            @public
+            **/
             set: function (value) {
                 if (value !== undefined) {
                     this._dirty = value;
@@ -3630,145 +3736,208 @@ var Kiwi;
             enumerable: true,
             configurable: true
         });
-        /**
-        * Checks if the given entity is in this group
-        * @method contains
-        * @param child {IChild} The IChild that you want to checked.
-        * @return {boolean} true if entity exists in group.
-        * @public
-        */
         Group.prototype.contains = function (child) {
-            return (this.members.indexOf(child) === -1) ? false : true;
+            /**
+            Check whether the given entity is in this group.
+
+            @method contains
+            @param child {IChild} IChild to check
+            @return {boolean} Whether entity exists in group
+            @public
+            **/
+            return this.members.indexOf(child) !== -1;
         };
-        /**
-        * Checks to see if the given object is contained in this group as a descendant
-        * @method containsDescendant
-        * @param child {object} The IChild that you want to check.
-        * @return {boolean}
-        * @public
-        */
         Group.prototype.containsDescendant = function (child) {
+            /**
+            Check whether the given entity is in this group,
+            or one of this group's descendants.
+
+            @method containsDescendant
+            @param child {object} IChild to check
+            @return {boolean}
+            @public
+            **/
             for (var i = 0; i < this.members.length; i++) {
                 var curMember = this.members[i];
-                if (curMember.id == child.id || curMember.childType() == Kiwi.Group && curMember.containsDesendant(child)) {
+                if (curMember.id === child.id || (curMember.childType() === Kiwi.GROUP && curMember.containsDescendant(child))) {
                     return true;
                 }
             }
             return false;
         };
-        /**
-        * Checks to see if one child is an ansector of another child.
-        * @method containsAncestor
-        * @param descendant {object} The object that you are checking.
-        * @param ancestor {Group} The parent (ancestor) that you are checking for.
-        * @return {boolean}
-        * @public
-        */
         Group.prototype.containsAncestor = function (descendant, ancestor) {
+            /**
+            Check whether a `Group` is an ancestor of another entity.
+
+            This may be called as a static method, i.e.
+            `Kiwi.Group.prototype.containsAncestor()`.
+
+            @method containsAncestor
+            @param descendant {object} Entity to check
+            @param ancestor {Group} Group to check
+            @static
+            @return {boolean}
+            @public
+            **/
             if (descendant.parent === null || descendant.parent === undefined) {
                 return false;
             }
-            if (descendant.parent == ancestor)
-                return true; //desendants parent is the same? 
-            return descendant.parent.containsAncestor(descendant.parent, ancestor); //keep going up the chain.
+            if (descendant.parent === ancestor) {
+                // Parent found
+                return true;
+            }
+            return descendant.parent.containsAncestor(descendant.parent, ancestor);
         };
-        /**
-        * -------------------------
-        * Add Children methods
-        * -------------------------
-        **/
-        /**
-        * Adds an Entity to this Group. The Entity must not already be in this Group.
-        * @method addChild
-        * @param child {object} The child to be added.
-        * @return {object} The child that was added.
-        * @public
+        /*
+        -------------------------
+        Add Children methods
+        -------------------------
         */
+        Group.prototype._validateChild = function (child) {
+            /**
+            Return whether a child may be added to this group.
+
+            A child is disqualified if it:
+            - is a `State`, which may not have parents
+            - would be its own parent
+            - would be its own descendant
+
+            If a child fails the check, its UUID will be logged.
+
+            @method _validateChild
+            @param child {IChild} Child to validate
+            @return {boolean} Whether the child is validated
+            @private
+            **/
+            if (child.childType() === Kiwi.STATE || child === this || this.containsAncestor(this, child)) {
+                Kiwi.Log.warn("#Group", "Child failed validation check and will not be added.", "UUID:", child.id);
+                return false;
+            }
+            return true;
+        };
         Group.prototype.addChild = function (child) {
-            //Implement feature where you can pass as many children to be added. Modify this script to work via the 'arguments' property
-            //make sure you aren't adding a state or itself
-            if (child.childType() === Kiwi.STATE || child == this)
-                return;
-            //make sure it is not itself.
-            if (child.parent !== null)
-                child.parent.removeChild(child);
-            //check to see if the child is already part of a group.
-            this.members.push(child);
-            child.parent = this;
-            return child;
-        };
-        /**
-        * Adds an Entity to this Group in the specific location. The Entity must not already be in this Group and it must be supported by the Group.
-        * @method addChildAt
-        * @param child {object} The child to be added.
-        * @param index {Number} The index the child will be set at.
-        * @return {object} The child.
-        * @public
-        */
-        Group.prototype.addChildAt = function (child, index) {
-            if (child.childType() === Kiwi.STATE || child == this)
-                return;
-            if (child.parent !== null)
-                child.parent.removeChild(child);
-            this.members.splice(index, 0, child);
-            child.parent = this;
-            return child;
-        };
-        /**
-        * Adds an Entity to this Group before another child.
-        * @method addChildBefore
-        * @param child {object} The child to be added.
-        * @param beforeChild {Entity} The child before which the child will be added.
-        * @return {object} The child.
-        * @public
-        */
-        Group.prototype.addChildBefore = function (child, beforeChild) {
-            if (beforeChild.transform.parent === this.transform) {
-                if (child.parent !== null)
+            /**
+            Add a child to this `Group`.
+
+            The child must be valid to add.
+            A valid child must be an `Entity` or `Group`.
+            It cannot be a `State`.
+            It cannot be this very `Group`, or an ancestor of it.
+
+            The child will be removed from its current parents, if any.
+
+            @method addChild
+            @param child {object} Child to be added
+            @return {object} Child to have been added
+            @public
+            **/
+            // TODO:
+            // Implement feature where you can pass many children to be added.
+            // Modify this script to work via the `arguments` property.
+            if (this._validateChild(child)) {
+                // Remove prior parentage
+                if (child.parent !== null) {
                     child.parent.removeChild(child);
+                }
+                // Add child to this group
+                this.members.push(child);
+                child.parent = this;
+            }
+            return child;
+        };
+        Group.prototype.addChildAt = function (child, index) {
+            /**
+            Add a child to this Group, at the specific child index.
+            Use this to place a child behind or in front of other objects
+            in the scene graph.
+
+            The child must be valid per the criteria in `addChild`.
+
+            The child will be removed from its current parents, if any.
+
+            @method addChildAt
+            @param child {object} Child to be added
+            @param index {number} Index at which to insert the child
+            @return {object} Child to have been added
+            @public
+            **/
+            if (this._validateChild(child)) {
+                if (child.parent !== null) {
+                    child.parent.removeChild(child);
+                }
+                this.members.splice(index, 0, child);
+                child.parent = this;
+            }
+            return child;
+        };
+        Group.prototype.addChildBefore = function (child, beforeChild) {
+            /**
+            Add a child to this Group, just behind another child.
+
+            The child must be valid per the criteria in `addChild`.
+
+            The child will be removed from its current parents, if any.
+
+            @method addChildBefore
+            @param child {object} Child to be added
+            @param beforeChild {Entity} Child before which to add the child
+            @return {object} Child to have been added
+            @public
+            **/
+            if (beforeChild.transform.parent === this.transform && this._validateChild(child)) {
+                if (child.parent !== null) {
+                    child.parent.removeChild(child);
+                }
                 var index = this.getChildIndex(beforeChild);
                 this.members.splice(index, 0, child);
                 child.parent = this;
             }
             return child;
         };
-        /**
-        * Adds an Entity to this Group after another child.
-        * @method addChildAfter
-        * @param child {object} The child to be added.
-        * @param beforeChild {object} The child after which the child will be added.
-        * @return {object} The child.
-        * @public
-        */
         Group.prototype.addChildAfter = function (child, afterChild) {
-            if (afterChild.transform.parent === this.transform) {
-                if (child.parent !== null)
+            /**
+            Add an Entity to this Group, just above another child.
+
+            The child must be valid per the criteria in `addChild`.
+
+            The child will be removed from its current parents, if any.
+
+            @method addChildAfter
+            @param child {object} Child to be added
+            @param afterChild {object} Child after which to add the child
+            @return {object} Child to have been added
+            @public
+            **/
+            if (afterChild.transform.parent === this.transform && this._validateChild(child)) {
+                if (child.parent !== null) {
                     child.parent.removeChild(child);
+                }
                 var index = this.getChildIndex(afterChild) + 1;
                 this.members.splice(index, 0, child);
                 child.parent = this;
             }
             return child;
         };
-        /**
-        * --------------------
-        * Remove Children Methods
-        * --------------------
-        **/
-        /**
-        * Removes an Entity from this Group if it is a child of it.
-        * @method removeChild
-        * @param child {object} The child to be removed.
-        * @param [destroy=false] {boolean} If the entity that gets removed should be destroyed as well.
-        * @return {object} The child.
-        * @public
+        /*
+        --------------------
+        Remove Children Methods
+        --------------------
         */
         Group.prototype.removeChild = function (child, destroy) {
+            /**
+            Remove a child from this Group.
+            The child must be a member of this specific group.
+
+            @method removeChild
+            @param child {object} Child to be removed
+            @param [destroy=false] {boolean} Whether to destroy the child
+            @return {object} Child that was removed
+            @public
+            **/
             if (destroy === void 0) { destroy = false; }
             if (child.parent === this) {
                 var index = this.getChildIndex(child);
-                if (index > -1) {
-                    this.members.splice(index, 1);
+                if (this.removeChildAt(index)) {
                     child.parent = null;
                     if (destroy) {
                         child.destroy();
@@ -3777,31 +3946,37 @@ var Kiwi;
             }
             return child;
         };
-        /**
-        * Removes the Entity from this Group at the given position.
-        * @method removeChildAt
-        * @param index {Number} The index of the child to be removed.
-        * @return {object} The child, or null.
-        */
         Group.prototype.removeChildAt = function (index) {
+            /**
+            Remove a child from this Group at a specific member index.
+
+            @method removeChildAt
+            @param index {number} Index of the child to be removed
+            @return {object} Child removed, or `null`
+            **/
             if (this.members[index]) {
-                var child = this.members[index];
-                return this.removeChild(child);
+                var child = this.members.splice(index, 1)[0];
+                child.parent = null;
+                return child;
             }
             else {
                 return null;
             }
         };
-        /**
-        * Removes all Entities from this Group within the given range.
-        * @method removeChildren
-        * @param begin {Number} The begining index.
-        * @param end {Number} The last index of the range.
-        * @param destroy {Number} If the children should be destroyed as well.
-        * @return {Number} The number of removed entities.
-        * @public
-        */
         Group.prototype.removeChildren = function (begin, end, destroy) {
+            /**
+            Remove all children from this Group, within the given range.
+
+            For example, `removeChildren( 3, 5 )` will remove children
+            at member indices 3 and 4 (but not 5).
+
+            @method removeChildren
+            @param [begin=0] {number} Beginning index
+            @param [end=2147483647] {number} Last index of the range
+            @param [destroy=false] {number} Whether to destroy children
+            @return {number} Number of removed entities
+            @public
+            **/
             if (begin === void 0) { begin = 0; }
             if (end === void 0) { end = 0x7fffffff; }
             if (destroy === void 0) { destroy = false; }
@@ -3815,36 +3990,42 @@ var Kiwi;
             }
             return removed.length;
         };
-        /**
-        * Removes the first Entity from this Group marked as 'alive'
-        * @method removeFirstAlive
-        * @param [destroy=false] {boolean} If the entity should run the destroy method when it is removed.
-        * @return {object} The Entity that was removed from this Group if alive, otherwise null
-        * @public
-        * @deprecated in v1.1.0
-        */
         Group.prototype.removeFirstAlive = function (destroy) {
+            /**
+            Remove the first child from this Group marked as `alive`.
+
+            @method removeFirstAlive
+            @param [destroy=false] {boolean} Whether to destroy the child
+            @return {object} Child removed, or `null`
+            @public
+            @deprecated in v1.1.0
+            **/
             if (destroy === void 0) { destroy = false; }
             return this.removeChild(this.getFirstAlive(), destroy);
         };
-        /**
-        * -------------------
-        * Get Children Methods
-        * -------------------
-        **/
-        /**
-        * Get all children of this Group. By default, this will search the entire sub-graph, including children of children etc.
-        * @method getAllChildren
-        * @param getGroups {boolean} Optional: Whether to include Groups in the results. When false, will only collect GameObjects.
-        * @param destinationArray {Array} Optional: The array in which to store the results.
-        * @return {Array}
-        * @since 1.1.0
+        /*
+        -------------------
+        Get Children Methods
+        -------------------
         */
         Group.prototype.getAllChildren = function (getGroups, destinationArray) {
+            /**
+            Get all children of this Group.
+            By default, this will search the entire sub-graph,
+            including children of children etc.
+
+            @method getAllChildren
+            @param [getGroups=true] {boolean} Whether to include Groups
+                in the results
+            @param [destinationArray] {array} Array in which to store
+                the results
+            @return {array}
+            @since 1.1.0
+            **/
             if (getGroups === void 0) { getGroups = true; }
             if (destinationArray === void 0) { destinationArray = []; }
             for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].objType() == "Group") {
+                if (this.members[i].objType() === "Group") {
                     if (getGroups) {
                         destinationArray.push(this.members[i]);
                     }
@@ -3856,14 +4037,15 @@ var Kiwi;
             }
             return destinationArray;
         };
-        /**
-        * Get the child at a specific position in this Group by its index.
-        * @method getChildAt
-        * @param index {Number} The index of the child
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
         Group.prototype.getChildAt = function (index) {
+            /**
+            Get the child at a specific position in this Group by its index.
+
+            @method getChildAt
+            @param index {number} Index of the child
+            @return {object} Child if found, or `null` if not
+            @public
+            **/
             if (this.members[index]) {
                 return this.members[index];
             }
@@ -3871,21 +4053,25 @@ var Kiwi;
                 return null;
             }
         };
-        /**
-        * Get a child from this Group by its name. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
-        * @method getChildByName
-        * @param name {String} The name of the child.
-        * @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
         Group.prototype.getChildByName = function (name, recurse) {
+            /**
+            Get a child from this Group by its name.
+            By default this will not check sub-groups,
+            but if you supply the `recurse` flag
+            it will check the entire scene graph under this object.
+
+            @method getChildByName
+            @param name {string} Name of the child
+            @param [recurse=false] {boolean} Whether to search child groups
+            @return {object} Child if found, or `null` if not
+            @public
+            **/
             if (recurse === void 0) { recurse = false; }
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].name === name) {
                     return this.members[i];
                 }
-                else if (this.members[i].objType() == "Group" && recurse) {
+                else if (this.members[i].objType() === "Group" && recurse) {
                     var groupResponse = this.members[i].getChildByName(name, true);
                     if (groupResponse !== null) {
                         return groupResponse;
@@ -3894,21 +4080,25 @@ var Kiwi;
             }
             return null;
         };
-        /**
-        * Get a child from this Group by its UUID. By default this will not check sub-groups, but if you supply the correct flag it will check the entire scene graph under this object.
-        * @method getChildByID
-        * @param id {String} The ID of the child.
-        * @param recurse {Boolean} Whether to search child groups for the child. Default FALSE.
-        * @return {object} The child, if found or null if not.
-        * @public
-        */
         Group.prototype.getChildByID = function (id, recurse) {
+            /**
+            Get a child from this Group by its UUID (`child.id`).
+            By default this will not check sub-groups,
+            but if you supply the `recurse` flag
+            it will check the entire scene graph under this object.
+
+            @method getChildByID
+            @param id {string} UUID of the child.
+            @param [recurse=false] {boolean} Whether to search child groups
+            @return {object} Child if found, or `null` if not
+            @public
+            **/
             if (recurse === void 0) { recurse = false; }
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].id === id) {
                     return this.members[i];
                 }
-                else if (this.members[i].objType() == "Group" && recurse) {
+                else if (this.members[i].objType() === "Group" && recurse) {
                     var groupResponse = this.members[i].getChildByID(id, true);
                     if (groupResponse !== null) {
                         return groupResponse;
@@ -3917,24 +4107,27 @@ var Kiwi;
             }
             return null;
         };
-        /**
-        * Returns the index position of the Entity or -1 if not found.
-        * @method getChildIndex
-        * @param child {object} The child.
-        * @return {Number} The index of the child or -1 if not found.
-        * @public
-        */
         Group.prototype.getChildIndex = function (child) {
+            /**
+            Return the index position of the child, or `-1` if not found.
+
+            @method getChildIndex
+            @param child {object} Child to find
+            @return {number} Index of the child, or `-1` if not found.
+            @public
+            **/
             return this.members.indexOf(child);
         };
-        /**
-        * Returns the first Entity from this Group marked as 'alive' or null if no members are alive
-        * @method getFirstAlive
-        * @return {object}
-        * @public
-        * @deprecated in v1.1.0
-        */
         Group.prototype.getFirstAlive = function () {
+            /**
+            Return the first child from this Group marked as `exists=true`,
+            or `null` if no members are alive.
+
+            @method getFirstAlive
+            @return {IChild} First living child, or `null`
+            @public
+            @deprecated in v1.1.0
+            **/
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === true) {
                     return this.members[i];
@@ -3942,14 +4135,16 @@ var Kiwi;
             }
             return null;
         };
-        /**
-        * Returns the first member of the Group which is not 'alive', returns null if all members are alive.
-        * @method getFirstDead
-        * @return {object}
-        * @public
-        * @deprecated in v1.1.0
-        */
         Group.prototype.getFirstDead = function () {
+            /**
+            Return the first member of the Group marked as `exists=false`.
+            Returns `null` if all members are alive.
+
+            @method getFirstDead
+            @return {IChild} First dead child, or `null`
+            @public
+            @deprecated in v1.1.0
+            **/
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === false) {
                     return this.members[i];
@@ -3957,37 +4152,22 @@ var Kiwi;
             }
             return null;
         };
-        /**
-        * Returns a member at random from the group.
-        * @param {Number}	StartIndex	Optional offset off the front of the array. Default value is 0, or the beginning of the array.
-        * @param {Number}	Length		Optional restriction on the number of values you want to randomly select from.
-        * @return {object}	A child from the members list.
-        * @public
-        */
         Group.prototype.getRandom = function (start, length) {
+            /**
+            Return a member at random from the group.
+
+            @method getRandom
+            @param [start=0] {number} Start of sequence to randomly sample
+            @param [length=0] {number} Length of sequence to randomly sample.
+                If `0`, will sample to the end of the array.
+            @return {object} Child selected
+            @public
+            **/
             if (start === void 0) { start = 0; }
             if (length === void 0) { length = 0; }
             if (this.members.length === 0) {
                 return null;
             }
-            /*
-            if (length === 0) {
-                length = this.members.length;
-            }
-
-            if (start < 0 || start > length) {
-                start = 0;
-            }
-
-            var rnd = start + (Math.random() * (start + length));
-
-            if (rnd > this.members.length) {
-                return this.members[this.members.length - 1];
-
-            } else {
-                return this.members[rnd];
-            }
-            */
             // Comply start to viable range
             start = Kiwi.Utils.GameMath.clamp(start, this.members.length - 1);
             // Comply length to fit
@@ -4003,40 +4183,43 @@ var Kiwi;
             // Return
             return this.members[rnd];
         };
-        /**
-        * Returns an array of children which contain the tag which is passed.
-        * @method getChildrenByTag
-        * @param tag {string}
-        * @return {Array}
-        * @public
-        * @since 1.1.0
-        */
         Group.prototype.getChildrenByTag = function (tag) {
+            /**
+            Return an array of children containing a specified tag.
+
+            @method getChildrenByTag
+            @param tag {string} Tag to check
+            @return {array} List of children with that tag
+            @public
+            @since 1.1.0
+            **/
             var children = [];
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].hasTag(tag)) {
                     children.push(this.members[i]);
                 }
-                if (this.members[i].childType() == Kiwi.GROUP) {
+                if (this.members[i].childType() === Kiwi.GROUP) {
                     children = children.concat(this.members[i].getChildrenByTag(tag));
                 }
             }
             return children;
         };
-        /**
-        * Returns the first child which contains the tag passed.
-        * @method getFirstChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
         Group.prototype.getFirstChildByTag = function (tag) {
+            /**
+            Return the first child containing a specified tag.
+            This recursively searches within groups.
+
+            @method getFirstChildByTag
+            @param tag {string} Tag to check
+            @return {IChild} Tagged child, or `null`
+            @public
+            @since 1.3.0
+            **/
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].hasTag(tag)) {
                     return this.members[i];
                 }
-                if (this.members[i].childType() == Kiwi.GROUP) {
+                if (this.members[i].childType() === Kiwi.GROUP) {
                     var child = (this.members[i].getFirstChildByTag(tag));
                     if (child) {
                         return child;
@@ -4045,20 +4228,22 @@ var Kiwi;
             }
             return null;
         };
-        /**
-        * Returns the last child which contains the tag passed.
-        * @method getLastChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
         Group.prototype.getLastChildByTag = function (tag) {
+            /**
+            Return the last child containing the specified tag.
+            This recursively searches within groups.
+
+            @method getLastChildByTag
+            @param tag {string} Tag to check
+            @return {IChild} Tagged child, or `null`
+            @public
+            @since 1.3.0
+            **/
             for (var i = this.members.length - 1; i >= 0; i--) {
                 if (this.members[i].hasTag(tag)) {
                     return this.members[i];
                 }
-                if (this.members[i].childType() == Kiwi.GROUP) {
+                if (this.members[i].childType() === Kiwi.GROUP) {
                     var child = (this.members[i].getLastChildByTag(tag));
                     if (child) {
                         return child;
@@ -4067,21 +4252,26 @@ var Kiwi;
             }
             return null;
         };
-        /**
-        * --------------------
-        * Child Depth Sorting Methods
-        * --------------------
-        **/
-        /**
-        * Sets a new position of an existing Entity within the Group.
-        * @method setChildIndex
-        * @param child {object} The child in this Group to change.
-        * @param index {Number} The index for the child to be set at.
-        * @return {boolean} true if the Entity was moved to the new position, otherwise false.
-        * @public
+        /*
+        --------------------
+        Child Depth Sorting Methods
+        --------------------
         */
         Group.prototype.setChildIndex = function (child, index) {
-            //  If the Entity isn't in this Group, or is already at that index then bail out
+            /**
+            Move a child to a new depth index within the `Group`.
+
+            This method will fail if the child is not a child of this group,
+            or if it is already at the specified index.
+
+            @method setChildIndex
+            @param child {object} Child to change
+            @param index {number} Index to which to send the child
+            @return {boolean} Whether the child was successfully moved
+            @public
+            **/
+            // If the Entity isn't in this Group,
+            // or is already at that index, then bail out
             if (child.parent !== this || this.getChildIndex(child) === index) {
                 return false;
             }
@@ -4089,16 +4279,21 @@ var Kiwi;
             this.addChildAt(child, index);
             return true;
         };
-        /**
-        * Swaps the position of two existing Entities that are a direct child of this group.
-        * @method swapChildren
-        * @param child1 {object} The first child in this Group to swap.
-        * @param child2 {object} The second child in this Group to swap.
-        * @return {boolean} true if the Entities were swapped successfully, otherwise false.
-        * @public
-        */
         Group.prototype.swapChildren = function (child1, child2) {
-            //  If either Entity isn't in this Group, or is already at that index then bail out
+            /**
+            Swap the position of two existing direct children of this `Group`.
+
+            This method will fail if either child is not a child of this group,
+            or if they are at the same index (i.e. they are the same object).
+
+            @method swapChildren
+            @param child1 {object} First child to swap
+            @param child2 {object} Second child to swap
+            @return {boolean} Whether the children were successfully swapped
+            @public
+            **/
+            // If either Entity isn't in this Group,
+            // or is already at that index, then bail out
             if (child1.parent !== this || child2.parent !== this) {
                 return false;
             }
@@ -4111,20 +4306,23 @@ var Kiwi;
             }
             return false;
         };
-        /**
-        * Swaps the position of two existing Entities within the Group based on their index.
-        * @method swapChildrenAt
-        * @param index1 {Number} The position of the first Entity in this Group to swap.
-        * @param index2 {Number} The position of the second Entity in this Group to swap.
-        * @return {boolean} true if the Entities were swapped successfully, otherwise false.
-        * @public
-        */
         Group.prototype.swapChildrenAt = function (index1, index2) {
+            /**
+            Swap the position of two existing children of the Group,
+            based on their member indices.
+
+            @method swapChildrenAt
+            @param index1 {number} Index of the first child to swap
+            @param index2 {number} Index of the second child to swap
+            @return {boolean} Whether children were swapped successfully
+            @public
+            **/
             var child1 = this.getChildAt(index1);
             var child2 = this.getChildAt(index2);
             if (child1 !== null && child2 !== null) {
-                //  If either Entity isn't in this Group, or is already at that index then bail out
-                if (child1 == child2 || child1.parent !== this || child2.parent !== this) {
+                // If either Entity isn't in this Group,
+                // or is already at that index, then bail out
+                if (child1 === child2 || child1.parent !== this || child2.parent !== this) {
                     return false;
                 }
                 this.members[index1] = child2;
@@ -4133,41 +4331,42 @@ var Kiwi;
             }
             return false;
         };
-        /**
-        * Replaces a child Entity in this Group with a new one.
-        * @method replaceChild
-        * @param oldChild {object} The Entity in this Group to be removed.
-        * @param newChild {object} The new Entity to insert into this Group at the old Entities position.
-        * @return {boolean} true if the Entities were replaced successfully, otherwise false.
-        * @public
-        */
         Group.prototype.replaceChild = function (oldChild, newChild) {
-            //fall through if replacing child with the same child
-            if (oldChild === newChild)
+            /**
+            Replace a child in this Group with a new one.
+
+            @method replaceChild
+            @param oldChild {object} Child in this Group to be removed
+            @param newChild {object} Child to insert at old child's position
+            @return {boolean} Whether child was replaced successfully
+            @public
+            **/
+            // Fall through if replacing child with the same child
+            if (oldChild === newChild) {
                 return false;
-            // get the index of the existing child
+            }
+            // Get the index of the existing child
             var index = this.getChildIndex(oldChild);
             if (index > -1) {
-                // remove the new child from the group if the group contains it, so it can be reinserted in new position
-                if (newChild.parent) {
-                    newChild.parent.removeChild(newChild);
-                }
                 this.removeChildAt(index);
                 this.addChildAt(newChild, index);
-                newChild.parent = null;
                 return true;
             }
             return false;
         };
-        /**
-        * Loops through each member in the group and run a method on for each one.
-        * @method forEach
-        * @param context {any} The context that the callbacks are to have when called.
-        * @param callback {any} The callback method to execute on each member.
-        * @param [params]* {any} Any extra parameters.
-        * @public
-        */
         Group.prototype.forEach = function (context, callback) {
+            /**
+            Loop through each group member and run a method on each one.
+
+            The callback method will receive each child as its first parameter,
+            followed by any additional parameters provided to this method.
+
+            @method forEach
+            @param context {any} Execution context for callbacks
+            @param callback {any} Method to execute on each member
+            @param [params]* {any} Any extra parameters
+            @public
+            **/
             var params = [];
             for (var _i = 2; _i < arguments.length; _i++) {
                 params[_i - 2] = arguments[_i];
@@ -4176,35 +4375,48 @@ var Kiwi;
                 this.members.forEach(function (child) { return callback.apply(context, [child].concat(params)); });
             }
         };
-        /**
-        * Loop through each member of the groups that is alive.
-        * @method forEachAlive
-        * @param context {any} The context that the callbacks are to have when called.
-        * @param callback {any} The callback method to execute on each member.
-        * @param [params]* {any} Any extra parameters.
-        * @public
-        */
         Group.prototype.forEachAlive = function (context, callback) {
+            /**
+            Loop through each member of the group that exists.
+            This is useful for avoiding just-deleted game objects.
+
+            The callback method will receive each child as its first parameter,
+            followed by any additional parameters provided to this method.
+
+            @method forEachAlive
+            @param context {any} Execution context for callbacks
+            @param callback {any} Method to execute on each member
+            @param [params]* {any} Any extra parameters
+            @public
+            **/
             var params = [];
             for (var _i = 2; _i < arguments.length; _i++) {
                 params[_i - 2] = arguments[_i];
             }
             if (this.members.length > 0) {
                 this.members.forEach(function (child) {
-                    if (child.exists)
+                    if (child.exists) {
                         callback.apply(context, [child].concat(params));
+                    }
                 });
             }
         };
-        /**
-        * Sets a property on every member. If componentName is null the property is set on the entity itself, otherwise it is set on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
-        * @method setAll
-        * @param componentName {string} The name of the component to set the property on - set to null to set a property on the entity.
-        * @param property {string} The name of the property to set.
-        * @param value {any} The value to set the property to.
-        * @public
-        */
         Group.prototype.setAll = function (componentName, property, value) {
+            /**
+            Set a property on every member. If `componentName` is `null`,
+            the property is set on the child itself.
+            Otherwise it is set on the named component.
+
+            Uses runtime string property lookups.
+            Not optimal for large groups if speed is an issue.
+
+            @method setAll
+            @param componentName {string} Name of the component to set
+                the property on. Set to `null` to set a property on the child.
+            @param property {string} Name of the property to set
+            @param value {any} Value to which to set the property
+            @public
+            **/
             if (componentName === null) {
                 for (var i = 0; i < this.members.length; i++) {
                     this.members[i][property] = value;
@@ -4216,15 +4428,22 @@ var Kiwi;
                 }
             }
         };
-        /**
-        * Calls a function on every member. If componentName is null the function is called on the entity itself, otherwise it is called on the named component. Uses runtime string property lookups. Not optimal for large groups if speed is an issue.
-        * @method callAll
-        * @param componentName {string} The name of the component to call the function on - set to null to call a function on the entity.
-        * @param functionName {string} The name of the function to call.
-        * @param args {Array} An array of arguments to pas to the function.
-        * @public
-        */
         Group.prototype.callAll = function (componentName, functionName, args) {
+            /**
+            Call a function on every member. If `componentName` is `null`,
+            the function is called on the child itself.
+            Otherwise it is called on the named component.
+
+            Uses runtime string property lookups.
+            Not optimal for large groups if speed is an issue.
+
+            @method callAll
+            @param componentName {string} Name of the component to call
+                the function on. Set to `null` to call a function on the child.
+            @param functionName {string} Name of the function to call
+            @param args {array} Array of arguments to pass to the function
+            @public
+            **/
             if (componentName === null) {
                 for (var i = 0; i < this.members.length; i++) {
                     this.members[i][functionName].apply(this.members[i], args);
@@ -4236,12 +4455,23 @@ var Kiwi;
                 }
             }
         };
-        /**
-        * The update loop for this group.
-        * @method update
-        * @public
-        */
         Group.prototype.update = function () {
+            /**
+            Update this group. This is automatically called per frame,
+            if the group is `active`.
+
+            This method will first call `preUpdate` on components;
+            then `update` on components;
+            then `update` on all members, calling `destroy` on those
+            with `exists= false`;
+            then `postUpdate` on components.
+
+            You may extend this function, although we recommend that you use
+            `Component` objects instead.
+
+            @method update
+            @public
+            **/
             this.components.preUpdate();
             this.components.update();
             if (this.members.length > 0) {
@@ -4261,12 +4491,14 @@ var Kiwi;
                 return this._exists;
             },
             /**
-            * Toggles the exitence of this Group. An Entity that no longer exists can be garbage collected or re-allocated in a pool
-            * This method should be over-ridden to handle specific canvas/webgl implementations.
-            * @property exists
-            * @type boolean
-            * @public
-            */
+            Toggles the existence of this `Group`.
+            An `IChild` that no longer exists can be garbage collected
+            or re-allocated in a pool.
+    
+            @property exists
+            @type boolean
+            @public
+            **/
             set: function (value) {
                 this._exists = value;
             },
@@ -4278,36 +4510,40 @@ var Kiwi;
                 return this._active;
             },
             /**
-            * Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
-            * This method should be over-ridden to handle specific dom/canvas/webgl implementations.
-            * @property active
-            * @type boolean
-            * @default true
-            * @public
-            */
+            Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
+            This method should be over-ridden to handle specific dom/canvas/webgl implementations.
+            @property active
+            @type boolean
+            @default true
+            @public
+            **/
             set: function (value) {
                 this._active = value;
             },
             enumerable: true,
             configurable: true
         });
-        /**
-        * The render method that is required by the IChild.
-        * This method never gets called as the render is only worried about rendering entities.
-        * @method render
-        * @param camera {Kiwi.Camera}
-        * @public
-        * @deprecated
-        */
         Group.prototype.render = function (camera) {
+            /**
+            Render method that is required by the IChild.
+
+            This method never gets called,
+            as the renderer is only worried about rendering entities.
+
+            @method render
+            @param camera {Kiwi.Camera} Currently rendering camera
+            @public
+            @deprecated
+            **/
         };
-        /**
-        * Returns the number of member which are marked as 'alive'
-        * @method countLiving
-        * @return {Number}
-        * @public
-        */
         Group.prototype.countLiving = function () {
+            /**
+            Return the number of members which have `exists=true`.
+
+            @method countLiving
+            @return {number} Number of extant members
+            @public
+            **/
             var total = 0;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === true) {
@@ -4316,13 +4552,14 @@ var Kiwi;
             }
             return total;
         };
-        /**
-        * Returns the number of member which are not marked as 'alive'
-        * @method countDead
-        * @return {Number}
-        * @public
-        */
         Group.prototype.countDead = function () {
+            /**
+            Return the number of members which have `exists=false`.
+
+            @method countDead
+            @return {number} Number of non-extant members
+            @public
+            **/
             var total = 0;
             for (var i = 0; i < this.members.length; i++) {
                 if (this.members[i].exists === false) {
@@ -4331,26 +4568,29 @@ var Kiwi;
             }
             return total;
         };
-        /**
-        * Clear all children from this Group
-        * @method clear
-        * @public
-        */
         Group.prototype.clear = function () {
-            this.members.length = 0;
+            /**
+            Clear all children from this Group.
+
+            This maps to a default call to `removeChildren()`.
+
+            @method clear
+            @public
+            **/
+            this.removeChildren();
         };
         Object.defineProperty(Group.prototype, "willRender", {
             get: function () {
                 return this._willRender;
             },
             /**
-            * Controls whether render is automatically called by the parent.
-            * @property willRender
-            * @type boolean
-            * @return {boolean}
-            * @public
-            * @deprecated Use visible instead
-            */
+            Controls whether render is automatically called by the parent
+    
+            @property willRender
+            @type boolean
+            @public
+            @deprecated Use visible instead
+            **/
             set: function (value) {
                 this._willRender = value;
             },
@@ -4362,65 +4602,74 @@ var Kiwi;
                 return this._visible;
             },
             /**
-            * Set the visibility of this entity. True or False.
-            * @property visible
-            * @type boolean
-            * @default true
-            * @public
-            * @since 1.0.1
-            */
+            Whether this is visible or not.
+            Note that groups do not have alpha,
+            so this is the only way to control visibility.
+    
+            @property visible
+            @type boolean
+            @default true
+            @public
+            @since 1.0.1
+            **/
             set: function (value) {
                 this._visible = value;
             },
             enumerable: true,
             configurable: true
         });
-        /**
-        * Adds a new Tag to this Entity. Useful for identifying large amounts of the same type of GameObjects.
-        * You can pass multiple strings to add multiple tags.
-        * @method addTag
-        * @param tag {string} The tag that you would like to add to this Entity.
-        * @since 1.1.0
-        * @public
-        */
         Group.prototype.addTag = function () {
+            /**
+            Add a new tag to this `Group`.
+            Useful for distinguishing between the same type of GameObject.
+
+            You can pass multiple strings to add multiple tags.
+
+            @method addTag
+            @param tag {string} Tag to add
+            @since 1.1.0
+            @public
+            **/
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
             for (var i = 0; i < args.length; i++) {
-                if (this._tags.indexOf(args[i]) == -1) {
+                if (this._tags.indexOf(args[i]) === -1) {
                     this._tags.push(args[i]);
                 }
             }
         };
-        /**
-        * Removes a Tag from this Entity.
-        * @method removeTag
-        * @param tag {string} The tag that you would like to remove from this Entity.
-        * @since 1.1.0
-        * @public
-        */
         Group.prototype.removeTag = function () {
+            /**
+            Remove a Tag from this `Group`, if it is present.
+
+            @method removeTag
+            @param tag {string} Tag to remove
+            @since 1.1.0
+            @public
+            **/
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
             for (var i = 0; i < args.length; i++) {
                 var index = this._tags.indexOf(args[i]);
-                if (index !== -1)
+                if (index !== -1) {
                     this._tags.splice(index, 1);
+                }
             }
         };
-        /**
-        * Checks to see if this Entity has a Tag based upon a string which you pass.
-        * @method hasTag
-        * @param tag {string}
-        * @since 1.1.0
-        * @return {boolean}
-        * @public
-        */
         Group.prototype.hasTag = function (tag) {
+            /**
+            Return whether this `Group` has a specified tag.
+
+            @method hasTag
+            @param tag {string} Tag to check
+            @since 1.1.0
+            @return {boolean}
+            @public
+            **/
             var len = this._tags.length;
             while (len--) {
                 if (this._tags[len] === tag) {
@@ -4429,14 +4678,18 @@ var Kiwi;
             }
             return false;
         };
-        /**
-        * Removes all children and destroys the Group.
-        * @method destroy
-        * @param [immediate=false] {boolean} If the object should be immediately removed or if it should be removed at the end of the next update loop.
-        * @param [destroyChildren=true] {boolean} If all of the children on the group should also have their destroy methods called.
-        * @public
-        */
         Group.prototype.destroy = function (immediate, destroyChildren) {
+            /**
+            Remove all children and destroy the `Group`.
+
+            @method destroy
+            @param [immediate=false] {boolean} Whether the object should be
+                immediately removed, or should be removed at
+                the end of the next `update` loop.
+            @param [destroyChildren=true] {boolean} Whether all of the children
+                on the group should also have their `destroy` methods called
+            @public
+            **/
             if (immediate === void 0) { immediate = false; }
             if (destroyChildren === void 0) { destroyChildren = true; }
             if (!this.onState) {
@@ -4449,7 +4702,7 @@ var Kiwi;
                 if (this._tempRemoveChildren !== null) {
                     destroyChildren = this._tempRemoveChildren;
                 }
-                if (destroyChildren == true) {
+                if (destroyChildren === true) {
                     for (var i = 0; i < this.members.length; i++) {
                         this.members[i].destroy(true);
                     }
