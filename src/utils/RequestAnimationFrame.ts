@@ -237,8 +237,10 @@ module Kiwi.Utils {
 			var timeToCall: number =
 				Math.max( 0, 16 - ( this.currentTime - this.lastTime ) );
 
-			this._rafId =
-				window.requestAnimationFrame( () => this.RAFUpdate() );
+			if ( this.isRunning ) {
+				this._rafId =
+					window.requestAnimationFrame( () => this.RAFUpdate() );
+			}
 
 			this.lastTime = this.currentTime + timeToCall;
 
@@ -265,8 +267,11 @@ module Kiwi.Utils {
 			var timeToCall: number =
 				Math.max( 0, 16 - ( this.currentTime - this.lastTime ) );
 
-			this._timeOutID =
-				window.setTimeout( () => this.SetTimeoutUpdate(), timeToCall );
+			if ( this.isRunning ) {
+				this._timeOutID =
+					window.setTimeout(
+						() => this.SetTimeoutUpdate(), timeToCall );
+			}
 
 			this.lastTime = this.currentTime + timeToCall;
 
