@@ -3403,20 +3403,16 @@
             "submodule": "Files",
             "namespace": "Kiwi.Files",
             "file": "src/file/Loader.ts",
-            "line": 10,
-            "description": "Used for the loading of files and game assets. This usually happens when a State is at the 'loading' stage (executing the 'preload' method).",
+            "line": 12,
+            "description": "Used for the loading of files and game assets.\nThis usually happens when a State is at the loading stage\n(directly after executing the `preload` method).",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this loader belongs to.",
+                    "description": "Game to which this loader belongs",
                     "type": "Kiwi.Game"
                 }
-            ],
-            "return": {
-                "description": "This Object",
-                "type": "Kiwi.Files.Loader"
-            }
+            ]
         },
         "Kiwi.Files.TextureFile": {
             "name": "Kiwi.Files.TextureFile",
@@ -6433,19 +6429,15 @@
             "namespace": "Kiwi.Utils",
             "file": "src/utils/RequestAnimationFrame.ts",
             "line": 9,
-            "description": "Abstracts away the use of RAF or setTimeout for the core game update loop. The callback can be re-mapped on the fly.",
+            "description": "Abstracts away the use of `requestAnimationFrame` or `setTimeout`\nfor the core game update loop. The callback can be remapped on the fly.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "callback",
                     "description": "",
-                    "type": "Any"
+                    "type": "Function"
                 }
-            ],
-            "return": {
-                "description": "This object.",
-                "type": "RequestAnimationFrame"
-            }
+            ]
         },
         "Kiwi.Utils.Version": {
             "name": "Kiwi.Utils.Version",
@@ -21554,8 +21546,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 28,
-            "description": "The type of object this is.",
+            "line": 31,
+            "description": "Type of object this is.",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -21571,308 +21563,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 38,
-            "description": "The game this loader is attached to.",
-            "itemtype": "property",
-            "name": "game",
-            "type": "Kiwi.Game",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 46,
-            "description": "A list of files that can be loaded in parallel to one another.\nThis list of files are currently being loaded.",
-            "itemtype": "property",
-            "name": "_loadingParallel",
-            "type": "Array",
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 57,
-            "description": "List of files that cannot load in parallel to one another\nand so need to wait for previous files to load first. \nGenerally files loaded via XHR.",
-            "itemtype": "property",
-            "name": "_loadingQueue",
-            "type": "Array",
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 69,
-            "description": "List of files that are to be loaded. \nThese files will be placed in the '_loadingQueue' or '_loadingParallel' \nlists when the queue is told to 'start' loading.",
-            "itemtype": "property",
-            "name": "_loadingList",
-            "type": "Array",
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 81,
-            "description": "A Signal which dispatches callbacks when all files in the 'loadingList' have been loaded.\nWhen adding callbacks make sure to 'remove' them (or to use the 'addOnce' method) \notherwise will fire when other sections use the loader.",
-            "itemtype": "method",
-            "name": "onQueueComplete",
-            "type": "Kiwi.Signal",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 93,
-            "description": "A Signal which dispatches callbacks each time a file in the 'loadingList' have been loaded.\nCallbacks dispatched are passed the following arguments in order.\n1. percent - The percentage of files loaded. A number from 0 - 100\n2. bytesLoaded - The number of bytes loaded \n3. file - The latest file that was loaded. First call will be null.\n\nWhen adding callbacks make sure to 'remove' them (or to use the 'addOnce' method) \notherwise will fire when other sections use the loader.",
-            "itemtype": "method",
-            "name": "onQueueProgress",
-            "type": "Kiwi.Signal",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 111,
-            "description": "A flag indicating if the files inside the file queue are loading or not.",
-            "itemtype": "property",
-            "name": "_fileQueueLoading",
-            "type": "Boolean",
-            "default": "false",
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 122,
-            "description": "READ ONLY: A flag indicating if the files inside the file queue are loading or not.",
-            "itemtype": "property",
-            "name": "fileQueueLoading",
-            "type": "Boolean",
-            "default": "false",
-            "readonly": "",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 137,
-            "description": "When 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`. \nOtherwise it is based on the `filesLoaded / numberOfFilesToLoad`.",
-            "itemtype": "property",
-            "name": "percentLoaded",
-            "type": "Number",
-            "since": "1.2.0",
-            "readonly": "",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 150,
-            "description": "When enabled, files which can be loaded in parallel (those which are loaded via tags) \nwill be loaded at the same time. \n\nThe default behaviour is to have the files loading in a queued fashion instead of one after another.",
-            "itemtype": "property",
-            "name": "enableParallelLoading",
-            "type": "Boolean",
-            "default": "false",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 165,
-            "description": "The boot method is executed when the DOM has successfully loaded and we can now start the game.",
-            "itemtype": "method",
-            "name": "boot",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 184,
-            "description": "Starts loading all the files which are in the file queue. \n\nTo accurately use the bytesLoaded or bytesTotal properties you will need to set the 'calculateBytes' boolean to true.\nThis may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.\n\nWhen 'calculateBytes' is true the percentLoaded will be the `bytesLoaded / bytesTotal`. \nOtherwise it is based on the `filesLoaded / numberOfFilesToLoad`.",
-            "itemtype": "method",
-            "name": "start",
-            "params": [
-                {
-                    "name": "calculateBytes",
-                    "description": "Setter for the 'calculateBytes' property.",
-                    "type": "Boolean",
-                    "optional": true
-                }
-            ],
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 222,
-            "description": "Loops through the file queue and starts the loading process.",
-            "itemtype": "method",
-            "name": "_startLoading",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 265,
-            "description": "Adds a file to the queue of files to be loaded.\nFiles cannot be added whilst the queue is currently loading, \nthe file to add is currently loading, or has been loaded before.",
-            "itemtype": "method",
-            "name": "addFileToQueue",
-            "params": [
-                {
-                    "name": "file",
-                    "description": "The file to add.",
-                    "type": "Kiwi.Files.File"
-                }
-            ],
-            "return": {
-                "description": "If the file was added to the queue or not.",
-                "type": "Boolean"
-            },
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 292,
-            "description": "Removes a file from the file queue. \nFiles cannot be removed whilst the queue is loading.",
-            "itemtype": "method",
-            "name": "removeFileFromQueue",
-            "params": [
-                {
-                    "name": "file",
-                    "description": "The file to remove.",
-                    "type": "Kiwi.Files.File"
-                }
-            ],
-            "return": {
-                "description": "If the file was added to the queue or not.",
-                "type": "Boolean"
-            },
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 324,
-            "description": "Clears the file queue of all files.",
-            "itemtype": "method",
-            "name": "clearQueue",
-            "since": "1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 340,
-            "description": "Starts the process of loading a file outside of the regular queue loading process.\nCallbacks for load completion need to be added onto the file via 'onComplete' Signal.",
-            "itemtype": "method",
-            "name": "loadFile",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 358,
-            "description": "Sorts a file and places it into either the 'loadingParallel' or 'loadingQueue' \ndepending on the method of loading it is using.",
-            "itemtype": "method",
-            "name": "_sortFile",
-            "params": [
-                {
-                    "name": "file",
-                    "description": "",
-                    "type": "Kiwi.Files.File"
-                }
-            ],
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 388,
-            "description": "The number of files in the file queue that have been updated.",
+            "line": 42,
+            "description": "Number of files in the file queue that have been updated.",
             "itemtype": "property",
             "name": "_completeFiles",
             "type": "number",
@@ -21886,10 +21578,12 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 398,
-            "description": "Called each time a file has processed whilst loading, or has just completed loading.\n\nCalculates the new number of bytes loaded and \nthe percentage of loading done by looping through all of the files.",
-            "itemtype": "method",
-            "name": "_updateFileListInformation",
+            "line": 52,
+            "description": "List of files that are to be loaded.\nThese files will be placed in the `_loadingQueue` or `_loadingParallel`\nlists when the queue is told to `start` loading.",
+            "itemtype": "property",
+            "name": "_loadingList",
+            "type": "Array",
+            "since": "1.2.0",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.Files.Loader",
@@ -21899,19 +21593,159 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 442,
-            "description": "Executed by files when they have successfully been loaded.\nThis method checks to see if the files are in the file queue, and dispatches the appropriate events.",
+            "line": 64,
+            "description": "List of files that can be loaded in parallel to one another.\nThis list of files are currently being loaded.",
+            "itemtype": "property",
+            "name": "_loadingParallel",
+            "type": "Array",
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 75,
+            "description": "List of files that cannot load in parallel to one another\nand so need to wait for previous files to load first.\nGenerally files loaded via XHR.",
+            "itemtype": "property",
+            "name": "_loadingQueue",
+            "type": "Array",
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 87,
+            "description": "Whether files inside the file queue are loading or not",
+            "itemtype": "property",
+            "name": "_queueLoading",
+            "type": "boolean",
+            "default": "false",
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 98,
+            "description": "When enabled, files which can be loaded in parallel\n(those which are loaded via tags) will be loaded at the same time.\n\nThe default behaviour is to have the files loading\nin a queued fashion, one after another.",
+            "itemtype": "property",
+            "name": "enableParallelLoading",
+            "type": "boolean",
+            "default": "false",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 113,
+            "description": "Game to which this loader is attached",
+            "itemtype": "property",
+            "name": "game",
+            "type": "Kiwi.Game",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 122,
+            "description": "Dispatches callbacks when all files in `loadingList` have been loaded.\nMake sure to `remove` callbacks (or use the `addOnce` method),\notherwise will fire again when other sections use the loader.",
+            "itemtype": "property",
+            "name": "onQueueComplete",
+            "type": "Kiwi.Signal",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 134,
+            "description": "Dispatches callbacks each time a file in `loadingList` has been loaded.\nCallbacks dispatched are passed the following arguments in order.\n\n1. `percent` - Percentage of files loaded. A number from 0 - 100\n2. `bytesLoaded` - Number of bytes loaded\n3. `file` - Latest file that was loaded. First call will be null.\n\nMake sure to `remove` callbacks (or use the `addOnce` method),\notherwise will fire again when other sections use the loader.",
+            "itemtype": "property",
+            "name": "onQueueProgress",
+            "type": "Kiwi.Signal",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 152,
+            "description": "When `calculateBytes` is true, this equals `bytesLoaded / bytesTotal`.\nOtherwise it equals `filesLoaded / numberOfFilesToLoad`.",
+            "itemtype": "property",
+            "name": "percentLoaded",
+            "type": "number",
+            "default": "0",
+            "since": "1.2.0",
+            "readonly": "",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 165,
+            "description": "Whether files inside the file queue are loading or not. READ ONLY.",
+            "itemtype": "property",
+            "name": "fileQueueLoading",
+            "type": "boolean",
+            "default": "false",
+            "readonly": "",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 184,
+            "description": "Check to see if the files are in the file queue,\nand dispatch the appropriate events.\nExecuted by files when they have successfully been loaded.",
             "itemtype": "method",
             "name": "_fileQueueUpdate",
             "params": [
                 {
                     "name": "file",
-                    "description": "The file which has been recently loaded.",
+                    "description": "File which has been recently loaded",
                     "type": "Kiwi.Files.File"
                 },
                 {
                     "name": "forceProgressCheck",
-                    "description": "If the progress of file loading should be checked, regardless of the file being in the queue or not.",
+                    "description": "Whether progress of\n\tfile loading should be checked, regardless of the file\n\tbeing in the queue or not",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "false"
@@ -21927,82 +21761,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 474,
-            "description": "Starts the loading process in the loadingQueue.",
-            "itemtype": "method",
-            "name": "_startLoadingQueue",
-            "return": {
-                "description": "Whether the first file is loading",
-                "type": "Boolean"
-            },
-            "access": "private",
-            "tagname": "",
-            "since": "1.2.0",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 501,
-            "description": "Executed when a file in the 'loadingQueue' has been successfully loaded.\nRemoves the file from the loadingQueue and executes the '_startLoadingQueue' to start loading the next file.",
-            "itemtype": "method",
-            "name": "_queueFileComplete",
-            "params": [
-                {
-                    "name": "file",
-                    "description": "",
-                    "type": "Kiwi.Files.File"
-                }
-            ],
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 525,
-            "description": "Starts loading a file which can be loaded in parallel.",
-            "itemtype": "method",
-            "name": "_startLoadingParallel",
-            "params": [
-                {
-                    "name": "params",
-                    "description": "file",
-                    "type": "Kiwi.Files.File"
-                }
-            ],
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 541,
-            "description": "Starts loading all files which can be loaded in parallel.",
-            "itemtype": "method",
-            "name": "_startLoadingAllParallel",
-            "since": "1.2.0",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 557,
-            "description": "Executed when a file in the 'loadingParallel' lsit has been successfully loaded.\nRemoves the file from the list and get the fileQueue to check its progress.",
+            "line": 225,
+            "description": "Remove file from the list and get the `fileQueue` to\ncheck its progress.\nExecuted when a file in the `loadingParallel` list\nhas been successfully loaded.",
             "itemtype": "method",
             "name": "_parallelFileComplete",
             "params": [
@@ -22022,8 +21782,20 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 578,
-            "description": "-----------------------------\nBytes Loaded Methods \n-----------------------------",
+            "line": 254,
+            "description": "Remove file from `loadingQueue` and execute `_startLoadingQueue`\nto start loading the next file.\nExecuted when a file in `loadingQueue` has successfully loaded.",
+            "itemtype": "method",
+            "name": "_queueFileComplete",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "",
+                    "type": "Kiwi.Files.File"
+                }
+            ],
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
             "class": "Kiwi.Files.Loader",
             "module": "Kiwi",
             "submodule": "Files",
@@ -22031,11 +21803,252 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 584,
-            "description": "If the number of bytes for each file should be calculated before the queue starts loading.\nIf true each file in the queue makes a XHR HEAD request first to get the total values.",
+            "line": 288,
+            "description": "Sort a file and place it into either `loadingParallel` or\n`loadingQueue` depending on the loading method it is using.",
+            "itemtype": "method",
+            "name": "_sortFile",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "",
+                    "type": "Kiwi.Files.File"
+                }
+            ],
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 322,
+            "description": "Loop through the file queue and start the loading process.",
+            "itemtype": "method",
+            "name": "_startLoading",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 372,
+            "description": "Start loading all files which can be loaded in parallel.",
+            "itemtype": "method",
+            "name": "_startLoadingAllParallel",
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 390,
+            "description": "Start loading a file which can be loaded in parallel.",
+            "itemtype": "method",
+            "name": "_startLoadingParallel",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "file",
+                    "type": "Kiwi.Files.File"
+                }
+            ],
+            "since": "1.2.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 409,
+            "description": "Start the loading process in `loadingQueue`.",
+            "itemtype": "method",
+            "name": "_startLoadingQueue",
+            "access": "private",
+            "tagname": "",
+            "since": "1.2.0",
+            "return": {
+                "description": "Whether the first file is loading",
+                "type": "Boolean"
+            },
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 441,
+            "description": "Calculates the new number of bytes loaded and\nthe percentage of loading done by looping through all of the files.\n\nCalled each time a file has processed while loading,\nor has just completed loading.",
+            "itemtype": "method",
+            "name": "_updateFileListInformation",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 495,
+            "description": "Add a file to the queue of files to be loaded.\nFiles cannot be added while the queue is currently loading,\nthe file to add is currently loading, or has been loaded before.",
+            "itemtype": "method",
+            "name": "addFileToQueue",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "File to add",
+                    "type": "Kiwi.Files.File"
+                }
+            ],
+            "return": {
+                "description": "Whether the file was added to the queue",
+                "type": "Boolean"
+            },
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 534,
+            "description": "Set up loader systems. Executed when the DOM has\nsuccessfully loaded and we can now start the game.",
+            "itemtype": "method",
+            "name": "boot",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 557,
+            "description": "Clear the file queue of all files.",
+            "itemtype": "method",
+            "name": "clearQueue",
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 580,
+            "description": "Start the process of loading a file outside of the\nregular queue loading process.\nCallbacks for load completion need to be added onto the file\nvia `onComplete` Signal.",
+            "itemtype": "method",
+            "name": "loadFile",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 605,
+            "description": "Remove a file from the file queue.\nFiles cannot be removed while the queue is loading.",
+            "itemtype": "method",
+            "name": "removeFileFromQueue",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "File to remove",
+                    "type": "Kiwi.Files.File"
+                }
+            ],
+            "return": {
+                "description": "Whether the file was added to the queue",
+                "type": "Boolean"
+            },
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 647,
+            "description": "Start loading all the files which are in the file queue.\n\nTo accurately use the `bytesLoaded` or `bytesTotal` properties,\nyou will need to set the `calculateBytes` boolean to true.\nThis may increase load times, as each file in the queue will\nfirst make XHR HEAD requests for information.\n\nWhen `calculateBytes` is true, `percentLoaded` equals\n`bytesLoaded / bytesTotal`.\nOtherwise it equals `filesLoaded / numberOfFilesToLoad`.",
+            "itemtype": "method",
+            "name": "start",
+            "params": [
+                {
+                    "name": "calculateBytes",
+                    "description": "Set `calculateBytes` property\n\ton loader",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
+            "since": "1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 696,
+            "description": "Number of bytes loaded of files in the file queue.",
+            "itemtype": "property",
+            "name": "_bytesLoaded",
+            "type": "number",
+            "default": "0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 706,
+            "description": "Total file size (in bytes) of all files in the queue to be loaded",
+            "itemtype": "property",
+            "name": "_bytesTotal",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 715,
+            "description": "Whether the number of bytes for each file should be calculated\nbefore the queue starts loading.\nIf true, each file in the queue makes a XHR HEAD request first\nto get the total values.",
             "itemtype": "property",
             "name": "_calculateBytes",
-            "type": "Boolean",
+            "type": "boolean",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.Files.Loader",
@@ -22045,36 +22058,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 594,
-            "description": "Callback for when the total number of bytes of the files in the file list has been calculated.",
-            "itemtype": "property",
-            "name": "onQueueSizeCalculate",
-            "type": "any",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 603,
-            "description": "Context that the onSizeCallback should be executed in.",
-            "itemtype": "property",
-            "name": "onSizeContext",
-            "type": "any",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 612,
-            "description": "The index of the current file in the filelist thats size is being retrieved.",
+            "line": 727,
+            "description": "Index of the file in the filelist which is currently\nhaving its size retrieved",
             "itemtype": "property",
             "name": "_currentFileIndex",
             "type": "number",
@@ -22087,59 +22072,14 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 620,
-            "description": "Total file size (in bytes) of all files in the queue to be loaded.",
-            "itemtype": "property",
-            "name": "_bytesTotal",
-            "type": "Number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 629,
-            "description": "READ ONLY: Returns the total number of bytes for the files in the file queue.\nOnly contains a value if you use the 'calculateBytes' and are loading files\nOR if you use the 'calculateQueuedSize' method.",
-            "itemtype": "property",
-            "name": "bytesTotal",
-            "readonly": "",
-            "default": "0",
-            "since": "1.2.0",
-            "type": "Number",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 645,
-            "description": "The number of bytes loaded of files in the file queue.",
-            "itemtype": "property",
-            "name": "_bytesLoaded",
-            "type": "Number",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 654,
-            "description": "READ ONLY: Returns the total number of bytes for the files in the file queue.\n\nIf you are using this make sure you set the 'calculateBytes' property to true OR execute the 'calculateQueuedSize' method. \nOtherwise files that are loaded via tags will not be accurate!",
+            "line": 737,
+            "description": "Total number of bytes for the files in the file queue.\n\nFiles loaded via tags will only be accurately measured\nif `calculateBytes` is true, or `calculateQueuedSize()` is called.\n\nRead only.",
             "itemtype": "property",
             "name": "bytesLoaded",
             "readonly": "",
             "default": "0",
             "since": "1.2.0",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.Loader",
@@ -22149,8 +22089,79 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 671,
-            "description": "Loops through the file queue and gets file information (filesize, ETag, filetype) for each.\n\nTo get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded \nset the 'calculateBytes' property to true, as the loader will automatically execute this method before hand.\n\nCan only be executed when the file queue is not currently loading.",
+            "line": 756,
+            "description": "Total number of bytes for the files in the file queue.\nOnly contains a value if `calculateBytes` is true\nand files are loading, or if you use `calculateQueuedSize()`.\n\nRead only.",
+            "itemtype": "property",
+            "name": "bytesTotal",
+            "readonly": "",
+            "default": "0",
+            "since": "1.2.0",
+            "type": "number",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 774,
+            "description": "Callback for when the total number of bytes of the files\nin the file list has been calculated",
+            "itemtype": "property",
+            "name": "onQueueSizeCalculate",
+            "type": "any",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 784,
+            "description": "Context in which the onSizeCallback should be executed",
+            "itemtype": "property",
+            "name": "onSizeContext",
+            "type": "any",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 796,
+            "description": "Check to see whether all the file sizes have been retrieved.\nIf so, complete the \"calculateQueuedSize\" call.\nOtherwise request the next file's details.",
+            "itemtype": "method",
+            "name": "_calculateNextFileSize",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 832,
+            "description": "Executed when by `_calculateNextFileSize` when the files information has been retrieved.\nAdds its calculated size to the `_bytesTotal` and executes the `nextFileSize` method.",
+            "itemtype": "method",
+            "name": "_detailsReceived",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 854,
+            "description": "Loop through the file queue and get file information\n(filesize, ETag, filetype) for each.\n\nTo get accurate information about `bytesLoaded`, `bytesTotal`,\nand `percentLoaded`, set the `calculateBytes` property to true,\nas the loader will automatically execute this method before hand.\n\nCan only be executed when the file queue is not currently loading.",
             "itemtype": "method",
             "name": "calculateQueuedSize",
             "params": [
@@ -22176,280 +22187,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 704,
-            "description": "Checks to see if all the file sizes have been retrieved. \nIf so completes the \"calculateQueuedSize\" call.\nOtherwise requests the next file's details.",
-            "itemtype": "method",
-            "name": "_calculateNextFileSize",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 737,
-            "description": "Executed when by '_calculateNextFileSize' when the files information has been retrieved.\nAdds its calculated size to the _bytesTotal and executes the 'nextFileSize' method.",
-            "itemtype": "method",
-            "name": "_detailsReceived",
-            "access": "private",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 758,
-            "description": "-----------------------------\nFile Addition Methods\n-----------------------------",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 765,
-            "description": "Creates a new file for an image and adds a the file to loading queue.",
-            "itemtype": "method",
-            "name": "addImage",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "The key for the file.",
-                    "type": "String"
-                },
-                {
-                    "name": "url",
-                    "description": "The url of the image to load.",
-                    "type": "String"
-                },
-                {
-                    "name": "width",
-                    "description": "The width of the cell on the image to use once the image is loaded.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "height",
-                    "description": "The height of the cell on the image to use once the image is loaded.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "offsetX",
-                    "description": "An offset on the x axis of the cell.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "offsetY",
-                    "description": "An offset of the y axis of the cell.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If the image should be stored globally or not.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "return": {
-                "description": "The file which was created.",
-                "type": "Kiwi.Files.File"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 828,
-            "description": "Creates a new file for a spritesheet and adds the file to the loading queue.",
-            "itemtype": "method",
-            "name": "addSpriteSheet",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "The key for the file.",
-                    "type": "String"
-                },
-                {
-                    "name": "url",
-                    "description": "The url of the image to load.",
-                    "type": "String"
-                },
-                {
-                    "name": "frameWidth",
-                    "description": "The width of a single cell in the spritesheet.",
-                    "type": "Number"
-                },
-                {
-                    "name": "frameHeight",
-                    "description": "The height of a single cell in the spritesheet.",
-                    "type": "Number"
-                },
-                {
-                    "name": "numCells",
-                    "description": "The number of cells that are in this spritesheet.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "rows",
-                    "description": "The number of cells that are in a row.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "cols",
-                    "description": "The number of cells that are in a column.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "sheetOffsetX",
-                    "description": "The offset of the whole spritesheet on the x axis.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "sheetOffsetY",
-                    "description": "The offset of the whole spritesheet on the y axis.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "cellOffsetX",
-                    "description": "The spacing between each cell on the x axis.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "cellOffsetY",
-                    "description": "The spacing between each cell on the y axis.",
-                    "type": "Number",
-                    "optional": true
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "return": {
-                "description": "The file which was created.",
-                "type": "Kiwi.Files.File"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 908,
-            "description": "Creates new file's for loading a texture atlas and adds those files to the loading queue.",
-            "itemtype": "method",
-            "name": "addTextureAtlas",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "The key for the image file.",
-                    "type": "String"
-                },
-                {
-                    "name": "imageUrl",
-                    "description": "The url of the image to load.",
-                    "type": "String"
-                },
-                {
-                    "name": "jsonID",
-                    "description": "A key for the JSON file.",
-                    "type": "String"
-                },
-                {
-                    "name": "jsonURL",
-                    "description": "The url of the json file to load.",
-                    "type": "String"
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If hte files should be stored globally or not.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "return": {
-                "description": "The file which was created.",
-                "type": "Kiwi.Files.File"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 983,
-            "description": "Creates a new File to store a audio piece. \nThis method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nYou can override this behaviour and tell the audio data to load even if not supported by setting the 'onlyIfSupported' boolean to false.\nAlso you can now pass an array of filepaths, and the first audio filetype that is supported will be loaded.",
-            "itemtype": "method",
-            "name": "addAudio",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "The key for the audio file.",
-                    "type": "String"
-                },
-                {
-                    "name": "url",
-                    "description": "The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.",
-                    "type": "String"
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If the file should be stored globally.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                },
-                {
-                    "name": "onlyIfSupported",
-                    "description": "If the audio file should only be loaded if Kiwi detects that the audio file could be played.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "return": {
-                "description": "The file which was created.",
-                "type": "Kiwi.Files.File"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 1046,
-            "description": "This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nReturns a boolean if the audio file was successfully added or not to the file directory.",
+            "line": 901,
+            "description": "Check to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.\nReturn a boolean specifying whether the audio file\nwas successfully added to the filestore.",
             "itemtype": "method",
             "name": "_attemptToAddAudio",
             "params": [
@@ -22460,17 +22199,17 @@
                     "props": [
                         {
                             "name": "key",
-                            "description": "The key for the audio file.",
+                            "description": "Key for the audio file",
                             "type": "String"
                         },
                         {
                             "name": "url",
-                            "description": "The url of the audio to load.",
+                            "description": "URL of the audio to load",
                             "type": "String"
                         },
                         {
                             "name": "state",
-                            "description": "The state this file should be for.",
+                            "description": "State this file is for",
                             "type": "Kiwi.State",
                             "optional": true,
                             "optdefault": "true"
@@ -22485,14 +22224,14 @@
                 },
                 {
                     "name": "onlyIfSupported",
-                    "description": "If the audio file should only be loaded if Kiwi detects that the audio file could be played.",
+                    "description": "Whether the audio file\n\tshould only be loaded if Kiwi detects that the audio file\n\tcould be played.",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "The file which was created.",
+                "description": "File which was created",
                 "type": "Kiwi.Files.File"
             },
             "access": "private",
@@ -22504,31 +22243,38 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1094,
-            "description": "Creates a new File to store JSON and adds it to the loading queue.",
+            "line": 963,
+            "description": "Create a new File to store an audio piece.\n\nFirst check to see if the AUDIO file being loaded is supported\nby the browser/device before adding it to the loading queue.\nYou can override this behaviour and tell the audio data to load\neven if not supported by setting the `onlyIfSupported` parameter\nto `false`.\n\nIf you pass an array of filepaths as `url`, the first audio\nfiletype that is supported will be loaded.",
             "itemtype": "method",
-            "name": "addJSON",
+            "name": "addAudio",
             "params": [
                 {
                     "name": "key",
-                    "description": "The key for the file.",
+                    "description": "Key for the audio file",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "The url to the json file.",
+                    "description": "URL of the audio to load.\n\tYou can pass an array of URLs, in which case\n\tthe first supported audio filetype in the array will be loaded.",
                     "type": "String"
                 },
                 {
                     "name": "storeAsGlobal",
-                    "description": "If the file should be stored globally.",
+                    "description": "Whether the file\n\tshould be stored globally",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                },
+                {
+                    "name": "onlyIfSupported",
+                    "description": "Whether the audio file\n\tshould only be loaded if Kiwi detects that\n\tthe audio file is supported",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "The file which was created.",
+                "description": "File which was created",
                 "type": "Kiwi.Files.File"
             },
             "access": "public",
@@ -22540,67 +22286,31 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1137,
-            "description": "Creates a new File to store XML and adds it to the loading queue.",
-            "itemtype": "method",
-            "name": "addXML",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "The key for the file.",
-                    "type": "String"
-                },
-                {
-                    "name": "url",
-                    "description": "The url to the xml file.",
-                    "type": "String"
-                },
-                {
-                    "name": "storeAsGlobal",
-                    "description": "If the file should be stored globally.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "true"
-                }
-            ],
-            "return": {
-                "description": "The file which was created.",
-                "type": "Kiwi.Files.File"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 1180,
-            "description": "Creates a new File for a Binary file and adds it to the loading queue.",
+            "line": 1040,
+            "description": "Create a new File for a Binary file\nand add it to the loading queue.",
             "itemtype": "method",
             "name": "addBinaryFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "The key for the file.",
+                    "description": "Key for the file",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "The url to the Binary file.",
+                    "description": "URL to the Binary file",
                     "type": "String"
                 },
                 {
                     "name": "storeAsGlobal",
-                    "description": "If the file should be stored globally.",
+                    "description": "Whether the file\n\tshould be stored globally",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "The file which was created.",
+                "description": "File which was created",
                 "type": "Kiwi.Files.File"
             },
             "access": "public",
@@ -22612,31 +22322,261 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1223,
-            "description": "Creates a new File to store a text file and adds it to the loading queue.",
+            "line": 1103,
+            "description": "Create a new file for an image and adds it to the loading queue.",
+            "itemtype": "method",
+            "name": "addImage",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for the file",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "URL of the image to load",
+                    "type": "String"
+                },
+                {
+                    "name": "width",
+                    "description": "Width of the cell on the image to use\n\tonce the image is loaded",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "height",
+                    "description": "Height of the cell on the image to use\n\tonce the image is loaded",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "offsetX",
+                    "description": "Horizontal offset of the cell",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "offsetY",
+                    "description": "Vertical offset of the cell",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the image\n\tshould be stored globally",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "File which was created",
+                "type": "Kiwi.Files.File"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1186,
+            "description": "Create a new File to store JSON and add it to the loading queue.",
+            "itemtype": "method",
+            "name": "addJSON",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for the file",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "URL to the json file",
+                    "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the file\n\tshould be stored globally.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "File which was created",
+                "type": "Kiwi.Files.File"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1253,
+            "description": "Create a new file for a spritesheet\nand add it to the loading queue.",
+            "itemtype": "method",
+            "name": "addSpriteSheet",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for the file",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "URL of the image to load",
+                    "type": "String"
+                },
+                {
+                    "name": "frameWidth",
+                    "description": "Width of a single cell\n\tin the spritesheet",
+                    "type": "Number"
+                },
+                {
+                    "name": "frameHeight",
+                    "description": "Height of a single cell\n\tin the spritesheet",
+                    "type": "Number"
+                },
+                {
+                    "name": "numCells",
+                    "description": "Number of cells in this spritesheet",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "rows",
+                    "description": "Number of cells in a row",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "cols",
+                    "description": "Number of cells in a column",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "sheetOffsetX",
+                    "description": "Horizontal offset of the whole\n\tspritesheet",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "sheetOffsetY",
+                    "description": "Vertical offset of the whole\n\tspritesheet",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "cellOffsetX",
+                    "description": "Horizontal spacing between each cell",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "cellOffsetY",
+                    "description": "Vertical spacing between each cell",
+                    "type": "Number",
+                    "optional": true
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the image\n\tshould be stored globally",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "File which was created",
+                "type": "Kiwi.Files.File"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1355,
+            "description": "Create new files for loading a texture atlas\nand add those files to the loading queue.",
+            "itemtype": "method",
+            "name": "addTextureAtlas",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for the image file",
+                    "type": "String"
+                },
+                {
+                    "name": "imageUrl",
+                    "description": "URL of the image to load",
+                    "type": "String"
+                },
+                {
+                    "name": "jsonID",
+                    "description": "Key for the JSON file",
+                    "type": "String"
+                },
+                {
+                    "name": "jsonURL",
+                    "description": "URL of the JSON file to load",
+                    "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the files\n\tshould be stored globally",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "File which was created",
+                "type": "Kiwi.Files.File"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1443,
+            "description": "Create a new File to store a text file\nand add it to the loading queue.",
             "itemtype": "method",
             "name": "addTextFile",
             "params": [
                 {
                     "name": "key",
-                    "description": "The key for the file.",
+                    "description": "Key for the file",
                     "type": "String"
                 },
                 {
                     "name": "url",
-                    "description": "The url to the text file.",
+                    "description": "URL to the text file",
                     "type": "String"
                 },
                 {
                     "name": "storeAsGlobal",
-                    "description": "If the file should be stored globally.",
+                    "description": "Whether the file\n\tshould be stored globally",
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": "true"
                 }
             ],
             "return": {
-                "description": "The file which was created.",
+                "description": "File which was created",
                 "type": "Kiwi.Files.File"
             },
             "access": "public",
@@ -22648,8 +22588,44 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1266,
-            "description": "Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. \nOtherwise it is best to leave it alone.",
+            "line": 1502,
+            "description": "Create a new File to store XML and add it to the loading queue.",
+            "itemtype": "method",
+            "name": "addXML",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "Key for the file",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "URL to the xml file",
+                    "type": "String"
+                },
+                {
+                    "name": "storeAsGlobal",
+                    "description": "Whether the file\n\tshould be stored globally",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "File which was created",
+                "type": "Kiwi.Files.File"
+            },
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1557,
+            "description": "Flag this loader for garbage collection.\nOnly use this method if you are SURE you will no longer need it.\nOtherwise it is best to leave it alone.",
             "itemtype": "method",
             "name": "destroy",
             "access": "public",
@@ -22661,40 +22637,28 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1308,
-            "description": "-----------------------\nDeprecated - Functionality exists. Maps to its equalvent\n-----------------------",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 1315,
-            "description": "Initialise the properities that are needed on this loader.\nRecommended you use the 'onQueueProgress' / 'onQueueComplete' signals instead.",
+            "line": 1607,
+            "description": "Initialise the properties that are needed on this loader.\nRecommended you use the `onQueueProgress` and\n`onQueueComplete` signals instead.",
             "itemtype": "method",
             "name": "init",
             "params": [
                 {
                     "name": "progress",
-                    "description": "Progress callback method.",
+                    "description": "Progress callback method",
                     "type": "Any",
-                    "optional": true,
-                    "optdefault": "null"
+                    "optional": true
                 },
                 {
                     "name": "complete",
-                    "description": "Complete callback method.",
+                    "description": "Complete callback method",
                     "type": "Any",
-                    "optional": true,
-                    "optdefault": "null"
+                    "optional": true
                 },
                 {
                     "name": "calculateBytes",
-                    "description": "",
+                    "description": "Value to which\n\tto set `calculateBytes`",
                     "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "false"
+                    "optional": true
                 }
             ],
             "deprecated": true,
@@ -22708,31 +22672,22 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1342,
-            "description": "Loops through all of the files that need to be loaded and start the load event on them.",
+            "line": 1638,
+            "description": "Get/set whether the number of bytes for each file\nshould be calculated before the queue starts loading.\nIf true, each file in the queue makes a XHR HEAD request first\nto get the total values.\n\nIn the next major version, this should become a property.",
             "itemtype": "method",
-            "name": "startLoad",
-            "deprecated": true,
-            "deprecationMessage": "Use 'start' instead. Deprecated as of 1.2.0",
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 1352,
-            "description": "Returns a percentage of the amount that has been loaded so far.",
-            "itemtype": "method",
-            "name": "getPercentLoaded",
+            "name": "calculateBytes",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "Value to set",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
             "return": {
-                "description": "",
-                "type": "Number"
+                "description": "Current value of byte calculation",
+                "type": "Boolean"
             },
-            "deprecated": true,
-            "deprecationMessage": "Use 'percentLoaded' instead. Deprecated as of 1.2.0",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.Loader",
@@ -22742,8 +22697,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1364,
-            "description": "Returns a boolean indicating if everything in the loading que has been loaded or not.",
+            "line": 1662,
+            "description": "Return a boolean indicating whether\neverything in the loading queue has been loaded.",
             "itemtype": "method",
             "name": "complete",
             "return": {
@@ -22751,7 +22706,7 @@
                 "type": "Boolean"
             },
             "deprecated": true,
-            "deprecationMessage": "Use 'percentLoaded' instead. Deprecated as of 1.2.0",
+            "deprecationMessage": "Use `percentLoaded` instead. Deprecated as of 1.2.0",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.Loader",
@@ -22761,33 +22716,8 @@
         },
         {
             "file": "src/file/Loader.ts",
-            "line": 1375,
-            "description": "Quick way of getting / setting the private variable 'calculateBytes'\nTo be made into a public variable once removed.",
-            "itemtype": "method",
-            "name": "calculateBytes",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Boolean",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "access": "public",
-            "tagname": "",
-            "class": "Kiwi.Files.Loader",
-            "module": "Kiwi",
-            "submodule": "Files",
-            "namespace": "Kiwi.Files"
-        },
-        {
-            "file": "src/file/Loader.ts",
-            "line": 1392,
-            "description": "Returns the total number of bytes that have been loaded so far from files in the file queue.",
+            "line": 1678,
+            "description": "Return the total number of bytes that have been loaded so far\nfrom files in the file queue.",
             "itemtype": "method",
             "name": "getBytesLoaded",
             "return": {
@@ -22796,7 +22726,41 @@
             },
             "readonly": "",
             "deprecated": true,
-            "deprecationMessage": "Use 'bytesLoaded' instead. Deprecated as of 1.2.0",
+            "deprecationMessage": "Use `bytesLoaded` instead. Deprecated as of 1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1695,
+            "description": "Return a percentage of the amount that has been loaded so far.",
+            "itemtype": "method",
+            "name": "getPercentLoaded",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "deprecated": true,
+            "deprecationMessage": "Use `percentLoaded` instead. Deprecated as of 1.2.0",
+            "access": "public",
+            "tagname": "",
+            "class": "Kiwi.Files.Loader",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/Loader.ts",
+            "line": 1710,
+            "description": "Loop through all of the files that need to be loaded\nand start the load event on them.",
+            "itemtype": "method",
+            "name": "startLoad",
+            "deprecated": true,
+            "deprecationMessage": "Use `start` instead. Deprecated as of 1.2.0.",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.Loader",
@@ -52610,8 +52574,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 35,
-            "description": "The type of obect that this is.",
+            "line": 38,
+            "description": "Return the type of obect that this is.",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -52627,8 +52591,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 45,
-            "description": "The callback method that gets executed every time the RAF is executed.",
+            "line": 49,
+            "description": "Callback method that gets executed every time this updates.",
             "itemtype": "property",
             "name": "_callback",
             "type": "Any",
@@ -52641,15 +52605,15 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 53,
-            "description": "Sets the callback method that is to be executed each time the RAF is.",
+            "line": 60,
+            "description": "Set the callback method to be executed each time this updates.",
             "itemtype": "method",
             "name": "setCallback",
             "params": [
                 {
                     "name": "callback",
                     "description": "",
-                    "type": "Any"
+                    "type": "Function"
                 }
             ],
             "access": "public",
@@ -52661,11 +52625,11 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 65,
-            "description": "If the RAF is not supported, then this is the ID of the timeout that will be set.",
+            "line": 72,
+            "description": "If `requestAnimationFrame` is not supported,\nthen this is the ID of the timeout that will be set",
             "itemtype": "property",
             "name": "_timeOutID",
-            "type": "Any",
+            "type": "number",
             "access": "private",
             "tagname": "",
             "class": "Kiwi.Utils.RequestAnimationFrame",
@@ -52675,8 +52639,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 73,
-            "description": "A boolean indicating whether or not we are using setTimeout for the RequestAnimationFrame or not.",
+            "line": 82,
+            "description": "Whether we are using `setTimeout` to schedule updates.",
             "itemtype": "property",
             "name": "_isSetTimeOut",
             "type": "boolean",
@@ -52690,8 +52654,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 82,
-            "description": "Returns a boolean indicating whether or not setTimeout is being used instead of RAF.",
+            "line": 94,
+            "description": "Return a boolean indicating whether `setTimeout` is being used\ninstead of `requestAnimationFrame`.",
             "itemtype": "method",
             "name": "usingSetTimeOut",
             "return": {
@@ -52707,8 +52671,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 94,
-            "description": "Returns a boolean indicating wheather or not we are using the RAF. If false it means we are using setTimeout for our update loop.",
+            "line": 109,
+            "description": "Return a boolean indicating wheather we are using the browser's\n`requestAnimationFrame` method to schedule updates.\nIf `false` it means we are using `setTimeout` for our update loop.",
             "itemtype": "method",
             "name": "usingRAF",
             "return": {
@@ -52724,11 +52688,11 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 111,
-            "description": "The last time at which the RAF was called. This is given a value at the end of the RAF loop.",
+            "line": 127,
+            "description": "Last time at which the RAF was called.\nThis is given a value at the end of the RAF loop.",
             "itemtype": "property",
             "name": "lastTime",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Utils.RequestAnimationFrame",
@@ -52738,11 +52702,11 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 119,
-            "description": "A timestamp that has the current time. This is updated each time the RAF loop is executed. Is updated before the last time in the loop.",
+            "line": 137,
+            "description": "Timestamp that has the current time.\nThis is updated each time the RAF loop is executed.\nIs updated before `lastTime` in the loop.",
             "itemtype": "property",
             "name": "currentTime",
-            "type": "Number",
+            "type": "number",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Utils.RequestAnimationFrame",
@@ -52752,8 +52716,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 127,
-            "description": "A boolean indicating whether or not the RAF is running.",
+            "line": 148,
+            "description": "Whether the RAF is running",
             "itemtype": "property",
             "name": "isRunning",
             "type": "boolean",
@@ -52767,11 +52731,11 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 136,
+            "line": 158,
             "description": "ID of the RAF, used to stop the RAF",
             "itemtype": "property",
             "name": "_rafId",
-            "type": "???",
+            "type": "number",
             "default": "null",
             "access": "private",
             "tagname": "",
@@ -52782,15 +52746,15 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 145,
-            "description": "Starts the RequestAnimationFrame (or setTimeout if RAF not supported).",
+            "line": 170,
+            "description": "Start the animation frame loop.",
             "itemtype": "method",
             "name": "start",
             "params": [
                 {
                     "name": "callback",
-                    "description": "A callback to be executed everyframe. Overrides the callback set at instantiation if passed.",
-                    "type": "Any",
+                    "description": "Callback to be executed every frame.\n\tOverrides the callback set at instantiation if passed.",
+                    "type": "Function",
                     "optional": true
                 }
             ],
@@ -52803,8 +52767,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 174,
-            "description": "Stops the RAF from running.",
+            "line": 199,
+            "description": "Stop the RAF from running.",
             "itemtype": "method",
             "name": "stop",
             "access": "public",
@@ -52816,8 +52780,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 194,
-            "description": "The update loop that the RAF will continuously call.",
+            "line": 218,
+            "description": "Update via `requestAnimationFrame`.\nThis method is called automatically when using\n`requestAnimationFrame` to control frame updates.\nThis is the default method.",
             "itemtype": "method",
             "name": "RAFUpdate",
             "access": "public",
@@ -52829,8 +52793,8 @@
         },
         {
             "file": "src/utils/RequestAnimationFrame.ts",
-            "line": 217,
-            "description": "The update loop that the setTimeout method will continuously call.",
+            "line": 251,
+            "description": "Update via the `setTimeout` method.\nThis method is called automatically when using `setTimeout`\nto control animation frames.",
             "itemtype": "method",
             "name": "SetTimeoutUpdate",
             "access": "public",
@@ -53255,18 +53219,6 @@
         {
             "message": "Missing item type\nReturns the type of child that this is.",
             "line": " src/core/Entity.ts:248"
-        },
-        {
-            "message": "Missing item type\n-----------------------------\nBytes Loaded Methods \n-----------------------------",
-            "line": " src/file/Loader.ts:578"
-        },
-        {
-            "message": "Missing item type\n-----------------------------\nFile Addition Methods\n-----------------------------",
-            "line": " src/file/Loader.ts:758"
-        },
-        {
-            "message": "Missing item type\n-----------------------\nDeprecated - Functionality exists. Maps to its equalvent\n-----------------------",
-            "line": " src/file/Loader.ts:1308"
         },
         {
             "message": "Missing item type\n-----------------------\n Creation of Tile Types\n-----------------------",

@@ -387,7 +387,8 @@
 
 
 <div class="box intro">
-    <p>Abstracts away the use of RAF or setTimeout for the core game update loop. The callback can be re-mapped on the fly.</p>
+    <p>Abstracts away the use of <code>requestAnimationFrame</code> or <code>setTimeout</code>
+for the core game update loop. The callback can be remapped on the fly.</p>
 
 </div>
 
@@ -411,10 +412,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type">RequestAnimationFrame</span>
-        </span>
     
 
     
@@ -463,7 +460,7 @@
                 <li class="param">
                     
                         <code class="param-name">callback</code>
-                        <span class="type">Any</span>
+                        <span class="type">Function</span>
                     
 
                     
@@ -479,20 +476,6 @@
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">RequestAnimationFrame</span>:
-                    
-                    <p>This object.</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -692,7 +675,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l35"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:35</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l38"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:38</code></a>
         
         </p>
 
@@ -703,7 +686,7 @@
     </div>
 
     <div class="description">
-        <p>The type of obect that this is.</p>
+        <p>Return the type of obect that this is.</p>
 
     </div>
 
@@ -763,7 +746,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l194"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:194</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l218"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:218</code></a>
         
         </p>
 
@@ -774,7 +757,10 @@
     </div>
 
     <div class="description">
-        <p>The update loop that the RAF will continuously call.</p>
+        <p>Update via <code>requestAnimationFrame</code>.
+This method is called automatically when using
+<code>requestAnimationFrame</code> to control frame updates.
+This is the default method.</p>
 
     </div>
 
@@ -830,7 +816,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l53"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:53</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l60"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:60</code></a>
         
         </p>
 
@@ -841,7 +827,7 @@
     </div>
 
     <div class="description">
-        <p>Sets the callback method that is to be executed each time the RAF is.</p>
+        <p>Set the callback method to be executed each time this updates.</p>
 
     </div>
 
@@ -854,7 +840,7 @@
                 <li class="param">
                     
                         <code class="param-name">callback</code>
-                        <span class="type">Any</span>
+                        <span class="type">Function</span>
                     
 
                     
@@ -910,7 +896,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l217"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:217</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l251"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:251</code></a>
         
         </p>
 
@@ -921,7 +907,9 @@
     </div>
 
     <div class="description">
-        <p>The update loop that the setTimeout method will continuously call.</p>
+        <p>Update via the <code>setTimeout</code> method.
+This method is called automatically when using <code>setTimeout</code>
+to control animation frames.</p>
 
     </div>
 
@@ -977,7 +965,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l145"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:145</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l170"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:170</code></a>
         
         </p>
 
@@ -988,7 +976,7 @@
     </div>
 
     <div class="description">
-        <p>Starts the RequestAnimationFrame (or setTimeout if RAF not supported).</p>
+        <p>Start the animation frame loop.</p>
 
     </div>
 
@@ -1001,14 +989,15 @@
                 <li class="param">
                     
                         <code class="param-name optional">[callback]</code>
-                        <span class="type">Any</span>
+                        <span class="type">Function</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>A callback to be executed everyframe. Overrides the callback set at instantiation if passed.</p>
+                        <p>Callback to be executed every frame.
+    Overrides the callback set at instantiation if passed.</p>
 
                     </div>
 
@@ -1059,7 +1048,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l174"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:174</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l199"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:199</code></a>
         
         </p>
 
@@ -1070,7 +1059,7 @@
     </div>
 
     <div class="description">
-        <p>Stops the RAF from running.</p>
+        <p>Stop the RAF from running.</p>
 
     </div>
 
@@ -1120,7 +1109,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l94"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:94</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l109"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:109</code></a>
         
         </p>
 
@@ -1131,7 +1120,9 @@
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating wheather or not we are using the RAF. If false it means we are using setTimeout for our update loop.</p>
+        <p>Return a boolean indicating wheather we are using the browser&#39;s
+<code>requestAnimationFrame</code> method to schedule updates.
+If <code>false</code> it means we are using <code>setTimeout</code> for our update loop.</p>
 
     </div>
 
@@ -1193,7 +1184,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l82"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:82</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l94"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:94</code></a>
         
         </p>
 
@@ -1204,7 +1195,8 @@
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating whether or not setTimeout is being used instead of RAF.</p>
+        <p>Return a boolean indicating whether <code>setTimeout</code> is being used
+instead of <code>requestAnimationFrame</code>.</p>
 
     </div>
 
@@ -1261,7 +1253,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l45"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:45</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l49"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:49</code></a>
         
         </p>
 
@@ -1271,7 +1263,7 @@
     </div>
 
     <div class="description">
-        <p>The callback method that gets executed every time the RAF is executed.</p>
+        <p>Callback method that gets executed every time this updates.</p>
 
     </div>
 
@@ -1308,7 +1300,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l73"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:73</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l82"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:82</code></a>
         
         </p>
 
@@ -1318,7 +1310,7 @@
     </div>
 
     <div class="description">
-        <p>A boolean indicating whether or not we are using setTimeout for the RequestAnimationFrame or not.</p>
+        <p>Whether we are using <code>setTimeout</code> to schedule updates.</p>
 
     </div>
 
@@ -1334,7 +1326,7 @@
                 
                     <div id="property__rafId" class="property item private">
     <h3 class="name"><code>_rafId</code></h3>
-    <span class="type">???</span>
+    <span class="type">Number</span>
 
     
 
@@ -1357,7 +1349,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l136"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:136</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l158"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:158</code></a>
         
         </p>
 
@@ -1383,7 +1375,7 @@
                 
                     <div id="property__timeOutID" class="property item private">
     <h3 class="name"><code>_timeOutID</code></h3>
-    <span class="type">Any</span>
+    <span class="type">Number</span>
 
     
 
@@ -1406,7 +1398,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l65"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:65</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l72"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:72</code></a>
         
         </p>
 
@@ -1416,7 +1408,8 @@
     </div>
 
     <div class="description">
-        <p>If the RAF is not supported, then this is the ID of the timeout that will be set.</p>
+        <p>If <code>requestAnimationFrame</code> is not supported,
+then this is the ID of the timeout that will be set</p>
 
     </div>
 
@@ -1453,7 +1446,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l119"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:119</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l137"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:137</code></a>
         
         </p>
 
@@ -1463,7 +1456,9 @@
     </div>
 
     <div class="description">
-        <p>A timestamp that has the current time. This is updated each time the RAF loop is executed. Is updated before the last time in the loop.</p>
+        <p>Timestamp that has the current time.
+This is updated each time the RAF loop is executed.
+Is updated before <code>lastTime</code> in the loop.</p>
 
     </div>
 
@@ -1500,7 +1495,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l127"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:127</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l148"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:148</code></a>
         
         </p>
 
@@ -1510,7 +1505,7 @@
     </div>
 
     <div class="description">
-        <p>A boolean indicating whether or not the RAF is running.</p>
+        <p>Whether the RAF is running</p>
 
     </div>
 
@@ -1549,7 +1544,7 @@
             
         
         
-        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l111"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:111</code></a>
+        <a href="../files/src_utils_RequestAnimationFrame.ts.html#l127"><code>src&#x2F;utils&#x2F;RequestAnimationFrame.ts:127</code></a>
         
         </p>
 
@@ -1559,7 +1554,8 @@
     </div>
 
     <div class="description">
-        <p>The last time at which the RAF was called. This is given a value at the end of the RAF loop.</p>
+        <p>Last time at which the RAF was called.
+This is given a value at the end of the RAF loop.</p>
 
     </div>
 

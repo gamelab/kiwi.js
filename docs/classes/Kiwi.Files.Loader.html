@@ -370,7 +370,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_file_Loader.ts.html#l10"><code>src&#x2F;file&#x2F;Loader.ts:10</code></a>
+            Defined in: <a href="../files/src_file_Loader.ts.html#l12"><code>src&#x2F;file&#x2F;Loader.ts:12</code></a>
         </div>
     
 
@@ -387,7 +387,9 @@
 
 
 <div class="box intro">
-    <p>Used for the loading of files and game assets. This usually happens when a State is at the &#39;loading&#39; stage (executing the &#39;preload&#39; method).</p>
+    <p>Used for the loading of files and game assets.
+This usually happens when a State is at the loading stage
+(directly after executing the <code>preload</code> method).</p>
 
 </div>
 
@@ -411,10 +413,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Files.Loader.html" class="crosslink">Kiwi.Files.Loader</a></span>
-        </span>
     
 
     
@@ -440,7 +438,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l10"><code>src&#x2F;file&#x2F;Loader.ts:10</code></a>
+        <a href="../files/src_file_Loader.ts.html#l12"><code>src&#x2F;file&#x2F;Loader.ts:12</code></a>
         
         </p>
 
@@ -469,7 +467,7 @@
                     
 
                     <div class="param-description">
-                        <p>The game that this loader belongs to.</p>
+                        <p>Game to which this loader belongs</p>
 
                     </div>
 
@@ -480,20 +478,6 @@
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Files.Loader.html" class="crosslink">Kiwi.Files.Loader</a></span>:
-                    
-                    <p>This Object</p>
-
-                
-            </div>
-        </div>
     
 
     
@@ -759,20 +743,6 @@
                             </li>
                         
                             <li class="index-item method public">
-                                <a href="#method_onQueueComplete">onQueueComplete</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_onQueueProgress">onQueueProgress</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
                                 <a href="#method_removeFileFromQueue">removeFileFromQueue</a>
 
                                 
@@ -841,13 +811,6 @@
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__fileQueueLoading">_fileQueueLoading</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
                                 <a href="#property__loadingList">_loadingList</a>
 
                                 
@@ -863,6 +826,13 @@
                         
                             <li class="index-item property private">
                                 <a href="#property__loadingQueue">_loadingQueue</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__queueLoading">_queueLoading</a>
 
                                 
                                 
@@ -898,6 +868,20 @@
                         
                             <li class="index-item property public">
                                 <a href="#property_game">game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onQueueComplete">onQueueComplete</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
+                                <a href="#property_onQueueProgress">onQueueProgress</a>
 
                                 
                                 
@@ -992,7 +976,7 @@
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1046"><code>src&#x2F;file&#x2F;Loader.ts:1046</code></a>
+        <a href="../files/src_file_Loader.ts.html#l901"><code>src&#x2F;file&#x2F;Loader.ts:901</code></a>
         
         </p>
 
@@ -1003,8 +987,9 @@
     </div>
 
     <div class="description">
-        <p>This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
-Returns a boolean if the audio file was successfully added or not to the file directory.</p>
+        <p>Check to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
+Return a boolean specifying whether the audio file
+was successfully added to the filestore.</p>
 
     </div>
 
@@ -1036,7 +1021,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
                                 
 
                                 <div class="param-description">
-                                    <p>The key for the audio file.</p>
+                                    <p>Key for the audio file</p>
 
                                 </div>
 
@@ -1050,7 +1035,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
                                 
 
                                 <div class="param-description">
-                                    <p>The url of the audio to load.</p>
+                                    <p>URL of the audio to load</p>
 
                                 </div>
 
@@ -1065,7 +1050,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
                                 
 
                                 <div class="param-description">
-                                    <p>The state this file should be for.</p>
+                                    <p>State this file is for</p>
 
                                 </div>
 
@@ -1100,7 +1085,9 @@ Returns a boolean if the audio file was successfully added or not to the file di
                     
 
                     <div class="param-description">
-                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played.</p>
+                        <p>Whether the audio file
+    should only be loaded if Kiwi detects that the audio file
+    could be played.</p>
 
                     </div>
 
@@ -1120,7 +1107,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -1165,7 +1152,7 @@ Returns a boolean if the audio file was successfully added or not to the file di
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l704"><code>src&#x2F;file&#x2F;Loader.ts:704</code></a>
+        <a href="../files/src_file_Loader.ts.html#l796"><code>src&#x2F;file&#x2F;Loader.ts:796</code></a>
         
         </p>
 
@@ -1176,9 +1163,9 @@ Returns a boolean if the audio file was successfully added or not to the file di
     </div>
 
     <div class="description">
-        <p>Checks to see if all the file sizes have been retrieved. 
-If so completes the &quot;calculateQueuedSize&quot; call.
-Otherwise requests the next file&#39;s details.</p>
+        <p>Check to see whether all the file sizes have been retrieved.
+If so, complete the &quot;calculateQueuedSize&quot; call.
+Otherwise request the next file&#39;s details.</p>
 
     </div>
 
@@ -1224,7 +1211,7 @@ Otherwise requests the next file&#39;s details.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l737"><code>src&#x2F;file&#x2F;Loader.ts:737</code></a>
+        <a href="../files/src_file_Loader.ts.html#l832"><code>src&#x2F;file&#x2F;Loader.ts:832</code></a>
         
         </p>
 
@@ -1235,8 +1222,8 @@ Otherwise requests the next file&#39;s details.</p>
     </div>
 
     <div class="description">
-        <p>Executed when by &#39;_calculateNextFileSize&#39; when the files information has been retrieved.
-Adds its calculated size to the _bytesTotal and executes the &#39;nextFileSize&#39; method.</p>
+        <p>Executed when by <code>_calculateNextFileSize</code> when the files information has been retrieved.
+Adds its calculated size to the <code>_bytesTotal</code> and executes the <code>nextFileSize</code> method.</p>
 
     </div>
 
@@ -1298,7 +1285,7 @@ Adds its calculated size to the _bytesTotal and executes the &#39;nextFileSize&#
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l442"><code>src&#x2F;file&#x2F;Loader.ts:442</code></a>
+        <a href="../files/src_file_Loader.ts.html#l184"><code>src&#x2F;file&#x2F;Loader.ts:184</code></a>
         
         </p>
 
@@ -1311,8 +1298,9 @@ Adds its calculated size to the _bytesTotal and executes the &#39;nextFileSize&#
     </div>
 
     <div class="description">
-        <p>Executed by files when they have successfully been loaded.
-This method checks to see if the files are in the file queue, and dispatches the appropriate events.</p>
+        <p>Check to see if the files are in the file queue,
+and dispatch the appropriate events.
+Executed by files when they have successfully been loaded.</p>
 
     </div>
 
@@ -1331,7 +1319,7 @@ This method checks to see if the files are in the file queue, and dispatches the
                     
 
                     <div class="param-description">
-                        <p>The file which has been recently loaded.</p>
+                        <p>File which has been recently loaded</p>
 
                     </div>
 
@@ -1348,7 +1336,9 @@ This method checks to see if the files are in the file queue, and dispatches the
                     
 
                     <div class="param-description">
-                        <p>If the progress of file loading should be checked, regardless of the file being in the queue or not.</p>
+                        <p>Whether progress of
+    file loading should be checked, regardless of the file
+    being in the queue or not</p>
 
                     </div>
 
@@ -1409,7 +1399,7 @@ This method checks to see if the files are in the file queue, and dispatches the
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l557"><code>src&#x2F;file&#x2F;Loader.ts:557</code></a>
+        <a href="../files/src_file_Loader.ts.html#l225"><code>src&#x2F;file&#x2F;Loader.ts:225</code></a>
         
         </p>
 
@@ -1422,8 +1412,10 @@ This method checks to see if the files are in the file queue, and dispatches the
     </div>
 
     <div class="description">
-        <p>Executed when a file in the &#39;loadingParallel&#39; lsit has been successfully loaded.
-Removes the file from the list and get the fileQueue to check its progress.</p>
+        <p>Remove file from the list and get the <code>fileQueue</code> to
+check its progress.
+Executed when a file in the <code>loadingParallel</code> list
+has been successfully loaded.</p>
 
     </div>
 
@@ -1502,7 +1494,7 @@ Removes the file from the list and get the fileQueue to check its progress.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l501"><code>src&#x2F;file&#x2F;Loader.ts:501</code></a>
+        <a href="../files/src_file_Loader.ts.html#l254"><code>src&#x2F;file&#x2F;Loader.ts:254</code></a>
         
         </p>
 
@@ -1515,8 +1507,9 @@ Removes the file from the list and get the fileQueue to check its progress.</p>
     </div>
 
     <div class="description">
-        <p>Executed when a file in the &#39;loadingQueue&#39; has been successfully loaded.
-Removes the file from the loadingQueue and executes the &#39;_startLoadingQueue&#39; to start loading the next file.</p>
+        <p>Remove file from <code>loadingQueue</code> and execute <code>_startLoadingQueue</code>
+to start loading the next file.
+Executed when a file in <code>loadingQueue</code> has successfully loaded.</p>
 
     </div>
 
@@ -1595,7 +1588,7 @@ Removes the file from the loadingQueue and executes the &#39;_startLoadingQueue&
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l358"><code>src&#x2F;file&#x2F;Loader.ts:358</code></a>
+        <a href="../files/src_file_Loader.ts.html#l288"><code>src&#x2F;file&#x2F;Loader.ts:288</code></a>
         
         </p>
 
@@ -1608,8 +1601,8 @@ Removes the file from the loadingQueue and executes the &#39;_startLoadingQueue&
     </div>
 
     <div class="description">
-        <p>Sorts a file and places it into either the &#39;loadingParallel&#39; or &#39;loadingQueue&#39; 
-depending on the method of loading it is using.</p>
+        <p>Sort a file and place it into either <code>loadingParallel</code> or
+<code>loadingQueue</code> depending on the loading method it is using.</p>
 
     </div>
 
@@ -1678,7 +1671,7 @@ depending on the method of loading it is using.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l222"><code>src&#x2F;file&#x2F;Loader.ts:222</code></a>
+        <a href="../files/src_file_Loader.ts.html#l322"><code>src&#x2F;file&#x2F;Loader.ts:322</code></a>
         
         </p>
 
@@ -1689,7 +1682,7 @@ depending on the method of loading it is using.</p>
     </div>
 
     <div class="description">
-        <p>Loops through the file queue and starts the loading process.</p>
+        <p>Loop through the file queue and start the loading process.</p>
 
     </div>
 
@@ -1735,7 +1728,7 @@ depending on the method of loading it is using.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l541"><code>src&#x2F;file&#x2F;Loader.ts:541</code></a>
+        <a href="../files/src_file_Loader.ts.html#l372"><code>src&#x2F;file&#x2F;Loader.ts:372</code></a>
         
         </p>
 
@@ -1748,7 +1741,7 @@ depending on the method of loading it is using.</p>
     </div>
 
     <div class="description">
-        <p>Starts loading all files which can be loaded in parallel.</p>
+        <p>Start loading all files which can be loaded in parallel.</p>
 
     </div>
 
@@ -1804,7 +1797,7 @@ depending on the method of loading it is using.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l525"><code>src&#x2F;file&#x2F;Loader.ts:525</code></a>
+        <a href="../files/src_file_Loader.ts.html#l390"><code>src&#x2F;file&#x2F;Loader.ts:390</code></a>
         
         </p>
 
@@ -1817,7 +1810,7 @@ depending on the method of loading it is using.</p>
     </div>
 
     <div class="description">
-        <p>Starts loading a file which can be loaded in parallel.</p>
+        <p>Start loading a file which can be loaded in parallel.</p>
 
     </div>
 
@@ -1891,7 +1884,7 @@ depending on the method of loading it is using.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l474"><code>src&#x2F;file&#x2F;Loader.ts:474</code></a>
+        <a href="../files/src_file_Loader.ts.html#l409"><code>src&#x2F;file&#x2F;Loader.ts:409</code></a>
         
         </p>
 
@@ -1904,7 +1897,7 @@ depending on the method of loading it is using.</p>
     </div>
 
     <div class="description">
-        <p>Starts the loading process in the loadingQueue.</p>
+        <p>Start the loading process in <code>loadingQueue</code>.</p>
 
     </div>
 
@@ -1964,7 +1957,7 @@ depending on the method of loading it is using.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l398"><code>src&#x2F;file&#x2F;Loader.ts:398</code></a>
+        <a href="../files/src_file_Loader.ts.html#l441"><code>src&#x2F;file&#x2F;Loader.ts:441</code></a>
         
         </p>
 
@@ -1975,9 +1968,10 @@ depending on the method of loading it is using.</p>
     </div>
 
     <div class="description">
-        <p>Called each time a file has processed whilst loading, or has just completed loading.</p>
-<p>Calculates the new number of bytes loaded and 
+        <p>Calculates the new number of bytes loaded and
 the percentage of loading done by looping through all of the files.</p>
+<p>Called each time a file has processed while loading,
+or has just completed loading.</p>
 
     </div>
 
@@ -2055,7 +2049,7 @@ the percentage of loading done by looping through all of the files.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l983"><code>src&#x2F;file&#x2F;Loader.ts:983</code></a>
+        <a href="../files/src_file_Loader.ts.html#l963"><code>src&#x2F;file&#x2F;Loader.ts:963</code></a>
         
         </p>
 
@@ -2066,10 +2060,14 @@ the percentage of loading done by looping through all of the files.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new File to store a audio piece. 
-This method firstly checks to see if the AUDIO file being loaded is supported or not by the browser/device before adding it to the loading queue.
-You can override this behaviour and tell the audio data to load even if not supported by setting the &#39;onlyIfSupported&#39; boolean to false.
-Also you can now pass an array of filepaths, and the first audio filetype that is supported will be loaded.</p>
+        <p>Create a new File to store an audio piece.</p>
+<p>First check to see if the AUDIO file being loaded is supported
+by the browser/device before adding it to the loading queue.
+You can override this behaviour and tell the audio data to load
+even if not supported by setting the <code>onlyIfSupported</code> parameter
+to <code>false</code>.</p>
+<p>If you pass an array of filepaths as <code>url</code>, the first audio
+filetype that is supported will be loaded.</p>
 
     </div>
 
@@ -2088,7 +2086,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>The key for the audio file.</p>
+                        <p>Key for the audio file</p>
 
                     </div>
 
@@ -2104,7 +2102,9 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>The url of the audio to load. You can pass an array of URLs, in which case the first supported audio filetype in the array will be loaded.</p>
+                        <p>URL of the audio to load.
+    You can pass an array of URLs, in which case
+    the first supported audio filetype in the array will be loaded.</p>
 
                     </div>
 
@@ -2121,7 +2121,8 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>If the file should be stored globally.</p>
+                        <p>Whether the file
+    should be stored globally</p>
 
                     </div>
 
@@ -2138,7 +2139,9 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>If the audio file should only be loaded if Kiwi detects that the audio file could be played.</p>
+                        <p>Whether the audio file
+    should only be loaded if Kiwi detects that
+    the audio file is supported</p>
 
                     </div>
 
@@ -2158,7 +2161,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -2229,7 +2232,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1180"><code>src&#x2F;file&#x2F;Loader.ts:1180</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1040"><code>src&#x2F;file&#x2F;Loader.ts:1040</code></a>
         
         </p>
 
@@ -2240,7 +2243,8 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     </div>
 
     <div class="description">
-        <p>Creates a new File for a Binary file and adds it to the loading queue.</p>
+        <p>Create a new File for a Binary file
+and add it to the loading queue.</p>
 
     </div>
 
@@ -2259,7 +2263,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>The key for the file.</p>
+                        <p>Key for the file</p>
 
                     </div>
 
@@ -2275,7 +2279,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>The url to the Binary file.</p>
+                        <p>URL to the Binary file</p>
 
                     </div>
 
@@ -2292,7 +2296,8 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
 
                     <div class="param-description">
-                        <p>If the file should be stored globally.</p>
+                        <p>Whether the file
+    should be stored globally</p>
 
                     </div>
 
@@ -2312,7 +2317,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -2371,7 +2376,7 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l265"><code>src&#x2F;file&#x2F;Loader.ts:265</code></a>
+        <a href="../files/src_file_Loader.ts.html#l495"><code>src&#x2F;file&#x2F;Loader.ts:495</code></a>
         
         </p>
 
@@ -2384,8 +2389,8 @@ Also you can now pass an array of filepaths, and the first audio filetype that i
     </div>
 
     <div class="description">
-        <p>Adds a file to the queue of files to be loaded.
-Files cannot be added whilst the queue is currently loading, 
+        <p>Add a file to the queue of files to be loaded.
+Files cannot be added while the queue is currently loading,
 the file to add is currently loading, or has been loaded before.</p>
 
     </div>
@@ -2405,7 +2410,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The file to add.</p>
+                        <p>File to add</p>
 
                     </div>
 
@@ -2425,7 +2430,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>If the file was added to the queue or not.</p>
+                    <p>Whether the file was added to the queue</p>
 
                 
             </div>
@@ -2520,7 +2525,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l765"><code>src&#x2F;file&#x2F;Loader.ts:765</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1103"><code>src&#x2F;file&#x2F;Loader.ts:1103</code></a>
         
         </p>
 
@@ -2531,7 +2536,7 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new file for an image and adds a the file to loading queue.</p>
+        <p>Create a new file for an image and adds it to the loading queue.</p>
 
     </div>
 
@@ -2550,7 +2555,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The key for the file.</p>
+                        <p>Key for the file</p>
 
                     </div>
 
@@ -2566,7 +2571,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url of the image to load.</p>
+                        <p>URL of the image to load</p>
 
                     </div>
 
@@ -2583,7 +2588,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The width of the cell on the image to use once the image is loaded.</p>
+                        <p>Width of the cell on the image to use
+    once the image is loaded</p>
 
                     </div>
 
@@ -2600,7 +2606,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The height of the cell on the image to use once the image is loaded.</p>
+                        <p>Height of the cell on the image to use
+    once the image is loaded</p>
 
                     </div>
 
@@ -2617,7 +2624,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>An offset on the x axis of the cell.</p>
+                        <p>Horizontal offset of the cell</p>
 
                     </div>
 
@@ -2634,7 +2641,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>An offset of the y axis of the cell.</p>
+                        <p>Vertical offset of the cell</p>
 
                     </div>
 
@@ -2651,7 +2658,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>If the image should be stored globally or not.</p>
+                        <p>Whether the image
+    should be stored globally</p>
 
                     </div>
 
@@ -2671,7 +2679,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -2742,7 +2750,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1094"><code>src&#x2F;file&#x2F;Loader.ts:1094</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1186"><code>src&#x2F;file&#x2F;Loader.ts:1186</code></a>
         
         </p>
 
@@ -2753,7 +2761,7 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new File to store JSON and adds it to the loading queue.</p>
+        <p>Create a new File to store JSON and add it to the loading queue.</p>
 
     </div>
 
@@ -2772,7 +2780,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The key for the file.</p>
+                        <p>Key for the file</p>
 
                     </div>
 
@@ -2788,7 +2796,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url to the json file.</p>
+                        <p>URL to the json file</p>
 
                     </div>
 
@@ -2805,7 +2813,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>If the file should be stored globally.</p>
+                        <p>Whether the file
+    should be stored globally.</p>
 
                     </div>
 
@@ -2825,7 +2834,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -2950,7 +2959,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l828"><code>src&#x2F;file&#x2F;Loader.ts:828</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1253"><code>src&#x2F;file&#x2F;Loader.ts:1253</code></a>
         
         </p>
 
@@ -2961,7 +2970,8 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new file for a spritesheet and adds the file to the loading queue.</p>
+        <p>Create a new file for a spritesheet
+and add it to the loading queue.</p>
 
     </div>
 
@@ -2980,7 +2990,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The key for the file.</p>
+                        <p>Key for the file</p>
 
                     </div>
 
@@ -2996,7 +3006,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url of the image to load.</p>
+                        <p>URL of the image to load</p>
 
                     </div>
 
@@ -3012,7 +3022,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The width of a single cell in the spritesheet.</p>
+                        <p>Width of a single cell
+    in the spritesheet</p>
 
                     </div>
 
@@ -3028,7 +3039,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The height of a single cell in the spritesheet.</p>
+                        <p>Height of a single cell
+    in the spritesheet</p>
 
                     </div>
 
@@ -3045,7 +3057,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The number of cells that are in this spritesheet.</p>
+                        <p>Number of cells in this spritesheet</p>
 
                     </div>
 
@@ -3062,7 +3074,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The number of cells that are in a row.</p>
+                        <p>Number of cells in a row</p>
 
                     </div>
 
@@ -3079,7 +3091,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The number of cells that are in a column.</p>
+                        <p>Number of cells in a column</p>
 
                     </div>
 
@@ -3096,7 +3108,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The offset of the whole spritesheet on the x axis.</p>
+                        <p>Horizontal offset of the whole
+    spritesheet</p>
 
                     </div>
 
@@ -3113,7 +3126,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The offset of the whole spritesheet on the y axis.</p>
+                        <p>Vertical offset of the whole
+    spritesheet</p>
 
                     </div>
 
@@ -3130,7 +3144,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The spacing between each cell on the x axis.</p>
+                        <p>Horizontal spacing between each cell</p>
 
                     </div>
 
@@ -3147,7 +3161,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The spacing between each cell on the y axis.</p>
+                        <p>Vertical spacing between each cell</p>
 
                     </div>
 
@@ -3164,7 +3178,9 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Whether the image
+    should be stored globally</p>
+
                     </div>
 
                     
@@ -3183,7 +3199,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -3254,7 +3270,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1223"><code>src&#x2F;file&#x2F;Loader.ts:1223</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1443"><code>src&#x2F;file&#x2F;Loader.ts:1443</code></a>
         
         </p>
 
@@ -3265,7 +3281,8 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new File to store a text file and adds it to the loading queue.</p>
+        <p>Create a new File to store a text file
+and add it to the loading queue.</p>
 
     </div>
 
@@ -3284,7 +3301,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The key for the file.</p>
+                        <p>Key for the file</p>
 
                     </div>
 
@@ -3300,7 +3317,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url to the text file.</p>
+                        <p>URL to the text file</p>
 
                     </div>
 
@@ -3317,7 +3334,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>If the file should be stored globally.</p>
+                        <p>Whether the file
+    should be stored globally</p>
 
                     </div>
 
@@ -3337,7 +3355,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -3420,7 +3438,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l908"><code>src&#x2F;file&#x2F;Loader.ts:908</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1355"><code>src&#x2F;file&#x2F;Loader.ts:1355</code></a>
         
         </p>
 
@@ -3431,7 +3449,8 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Creates new file&#39;s for loading a texture atlas and adds those files to the loading queue.</p>
+        <p>Create new files for loading a texture atlas
+and add those files to the loading queue.</p>
 
     </div>
 
@@ -3450,7 +3469,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The key for the image file.</p>
+                        <p>Key for the image file</p>
 
                     </div>
 
@@ -3466,7 +3485,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url of the image to load.</p>
+                        <p>URL of the image to load</p>
 
                     </div>
 
@@ -3482,7 +3501,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>A key for the JSON file.</p>
+                        <p>Key for the JSON file</p>
 
                     </div>
 
@@ -3498,7 +3517,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url of the json file to load.</p>
+                        <p>URL of the JSON file to load</p>
 
                     </div>
 
@@ -3515,7 +3534,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>If hte files should be stored globally or not.</p>
+                        <p>Whether the files
+    should be stored globally</p>
 
                     </div>
 
@@ -3535,7 +3555,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -3606,7 +3626,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1137"><code>src&#x2F;file&#x2F;Loader.ts:1137</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1502"><code>src&#x2F;file&#x2F;Loader.ts:1502</code></a>
         
         </p>
 
@@ -3617,7 +3637,7 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Creates a new File to store XML and adds it to the loading queue.</p>
+        <p>Create a new File to store XML and add it to the loading queue.</p>
 
     </div>
 
@@ -3636,7 +3656,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The key for the file.</p>
+                        <p>Key for the file</p>
 
                     </div>
 
@@ -3652,7 +3672,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>The url to the xml file.</p>
+                        <p>URL to the xml file</p>
 
                     </div>
 
@@ -3669,7 +3689,8 @@ the file to add is currently loading, or has been loaded before.</p>
                     
 
                     <div class="param-description">
-                        <p>If the file should be stored globally.</p>
+                        <p>Whether the file
+    should be stored globally</p>
 
                     </div>
 
@@ -3689,7 +3710,7 @@ the file to add is currently loading, or has been loaded before.</p>
                     
                         <span class="type"><a href="../classes/Kiwi.Files.File.html" class="crosslink">Kiwi.Files.File</a></span>:
                     
-                    <p>The file which was created.</p>
+                    <p>File which was created</p>
 
                 
             </div>
@@ -3734,7 +3755,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l165"><code>src&#x2F;file&#x2F;Loader.ts:165</code></a>
+        <a href="../files/src_file_Loader.ts.html#l534"><code>src&#x2F;file&#x2F;Loader.ts:534</code></a>
         
         </p>
 
@@ -3745,7 +3766,8 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>The boot method is executed when the DOM has successfully loaded and we can now start the game.</p>
+        <p>Set up loader systems. Executed when the DOM has
+successfully loaded and we can now start the game.</p>
 
     </div>
 
@@ -3805,7 +3827,7 @@ the file to add is currently loading, or has been loaded before.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1375"><code>src&#x2F;file&#x2F;Loader.ts:1375</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1638"><code>src&#x2F;file&#x2F;Loader.ts:1638</code></a>
         
         </p>
 
@@ -3816,8 +3838,11 @@ the file to add is currently loading, or has been loaded before.</p>
     </div>
 
     <div class="description">
-        <p>Quick way of getting / setting the private variable &#39;calculateBytes&#39;
-To be made into a public variable once removed.</p>
+        <p>Get/set whether the number of bytes for each file
+should be calculated before the queue starts loading.
+If true, each file in the queue makes a XHR HEAD request first
+to get the total values.</p>
+<p>In the next major version, this should become a property.</p>
 
     </div>
 
@@ -3837,7 +3862,8 @@ To be made into a public variable once removed.</p>
                     
 
                     <div class="param-description">
-                         
+                        <p>Value to set</p>
+
                     </div>
 
                     
@@ -3856,6 +3882,8 @@ To be made into a public variable once removed.</p>
                     
                         <span class="type">Boolean</span>:
                     
+                    <p>Current value of byte calculation</p>
+
                 
             </div>
         </div>
@@ -3915,7 +3943,7 @@ To be made into a public variable once removed.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l671"><code>src&#x2F;file&#x2F;Loader.ts:671</code></a>
+        <a href="../files/src_file_Loader.ts.html#l854"><code>src&#x2F;file&#x2F;Loader.ts:854</code></a>
         
         </p>
 
@@ -3926,9 +3954,11 @@ To be made into a public variable once removed.</p>
     </div>
 
     <div class="description">
-        <p>Loops through the file queue and gets file information (filesize, ETag, filetype) for each.</p>
-<p>To get accurate information about the bytesLoaded, bytesTotal, and the percentLoaded 
-set the &#39;calculateBytes&#39; property to true, as the loader will automatically execute this method before hand.</p>
+        <p>Loop through the file queue and get file information
+(filesize, ETag, filetype) for each.</p>
+<p>To get accurate information about <code>bytesLoaded</code>, <code>bytesTotal</code>,
+and <code>percentLoaded</code>, set the <code>calculateBytes</code> property to true,
+as the loader will automatically execute this method before hand.</p>
 <p>Can only be executed when the file queue is not currently loading.</p>
 
     </div>
@@ -4014,7 +4044,7 @@ set the &#39;calculateBytes&#39; property to true, as the loader will automatica
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l324"><code>src&#x2F;file&#x2F;Loader.ts:324</code></a>
+        <a href="../files/src_file_Loader.ts.html#l557"><code>src&#x2F;file&#x2F;Loader.ts:557</code></a>
         
         </p>
 
@@ -4027,7 +4057,7 @@ set the &#39;calculateBytes&#39; property to true, as the loader will automatica
     </div>
 
     <div class="description">
-        <p>Clears the file queue of all files.</p>
+        <p>Clear the file queue of all files.</p>
 
     </div>
 
@@ -4053,7 +4083,7 @@ set the &#39;calculateBytes&#39; property to true, as the loader will automatica
     
 
     
-        <span class="flag deprecated" title="Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+        <span class="flag deprecated" title="Use &#x60;percentLoaded&#x60; instead. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4079,20 +4109,21 @@ set the &#39;calculateBytes&#39; property to true, as the loader will automatica
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1364"><code>src&#x2F;file&#x2F;Loader.ts:1364</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1662"><code>src&#x2F;file&#x2F;Loader.ts:1662</code></a>
         
         </p>
 
 
         
-            <p>Deprecated: Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0</p>
+            <p>Deprecated: Use &#x60;percentLoaded&#x60; instead. Deprecated as of 1.2.0</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Returns a boolean indicating if everything in the loading que has been loaded or not.</p>
+        <p>Return a boolean indicating whether
+everything in the loading queue has been loaded.</p>
 
     </div>
 
@@ -4150,7 +4181,7 @@ set the &#39;calculateBytes&#39; property to true, as the loader will automatica
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1266"><code>src&#x2F;file&#x2F;Loader.ts:1266</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1557"><code>src&#x2F;file&#x2F;Loader.ts:1557</code></a>
         
         </p>
 
@@ -4161,7 +4192,8 @@ set the &#39;calculateBytes&#39; property to true, as the loader will automatica
     </div>
 
     <div class="description">
-        <p>Flags this loader for garbage collection. Only use this method if you are SURE you will no longer need it. 
+        <p>Flag this loader for garbage collection.
+Only use this method if you are SURE you will no longer need it.
 Otherwise it is best to leave it alone.</p>
 
     </div>
@@ -4188,7 +4220,7 @@ Otherwise it is best to leave it alone.</p>
     
 
     
-        <span class="flag deprecated" title="Use &#x27;bytesLoaded&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+        <span class="flag deprecated" title="Use &#x60;bytesLoaded&#x60; instead. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4214,20 +4246,21 @@ Otherwise it is best to leave it alone.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1392"><code>src&#x2F;file&#x2F;Loader.ts:1392</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1678"><code>src&#x2F;file&#x2F;Loader.ts:1678</code></a>
         
         </p>
 
 
         
-            <p>Deprecated: Use &#x27;bytesLoaded&#x27; instead. Deprecated as of 1.2.0</p>
+            <p>Deprecated: Use &#x60;bytesLoaded&#x60; instead. Deprecated as of 1.2.0</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Returns the total number of bytes that have been loaded so far from files in the file queue.</p>
+        <p>Return the total number of bytes that have been loaded so far
+from files in the file queue.</p>
 
     </div>
 
@@ -4265,7 +4298,7 @@ Otherwise it is best to leave it alone.</p>
     
 
     
-        <span class="flag deprecated" title="Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+        <span class="flag deprecated" title="Use &#x60;percentLoaded&#x60; instead. Deprecated as of 1.2.0">deprecated</span>
     
 
     
@@ -4291,20 +4324,20 @@ Otherwise it is best to leave it alone.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1352"><code>src&#x2F;file&#x2F;Loader.ts:1352</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1695"><code>src&#x2F;file&#x2F;Loader.ts:1695</code></a>
         
         </p>
 
 
         
-            <p>Deprecated: Use &#x27;percentLoaded&#x27; instead. Deprecated as of 1.2.0</p>
+            <p>Deprecated: Use &#x60;percentLoaded&#x60; instead. Deprecated as of 1.2.0</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Returns a percentage of the amount that has been loaded so far.</p>
+        <p>Return a percentage of the amount that has been loaded so far.</p>
 
     </div>
 
@@ -4337,19 +4370,19 @@ Otherwise it is best to leave it alone.</p>
             
                 <li class="arg">
                     
-                        <code class="optional">[progress=null]</code>
+                        <code class="optional">[progress]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[complete=null]</code>
+                        <code class="optional">[complete]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[calculateBytes=false]</code>
+                        <code class="optional">[calculateBytes]</code>
                     
                 </li>
             
@@ -4386,7 +4419,7 @@ Otherwise it is best to leave it alone.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1315"><code>src&#x2F;file&#x2F;Loader.ts:1315</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1607"><code>src&#x2F;file&#x2F;Loader.ts:1607</code></a>
         
         </p>
 
@@ -4399,8 +4432,9 @@ Otherwise it is best to leave it alone.</p>
     </div>
 
     <div class="description">
-        <p>Initialise the properities that are needed on this loader.
-Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; signals instead.</p>
+        <p>Initialise the properties that are needed on this loader.
+Recommended you use the <code>onQueueProgress</code> and
+<code>onQueueComplete</code> signals instead.</p>
 
     </div>
 
@@ -4412,7 +4446,7 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
             
                 <li class="param">
                     
-                        <code class="param-name optional">[progress=null]</code>
+                        <code class="param-name optional">[progress]</code>
                         <span class="type">Any</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -4420,7 +4454,7 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
                     
 
                     <div class="param-description">
-                        <p>Progress callback method.</p>
+                        <p>Progress callback method</p>
 
                     </div>
 
@@ -4429,7 +4463,7 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
             
                 <li class="param">
                     
-                        <code class="param-name optional">[complete=null]</code>
+                        <code class="param-name optional">[complete]</code>
                         <span class="type">Any</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -4437,7 +4471,7 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
                     
 
                     <div class="param-description">
-                        <p>Complete callback method.</p>
+                        <p>Complete callback method</p>
 
                     </div>
 
@@ -4446,7 +4480,7 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
             
                 <li class="param">
                     
-                        <code class="param-name optional">[calculateBytes=false]</code>
+                        <code class="param-name optional">[calculateBytes]</code>
                         <span class="type">Boolean</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -4454,7 +4488,9 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
                     
 
                     <div class="param-description">
-                         
+                        <p>Value to which
+    to set <code>calculateBytes</code></p>
+
                     </div>
 
                     
@@ -4504,7 +4540,7 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l340"><code>src&#x2F;file&#x2F;Loader.ts:340</code></a>
+        <a href="../files/src_file_Loader.ts.html#l580"><code>src&#x2F;file&#x2F;Loader.ts:580</code></a>
         
         </p>
 
@@ -4515,8 +4551,10 @@ Recommended you use the &#39;onQueueProgress&#39; / &#39;onQueueComplete&#39; si
     </div>
 
     <div class="description">
-        <p>Starts the process of loading a file outside of the regular queue loading process.
-Callbacks for load completion need to be added onto the file via &#39;onComplete&#39; Signal.</p>
+        <p>Start the process of loading a file outside of the
+regular queue loading process.
+Callbacks for load completion need to be added onto the file
+via <code>onComplete</code> Signal.</p>
 
     </div>
 
@@ -4566,7 +4604,7 @@ Callbacks for load completion need to be added onto the file via &#39;onComplete
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l28"><code>src&#x2F;file&#x2F;Loader.ts:28</code></a>
+        <a href="../files/src_file_Loader.ts.html#l31"><code>src&#x2F;file&#x2F;Loader.ts:31</code></a>
         
         </p>
 
@@ -4577,7 +4615,7 @@ Callbacks for load completion need to be added onto the file via &#39;onComplete
     </div>
 
     <div class="description">
-        <p>The type of object this is.</p>
+        <p>Type of object this is.</p>
 
     </div>
 
@@ -4597,134 +4635,6 @@ Callbacks for load completion need to be added onto the file via &#39;onComplete
                 
             </div>
         </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_onQueueComplete" class="method item public">
-    <h3 class="name"><code>onQueueComplete</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l81"><code>src&#x2F;file&#x2F;Loader.ts:81</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 1.2.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>A Signal which dispatches callbacks when all files in the &#39;loadingList&#39; have been loaded.
-When adding callbacks make sure to &#39;remove&#39; them (or to use the &#39;addOnce&#39; method) 
-otherwise will fire when other sections use the loader.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_onQueueProgress" class="method item public">
-    <h3 class="name"><code>onQueueProgress</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l93"><code>src&#x2F;file&#x2F;Loader.ts:93</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 1.2.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>A Signal which dispatches callbacks each time a file in the &#39;loadingList&#39; have been loaded.
-Callbacks dispatched are passed the following arguments in order.</p>
-<ol>
-<li>percent - The percentage of files loaded. A number from 0 - 100</li>
-<li>bytesLoaded - The number of bytes loaded </li>
-<li>file - The latest file that was loaded. First call will be null.</li>
-</ol>
-<p>When adding callbacks make sure to &#39;remove&#39; them (or to use the &#39;addOnce&#39; method) 
-otherwise will fire when other sections use the loader.</p>
-
-    </div>
-
-    
-
     
 
     
@@ -4779,7 +4689,7 @@ otherwise will fire when other sections use the loader.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l292"><code>src&#x2F;file&#x2F;Loader.ts:292</code></a>
+        <a href="../files/src_file_Loader.ts.html#l605"><code>src&#x2F;file&#x2F;Loader.ts:605</code></a>
         
         </p>
 
@@ -4792,8 +4702,8 @@ otherwise will fire when other sections use the loader.</p>
     </div>
 
     <div class="description">
-        <p>Removes a file from the file queue. 
-Files cannot be removed whilst the queue is loading.</p>
+        <p>Remove a file from the file queue.
+Files cannot be removed while the queue is loading.</p>
 
     </div>
 
@@ -4812,7 +4722,7 @@ Files cannot be removed whilst the queue is loading.</p>
                     
 
                     <div class="param-description">
-                        <p>The file to remove.</p>
+                        <p>File to remove</p>
 
                     </div>
 
@@ -4832,7 +4742,7 @@ Files cannot be removed whilst the queue is loading.</p>
                     
                         <span class="type">Boolean</span>:
                     
-                    <p>If the file was added to the queue or not.</p>
+                    <p>Whether the file was added to the queue</p>
 
                 
             </div>
@@ -4887,7 +4797,7 @@ Files cannot be removed whilst the queue is loading.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l184"><code>src&#x2F;file&#x2F;Loader.ts:184</code></a>
+        <a href="../files/src_file_Loader.ts.html#l647"><code>src&#x2F;file&#x2F;Loader.ts:647</code></a>
         
         </p>
 
@@ -4900,11 +4810,14 @@ Files cannot be removed whilst the queue is loading.</p>
     </div>
 
     <div class="description">
-        <p>Starts loading all the files which are in the file queue. </p>
-<p>To accurately use the bytesLoaded or bytesTotal properties you will need to set the &#39;calculateBytes&#39; boolean to true.
-This may increase load times, as each file in the queue will firstly make XHR HEAD requests for information.</p>
-<p>When &#39;calculateBytes&#39; is true the percentLoaded will be the <code>bytesLoaded / bytesTotal</code>. 
-Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
+        <p>Start loading all the files which are in the file queue.</p>
+<p>To accurately use the <code>bytesLoaded</code> or <code>bytesTotal</code> properties,
+you will need to set the <code>calculateBytes</code> boolean to true.
+This may increase load times, as each file in the queue will
+first make XHR HEAD requests for information.</p>
+<p>When <code>calculateBytes</code> is true, <code>percentLoaded</code> equals
+<code>bytesLoaded / bytesTotal</code>.
+Otherwise it equals <code>filesLoaded / numberOfFilesToLoad</code>.</p>
 
     </div>
 
@@ -4924,7 +4837,8 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
                     
 
                     <div class="param-description">
-                        <p>Setter for the &#39;calculateBytes&#39; property.</p>
+                        <p>Set <code>calculateBytes</code> property
+    on loader</p>
 
                     </div>
 
@@ -4951,7 +4865,7 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
     
 
     
-        <span class="flag deprecated" title="Use &#x27;start&#x27; instead. Deprecated as of 1.2.0">deprecated</span>
+        <span class="flag deprecated" title="Use &#x60;start&#x60; instead. Deprecated as of 1.2.0.">deprecated</span>
     
 
     
@@ -4977,20 +4891,21 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l1342"><code>src&#x2F;file&#x2F;Loader.ts:1342</code></a>
+        <a href="../files/src_file_Loader.ts.html#l1710"><code>src&#x2F;file&#x2F;Loader.ts:1710</code></a>
         
         </p>
 
 
         
-            <p>Deprecated: Use &#x27;start&#x27; instead. Deprecated as of 1.2.0</p>
+            <p>Deprecated: Use &#x60;start&#x60; instead. Deprecated as of 1.2.0.</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Loops through all of the files that need to be loaded and start the load event on them.</p>
+        <p>Loop through all of the files that need to be loaded
+and start the load event on them.</p>
 
     </div>
 
@@ -5035,7 +4950,7 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l645"><code>src&#x2F;file&#x2F;Loader.ts:645</code></a>
+        <a href="../files/src_file_Loader.ts.html#l696"><code>src&#x2F;file&#x2F;Loader.ts:696</code></a>
         
         </p>
 
@@ -5045,10 +4960,12 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
     </div>
 
     <div class="description">
-        <p>The number of bytes loaded of files in the file queue.</p>
+        <p>Number of bytes loaded of files in the file queue.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
@@ -5082,7 +4999,7 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l620"><code>src&#x2F;file&#x2F;Loader.ts:620</code></a>
+        <a href="../files/src_file_Loader.ts.html#l706"><code>src&#x2F;file&#x2F;Loader.ts:706</code></a>
         
         </p>
 
@@ -5092,7 +5009,7 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
     </div>
 
     <div class="description">
-        <p>Total file size (in bytes) of all files in the queue to be loaded.</p>
+        <p>Total file size (in bytes) of all files in the queue to be loaded</p>
 
     </div>
 
@@ -5129,7 +5046,7 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l584"><code>src&#x2F;file&#x2F;Loader.ts:584</code></a>
+        <a href="../files/src_file_Loader.ts.html#l715"><code>src&#x2F;file&#x2F;Loader.ts:715</code></a>
         
         </p>
 
@@ -5139,8 +5056,10 @@ Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
     </div>
 
     <div class="description">
-        <p>If the number of bytes for each file should be calculated before the queue starts loading.
-If true each file in the queue makes a XHR HEAD request first to get the total values.</p>
+        <p>Whether the number of bytes for each file should be calculated
+before the queue starts loading.
+If true, each file in the queue makes a XHR HEAD request first
+to get the total values.</p>
 
     </div>
 
@@ -5177,7 +5096,7 @@ If true each file in the queue makes a XHR HEAD request first to get the total v
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l388"><code>src&#x2F;file&#x2F;Loader.ts:388</code></a>
+        <a href="../files/src_file_Loader.ts.html#l42"><code>src&#x2F;file&#x2F;Loader.ts:42</code></a>
         
         </p>
 
@@ -5187,7 +5106,7 @@ If true each file in the queue makes a XHR HEAD request first to get the total v
     </div>
 
     <div class="description">
-        <p>The number of files in the file queue that have been updated.</p>
+        <p>Number of files in the file queue that have been updated.</p>
 
     </div>
 
@@ -5226,7 +5145,7 @@ If true each file in the queue makes a XHR HEAD request first to get the total v
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l612"><code>src&#x2F;file&#x2F;Loader.ts:612</code></a>
+        <a href="../files/src_file_Loader.ts.html#l727"><code>src&#x2F;file&#x2F;Loader.ts:727</code></a>
         
         </p>
 
@@ -5236,61 +5155,11 @@ If true each file in the queue makes a XHR HEAD request first to get the total v
     </div>
 
     <div class="description">
-        <p>The index of the current file in the filelist thats size is being retrieved.</p>
+        <p>Index of the file in the filelist which is currently
+having its size retrieved</p>
 
     </div>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__fileQueueLoading" class="property item private">
-    <h3 class="name"><code>_fileQueueLoading</code></h3>
-    <span class="type">Boolean</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_file_Loader.ts.html#l111"><code>src&#x2F;file&#x2F;Loader.ts:111</code></a>
-        
-        </p>
-
-        
-
-        
-            <p>Available since 1.2.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>A flag indicating if the files inside the file queue are loading or not.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
     
 
     
@@ -5324,7 +5193,7 @@ If true each file in the queue makes a XHR HEAD request first to get the total v
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l69"><code>src&#x2F;file&#x2F;Loader.ts:69</code></a>
+        <a href="../files/src_file_Loader.ts.html#l52"><code>src&#x2F;file&#x2F;Loader.ts:52</code></a>
         
         </p>
 
@@ -5336,9 +5205,9 @@ If true each file in the queue makes a XHR HEAD request first to get the total v
     </div>
 
     <div class="description">
-        <p>List of files that are to be loaded. 
-These files will be placed in the &#39;_loadingQueue&#39; or &#39;_loadingParallel&#39; 
-lists when the queue is told to &#39;start&#39; loading.</p>
+        <p>List of files that are to be loaded.
+These files will be placed in the <code>_loadingQueue</code> or <code>_loadingParallel</code>
+lists when the queue is told to <code>start</code> loading.</p>
 
     </div>
 
@@ -5375,7 +5244,7 @@ lists when the queue is told to &#39;start&#39; loading.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l46"><code>src&#x2F;file&#x2F;Loader.ts:46</code></a>
+        <a href="../files/src_file_Loader.ts.html#l64"><code>src&#x2F;file&#x2F;Loader.ts:64</code></a>
         
         </p>
 
@@ -5387,7 +5256,7 @@ lists when the queue is told to &#39;start&#39; loading.</p>
     </div>
 
     <div class="description">
-        <p>A list of files that can be loaded in parallel to one another.
+        <p>List of files that can be loaded in parallel to one another.
 This list of files are currently being loaded.</p>
 
     </div>
@@ -5425,7 +5294,7 @@ This list of files are currently being loaded.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l57"><code>src&#x2F;file&#x2F;Loader.ts:57</code></a>
+        <a href="../files/src_file_Loader.ts.html#l75"><code>src&#x2F;file&#x2F;Loader.ts:75</code></a>
         
         </p>
 
@@ -5438,11 +5307,62 @@ This list of files are currently being loaded.</p>
 
     <div class="description">
         <p>List of files that cannot load in parallel to one another
-and so need to wait for previous files to load first. 
+and so need to wait for previous files to load first.
 Generally files loaded via XHR.</p>
 
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__queueLoading" class="property item private">
+    <h3 class="name"><code>_queueLoading</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l87"><code>src&#x2F;file&#x2F;Loader.ts:87</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Whether files inside the file queue are loading or not</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -5476,7 +5396,7 @@ Generally files loaded via XHR.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l654"><code>src&#x2F;file&#x2F;Loader.ts:654</code></a>
+        <a href="../files/src_file_Loader.ts.html#l737"><code>src&#x2F;file&#x2F;Loader.ts:737</code></a>
         
         </p>
 
@@ -5488,9 +5408,10 @@ Generally files loaded via XHR.</p>
     </div>
 
     <div class="description">
-        <p>READ ONLY: Returns the total number of bytes for the files in the file queue.</p>
-<p>If you are using this make sure you set the &#39;calculateBytes&#39; property to true OR execute the &#39;calculateQueuedSize&#39; method. 
-Otherwise files that are loaded via tags will not be accurate!</p>
+        <p>Total number of bytes for the files in the file queue.</p>
+<p>Files loaded via tags will only be accurately measured
+if <code>calculateBytes</code> is true, or <code>calculateQueuedSize()</code> is called.</p>
+<p>Read only.</p>
 
     </div>
 
@@ -5529,7 +5450,7 @@ Otherwise files that are loaded via tags will not be accurate!</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l629"><code>src&#x2F;file&#x2F;Loader.ts:629</code></a>
+        <a href="../files/src_file_Loader.ts.html#l756"><code>src&#x2F;file&#x2F;Loader.ts:756</code></a>
         
         </p>
 
@@ -5541,9 +5462,10 @@ Otherwise files that are loaded via tags will not be accurate!</p>
     </div>
 
     <div class="description">
-        <p>READ ONLY: Returns the total number of bytes for the files in the file queue.
-Only contains a value if you use the &#39;calculateBytes&#39; and are loading files
-OR if you use the &#39;calculateQueuedSize&#39; method.</p>
+        <p>Total number of bytes for the files in the file queue.
+Only contains a value if <code>calculateBytes</code> is true
+and files are loading, or if you use <code>calculateQueuedSize()</code>.</p>
+<p>Read only.</p>
 
     </div>
 
@@ -5582,7 +5504,7 @@ OR if you use the &#39;calculateQueuedSize&#39; method.</p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l150"><code>src&#x2F;file&#x2F;Loader.ts:150</code></a>
+        <a href="../files/src_file_Loader.ts.html#l98"><code>src&#x2F;file&#x2F;Loader.ts:98</code></a>
         
         </p>
 
@@ -5594,9 +5516,10 @@ OR if you use the &#39;calculateQueuedSize&#39; method.</p>
     </div>
 
     <div class="description">
-        <p>When enabled, files which can be loaded in parallel (those which are loaded via tags) 
-will be loaded at the same time. </p>
-<p>The default behaviour is to have the files loading in a queued fashion instead of one after another.</p>
+        <p>When enabled, files which can be loaded in parallel
+(those which are loaded via tags) will be loaded at the same time.</p>
+<p>The default behaviour is to have the files loading
+in a queued fashion, one after another.</p>
 
     </div>
 
@@ -5635,7 +5558,7 @@ will be loaded at the same time. </p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l122"><code>src&#x2F;file&#x2F;Loader.ts:122</code></a>
+        <a href="../files/src_file_Loader.ts.html#l165"><code>src&#x2F;file&#x2F;Loader.ts:165</code></a>
         
         </p>
 
@@ -5647,7 +5570,7 @@ will be loaded at the same time. </p>
     </div>
 
     <div class="description">
-        <p>READ ONLY: A flag indicating if the files inside the file queue are loading or not.</p>
+        <p>Whether files inside the file queue are loading or not. READ ONLY.</p>
 
     </div>
 
@@ -5686,7 +5609,7 @@ will be loaded at the same time. </p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l38"><code>src&#x2F;file&#x2F;Loader.ts:38</code></a>
+        <a href="../files/src_file_Loader.ts.html#l113"><code>src&#x2F;file&#x2F;Loader.ts:113</code></a>
         
         </p>
 
@@ -5696,7 +5619,115 @@ will be loaded at the same time. </p>
     </div>
 
     <div class="description">
-        <p>The game this loader is attached to.</p>
+        <p>Game to which this loader is attached</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onQueueComplete" class="property item public">
+    <h3 class="name"><code>onQueueComplete</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l122"><code>src&#x2F;file&#x2F;Loader.ts:122</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatches callbacks when all files in <code>loadingList</code> have been loaded.
+Make sure to <code>remove</code> callbacks (or use the <code>addOnce</code> method),
+otherwise will fire again when other sections use the loader.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onQueueProgress" class="property item public">
+    <h3 class="name"><code>onQueueProgress</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Signal.html" class="crosslink">Kiwi.Signal</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_file_Loader.ts.html#l134"><code>src&#x2F;file&#x2F;Loader.ts:134</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.2.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Dispatches callbacks each time a file in <code>loadingList</code> has been loaded.
+Callbacks dispatched are passed the following arguments in order.</p>
+<ol>
+<li><code>percent</code> - Percentage of files loaded. A number from 0 - 100</li>
+<li><code>bytesLoaded</code> - Number of bytes loaded</li>
+<li><code>file</code> - Latest file that was loaded. First call will be null.</li>
+</ol>
+<p>Make sure to <code>remove</code> callbacks (or use the <code>addOnce</code> method),
+otherwise will fire again when other sections use the loader.</p>
 
     </div>
 
@@ -5733,7 +5764,7 @@ will be loaded at the same time. </p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l594"><code>src&#x2F;file&#x2F;Loader.ts:594</code></a>
+        <a href="../files/src_file_Loader.ts.html#l774"><code>src&#x2F;file&#x2F;Loader.ts:774</code></a>
         
         </p>
 
@@ -5743,7 +5774,8 @@ will be loaded at the same time. </p>
     </div>
 
     <div class="description">
-        <p>Callback for when the total number of bytes of the files in the file list has been calculated.</p>
+        <p>Callback for when the total number of bytes of the files
+in the file list has been calculated</p>
 
     </div>
 
@@ -5780,7 +5812,7 @@ will be loaded at the same time. </p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l603"><code>src&#x2F;file&#x2F;Loader.ts:603</code></a>
+        <a href="../files/src_file_Loader.ts.html#l784"><code>src&#x2F;file&#x2F;Loader.ts:784</code></a>
         
         </p>
 
@@ -5790,7 +5822,7 @@ will be loaded at the same time. </p>
     </div>
 
     <div class="description">
-        <p>Context that the onSizeCallback should be executed in.</p>
+        <p>Context in which the onSizeCallback should be executed</p>
 
     </div>
 
@@ -5827,7 +5859,7 @@ will be loaded at the same time. </p>
             
         
         
-        <a href="../files/src_file_Loader.ts.html#l137"><code>src&#x2F;file&#x2F;Loader.ts:137</code></a>
+        <a href="../files/src_file_Loader.ts.html#l152"><code>src&#x2F;file&#x2F;Loader.ts:152</code></a>
         
         </p>
 
@@ -5839,11 +5871,13 @@ will be loaded at the same time. </p>
     </div>
 
     <div class="description">
-        <p>When &#39;calculateBytes&#39; is true the percentLoaded will be the <code>bytesLoaded / bytesTotal</code>. 
-Otherwise it is based on the <code>filesLoaded / numberOfFilesToLoad</code>.</p>
+        <p>When <code>calculateBytes</code> is true, this equals <code>bytesLoaded / bytesTotal</code>.
+Otherwise it equals <code>filesLoaded / numberOfFilesToLoad</code>.</p>
 
     </div>
 
+    
+        <p><strong>Default:</strong> 0</p>
     
 
     
