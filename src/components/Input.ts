@@ -621,9 +621,10 @@ module Kiwi.Components {
 			// Use the appropriate method of checking.
 			if ( Kiwi.DEVICE.touch ) {
 				this._updateTouch();
-			} else {
-				this._updateMouse();
 			}
+			// Always check mouse. E.g. Windows 10 with touch display can fire touch and mouse event.
+			this._updateMouse();
+			
 
 			// If the entity is dragging.
 			if ( this.isDragging ) {
