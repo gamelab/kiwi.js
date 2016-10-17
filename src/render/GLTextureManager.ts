@@ -178,12 +178,24 @@ module Kiwi.Renderers {
 			@public
 			**/
 
-			this._textureWrapperCache = new Array();
-			for ( var tex in textureLibrary.textures ) {
+			var tex, texture;
+
+			this._textureWrapperCache = [];
+			for ( tex in textureLibrary.textures ) {
+
+				texture = textureLibrary.textures[ tex ];
 
 				// Tell the atlas to prepare its wrappers
-				textureLibrary.textures[ tex ].createGLTextureWrapper(
-					gl, this );
+				if ( texture.glTextureWrapper ) {
+
+					// Texture was already created
+					// Assume that it is properly formed and uploaded
+					this._addTextureToCache( texture.glTextureWrapper );
+				} else {
+
+					// Do full upload
+					texture.createGLTextureWrapper( gl, this );
+				}
 			}
 		}
 
@@ -247,6 +259,41 @@ module Kiwi.Renderers {
 					null;
 			}
 			this._textureWrapperCache = new Array();
+		}
+
+		public clearTexturesLocal( gl: WebGLRenderingContext ) {
+
+			/**
+			Remove non-global textures from video memory and the wrapper cache.
+			Global assets remain untouched.
+
+			@method clearTexturesLocal
+			@param gl {WebGLRenderingContext}
+			@public
+			@since 1.5.0
+			**/
+
+			var i, wrapper,
+				cache = this._textureWrapperCache,
+				cacheLen = cache.length,
+				newCache = [];
+
+			// Remove local textures; cache global textures
+			for ( i = 0; i < cacheLen; i++ ) {
+				wrapper = cache[ i ];
+				if ( wrapper.ownerState ) {
+
+					// Unload texture
+					this._deleteTexture( gl, i );
+					wrapper.textureAtlas.glTextureWrapper = null;
+				} else {
+
+					// Preserve texture
+					newCache.push( wrapper );
+				}
+			}
+
+			this._textureWrapperCache = newCache;
 		}
 
 		public removeTexture( gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas ) {

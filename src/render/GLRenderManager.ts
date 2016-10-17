@@ -504,7 +504,7 @@ module Kiwi.Renderers {
 			@public
 			**/
 
-			this._textureManager.clearTextures( this._game.stage.gl );
+			this._textureManager.clearTexturesLocal( this._game.stage.gl );
 			this._textureManager.uploadTextureLibrary(
 				this._game.stage.gl, state.textureLibrary );
 		}

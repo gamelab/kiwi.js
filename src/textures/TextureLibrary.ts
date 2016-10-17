@@ -124,15 +124,21 @@ module Kiwi.Textures {
 			}
 		}
 
-		public addFromFile( imageFile: Kiwi.Files.File ) {
+		public addFromFile( imageFile: Kiwi.Files.TextureFile ) {
 
 			/**
 			Add a new image file to the texture library.
 
 			@method addFromFile
-			@param imageFile {Kiwi.File} File to base a texture on
+			@param imageFile {Kiwi.File.TextureFile} File to base a texture on
 			@public
 			**/
+
+			// Use cached textures if they exist
+			if ( imageFile.texture ) {
+				this.textures[ imageFile.key ] = imageFile.texture;
+				return;
+			}
 
 			if (
 				this._game.renderOption === Kiwi.RENDERER_WEBGL &&
@@ -161,17 +167,22 @@ module Kiwi.Textures {
 					break;
 			}
 
+			// Cache texture so other states can use it
+			if ( !imageFile.ownerState ) {
+				imageFile.texture = this.textures[ imageFile.key ];
+			}
+
 		}
 
-		private _rebuildImage( imageFile: Kiwi.Files.File ): Kiwi.Files.File {
+		private _rebuildImage( imageFile: Kiwi.Files.TextureFile ): Kiwi.Files.TextureFile {
 
 			/**
 			Rebuild a texture from the FileStore into a base2 size
 			if it doesn't have it already.
 
 			@method _rebuildImage
-			@param imageFile {Kiwi.File} Image file to rebuild
-			@return {Kiwi.File} New image file
+			@param imageFile {Kiwi.File.TextureFile} Image file to rebuild
+			@return {Kiwi.File.TextureFile} New image file
 			@private
 			**/
 
@@ -337,8 +348,7 @@ module Kiwi.Textures {
 
 			var fileStoreKeys = fileStore.keys;
 			for ( var i = 0; i < fileStoreKeys.length; i++ ) {
-				var file: Kiwi.Files.File =
-					this._game.fileStore.getFile( fileStoreKeys[ i ] );
+				var file = <Kiwi.Files.TextureFile>this._game.fileStore.getFile( fileStoreKeys[ i ] );
 				if ( file.isTexture ) {
 					Kiwi.Log.log(
 						"  Kiwi.TextureLibrary: Adding Texture: " + file.name,

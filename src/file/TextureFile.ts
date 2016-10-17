@@ -78,6 +78,18 @@
 		**/
 		public crossOrigin: string = "";
 
+		/**
+		Texture created from this file. This is set during state rebuilds,
+		so that subsequent state rebuilds don't have to do all that work again.
+
+		@property texture
+		@type Kiwi.Textures.TextureAtlas
+		@default null
+		@public
+		@since 1.5.0
+		**/
+		public texture: Kiwi.Textures.TextureAtlas = null;
+
 
 		protected _load() {
 
