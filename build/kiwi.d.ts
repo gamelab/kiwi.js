@@ -8663,114 +8663,50 @@ declare module Kiwi.Textures {
         readJSON(atlasJSON: any): void;
     }
 }
-/**
-* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
-*
-* @module Kiwi
-* @submodule Textures
-* @main Textures
-*
-*/
 declare module Kiwi.Textures {
     /**
-    * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
-    *
-    * @class TextureLibrary
-    * @namespace Kiwi.Textures
-    * @constructor
-    * @param game {Game} The game that this texture library belongs to.
-    * @return {Kiwi.TextureLibrary}
-    *
-    */
+    Contains Objects that are used when dealing specifically
+    with Textures/Images. Majority of these classes are for Internal Kiwi use.
+
+    @module Kiwi
+    @submodule Textures
+    @main Textures
+    **/
     class TextureLibrary {
-        constructor(game: Kiwi.Game);
         /**
-        * The type of object that this is.
-        * @method objType
-        * @return {string}
-        * @public
-        */
+        Holds a reference to all of the image files (jpg, png, etc)
+        that are accessible on the State this TextureLibrary is on.
+
+        @class TextureLibrary
+        @namespace Kiwi.Textures
+        @constructor
+        @param game {Kiwi.Game} Game that this texture library belongs to
+        **/
+        constructor(game: Kiwi.Game);
         objType(): string;
         /**
-        * The game that this texture library is on.
-        * @property _game
-        * @type Game
-        * @private
-        */
+        Game that this texture library is on
+
+        @property _game
+        @type Game
+        @private
+        **/
         private _game;
         /**
-        * Contains all of the textures that are available.
-        * @property textures
-        * @public
-        */
+        Contains all of the textures that are available
+
+        @property textures
+        @public
+        **/
         textures: any;
-        /**
-        * Resets the texture library.
-        * @method clear
-        * @public
-        */
         clear(): void;
-        /**
-        * Adds a texture atlas to the library.
-        * @method add
-        * @param atlas {Kiwi.Textures.TextureAtlas}
-        * @public
-        */
         add(atlas: TextureAtlas): void;
-        /**
-        * Removes a texture atlas from the library.
-        * @method remove
-        * @param atlas {Kiwi.Textures.TextureAtlas}
-        * @public
-        * @since 1.4.1
-        */
         remove(atlas: TextureAtlas): void;
-        /**
-        * Adds a new image file to the texture library.
-        * @method addFromFile
-        * @param imageFile {Kiwi.File}
-        * @public
-        */
-        addFromFile(imageFile: Kiwi.Files.File): void;
-        /**
-        * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
-        * @method _rebuildImage
-        * @param imageFile {Kiwi.File} The image file that is to be rebuilt.
-        * @return {Kiwi.File} The new image file.
-        * @private
-        */
+        addFromFile(imageFile: Kiwi.Files.TextureFile): void;
         private _rebuildImage(imageFile);
-        /**
-        * Used to build a new texture atlas based on the image file provided. Internal use only.
-        * @method _buildTextureAtlas
-        * @param imageFile {Kiwi.File} The image file that is to be used.
-        * @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
-        * @private
-        */
         private _buildTextureAtlas(imageFile);
-        /**
-        * Builds a spritesheet atlas from the an image file that is provided.
-        * @method _buildSpriteSheet
-        * @param imageFile {Kiwi.File} The image file that is to be used.
-        * @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
-        * @private
-        */
         private _buildSpriteSheet(imageFile);
-        /**
-        * Builds a single image atlas from a image file that is provided.
-        * @method _buildImage
-        * @param imageFile {File} The image file that is to be used.
-        * @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
-        * @private
-        */
         private _buildImage(imageFile);
-        /**
-         * Rebuild the library from a fileStore. Clears the library and repopulates it.
-         * @method rebuild
-         * @param {Kiwi.Files.FileStore} fileStore
-         * @param {Kiwi.State} state
-         * @public
-         */
         rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State): void;
     }
 }
@@ -10008,398 +9944,194 @@ declare module Kiwi.Renderers {
     }
 }
 /**
-* @module Kiwi
-* @submodule Renderers
-* @main Renderers
-* @namespace Kiwi.Renderers
-*/
+@module Kiwi
+@submodule Renderers
+@main Renderers
+@namespace Kiwi.Renderers
+**/
 declare module Kiwi.Renderers {
     /**
-    * Manages all rendering using WebGL.
-    * Directly manages renderer objects, including factory methods
-    * for their creation.
-    * Creates manager objects for shaders and textures.
-    * Manages gl state at game initialisation, at state start and end,
-    * and per frame.
-    * Runs the recursive scene graph rendering sequence every frame.
-    *
-    * @class GLRenderManager
-    * @extends IRenderer
-    * @constructor
-    * @param game {Kiwi.Game} The game that this renderer belongs to.
-    * @return {Kiwi.Renderers.GLRenderManager}
-    */
+    Manages all rendering using WebGL.
+
+    - Directly manages renderer objects, including factory methods
+        for their creation.
+    - Creates manager objects for shaders and textures.
+    - Manages gl state at game initialisation, at state start and end,
+        and per frame.
+    - Runs the recursive scene graph rendering sequence every frame.
+
+    @class GLRenderManager
+    @extends IRenderer
+    @constructor
+    @param game {Kiwi.Game} Game that this renderer belongs to.
+    **/
     class GLRenderManager implements IRenderManager {
         constructor(game: Kiwi.Game);
-        /**
-        * Initialise all WebGL rendering services.
-        *
-        * @method boot
-        * @public
-        */
         boot(): void;
-        /**
-        * Return the type of object that this is.
-        *
-        * @method objType
-        * @return {string} "GLRenderManager"
-        * @public
-        */
         objType(): string;
         /**
-        * Game that this renderer is used with
-        *
-        * @property _game
-        * @type Game
-        * @private
-        */
+        Game that this renderer is used with
+
+        @property _game
+        @type Game
+        @private
+        **/
         private _game;
         /**
-        * Texture manager object used to allocate GL Textures
-        *
-        * @property _textureManager
-        * @type Kiwi.Renderes.GLTextureManager
-        * @private
-        */
+        Texture manager object used to allocate GL Textures
+
+        @property _textureManager
+        @type Kiwi.Renderes.GLTextureManager
+        @private
+        **/
         private _textureManager;
         /**
-        * Shader manager object used to allocate GL Shaders
-        *
-        * @property _shaderManager
-        * @type Kiwi.Renderes.GLShaderManager
-        * @private
-        */
+        Shader manager object used to allocate GL Shaders
+
+        @property _shaderManager
+        @type Kiwi.Renderes.GLShaderManager
+        @private
+        **/
         private _shaderManager;
         /**
-        * Stage resolution in pixels
-        *
-        * @property _stageResolution
-        * @type Float32Array
-        * @private
-        */
+        Stage resolution in pixels
+
+        @property _stageResolution
+        @type Float32Array
+        @private
+        **/
         private _stageResolution;
         /**
-        * Renderer object currently in use during a rendering batch
-        *
-        * @property _currentRenderer
-        * @type Kiwi.Renderers.Renderer
-        * @private
-        */
+        Renderer object currently in use during a rendering batch
+
+        @property _currentRenderer
+        @type Kiwi.Renderers.Renderer
+        @private
+        **/
         private _currentRenderer;
         /**
-        * Current blend mode
-        *
-        * @property _currentBlendMode
-        * @type Kiwi.Renderers.GLBlendMode
-        * @private
-        * @since 1.1.0
-        */
+        Current blend mode
+
+        @property _currentBlendMode
+        @type Kiwi.Renderers.GLBlendMode
+        @private
+        @since 1.1.0
+        **/
         private _currentBlendMode;
         /**
-        * Tally of number of entities rendered per frame
-        *
-        * @property _entityCount
-        * @type number
-        * @default 0
-        * @private
-        */
+        Tally of number of entities rendered per frame
+
+        @property _entityCount
+        @type number
+        @default 0
+        @private
+        **/
         private _entityCount;
         /**
-        * Tally of number of draw calls per frame
-        *
-        * @property numDrawCalls
-        * @type number
-        * @default 0
-        * @public
-        */
+        Tally of number of draw calls per frame
+
+        @property numDrawCalls
+        @type number
+        @default 0
+        @public
+        **/
         numDrawCalls: number;
         /**
-        * Maximum allowable sprites to render per frame.
-        * Note: Not currently used - candidate for deletion
-        *
-        * @property _maxItems
-        * @type number
-        * @default 1000
-        * @private
-        */
+        Maximum allowable sprites to render per frame.
+        Note: Not currently used - candidate for deletion
+
+        @property _maxItems
+        @type number
+        @default 1000
+        @private
+        **/
         private _maxItems;
         /**
-        * Camera matrix used on graphics card
-        *
-        * @property camMatrix
-        * @type Float32Array
-        * @public
-        */
+        Camera matrix used on graphics card
+
+        @property camMatrix
+        @type Float32Array
+        @public
+        **/
         camMatrix: Float32Array;
         /**
-        * Geometry data used to create `camMatrix`
-        *
-        * @property _camMatrix
-        * @type Kiwi.Geom.Matrix
-        * @private
-        */
+        Geometry data used to create `camMatrix`
+
+        @property _camMatrix
+        @type Kiwi.Geom.Matrix
+        @private
+        **/
         private _camMatrix;
         /**
-        * Most recently bound texture atlas
-        *
-        * @property _currentTextureAtlas
-        * @type TextureAtlas
-        * @private
-        */
+        Most recently bound texture atlas
+
+        @property _currentTextureAtlas
+        @type TextureAtlas
+        @private
+        **/
         private _currentTextureAtlas;
         /**
-        * Add a texture to the Texture Manager.
-        *
-        * @method addTexture
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
-        * @public
-        */
+        Add a texture to the Texture Manager.
+
+        @method addTexture
+        @param gl {WebGLRenderingContext} Canvas rendering context
+        @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
+        @public
+        **/
         addTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
-        * Remove a texture from the Texture Manager.
-        *
-        * @method removeTexture
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Textures.TextureAtlas} atlas
-        * @since 1.4.1
-        * @Public
-        */
+        Remove a texture from the Texture Manager.
+
+        @method removeTexture
+        @param {WebGLRenderingContext} gl
+        @param {Kiwi.Textures.TextureAtlas} atlas
+        @since 1.4.1
+        @Public
+        **/
         removeTexture(gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas): void;
         /**
-        * An array of renderers.
-        *
-        * Shared renderers are used for batch rendering.
-        * Multiple gameobjects can use the same renderer instance and add
-        * rendering info to a batch rather than rendering individually.
-        * This means only one draw call is necessary to render a number of
-        * objects. The most common use of this is standard 2d sprite rendering,
-        * and the TextureAtlasRenderer is added by default as a shared
-        * renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
-        * can all use the same renderer/shader combination and be drawn as
-        * part of the same batch.
-        *
-        * Custom gameobjects can also choose to use a shared renderer,
-        * for example in the case that a custom gameobject's
-        * rendering requirements matched the `TextureAtlasRenderer`
-        * capabilities.
-        *
-        * @property _sharedRenderers
-        * @type Array
-        * @private
-        */
+        Array of renderers.
+
+        Shared renderers are used for batch rendering.
+        Multiple gameobjects can use the same renderer instance and add
+        rendering info to a batch rather than rendering individually.
+        This means only one draw call is necessary to render a number of
+        objects. The most common use of this is standard 2d sprite rendering,
+        and the TextureAtlasRenderer is added by default as a shared
+        renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
+        can all use the same renderer/shader combination and be drawn as
+        part of the same batch.
+
+        Custom gameobjects can also choose to use a shared renderer,
+        for example in the case that a custom gameobject's
+        rendering requirements matched the `TextureAtlasRenderer`
+        capabilities.
+
+        @property _sharedRenderers
+        @type Array
+        @private
+        **/
         private _sharedRenderers;
-        /**
-        * Add a renderer to the sharedRenderer array.
-        *
-        * The rendererID is a string that must match a renderer property
-        * of the Kiwi.Renderers object. If a match is found and an instance
-        * does not already exist, then a renderer is instantiated and added
-        * to the array.
-        *
-        * @method addSharedRenderer
-        * @param {string} rendererID
-        * @param {object} params
-        * @return {boolean} success
-        * @public
-        */
         addSharedRenderer(rendererID: string, params?: any): boolean;
-        /**
-        * Add a cloned renderer to the sharedRenderer array.
-        * The rendererID is a string that must match a renderer property of
-        * the Kiwi.Renderers object. The cloneID is the name for the
-        * cloned renderer.
-        *
-        * If a match is found and an instance does not already exist,
-        * then a renderer is instantiated and added to the array.
-        *
-        * Cloned shared renderers are useful if some items in your scene
-        * will use a special shader or blend mode, but others will not.
-        * You can subsequently access the clones with a normal
-        * `requestSharedRenderer()` call. You should use this instead of
-        * `requestRendererInstance()` whenever possible, because shared
-        * renderers are more efficient than instances.
-        *
-        * @method addSharedRendererClone
-        * @param {string} rendererID
-        * @param {string} cloneID
-        * @param {object} params
-        * @return {boolean} success
-        * @public
-        * @since 1.1.0
-        */
         addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
-        /**
-        * Request a shared renderer. A game object that wants to use a shared
-        * renderer uses this method to obtain a reference to the shared
-        * renderer instance.
-        *
-        * @method requestSharedRenderer
-        * @param {string} rendererID
-        * @param {object} params
-        * @return {Kiwi.Renderers.Renderer} A shared renderer
-        *	or null if none found.
-        * @public
-        */
         requestSharedRenderer(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
-        /**
-        * Request a new renderer instance. This factory method is the only
-        * way gameobjects should instantiate their own renderer.
-        *
-        * The rendererID is a string that must match a renderer property
-        * of the Kiwi.Renderers object. If a match is found then a renderer
-        * is instantiated and returned. Gameobjects which have rendering
-        * requirements that do not suit batch rendering use this technique.
-        *
-        * @method requestRendererInstance
-        * @param {string} rendererID The name of the requested renderer
-        * @param {object} params
-        * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
-        * @public
-        */
         requestRendererInstance(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
         private _init();
-        /**
-        * Scales the viewport according to a scale mode and space dimensions.
-        *
-        * This is used internally for compatibility with CocoonJS
-        * and should not be called.
-        *
-        * @method scaleViewport
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param mode {number} Scale mode; should be either
-        *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
-        *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
-        * @param width {number} Width of the target space
-        * @param height {number} Height of the target space
-        * @public
-        * @since 1.1.1
-        */
         scaleViewport(gl: WebGLRenderingContext, mode: number, width: number, height: number): void;
-        /**
-        * Performs initialisation required when switching to a different state.
-        * Called when a state has been switched to.
-        * The textureManager is told to clear its contents from video memory,
-        * then rebuild its cache of textures from the state's texture library.
-        *
-        * @method initState
-        * @public
-        */
         initState(state: Kiwi.State): void;
-        /**
-        * Performs cleanup required before switching to a different state.
-        * Called whwn a state is about to be switched from.
-        * The textureManager is told to empty its cache.
-        *
-        * @method endState
-        * @param state {Kiwi.State}
-        * @public
-        */
         endState(state: Kiwi.State): void;
-        /**
-        * Manages rendering of the scene graph - called once per frame.
-        * Sets up per frame gl uniforms such as the view matrix and
-        * camera offset. Clears the current renderer ready for a new batch.
-        * Initiates recursive render of scene graph starting at the root.
-        *
-        * @method render
-        * @param camera {Camera}
-        * @public
-        */
         render(camera: Kiwi.Camera): void;
         private _sequence;
         private _batches;
-        /**
-        * Create a new render sequence.
-        *
-        * @method collateRenderSequence
-        * @public
-        */
         collateRenderSequence(): void;
-        /**
-        * Add a child to the render sequence
-        * (may be a group with children of its own ).
-        *
-        * @method collateChild
-        * @public
-        */
         collateChild(child: IChild): void;
-        /**
-        * Sort the render sequence into batches.
-        * Each batch requires the same renderer/shader/texture combination.
-        *
-        * @method collateBatches
-        * @public
-        */
         collateBatches(): void;
-        /**
-        * Render all the batches.
-        *
-        * @method renderBatches
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param camera {Kiwi.Camera} Currently rendering camera
-        * @public
-        */
         renderBatches(gl: WebGLRenderingContext, camera: any): void;
-        /**
-        * Render a single batch.
-        *
-        * @method renderBatch
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param batch {object} Batch to render
-        * @param camera {Kiwi.Camera} Currently rendering camera
-        * @public
-        */
         renderBatch(gl: any, batch: any, camera: any): void;
-        /**
-        * Call the render function on a single entity.
-        *
-        * @method renderEntity
-        * @param {WebGLRenderingContext} gl
-        * @param {Kiwi.Entity} entity
-        * @param {Kiwi.Camera} camera
-        * @public
-        * @deprecated Used internally; should not be called from external functions
-        */
         renderEntity(gl: WebGLRenderingContext, entity: any, camera: any): void;
-        /**
-        * Ensure the atlas and renderer needed for a batch is setup.
-        *
-        * @method setupGLState
-        * @param {WebGLRenderingContext} gl
-        * @public
-        * @deprecated Used internally; should not be called from external functions.
-        */
         setupGLState(gl: WebGLRenderingContext, entity: any): void;
-        /**
-        * Switch renderer to the one needed by the entity that needs rendering.
-        *
-        * @method _switchRenderer
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param entity {Kiwi.Entity} Entity demanding the switch
-        * @private
-        */
         private _switchRenderer(gl, entity);
-        /**
-        * Switch texture to the one needed by the entity that needs rendering.
-        *
-        * @method _switchTexture
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param entity {Kiwi.Entity} Entity demanding the switch
-        * @private
-        * @deprecated As of 1.4.1, we use a better method.
-        *	We probably shouldn't be passing an entity to a texture method.
-        */
         private _switchTexture(gl, entity);
-        /**
-        * Switch blend mode to a new set of constants.
-        *
-        * @method _switchBlendMode
-        * @param gl {WebGLRenderingContext} Canvas rendering context
-        * @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
-        * @private
-        * @since 1.1.0
-        */
         private _switchBlendMode(gl, blendMode);
     }
 }
@@ -10616,173 +10348,88 @@ declare module Kiwi.Renderers {
     }
 }
 /**
-*
-*
-* @module Kiwi
-* @submodule Renderers
-* @main Renderers
-* @namespace Kiwi.Renderers
-*/
+@module Kiwi
+@submodule Renderers
+@main Renderers
+@namespace Kiwi.Renderers
+**/
 declare module Kiwi.Renderers {
     /**
-   * Manages GL Texture objects, including creation, uploading, destruction and memory management
-   * @class GLTextureManager
-   * @constructor
-   * @return {GLTextureManager}
-   */
+    Manages GL Texture objects, including creation, uploading, destruction
+    and memory management
+
+    @class GLTextureManager
+    @constructor
+    @return {GLTextureManager}
+    **/
     class GLTextureManager {
         constructor();
         /**
-        * The default maximum amount of texture memory to use before swapping textures
-        * @property DEFAULT_MAX_TEX_MEM_MB
-        * @type number
-        * @public
-        * @static
-        */
+        Default maximum amount of texture memory to use
+        before swapping textures
+
+        @property DEFAULT_MAX_TEX_MEM_MB
+        @type number
+        @default 1024
+        @public
+        @static
+        **/
         static DEFAULT_MAX_TEX_MEM_MB: number;
         /**
-        * The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB
-        * @property maxTextureMem
-        * @type number
-        * @public
-        */
+        Maximum amount of texture memory to use before swapping textures,
+        initialised from `DEFAULT_MAX_TEX_MEM_MB`
+
+        @property maxTextureMem
+        @type number
+        @public
+        **/
         maxTextureMem: number;
         /**
-        * The amount of texture memory currently uplaoded
-        * @property usedTextureMem
-        * @type number
-        * @public
-        */
+        Amount of texture memory currently uploaded
+
+        @property usedTextureMem
+        @type number
+        @public
+        **/
         private _usedTextureMem;
         usedTextureMem: number;
         /**
-        * The number of textures currently uplaoded
-        * @property usedTextureMem
-        * @type number
-        * @public
-        */
+        Number of textures currently uploaded
+
+        @property usedTextureMem
+        @type number
+        @public
+        **/
         private _numTexturesUsed;
         numTexturesUsed: number;
         /**
-        * The number of textures uploads in the last frame
-        * @property numTextureWrites
-        * @type number
-        * @public
-        */
+        Number of texture uploads in the last frame
+
+        @property numTextureWrites
+        @type number
+        @public
+        **/
         numTextureWrites: number;
         /**
-        * An array of references to all texture wrappers
-        * @property _textureWrapperCache
-        * @type GLTextureWrapper[]
-        * @private
-        */
+        Array of references to all texture wrappers
+
+        @property _textureWrapperCache
+        @type GLTextureWrapper[]
+        @private
+        **/
         private _textureWrapperCache;
-        /**
-        * Adds a texture wrapper to the cache
-        * @method _addTextureToCache
-        * @param glTexture {GLTextureWrapper}
-        * @private
-        */
         private _addTextureToCache(glTexture);
-        /**
-        * Removes a texture wrapper from the cache
-        * @method _removeTextureFromCache
-        * @param glTexture {GLTextureWrapper}
-        * @private
-        * @since 1.4.1
-        */
         private _removeTextureFromCache(gl, glTexture);
-        /**
-        * Deletes a texture from memory and removes the wrapper from the cache
-        * @method _deleteTexture
-        * @param gl {WebGLRenderingContext}
-        * @param idx {number}
-        * @private
-        */
         private _deleteTexture(gl, idx);
-        /**
-        * Uploads a texture to video memory
-        * @method _uploadTexture
-        * @param gl {WebGLRenderingContext}
-        * @param glTextureWrapper {GLTextureWrapper}
-        * @return boolean
-        * @private
-        */
         private _uploadTexture(gl, glTextureWrapper);
-        /**
-        * Uploads a texture library to video memory
-        * @method uploadTextureLibrary
-        * @param gl {WebGLRenderingContext}
-        * @param textureLibrary {Kiwi.Textures.TextureLibrary}
-        * @public
-        */
         uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary): void;
-        /**
-        * Uploads a single texture to video memory
-        * @method uploadTexture
-        * @param gl {WebGLRenderingContext}
-        * @param textureAtlas {Kiwi.Textures.TextureAtlas}
-        * @public
-        */
         uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
-        /**
-        * Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
-        * @method registerTextureWrapper
-        * @param gl {WebGLRenderingContext}
-        * @param glTextureWrapper {GLTextureWrapper}
-        * @public
-        * @since 1.1.0
-        */
         registerTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): void;
-        /**
-        * Removes all textures from video memory and clears the wrapper cache
-        * @method clearTextures
-        * @param gl {WebGLRenderingContext}
-        * @public
-        */
         clearTextures(gl: WebGLRenderingContext): void;
-        /**
-        * Removes a texture atlas from the texture manager.
-        * @method removeTexture
-        * @param gl {WebGLRenderingContext}
-        * @param textureAtlas {Kiwi.Textures.TextureAtlas}
-        * @public
-        * @since 1.4.1
-        */
+        clearTexturesLocal(gl: WebGLRenderingContext): void;
         removeTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas): void;
-        /**
-        * Removes a texture wrapper from the manager.
-        * @method deregisterTextureWrapper
-        * @param gl {WebGLRenderingContext}
-        * @param glTextureWrapper {GLTextureWrapper}
-        * @public
-        * @since 1.4.1
-        */
         deregisterTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper): void;
-        /**
-        * Binds the texture ready for use, uploads it if it isn't already
-        * @method useTexture
-        * @param gl {WebGLRenderingContext}
-        * @param glTextureWrapper {GLTextureWrappery}
-        * @param [textureUnit=0] {number} Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don't need multiple textures, this is perfectly safe to ignore.
-        * @return boolean
-        * @public
-        */
         useTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper, textureUnit?: number): boolean;
-        /**
-        * Attempts to free space in video memory.
-        *
-        * This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.
-        *
-        * If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.
-        *
-        * This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.
-        * @method _freeSpace
-        * @param gl {WebGLRenderingContext}
-        * @param numBytesToRemove {number}
-        * @return boolean
-        * @private
-        */
         private _freeSpace(gl, numBytesToRemove);
     }
 }
@@ -23652,89 +23299,66 @@ declare module Kiwi.Files {
         private processJSON(data);
     }
 }
-/**
-*
-* @module Kiwi
-* @submodule Files
-*
-*/
 declare module Kiwi.Files {
     /**
-    * TextureFile which contains settings, loading, and processing information for textures/images in Kiwi.
-    *
-    * Contains two methods of loading. XHR + arraybuffer and also tag loading.
-    *
-    * @class TextureFile
-    * @namespace Kiwi.Files
-    * @extends Kiwi.Files.File
-    * @since 1.2.0
-    * @constructor
-    * @param game {Kiwi.Game} The game that this file is for
-    * @param params {Object} Options for this file.
-    *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
-    *   @param params.url {String} Location of the file to be loaded.
-    *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
-    *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-    *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-    *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-    *   @param [params.tags] {Array} Any tags to be associated with this file.
-    *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading.
-    * @return {Kiwi.Files.TextureFile}
-    *
-    */
+    @module Kiwi
+    @submodule Files
+    **/
     class TextureFile extends Kiwi.Files.File {
-        constructor(game: Kiwi.Game, params?: any);
         /**
-        * Returns the type of this object
-        * @method objType
-        * @return {String} "TextureFile"
-        * @public
-        */
+        TextureFile which contains settings, loading,
+        and processing information for textures/images in Kiwi.
+
+        Contains two methods of loading. XHR + arraybuffer, and tag loading.
+
+        @class TextureFile
+        @namespace Kiwi.Files
+        @extends Kiwi.Files.File
+        @since 1.2.0
+        @constructor
+        @param game {Kiwi.Game} Game that this file is for
+        @param params {object} Composite parameter object
+            @param params.key {string} User defined name for this file.
+                This would be how the user would access it in the file store.
+            @param params.url {string} Location of the file to be loaded.
+            @param {object} [params.metadata={}] Any metadata
+                to be associated with the file.
+            @param [params.state=null] {Kiwi.State} State that this file
+                belongs to. Used for defining global assets vs local assets.
+            @param [params.fileStore=null] {Kiwi.Files.FileStore} Filestore
+                that this file should be saved in automatically when loaded.
+            @param [params.type=UNKNOWN] {number} Type of file this is
+            @param [params.tags] {array} Tags to be associated with this file
+            @param [params.xhrLoading=false] {boolean} If xhr + arraybuffer
+                loading should be used instead of tag loading
+        **/
+        constructor(game: Kiwi.Game, params?: any);
         objType(): string;
         /**
-        * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
-        * @property crossOrigin
-        * @type String
-        * @default ''
-        * @public
-        */
+        For tag loading only. The crossOrigin value applies to loaded images.
+        Very often this needs to be set to "anonymous".
+
+        @property crossOrigin
+        @type String
+        @default ""
+        @public
+        **/
         crossOrigin: string;
         /**
-        * Initialises the loading method.
-        * Tagloading is the default but also supports XHR + arraybuffer.
-        * @method _load
-        * @protected
-        */
+        Texture created from this file. This is set during state rebuilds,
+        so that subsequent state rebuilds don't have to do all that work again.
+
+        @property texture
+        @type Kiwi.Textures.TextureAtlas
+        @default null
+        @public
+        @since 1.5.0
+        **/
+        texture: Kiwi.Textures.TextureAtlas;
         protected _load(): void;
-        /**
-        * Contains the functionality for tag loading
-        * @method tagLoader
-        * @private
-        */
         private tagLoader();
-        /**
-        * Gets the response data (which is an arraybuffer), creates a Blob from it
-        * and creates an objectURL from it.
-        *
-        * @method processXhr
-        * @param response {Any} The data stored in the 'xhr.response' tag
-        * @protected
-        */
         protected processXhr(response: any): void;
-        /**
-        * Revokes the object url that was added to the window when creating the image.
-        * Also tells the File that the loading is now complete.
-        *
-        * @method revoke
-        * @private
-        */
         private revoke();
-        /**
-        * Destroys all external object references on this object.
-        * @method destroy
-        * @since 1.2.0
-        * @public
-        */
         destroy(): void;
     }
 }

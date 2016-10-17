@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.1</em>
+            <em>API Docs for: 1.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -989,9 +989,10 @@ module Kiwi.Components {
 			// Use the appropriate method of checking.
 			if ( Kiwi.DEVICE.touch ) {
 				this._updateTouch();
-			} else {
-				this._updateMouse();
 			}
+			// Always check mouse. E.g. Windows 10 with touch display can fire touch and mouse event.
+			this._updateMouse();
+			
 
 			// If the entity is dragging.
 			if ( this.isDragging ) {

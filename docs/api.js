@@ -219,7 +219,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "Textures",
             "name": "Textures",
-            "description": "Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use."
+            "description": "Contains Objects that are used when dealing specifically\nwith Textures/Images. Majority of these classes are for Internal Kiwi use."
         },
         {
             "displayName": "Tilemap",

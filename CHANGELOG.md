@@ -1,9 +1,9 @@
-Change Log
-=============
+# Change Log
 
-### v1.4.0 "Cole"
+## v1.4.0 "Cole"
 
-#### New Features
+### New Features
+
 * Much faster rendering! Render pipeline caches the results of matrix concatenation, overcoming a significant bottleneck. Also uses cached data objects during rendering, rather than recreating assets on the fly. Depending on scene composition, this may yield a 10-50% performance improvement. Hint: Objects that don't transform are more performant.
 * `Geom.Transform.ignoreChild` property added. Defaults `false`. If set to `true` on a `Group` or `State`, its children will not inherit transforms. They will be positioned from (0, 0). This can save a matrix concatenation operation for every object in a group that doesn't move, resulting in significant performance gains. It's also faster to implement than `Geom.Transform.ignoreParent` from v1.3.0 if you have several children.
 * Added `Geom.Intersect.rayToCircle()` intersection check. This completes the geometry intersections. (#170)
@@ -18,10 +18,12 @@ Change Log
 * Nicer layout in preloader template.
 * Check out [http://examples.kiwijs.org/](http://examples.kiwijs.org/) for examples covering every facet of KiwiJS development.
 
-#### Deprecations
+### Deprecations
+
 * `glMatrix` library removed. This was used for a single call during WebGL rendering. Our own matrix code seems to perform just as well. In addition, glMatrix will load itself into a different namespace if certain other frameworks are in use, which results in a crash. Rather than fork or work around glMatrix, we decided to remove it entirely, reducing the size of KiwiJS. If you need glMatrix functionality, you may obtain the stand-alone library from [http://glmatrix.net/](http://glmatrix.net/). Thanks to the team at [Cerebral Fix](http://cerebralfix.com/) for bringing this to our attention! (#136)
 
-#### Bug Fixes
+### Bug Fixes
+
 * `Stage.rgbColor` now correctly interprets all values in range 0-255. (#198)
 * Audio now loops and stops correctly. Previously, it might loop indefinitely without making sound after the first loop, which is neither a proper loop nor a proper stop. (#199, #207)
 * Console error will be reported when a texture atlas JSON could not be loaded (#200)
@@ -41,7 +43,7 @@ Change Log
 * You can now stop the RAF from executing. (#211)
 
 
-### v1.3.0 "Moriarty"
+## v1.3.0 "Moriarty"
 
 ### New Features
 
@@ -70,7 +72,7 @@ Change Log
 * Minor fix with the image loading when using the xhr + arraybuffer methods of loading.
 * ArcadePhysics tile collision boxes made smaller to give better collisions.
 
-### v1.2.3 "Williams"
+## v1.2.3 "Williams"
 
 ### Bug Fixes
 
@@ -84,7 +86,7 @@ Change Log
 More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.3 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.3)
 
 
-### v1.2.2 "Williams"
+## v1.2.2 "Williams"
 
 ### Bug Fixes
 
@@ -97,9 +99,9 @@ More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.
 * `Animation` now correctly plays 1 frame animations and dispatches signals appropriately. (#174)
 * `Utils.GameMath.nearestAngleBetween()` now returns normalized angles so results are truly nearest. (#175)
 
-### v1.2.1 "Williams"
+## v1.2.1 "Williams"
 
-#### Bug Fixes
+### Bug Fixes
 
 * `Animation` could, under certain circumstances, freeze for a few seconds before playing. This was due to accidentally starting in 1970 and scrambling to catch up. This is no longer possible. (#150)
 * `Clock.rate` will now equal 0 if the clock is paused or stopped. (#152)
@@ -110,9 +112,9 @@ More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.
 
 More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.1 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.1)
 
-### v1.2.0 "Williams"
+## v1.2.0 "Williams"
 
-#### New Features
+### New Features
 
 * Pro architecture tools out the wazoo
 * All `Component` objects on a Group or Entity will automatically update when the State updates. This permits a full Entity Component System. (#122)
@@ -141,7 +143,7 @@ More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.
 * You may now reassign `Tween.object`, transferring a Tween from one object to another. (#109)
 * `State.loadProgress()` can now estimate bytes loaded (#66)
 
-#### Bug Fixes
+### Bug Fixes
 
 * `scaleType: Kiwi.Stage.SCALE_FIT` now scales correctly when browser window is manually resized to be smaller than the canvas. (#147)
 * XHR loading works with Nodewebkit where status codes are unavailable (#144)
@@ -158,23 +160,20 @@ More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.
 * `Timer` resumes where it left off after being paused (#113)
 * File loader now correctly interprets files without extensions in CocoonJS (#106)
 
-#### Deprecations and Removals
+### Deprecations and Removals
 
 * `Textfield` is deprecated in favour of `TextField` alias (#134)
 * `Kiwi.Utils.Common.defaultToString` is now in camelCase (#140)
 
-#### Project Architecture
+### Project Architecture
 
 * Switched to Typescript 1.4. Run `npm update` to upgrade your packages.
 
 More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.2.0 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.2.0)
 
+## v1.1.1
 
-## Release Notes for Previous Versions
-
-### v1.1.1
-
-#### Bug Fixes
+### Bug Fixes
 
 * Blend modes now work correctly in CocoonJS when `deviceTarget: Kiwi.TARGET_COCOON` is set, fixing a number of bugs. This allows CocoonJS deployment to a wider range of devices with more reliable quality.
 * Methods on a number of Geometric Objects (such as the `angleTo` method on `Point`) have been fixed.
@@ -183,9 +182,9 @@ More details can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.
 
 More details on the problems solved can be found on the [Kiwi.JS repo](https://github.com/gamelab/kiwi.js) under the [1.1.1 milestone](https://github.com/gamelab/kiwi.js/issues?q=milestone%3Av1.1.1+is%3Aclosed)
 
-### v1.1.0 "Iwutani"
+## v1.1.0 "Iwutani"
 
-#### New Features
+### New Features
 
 * So much good stuff.
 * Numerous aliases added to transformable objects. Transform sprites, groups, etc using these handy properties:
@@ -223,7 +222,7 @@ More details on the problems solved can be found on the [Kiwi.JS repo](https://g
   * MasterClock drives several of these properties behind the scenes.
 * `Stage.color` now accepts RGBA input (as well as RGB values). This allows you to make a transparent game over other page content.
 
-#### Bug fixes
+### Bug fixes
 
 * TileMapLayer objects now render correctly with scaled and rotated cameras. Technically you can also scale and rotate TileMapLayers, but this does not yet update physics, so you should only use it for cosmetic objects.
 * Touch input no longer assumes 11 fingers, preventing a bug where touch was always down. Thanks to @ic5y for the catch.
@@ -239,29 +238,28 @@ More details on the problems solved can be found on the [Kiwi.JS repo](https://g
 * Stage offset is correctly calculated, allowing for correct input positions.
 * Numerous small corrections to documentation: API reference is much more accurate.
 
-#### Deprecations and Removals
+### Deprecations and Removals
 
 * Examples have been moved to a new repo, reducing the size of Kiwi.js repo downloads.
 * Deprecated `willRender` flag on all objects. It now maps to `visible`, which serves the same purpose.
 * Deprecated `dirty` flag on Box and Camera objects. It didn't do anything and at worst was an unnecessary check.
 * Deprecated `removeFirstAlive`, `getFirstAlive`, and `getFirstDead` methods on Group objects. They still function, but are of extremely limited use.
 
-### v1.0.1
+## v1.0.1
 
-#### Bug Fixes and Changes
+### Bug Fixes and Changes
 
 * Thanks to @zzarcon the Grunt file now has more clarity.
 * @tjwudi has pushed up numerous fixes to the Documentation!
-* Bug fix where multiple debug canvases could be generated from subsequent 'createDebugCanvas' calls.
-* The debug canvas now responds to the "scaleType" property on the 'Stage'.
+* Bug fix where multiple debug canvases could be generated from subsequent `createDebugCanvas` calls.
+* The debug canvas now responds to the `scaleType` property on the `Stage`.
 * Tilemap layers no longer return error messages about the cellIndex.
 * Groups now use correct rotation point, as does the Camera and the State.
 * Fixed a bug where the HUDIcon would not work with Textures use a Canvas.
 * Canvas renderer now behaves more like the WebGL renderer.
 * Fixed a WebGL bug where alphas between 0 and 1 made the page background color bleed through.
 * The WebGL renderer now clears every frame which solves the bug where nothing would appear.
-* Textures that are set to 'dirty' are now re-uploaded to video memory. This fixes other bugs, such as the Textfield not working in WebGL.
+* Textures that are set to `dirty` are now re-uploaded to video memory. This fixes other bugs, such as the Textfield not working in WebGL.
 * Visibility flag now works correctly with groups: no children are rendered.
 * Visibility flag now works correctly under WebGL renderer.
 * Upgraded Kiwi.js to use Typescript version 1.0.0.
-

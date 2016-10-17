@@ -9391,9 +9391,8 @@ var Kiwi;
                 if (Kiwi.DEVICE.touch) {
                     this._updateTouch();
                 }
-                else {
-                    this._updateMouse();
-                }
+                // Always check mouse. E.g. Windows 10 with touch display can fire touch and mouse event.
+                this._updateMouse();
                 // If the entity is dragging.
                 if (this.isDragging) {
                     this._tempPoint = this.game.cameras.defaultCamera.transformPoint(this._isDragging.point);
@@ -14385,76 +14384,79 @@ var Kiwi;
         Textures.TextureAtlas = TextureAtlas;
     })(Textures = Kiwi.Textures || (Kiwi.Textures = {}));
 })(Kiwi || (Kiwi = {}));
-/**
-* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
-*
-* @module Kiwi
-* @submodule Textures
-* @main Textures
-*
-*/
 var Kiwi;
 (function (Kiwi) {
     var Textures;
     (function (Textures) {
         /**
-        * Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.
-        *
-        * @class TextureLibrary
-        * @namespace Kiwi.Textures
-        * @constructor
-        * @param game {Game} The game that this texture library belongs to.
-        * @return {Kiwi.TextureLibrary}
-        *
-        */
+        Contains Objects that are used when dealing specifically
+        with Textures/Images. Majority of these classes are for Internal Kiwi use.
+    
+        @module Kiwi
+        @submodule Textures
+        @main Textures
+        **/
         var TextureLibrary = (function () {
+            /**
+            Holds a reference to all of the image files (jpg, png, etc)
+            that are accessible on the State this TextureLibrary is on.
+    
+            @class TextureLibrary
+            @namespace Kiwi.Textures
+            @constructor
+            @param game {Kiwi.Game} Game that this texture library belongs to
+            **/
             function TextureLibrary(game) {
                 this._game = game;
                 this.textures = new Object();
             }
-            /**
-            * The type of object that this is.
-            * @method objType
-            * @return {string}
-            * @public
-            */
             TextureLibrary.prototype.objType = function () {
+                /**
+                Type of object that this is.
+    
+                @method objType
+                @return {string} "TextureLibrary"
+                @public
+                **/
                 return "TextureLibrary";
             };
-            /**
-            * Resets the texture library.
-            * @method clear
-            * @public
-            */
             TextureLibrary.prototype.clear = function () {
+                /**
+                Reset the texture library. Clear the `textures` object.
+    
+                @method clear
+                @public
+                **/
                 for (var prop in this.textures) {
                     delete this.textures[prop];
                 }
             };
-            /**
-            * Adds a texture atlas to the library.
-            * @method add
-            * @param atlas {Kiwi.Textures.TextureAtlas}
-            * @public
-            */
             TextureLibrary.prototype.add = function (atlas) {
+                /**
+                Add a texture atlas to the library.
+    
+                @method add
+                @param atlas {Kiwi.Textures.TextureAtlas} Texture atlas to add
+                @public
+                **/
                 this.textures[atlas.name] = atlas;
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-                    if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-                        Kiwi.Log.log("Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.", '#texture', '#base2');
+                    if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) === -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) === -1) {
+                        Kiwi.Log.log("Kiwi.TextureLibrary: Warning: " + "Image is not of base2 size " + "and may not render correctly.", "#texture", "#base2");
                     }
                     var renderManager = this._game.renderer;
                     renderManager.addTexture(this._game.stage.gl, atlas);
                 }
             };
-            /**
-            * Removes a texture atlas from the library.
-            * @method remove
-            * @param atlas {Kiwi.Textures.TextureAtlas}
-            * @public
-            * @since 1.4.1
-            */
             TextureLibrary.prototype.remove = function (atlas) {
+                /**
+                Remove a texture atlas from the library.
+    
+                @method remove
+                @param atlas {Kiwi.Textures.TextureAtlas} Texture atlas to remove
+                @public
+                @since 1.4.1
+                **/
                 if (this.textures[atlas.name]) {
                     delete this.textures[atlas.name];
                     if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
@@ -14463,13 +14465,19 @@ var Kiwi;
                     }
                 }
             };
-            /**
-            * Adds a new image file to the texture library.
-            * @method addFromFile
-            * @param imageFile {Kiwi.File}
-            * @public
-            */
             TextureLibrary.prototype.addFromFile = function (imageFile) {
+                /**
+                Add a new image file to the texture library.
+    
+                @method addFromFile
+                @param imageFile {Kiwi.File.TextureFile} File to base a texture on
+                @public
+                **/
+                // Use cached textures if they exist
+                if (imageFile.texture) {
+                    this.textures[imageFile.key] = imageFile.texture;
+                    return;
+                }
                 if (this._game.renderOption === Kiwi.RENDERER_WEBGL && this._game.deviceTargetOption != Kiwi.TARGET_COCOON) {
                     imageFile = this._rebuildImage(imageFile);
                 }
@@ -14486,47 +14494,60 @@ var Kiwi;
                     default:
                         break;
                 }
+                // Cache texture so other states can use it
+                if (!imageFile.ownerState) {
+                    imageFile.texture = this.textures[imageFile.key];
+                }
             };
-            /**
-            * Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.
-            * @method _rebuildImage
-            * @param imageFile {Kiwi.File} The image file that is to be rebuilt.
-            * @return {Kiwi.File} The new image file.
-            * @private
-            */
             TextureLibrary.prototype._rebuildImage = function (imageFile) {
-                //Check to see if it is base 2
+                /**
+                Rebuild a texture from the FileStore into a base2 size
+                if it doesn't have it already.
+    
+                @method _rebuildImage
+                @param imageFile {Kiwi.File.TextureFile} Image file to rebuild
+                @return {Kiwi.File.TextureFile} New image file
+                @private
+                **/
+                // Check to see if it is base 2
                 var newImg = Kiwi.Utils.Common.convertToBase2(imageFile.data);
-                //Was it resized? We can check to see if the width/height has changed.
+                // Was it resized?
+                // We can check to see if the width/height has changed.
                 if (imageFile.data.width !== newImg.width || imageFile.data.height !== newImg.height) {
                     if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
-                        //If no rows were passed then calculate them now.
-                        if (!imageFile.metadata.rows)
+                        // If no rows were passed then calculate them now.
+                        if (!imageFile.metadata.rows) {
                             imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
-                        //If no columns were passed then calculate them again.
-                        if (!imageFile.metadata.cols)
+                        }
+                        // If no columns were passed then calculate them again.
+                        if (!imageFile.metadata.cols) {
                             imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
+                        }
                     }
                     else if (imageFile.dataType === Kiwi.Files.File.IMAGE) {
-                        if (!imageFile.metadata.width)
+                        if (!imageFile.metadata.width) {
                             imageFile.metadata.width = imageFile.data.width;
-                        if (!imageFile.metadata.height)
+                        }
+                        if (!imageFile.metadata.height) {
                             imageFile.metadata.height = imageFile.data.height;
+                        }
                     }
-                    Kiwi.Log.log('Kiwi.TextureLibrary: ' + imageFile.name + ' has been rebuilt to be base2.', '#texture', '#base2');
-                    //Assign the new image to the data
+                    Kiwi.Log.log("Kiwi.TextureLibrary: " + imageFile.name + " has been rebuilt to be base2.", "#texture", "#base2");
+                    // Assign the new image to the data
                     imageFile.data = newImg;
                 }
                 return imageFile;
             };
-            /**
-            * Used to build a new texture atlas based on the image file provided. Internal use only.
-            * @method _buildTextureAtlas
-            * @param imageFile {Kiwi.File} The image file that is to be used.
-            * @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
-            * @private
-            */
             TextureLibrary.prototype._buildTextureAtlas = function (imageFile) {
+                /**
+                Build a new texture atlas based on the image file.
+                Internal use only.
+    
+                @method _buildTextureAtlas
+                @param imageFile {Kiwi.File} Image file to use
+                @return {Kiwi.Textures.TextureAtlas} `TextureAtlas` that is created
+                @private
+                **/
                 var atlas = new Kiwi.Textures.TextureAtlas(imageFile.key, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
                 var m = imageFile.metadata;
                 try {
@@ -14536,49 +14557,53 @@ var Kiwi;
                     return atlas;
                 }
                 catch (e) {
-                    Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: Failed to extract information for '" + imageFile.key + "' from JSON file '" + m.jsonID + "'", '#error', '#texture', 'Message: ' + e.message);
+                    Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: " + "Failed to extract information for \"" + imageFile.key + "\" from JSON file \"" + m.jsonID + "\"", "#error", "#texture", "Message: " + e.message);
                 }
                 return null;
             };
-            /**
-            * Builds a spritesheet atlas from the an image file that is provided.
-            * @method _buildSpriteSheet
-            * @param imageFile {Kiwi.File} The image file that is to be used.
-            * @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
-            * @private
-            */
             TextureLibrary.prototype._buildSpriteSheet = function (imageFile) {
+                /**
+                Build a spritesheet atlas from an image file.
+    
+                @method _buildSpriteSheet
+                @param imageFile {Kiwi.File} Image file to use
+                @return {Kiwi.Textures.SpriteSheet} `SpriteSheet` that was created
+                @private
+                **/
                 var m = imageFile.metadata;
-                //BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
+                // BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
                 var spriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.key, imageFile.data, m.frameWidth, m.frameHeight, m.numCells, m.rows, m.cols, m.sheetOffsetX, m.sheetOffsetY, m.cellOffsetX, m.cellOffsetY);
                 return spriteSheet;
             };
-            /**
-            * Builds a single image atlas from a image file that is provided.
-            * @method _buildImage
-            * @param imageFile {File} The image file that is to be used.
-            * @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
-            * @private
-            */
             TextureLibrary.prototype._buildImage = function (imageFile) {
+                /**
+                Build a single image atlas from an image file.
+    
+                @method _buildImage
+                @param imageFile {Kiwi.File.File} Image file to use
+                @return {Kiwi.Textures.SingleImage} `SingleImage` that was created
+                @private
+                **/
                 var m = imageFile.metadata;
                 return new Kiwi.Textures.SingleImage(imageFile.key, imageFile.data, m.width, m.height, m.offsetX, m.offsetY);
             };
-            /**
-             * Rebuild the library from a fileStore. Clears the library and repopulates it.
-             * @method rebuild
-             * @param {Kiwi.Files.FileStore} fileStore
-             * @param {Kiwi.State} state
-             * @public
-             */
             TextureLibrary.prototype.rebuild = function (fileStore, state) {
+                /**
+                Rebuild the library from a fileStore.
+                Clears the library and repopulates it.
+    
+                @method rebuild
+                @param fileStore {Kiwi.Files.FileStore} Game filestore
+                @param state {Kiwi.State} State to which the library belongs
+                @public
+                **/
                 this.clear();
-                Kiwi.Log.log("Kiwi.TextureLibrary: Rebuilding Texture Library", '#texture', '#rebuild');
+                Kiwi.Log.log("Kiwi.TextureLibrary: Rebuilding Texture Library", "#texture", "#rebuild");
                 var fileStoreKeys = fileStore.keys;
                 for (var i = 0; i < fileStoreKeys.length; i++) {
                     var file = this._game.fileStore.getFile(fileStoreKeys[i]);
                     if (file.isTexture) {
-                        Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.name, '#texture', '#added');
+                        Kiwi.Log.log("  Kiwi.TextureLibrary: Adding Texture: " + file.name, "#texture", "#added");
                         state.textureLibrary.addFromFile(file);
                     }
                 }
@@ -16356,162 +16381,161 @@ var Kiwi;
     })(Renderers = Kiwi.Renderers || (Kiwi.Renderers = {}));
 })(Kiwi || (Kiwi = {}));
 /**
-* @module Kiwi
-* @submodule Renderers
-* @main Renderers
-* @namespace Kiwi.Renderers
-*/
+@module Kiwi
+@submodule Renderers
+@main Renderers
+@namespace Kiwi.Renderers
+**/
 var Kiwi;
 (function (Kiwi) {
     var Renderers;
     (function (Renderers) {
         /**
-        * Manages all rendering using WebGL.
-        * Directly manages renderer objects, including factory methods
-        * for their creation.
-        * Creates manager objects for shaders and textures.
-        * Manages gl state at game initialisation, at state start and end,
-        * and per frame.
-        * Runs the recursive scene graph rendering sequence every frame.
-        *
-        * @class GLRenderManager
-        * @extends IRenderer
-        * @constructor
-        * @param game {Kiwi.Game} The game that this renderer belongs to.
-        * @return {Kiwi.Renderers.GLRenderManager}
-        */
+        Manages all rendering using WebGL.
+    
+        - Directly manages renderer objects, including factory methods
+            for their creation.
+        - Creates manager objects for shaders and textures.
+        - Manages gl state at game initialisation, at state start and end,
+            and per frame.
+        - Runs the recursive scene graph rendering sequence every frame.
+    
+        @class GLRenderManager
+        @extends IRenderer
+        @constructor
+        @param game {Kiwi.Game} Game that this renderer belongs to.
+        **/
         var GLRenderManager = (function () {
             function GLRenderManager(game) {
                 /**
-                * Renderer object currently in use during a rendering batch
-                *
-                * @property _currentRenderer
-                * @type Kiwi.Renderers.Renderer
-                * @private
-                */
+                Renderer object currently in use during a rendering batch
+        
+                @property _currentRenderer
+                @type Kiwi.Renderers.Renderer
+                @private
+                **/
                 this._currentRenderer = null;
                 /**
-                * Tally of number of entities rendered per frame
-                *
-                * @property _entityCount
-                * @type number
-                * @default 0
-                * @private
-                */
+                Tally of number of entities rendered per frame
+        
+                @property _entityCount
+                @type number
+                @default 0
+                @private
+                **/
                 this._entityCount = 0;
                 /**
-                * Tally of number of draw calls per frame
-                *
-                * @property numDrawCalls
-                * @type number
-                * @default 0
-                * @public
-                */
+                Tally of number of draw calls per frame
+        
+                @property numDrawCalls
+                @type number
+                @default 0
+                @public
+                **/
                 this.numDrawCalls = 0;
                 /**
-                * Maximum allowable sprites to render per frame.
-                * Note: Not currently used - candidate for deletion
-                *
-                * @property _maxItems
-                * @type number
-                * @default 1000
-                * @private
-                */
+                Maximum allowable sprites to render per frame.
+                Note: Not currently used - candidate for deletion
+        
+                @property _maxItems
+                @type number
+                @default 1000
+                @private
+                **/
                 this._maxItems = 1000;
                 /**
-                * Most recently bound texture atlas
-                *
-                * @property _currentTextureAtlas
-                * @type TextureAtlas
-                * @private
-                */
+                Most recently bound texture atlas
+        
+                @property _currentTextureAtlas
+                @type TextureAtlas
+                @private
+                **/
                 this._currentTextureAtlas = null;
                 /**
-                * An array of renderers.
-                *
-                * Shared renderers are used for batch rendering.
-                * Multiple gameobjects can use the same renderer instance and add
-                * rendering info to a batch rather than rendering individually.
-                * This means only one draw call is necessary to render a number of
-                * objects. The most common use of this is standard 2d sprite rendering,
-                * and the TextureAtlasRenderer is added by default as a shared
-                * renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
-                * can all use the same renderer/shader combination and be drawn as
-                * part of the same batch.
-                *
-                * Custom gameobjects can also choose to use a shared renderer,
-                * for example in the case that a custom gameobject's
-                * rendering requirements matched the `TextureAtlasRenderer`
-                * capabilities.
-                *
-                * @property _sharedRenderers
-                * @type Array
-                * @private
-                */
+                Array of renderers.
+        
+                Shared renderers are used for batch rendering.
+                Multiple gameobjects can use the same renderer instance and add
+                rendering info to a batch rather than rendering individually.
+                This means only one draw call is necessary to render a number of
+                objects. The most common use of this is standard 2d sprite rendering,
+                and the TextureAtlasRenderer is added by default as a shared
+                renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
+                can all use the same renderer/shader combination and be drawn as
+                part of the same batch.
+        
+                Custom gameobjects can also choose to use a shared renderer,
+                for example in the case that a custom gameobject's
+                rendering requirements matched the `TextureAtlasRenderer`
+                capabilities.
+        
+                @property _sharedRenderers
+                @type Array
+                @private
+                **/
                 this._sharedRenderers = {};
                 this._game = game;
                 this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, { mode: "DEFAULT" });
             }
-            /**
-            * Initialise all WebGL rendering services.
-            *
-            * @method boot
-            * @public
-            */
             GLRenderManager.prototype.boot = function () {
+                /**
+                Initialise all WebGL rendering services.
+    
+                @method boot
+                @public
+                **/
                 this._textureManager = new Renderers.GLTextureManager();
                 this._shaderManager = new Kiwi.Shaders.ShaderManager();
-                //this.filters = new Kiwi.Filters.GLFilterManager( this._game, this._shaderManager );
                 this._init();
             };
-            /**
-            * Return the type of object that this is.
-            *
-            * @method objType
-            * @return {string} "GLRenderManager"
-            * @public
-            */
             GLRenderManager.prototype.objType = function () {
+                /**
+                Return the type of object that this is.
+    
+                @method objType
+                @return {string} "GLRenderManager"
+                @public
+                **/
                 return "GLRenderManager";
             };
             /**
-            * Add a texture to the Texture Manager.
-            *
-            * @method addTexture
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
-            * @public
-            */
+            Add a texture to the Texture Manager.
+    
+            @method addTexture
+            @param gl {WebGLRenderingContext} Canvas rendering context
+            @param atlas {Kiwi.Textures.TextureAtlas} Texture reference
+            @public
+            **/
             GLRenderManager.prototype.addTexture = function (gl, atlas) {
                 this._textureManager.uploadTexture(gl, atlas);
             };
             /**
-            * Remove a texture from the Texture Manager.
-            *
-            * @method removeTexture
-            * @param {WebGLRenderingContext} gl
-            * @param {Kiwi.Textures.TextureAtlas} atlas
-            * @since 1.4.1
-            * @Public
-            */
+            Remove a texture from the Texture Manager.
+    
+            @method removeTexture
+            @param {WebGLRenderingContext} gl
+            @param {Kiwi.Textures.TextureAtlas} atlas
+            @since 1.4.1
+            @Public
+            **/
             GLRenderManager.prototype.removeTexture = function (gl, atlas) {
                 this._textureManager.removeTexture(gl, atlas);
             };
-            /**
-            * Add a renderer to the sharedRenderer array.
-            *
-            * The rendererID is a string that must match a renderer property
-            * of the Kiwi.Renderers object. If a match is found and an instance
-            * does not already exist, then a renderer is instantiated and added
-            * to the array.
-            *
-            * @method addSharedRenderer
-            * @param {string} rendererID
-            * @param {object} params
-            * @return {boolean} success
-            * @public
-            */
             GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
+                /**
+                Add a renderer to the sharedRenderer array.
+    
+                The rendererID is a string that must match a renderer property
+                of the Kiwi.Renderers object. If a match is found and an instance
+                does not already exist, then a renderer is instantiated and added
+                to the array.
+    
+                @method addSharedRenderer
+                @param {string} rendererID
+                @param {object} params
+                @return {boolean} success
+                @public
+                **/
                 if (params === void 0) { params = null; }
                 // Does renderer exist?
                 if (Kiwi.Renderers[rendererID]) {
@@ -16523,31 +16547,31 @@ var Kiwi;
                 }
                 return false;
             };
-            /**
-            * Add a cloned renderer to the sharedRenderer array.
-            * The rendererID is a string that must match a renderer property of
-            * the Kiwi.Renderers object. The cloneID is the name for the
-            * cloned renderer.
-            *
-            * If a match is found and an instance does not already exist,
-            * then a renderer is instantiated and added to the array.
-            *
-            * Cloned shared renderers are useful if some items in your scene
-            * will use a special shader or blend mode, but others will not.
-            * You can subsequently access the clones with a normal
-            * `requestSharedRenderer()` call. You should use this instead of
-            * `requestRendererInstance()` whenever possible, because shared
-            * renderers are more efficient than instances.
-            *
-            * @method addSharedRendererClone
-            * @param {string} rendererID
-            * @param {string} cloneID
-            * @param {object} params
-            * @return {boolean} success
-            * @public
-            * @since 1.1.0
-            */
             GLRenderManager.prototype.addSharedRendererClone = function (rendererID, cloneID, params) {
+                /**
+                Add a cloned renderer to the sharedRenderer array.
+                The rendererID is a string that must match a renderer property of
+                the Kiwi.Renderers object. The cloneID is the name for the
+                cloned renderer.
+    
+                If a match is found and an instance does not already exist,
+                then a renderer is instantiated and added to the array.
+    
+                Cloned shared renderers are useful if some items in your scene
+                will use a special shader or blend mode, but others will not.
+                You can subsequently access the clones with a normal
+                `requestSharedRenderer()` call. You should use this instead of
+                `requestRendererInstance()` whenever possible, because shared
+                renderers are more efficient than instances.
+    
+                @method addSharedRendererClone
+                @param {string} rendererID
+                @param {string} cloneID
+                @param {object} params
+                @return {boolean} success
+                @public
+                @since 1.1.0
+                **/
                 if (params === void 0) { params = null; }
                 if (typeof params === "undefined") {
                     params = null;
@@ -16562,19 +16586,19 @@ var Kiwi;
                 }
                 return false;
             };
-            /**
-            * Request a shared renderer. A game object that wants to use a shared
-            * renderer uses this method to obtain a reference to the shared
-            * renderer instance.
-            *
-            * @method requestSharedRenderer
-            * @param {string} rendererID
-            * @param {object} params
-            * @return {Kiwi.Renderers.Renderer} A shared renderer
-            *	or null if none found.
-            * @public
-            */
             GLRenderManager.prototype.requestSharedRenderer = function (rendererID, params) {
+                /**
+                Request a shared renderer. A game object that wants to use a shared
+                renderer uses this method to obtain a reference to the shared
+                renderer instance.
+    
+                @method requestSharedRenderer
+                @param {string} rendererID
+                @param {object} params
+                @return {Kiwi.Renderers.Renderer} A shared renderer
+                    or null if none found.
+                @public
+                **/
                 if (params === void 0) { params = null; }
                 var renderer = this._sharedRenderers[rendererID];
                 if (renderer) {
@@ -16588,25 +16612,25 @@ var Kiwi;
                         Kiwi.Log.log("No renderer called " + rendererID, "#renderer", "#webgl");
                     }
                 }
-                //failed request
+                // Failed request
                 return null;
             };
-            /**
-            * Request a new renderer instance. This factory method is the only
-            * way gameobjects should instantiate their own renderer.
-            *
-            * The rendererID is a string that must match a renderer property
-            * of the Kiwi.Renderers object. If a match is found then a renderer
-            * is instantiated and returned. Gameobjects which have rendering
-            * requirements that do not suit batch rendering use this technique.
-            *
-            * @method requestRendererInstance
-            * @param {string} rendererID The name of the requested renderer
-            * @param {object} params
-            * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
-            * @public
-            */
             GLRenderManager.prototype.requestRendererInstance = function (rendererID, params) {
+                /**
+                Request a new renderer instance. This factory method is the only
+                way gameobjects should instantiate their own renderer.
+    
+                The rendererID is a string that must match a renderer property
+                of the Kiwi.Renderers object. If a match is found then a renderer
+                is instantiated and returned. Gameobjects which have rendering
+                requirements that do not suit batch rendering use this technique.
+    
+                @method requestRendererInstance
+                @param {string} rendererID The name of the requested renderer
+                @param {object} params
+                @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
+                @public
+                **/
                 if (params === void 0) { params = null; }
                 if (rendererID in Kiwi.Renderers) {
                     var renderer = new Kiwi.Renderers[rendererID](this._game.stage.gl, this._shaderManager, params);
@@ -16615,32 +16639,22 @@ var Kiwi;
                 else {
                     Kiwi.Log.log("No renderer with id " + rendererID + " exists", "#renderer", "#webgl");
                 }
-                return null; //fail
+                // Fail
+                return null;
             };
-            /*
-            public get filtersEnabled(): boolean {
-                return this._filtersEnabled;
-            }
-    
-            public set filtersEnabled( val: boolean ) {
-                this._filtersEnabled = val;
-            }
-    
-            private _filtersEnabled: boolean = false;
-    
-            /**
-            * Performs initialisation required for single game instance -
-            * happens once, at bootup. Sets global GL state.
-            * Initialises managers for shaders and textures.
-            * Instantiates the default shared renderer (`TextureAtlasRenderer`).
-            *
-            * @method _init
-            * @private
-            */
             GLRenderManager.prototype._init = function () {
+                /**
+                Perform initialisation required for single game instance.
+                Happens once, at bootup. Sets global GL state.
+                Initialises managers for shaders and textures.
+                Instantiates the default shared renderer (`TextureAtlasRenderer`).
+    
+                @method _init
+                @private
+                **/
                 Kiwi.Log.log("Initialising WebGL", "#renderer", "#webgl");
                 var gl = this._game.stage.gl;
-                //init stage and viewport
+                // Init stage and viewport
                 this._stageResolution = new Float32Array([this._game.stage.width, this._game.stage.height]);
                 // Manually override scaling under CocoonJS
                 if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
@@ -16649,21 +16663,19 @@ var Kiwi;
                 else {
                     this.scaleViewport(gl, Kiwi.Stage.SCALE_NONE, this._game.stage.width, this._game.stage.height);
                 }
-                //set default gl state
+                // Set default gl state
                 gl.enable(gl.BLEND);
                 this._switchBlendMode(gl, this._currentBlendMode);
-                //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
-                //camera matrix
+                // Camera matrix
                 this.camMatrix = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
                 this._camMatrix = new Kiwi.Geom.Matrix();
-                //stage res needs update on stage resize
+                // Stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
                     if (this.currentRenderer) {
                         this._currentRenderer.updateStageResolution(gl, this._stageResolution);
                     }
-                    //this.filters.updateFilterResolution( gl, width, height );
                     // Manually override scaling under CocoonJS
                     if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                         this.scaleViewport(gl, this._game.stage.scaleType, window.innerWidth, window.innerHeight);
@@ -16672,27 +16684,24 @@ var Kiwi;
                         this.scaleViewport(gl, Kiwi.Stage.SCALE_NONE, width, height);
                     }
                 }, this);
-                /* if ( this.filtersEnabled && !this.filters.isEmpty ) {
-                    this.filters.enableFrameBuffers( gl );
-                }*/
             };
-            /**
-            * Scales the viewport according to a scale mode and space dimensions.
-            *
-            * This is used internally for compatibility with CocoonJS
-            * and should not be called.
-            *
-            * @method scaleViewport
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param mode {number} Scale mode; should be either
-            *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
-            *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
-            * @param width {number} Width of the target space
-            * @param height {number} Height of the target space
-            * @public
-            * @since 1.1.1
-            */
             GLRenderManager.prototype.scaleViewport = function (gl, mode, width, height) {
+                /**
+                Scales the viewport according to a scale mode and space dimensions.
+    
+                This is used internally for compatibility with CocoonJS
+                and should not be called.
+    
+                @method scaleViewport
+                @param gl {WebGLRenderingContext} Canvas rendering context
+                @param mode {number} Scale mode; should be either
+                    Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
+                    Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
+                @param width {number} Width of the target space
+                @param height {number} Height of the target space
+                @public
+                @since 1.1.1
+                **/
                 var offset = new Kiwi.Geom.Point(0, 0);
                 switch (mode) {
                     case Kiwi.Stage.SCALE_FIT:
@@ -16725,45 +16734,45 @@ var Kiwi;
                 }
                 gl.viewport(offset.x, offset.y, width, height);
             };
-            /**
-            * Performs initialisation required when switching to a different state.
-            * Called when a state has been switched to.
-            * The textureManager is told to clear its contents from video memory,
-            * then rebuild its cache of textures from the state's texture library.
-            *
-            * @method initState
-            * @public
-            */
             GLRenderManager.prototype.initState = function (state) {
-                this._textureManager.clearTextures(this._game.stage.gl);
+                /**
+                Perform initialisation required when switching state.
+                Called when a state has been switched to.
+                The textureManager clears its contents from video memory, then
+                rebuilds its cache of textures from the state's texture library.
+    
+                @method initState
+                @public
+                **/
+                this._textureManager.clearTexturesLocal(this._game.stage.gl);
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
-            /**
-            * Performs cleanup required before switching to a different state.
-            * Called whwn a state is about to be switched from.
-            * The textureManager is told to empty its cache.
-            *
-            * @method endState
-            * @param state {Kiwi.State}
-            * @public
-            */
             GLRenderManager.prototype.endState = function (state) {
+                /**
+                Perform cleanup required before switching to a different state.
+                Called whwn a state is about to be switched from.
+                The textureManager is told to empty its cache.
+    
+                @method endState
+                @param state {Kiwi.State}
+                @public
+                **/
                 this._textureManager.clearTextures(this._game.stage.gl);
                 Kiwi.Log.log("Ending WebGL on State", "#renderer", "#webgl");
             };
-            /**
-            * Manages rendering of the scene graph - called once per frame.
-            * Sets up per frame gl uniforms such as the view matrix and
-            * camera offset. Clears the current renderer ready for a new batch.
-            * Initiates recursive render of scene graph starting at the root.
-            *
-            * @method render
-            * @param camera {Camera}
-            * @public
-            */
             GLRenderManager.prototype.render = function (camera) {
+                /**
+                Manage rendering of the scene graph - called once per frame.
+                Set up per frame gl uniforms such as the view matrix and
+                camera offset. Clear the current renderer ready for a new batch.
+                Initiate recursive render of scene graph starting at the root.
+    
+                @method render
+                @param camera {Camera}
+                @public
+                **/
                 var gl = this._game.stage.gl;
-                //clear stage every frame
+                // Clear stage every frame
                 var col = this._game.stage.normalizedColor;
                 // Colour must be multiplied by alpha to create consistent results.
                 // This is probably due to browsers implementing an inferior
@@ -16811,31 +16820,26 @@ var Kiwi;
                 this.collateRenderSequence();
                 this.collateBatches();
                 this.renderBatches(gl, camera);
-                /*if ( this._filtersEnabled && !this.filters.isEmpty ) {
-                    this.filters.applyFilters( gl );
-                    gl.useProgram( this._shaderManager.currentShader.shaderProgram );
-                    gl.bindTexture( gl.TEXTURE_2D, this._currentTextureAtlas.glTextureWrapper.texture );
-                }*/
             };
-            /**
-            * Create a new render sequence.
-            *
-            * @method collateRenderSequence
-            * @public
-            */
             GLRenderManager.prototype.collateRenderSequence = function () {
+                /**
+                Create a new render sequence.
+    
+                @method collateRenderSequence
+                @public
+                **/
                 this._sequence = [];
                 var root = this._game.states.current;
                 this.collateChild(root);
             };
-            /**
-            * Add a child to the render sequence
-            * (may be a group with children of its own ).
-            *
-            * @method collateChild
-            * @public
-            */
             GLRenderManager.prototype.collateChild = function (child) {
+                /**
+                Add a child to the render sequence
+                (may be a group with children of its own).
+    
+                @method collateChild
+                @public
+                **/
                 var i;
                 // Do not render non-visible objects or their children
                 if (!child.visible)
@@ -16856,14 +16860,14 @@ var Kiwi;
                     });
                 }
             };
-            /**
-            * Sort the render sequence into batches.
-            * Each batch requires the same renderer/shader/texture combination.
-            *
-            * @method collateBatches
-            * @public
-            */
             GLRenderManager.prototype.collateBatches = function () {
+                /**
+                Sort the render sequence into batches.
+                Each batch requires the same renderer/shader/texture combination.
+    
+                @method collateBatches
+                @public
+                **/
                 var currentRenderer = null;
                 var currentShader = null;
                 var currentTexture = null;
@@ -16880,29 +16884,29 @@ var Kiwi;
                     this._batches[batchIndex].push(this._sequence[i]);
                 }
             };
-            /**
-            * Render all the batches.
-            *
-            * @method renderBatches
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param camera {Kiwi.Camera} Currently rendering camera
-            * @public
-            */
             GLRenderManager.prototype.renderBatches = function (gl, camera) {
+                /**
+                Render all the batches.
+    
+                @method renderBatches
+                @param gl {WebGLRenderingContext} Canvas rendering context
+                @param camera {Kiwi.Camera} Currently rendering camera
+                @public
+                **/
                 for (var i = 0; i < this._batches.length; i++) {
                     this.renderBatch(gl, this._batches[i], camera);
                 }
             };
-            /**
-            * Render a single batch.
-            *
-            * @method renderBatch
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param batch {object} Batch to render
-            * @param camera {Kiwi.Camera} Currently rendering camera
-            * @public
-            */
             GLRenderManager.prototype.renderBatch = function (gl, batch, camera) {
+                /**
+                Render a single batch.
+    
+                @method renderBatch
+                @param gl {WebGLRenderingContext} Canvas rendering context
+                @param batch {object} Batch to render
+                @param camera {Kiwi.Camera} Currently rendering camera
+                @public
+                **/
                 // Acquire renderer
                 var rendererSwitched = false;
                 if (batch[0].renderer !== this._currentRenderer) {
@@ -16915,7 +16919,7 @@ var Kiwi;
                     batch[i].entity.renderGL(gl, camera);
                 }
                 // Upload textures
-                if (batch[0].texture !== this._currentTextureAtlas || batch[0].texture.dirty || (rendererSwitched && batch[0].texture == this._currentTextureAtlas)) {
+                if (batch[0].texture !== this._currentTextureAtlas || batch[0].texture.dirty || (rendererSwitched && batch[0].texture === this._currentTextureAtlas)) {
                     batch[0].texture.enableGL(gl, this._currentRenderer, this._textureManager);
                 }
                 // Manage blend mode
@@ -16928,17 +16932,18 @@ var Kiwi;
                 // Render
                 this._currentRenderer.draw(gl);
             };
-            /**
-            * Call the render function on a single entity.
-            *
-            * @method renderEntity
-            * @param {WebGLRenderingContext} gl
-            * @param {Kiwi.Entity} entity
-            * @param {Kiwi.Camera} camera
-            * @public
-            * @deprecated Used internally; should not be called from external functions
-            */
             GLRenderManager.prototype.renderEntity = function (gl, entity, camera) {
+                /**
+                Call the render function on a single entity.
+    
+                @method renderEntity
+                @param {WebGLRenderingContext} gl
+                @param {Kiwi.Entity} entity
+                @param {Kiwi.Camera} camera
+                @public
+                @deprecated Used internally;
+                    should not be called from external functions
+                **/
                 this.renderBatch(gl, [{
                     entity: entity,
                     renderer: entity.glRenderer,
@@ -16947,15 +16952,15 @@ var Kiwi;
                     texture: entity.atlas
                 }], camera);
             };
-            /**
-            * Ensure the atlas and renderer needed for a batch is setup.
-            *
-            * @method setupGLState
-            * @param {WebGLRenderingContext} gl
-            * @public
-            * @deprecated Used internally; should not be called from external functions.
-            */
             GLRenderManager.prototype.setupGLState = function (gl, entity) {
+                /**
+                Ensure the atlas and renderer needed for a batch is setup.
+    
+                @method setupGLState
+                @param {WebGLRenderingContext} gl
+                @public
+                @deprecated Used internally; should not be called from external functions.
+                **/
                 if (entity.atlas !== this._currentTextureAtlas) {
                     this._switchTexture(gl, entity);
                 }
@@ -16963,15 +16968,15 @@ var Kiwi;
                     this._switchRenderer(gl, entity);
                 }
             };
-            /**
-            * Switch renderer to the one needed by the entity that needs rendering.
-            *
-            * @method _switchRenderer
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param entity {Kiwi.Entity} Entity demanding the switch
-            * @private
-            */
             GLRenderManager.prototype._switchRenderer = function (gl, entity) {
+                /**
+                Switch renderer to that needed by the entity.
+    
+                @method _switchRenderer
+                @param gl {WebGLRenderingContext} Canvas rendering context
+                @param entity {Kiwi.Entity} Entity demanding the switch
+                @private
+                **/
                 if (this._currentRenderer) {
                     this._currentRenderer.disable(gl);
                 }
@@ -16981,30 +16986,30 @@ var Kiwi;
                     stageResolution: this._stageResolution
                 });
             };
-            /**
-            * Switch texture to the one needed by the entity that needs rendering.
-            *
-            * @method _switchTexture
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param entity {Kiwi.Entity} Entity demanding the switch
-            * @private
-            * @deprecated As of 1.4.1, we use a better method.
-            *	We probably shouldn't be passing an entity to a texture method.
-            */
             GLRenderManager.prototype._switchTexture = function (gl, entity) {
+                /**
+                Switch texture to that needed by the entity.
+    
+                @method _switchTexture
+                @param gl {WebGLRenderingContext} Canvas rendering context
+                @param entity {Kiwi.Entity} Entity demanding the switch
+                @private
+                @deprecated As of 1.4.1, we use a better method.
+                    We probably shouldn't be passing an entity to a texture method.
+                **/
                 this._currentTextureAtlas = entity.atlas;
                 entity.atlas.enableGL(gl, this._currentRenderer, this._textureManager);
             };
-            /**
-            * Switch blend mode to a new set of constants.
-            *
-            * @method _switchBlendMode
-            * @param gl {WebGLRenderingContext} Canvas rendering context
-            * @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
-            * @private
-            * @since 1.1.0
-            */
             GLRenderManager.prototype._switchBlendMode = function (gl, blendMode) {
+                /**
+                Switch blend mode to a new set of constants.
+    
+                @method _switchBlendMode
+                @param gl {WebGLRenderingContext} Canvas rendering context
+                @param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
+                @private
+                @since 1.1.0
+                **/
                 this._currentBlendMode = blendMode;
                 this._currentBlendMode.apply(gl);
             };
@@ -17336,31 +17341,32 @@ var Kiwi;
     })(Renderers = Kiwi.Renderers || (Kiwi.Renderers = {}));
 })(Kiwi || (Kiwi = {}));
 /**
-*
-*
-* @module Kiwi
-* @submodule Renderers
-* @main Renderers
-* @namespace Kiwi.Renderers
-*/
+@module Kiwi
+@submodule Renderers
+@main Renderers
+@namespace Kiwi.Renderers
+**/
 var Kiwi;
 (function (Kiwi) {
     var Renderers;
     (function (Renderers) {
         /**
-       * Manages GL Texture objects, including creation, uploading, destruction and memory management
-       * @class GLTextureManager
-       * @constructor
-       * @return {GLTextureManager}
-       */
+        Manages GL Texture objects, including creation, uploading, destruction
+        and memory management
+    
+        @class GLTextureManager
+        @constructor
+        @return {GLTextureManager}
+        **/
         var GLTextureManager = (function () {
             function GLTextureManager() {
                 /**
-                * The number of textures uploads in the last frame
-                * @property numTextureWrites
-                * @type number
-                * @public
-                */
+                Number of texture uploads in the last frame
+        
+                @property numTextureWrites
+                @type number
+                @public
+                **/
                 this.numTextureWrites = 0;
                 this._numTexturesUsed = 0;
                 this._usedTextureMem = 0;
@@ -17381,23 +17387,25 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            /**
-            * Adds a texture wrapper to the cache
-            * @method _addTextureToCache
-            * @param glTexture {GLTextureWrapper}
-            * @private
-            */
             GLTextureManager.prototype._addTextureToCache = function (glTexture) {
+                /**
+                Add a texture wrapper to the cache.
+    
+                @method _addTextureToCache
+                @param glTexture {GLTextureWrapper}
+                @private
+                **/
                 this._textureWrapperCache.push(glTexture);
             };
-            /**
-            * Removes a texture wrapper from the cache
-            * @method _removeTextureFromCache
-            * @param glTexture {GLTextureWrapper}
-            * @private
-            * @since 1.4.1
-            */
             GLTextureManager.prototype._removeTextureFromCache = function (gl, glTexture) {
+                /**
+                Remove a texture wrapper from the cache.
+    
+                @method _removeTextureFromCache
+                @param glTexture {GLTextureWrapper}
+                @private
+                @since 1.4.1
+                **/
                 var index = this._textureWrapperCache.indexOf(glTexture);
                 if (index > -1) {
                     if (glTexture.uploaded) {
@@ -17406,28 +17414,30 @@ var Kiwi;
                     this._textureWrapperCache.splice(index, 1);
                 }
             };
-            /**
-            * Deletes a texture from memory and removes the wrapper from the cache
-            * @method _deleteTexture
-            * @param gl {WebGLRenderingContext}
-            * @param idx {number}
-            * @private
-            */
             GLTextureManager.prototype._deleteTexture = function (gl, idx) {
+                /**
+                Delete a texture from memory and remove the wrapper from the cache.
+    
+                @method _deleteTexture
+                @param gl {WebGLRenderingContext}
+                @param idx {number}
+                @private
+                **/
                 this._textureWrapperCache[idx].deleteTexture(gl);
                 this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
                 this._numTexturesUsed--;
             };
-            /**
-            * Uploads a texture to video memory
-            * @method _uploadTexture
-            * @param gl {WebGLRenderingContext}
-            * @param glTextureWrapper {GLTextureWrapper}
-            * @return boolean
-            * @private
-            */
             GLTextureManager.prototype._uploadTexture = function (gl, glTextureWrapper) {
-                //only upload it if it fits
+                /**
+                Upload a texture to video memory.
+    
+                @method _uploadTexture
+                @param gl {WebGLRenderingContext}
+                @param glTextureWrapper {GLTextureWrapper}
+                @return boolean
+                @private
+                **/
+                // Only upload it if it fits
                 if (glTextureWrapper.numBytes + this._usedTextureMem <= this.maxTextureMem) {
                     glTextureWrapper.uploadTexture(gl);
                     this._usedTextureMem += glTextureWrapper.numBytes;
@@ -17436,94 +17446,143 @@ var Kiwi;
                 }
                 return false;
             };
-            /**
-            * Uploads a texture library to video memory
-            * @method uploadTextureLibrary
-            * @param gl {WebGLRenderingContext}
-            * @param textureLibrary {Kiwi.Textures.TextureLibrary}
-            * @public
-            */
             GLTextureManager.prototype.uploadTextureLibrary = function (gl, textureLibrary) {
-                this._textureWrapperCache = new Array();
-                for (var tex in textureLibrary.textures) {
+                /**
+                Upload a texture library to video memory.
+    
+                @method uploadTextureLibrary
+                @param gl {WebGLRenderingContext}
+                @param textureLibrary {Kiwi.Textures.TextureLibrary}
+                @public
+                **/
+                var tex, texture;
+                this._textureWrapperCache = [];
+                for (tex in textureLibrary.textures) {
+                    texture = textureLibrary.textures[tex];
                     // Tell the atlas to prepare its wrappers
-                    textureLibrary.textures[tex].createGLTextureWrapper(gl, this);
+                    if (texture.glTextureWrapper) {
+                        // Texture was already created
+                        // Assume that it is properly formed and uploaded
+                        this._addTextureToCache(texture.glTextureWrapper);
+                    }
+                    else {
+                        // Do full upload
+                        texture.createGLTextureWrapper(gl, this);
+                    }
                 }
             };
-            /**
-            * Uploads a single texture to video memory
-            * @method uploadTexture
-            * @param gl {WebGLRenderingContext}
-            * @param textureAtlas {Kiwi.Textures.TextureAtlas}
-            * @public
-            */
             GLTextureManager.prototype.uploadTexture = function (gl, textureAtlas) {
+                /**
+                Upload a single texture to video memory.
+    
+                @method uploadTexture
+                @param gl {WebGLRenderingContext}
+                @param textureAtlas {Kiwi.Textures.TextureAtlas}
+                @public
+                **/
                 textureAtlas.createGLTextureWrapper(gl, this);
             };
-            /**
-            * Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
-            * @method registerTextureWrapper
-            * @param gl {WebGLRenderingContext}
-            * @param glTextureWrapper {GLTextureWrapper}
-            * @public
-            * @since 1.1.0
-            */
             GLTextureManager.prototype.registerTextureWrapper = function (gl, glTextureWrapper) {
+                /**
+                Add a texture wrapper to the manager.
+                This both adds the wrapper to the manager cache,
+                and attempts to upload the attached texture to video memory.
+    
+                @method registerTextureWrapper
+                @param gl {WebGLRenderingContext}
+                @param glTextureWrapper {GLTextureWrapper}
+                @public
+                @since 1.1.0
+                **/
                 this._addTextureToCache(glTextureWrapper);
                 // Only upload it if it fits
                 if (!this._uploadTexture(gl, glTextureWrapper)) {
-                    Kiwi.Log.log("...skipped uploading texture due to allocated texture memory exceeded.", '#renderer', '#webgl');
+                    Kiwi.Log.log("...skipped uploading texture due to " + "allocated texture memory exceeded.", "#renderer", "#webgl");
                 }
             };
-            /**
-            * Removes all textures from video memory and clears the wrapper cache
-            * @method clearTextures
-            * @param gl {WebGLRenderingContext}
-            * @public
-            */
             GLTextureManager.prototype.clearTextures = function (gl) {
+                /**
+                Remove all textures from video memory and clears the wrapper cache.
+    
+                @method clearTextures
+                @param gl {WebGLRenderingContext}
+                @public
+                **/
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
                     // Delete from graphics memory
                     this._deleteTexture(gl, i);
-                    //kill the reference on the atlas
+                    // Kill the reference on the atlas
                     this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
                 }
                 this._textureWrapperCache = new Array();
             };
-            /**
-            * Removes a texture atlas from the texture manager.
-            * @method removeTexture
-            * @param gl {WebGLRenderingContext}
-            * @param textureAtlas {Kiwi.Textures.TextureAtlas}
-            * @public
-            * @since 1.4.1
-            */
+            GLTextureManager.prototype.clearTexturesLocal = function (gl) {
+                /**
+                Remove non-global textures from video memory and the wrapper cache.
+                Global assets remain untouched.
+    
+                @method clearTexturesLocal
+                @param gl {WebGLRenderingContext}
+                @public
+                @since 1.5.0
+                **/
+                var i, wrapper, cache = this._textureWrapperCache, cacheLen = cache.length, newCache = [];
+                for (i = 0; i < cacheLen; i++) {
+                    wrapper = cache[i];
+                    if (wrapper.ownerState) {
+                        // Unload texture
+                        this._deleteTexture(gl, i);
+                        wrapper.textureAtlas.glTextureWrapper = null;
+                    }
+                    else {
+                        // Preserve texture
+                        newCache.push(wrapper);
+                    }
+                }
+                this._textureWrapperCache = newCache;
+            };
             GLTextureManager.prototype.removeTexture = function (gl, textureAtlas) {
+                /**
+                Remove a texture atlas from the texture manager.
+    
+                @method removeTexture
+                @param gl {WebGLRenderingContext}
+                @param textureAtlas {Kiwi.Textures.TextureAtlas}
+                @public
+                @since 1.4.1
+                **/
                 textureAtlas.removeGLTextureWrapper(gl, this);
             };
-            /**
-            * Removes a texture wrapper from the manager.
-            * @method deregisterTextureWrapper
-            * @param gl {WebGLRenderingContext}
-            * @param glTextureWrapper {GLTextureWrapper}
-            * @public
-            * @since 1.4.1
-            */
             GLTextureManager.prototype.deregisterTextureWrapper = function (gl, glTextureWrapper) {
+                /**
+                Remove a texture wrapper from the manager.
+    
+                @method deregisterTextureWrapper
+                @param gl {WebGLRenderingContext}
+                @param glTextureWrapper {GLTextureWrapper}
+                @public
+                @since 1.4.1
+                **/
                 this._removeTextureFromCache(gl, glTextureWrapper);
             };
-            /**
-            * Binds the texture ready for use, uploads it if it isn't already
-            * @method useTexture
-            * @param gl {WebGLRenderingContext}
-            * @param glTextureWrapper {GLTextureWrappery}
-            * @param [textureUnit=0] {number} Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don't need multiple textures, this is perfectly safe to ignore.
-            * @return boolean
-            * @public
-            */
             GLTextureManager.prototype.useTexture = function (gl, glTextureWrapper, textureUnit) {
+                /**
+                Bind the texture ready for use. Upload it if it isn't already.
+    
+                @method useTexture
+                @param gl {WebGLRenderingContext}
+                @param glTextureWrapper {GLTextureWrappery}
+                @param [textureUnit=0] {number} Optional parameter for
+                    multitexturing. You can have up to 32 textures available
+                    to a shader at one time, in the range 0-31.
+                    If you don't need multiple textures,
+                    this is perfectly safe to ignore.
+                @return boolean
+                @public
+                **/
                 if (textureUnit === void 0) { textureUnit = 0; }
-                textureUnit = Kiwi.Utils.GameMath.clamp(Kiwi.Utils.GameMath.truncate(textureUnit), 31); // Convert to integer in range 0-31.
+                // Convert to integer in range 0-31.
+                textureUnit = Kiwi.Utils.GameMath.clamp(Kiwi.Utils.GameMath.truncate(textureUnit), 31);
                 if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
                     if (!this._uploadTexture(gl, glTextureWrapper)) {
                         this._freeSpace(gl, glTextureWrapper.numBytes);
@@ -17531,39 +17590,48 @@ var Kiwi;
                     }
                     this.numTextureWrites++;
                 }
-                //use texture
+                // Use texture
                 if (glTextureWrapper.created && glTextureWrapper.uploaded) {
                     // Determine target texture unit
                     // This could be determined as:
                     //   var targetTextureUnit = "TEXTURE" + textureUnit;
                     //   gl.activeTexture(gl[targetTextureUnit]);
-                    // But because the Khronos WebGL spec defines 
+                    // But because the Khronos WebGL spec defines
                     // the glenums of TEXTURE0-31 to be consecutive,
                     // this should be safe and fast:
                     var targetTextureUnit = gl.TEXTURE0 + textureUnit;
                     gl.activeTexture(targetTextureUnit);
                     // Bind texture to unit
                     gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
-                    //gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
                     return true;
                 }
                 return false;
             };
-            /**
-            * Attempts to free space in video memory.
-            *
-            * This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.
-            *
-            * If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.
-            *
-            * This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.
-            * @method _freeSpace
-            * @param gl {WebGLRenderingContext}
-            * @param numBytesToRemove {number}
-            * @return boolean
-            * @private
-            */
             GLTextureManager.prototype._freeSpace = function (gl, numBytesToRemove) {
+                /**
+                Attempt to free space in video memory.
+    
+                This removes textures sequentially, starting from the first
+                cached texture. This may remove textures that are in use.
+                These should automatically re-upload into the last position.
+                After a few frames, this will push in-use textures to the
+                safe end of the queue.
+    
+                If there are too many textures in use to fit in memory,
+                they will all be cycled every frame,
+                even if it would be more efficient to swap out one or two
+                very large textures and preserve several smaller ones.
+                This is an issue with this implementation and should be fixed.
+    
+                This behaviour was changed in v1.1.0.
+                Previous versions used a different memory freeing algorithm.
+    
+                @method _freeSpace
+                @param gl {WebGLRenderingContext}
+                @param numBytesToRemove {number}
+                @return boolean
+                @private
+                **/
                 // Sequential remover
                 var bytesRemoved = 0;
                 for (var i = 0; i < this._textureWrapperCache.length; i++) {
@@ -17579,12 +17647,15 @@ var Kiwi;
                 return false;
             };
             /**
-            * The default maximum amount of texture memory to use before swapping textures
-            * @property DEFAULT_MAX_TEX_MEM_MB
-            * @type number
-            * @public
-            * @static
-            */
+            Default maximum amount of texture memory to use
+            before swapping textures
+    
+            @property DEFAULT_MAX_TEX_MEM_MB
+            @type number
+            @default 1024
+            @public
+            @static
+            **/
             GLTextureManager.DEFAULT_MAX_TEX_MEM_MB = 1024;
             return GLTextureManager;
         })();
@@ -35722,7 +35793,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.4.1";
+    Kiwi.VERSION = "1.5.0";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.
@@ -36239,52 +36310,67 @@ var Kiwi;
         Files.DataFile = DataFile;
     })(Files = Kiwi.Files || (Kiwi.Files = {}));
 })(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
-* @submodule Files
-*
-*/
 var Kiwi;
 (function (Kiwi) {
     var Files;
     (function (Files) {
         /**
-        * TextureFile which contains settings, loading, and processing information for textures/images in Kiwi.
-        *
-        * Contains two methods of loading. XHR + arraybuffer and also tag loading.
-        *
-        * @class TextureFile
-        * @namespace Kiwi.Files
-        * @extends Kiwi.Files.File
-        * @since 1.2.0
-        * @constructor
-        * @param game {Kiwi.Game} The game that this file is for
-        * @param params {Object} Options for this file.
-        *   @param params.key {String} User defined name for this file. This would be how the user would access it in the file store.
-        *   @param params.url {String} Location of the file to be loaded.
-        *   @param {Object} [params.metadata={}] Any metadata to be associated with the file.
-        *   @param [params.state=null] {Kiwi.State} The state that this file belongs to. Used for defining global assets vs local assets.
-        *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
-        *   @param [params.type=UNKNOWN] {Number} The type of file this is.
-        *   @param [params.tags] {Array} Any tags to be associated with this file.
-        *   @param [params.xhrLoading=false] {Boolean} If xhr + arraybuffer loading should be used instead of tag loading.
-        * @return {Kiwi.Files.TextureFile}
-        *
-        */
+        @module Kiwi
+        @submodule Files
+        **/
         var TextureFile = (function (_super) {
             __extends(TextureFile, _super);
+            /**
+            TextureFile which contains settings, loading,
+            and processing information for textures/images in Kiwi.
+    
+            Contains two methods of loading. XHR + arraybuffer, and tag loading.
+    
+            @class TextureFile
+            @namespace Kiwi.Files
+            @extends Kiwi.Files.File
+            @since 1.2.0
+            @constructor
+            @param game {Kiwi.Game} Game that this file is for
+            @param params {object} Composite parameter object
+                @param params.key {string} User defined name for this file.
+                    This would be how the user would access it in the file store.
+                @param params.url {string} Location of the file to be loaded.
+                @param {object} [params.metadata={}] Any metadata
+                    to be associated with the file.
+                @param [params.state=null] {Kiwi.State} State that this file
+                    belongs to. Used for defining global assets vs local assets.
+                @param [params.fileStore=null] {Kiwi.Files.FileStore} Filestore
+                    that this file should be saved in automatically when loaded.
+                @param [params.type=UNKNOWN] {number} Type of file this is
+                @param [params.tags] {array} Tags to be associated with this file
+                @param [params.xhrLoading=false] {boolean} If xhr + arraybuffer
+                    loading should be used instead of tag loading
+            **/
             function TextureFile(game, params) {
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
                 /**
-                * For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'
-                * @property crossOrigin
-                * @type String
-                * @default ''
-                * @public
-                */
-                this.crossOrigin = '';
+                For tag loading only. The crossOrigin value applies to loaded images.
+                Very often this needs to be set to "anonymous".
+        
+                @property crossOrigin
+                @type String
+                @default ""
+                @public
+                **/
+                this.crossOrigin = "";
+                /**
+                Texture created from this file. This is set during state rebuilds,
+                so that subsequent state rebuilds don't have to do all that work again.
+        
+                @property texture
+                @type Kiwi.Textures.TextureAtlas
+                @default null
+                @public
+                @since 1.5.0
+                **/
+                this.texture = null;
                 if (params.xhrLoading) {
                     this.useTagLoader = false;
                     this._loadInParallel = false;
@@ -36297,37 +36383,40 @@ var Kiwi;
                     this.crossOrigin = params.crossOrigin;
                 }
             }
-            /**
-            * Returns the type of this object
-            * @method objType
-            * @return {String} "TextureFile"
-            * @public
-            */
             TextureFile.prototype.objType = function () {
+                /**
+                Return the type of this object.
+    
+                @method objType
+                @return {string} "TextureFile"
+                @public
+                **/
                 return "TextureFile";
             };
-            //this.dataType === File.IMAGE || this.dataType === File.SPRITE_SHEET || this.dataType === File.TEXTURE_ATLAS
-            /**
-            * Initialises the loading method.
-            * Tagloading is the default but also supports XHR + arraybuffer.
-            * @method _load
-            * @protected
-            */
             TextureFile.prototype._load = function () {
+                /**
+                Initialise the loading method.
+    
+                Tagloading is the default, but also supports XHR + arraybuffer.
+    
+                @method _load
+                @protected
+                **/
                 this.attemptCounter++;
                 if (this.useTagLoader) {
                     this.tagLoader();
                 }
                 else {
-                    this.xhrLoader('GET', 'arraybuffer');
+                    this.xhrLoader("GET", "arraybuffer");
                 }
             };
-            /**
-            * Contains the functionality for tag loading
-            * @method tagLoader
-            * @private
-            */
             TextureFile.prototype.tagLoader = function () {
+                /**
+                Perform tag loading.
+    
+                @method tagLoader
+                @private
+                **/
                 var _this = this;
                 this.data = new Image();
                 this.data.src = this.URL;
@@ -36337,51 +36426,52 @@ var Kiwi;
                 this.data.onload = function () { return _this.loadSuccess(); };
                 this.data.onerror = function (event) { return _this.loadError(event); };
             };
-            /**
-            * Gets the response data (which is an arraybuffer), creates a Blob from it
-            * and creates an objectURL from it.
-            *
-            * @method processXhr
-            * @param response {Any} The data stored in the 'xhr.response' tag
-            * @protected
-            */
             TextureFile.prototype.processXhr = function (response) {
-                //Careful, Blobs are not supported on CocoonJS Canvas+
-                this.data = document.createElement('img');
+                /**
+                Get the response data (which is an arraybuffer ),
+                create a Blob from it, and create an objectURL from it.
+    
+                @method processXhr
+                @param response {Any} The data stored in the "xhr.response" tag
+                @protected
+                **/
+                // Careful, Blobs are not supported on CocoonJS Canvas+
+                this.data = document.createElement("img");
                 var blob = new Blob([response], { type: this.type });
                 var that = this;
-                this.data.addEventListener('load', function (event) {
+                this.data.addEventListener("load", function (event) {
                     that.loadSuccess();
                 });
-                if (window['URL']) {
-                    this.data.src = window['URL'].createObjectURL(blob);
+                if (window["URL"]) {
+                    this.data.src = window["URL"].createObjectURL(blob);
                 }
-                else if (window['webkitURL']) {
-                    this.data.src = window['webkitURL'].createObjectURL(blob);
+                else if (window["webkitURL"]) {
+                    this.data.src = window["webkitURL"].createObjectURL(blob);
                 }
             };
-            /**
-            * Revokes the object url that was added to the window when creating the image.
-            * Also tells the File that the loading is now complete.
-            *
-            * @method revoke
-            * @private
-            */
             TextureFile.prototype.revoke = function () {
-                if (window['URL']) {
-                    window['URL'].revokeObjectURL(this.data.src);
+                /**
+                Revoke the object url that was added to the window when creating
+                the image. Also tells the `File` that loading is now complete.
+    
+                @method revoke
+                @private
+                **/
+                if (window["URL"]) {
+                    window["URL"].revokeObjectURL(this.data.src);
                 }
-                else if (window['webkitURL']) {
-                    window['webkitURL'].revokeObjectURL(this.data.src);
+                else if (window["webkitURL"]) {
+                    window["webkitURL"].revokeObjectURL(this.data.src);
                 }
             };
-            /**
-            * Destroys all external object references on this object.
-            * @method destroy
-            * @since 1.2.0
-            * @public
-            */
             TextureFile.prototype.destroy = function () {
+                /**
+                Destroy all external object references on this object.
+    
+                @method destroy
+                @since 1.2.0
+                @public
+                **/
                 if (!this.useTagLoader) {
                     this.revoke();
                 }

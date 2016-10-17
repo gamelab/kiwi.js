@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.1</em>
+            <em>API Docs for: 1.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -366,261 +366,365 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/**
-* Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.
-* 
-* @module Kiwi
-* @submodule Textures
-* @main Textures
-* 
-*/
-
 module Kiwi.Textures {
 
 	/**
-	* Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on. 
-	* 
-	* @class TextureLibrary
-	* @namespace Kiwi.Textures
-	* @constructor
-	* @param game {Game} The game that this texture library belongs to.
-	* @return {Kiwi.TextureLibrary}
-	*
-	*/
+	Contains Objects that are used when dealing specifically
+	with Textures/Images. Majority of these classes are for Internal Kiwi use.
+
+	@module Kiwi
+	@submodule Textures
+	@main Textures
+	**/
+
 	export class TextureLibrary {
 
-		constructor(game: Kiwi.Game) {
+		/**
+		Holds a reference to all of the image files (jpg, png, etc)
+		that are accessible on the State this TextureLibrary is on.
+
+		@class TextureLibrary
+		@namespace Kiwi.Textures
+		@constructor
+		@param game {Kiwi.Game} Game that this texture library belongs to
+		**/
+
+		constructor( game: Kiwi.Game ) {
 
 			this._game = game;
 			this.textures = new Object();
 		}
 
-		/**
-		* The type of object that this is.
-		* @method objType
-		* @return {string}
-		* @public
-		*/
 		public objType(): string {
+
+			/**
+			Type of object that this is.
+
+			@method objType
+			@return {string} &quot;TextureLibrary&quot;
+			@public
+			**/
+
 			return &quot;TextureLibrary&quot;;
 		}
 
 		/**
-		* The game that this texture library is on.
-		* @property _game
-		* @type Game
-		* @private
-		*/
+		Game that this texture library is on
+
+		@property _game
+		@type Game
+		@private
+		**/
 		private _game: Kiwi.Game;
 
 		/**
-		* Contains all of the textures that are available.
-		* @property textures
-		* @public
-		*/
+		Contains all of the textures that are available
+
+		@property textures
+		@public
+		**/
 		public textures;
 
-		/**
-		* Resets the texture library.
-		* @method clear
-		* @public
-		*/
 		public clear() {
-			for (var prop in this.textures) {
-				delete this.textures[prop];
+
+			/**
+			Reset the texture library. Clear the &#x60;textures&#x60; object.
+
+			@method clear
+			@public
+			**/
+
+			for ( var prop in this.textures ) {
+				delete this.textures[ prop ];
 			}
 		}
 
-	   
+		public add( atlas: TextureAtlas ) {
 
-		/**
-		* Adds a texture atlas to the library.
-		* @method add
-		* @param atlas {Kiwi.Textures.TextureAtlas}
-		* @public
-		*/
-		public add(atlas: TextureAtlas) {
-			this.textures[atlas.name] = atlas;
+			/**
+			Add a texture atlas to the library.
 
-			if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-				if (Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.width) == -1 || Kiwi.Utils.Common.base2Sizes.indexOf(atlas.image.height) == -1) {
-					Kiwi.Log.log(&quot;Kiwi.TextureLibrary: Warning:Image is not of base2 size and may not render correctly.&quot;, &#x27;#texture&#x27;, &#x27;#base2&#x27;);
+			@method add
+			@param atlas {Kiwi.Textures.TextureAtlas} Texture atlas to add
+			@public
+			**/
+
+			this.textures[ atlas.name ] = atlas;
+
+			if ( this._game.renderOption === Kiwi.RENDERER_WEBGL ) {
+				if (
+					Kiwi.Utils.Common.base2Sizes.indexOf( atlas.image.width )
+						=== -1 ||
+					Kiwi.Utils.Common.base2Sizes.indexOf( atlas.image.height )
+						=== -1 ) {
+					Kiwi.Log.log(
+						&quot;Kiwi.TextureLibrary: Warning: &quot; +
+						&quot;Image is not of base2 size &quot; +
+						&quot;and may not render correctly.&quot;,
+						&quot;#texture&quot;,
+						&quot;#base2&quot; );
 				}
-				var renderManager = &lt;Kiwi.Renderers.GLRenderManager&gt;this._game.renderer;
-				renderManager.addTexture(this._game.stage.gl, atlas);
+				var renderManager =
+					&lt;Kiwi.Renderers.GLRenderManager&gt;this._game.renderer;
+				renderManager.addTexture( this._game.stage.gl, atlas );
 			}
 		}
 
-		/**
-		* Removes a texture atlas from the library.
-		* @method remove
-		* @param atlas {Kiwi.Textures.TextureAtlas}
-		* @public
-		* @since 1.4.1
-		*/
-		public remove(atlas: TextureAtlas) {
-			if( this.textures[atlas.name] ) {
-				delete this.textures[atlas.name];
+		public remove( atlas: TextureAtlas ) {
 
-				if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-					var renderManager = &lt;Kiwi.Renderers.GLRenderManager&gt;this._game.renderer;
-					renderManager.removeTexture(this._game.stage.gl, atlas);
+			/**
+			Remove a texture atlas from the library.
+
+			@method remove
+			@param atlas {Kiwi.Textures.TextureAtlas} Texture atlas to remove
+			@public
+			@since 1.4.1
+			**/
+
+			if ( this.textures[ atlas.name ] ) {
+				delete this.textures[ atlas.name ];
+
+				if ( this._game.renderOption === Kiwi.RENDERER_WEBGL ) {
+					var renderManager =
+						&lt;Kiwi.Renderers.GLRenderManager&gt;this._game.renderer;
+					renderManager.removeTexture( this._game.stage.gl, atlas );
 				}
 			}
 		}
 
+		public addFromFile( imageFile: Kiwi.Files.TextureFile ) {
 
-		/**
-		* Adds a new image file to the texture library.
-		* @method addFromFile
-		* @param imageFile {Kiwi.File}
-		* @public
-		*/
-		public addFromFile(imageFile: Kiwi.Files.File) {
+			/**
+			Add a new image file to the texture library.
 
-			if (this._game.renderOption === Kiwi.RENDERER_WEBGL &amp;&amp; this._game.deviceTargetOption != Kiwi.TARGET_COCOON) {
-				imageFile = this._rebuildImage(imageFile);
+			@method addFromFile
+			@param imageFile {Kiwi.File.TextureFile} File to base a texture on
+			@public
+			**/
+
+			// Use cached textures if they exist
+			if ( imageFile.texture ) {
+				this.textures[ imageFile.key ] = imageFile.texture;
+				return;
 			}
 
-			switch (imageFile.dataType) {
+			if (
+				this._game.renderOption === Kiwi.RENDERER_WEBGL &amp;&amp;
+				this._game.deviceTargetOption != Kiwi.TARGET_COCOON ) {
+
+				imageFile = this._rebuildImage( imageFile );
+			}
+
+			switch ( imageFile.dataType ) {
 				case Kiwi.Files.File.SPRITE_SHEET:
-					this.textures[imageFile.key] = this._buildSpriteSheet(imageFile);
+					this.textures[ imageFile.key ] =
+						this._buildSpriteSheet( imageFile );
 					break;
 				case Kiwi.Files.File.IMAGE:
-					this.textures[imageFile.key] = this._buildImage(imageFile);
+					this.textures[ imageFile.key ] =
+						this._buildImage( imageFile );
 					break;
 				case Kiwi.Files.File.TEXTURE_ATLAS:
-					this.textures[imageFile.key] = this._buildTextureAtlas(imageFile);
+					this.textures[ imageFile.key ] =
+						this._buildTextureAtlas( imageFile );
 					break;
 				default:
-					//Image file is of unknown type and was not added to texture library
+
+					// Image file is of unknown type
+					// and was not added to texture library
 					break;
+			}
+
+			// Cache texture so other states can use it
+			if ( !imageFile.ownerState ) {
+				imageFile.texture = this.textures[ imageFile.key ];
 			}
 
 		}
 
-		/**
-		* Used to rebuild a Texture from the FileStore into a base2 size if it doesn&#x27;t have it already.
-		* @method _rebuildImage
-		* @param imageFile {Kiwi.File} The image file that is to be rebuilt.
-		* @return {Kiwi.File} The new image file.
-		* @private
-		*/
-		private _rebuildImage(imageFile: Kiwi.Files.File): Kiwi.Files.File {
+		private _rebuildImage( imageFile: Kiwi.Files.TextureFile ): Kiwi.Files.TextureFile {
+
+			/**
+			Rebuild a texture from the FileStore into a base2 size
+			if it doesn&#x27;t have it already.
+
+			@method _rebuildImage
+			@param imageFile {Kiwi.File.TextureFile} Image file to rebuild
+			@return {Kiwi.File.TextureFile} New image file
+			@private
+			**/
+
+			// Check to see if it is base 2
+			var newImg = Kiwi.Utils.Common.convertToBase2( imageFile.data );
 
 
-			//Check to see if it is base 2
-			var newImg = Kiwi.Utils.Common.convertToBase2(imageFile.data);
+			// Was it resized?
+			// We can check to see if the width/height has changed.
+			if (
+				imageFile.data.width !== newImg.width ||
+				imageFile.data.height !== newImg.height ) {
 
+				if ( imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET ) {
 
-			//Was it resized? We can check to see if the width/height has changed.
-			if (imageFile.data.width !== newImg.width || imageFile.data.height !== newImg.height) {
+					// If no rows were passed then calculate them now.
+					if ( !imageFile.metadata.rows ) {
+						imageFile.metadata.rows = imageFile.data.height /
+							imageFile.metadata.frameHeight;
+					}
 
-				if (imageFile.dataType === Kiwi.Files.File.SPRITE_SHEET) {
-					//If no rows were passed then calculate them now.
-					if (!imageFile.metadata.rows)
-						imageFile.metadata.rows = imageFile.data.height / imageFile.metadata.frameHeight;
+					// If no columns were passed then calculate them again.
+					if ( !imageFile.metadata.cols ) {
+						imageFile.metadata.cols = imageFile.data.width /
+							imageFile.metadata.frameWidth;
+					}
 
+				} else if ( imageFile.dataType === Kiwi.Files.File.IMAGE ) {
 
-					//If no columns were passed then calculate them again.
-					if (!imageFile.metadata.cols)
-						imageFile.metadata.cols = imageFile.data.width / imageFile.metadata.frameWidth;
-
-				} else if (imageFile.dataType === Kiwi.Files.File.IMAGE) {
-
-					if (!imageFile.metadata.width)
+					if ( !imageFile.metadata.width ) {
 						imageFile.metadata.width = imageFile.data.width;
+					}
 
-					if (!imageFile.metadata.height)
+					if ( !imageFile.metadata.height ) {
 						imageFile.metadata.height = imageFile.data.height;
+					}
 
 				}
 
-				Kiwi.Log.log(&#x27;Kiwi.TextureLibrary: &#x27; + imageFile.name + &#x27; has been rebuilt to be base2.&#x27;, &#x27;#texture&#x27;, &#x27;#base2&#x27;);
+				Kiwi.Log.log(
+					&quot;Kiwi.TextureLibrary: &quot; +
+					imageFile.name +
+					&quot; has been rebuilt to be base2.&quot;,
+					&quot;#texture&quot;,
+					&quot;#base2&quot; );
 
-				//Assign the new image to the data
+				// Assign the new image to the data
 				imageFile.data = newImg;
 			}
 
 			return imageFile;
 		}
 
-		/**
-		* Used to build a new texture atlas based on the image file provided. Internal use only.
-		* @method _buildTextureAtlas
-		* @param imageFile {Kiwi.File} The image file that is to be used.
-		* @return {Kiwi.Textures.TextureAtlas} The new texture atlas that is created.
-		* @private
-		*/
-		private _buildTextureAtlas(imageFile: Kiwi.Files.File): Kiwi.Textures.TextureAtlas {
-			var atlas: Kiwi.Textures.TextureAtlas = new Kiwi.Textures.TextureAtlas(imageFile.key, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
+		private _buildTextureAtlas( imageFile: Kiwi.Files.File ): Kiwi.Textures.TextureAtlas {
+
+			/**
+			Build a new texture atlas based on the image file.
+			Internal use only.
+
+			@method _buildTextureAtlas
+			@param imageFile {Kiwi.File} Image file to use
+			@return {Kiwi.Textures.TextureAtlas} &#x60;TextureAtlas&#x60; that is created
+			@private
+			**/
+
+			var atlas: Kiwi.Textures.TextureAtlas =
+					new Kiwi.Textures.TextureAtlas(
+						imageFile.key,
+						Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS,
+						null,
+						imageFile.data );
 			var m = imageFile.metadata;
-			
-            try {
-                var json = this._game.fileStore.getFile(m.jsonID).data;
-                json.trim();
-                atlas.readJSON(json);
 
-                return atlas;
+			try {
+				var json = this._game.fileStore.getFile( m.jsonID ).data;
+				json.trim();
+				atlas.readJSON( json );
 
-            } catch (e) {
+				return atlas;
 
-                Kiwi.Log.error(&quot;  Kiwi.Textures.TextureLibrary: Failed to extract information for &#x27;&quot; + imageFile.key + &quot;&#x27; from JSON file &#x27;&quot; + m.jsonID + &quot;&#x27;&quot;, &#x27;#error&#x27;, &#x27;#texture&#x27;, &#x27;Message: &#x27; + e.message);
-            }
+			} catch ( e ) {
 
-            return null;
-			
-		}
-	
-		/**
-		* Builds a spritesheet atlas from the an image file that is provided.
-		* @method _buildSpriteSheet
-		* @param imageFile {Kiwi.File} The image file that is to be used.
-		* @return {Kiwi.Textures.SpriteSheet} The SpriteSheet that was just created.
-		* @private
-		*/
-		private _buildSpriteSheet(imageFile:Kiwi.Files.File): Kiwi.Textures.SpriteSheet {
-		   
-			var m = imageFile.metadata;
-			
-			//BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
-			var spriteSheet: Kiwi.Textures.SpriteSheet = new Kiwi.Textures.SpriteSheet(imageFile.key,imageFile.data,m.frameWidth,m.frameHeight,m.numCells,m.rows,m.cols,m.sheetOffsetX,m.sheetOffsetY,m.cellOffsetX,m.cellOffsetY);
-			return spriteSheet;
-		}
-	
-		/**
-		* Builds a single image atlas from a image file that is provided.
-		* @method _buildImage
-		* @param imageFile {File} The image file that is to be used.
-		* @return {Kiwi.Textures.SingleImage} The SingleImage that was created.
-		* @private
-		*/
-		private _buildImage(imageFile: Kiwi.Files.File): Kiwi.Textures.SingleImage {
-			var m = imageFile.metadata;
-			return new Kiwi.Textures.SingleImage(imageFile.key,imageFile.data,m.width, m.height, m.offsetX, m.offsetY);
-		}
-
-		/**
-		 * Rebuild the library from a fileStore. Clears the library and repopulates it.
-		 * @method rebuild
-		 * @param {Kiwi.Files.FileStore} fileStore
-		 * @param {Kiwi.State} state
-		 * @public
-		 */
-		public rebuild(fileStore: Kiwi.Files.FileStore, state: Kiwi.State) {
-			this.clear();
-			Kiwi.Log.log(&quot;Kiwi.TextureLibrary: Rebuilding Texture Library&quot;, &#x27;#texture&#x27;, &#x27;#rebuild&#x27;);
-			
-			
-			var fileStoreKeys = fileStore.keys;
-			for (var i = 0; i &lt; fileStoreKeys.length; i++) {
-				var file: Kiwi.Files.File = this._game.fileStore.getFile(fileStoreKeys[i]);
-				if (file.isTexture) {
-					Kiwi.Log.log(&quot;  Kiwi.TextureLibrary: Adding Texture: &quot; + file.name, &#x27;#texture&#x27;, &#x27;#added&#x27;);
-					state.textureLibrary.addFromFile(file);
-				}
+				Kiwi.Log.error(
+					&quot;  Kiwi.Textures.TextureLibrary: &quot; +
+					&quot;Failed to extract information for \&quot;&quot; + imageFile.key +
+					&quot;\&quot; from JSON file \&quot;&quot; + m.jsonID + &quot;\&quot;&quot;,
+					&quot;#error&quot;,
+					&quot;#texture&quot;,
+					&quot;Message: &quot; + e.message );
 			}
 
+			return null;
+		}
+
+		private _buildSpriteSheet( imageFile:Kiwi.Files.File ): Kiwi.Textures.SpriteSheet {
+
+			/**
+			Build a spritesheet atlas from an image file.
+
+			@method _buildSpriteSheet
+			@param imageFile {Kiwi.File} Image file to use
+			@return {Kiwi.Textures.SpriteSheet} &#x60;SpriteSheet&#x60; that was created
+			@private
+			**/
+
+			var m = imageFile.metadata;
+
+			// BEWARE THE SWITCH TO CELLWIDTH AND FRAMEWIDTH
+			var spriteSheet: Kiwi.Textures.SpriteSheet =
+				new Kiwi.Textures.SpriteSheet(
+					imageFile.key,
+					imageFile.data,
+					m.frameWidth,
+					m.frameHeight,
+					m.numCells,
+					m.rows,
+					m.cols,
+					m.sheetOffsetX,
+					m.sheetOffsetY,
+					m.cellOffsetX,
+					m.cellOffsetY );
+			return spriteSheet;
+		}
+
+		private _buildImage( imageFile: Kiwi.Files.File ): Kiwi.Textures.SingleImage {
+
+			/**
+			Build a single image atlas from an image file.
+
+			@method _buildImage
+			@param imageFile {Kiwi.File.File} Image file to use
+			@return {Kiwi.Textures.SingleImage} &#x60;SingleImage&#x60; that was created
+			@private
+			**/
+
+			var m = imageFile.metadata;
+			return new Kiwi.Textures.SingleImage(
+				imageFile.key,
+				imageFile.data,
+				m.width,
+				m.height,
+				m.offsetX,
+				m.offsetY );
+		}
+
+		public rebuild( fileStore: Kiwi.Files.FileStore, state: Kiwi.State ) {
+
+			/**
+			Rebuild the library from a fileStore.
+			Clears the library and repopulates it.
+
+			@method rebuild
+			@param fileStore {Kiwi.Files.FileStore} Game filestore
+			@param state {Kiwi.State} State to which the library belongs
+			@public
+			**/
+
+			this.clear();
+			Kiwi.Log.log(
+				&quot;Kiwi.TextureLibrary: Rebuilding Texture Library&quot;,
+				&quot;#texture&quot;,
+				&quot;#rebuild&quot; );
+
+			var fileStoreKeys = fileStore.keys;
+			for ( var i = 0; i &lt; fileStoreKeys.length; i++ ) {
+				var file = &lt;Kiwi.Files.TextureFile&gt;this._game.fileStore.getFile( fileStoreKeys[ i ] );
+				if ( file.isTexture ) {
+					Kiwi.Log.log(
+						&quot;  Kiwi.TextureLibrary: Adding Texture: &quot; + file.name,
+						&quot;#texture&quot;,
+						&quot;#added&quot; );
+					state.textureLibrary.addFromFile( file );
+				}
+			}
 		}
 	}
 

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.4.1</em>
+            <em>API Docs for: 1.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -367,299 +367,423 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
-* 
-* 
-* @module Kiwi
-* @submodule Renderers 
-* @main Renderers
-* @namespace Kiwi.Renderers
-*/
+@module Kiwi
+@submodule Renderers
+@main Renderers
+@namespace Kiwi.Renderers
+**/
 
 module Kiwi.Renderers {
 
-	 /**
-	* Manages GL Texture objects, including creation, uploading, destruction and memory management
-	* @class GLTextureManager
-	* @constructor
-	* @return {GLTextureManager}
-	*/
+	/**
+	Manages GL Texture objects, including creation, uploading, destruction
+	and memory management
+
+	@class GLTextureManager
+	@constructor
+	@return {GLTextureManager}
+	**/
 	export class GLTextureManager {
 
 		constructor() {
 			this._numTexturesUsed = 0;
 			this._usedTextureMem = 0;
-			this.maxTextureMem = GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024 * 1024;
+			this.maxTextureMem =
+				GLTextureManager.DEFAULT_MAX_TEX_MEM_MB * 1024 * 1024;
 			this._textureWrapperCache = new Array();
 		}
 
 		/**
-		* The default maximum amount of texture memory to use before swapping textures
-		* @property DEFAULT_MAX_TEX_MEM_MB
-		* @type number
-		* @public
-		* @static
-		*/
-		public static DEFAULT_MAX_TEX_MEM_MB: number = 1024; 
+		Default maximum amount of texture memory to use
+		before swapping textures
+
+		@property DEFAULT_MAX_TEX_MEM_MB
+		@type number
+		@default 1024
+		@public
+		@static
+		**/
+		public static DEFAULT_MAX_TEX_MEM_MB: number = 1024;
 
 		/**
-		* The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB
-		* @property maxTextureMem
-		* @type number
-		* @public
-		*/
+		Maximum amount of texture memory to use before swapping textures,
+		initialised from &#x60;DEFAULT_MAX_TEX_MEM_MB&#x60;
+
+		@property maxTextureMem
+		@type number
+		@public
+		**/
 		public maxTextureMem: number;
 
 		/**
-		* The amount of texture memory currently uplaoded
-		* @property usedTextureMem
-		* @type number
-		* @public
-		*/
+		Amount of texture memory currently uploaded
+
+		@property usedTextureMem
+		@type number
+		@public
+		**/
 		private _usedTextureMem: number;
 		public get usedTextureMem(): number {
 			return this._usedTextureMem;
 		}
 
 		/**
-		* The number of textures currently uplaoded
-		* @property usedTextureMem
-		* @type number
-		* @public
-		*/
+		Number of textures currently uploaded
+
+		@property usedTextureMem
+		@type number
+		@public
+		**/
 		private _numTexturesUsed: number;
 		public get numTexturesUsed(): number {
 			return this._numTexturesUsed;
 		}
 
 		/**
-		* The number of textures uploads in the last frame
-		* @property numTextureWrites
-		* @type number
-		* @public
-		*/
+		Number of texture uploads in the last frame
+
+		@property numTextureWrites
+		@type number
+		@public
+		**/
 		public numTextureWrites: number = 0;
 
 
 		/**
-		* An array of references to all texture wrappers
-		* @property _textureWrapperCache
-		* @type GLTextureWrapper[]
-		* @private
-		*/
+		Array of references to all texture wrappers
+
+		@property _textureWrapperCache
+		@type GLTextureWrapper[]
+		@private
+		**/
 		private _textureWrapperCache: GLTextureWrapper[];
 
-		/**
-		* Adds a texture wrapper to the cache
-		* @method _addTextureToCache
-		* @param glTexture {GLTextureWrapper}
-		* @private
-		*/
-		private _addTextureToCache(glTexture: GLTextureWrapper) {
-			this._textureWrapperCache.push(glTexture);
+		private _addTextureToCache( glTexture: GLTextureWrapper ) {
+
+			/**
+			Add a texture wrapper to the cache.
+
+			@method _addTextureToCache
+			@param glTexture {GLTextureWrapper}
+			@private
+			**/
+
+			this._textureWrapperCache.push( glTexture );
 		}
 
-		/**
-		* Removes a texture wrapper from the cache
-		* @method _removeTextureFromCache
-		* @param glTexture {GLTextureWrapper}
-		* @private
-		* @since 1.4.1
-		*/
-		private _removeTextureFromCache(gl: WebGLRenderingContext, glTexture: GLTextureWrapper) {
-			var index = this._textureWrapperCache.indexOf(glTexture);
-			if( index &gt; -1 ) {
+		private _removeTextureFromCache( gl: WebGLRenderingContext, glTexture: GLTextureWrapper ) {
 
-				if (glTexture.uploaded) {
-					this._deleteTexture(gl, index);
+			/**
+			Remove a texture wrapper from the cache.
+
+			@method _removeTextureFromCache
+			@param glTexture {GLTextureWrapper}
+			@private
+			@since 1.4.1
+			**/
+
+			var index = this._textureWrapperCache.indexOf( glTexture );
+			if ( index &gt; -1 ) {
+
+				if ( glTexture.uploaded ) {
+					this._deleteTexture( gl, index );
 				}
 
-				this._textureWrapperCache.splice(index, 1);
+				this._textureWrapperCache.splice( index, 1 );
 			}
 		}
 
-		/**
-		* Deletes a texture from memory and removes the wrapper from the cache
-		* @method _deleteTexture
-		* @param gl {WebGLRenderingContext}
-		* @param idx {number}
-		* @private
-		*/
-		private _deleteTexture(gl:WebGLRenderingContext,idx:number) {
-			
-			this._textureWrapperCache[idx].deleteTexture(gl);
-			this._usedTextureMem -= this._textureWrapperCache[idx].numBytes;
+		private _deleteTexture( gl:WebGLRenderingContext,idx:number ) {
+
+			/**
+			Delete a texture from memory and remove the wrapper from the cache.
+
+			@method _deleteTexture
+			@param gl {WebGLRenderingContext}
+			@param idx {number}
+			@private
+			**/
+
+			this._textureWrapperCache[ idx ].deleteTexture( gl );
+			this._usedTextureMem -= this._textureWrapperCache[ idx ].numBytes;
 			this._numTexturesUsed--;
 		}
 
-		/**
-		* Uploads a texture to video memory 
-		* @method _uploadTexture
-		* @param gl {WebGLRenderingContext}
-		* @param glTextureWrapper {GLTextureWrapper}
-		* @return boolean
-		* @private
-		*/
-		private _uploadTexture(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper):boolean {
-			//only upload it if it fits
-			if (glTextureWrapper.numBytes + this._usedTextureMem &lt;= this.maxTextureMem) {
-				glTextureWrapper.uploadTexture(gl);
+		private _uploadTexture( gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper ):boolean {
+
+			/**
+			Upload a texture to video memory.
+
+			@method _uploadTexture
+			@param gl {WebGLRenderingContext}
+			@param glTextureWrapper {GLTextureWrapper}
+			@return boolean
+			@private
+			**/
+
+			// Only upload it if it fits
+			if ( glTextureWrapper.numBytes + this._usedTextureMem &lt;=
+					this.maxTextureMem ) {
+
+				glTextureWrapper.uploadTexture( gl );
 				this._usedTextureMem += glTextureWrapper.numBytes;
 				this._numTexturesUsed++;
-				
+
 				return true;
 			}
 			return false;
 
 		}
 
-		/**
-		* Uploads a texture library to video memory 
-		* @method uploadTextureLibrary
-		* @param gl {WebGLRenderingContext}
-		* @param textureLibrary {Kiwi.Textures.TextureLibrary}
-		* @public
-		*/
-		public uploadTextureLibrary(gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary) {
-			this._textureWrapperCache = new Array();
-			for (var tex in textureLibrary.textures) {
+		public uploadTextureLibrary( gl: WebGLRenderingContext, textureLibrary: Kiwi.Textures.TextureLibrary ) {
+
+			/**
+			Upload a texture library to video memory.
+
+			@method uploadTextureLibrary
+			@param gl {WebGLRenderingContext}
+			@param textureLibrary {Kiwi.Textures.TextureLibrary}
+			@public
+			**/
+
+			var tex, texture;
+
+			this._textureWrapperCache = [];
+			for ( tex in textureLibrary.textures ) {
+
+				texture = textureLibrary.textures[ tex ];
+
 				// Tell the atlas to prepare its wrappers
-				textureLibrary.textures[tex].createGLTextureWrapper( gl, this );
+				if ( texture.glTextureWrapper ) {
+
+					// Texture was already created
+					// Assume that it is properly formed and uploaded
+					this._addTextureToCache( texture.glTextureWrapper );
+				} else {
+
+					// Do full upload
+					texture.createGLTextureWrapper( gl, this );
+				}
 			}
 		}
 
-		/**
-		* Uploads a single texture to video memory
-		* @method uploadTexture
-		* @param gl {WebGLRenderingContext}
-		* @param textureAtlas {Kiwi.Textures.TextureAtlas}
-		* @public
-		*/
-		public uploadTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
+		public uploadTexture( gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas ) {
+
+			/**
+			Upload a single texture to video memory.
+
+			@method uploadTexture
+			@param gl {WebGLRenderingContext}
+			@param textureAtlas {Kiwi.Textures.TextureAtlas}
+			@public
+			**/
+
 			textureAtlas.createGLTextureWrapper( gl, this );
 		}
 
-		/**
-		* Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.
-		* @method registerTextureWrapper
-		* @param gl {WebGLRenderingContext}
-		* @param glTextureWrapper {GLTextureWrapper}
-		* @public
-		* @since 1.1.0
-		*/
 		public registerTextureWrapper( gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper ) {
+
+			/**
+			Add a texture wrapper to the manager.
+			This both adds the wrapper to the manager cache,
+			and attempts to upload the attached texture to video memory.
+
+			@method registerTextureWrapper
+			@param gl {WebGLRenderingContext}
+			@param glTextureWrapper {GLTextureWrapper}
+			@public
+			@since 1.1.0
+			**/
+
 			this._addTextureToCache( glTextureWrapper );
+
 			// Only upload it if it fits
-			if (!this._uploadTexture(gl, glTextureWrapper)) {
-				Kiwi.Log.log(&quot;...skipped uploading texture due to allocated texture memory exceeded.&quot;, &#x27;#renderer&#x27;, &#x27;#webgl&#x27;);
+			if ( !this._uploadTexture( gl, glTextureWrapper ) ) {
+				Kiwi.Log.log(
+					&quot;...skipped uploading texture due to &quot; +
+					&quot;allocated texture memory exceeded.&quot;,
+					&quot;#renderer&quot;,
+					&quot;#webgl&quot; );
 			}
 		}
 
-		/**
-		* Removes all textures from video memory and clears the wrapper cache
-		* @method clearTextures
-		* @param gl {WebGLRenderingContext}
-		* @public
-		*/
-		public clearTextures(gl: WebGLRenderingContext) {
-			for (var i = 0; i &lt; this._textureWrapperCache.length; i++) {
+		public clearTextures( gl: WebGLRenderingContext ) {
+
+			/**
+			Remove all textures from video memory and clears the wrapper cache.
+
+			@method clearTextures
+			@param gl {WebGLRenderingContext}
+			@public
+			**/
+
+			for ( var i = 0; i &lt; this._textureWrapperCache.length; i++ ) {
+
 				// Delete from graphics memory
-				this._deleteTexture(gl, i);
-				//kill the reference on the atlas
-				this._textureWrapperCache[i].textureAtlas.glTextureWrapper = null;
-			}    
+				this._deleteTexture( gl, i );
+
+				// Kill the reference on the atlas
+				this._textureWrapperCache[ i ].textureAtlas.glTextureWrapper =
+					null;
+			}
 			this._textureWrapperCache = new Array();
 		}
 
-		/**
-		* Removes a texture atlas from the texture manager.
-		* @method removeTexture
-		* @param gl {WebGLRenderingContext}
-		* @param textureAtlas {Kiwi.Textures.TextureAtlas}
-		* @public
-		* @since 1.4.1
-		*/
-		public removeTexture(gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas) {
+		public clearTexturesLocal( gl: WebGLRenderingContext ) {
+
+			/**
+			Remove non-global textures from video memory and the wrapper cache.
+			Global assets remain untouched.
+
+			@method clearTexturesLocal
+			@param gl {WebGLRenderingContext}
+			@public
+			@since 1.5.0
+			**/
+
+			var i, wrapper,
+				cache = this._textureWrapperCache,
+				cacheLen = cache.length,
+				newCache = [];
+
+			// Remove local textures; cache global textures
+			for ( i = 0; i &lt; cacheLen; i++ ) {
+				wrapper = cache[ i ];
+				if ( wrapper.ownerState ) {
+
+					// Unload texture
+					this._deleteTexture( gl, i );
+					wrapper.textureAtlas.glTextureWrapper = null;
+				} else {
+
+					// Preserve texture
+					newCache.push( wrapper );
+				}
+			}
+
+			this._textureWrapperCache = newCache;
+		}
+
+		public removeTexture( gl: WebGLRenderingContext, textureAtlas: Kiwi.Textures.TextureAtlas ) {
+
+			/**
+			Remove a texture atlas from the texture manager.
+
+			@method removeTexture
+			@param gl {WebGLRenderingContext}
+			@param textureAtlas {Kiwi.Textures.TextureAtlas}
+			@public
+			@since 1.4.1
+			**/
+
 			textureAtlas.removeGLTextureWrapper( gl, this );
 		}
 
-		/**
-		* Removes a texture wrapper from the manager. 
-		* @method deregisterTextureWrapper
-		* @param gl {WebGLRenderingContext}
-		* @param glTextureWrapper {GLTextureWrapper}
-		* @public
-		* @since 1.4.1
-		*/
-		public deregisterTextureWrapper(gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper) {
-			this._removeTextureFromCache(gl, glTextureWrapper);
+		public deregisterTextureWrapper( gl: WebGLRenderingContext, glTextureWrapper: GLTextureWrapper ) {
+
+			/**
+			Remove a texture wrapper from the manager.
+
+			@method deregisterTextureWrapper
+			@param gl {WebGLRenderingContext}
+			@param glTextureWrapper {GLTextureWrapper}
+			@public
+			@since 1.4.1
+			**/
+
+			this._removeTextureFromCache( gl, glTextureWrapper );
 		}
 
-		/**
-		* Binds the texture ready for use, uploads it if it isn&#x27;t already
-		* @method useTexture
-		* @param gl {WebGLRenderingContext}
-		* @param glTextureWrapper {GLTextureWrappery}
-		* @param [textureUnit=0] {number} Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don&#x27;t need multiple textures, this is perfectly safe to ignore.
-		* @return boolean
-		* @public
-		*/
-		public useTexture(gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper, textureUnit: number = 0):boolean {
-			textureUnit = Kiwi.Utils.GameMath.clamp( Kiwi.Utils.GameMath.truncate(textureUnit), 31);    // Convert to integer in range 0-31.
-			
-			if (!glTextureWrapper.created || !glTextureWrapper.uploaded) {
-				if(!this._uploadTexture(gl, glTextureWrapper)) {
-					this._freeSpace(gl, glTextureWrapper.numBytes);
-					this._uploadTexture(gl, glTextureWrapper);
+		public useTexture( gl:WebGLRenderingContext,glTextureWrapper: GLTextureWrapper, textureUnit: number = 0 ):boolean {
+
+			/**
+			Bind the texture ready for use. Upload it if it isn&#x27;t already.
+
+			@method useTexture
+			@param gl {WebGLRenderingContext}
+			@param glTextureWrapper {GLTextureWrappery}
+			@param [textureUnit=0] {number} Optional parameter for
+				multitexturing. You can have up to 32 textures available
+				to a shader at one time, in the range 0-31.
+				If you don&#x27;t need multiple textures,
+				this is perfectly safe to ignore.
+			@return boolean
+			@public
+			**/
+
+			// Convert to integer in range 0-31.
+			textureUnit = Kiwi.Utils.GameMath.clamp(
+				Kiwi.Utils.GameMath.truncate( textureUnit ), 31 );
+
+			if ( !glTextureWrapper.created || !glTextureWrapper.uploaded ) {
+				if ( !this._uploadTexture( gl, glTextureWrapper ) ) {
+					this._freeSpace( gl, glTextureWrapper.numBytes );
+					this._uploadTexture( gl, glTextureWrapper );
 				}
 				this.numTextureWrites++;
 			}
-				
-			//use texture
-			if (glTextureWrapper.created &amp;&amp; glTextureWrapper.uploaded) {
+
+			// Use texture
+			if ( glTextureWrapper.created &amp;&amp; glTextureWrapper.uploaded ) {
+
 				// Determine target texture unit
 				// This could be determined as:
 				//   var targetTextureUnit = &quot;TEXTURE&quot; + textureUnit;
 				//   gl.activeTexture(gl[targetTextureUnit]);
-				// But because the Khronos WebGL spec defines 
+				// But because the Khronos WebGL spec defines
 				// the glenums of TEXTURE0-31 to be consecutive,
 				// this should be safe and fast:
 				var targetTextureUnit = gl.TEXTURE0 + textureUnit;
-				gl.activeTexture(targetTextureUnit);
-				// Bind texture to unit
-				gl.bindTexture(gl.TEXTURE_2D, glTextureWrapper.texture);
+				gl.activeTexture( targetTextureUnit );
 
-				//gl.uniform2fv(textureSizeUniform, new Float32Array([glTextureWrapper.image.width, glTextureWrapper.image.height]));
+				// Bind texture to unit
+				gl.bindTexture( gl.TEXTURE_2D, glTextureWrapper.texture );
+
 				return true;
 			}
 
 			return false;
 		}
 
-		/**
-		* Attempts to free space in video memory.
-		*
-		* This removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.
-		*
-		* If there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.
-		*
-		* This behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.
-		* @method _freeSpace
-		* @param gl {WebGLRenderingContext}
-		* @param numBytesToRemove {number}
-		* @return boolean
-		* @private
-		*/
-		private _freeSpace(gl: WebGLRenderingContext, numBytesToRemove: number): boolean {
+		private _freeSpace( gl: WebGLRenderingContext, numBytesToRemove: number ): boolean {
+
+			/**
+			Attempt to free space in video memory.
+
+			This removes textures sequentially, starting from the first
+			cached texture. This may remove textures that are in use.
+			These should automatically re-upload into the last position.
+			After a few frames, this will push in-use textures to the
+			safe end of the queue.
+
+			If there are too many textures in use to fit in memory,
+			they will all be cycled every frame,
+			even if it would be more efficient to swap out one or two
+			very large textures and preserve several smaller ones.
+			This is an issue with this implementation and should be fixed.
+
+			This behaviour was changed in v1.1.0.
+			Previous versions used a different memory freeing algorithm.
+
+			@method _freeSpace
+			@param gl {WebGLRenderingContext}
+			@param numBytesToRemove {number}
+			@return boolean
+			@private
+			**/
+
 			// Sequential remover
 			var bytesRemoved = 0;
-			for( var i = 0;  i &lt; this._textureWrapperCache.length;  i++ ) {
+			for ( var i = 0; i &lt; this._textureWrapperCache.length; i++ ) {
+
 				// Scrub uploaded textures
-				if(this._textureWrapperCache[i].uploaded) {
-					bytesRemoved += this._textureWrapperCache[i].numBytes;
-					this._deleteTexture(gl, i);
+				if ( this._textureWrapperCache[ i ].uploaded ) {
+					bytesRemoved += this._textureWrapperCache[ i ].numBytes;
+					this._deleteTexture( gl, i );
 				}
+
 				// Break on reaching or exceeding free target
-				if( numBytesToRemove &lt;= bytesRemoved )
+				if ( numBytesToRemove &lt;= bytesRemoved )
 					return true;
 			}
 			return false;

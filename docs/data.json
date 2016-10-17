@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.4.1",
+        "version": "1.5.0",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -1929,8 +1929,8 @@
             "module": "Kiwi",
             "namespace": "",
             "file": "src/textures/TextureLibrary.ts",
-            "line": 12,
-            "description": "Contains Objects that are used when dealing specifically with Textures/Images. Majority of these classes are for Internal Kiwi use.",
+            "line": 14,
+            "description": "Contains Objects that are used when dealing specifically\nwith Textures/Images. Majority of these classes are for Internal Kiwi use.",
             "tag": "main",
             "itemtype": "main"
         },
@@ -3427,24 +3427,24 @@
             "namespace": "Kiwi.Files",
             "file": "src/file/TextureFile.ts",
             "line": 10,
-            "description": "TextureFile which contains settings, loading, and processing information for textures/images in Kiwi.\n\nContains two methods of loading. XHR + arraybuffer and also tag loading.",
+            "description": "TextureFile which contains settings, loading,\nand processing information for textures/images in Kiwi.\n\nContains two methods of loading. XHR + arraybuffer, and tag loading.",
             "extends": "Kiwi.Files.File",
             "since": "1.2.0",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this file is for",
+                    "description": "Game that this file is for",
                     "type": "Kiwi.Game"
                 },
                 {
                     "name": "params",
-                    "description": "Options for this file.",
+                    "description": "Composite parameter object",
                     "type": "Object",
                     "props": [
                         {
                             "name": "key",
-                            "description": "User defined name for this file. This would be how the user would access it in the file store.",
+                            "description": "User defined name for this file.\n\t\tThis would be how the user would access it in the file store.",
                             "type": "String"
                         },
                         {
@@ -3454,52 +3454,48 @@
                         },
                         {
                             "name": "metadata",
-                            "description": "Any metadata to be associated with the file.",
+                            "description": "Any metadata\n\t\tto be associated with the file.",
                             "type": "Object",
                             "optional": true,
                             "optdefault": "{}"
                         },
                         {
                             "name": "state",
-                            "description": "The state that this file belongs to. Used for defining global assets vs local assets.",
+                            "description": "State that this file\n\t\tbelongs to. Used for defining global assets vs local assets.",
                             "type": "Kiwi.State",
                             "optional": true,
                             "optdefault": "null"
                         },
                         {
                             "name": "fileStore",
-                            "description": "The filestore that this file should be save in automatically when loaded.",
+                            "description": "Filestore\n\t\tthat this file should be saved in automatically when loaded.",
                             "type": "Kiwi.Files.FileStore",
                             "optional": true,
                             "optdefault": "null"
                         },
                         {
                             "name": "type",
-                            "description": "The type of file this is.",
+                            "description": "Type of file this is",
                             "type": "Number",
                             "optional": true,
                             "optdefault": "UNKNOWN"
                         },
                         {
                             "name": "tags",
-                            "description": "Any tags to be associated with this file.",
+                            "description": "Tags to be associated with this file",
                             "type": "Array",
                             "optional": true
                         },
                         {
                             "name": "xhrLoading",
-                            "description": "If xhr + arraybuffer loading should be used instead of tag loading.",
+                            "description": "If xhr + arraybuffer\n\t\tloading should be used instead of tag loading",
                             "type": "Boolean",
                             "optional": true,
                             "optdefault": "false"
                         }
                     ]
                 }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Files.TextureFile"
-            }
+            ]
         },
         "Kiwi.GameObjects.Tilemap.TileMap": {
             "name": "Kiwi.GameObjects.Tilemap.TileMap",
@@ -5625,20 +5621,16 @@
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLRenderManager.ts",
             "line": 10,
-            "description": "Manages all rendering using WebGL.\nDirectly manages renderer objects, including factory methods\nfor their creation.\nCreates manager objects for shaders and textures.\nManages gl state at game initialisation, at state start and end,\nand per frame.\nRuns the recursive scene graph rendering sequence every frame.",
+            "description": "Manages all rendering using WebGL.\n\n- Directly manages renderer objects, including factory methods\n\tfor their creation.\n- Creates manager objects for shaders and textures.\n- Manages gl state at game initialisation, at state start and end,\n\tand per frame.\n- Runs the recursive scene graph rendering sequence every frame.",
             "extends": "IRenderer",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this renderer belongs to.",
+                    "description": "Game that this renderer belongs to.",
                     "type": "Kiwi.Game"
                 }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.Renderers.GLRenderManager"
-            }
+            ]
         },
         "Kiwi.Shaders.ShaderManager": {
             "name": "Kiwi.Shaders.ShaderManager",
@@ -5673,8 +5665,8 @@
             "submodule": "Renderers",
             "namespace": "Kiwi.Renderers",
             "file": "src/render/GLTextureManager.ts",
-            "line": 12,
-            "description": "Manages GL Texture objects, including creation, uploading, destruction and memory management",
+            "line": 10,
+            "description": "Manages GL Texture objects, including creation, uploading, destruction\nand memory management",
             "is_constructor": 1,
             "return": {
                 "description": "",
@@ -6043,20 +6035,16 @@
             "submodule": "Textures",
             "namespace": "Kiwi.Textures",
             "file": "src/textures/TextureLibrary.ts",
-            "line": 12,
-            "description": "Holds a reference to all of the image files (jpg, png, e.t.c) that are accessible on the State this TextureLibrary is on.",
+            "line": 14,
+            "description": "Holds a reference to all of the image files (jpg, png, etc)\nthat are accessible on the State this TextureLibrary is on.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "game",
-                    "description": "The game that this texture library belongs to.",
-                    "type": "Game"
+                    "description": "Game that this texture library belongs to",
+                    "type": "Kiwi.Game"
                 }
-            ],
-            "return": {
-                "description": "",
-                "type": "Kiwi.TextureLibrary"
-            }
+            ]
         },
         "Kiwi.Time.Clock": {
             "name": "Kiwi.Time.Clock",
@@ -11790,7 +11778,7 @@
         },
         {
             "file": "src/components/Input.ts",
-            "line": 657,
+            "line": 658,
             "description": "Update loop executed when the game is using the touch manager.",
             "itemtype": "method",
             "name": "_updateTouch",
@@ -11803,7 +11791,7 @@
         },
         {
             "file": "src/components/Input.ts",
-            "line": 729,
+            "line": 730,
             "description": "Check to see if a touch pointer should activate any events.",
             "itemtype": "method",
             "name": "_evaluateTouchPointer",
@@ -11823,7 +11811,7 @@
         },
         {
             "file": "src/components/Input.ts",
-            "line": 777,
+            "line": 778,
             "description": "Update loop that runs when the mouse manager is\nthe method for interacting with the screen.",
             "itemtype": "method",
             "name": "_updateMouse",
@@ -11836,7 +11824,7 @@
         },
         {
             "file": "src/components/Input.ts",
-            "line": 824,
+            "line": 825,
             "description": "Evaluates where and what the mouse cursor is doing\nin relation to this box.",
             "itemtype": "method",
             "name": "_evaluateMousePointer",
@@ -11856,7 +11844,7 @@
         },
         {
             "file": "src/components/Input.ts",
-            "line": 904,
+            "line": 905,
             "description": "Destroy the input.",
             "itemtype": "method",
             "name": "destroy",
@@ -22770,8 +22758,8 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 52,
-            "description": "Returns the type of this object",
+            "line": 58,
+            "description": "Return the type of this object.",
             "itemtype": "method",
             "name": "objType",
             "return": {
@@ -22787,12 +22775,12 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 62,
-            "description": "For tag loading only. The crossOrigin value applied to loaded images. Very often this needs to be set to 'anonymous'",
+            "line": 70,
+            "description": "For tag loading only. The crossOrigin value applies to loaded images.\nVery often this needs to be set to \"anonymous\".",
             "itemtype": "property",
             "name": "crossOrigin",
             "type": "String",
-            "default": "''",
+            "default": "\"\"",
             "access": "public",
             "tagname": "",
             "class": "Kiwi.Files.TextureFile",
@@ -22802,8 +22790,24 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 73,
-            "description": "Initialises the loading method.\nTagloading is the default but also supports XHR + arraybuffer.",
+            "line": 81,
+            "description": "Texture created from this file. This is set during state rebuilds,\nso that subsequent state rebuilds don't have to do all that work again.",
+            "itemtype": "property",
+            "name": "texture",
+            "type": "Kiwi.Textures.TextureAtlas",
+            "default": "null",
+            "access": "public",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.Files.TextureFile",
+            "module": "Kiwi",
+            "submodule": "Files",
+            "namespace": "Kiwi.Files"
+        },
+        {
+            "file": "src/file/TextureFile.ts",
+            "line": 96,
+            "description": "Initialise the loading method.\n\nTagloading is the default, but also supports XHR + arraybuffer.",
             "itemtype": "method",
             "name": "_load",
             "access": "protected",
@@ -22815,8 +22819,8 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 91,
-            "description": "Contains the functionality for tag loading",
+            "line": 118,
+            "description": "Perform tag loading.",
             "itemtype": "method",
             "name": "tagLoader",
             "access": "private",
@@ -22828,14 +22832,14 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 110,
-            "description": "Gets the response data (which is an arraybuffer), creates a Blob from it \nand creates an objectURL from it.",
+            "line": 140,
+            "description": "Get the response data (which is an arraybuffer ),\ncreate a Blob from it, and create an objectURL from it.",
             "itemtype": "method",
             "name": "processXhr",
             "params": [
                 {
                     "name": "response",
-                    "description": "The data stored in the 'xhr.response' tag",
+                    "description": "The data stored in the \"xhr.response\" tag",
                     "type": "Any"
                 }
             ],
@@ -22848,8 +22852,8 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 137,
-            "description": "Revokes the object url that was added to the window when creating the image. \nAlso tells the File that the loading is now complete.",
+            "line": 169,
+            "description": "Revoke the object url that was added to the window when creating\nthe image. Also tells the `File` that loading is now complete.",
             "itemtype": "method",
             "name": "revoke",
             "access": "private",
@@ -22861,8 +22865,8 @@
         },
         {
             "file": "src/file/TextureFile.ts",
-            "line": 154,
-            "description": "Destroys all external object references on this object.",
+            "line": 188,
+            "description": "Destroy all external object references on this object.",
             "itemtype": "method",
             "name": "destroy",
             "since": "1.2.0",
@@ -41356,7 +41360,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 33,
+            "line": 36,
             "description": "Initialise all WebGL rendering services.",
             "itemtype": "method",
             "name": "boot",
@@ -41369,7 +41373,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 46,
+            "line": 50,
             "description": "Return the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -41386,7 +41390,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 57,
+            "line": 61,
             "description": "Game that this renderer is used with",
             "itemtype": "property",
             "name": "_game",
@@ -41400,7 +41404,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 66,
+            "line": 70,
             "description": "Texture manager object used to allocate GL Textures",
             "itemtype": "property",
             "name": "_textureManager",
@@ -41414,7 +41418,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 75,
+            "line": 79,
             "description": "Shader manager object used to allocate GL Shaders",
             "itemtype": "property",
             "name": "_shaderManager",
@@ -41428,7 +41432,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 87,
+            "line": 89,
             "description": "Stage resolution in pixels",
             "itemtype": "property",
             "name": "_stageResolution",
@@ -41442,7 +41446,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 96,
+            "line": 98,
             "description": "Renderer object currently in use during a rendering batch",
             "itemtype": "property",
             "name": "_currentRenderer",
@@ -41456,7 +41460,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 105,
+            "line": 107,
             "description": "Current blend mode",
             "itemtype": "property",
             "name": "_currentBlendMode",
@@ -41471,7 +41475,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 115,
+            "line": 117,
             "description": "Tally of number of entities rendered per frame",
             "itemtype": "property",
             "name": "_entityCount",
@@ -41486,7 +41490,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 125,
+            "line": 127,
             "description": "Tally of number of draw calls per frame",
             "itemtype": "property",
             "name": "numDrawCalls",
@@ -41501,7 +41505,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 135,
+            "line": 137,
             "description": "Maximum allowable sprites to render per frame.\nNote: Not currently used - candidate for deletion",
             "itemtype": "property",
             "name": "_maxItems",
@@ -41516,7 +41520,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 146,
+            "line": 148,
             "description": "Camera matrix used on graphics card",
             "itemtype": "property",
             "name": "camMatrix",
@@ -41530,7 +41534,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 155,
+            "line": 157,
             "description": "Geometry data used to create `camMatrix`",
             "itemtype": "property",
             "name": "_camMatrix",
@@ -41544,7 +41548,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 164,
+            "line": 166,
             "description": "Most recently bound texture atlas",
             "itemtype": "property",
             "name": "_currentTextureAtlas",
@@ -41558,7 +41562,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 173,
+            "line": 175,
             "description": "Add a texture to the Texture Manager.",
             "itemtype": "method",
             "name": "addTexture",
@@ -41583,7 +41587,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 185,
+            "line": 187,
             "description": "Remove a texture from the Texture Manager.",
             "itemtype": "method",
             "name": "removeTexture",
@@ -41609,8 +41613,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 198,
-            "description": "An array of renderers.\n\nShared renderers are used for batch rendering.\nMultiple gameobjects can use the same renderer instance and add\nrendering info to a batch rather than rendering individually.\nThis means only one draw call is necessary to render a number of\nobjects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared\nrenderer. Sprites, StaticImages and Tilemaps (core gameobjects)\ncan all use the same renderer/shader combination and be drawn as\npart of the same batch.\n\nCustom gameobjects can also choose to use a shared renderer,\nfor example in the case that a custom gameobject's\nrendering requirements matched the `TextureAtlasRenderer`\ncapabilities.",
+            "line": 200,
+            "description": "Array of renderers.\n\nShared renderers are used for batch rendering.\nMultiple gameobjects can use the same renderer instance and add\nrendering info to a batch rather than rendering individually.\nThis means only one draw call is necessary to render a number of\nobjects. The most common use of this is standard 2d sprite rendering,\nand the TextureAtlasRenderer is added by default as a shared\nrenderer. Sprites, StaticImages and Tilemaps (core gameobjects)\ncan all use the same renderer/shader combination and be drawn as\npart of the same batch.\n\nCustom gameobjects can also choose to use a shared renderer,\nfor example in the case that a custom gameobject's\nrendering requirements matched the `TextureAtlasRenderer`\ncapabilities.",
             "itemtype": "property",
             "name": "_sharedRenderers",
             "type": "Array",
@@ -41623,7 +41627,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 222,
+            "line": 226,
             "description": "Add a renderer to the sharedRenderer array.\n\nThe rendererID is a string that must match a renderer property\nof the Kiwi.Renderers object. If a match is found and an instance\ndoes not already exist, then a renderer is instantiated and added\nto the array.",
             "itemtype": "method",
             "name": "addSharedRenderer",
@@ -41652,7 +41656,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 254,
+            "line": 257,
             "description": "Add a cloned renderer to the sharedRenderer array.\nThe rendererID is a string that must match a renderer property of\nthe Kiwi.Renderers object. The cloneID is the name for the\ncloned renderer.\n\nIf a match is found and an instance does not already exist,\nthen a renderer is instantiated and added to the array.\n\nCloned shared renderers are useful if some items in your scene\nwill use a special shader or blend mode, but others will not.\nYou can subsequently access the clones with a normal\n`requestSharedRenderer()` call. You should use this instead of\n`requestRendererInstance()` whenever possible, because shared\nrenderers are more efficient than instances.",
             "itemtype": "method",
             "name": "addSharedRendererClone",
@@ -41687,7 +41691,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 298,
+            "line": 303,
             "description": "Request a shared renderer. A game object that wants to use a shared\nrenderer uses this method to obtain a reference to the shared\nrenderer instance.",
             "itemtype": "method",
             "name": "requestSharedRenderer",
@@ -41716,7 +41720,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 328,
+            "line": 338,
             "description": "Request a new renderer instance. This factory method is the only\nway gameobjects should instantiate their own renderer.\n\nThe rendererID is a string that must match a renderer property\nof the Kiwi.Renderers object. If a match is found then a renderer\nis instantiated and returned. Gameobjects which have rendering\nrequirements that do not suit batch rendering use this technique.",
             "itemtype": "method",
             "name": "requestRendererInstance",
@@ -41745,8 +41749,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 365,
-            "description": "Performs initialisation required for single game instance -\nhappens once, at bootup. Sets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (`TextureAtlasRenderer`).",
+            "line": 373,
+            "description": "Perform initialisation required for single game instance.\nHappens once, at bootup. Sets global GL state.\nInitialises managers for shaders and textures.\nInstantiates the default shared renderer (`TextureAtlasRenderer`).",
             "itemtype": "method",
             "name": "_init",
             "access": "private",
@@ -41758,7 +41762,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 430,
+            "line": 438,
             "description": "Scales the viewport according to a scale mode and space dimensions.\n\nThis is used internally for compatibility with CocoonJS\nand should not be called.",
             "itemtype": "method",
             "name": "scaleViewport",
@@ -41794,8 +41798,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 488,
-            "description": "Performs initialisation required when switching to a different state.\nCalled when a state has been switched to.\nThe textureManager is told to clear its contents from video memory,\nthen rebuild its cache of textures from the state's texture library.",
+            "line": 497,
+            "description": "Perform initialisation required when switching state.\nCalled when a state has been switched to.\nThe textureManager clears its contents from video memory, then\nrebuilds its cache of textures from the state's texture library.",
             "itemtype": "method",
             "name": "initState",
             "access": "public",
@@ -41807,8 +41811,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 504,
-            "description": "Performs cleanup required before switching to a different state.\nCalled whwn a state is about to be switched from.\nThe textureManager is told to empty its cache.",
+            "line": 514,
+            "description": "Perform cleanup required before switching to a different state.\nCalled whwn a state is about to be switched from.\nThe textureManager is told to empty its cache.",
             "itemtype": "method",
             "name": "endState",
             "params": [
@@ -41827,8 +41831,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 519,
-            "description": "Manages rendering of the scene graph - called once per frame.\nSets up per frame gl uniforms such as the view matrix and\ncamera offset. Clears the current renderer ready for a new batch.\nInitiates recursive render of scene graph starting at the root.",
+            "line": 530,
+            "description": "Manage rendering of the scene graph - called once per frame.\nSet up per frame gl uniforms such as the view matrix and\ncamera offset. Clear the current renderer ready for a new batch.\nInitiate recursive render of scene graph starting at the root.",
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -41847,7 +41851,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 605,
+            "line": 610,
             "description": "Create a new render sequence.",
             "itemtype": "method",
             "name": "collateRenderSequence",
@@ -41860,8 +41864,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 617,
-            "description": "Add a child to the render sequence\n(may be a group with children of its own ).",
+            "line": 624,
+            "description": "Add a child to the render sequence\n(may be a group with children of its own).",
             "itemtype": "method",
             "name": "collateChild",
             "access": "public",
@@ -41873,7 +41877,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 646,
+            "line": 655,
             "description": "Sort the render sequence into batches.\nEach batch requires the same renderer/shader/texture combination.",
             "itemtype": "method",
             "name": "collateBatches",
@@ -41886,7 +41890,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 678,
+            "line": 689,
             "description": "Render all the batches.",
             "itemtype": "method",
             "name": "renderBatches",
@@ -41911,7 +41915,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 692,
+            "line": 705,
             "description": "Render a single batch.",
             "itemtype": "method",
             "name": "renderBatch",
@@ -41941,7 +41945,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 740,
+            "line": 759,
             "description": "Call the render function on a single entity.",
             "itemtype": "method",
             "name": "renderEntity",
@@ -41965,7 +41969,7 @@
             "access": "public",
             "tagname": "",
             "deprecated": true,
-            "deprecationMessage": "Used internally; should not be called from external functions",
+            "deprecationMessage": "Used internally;\n\tshould not be called from external functions",
             "class": "Kiwi.Renderers.GLRenderManager",
             "module": "Kiwi",
             "submodule": "Renderers",
@@ -41973,7 +41977,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 763,
+            "line": 785,
             "description": "Ensure the atlas and renderer needed for a batch is setup.",
             "itemtype": "method",
             "name": "setupGLState",
@@ -41995,8 +41999,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 780,
-            "description": "Switch renderer to the one needed by the entity that needs rendering.",
+            "line": 804,
+            "description": "Switch renderer to that needed by the entity.",
             "itemtype": "method",
             "name": "_switchRenderer",
             "params": [
@@ -42020,8 +42024,8 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 801,
-            "description": "Switch texture to the one needed by the entity that needs rendering.",
+            "line": 827,
+            "description": "Switch texture to that needed by the entity.",
             "itemtype": "method",
             "name": "_switchTexture",
             "params": [
@@ -42047,7 +42051,7 @@
         },
         {
             "file": "src/render/GLRenderManager.ts",
-            "line": 817,
+            "line": 845,
             "description": "Switch blend mode to a new set of constants.",
             "itemtype": "method",
             "name": "_switchBlendMode",
@@ -42268,11 +42272,12 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 27,
-            "description": "The default maximum amount of texture memory to use before swapping textures",
+            "line": 28,
+            "description": "Default maximum amount of texture memory to use\nbefore swapping textures",
             "itemtype": "property",
             "name": "DEFAULT_MAX_TEX_MEM_MB",
             "type": "number",
+            "default": "1024",
             "access": "public",
             "tagname": "",
             "static": 1,
@@ -42283,8 +42288,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 36,
-            "description": "The maximum amount of texture memory to use before swapping textures, initialised from DEFAULT_MAX_TEX_MEM_MB",
+            "line": 40,
+            "description": "Maximum amount of texture memory to use before swapping textures,\ninitialised from `DEFAULT_MAX_TEX_MEM_MB`",
             "itemtype": "property",
             "name": "maxTextureMem",
             "type": "number",
@@ -42297,8 +42302,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 44,
-            "description": "The amount of texture memory currently uplaoded",
+            "line": 50,
+            "description": "Amount of texture memory currently uploaded",
             "itemtype": "property",
             "name": "usedTextureMem",
             "type": "number",
@@ -42311,8 +42316,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 55,
-            "description": "The number of textures currently uplaoded",
+            "line": 62,
+            "description": "Number of textures currently uploaded",
             "itemtype": "property",
             "name": "usedTextureMem",
             "type": "number",
@@ -42325,8 +42330,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 66,
-            "description": "The number of textures uploads in the last frame",
+            "line": 74,
+            "description": "Number of texture uploads in the last frame",
             "itemtype": "property",
             "name": "numTextureWrites",
             "type": "number",
@@ -42339,8 +42344,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 75,
-            "description": "An array of references to all texture wrappers",
+            "line": 84,
+            "description": "Array of references to all texture wrappers",
             "itemtype": "property",
             "name": "_textureWrapperCache",
             "type": "GLTextureWrapper[]",
@@ -42353,8 +42358,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 83,
-            "description": "Adds a texture wrapper to the cache",
+            "line": 95,
+            "description": "Add a texture wrapper to the cache.",
             "itemtype": "method",
             "name": "_addTextureToCache",
             "params": [
@@ -42373,8 +42378,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 93,
-            "description": "Removes a texture wrapper from the cache",
+            "line": 108,
+            "description": "Remove a texture wrapper from the cache.",
             "itemtype": "method",
             "name": "_removeTextureFromCache",
             "params": [
@@ -42394,8 +42399,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 112,
-            "description": "Deletes a texture from memory and removes the wrapper from the cache",
+            "line": 130,
+            "description": "Delete a texture from memory and remove the wrapper from the cache.",
             "itemtype": "method",
             "name": "_deleteTexture",
             "params": [
@@ -42419,8 +42424,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 126,
-            "description": "Uploads a texture to video memory",
+            "line": 146,
+            "description": "Upload a texture to video memory.",
             "itemtype": "method",
             "name": "_uploadTexture",
             "params": [
@@ -42447,8 +42452,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 147,
-            "description": "Uploads a texture library to video memory",
+            "line": 172,
+            "description": "Upload a texture library to video memory.",
             "itemtype": "method",
             "name": "uploadTextureLibrary",
             "params": [
@@ -42472,8 +42477,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 162,
-            "description": "Uploads a single texture to video memory",
+            "line": 204,
+            "description": "Upload a single texture to video memory.",
             "itemtype": "method",
             "name": "uploadTexture",
             "params": [
@@ -42497,8 +42502,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 173,
-            "description": "Adds a texture wrapper to the manager. This both adds the wrapper to the manager cache, and attempts to upload the attached texture to video memory.",
+            "line": 218,
+            "description": "Add a texture wrapper to the manager.\nThis both adds the wrapper to the manager cache,\nand attempts to upload the attached texture to video memory.",
             "itemtype": "method",
             "name": "registerTextureWrapper",
             "params": [
@@ -42523,8 +42528,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 189,
-            "description": "Removes all textures from video memory and clears the wrapper cache",
+            "line": 244,
+            "description": "Remove all textures from video memory and clears the wrapper cache.",
             "itemtype": "method",
             "name": "clearTextures",
             "params": [
@@ -42543,8 +42548,29 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 205,
-            "description": "Removes a texture atlas from the texture manager.",
+            "line": 266,
+            "description": "Remove non-global textures from video memory and the wrapper cache.\nGlobal assets remain untouched.",
+            "itemtype": "method",
+            "name": "clearTexturesLocal",
+            "params": [
+                {
+                    "name": "gl",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.Renderers.GLTextureManager",
+            "module": "Kiwi",
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
+        },
+        {
+            "file": "src/render/GLTextureManager.ts",
+            "line": 301,
+            "description": "Remove a texture atlas from the texture manager.",
             "itemtype": "method",
             "name": "removeTexture",
             "params": [
@@ -42569,8 +42595,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 217,
-            "description": "Removes a texture wrapper from the manager.",
+            "line": 316,
+            "description": "Remove a texture wrapper from the manager.",
             "itemtype": "method",
             "name": "deregisterTextureWrapper",
             "params": [
@@ -42595,8 +42621,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 229,
-            "description": "Binds the texture ready for use, uploads it if it isn't already",
+            "line": 331,
+            "description": "Bind the texture ready for use. Upload it if it isn't already.",
             "itemtype": "method",
             "name": "useTexture",
             "params": [
@@ -42612,7 +42638,7 @@
                 },
                 {
                     "name": "textureUnit",
-                    "description": "Optional parameter for multitexturing. You can have up to 32 textures available to a shader at one time, in the range 0-31. If you don't need multiple textures, this is perfectly safe to ignore.",
+                    "description": "Optional parameter for\n\tmultitexturing. You can have up to 32 textures available\n\tto a shader at one time, in the range 0-31.\n\tIf you don't need multiple textures,\n\tthis is perfectly safe to ignore.",
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
@@ -42630,8 +42656,8 @@
         },
         {
             "file": "src/render/GLTextureManager.ts",
-            "line": 270,
-            "description": "Attempts to free space in video memory.\n\nThis removes textures sequentially, starting from the first cached texture. This may remove textures that are in use. These should automatically re-upload into the last position. After a few frames, this will push in-use textures to the safe end of the queue.\n\nIf there are too many textures in use to fit in memory, they will all be cycled every frame, even if it would be more efficient to swap out one or two very large textures and preserve several smaller ones. This is an issue with this implementation and should be fixed.\n\nThis behaviour was changed in v1.1.0. Previous versions used a different memory freeing algorithm.",
+            "line": 382,
+            "description": "Attempt to free space in video memory.\n\nThis removes textures sequentially, starting from the first\ncached texture. This may remove textures that are in use.\nThese should automatically re-upload into the last position.\nAfter a few frames, this will push in-use textures to the\nsafe end of the queue.\n\nIf there are too many textures in use to fit in memory,\nthey will all be cycled every frame,\neven if it would be more efficient to swap out one or two\nvery large textures and preserve several smaller ones.\nThis is an issue with this implementation and should be fixed.\n\nThis behaviour was changed in v1.1.0.\nPrevious versions used a different memory freeing algorithm.",
             "itemtype": "method",
             "name": "_freeSpace",
             "params": [
@@ -45497,12 +45523,12 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 30,
-            "description": "The type of object that this is.",
+            "line": 32,
+            "description": "Type of object that this is.",
             "itemtype": "method",
             "name": "objType",
             "return": {
-                "description": "",
+                "description": "\"TextureLibrary\"",
                 "type": "String"
             },
             "access": "public",
@@ -45514,8 +45540,8 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 40,
-            "description": "The game that this texture library is on.",
+            "line": 43,
+            "description": "Game that this texture library is on",
             "itemtype": "property",
             "name": "_game",
             "type": "Game",
@@ -45528,8 +45554,8 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 48,
-            "description": "Contains all of the textures that are available.",
+            "line": 52,
+            "description": "Contains all of the textures that are available",
             "itemtype": "property",
             "name": "textures",
             "access": "public",
@@ -45541,8 +45567,8 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 55,
-            "description": "Resets the texture library.",
+            "line": 62,
+            "description": "Reset the texture library. Clear the `textures` object.",
             "itemtype": "method",
             "name": "clear",
             "access": "public",
@@ -45554,14 +45580,14 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 68,
-            "description": "Adds a texture atlas to the library.",
+            "line": 76,
+            "description": "Add a texture atlas to the library.",
             "itemtype": "method",
             "name": "add",
             "params": [
                 {
                     "name": "atlas",
-                    "description": "",
+                    "description": "Texture atlas to add",
                     "type": "Kiwi.Textures.TextureAtlas"
                 }
             ],
@@ -45574,14 +45600,14 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 86,
-            "description": "Removes a texture atlas from the library.",
+            "line": 107,
+            "description": "Remove a texture atlas from the library.",
             "itemtype": "method",
             "name": "remove",
             "params": [
                 {
                     "name": "atlas",
-                    "description": "",
+                    "description": "Texture atlas to remove",
                     "type": "Kiwi.Textures.TextureAtlas"
                 }
             ],
@@ -45595,15 +45621,15 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 105,
-            "description": "Adds a new image file to the texture library.",
+            "line": 129,
+            "description": "Add a new image file to the texture library.",
             "itemtype": "method",
             "name": "addFromFile",
             "params": [
                 {
                     "name": "imageFile",
-                    "description": "",
-                    "type": "Kiwi.File"
+                    "description": "File to base a texture on",
+                    "type": "Kiwi.File.TextureFile"
                 }
             ],
             "access": "public",
@@ -45615,20 +45641,20 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 134,
-            "description": "Used to rebuild a Texture from the FileStore into a base2 size if it doesn't have it already.",
+            "line": 179,
+            "description": "Rebuild a texture from the FileStore into a base2 size\nif it doesn't have it already.",
             "itemtype": "method",
             "name": "_rebuildImage",
             "params": [
                 {
                     "name": "imageFile",
-                    "description": "The image file that is to be rebuilt.",
-                    "type": "Kiwi.File"
+                    "description": "Image file to rebuild",
+                    "type": "Kiwi.File.TextureFile"
                 }
             ],
             "return": {
-                "description": "The new image file.",
-                "type": "Kiwi.File"
+                "description": "New image file",
+                "type": "Kiwi.File.TextureFile"
             },
             "access": "private",
             "tagname": "",
@@ -45639,19 +45665,19 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 180,
-            "description": "Used to build a new texture atlas based on the image file provided. Internal use only.",
+            "line": 241,
+            "description": "Build a new texture atlas based on the image file.\nInternal use only.",
             "itemtype": "method",
             "name": "_buildTextureAtlas",
             "params": [
                 {
                     "name": "imageFile",
-                    "description": "The image file that is to be used.",
+                    "description": "Image file to use",
                     "type": "Kiwi.File"
                 }
             ],
             "return": {
-                "description": "The new texture atlas that is created.",
+                "description": "`TextureAtlas` that is created",
                 "type": "Kiwi.Textures.TextureAtlas"
             },
             "access": "private",
@@ -45663,19 +45689,19 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 207,
-            "description": "Builds a spritesheet atlas from the an image file that is provided.",
+            "line": 282,
+            "description": "Build a spritesheet atlas from an image file.",
             "itemtype": "method",
             "name": "_buildSpriteSheet",
             "params": [
                 {
                     "name": "imageFile",
-                    "description": "The image file that is to be used.",
+                    "description": "Image file to use",
                     "type": "Kiwi.File"
                 }
             ],
             "return": {
-                "description": "The SpriteSheet that was just created.",
+                "description": "`SpriteSheet` that was created",
                 "type": "Kiwi.Textures.SpriteSheet"
             },
             "access": "private",
@@ -45687,19 +45713,19 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 223,
-            "description": "Builds a single image atlas from a image file that is provided.",
+            "line": 312,
+            "description": "Build a single image atlas from an image file.",
             "itemtype": "method",
             "name": "_buildImage",
             "params": [
                 {
                     "name": "imageFile",
-                    "description": "The image file that is to be used.",
-                    "type": "File"
+                    "description": "Image file to use",
+                    "type": "Kiwi.File.File"
                 }
             ],
             "return": {
-                "description": "The SingleImage that was created.",
+                "description": "`SingleImage` that was created",
                 "type": "Kiwi.Textures.SingleImage"
             },
             "access": "private",
@@ -45711,19 +45737,19 @@
         },
         {
             "file": "src/textures/TextureLibrary.ts",
-            "line": 235,
-            "description": "Rebuild the library from a fileStore. Clears the library and repopulates it.",
+            "line": 333,
+            "description": "Rebuild the library from a fileStore.\nClears the library and repopulates it.",
             "itemtype": "method",
             "name": "rebuild",
             "params": [
                 {
                     "name": "fileStore",
-                    "description": "",
+                    "description": "Game filestore",
                     "type": "Kiwi.Files.FileStore"
                 },
                 {
                     "name": "state",
-                    "description": "",
+                    "description": "State to which the library belongs",
                     "type": "Kiwi.State"
                 }
             ],
