@@ -153,6 +153,14 @@ module Kiwi.Renderers {
 			@private
 			**/
 
+			// Check for malformed textures
+			if ( isNaN( glTextureWrapper.numBytes ) ) {
+				Kiwi.Log.warn(
+					"Texture has no size; did you use the right data?",
+					"#texture" );
+				return false;
+			}
+
 			// Only upload it if it fits
 			if ( glTextureWrapper.numBytes + this._usedTextureMem <=
 					this.maxTextureMem ) {
@@ -339,9 +347,16 @@ module Kiwi.Renderers {
 				to a shader at one time, in the range 0-31.
 				If you don't need multiple textures,
 				this is perfectly safe to ignore.
-			@return boolean
+			@return {boolean} Whether the texture was successfully used
 			@public
 			**/
+
+			if ( isNaN( glTextureWrapper.numBytes ) ) {
+				Kiwi.Log.warn(
+					"Texture has no size; did you use the right data?",
+					"#texture" );
+				return false;
+			}
 
 			// Convert to integer in range 0-31.
 			textureUnit = Kiwi.Utils.GameMath.clamp(
