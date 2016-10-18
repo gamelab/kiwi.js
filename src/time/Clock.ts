@@ -74,9 +74,9 @@ module Kiwi.Time {
 
 		@property timers
 		@type Timer[]
-		@private
+		@public
 		**/
-		private timers: Kiwi.Time.Timer[];
+		public timers: Kiwi.Time.Timer[];
 
 		/**
 		Time the clock was first started relative to the master clock
