@@ -119,7 +119,7 @@ module Kiwi.Geom {
 		public setTo( a: number = 1, b: number = 0, c: number = 0, d: number = 1, tx: number = 0, ty: number = 0 ): Matrix {
 
 			/**
-			Set all matrix values .
+			Set all matrix values.
 
 			@method setTo
 			@param [a=1] {number} Position 0,0 of the matrix;
@@ -152,7 +152,7 @@ module Kiwi.Geom {
 		public setFromTransform( tx: number, ty: number, scaleX: number, scaleY: number, rotation: number ) {
 
 			/**
-			Set matrix values from transform values
+			Set matrix values from transform values.
 
 			@method setFromTransform
 			@param tx {number} Horizontal translation
@@ -164,11 +164,16 @@ module Kiwi.Geom {
 			@public
 			**/
 
-			this.identity();
-			var cos = Math.cos( rotation );
-			var sin = Math.sin( rotation );
+			var cos = Math.cos( rotation ),
+				sin = Math.sin( rotation );
 
-			this.append( cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx, ty );
+			// Set to
+			this.a = cos * scaleX;
+			this.b = sin * scaleX;
+			this.c = -sin * scaleY;
+			this.d = cos * scaleY;
+			this.tx = tx;
+			this.ty = ty;
 
 			return this;
 		}
@@ -176,7 +181,8 @@ module Kiwi.Geom {
 		public setFromOffsetTransform( tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number ) {
 
 			/**
-			Set matrix values from transform values, with rotation point data included.
+			Set matrix values from transform values,
+			with rotation point data included.
 
 			@method setFromOffsetTransform
 			@param tx {number} Horizontal translation
@@ -191,11 +197,16 @@ module Kiwi.Geom {
 			@since 1.0.1
 			**/
 
-			this.identity();
-			var cos = Math.cos( rotation );
-			var sin = Math.sin( rotation );
+			var cos = Math.cos( rotation ),
+				sin = Math.sin( rotation );
 
-			this.append( cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, tx + rotPointX, ty + rotPointY );
+			// Set to
+			this.a = cos * scaleX;
+			this.b = sin * scaleX;
+			this.c = -sin * scaleY;
+			this.d = cos * scaleY;
+			this.tx = tx + rotPointX;
+			this.ty = ty + rotPointY;
 
 			return this;
 		}
