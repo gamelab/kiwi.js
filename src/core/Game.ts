@@ -302,7 +302,7 @@ module Kiwi {
 
 			this.states = new Kiwi.StateManager( this );
 			this.rnd = new Kiwi.Utils.RandomDataGenerator(
-				[ Date.now.toString() ] );
+				[ Date.now().toString() ] );
 			this.time = new Kiwi.Time.ClockManager( this );
 			this.tweens = new Kiwi.Animations.Tweens.TweenManager( this );
 
