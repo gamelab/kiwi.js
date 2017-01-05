@@ -253,12 +253,12 @@ module Kiwi.HUD.HUDComponents {
 					if (t.length < 2) t = '0' + t;
 					this._displayString = this._displayString.replace('mm', t);
 				}
-				//minutes - no leading
+				//seconds - no leading
 				if (this._displayString.indexOf('s') != -1) {
 					var t = String(Math.floor(this._currentTime) % 60);
 					this._displayString = this._displayString.replace('s', t);
 				}
-				//seconds - no leading
+				//minutes - no leading
 				if (this._displayString.indexOf('m') !== -1) {
 					var t = String(Math.floor(this._currentTime / 60) % 60);
 					this._displayString = this._displayString.replace('m', t);
