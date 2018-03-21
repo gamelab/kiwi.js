@@ -260,6 +260,11 @@ module Kiwi {
 							"  Kiwi.Game: Stage scaling set to FIT.",
 							"#scaling" );
 						break;
+					case Kiwi.Stage.SCALE_FIT_INSIDE:
+						Kiwi.Log.log(
+							"  Kiwi.Game: Stage scaling set to FIT_INSIDE.",
+							"#scaling" );
+						break;
 					case Kiwi.Stage.SCALE_STRETCH:
 						Kiwi.Log.log(
 							"  Kiwi.Game: Stage scaling set to STRETCH.",
@@ -285,6 +290,13 @@ module Kiwi {
 					"defaulting to NONE.",
 					"#scaling" );
 				options.scaleType = 0;
+			}
+
+			if (
+				this._deviceTargetOption === Kiwi.TARGET_COCOON &&
+				options.scaleType === Kiwi.Stage.SCALE_FIT_INSIDE ) {
+				// FIT_INSIDE is identical to FIT, so fall back to that.
+				options.scaleType = Kiwi.Stage.SCALE_FIT;
 			}
 
 

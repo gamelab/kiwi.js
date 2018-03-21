@@ -24,7 +24,7 @@ module Kiwi {
 		@param height {number} Initial height of the game
 		@param scaleType {number} Scale method to use. May be
 			`Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
-			or `Kiwi.Stage.SCALE_FIT`.
+			`Kiwi.Stage.SCALE_FIT`, or `Kiwi.Stage.SCALE_FIT_INSIDE`.
 		@return {Kiwi.Stage}
 		**/
 
@@ -146,6 +146,21 @@ module Kiwi {
 		@static
 		**/
 		public static SCALE_STRETCH: number = 2;
+
+		/**
+		SCALE_FIT_INSIDE will scale the stage to fit its parent.
+		The stage will maintain aspect ratio and touch either the top/bottom
+		or the sides of the container (or both), without going outside.
+		This is exactly like the CocoonJS implementation of SCALE_FIT.
+
+		@property SCALE_FIT_INSIDE
+		@type number
+		@default 3
+		@public
+		@static
+		@since 1.5.0
+		**/
+		public static SCALE_FIT_INSIDE: number = 3;
 
 		/**
 		Scaling method that should be applied to the container element
@@ -969,6 +984,21 @@ module Kiwi {
 				if ( this._scaleType == Kiwi.Stage.SCALE_NONE ) {
 					this.container.style.maxWidth = "";
 					this.container.style.minWidth = "";
+				}
+
+				if ( this._scaleType == Kiwi.Stage.SCALE_FIT_INSIDE ) {
+					var containerAr = this.container.parentElement ?
+						this.container.parentElement.clientWidth /
+						this.container.parentElement.clientHeight :
+						1;
+					var canvasAr = this._width / this._height;
+					if ( containerAr > canvasAr ) {
+						this.container.style.height = "100%";
+						this.container.style.width = canvasAr * 100 + "vh";
+					} else {
+						this.container.style.width = "100%";
+						this.container.style.height = 100 / canvasAr + "vw";
+					}
 				}
 
 				// To Fit or STRETCH
