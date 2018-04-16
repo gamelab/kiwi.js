@@ -25,16 +25,15 @@ module Kiwi.Renderers {
 			this.dirty = true;
 
 			// Set default parameters
-			this._srcRGB = gl.SRC_ALPHA;
-			this._dstRGB = gl.ONE_MINUS_SRC_ALPHA;
-			this._srcAlpha = gl.ONE;
-			this._dstAlpha = gl.ONE;
-			this._modeRGB = gl.FUNC_ADD;
-			this._modeAlpha = gl.FUNC_ADD;
+			this.setMode( "NORMAL" );
 
 			// Process params
-			if(typeof params === "undefined")   { params = null; }
-			if(params)  this.readConfig(params);
+			if ( typeof params === "undefined" ) {
+				params = null;
+			}
+			if ( params ) {
+				this.readConfig( params );
+			}
 		}
 
 		/**
@@ -290,7 +289,7 @@ module Kiwi.Renderers {
 					break;
 				case "NORMAL":
 				default:
-					this._srcRGB = this.gl.SRC_ALPHA;
+					this._srcRGB = this.gl.ONE;
 					this._dstRGB = this.gl.ONE_MINUS_SRC_ALPHA;
 					this._srcAlpha = this.gl.ONE;
 					this._dstAlpha = this.gl.ONE;

@@ -82,8 +82,7 @@ module Kiwi.Shaders {
 			"varying float vAlpha;",
 			"uniform sampler2D uSampler;",
 			"void main(void) {",
-			"gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-			"gl_FragColor.a *= vAlpha;",
+			"gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * vAlpha;",
 			"}"
 		];
 
