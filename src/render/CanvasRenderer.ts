@@ -30,7 +30,7 @@ module Kiwi.Renderers {
 	* @constructor
 	* @namespace Kiwi.Renderers
 	* @param game {Kiwi.Game} The game that this canvas renderer belongs to.
-	* @return {Kiwi.Renderes.CanvasRenderer}
+	* @return {Kiwi.Renderers.CanvasRenderer}
 	*/
 	export class CanvasRenderer implements IRenderManager {
 

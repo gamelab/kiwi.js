@@ -2,7 +2,7 @@
 /**
 * 
 * @module Kiwi
-* @submodule Utils.
+* @submodule Utils
 *
 */
 module Kiwi.Utils {

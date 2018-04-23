@@ -337,7 +337,7 @@ module Kiwi {
 		* Used to register a new Game with this manager. Returns the new number of games that have been registered.
 		* @method register
 		* @param game {Game} The game you are wanting to register.
-		* @return {Number] The new number of games registered.
+		* @return {Number} The new number of games registered.
 		* @public
 		*/
 		public static register(game: Kiwi.Game): number {
