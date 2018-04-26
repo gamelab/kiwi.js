@@ -254,6 +254,14 @@ module Kiwi.GameObjects.Tilemap {
 
         public renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params: any = null) {
 
+            // When not to render the map.
+            if (
+                this.visible === false ||
+                this.alpha <= 0 ||
+                this.exists === false) {
+                return;
+            }
+
             //Setup
             var vertexItems = [];
 			
