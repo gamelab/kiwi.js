@@ -61,25 +61,22 @@ module Kiwi.Textures  {
 		* The width of a single cell.
 		* @property cellWidth
 		* @type number
-		* @private
 		*/
-		private cellWidth: number;
+		cellWidth: number;
 
 		/**
 		* The height of a single cell.
 		* @property cellHeight
 		* @type number
-		* @private
 		*/
-		private cellHeight: number;
+		cellHeight: number;
 
 		/**
 		* The number of cells that are on this spritesheet
 		* @property numCells
 		* @type number
-		* @private
 		*/
-		private numCells: number;
+		numCells: number;
 
 		/**
 		* The number of rows for the spritesheet
@@ -119,33 +116,29 @@ module Kiwi.Textures  {
 		* How much the whole spritesheet should be offset by on the X axis.
 		* @property sheetOffsetX
 		* @type number
-		* @private
 		*/
-		private sheetOffsetX: number;
+		sheetOffsetX: number;
 
 		/**
 		* How much the whole spritesheet should be offset by on the Y axis.
 		* @property sheetOffsetY
 		* @type number
-		* @private
 		*/
-		private sheetOffsetY: number;
+		sheetOffsetY: number;
 
 		/**
 		* How much each cell should be offset by on the X axis.
 		* @property cellOffsetX
 		* @type number
-		* @private
 		*/
-		private cellOffsetX: number;
+		cellOffsetX: number;
 
 		/**
 		* How much each cell should be offset by on the Y axis.
 		* @property cellOffsetY
 		* @type number
-		* @private
 		*/
-		private cellOffsetY: number;
+		cellOffsetY: number;
 
 		/**
 		* Generates the atlas cells based on the information that was provided. 

@@ -27,7 +27,7 @@ module Kiwi.Renderers {
 
 		constructor( game: Kiwi.Game ) {
 			this._game = game;
-			this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(
+			this.currentBlendMode = new Kiwi.Renderers.GLBlendMode(
 				this._game.stage.gl, {mode:"DEFAULT"} );
 		}
 
@@ -40,8 +40,8 @@ module Kiwi.Renderers {
 			@public
 			**/
 
-			this._textureManager = new GLTextureManager();
-			this._shaderManager = new Kiwi.Shaders.ShaderManager();
+			this.textureManager = new GLTextureManager();
+			this.shaderManager = new Kiwi.Shaders.ShaderManager();
 			this._init();
 		}
 
@@ -70,49 +70,44 @@ module Kiwi.Renderers {
 		/**
 		Texture manager object used to allocate GL Textures
 
-		@property _textureManager
+		@property textureManager
 		@type Kiwi.Renderes.GLTextureManager
-		@private
 		**/
-		private _textureManager: GLTextureManager;
+		public textureManager: GLTextureManager;
 
 		/**
 		Shader manager object used to allocate GL Shaders
 
-		@property _shaderManager
+		@property shaderManager
 		@type Kiwi.Renderes.GLShaderManager
-		@private
 		**/
-
-		private _shaderManager: Kiwi.Shaders.ShaderManager;
+		public shaderManager: Kiwi.Shaders.ShaderManager;
 
 		/**
 		Stage resolution in pixels
 
 		@property _stageResolution
 		@type Float32Array
-		@private
+		@protected
 		**/
-		private _stageResolution: Float32Array;
+		protected _stageResolution: Float32Array;
 
 		/**
 		Renderer object currently in use during a rendering batch
 
-		@property _currentRenderer
+		@property currentRenderer
 		@type Kiwi.Renderers.Renderer
-		@private
 		**/
-		private _currentRenderer: Renderer = null;
+		public currentRenderer: Renderer = null;
 
 		/**
 		Current blend mode
 
-		@property _currentBlendMode
+		@property currentBlendMode
 		@type Kiwi.Renderers.GLBlendMode
-		@private
 		@since 1.1.0
 		**/
-		private _currentBlendMode: GLBlendMode;
+		public currentBlendMode: GLBlendMode;
 
 		/**
 		Tally of number of entities rendered per frame
@@ -166,11 +161,10 @@ module Kiwi.Renderers {
 		/**
 		Most recently bound texture atlas
 
-		@property _currentTextureAtlas
+		@property currentTextureAtlas
 		@type TextureAtlas
-		@private
 		**/
-		private _currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
+		public currentTextureAtlas: Kiwi.Textures.TextureAtlas = null;
 
 		/**
 		Add a texture to the Texture Manager.
@@ -181,7 +175,7 @@ module Kiwi.Renderers {
 		@public
 		**/
 		public addTexture( gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas ) {
-			this._textureManager.uploadTexture( gl, atlas );
+			this.textureManager.uploadTexture( gl, atlas );
 		}
 
 		/**
@@ -194,7 +188,7 @@ module Kiwi.Renderers {
 		@Public
 		**/
 		public removeTexture( gl: WebGLRenderingContext, atlas: Kiwi.Textures.TextureAtlas ) {
-			this._textureManager.removeTexture( gl, atlas );
+			this.textureManager.removeTexture( gl, atlas );
 		}
 
 		/**
@@ -215,11 +209,10 @@ module Kiwi.Renderers {
 		rendering requirements matched the `TextureAtlasRenderer`
 		capabilities.
 
-		@property _sharedRenderers
+		@property sharedRenderers
 		@type Array
-		@private
 		**/
-		private _sharedRenderers: any = {};
+		public sharedRenderers: any = {};
 
 		public addSharedRenderer( rendererID:string, params:any = null ):boolean {
 
@@ -242,10 +235,10 @@ module Kiwi.Renderers {
 			if ( Kiwi.Renderers[ rendererID ] ) {
 
 				// Already added?
-				if ( !( rendererID in this._sharedRenderers ) ) {
-					this._sharedRenderers[ rendererID ] =
+				if ( !( rendererID in this.sharedRenderers ) ) {
+					this.sharedRenderers[ rendererID ] =
 						new Kiwi.Renderers[ rendererID ](
-							this._game.stage.gl, this._shaderManager, params );
+							this._game.stage.gl, this.shaderManager, params );
 					return true;
 				}
 			}
@@ -287,10 +280,10 @@ module Kiwi.Renderers {
 			if ( Kiwi.Renderers[ rendererID ] ) {
 
 				// Already added?
-				if ( !( cloneID in this._sharedRenderers ) ) {
-					this._sharedRenderers[ cloneID ] =
+				if ( !( cloneID in this.sharedRenderers ) ) {
+					this.sharedRenderers[ cloneID ] =
 						new Kiwi.Renderers[ rendererID ](
-							this._game.stage.gl, this._shaderManager, params );
+							this._game.stage.gl, this.shaderManager, params );
 					return true;
 				}
 			}
@@ -314,13 +307,13 @@ module Kiwi.Renderers {
 			**/
 
 			var renderer: Kiwi.Renderers.Renderer =
-					this._sharedRenderers[ rendererID ];
+					this.sharedRenderers[ rendererID ];
 
 			if ( renderer ) {
 				return renderer;
 			} else {
 				if ( this.addSharedRenderer( rendererID, params ) ) {
-					return this._sharedRenderers[ rendererID ];
+					return this.sharedRenderers[ rendererID ];
 				} else {
 					Kiwi.Log.log(
 						"No renderer called " + rendererID,
@@ -353,7 +346,7 @@ module Kiwi.Renderers {
 
 			if ( rendererID in Kiwi.Renderers ) {
 				var renderer = new Kiwi.Renderers[ rendererID ](
-					this._game.stage.gl, this._shaderManager, params );
+					this._game.stage.gl, this.shaderManager, params );
 				return renderer
 			} else {
 				Kiwi.Log.log(
@@ -402,9 +395,9 @@ module Kiwi.Renderers {
 
 			// Set default gl state
 			gl.enable( gl.BLEND );
-			this._switchBlendMode( gl, this._currentBlendMode );
+			this.switchBlendMode( gl, this.currentBlendMode );
 
-			this._shaderManager.init( gl, "TextureAtlasShader" );
+			this.shaderManager.init( gl, "TextureAtlasShader" );
 
 			// Camera matrix
 			this.camMatrix = new Float32Array( [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ] );
@@ -414,7 +407,7 @@ module Kiwi.Renderers {
 			this._game.stage.onResize.add( function ( width, height ) {
 				this._stageResolution = new Float32Array( [ width, height ] );
 				if ( this.currentRenderer ) {
-					this._currentRenderer.updateStageResolution(
+					this.currentRenderer.updateStageResolution(
 						gl, this._stageResolution );
 				}
 
@@ -504,8 +497,8 @@ module Kiwi.Renderers {
 			@public
 			**/
 
-			this._textureManager.clearTexturesLocal( this._game.stage.gl );
-			this._textureManager.uploadTextureLibrary(
+			this.textureManager.clearTexturesLocal( this._game.stage.gl );
+			this.textureManager.uploadTextureLibrary(
 				this._game.stage.gl, state.textureLibrary );
 		}
 
@@ -521,7 +514,7 @@ module Kiwi.Renderers {
 			@public
 			**/
 
-			this._textureManager.clearTextures( this._game.stage.gl );
+			this.textureManager.clearTextures( this._game.stage.gl );
 			Kiwi.Log.log( "Ending WebGL on State", "#renderer", "#webgl" );
 		}
 
@@ -558,7 +551,7 @@ module Kiwi.Renderers {
 			// Reset current renderer.
 			// This prevents runtime created shaders from being uploaded
 			// and the render manager failing to notice, causing crashes.
-			this._currentRenderer = null;
+			this.currentRenderer = null;
 
 			// Stop drawing if there is nothing to draw
 			if ( this._game.states.current.members.length == 0 ) {
@@ -567,7 +560,7 @@ module Kiwi.Renderers {
 
 			// Reset stats
 			this.numDrawCalls = 0;
-			this._textureManager.numTextureWrites = 0;
+			this.textureManager.numTextureWrites = 0;
 			this._entityCount = 0;
 
 			// Set cam matrix data.
@@ -594,7 +587,7 @@ module Kiwi.Renderers {
 			// This must be called per-frame, because CocoonJS seems to
 			// interfere with blend modes on a per-frame basis.
 			if ( this._game.deviceTargetOption == Kiwi.TARGET_COCOON ) {
-				this._switchBlendMode( gl, this._currentBlendMode );
+				this.switchBlendMode( gl, this.currentBlendMode );
 			}
 
 			this.collateRenderSequence();
@@ -602,7 +595,7 @@ module Kiwi.Renderers {
 			this.renderBatches( gl, camera );
 		}
 
-		private _sequence: any[];
+		protected _sequence: any[];
 		private _batches: any[];
 
 		public collateRenderSequence() {
@@ -674,7 +667,7 @@ module Kiwi.Renderers {
 					this._sequence[ i ].texture !== currentTexture ) {
 
 					// Create a new batch
-					var batchIndex = this._batches.push( new Array() ) - 1;
+					batchIndex = this._batches.push( new Array() ) - 1;
 					currentRenderer = this._sequence[ i ].renderer;
 					currentShader = this._sequence[ i ].shader;
 					currentTexture = this._sequence[ i ].texture;
@@ -714,13 +707,13 @@ module Kiwi.Renderers {
 
 			// Acquire renderer
 			var rendererSwitched = false;
-			if ( batch[ 0 ].renderer !== this._currentRenderer ) {
+			if ( batch[ 0 ].renderer !== this.currentRenderer ) {
 				rendererSwitched = true;
 				this._switchRenderer( gl, batch[ 0 ].entity );
 			}
 
 			// Clear renderer for fresh data
-			this._currentRenderer.clear( gl, { camMatrix: this.camMatrix } );
+			this.currentRenderer.clear( gl, { camMatrix: this.camMatrix } );
 
 			// Call render functions
 			for ( var i = 0; i < batch.length; i++ ) {
@@ -729,29 +722,29 @@ module Kiwi.Renderers {
 
 			// Upload textures
 			if (
-				batch[ 0 ].texture !== this._currentTextureAtlas ||
+				batch[ 0 ].texture !== this.currentTextureAtlas ||
 				batch[ 0 ].texture.dirty ||
 				( rendererSwitched && batch[ 0 ].texture ===
-					this._currentTextureAtlas ) ) {
+					this.currentTextureAtlas ) ) {
 
 				batch[ 0 ].texture.enableGL(
-					gl, this._currentRenderer, this._textureManager );
+					gl, this.currentRenderer, this.textureManager );
 			}
 
 			// Manage blend mode
 			// We must always apply BlendMode under CocoonJS, because some
 			// (but not all) operations on other canvases may
 			// silently change the blend mode and not change it back.
-			if ( !this._currentBlendMode.isIdentical(
+			if ( !this.currentBlendMode.isIdentical(
 						batch[ 0 ].renderer.blendMode ) ||
-					this._currentBlendMode.dirty ||
+					this.currentBlendMode.dirty ||
 					this._game.deviceTargetOption === Kiwi.TARGET_COCOON ) {
-				this._switchBlendMode(
+				this.switchBlendMode(
 					gl, batch[ 0 ].renderer.blendMode );
 			}
 
 			// Render
-			this._currentRenderer.draw( gl );
+			this.currentRenderer.draw( gl );
 		}
 
 		public renderEntity( gl: WebGLRenderingContext, entity: any, camera ) {
@@ -791,10 +784,10 @@ module Kiwi.Renderers {
 			@deprecated Used internally; should not be called from external functions.
 			**/
 
-			if ( entity.atlas !== this._currentTextureAtlas ) {
+			if ( entity.atlas !== this.currentTextureAtlas ) {
 				this._switchTexture( gl, entity );
 			}
-			if ( entity.glRenderer !== this._currentRenderer ) {
+			if ( entity.glRenderer !== this.currentRenderer ) {
 				this._switchRenderer( gl, entity );
 			}
 		}
@@ -810,11 +803,11 @@ module Kiwi.Renderers {
 			@private
 			**/
 
-			if ( this._currentRenderer ) {
-				this._currentRenderer.disable( gl );
+			if ( this.currentRenderer ) {
+				this.currentRenderer.disable( gl );
 			}
-			this._currentRenderer = entity.glRenderer;
-			this._currentRenderer.enable(
+			this.currentRenderer = entity.glRenderer;
+			this.currentRenderer.enable(
 				gl,
 				{
 					camMatrix: this.camMatrix,
@@ -835,25 +828,23 @@ module Kiwi.Renderers {
 				We probably shouldn't be passing an entity to a texture method.
 			**/
 
-			this._currentTextureAtlas = entity.atlas;
+			this.currentTextureAtlas = entity.atlas;
 			entity.atlas.enableGL(
-				gl, this._currentRenderer, this._textureManager );
+				gl, this.currentRenderer, this.textureManager );
 		}
 
-		private _switchBlendMode( gl: WebGLRenderingContext, blendMode: GLBlendMode ) {
-
+		public switchBlendMode(
+			gl: WebGLRenderingContext, blendMode: GLBlendMode ) {
 			/**
 			Switch blend mode to a new set of constants.
-
-			@method _switchBlendMode
+			@method switchBlendMode
 			@param gl {WebGLRenderingContext} Canvas rendering context
 			@param blendMode {Kiwi.Renderers.GLBlendMode} New blend mode
-			@private
 			@since 1.1.0
 			**/
 
-			this._currentBlendMode = blendMode;
-			this._currentBlendMode.apply( gl );
+			this.currentBlendMode = blendMode;
+			this.currentBlendMode.apply( gl );
 		}
 
 	}
