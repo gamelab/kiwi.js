@@ -17,31 +17,42 @@ module Kiwi {
 	* @param x {Number} The entities position on the x axis.
 	* @param y {Number} The entities position on the y axis.
 	* @return {Kiwi.Entity} This entity.
-	*
 	*/
 	export class Entity implements Kiwi.IChild {
 
 		constructor(state: Kiwi.State, x:number, y: number) {
-			
 			//  Properties
 			this.state = state;
 			this.game = state.game;
 			this.id = this.game.rnd.uuid();
 			this.state.addToTrackingList(this);
 			this._clock = this.game.time.clock;
-			 
+			this.renderTasks = {};
+
 			this._exists = true;
 			this._active = true;
 			this._visible = true;
 			this.components = new Kiwi.ComponentManager(Kiwi.ENTITY, this); 
 			this.transform = new Kiwi.Geom.Transform();
 			this.transform.x = x;
-			this.transform.y = y; 
-
+			this.transform.y = y;
 		}
 
+		/**
+		WebGL exclusive rendering system.
+		@property glRenderer
+		@type Kiwi.Renderers.Renderer
+		**/
 		public glRenderer: Kiwi.Renderers.Renderer;
 
+		/**
+		Registry for `RenderTask` objects, used by Buffers
+		to render a single object in multiple ways.
+
+		@property renderTasks
+		@type object
+		**/
+		renderTasks: Object;
 
 		/**
 		* Represents the position, scale, rotation and registration of this Entity.

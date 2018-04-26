@@ -75,7 +75,7 @@ module Kiwi.GameObjects {
 		/**
 		* Called by the Layer to which this Game Object is attached
 		* @method render
-		* @param {Kiwi.Camara} camera
+		* @param camera {Kiwi.Camera}
 		* @public
 		*/
 		public render(camera: Kiwi.Camera) {

@@ -68,6 +68,7 @@
 /// <reference path="render/GLArrayBuffer.ts" />
 /// <reference path="render/GLBlendMode.ts" />
 /// <reference path="render/GLElementArrayBuffer.ts" />
+/// <reference path="render/render-task.ts" />
 /// <reference path="render/renderers/Renderer.ts" />
 /// <reference path="render/renderers/TextureAtlasRenderer.ts" />
 /// <reference path="render/shaders/ShaderPair.ts" />
@@ -133,6 +134,24 @@
 /// <reference path="utils/RequestAnimationFrame.ts" />
 /// <reference path="utils/Log.ts" />
 /// <reference path="utils/Version.ts" />
+
+/// <reference path="buffers/buffer.ts" />
+/// <reference path="buffers/buffer-atlas.ts" />
+/// <reference path="buffers/bufferer.ts" />
+/// <reference path="buffers/filter-buffer-gl-render-manager.ts" />
+/// <reference path="buffers/group-buffer-gl-render-manager.ts" />
+/// <reference path="gameobjects/filter-buffer.ts" />
+/// <reference path="gameobjects/group-buffer.ts" />
+/// <reference path="render/renderers/filter-canvas.ts" />
+/// <reference path="render/renderers/filter-gl.ts" />
+
+/// <reference path="render/shaders/base.ts" />
+/// <reference path="render/shaders/blur-horizontal.ts" />
+/// <reference path="render/shaders/blur-vertical.ts" />
+/// <reference path="render/shaders/channel-mult-canvas.ts" />
+/// <reference path="render/shaders/color-value.ts" />
+/// <reference path="render/shaders/invert-canvas.ts" />
+/// <reference path="render/shaders/invert.ts" />
 
 /**
 * Module - Kiwi (Core)

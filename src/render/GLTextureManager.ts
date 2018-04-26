@@ -103,6 +103,17 @@ module Kiwi.Renderers {
 			this._textureWrapperCache.push( glTexture );
 		}
 
+		public addTextureToCache( glTexture: GLTextureWrapper ) {
+			/**
+			Add a texture wrapper to the cache. Wraps a private function.
+			@method addTextureToCache
+			@param glTexture {GLTextureWrapper}
+			@since 1.5.0
+			**/
+
+			this._addTextureToCache( glTexture );
+		}
+
 		private _removeTextureFromCache( gl: WebGLRenderingContext, glTexture: GLTextureWrapper ) {
 
 			/**
