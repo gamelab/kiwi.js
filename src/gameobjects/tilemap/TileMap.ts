@@ -19,11 +19,17 @@ module Kiwi.GameObjects.Tilemap {
 	* @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
 	* @param [atlas] {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
 	* @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
+	* @param [substitution=false] {boolean} Whether to create a buffered substitution for these tiles, to accelerate rendering on some devices.
 	* @return {TileMap}
 	*/
 	export class TileMap {
 
-		constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+		constructor(
+			state: Kiwi.State,
+			tileMapData?: any,
+			atlas?: Kiwi.Textures.TextureAtlas,
+			startingCell: number = 0,
+			substitution: boolean = false ) {
 
 			this.tileTypes = [];
 			this.createTileType(-1);
@@ -33,7 +39,8 @@ module Kiwi.GameObjects.Tilemap {
 			this.game = state.game;
 
 			if (tileMapData !== undefined && atlas !== undefined) {
-				this.createFromFileStore(tileMapData, atlas, startingCell);
+				this.createFromFileStore(
+					tileMapData, atlas, startingCell, substitution);
 			} else if (tileMapData !== undefined || atlas !== undefined) {
 				Kiwi.Log.warn('You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.', '#tilemap');
 			}
@@ -159,7 +166,11 @@ module Kiwi.GameObjects.Tilemap {
 		* @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
 		* @public
 		*/
-		public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+		public createFromFileStore(
+			tileMapData: any,
+			atlas: Kiwi.Textures.TextureAtlas,
+			startingCell:number = 0,
+			substitution: boolean = false ) {
 
             var json = null;
 
@@ -233,6 +244,11 @@ module Kiwi.GameObjects.Tilemap {
 						layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
 						layer.alpha = (layerData.opacity == undefined) ? 1 : layerData.opacity;
 						if (layerData.properties !== undefined)layer.properties = layerData.properties;
+
+						// Substitution
+						if ( substitution ) {
+							this.createSubstitute( layer );
+						}
 
 						break;
 
@@ -457,6 +473,124 @@ module Kiwi.GameObjects.Tilemap {
 			this.layers.push(layer);
 
 			return layer;
+		}
+
+		createSubstitute ( tileLayer ) {
+			/**
+			Create a substitute buffer to accelerate rendering tiles.
+
+			@method createSubstitute
+			@param tileLayer {TileMapLayer} Layer to substitute
+			**/
+
+			var state = tileLayer.state;
+
+			// Define resolution.
+			var stepX = state.game.stage.width;
+			var stepY = state.game.stage.height;
+
+			// Assert buffering system.
+			var buffers;
+			if ( !state.buffers ) {
+				state.buffers = new Kiwi.Buffers.Bufferer( {
+					state: state,
+				} );
+			}
+			buffers = state.buffers;
+
+			// Create substitute host.
+			var substitute = new Kiwi.Group(
+				state, tileLayer.name + "-substitute" );
+			( <any>substitute ).tileSampleGrid = [];
+			tileLayer.parent.addChildAfter( substitute, tileLayer );
+
+			// Create capture mechanism.
+			var captureBuffer = buffers.createGroupBuffer( {
+				width: stepX,
+				height: stepY,
+			} );
+
+			// Create sampling grid.
+			var sample;
+			var textureKey;
+			var x;
+			var y;
+			var xLimit = tileLayer.widthInPixels;
+			var yLimit = tileLayer.heightInPixels;
+			for ( x = 0; x * stepX < xLimit; x++ ) {
+				( <any>substitute ).tileSampleGrid[ x ] = [];
+				for ( y = 0; y * stepY < yLimit; y++ ) {
+					captureBuffer.camera.transform.x = -x * stepX;
+					captureBuffer.camera.transform.y = -y * stepY;
+					textureKey = tileLayer.name + "-x" + x + "-y" + y;
+					captureBuffer.drawCopy( tileLayer );
+					captureBuffer.exportImage( textureKey );
+
+					// Generate substitute.
+					sample = new Kiwi.GameObjects.StaticImage(
+						state,
+						state.textures[ textureKey ],
+						x * stepX, y * stepY );
+					substitute.addChild( sample );
+					( <any>substitute ).tileSampleGrid[ x ][ y ] = sample;
+				}
+			}
+
+			// Disable rendering on original tiles.
+			tileLayer.visible = false;
+
+			// Set up AABB visibility acceleration on substitute host.
+			var component = new Kiwi.Component(
+				substitute, "Visibility Control" );
+			substitute.components.add( component );
+			component.update = function visibilityControlUpdate () {
+				var minX, minY, maxX, maxY, x, y, sample;
+				var game = this.game;
+				var camera = game.cameras.defaultCamera;
+				var stage = game.stage;
+				var corner1 = new Kiwi.Geom.Point( 0, 0 );
+				var corner2 = new Kiwi.Geom.Point( 0, stage.height );
+				var corner3 = new Kiwi.Geom.Point( stage.width, 0 );
+				var corner4 = new Kiwi.Geom.Point( stage.width, stage.height );
+				var grid = this.owner.tileSampleGrid;
+				var gridX = grid.length;
+				var gridY = grid[ 0 ].length;
+
+				// Project bounds of game camera.
+				corner1 = camera.transformPoint( corner1 );
+				corner2 = camera.transformPoint( corner2 );
+				corner3 = camera.transformPoint( corner3 );
+				corner4 = camera.transformPoint( corner4 );
+
+				// Identify upper and lower bounds.
+				minX = Math.min( corner1.x, corner2.x, corner3.x, corner4.x );
+				maxX = Math.max( corner1.x, corner2.x, corner3.x, corner4.x );
+				minY = Math.min( corner1.y, corner2.y, corner3.y, corner4.y );
+				maxY = Math.max( corner1.y, corner2.y, corner3.y, corner4.y );
+
+				// Hide all.
+				for ( x = 0; x < gridX; x++ ) {
+					for ( y = 0; y < gridY; y++ ) {
+						grid[ x ][ y ].visible = false;
+					}
+				}
+
+				// Reveal AABB slot.
+				sample = grid[ 0 ][ 0 ];
+				for (
+					x = Math.floor( minX / sample.width );
+					x < Math.min( gridX, Math.floor( maxX / sample.width ) + 1 );
+					x++ ) {
+
+					for (
+						y = Math.floor( minY / sample.height );
+						y < Math.min( gridY, Math.floor( maxY / sample.height ) + 1 );
+						y++ ) {
+
+						grid[ x ][ y ].visible = true;
+					}
+				}
+			};
 		}
 
 
