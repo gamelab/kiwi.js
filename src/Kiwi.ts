@@ -145,13 +145,13 @@
 /// <reference path="render/renderers/filter-canvas.ts" />
 /// <reference path="render/renderers/filter-gl.ts" />
 
-/// <reference path="render/shaders/base.ts" />
-/// <reference path="render/shaders/blur-horizontal.ts" />
-/// <reference path="render/shaders/blur-vertical.ts" />
-/// <reference path="render/shaders/channel-mult-canvas.ts" />
-/// <reference path="render/shaders/color-value.ts" />
-/// <reference path="render/shaders/invert-canvas.ts" />
-/// <reference path="render/shaders/invert.ts" />
+/// <reference path="render/shaders/filters/base.ts" />
+/// <reference path="render/shaders/filters/blur-horizontal.ts" />
+/// <reference path="render/shaders/filters/blur-vertical.ts" />
+/// <reference path="render/shaders/filters/channel-mult-canvas.ts" />
+/// <reference path="render/shaders/filters/color-value.ts" />
+/// <reference path="render/shaders/filters/invert-canvas.ts" />
+/// <reference path="render/shaders/filters/invert.ts" />
 
 /**
 * Module - Kiwi (Core)
