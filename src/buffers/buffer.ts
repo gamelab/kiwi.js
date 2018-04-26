@@ -462,6 +462,7 @@ module Kiwi.Buffers {
             **/
 
             var atlas, canvas, ctx, data, i, pixels,
+                a, aFactor,
                 file = new Kiwi.Files.TextureFile( this.game, {
                     key: key,
                     url: key + " buffer data",
@@ -489,8 +490,14 @@ module Kiwi.Buffers {
 
                 // Generate image data
                 data = ctx.createImageData( this.width, this.height );
-                for ( i = 0; i < data.data.length; i++ ) {
-                    data.data[ i ] = pixels[ i ];
+                // Unpremultiply by hand
+                for ( i = 0; i < data.data.length; i += 4 ) {
+                    a = pixels[ i + 3 ];
+                    aFactor = a / 255;
+                    data.data[ i ] = pixels[ i ] / aFactor;
+                    data.data[ i + 1 ] = pixels[ i + 1 ] / aFactor;
+                    data.data[ i + 2 ] = pixels[ i + 2 ] / aFactor;
+                    data.data[ i + 3 ] = a;
                 }
 
                 // Draw to canvas
@@ -714,7 +721,8 @@ module Kiwi.Buffers {
 
             var ctx, pixels,
                 bufferWidth = params.width,
-                bufferHeight = params.height;
+                bufferHeight = params.height,
+                gl = this.gl;
 
             if ( params.baseImage && params.baseImage.getContext ) {
                 ctx = params.baseImage.getContext( "2d" );
@@ -724,42 +732,43 @@ module Kiwi.Buffers {
                 pixels = new Uint8Array( bufferWidth * bufferHeight * 4 );
             }
 
-            this._texture = this.gl.createTexture();
-            this.gl.bindTexture( this.gl.TEXTURE_2D, this._texture );
-            this.gl.texImage2D(
-                this.gl.TEXTURE_2D, 0, this.gl.RGBA,
+            this._texture = gl.createTexture();
+            gl.bindTexture( gl.TEXTURE_2D, this._texture );
+            gl.pixelStorei( gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, 1 );
+            gl.texImage2D(
+                gl.TEXTURE_2D, 0, gl.RGBA,
                 bufferWidth, bufferHeight,
-                0, this.gl.RGBA, this.gl.UNSIGNED_BYTE,
+                0, gl.RGBA, gl.UNSIGNED_BYTE,
                 pixels );
 
             // Configure texture
-            this.gl.texParameteri(
-                this.gl.TEXTURE_2D,
-                this.gl.TEXTURE_WRAP_S,
-                this.gl.CLAMP_TO_EDGE );
-            this.gl.texParameteri(
-                this.gl.TEXTURE_2D,
-                this.gl.TEXTURE_WRAP_T,
-                this.gl.CLAMP_TO_EDGE );
-            this.gl.texParameteri(
-                this.gl.TEXTURE_2D,
-                this.gl.TEXTURE_MIN_FILTER,
-                this.gl.LINEAR );
-            this.gl.texParameteri(
-                this.gl.TEXTURE_2D,
-                this.gl.TEXTURE_MAG_FILTER,
-                this.gl.LINEAR );
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_WRAP_S,
+                gl.CLAMP_TO_EDGE );
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_WRAP_T,
+                gl.CLAMP_TO_EDGE );
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_MIN_FILTER,
+                gl.LINEAR );
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_MAG_FILTER,
+                gl.LINEAR );
 
-            this._framebuffer = this.gl.createFramebuffer();
-            this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, this._framebuffer );
-            this.gl.framebufferTexture2D(
-                this.gl.FRAMEBUFFER,
-                this.gl.COLOR_ATTACHMENT0,
-                this.gl.TEXTURE_2D,
+            this._framebuffer = gl.createFramebuffer();
+            gl.bindFramebuffer( gl.FRAMEBUFFER, this._framebuffer );
+            gl.framebufferTexture2D(
+                gl.FRAMEBUFFER,
+                gl.COLOR_ATTACHMENT0,
+                gl.TEXTURE_2D,
                 this._texture, 0 );
 
             // Set framebuffer back to default
-            this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, null );
+            gl.bindFramebuffer( gl.FRAMEBUFFER, null );
         }
 
     }
