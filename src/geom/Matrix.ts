@@ -477,7 +477,7 @@ module Kiwi.Geom {
 
 			@method transformPoint
 			@param pt {Object} Point to be translated
-			@return {Kiwi.Geom.Matrix} This object
+			@return {Object} Transformed point
 			@public
 			**/
 

@@ -264,6 +264,10 @@ module Kiwi.GameObjects.Tilemap {
 
             //Setup
             var vertexItems = [];
+            var corner1 = this._corner1;
+            var corner2 = this._corner2;
+            var corner3 = this._corner3;
+            var corner4 = this._corner4;
 			
             //Transform/Matrix
             var t: Kiwi.Geom.Transform = this.transform;
@@ -272,45 +276,94 @@ module Kiwi.GameObjects.Tilemap {
 
             //Find which ones we need to render.
             this._calculateBoundaries(camera, m);
+            var startX = this._startX;
+            var startY = this._startY;
+            var maxX = this._maxX;
+            var maxY = this._maxY;
+            var tileWidth = this.tileWidth;
+            var tileHeight = this.tileHeight;
+            var alpha = this.alpha;
 
-            //Loop through the tiles.
-            for (var y = this._startY; y < this._maxY; y++) {
-                for (var x = this._startX; x < this._maxX; x++) {
-					
-                    //Get the tile type
+            // Compute linear tile space. These are the corners:
+            // 1 2
+            // 3 4
+            corner1.setTo(
+                startX * tileWidth - t.rotPointX,
+                startY * tileHeight - t.rotPointY );
+            corner4.setTo(
+                maxX * tileWidth - t.rotPointX,
+                maxY * tileHeight - t.rotPointY );
+            corner2.setTo( corner4.x, corner1.y );
+            corner3.setTo( corner1.x, corner4.y );
+
+            // Project linear tile space.
+            m.transformPoint( corner1 );
+            m.transformPoint( corner2 );
+            m.transformPoint( corner3 );
+            m.transformPoint( corner4 );
+
+            // Compute tile step values.
+            var stepX = new Kiwi.Geom.Point(
+                ( corner2.x - corner1.x ) / ( maxX - startX ),
+                ( corner2.y - corner1.y ) / ( maxY - startY ) );
+            var stepY = new Kiwi.Geom.Point(
+                ( corner3.x - corner1.x ) / ( maxX - startX ),
+                ( corner3.y - corner1.y ) / ( maxY - startY ) );
+            var stepXPixel = new Kiwi.Geom.Point(
+                stepX.x / tileWidth, stepX.y / tileWidth );
+            var stepYPixel = new Kiwi.Geom.Point(
+                stepY.x / tileWidth, stepY.y / tileHeight );
+
+            // Loop through the tiles.
+            var x, y;
+            for ( y = startY; y < maxY; y++ ) {
+                for ( x = startX; x < maxX; x++ ) {
+                    // Get the tile type
                     this._temptype = this.getTileFromXY(x, y);
 
-                    //Skip tiletypes that don't use a cellIndex.
+                    // Skip tiletypes that don't use a cellIndex.
                     if (this._temptype.cellIndex == -1) continue;
 
-                    //Get the cell index
+                    // Get the cell data
                     var cell = this.atlas.cells[this._temptype.cellIndex];
+                    var cellW = cell.w;
+                    var cellH = cell.h;
+                    var cellX = cell.x;
+                    var cellY = cell.y;
 
-                    var tx = x * this.tileWidth + this._temptype.offset.x;
-                    var ty = y * this.tileHeight + this._temptype.offset.y;
+                    var offsetX = this._temptype.offset.x;
+                    var offsetY = this._temptype.offset.y;
+                    var offsetXXX = offsetX * stepXPixel.x;
+                    var offsetYYX = offsetY * stepYPixel.x;
+                    var offsetXXY = offsetX * stepXPixel.y;
+                    var offsetYYY = offsetY * stepYPixel.y;
 
+                    var dxx0 = x * stepX.x + offsetXXX;
+                    var dxx1 = ( x + 1 ) * stepX.x + offsetXXX;
+                    var dxy0 = y * stepY.x + offsetYYX;
+                    var dxy1 = ( y + 1 ) * stepY.x + offsetYYX;
+                    var dyx0 = x * stepX.y + offsetXXY;
+                    var dyx1 = ( x + 1 ) * stepX.y + offsetXXY;
+                    var dyy0 = y * stepY.y + offsetYYY;
+                    var dyy1 = ( y + 1 ) * stepY.y + offsetYYY;
 
-                    //Set up the points
-                    this._corner1.setTo(tx - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
-                    this._corner2.setTo(tx + cell.w - t.rotPointX, ty - t.rotPointY - (cell.h - this.tileHeight));
-                    this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
-                    this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
-
-
-                    //Add on the matrix to the points
-                    m.transformPoint( this._corner1 );
-                    m.transformPoint( this._corner2 );
-                    m.transformPoint( this._corner3 );
-                    m.transformPoint( this._corner4 );
-
-
-                    //Append to the xyuv array
                     vertexItems.push(
-                        this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha,                   //Top Left Point
-                        this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha,          //Top Right Point
-                        this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, //Bottom Right Point
-                        this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha           //Bottom Left Point
-                        );
+                        // Corner 1
+                        dxx0 + dxy0 + t.rotPointX,
+                        dyx0 + dyy0 + t.rotPointY,
+                        cellX, cellY, alpha,
+                        // Corner 2
+                        dxx1 + dxy0 + t.rotPointX,
+                        dyx1 + dyy0 + t.rotPointY,
+                        cellX + cellW, cellY, alpha,
+                        // Corner 3
+                        dxx1 + dxy1 + t.rotPointX,
+                        dyx1 + dyy1 + t.rotPointY,
+                        cellX + cellW, cellY + cellH, alpha,
+                        // Corner 4
+                        dxx0 + dxy1 + t.rotPointX,
+                        dyx0 + dyy1 + t.rotPointY,
+                        cellX, cellY + cellH, alpha );
                 }
             }
 
