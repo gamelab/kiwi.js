@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.5.0-beta1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,36 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -70,6 +100,8 @@
                 <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
             
                 <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
             
@@ -281,11 +313,15 @@
             
                 <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -322,8 +358,6 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
-            
-                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -392,7 +426,7 @@ module Kiwi {
 		@param height {number} Initial height of the game
 		@param scaleType {number} Scale method to use. May be
 			&#x60;Kiwi.Stage.SCALE_NONE&#x60;, &#x60;Kiwi.Stage.SCALE_STRETCH&#x60;,
-			or &#x60;Kiwi.Stage.SCALE_FIT&#x60;.
+			&#x60;Kiwi.Stage.SCALE_FIT&#x60;, or &#x60;Kiwi.Stage.SCALE_FIT_INSIDE&#x60;.
 		@return {Kiwi.Stage}
 		**/
 
@@ -514,6 +548,21 @@ module Kiwi {
 		@static
 		**/
 		public static SCALE_STRETCH: number = 2;
+
+		/**
+		SCALE_FIT_INSIDE will scale the stage to fit its parent.
+		The stage will maintain aspect ratio and touch either the top/bottom
+		or the sides of the container (or both), without going outside.
+		This is exactly like the CocoonJS implementation of SCALE_FIT.
+
+		@property SCALE_FIT_INSIDE
+		@type number
+		@default 3
+		@public
+		@static
+		@since 1.5.0
+		**/
+		public static SCALE_FIT_INSIDE: number = 3;
 
 		/**
 		Scaling method that should be applied to the container element
@@ -1337,6 +1386,21 @@ module Kiwi {
 				if ( this._scaleType == Kiwi.Stage.SCALE_NONE ) {
 					this.container.style.maxWidth = &quot;&quot;;
 					this.container.style.minWidth = &quot;&quot;;
+				}
+
+				if ( this._scaleType == Kiwi.Stage.SCALE_FIT_INSIDE ) {
+					var containerAr = this.container.parentElement ?
+						this.container.parentElement.clientWidth /
+						this.container.parentElement.clientHeight :
+						1;
+					var canvasAr = this._width / this._height;
+					if ( containerAr &gt; canvasAr ) {
+						this.container.style.height = &quot;100%&quot;;
+						this.container.style.width = canvasAr * 100 + &quot;vh&quot;;
+					} else {
+						this.container.style.width = &quot;100%&quot;;
+						this.container.style.height = 100 / canvasAr + &quot;vw&quot;;
+					}
 				}
 
 				// To Fit or STRETCH

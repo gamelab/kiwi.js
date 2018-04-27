@@ -1,0 +1,8070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GroupBuffer - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.5.0-beta1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tween.html">Kiwi.Animations.Tween</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Back.html">Kiwi.Animations.Tweens.Easing.Back</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Bounce.html">Kiwi.Animations.Tweens.Easing.Bounce</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Circular.html">Kiwi.Animations.Tweens.Easing.Circular</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Cubic.html">Kiwi.Animations.Tweens.Easing.Cubic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Elastic.html">Kiwi.Animations.Tweens.Easing.Elastic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Exponential.html">Kiwi.Animations.Tweens.Easing.Exponential</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Linear.html">Kiwi.Animations.Tweens.Easing.Linear</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quadratic.html">Kiwi.Animations.Tweens.Easing.Quadratic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quartic.html">Kiwi.Animations.Tweens.Easing.Quartic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quintic.html">Kiwi.Animations.Tweens.Easing.Quintic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
+            
+                <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
+            
+                <li><a href="../classes/Kiwi.CameraManager.html">Kiwi.CameraManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Component.html">Kiwi.Component</a></li>
+            
+                <li><a href="../classes/Kiwi.ComponentManager.html">Kiwi.ComponentManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.AnimationManager.html">Kiwi.Components.AnimationManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.ArcadePhysics.html">Kiwi.Components.ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Box.html">Kiwi.Components.Box</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Input.html">Kiwi.Components.Input</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Sound.html">Kiwi.Components.Sound</a></li>
+            
+                <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.FileStore.html">Kiwi.Files.FileStore</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
+            
+                <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayer.html">Kiwi.GameObjects.Tilemap.TileMapLayer</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayerIsometric.html">Kiwi.GameObjects.Tilemap.TileMapLayerIsometric</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal.html">Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileType.html">Kiwi.GameObjects.Tilemap.TileType</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.AABB.html">Kiwi.Geom.AABB</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Circle.html">Kiwi.Geom.Circle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Intersect.html">Kiwi.Geom.Intersect</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.IntersectResult.html">Kiwi.Geom.IntersectResult</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Line.html">Kiwi.Geom.Line</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Matrix.html">Kiwi.Geom.Matrix</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Point.html">Kiwi.Geom.Point</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Ray.html">Kiwi.Geom.Ray</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Rectangle.html">Kiwi.Geom.Rectangle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Transform.html">Kiwi.Geom.Transform</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Vector2.html">Kiwi.Geom.Vector2</a></li>
+            
+                <li><a href="../classes/Kiwi.Group.html">Kiwi.Group</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Counter.html">Kiwi.HUD.HUDComponents.Counter</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Time.html">Kiwi.HUD.HUDComponents.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.WidgetInput.html">Kiwi.HUD.HUDComponents.WidgetInput</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDDisplay.html">Kiwi.HUD.HUDDisplay</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDManager.html">Kiwi.HUD.HUDManager</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDWidget.html">Kiwi.HUD.HUDWidget</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Bar.html">Kiwi.HUD.Widget.Bar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.BasicScore.html">Kiwi.HUD.Widget.BasicScore</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Button.html">Kiwi.HUD.Widget.Button</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Icon.html">Kiwi.HUD.Widget.Icon</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.IconBar.html">Kiwi.HUD.Widget.IconBar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Menu.html">Kiwi.HUD.Widget.Menu</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.MenuItem.html">Kiwi.HUD.Widget.MenuItem</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.TextField.html">Kiwi.HUD.Widget.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Time.html">Kiwi.HUD.Widget.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.IChild.html">Kiwi.IChild</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Finger.html">Kiwi.Input.Finger</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keycodes.html">Kiwi.Input.Keycodes</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Mouse.html">Kiwi.Input.Mouse</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.MouseCursor.html">Kiwi.Input.MouseCursor</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Pointer.html">Kiwi.Input.Pointer</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Touch.html">Kiwi.Input.Touch</a></li>
+            
+                <li><a href="../classes/Kiwi.PluginManager.html">Kiwi.PluginManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.CanvasRenderer.html">Kiwi.Renderers.CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
+                <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
+            
+                <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.Audio.html">Kiwi.Sound.Audio</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioLibrary.html">Kiwi.Sound.AudioLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioManager.html">Kiwi.Sound.AudioManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Stage.html">Kiwi.Stage</a></li>
+            
+                <li><a href="../classes/Kiwi.State.html">Kiwi.State</a></li>
+            
+                <li><a href="../classes/Kiwi.StateConfig.html">Kiwi.StateConfig</a></li>
+            
+                <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SingleImage.html">Kiwi.Textures.SingleImage</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SpriteSheet.html">Kiwi.Textures.SpriteSheet</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureAtlas.html">Kiwi.Textures.TextureAtlas</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureLibrary.html">Kiwi.Textures.TextureLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Clock.html">Kiwi.Time.Clock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.ClockManager.html">Kiwi.Time.ClockManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.MasterClock.html">Kiwi.Time.MasterClock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Timer.html">Kiwi.Time.Timer</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.TimerEvent.html">Kiwi.Time.TimerEvent</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
+            
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>GroupBuffer Class</h1>
+<div class="box meta">
+    
+
+    
+        <div class="extends">
+            Extends <a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a>
+        </div>
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_gameobjects_group-buffer.ts.html#l9"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:9</code></a>
+        </div>
+    
+
+    
+        
+            Module: <a href="../modules/GameObjects.html">GameObjects</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
+        
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>Buffer that draws a subgraph.
+The GroupBuffer can either use its own children,
+or another entity with members, as the subgraph.
+The subgraph will be rendered into the buffer.</p>
+<p>The GroupBuffer functions as a <code>Group</code>.</p>
+<p>Children of the GroupBuffer will not be drawn
+as part of the regular render sequence.</p>
+<p>All standard Buffer options are available.</p>
+<p>You should create <code>GroupBuffer</code> objects
+using the <code>createGroupBuffer</code> method of a <code>Bufferer</code> object.</p>
+
+</div>
+
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_GroupBuffer" class="method item">
+    <h3 class="name"><code>GroupBuffer</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>params</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l9"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:9</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">params</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Composite parameter object</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">state</code>
+                                    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                                
+
+                                <div class="param-description">
+                                    <p>Current game state</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">bufferer</code>
+                                    <span class="type"><a href="../classes/Kiwi.Buffers.Bufferer.html" class="crosslink">Kiwi.Buffers.Bufferer</a></span>
+                                
+
+                                <div class="param-description">
+                                    <p>Buffer
+        manager object. You should not create <code>GroupBuffer</code> objects
+        on their own; use a manager to ensure they are properly
+        registered. The manager will auto-complete this parameter.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[camera]</code>
+                                    <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Camera to use</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[renderTask]</code>
+                                    <span class="type">String</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Render task identifier</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[target=this]</code>
+                                    <span class="type"><a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Parent of a subgraph</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods extends">
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__drawCanvas">_drawCanvas</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__drawGl">_drawGl</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__extendWithGroupMethods">_extendWithGroupMethods</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__recurse">_recurse</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__recurseTask">_recurseTask</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__updateMembers">_updateMembers</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private inherited">
+                                <a href="#method__validateChild">_validateChild</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_addChild">addChild</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_addChildAfter">addChildAfter</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_addChildAt">addChildAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_addChildBefore">addChildBefore</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_addTag">addTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_callAll">callAll</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_childType">childType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_clear">clear</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_contains">contains</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_containsDescendant">containsDescendant</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_countDead">countDead</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_countLiving">countLiving</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_destroy">destroy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_drawCopy">drawCopy</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_drawCut">drawCut</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_forEach">forEach</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_forEachAlive">forEachAlive</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_getAllChildren">getAllChildren</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getChildAt">getChildAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getChildByID">getChildByID</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getChildByName">getChildByName</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getChildIndex">getChildIndex</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getChildrenByTag">getChildrenByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated inherited">
+                                <a href="#method_getFirstAlive">getFirstAlive</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getFirstChildByTag">getFirstChildByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated inherited">
+                                <a href="#method_getFirstDead">getFirstDead</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getLastChildByTag">getLastChildByTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_getRandom">getRandom</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_hasTag">hasTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_numChildren">numChildren</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_objType">objType</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeChild">removeChild</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_removeChildAt">removeChildAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeChildren">removeChildren</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated inherited">
+                                <a href="#method_removeFirstAlive">removeFirstAlive</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_removeTag">removeTag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public deprecated inherited">
+                                <a href="#method_render">render</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_replaceChild">replaceChild</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_setAll">setAll</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_setChildIndex">setChildIndex</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_swapChildren">swapChildren</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method public inherited">
+                                <a href="#method_swapChildrenAt">swapChildrenAt</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_update">update</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__active">_active</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__camMatrix">_camMatrix</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__dirty">_dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__exists">_exists</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__parent">_parent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tags">_tags</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__tempRemoveChildren">_tempRemoveChildren</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private inherited">
+                                <a href="#property__visible">_visible</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private deprecated inherited">
+                                <a href="#property__willRender">_willRender</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_active">active</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_anchorPointX">anchorPointX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_anchorPointY">anchorPointY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_camera">camera</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_components">components</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_dirty">dirty</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_exists">exists</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_game">game</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_id">id</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property inherited">
+                                <a href="#property_members">members</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_name">name</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_onState">onState</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_parent">parent</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_renderTask">renderTask</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_rotPointX">rotPointX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_rotPointY">rotPointY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_scale">scale</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_state">state</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_target">target</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_transform">transform</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_visible">visible</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public deprecated inherited">
+                                <a href="#property_willRender">willRender</a>
+
+                                
+                                
+                                    <span class="flag deprecated">deprecated</span>
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_worldX">worldX</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_worldY">worldY</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_x">x</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_y">y</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method__drawCanvas" class="method item protected">
+    <h3 class="name"><code>_drawCanvas</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l112"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:112</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Custom canvas draw behavior.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__drawGl" class="method item protected">
+    <h3 class="name"><code>_drawGl</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l174"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:174</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Custom WebGL draw behavior.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__extendWithGroupMethods" class="method item private">
+    <h3 class="name"><code>_extendWithGroupMethods</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l252"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:252</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Copy properties from <code>Kiwi.Group</code> to simulate multiple inheritance.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__recurse" class="method item private">
+    <h3 class="name"><code>_recurse</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l300"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:300</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Recursively render a subgraph. Used for canvas rendering.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child being checked</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__recurseTask" class="method item private">
+    <h3 class="name"><code>_recurseTask</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l324"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:324</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Recursively render a subgraph with Canvas.
+This variant of <code>_recurse</code> renders using <code>RenderTask</code> functions
+matching this <code>GroupBuffer</code>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child being checked</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__updateMembers" class="method item private">
+    <h3 class="name"><code>_updateMembers</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l371"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:371</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Trigger update for all members. Update does not propagate into
+<code>GroupBuffer</code> objects, because they&#39;re not explicitly groups.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__validateChild" class="method item private inherited">
+    <h3 class="name"><code>_validateChild</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method__validateChild">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l516"><code>src&#x2F;core&#x2F;Group.ts:516</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return whether a child may be added to this group.</p>
+<p>A child is disqualified if it:</p>
+<ul>
+<li>is a <code>State</code>, which may not have parents</li>
+<li>would be its own parent</li>
+<li>would be its own descendant</li>
+</ul>
+<p>If a child fails the check, its UUID will be logged.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">IChild</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to validate</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the child is validated</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addChild" class="method item public inherited">
+    <h3 class="name"><code>addChild</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_addChild">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l551"><code>src&#x2F;core&#x2F;Group.ts:551</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Add a child to this <code>Group</code>.</p>
+<p>The child must be valid to add.
+A valid child must be an <code>Entity</code> or <code>Group</code>.
+It cannot be a <code>State</code>.
+It cannot be this very <code>Group</code>, or an ancestor of it.</p>
+<p>The child will be removed from its current parents, if any.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to be added</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child to have been added</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addChildAfter" class="method item public inherited">
+    <h3 class="name"><code>addChildAfter</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>afterChild</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_addChildAfter">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l657"><code>src&#x2F;core&#x2F;Group.ts:657</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Add an Entity to this Group, just above another child.</p>
+<p>The child must be valid per the criteria in <code>addChild</code>.</p>
+<p>The child will be removed from its current parents, if any.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to be added</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">afterChild</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child after which to add the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child to have been added</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addChildAt" class="method item public inherited">
+    <h3 class="name"><code>addChildAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_addChildAt">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l588"><code>src&#x2F;core&#x2F;Group.ts:588</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Add a child to this Group, at the specific child index.
+Use this to place a child behind or in front of other objects
+in the scene graph.</p>
+<p>The child must be valid per the criteria in <code>addChild</code>.</p>
+<p>The child will be removed from its current parents, if any.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to be added</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index at which to insert the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child to have been added</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addChildBefore" class="method item public inherited">
+    <h3 class="name"><code>addChildBefore</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>beforeChild</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_addChildBefore">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l621"><code>src&#x2F;core&#x2F;Group.ts:621</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Add a child to this Group, just behind another child.</p>
+<p>The child must be valid per the criteria in <code>addChild</code>.</p>
+<p>The child will be removed from its current parents, if any.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to be added</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">beforeChild</code>
+                        <span class="type">Entity</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child before which to add the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child to have been added</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_addTag" class="method item public inherited">
+    <h3 class="name"><code>addTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_addTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1639"><code>src&#x2F;core&#x2F;Group.ts:1639</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Add a new tag to this <code>Group</code>.
+Useful for distinguishing between the same type of GameObject.</p>
+<p>You can pass multiple strings to add multiple tags.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tag to add</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_callAll" class="method item public inherited">
+    <h3 class="name"><code>callAll</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>componentName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>functionName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>args</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_callAll">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1360"><code>src&#x2F;core&#x2F;Group.ts:1360</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Call a function on every member. If <code>componentName</code> is <code>null</code>,
+the function is called on the child itself.
+Otherwise it is called on the named component.</p>
+<p>Uses runtime string property lookups.
+Not optimal for large groups if speed is an issue.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">componentName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the component to call
+    the function on. Set to <code>null</code> to call a function on the child.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">functionName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the function to call</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">args</code>
+                        <span class="type">Array</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Array of arguments to pass to the function</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_childType" class="method item public inherited">
+    <h3 class="name"><code>childType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_childType">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l64"><code>src&#x2F;core&#x2F;Group.ts:64</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the type of child that this is (<code>Kiwi.GROUP</code>).</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Kiwi.GROUP</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_clear" class="method item public inherited">
+    <h3 class="name"><code>clear</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_clear">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1544"><code>src&#x2F;core&#x2F;Group.ts:1544</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Clear all children from this Group.</p>
+<p>This maps to a default call to <code>removeChildren()</code>.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_contains" class="method item public inherited">
+    <h3 class="name"><code>contains</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_contains">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l433"><code>src&#x2F;core&#x2F;Group.ts:433</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Check whether the given entity is in this group.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">IChild</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>IChild to check</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether entity exists in group</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_containsDescendant" class="method item public inherited">
+    <h3 class="name"><code>containsDescendant</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_containsDescendant">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l447"><code>src&#x2F;core&#x2F;Group.ts:447</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Check whether the given entity is in this group,
+or one of this group&#39;s descendants.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>IChild to check</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_countDead" class="method item public inherited">
+    <h3 class="name"><code>countDead</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_countDead">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1522"><code>src&#x2F;core&#x2F;Group.ts:1522</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the number of members which have <code>exists=false</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Number of non-extant members</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_countLiving" class="method item public inherited">
+    <h3 class="name"><code>countLiving</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_countLiving">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1500"><code>src&#x2F;core&#x2F;Group.ts:1500</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the number of members which have <code>exists=true</code>.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Number of extant members</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_destroy" class="method item">
+    <h3 class="name"><code>destroy</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="../classes/Kiwi.Group.html#method_destroy">
+                Kiwi.Group
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l186"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:186</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Destroy the <code>GroupBuffer</code> and its own children.
+Hybrid of <code>Buffer</code> and <code>Group</code> destroy methods.</p>
+<p>Do not call this method. Use <code>exists = false</code> to ensure the entity
+is removed at the appropriate point during the game loop.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_drawCopy" class="method item">
+    <h3 class="name"><code>drawCopy</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>target</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l209"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:209</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Draw a copy of the target, using this <code>GroupBuffer</code>&#39;s camera.</p>
+<p>This is useful for capturing snapshots.</p>
+<p>The operation will temporarily set <code>this.target</code> to <code>target</code>,
+then call <code>drawImmediate()</code>.
+Ensure that <code>clearOnRender</code> and <code>redraw</code> are set appropriately.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/Kiwi.IChild.html" class="crosslink">Kiwi.IChild</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Entity to draw into the buffer.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_drawCut" class="method item">
+    <h3 class="name"><code>drawCut</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>target</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l232"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:232</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Draw the target, using this <code>GroupBuffer</code>&#39;s camera.
+The target is then deleted.</p>
+<p>This is useful for one-time renders, such as custom sprite sheets.</p>
+<p>The operation will temporarily set <code>this.target</code> to <code>target</code>,
+then call <code>drawImmediate()</code>.
+Ensure that <code>clearOnRender</code> and <code>redraw</code> are set appropriately.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Entity to draw into the buffer.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_forEach" class="method item public inherited">
+    <h3 class="name"><code>forEach</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>context</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_forEach">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1278"><code>src&#x2F;core&#x2F;Group.ts:1278</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Loop through each group member and run a method on each one.</p>
+<p>The callback method will receive each child as its first parameter,
+followed by any additional parameters provided to this method.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">context</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Execution context for callbacks</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Method to execute on each member</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                        <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
+                    
+
+                    <div class="param-description">
+                        <p>Any extra parameters</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_forEachAlive" class="method item public inherited">
+    <h3 class="name"><code>forEachAlive</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>context</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[params]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_forEachAlive">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1300"><code>src&#x2F;core&#x2F;Group.ts:1300</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Loop through each member of the group that exists.
+This is useful for avoiding just-deleted game objects.</p>
+<p>The callback method will receive each child as its first parameter,
+followed by any additional parameters provided to this method.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">context</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Execution context for callbacks</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Method to execute on each member</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[params]</code>
+                        <span class="type">Any</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                        <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
+                    
+
+                    <div class="param-description">
+                        <p>Any extra parameters</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_getAllChildren" class="method item inherited">
+    <h3 class="name"><code>getAllChildren</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[getGroups=true]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[destinationArray]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getAllChildren">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l811"><code>src&#x2F;core&#x2F;Group.ts:811</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Get all children of this Group.
+By default, this will search the entire sub-graph,
+including children of children etc.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[getGroups=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether to include Groups
+    in the results</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[destinationArray]</code>
+                        <span class="type">Array</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Array in which to store
+    the results</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getChildAt" class="method item public inherited">
+    <h3 class="name"><code>getChildAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getChildAt">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l841"><code>src&#x2F;core&#x2F;Group.ts:841</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get the child at a specific position in this Group by its index.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index of the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child if found, or <code>null</code> if not</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getChildByID" class="method item public inherited">
+    <h3 class="name"><code>getChildByID</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>id</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[recurse=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getChildByID">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l899"><code>src&#x2F;core&#x2F;Group.ts:899</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get a child from this Group by its UUID (<code>child.id</code>).
+By default this will not check sub-groups,
+but if you supply the <code>recurse</code> flag
+it will check the entire scene graph under this object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">id</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>UUID of the child.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[recurse=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether to search child groups</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child if found, or <code>null</code> if not</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getChildByName" class="method item public inherited">
+    <h3 class="name"><code>getChildByName</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[recurse=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getChildByName">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l862"><code>src&#x2F;core&#x2F;Group.ts:862</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Get a child from this Group by its name.
+By default this will not check sub-groups,
+but if you supply the <code>recurse</code> flag
+it will check the entire scene graph under this object.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[recurse=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether to search child groups</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child if found, or <code>null</code> if not</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getChildIndex" class="method item public inherited">
+    <h3 class="name"><code>getChildIndex</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getChildIndex">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l934"><code>src&#x2F;core&#x2F;Group.ts:934</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the index position of the child, or <code>-1</code> if not found.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to find</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Index of the child, or <code>-1</code> if not found.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getChildrenByTag" class="method item public inherited">
+    <h3 class="name"><code>getChildrenByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getChildrenByTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1031"><code>src&#x2F;core&#x2F;Group.ts:1031</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return an array of children containing a specified tag.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tag to check</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Array</span>:
+                    
+                    <p>List of children with that tag</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFirstAlive" class="method item public deprecated inherited">
+    <h3 class="name"><code>getFirstAlive</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">IChild</span>
+        </span>
+    
+
+    
+        <span class="flag deprecated" title="in v1.1.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getFirstAlive">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l949"><code>src&#x2F;core&#x2F;Group.ts:949</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: in v1.1.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the first child from this Group marked as <code>exists=true</code>,
+or <code>null</code> if no members are alive.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">IChild</span>:
+                    
+                    <p>First living child, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFirstChildByTag" class="method item public inherited">
+    <h3 class="name"><code>getFirstChildByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">IChild</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getFirstChildByTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1062"><code>src&#x2F;core&#x2F;Group.ts:1062</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return the first child containing a specified tag.
+This recursively searches within groups.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tag to check</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">IChild</span>:
+                    
+                    <p>Tagged child, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getFirstDead" class="method item public deprecated inherited">
+    <h3 class="name"><code>getFirstDead</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">IChild</span>
+        </span>
+    
+
+    
+        <span class="flag deprecated" title="in v1.1.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getFirstDead">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l970"><code>src&#x2F;core&#x2F;Group.ts:970</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: in v1.1.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the first member of the Group marked as <code>exists=false</code>.
+Returns <code>null</code> if all members are alive.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">IChild</span>:
+                    
+                    <p>First dead child, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getLastChildByTag" class="method item public inherited">
+    <h3 class="name"><code>getLastChildByTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">IChild</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getLastChildByTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1096"><code>src&#x2F;core&#x2F;Group.ts:1096</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.3.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return the last child containing the specified tag.
+This recursively searches within groups.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tag to check</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">IChild</span>:
+                    
+                    <p>Tagged child, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_getRandom" class="method item public inherited">
+    <h3 class="name"><code>getRandom</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[start=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[length=0]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_getRandom">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l994"><code>src&#x2F;core&#x2F;Group.ts:994</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return a member at random from the group.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[start=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Start of sequence to randomly sample</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[length=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Length of sequence to randomly sample.
+    If <code>0</code>, will sample to the end of the array.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child selected</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_hasTag" class="method item public inherited">
+    <h3 class="name"><code>hasTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_hasTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1682"><code>src&#x2F;core&#x2F;Group.ts:1682</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Return whether this <code>Group</code> has a specified tag.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tag to check</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_numChildren" class="method item public inherited">
+    <h3 class="name"><code>numChildren</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_numChildren">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l387"><code>src&#x2F;core&#x2F;Group.ts:387</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the total number of children in this Group.
+Note that this still counts children with <code>exists=false</code>,
+as they are only completely removed at the end of the frame.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Number of children in this Group</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_objType" class="method item public inherited">
+    <h3 class="name"><code>objType</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_objType">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l51"><code>src&#x2F;core&#x2F;Group.ts:51</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Return the type of this object.</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">String</span>:
+                    
+                    <p>&quot;Group&quot;</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeChild" class="method item public inherited">
+    <h3 class="name"><code>removeChild</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[destroy=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_removeChild">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l701"><code>src&#x2F;core&#x2F;Group.ts:701</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Remove a child from this Group.
+The child must be a member of this specific group.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to be removed</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[destroy=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether to destroy the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child that was removed</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeChildAt" class="method item inherited">
+    <h3 class="name"><code>removeChildAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_removeChildAt">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l730"><code>src&#x2F;core&#x2F;Group.ts:730</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Remove a child from this Group at a specific member index.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index of the child to be removed</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child removed, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeChildren" class="method item public inherited">
+    <h3 class="name"><code>removeChildren</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[begin=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[end=2147483647]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[destroy=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_removeChildren">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l755"><code>src&#x2F;core&#x2F;Group.ts:755</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Remove all children from this Group, within the given range.</p>
+<p>For example, <code>removeChildren( 3, 5 )</code> will remove children
+at member indices 3 and 4 (but not 5).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[begin=0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Beginning index</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[end=2147483647]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Last index of the range</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[destroy=false]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether to destroy children</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Number</span>:
+                    
+                    <p>Number of removed entities</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeFirstAlive" class="method item public deprecated inherited">
+    <h3 class="name"><code>removeFirstAlive</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code class="optional">[destroy=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+        <span class="flag deprecated" title="in v1.1.0">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_removeFirstAlive">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l786"><code>src&#x2F;core&#x2F;Group.ts:786</code></a>
+        
+        </p>
+
+
+        
+            <p>Deprecated: in v1.1.0</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Remove the first child from this Group marked as <code>alive</code>.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[destroy=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Whether to destroy the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>Child removed, or <code>null</code></p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_removeTag" class="method item public inherited">
+    <h3 class="name"><code>removeTag</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_removeTag">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1662"><code>src&#x2F;core&#x2F;Group.ts:1662</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Remove a Tag from this <code>Group</code>, if it is present.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Tag to remove</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_render" class="method item public deprecated inherited">
+    <h3 class="name"><code>render</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>camera</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+        <span class="flag deprecated">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_render">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1484"><code>src&#x2F;core&#x2F;Group.ts:1484</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Render method that is required by the IChild.</p>
+<p>This method never gets called,
+as the renderer is only worried about rendering entities.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">camera</code>
+                        <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Currently rendering camera</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_replaceChild" class="method item public inherited">
+    <h3 class="name"><code>replaceChild</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>oldChild</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>newChild</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_replaceChild">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1246"><code>src&#x2F;core&#x2F;Group.ts:1246</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Replace a child in this Group with a new one.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">oldChild</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child in this Group to be removed</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">newChild</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to insert at old child&#39;s position</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether child was replaced successfully</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_setAll" class="method item public inherited">
+    <h3 class="name"><code>setAll</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>componentName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>property</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_setAll">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1328"><code>src&#x2F;core&#x2F;Group.ts:1328</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Set a property on every member. If <code>componentName</code> is <code>null</code>,
+the property is set on the child itself.
+Otherwise it is set on the named component.</p>
+<p>Uses runtime string property lookups.
+Not optimal for large groups if speed is an issue.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">componentName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the component to set
+    the property on. Set to <code>null</code> to set a property on the child.</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">property</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the property to set</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Any</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Value to which to set the property</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_setChildIndex" class="method item public inherited">
+    <h3 class="name"><code>setChildIndex</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_setChildIndex">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1138"><code>src&#x2F;core&#x2F;Group.ts:1138</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Move a child to a new depth index within the <code>Group</code>.</p>
+<p>This method will fail if the child is not a child of this group,
+or if it is already at the specified index.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Child to change</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index to which to send the child</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the child was successfully moved</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_swapChildren" class="method item public inherited">
+    <h3 class="name"><code>swapChildren</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>child1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>child2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_swapChildren">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1170"><code>src&#x2F;core&#x2F;Group.ts:1170</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Swap the position of two existing direct children of this <code>Group</code>.</p>
+<p>This method will fail if either child is not a child of this group,
+or if they are at the same index (i.e. they are the same object).</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">child1</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>First child to swap</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">child2</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Second child to swap</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the children were successfully swapped</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_swapChildrenAt" class="method item public inherited">
+    <h3 class="name"><code>swapChildrenAt</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>index1</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>index2</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#method_swapChildrenAt">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1207"><code>src&#x2F;core&#x2F;Group.ts:1207</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Swap the position of two existing children of the Group,
+based on their member indices.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">index1</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index of the first child to swap</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">index2</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index of the second child to swap</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether children were swapped successfully</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_update" class="method item">
+    <h3 class="name"><code>update</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="../classes/Kiwi.Group.html#method_update">
+                Kiwi.Group
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l360"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:360</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Override default method.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property__active" class="property item private inherited">
+    <h3 class="name"><code>_active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__active">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1456"><code>src&#x2F;core&#x2F;Group.ts:1456</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the <code>Group</code> is active. An active IChild will have <code>update</code>
+called by its parent.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__camMatrix" class="property item private">
+    <h3 class="name"><code>_camMatrix</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Matrix.html" class="crosslink">Kiwi.Geom.Matrix</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l73"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:73</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Temporary scratch matrix used to compute canvas camera transforms.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__dirty" class="property item private inherited">
+    <h3 class="name"><code>_dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__dirty">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l400"><code>src&#x2F;core&#x2F;Group.ts:400</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether this group is &quot;dirty&quot; and thus needs to be re-rendered
+in some way.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__exists" class="property item private inherited">
+    <h3 class="name"><code>_exists</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__exists">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1429"><code>src&#x2F;core&#x2F;Group.ts:1429</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the <code>Group</code> exists. If an <code>IChild</code> no longer exists,
+it is cleared for garbage collection or pool re-allocation.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__parent" class="property item private inherited">
+    <h3 class="name"><code>_parent</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__parent">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l97"><code>src&#x2F;core&#x2F;Group.ts:97</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Parent group of this group.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tags" class="property item private inherited">
+    <h3 class="name"><code>_tags</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__tags">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1622"><code>src&#x2F;core&#x2F;Group.ts:1622</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Tags that are on this Entity.
+This can be used to grab GameObjects or Groups on the whole game
+which have these particular tags.</p>
+<p>By default there are no tags.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> []</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__tempRemoveChildren" class="property item private inherited">
+    <h3 class="name"><code>_tempRemoveChildren</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__tempRemoveChildren">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1763"><code>src&#x2F;core&#x2F;Group.ts:1763</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether the group&#39;s children should be destroyed</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> null</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__visible" class="property item private inherited">
+    <h3 class="name"><code>_visible</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__visible">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1581"><code>src&#x2F;core&#x2F;Group.ts:1581</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.0.1</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Whether this is visible or not.
+Note that groups do not have alpha,
+so this is the only way to control visibility.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__willRender" class="property item private deprecated inherited">
+    <h3 class="name"><code>_willRender</code></h3>
+    <span class="type">Boolean</span>
+
+    
+        <span class="flag deprecated" title="Use _visible instead">deprecated</span>
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property__willRender">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1556"><code>src&#x2F;core&#x2F;Group.ts:1556</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use _visible instead</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Controls whether render is automatically called by the parent</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_active" class="property item public inherited">
+    <h3 class="name"><code>active</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_active">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1467"><code>src&#x2F;core&#x2F;Group.ts:1467</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Toggles the active state of this Entity. An Entity that is active has its update method called by its parent.
+This method should be over-ridden to handle specific dom/canvas/webgl implementations.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_anchorPointX" class="property item public inherited">
+    <h3 class="name"><code>anchorPointX</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_anchorPointX">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l304"><code>src&#x2F;core&#x2F;Group.ts:304</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Anchor point offset of this group in the X axis.
+This is just aliased to the <code>transform</code> property,
+and is in turn an alias of rotPointX.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_anchorPointY" class="property item public inherited">
+    <h3 class="name"><code>anchorPointY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_anchorPointY">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l321"><code>src&#x2F;core&#x2F;Group.ts:321</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>The anchor point offset of this group in the Y axis.
+This is just aliased to the <code>transform</code> property,
+and is in turn an alias of rotPointY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_camera" class="property item">
+    <h3 class="name"><code>camera</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Camera.html" class="crosslink">Kiwi.Camera</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l61"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:61</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Camera to use. This describes the buffer&#39;s view into the scene.</p>
+<p>Defaults to a new camera. This is not created using
+<code>game.cameras.create</code>, because that would add it to the regular
+render pipeline.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_components" class="property item public inherited">
+    <h3 class="name"><code>components</code></h3>
+    <span class="type"><a href="../classes/Kiwi.ComponentManager.html" class="crosslink">Kiwi.ComponentManager</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_components">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l338"><code>src&#x2F;core&#x2F;Group.ts:338</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Component manager; automatically updates every frame</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_dirty" class="property item public inherited">
+    <h3 class="name"><code>dirty</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_dirty">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l410"><code>src&#x2F;core&#x2F;Group.ts:410</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Dirtiness of the Group and all its children.
+Setting this will update dirtiness of children immediately.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_exists" class="property item public inherited">
+    <h3 class="name"><code>exists</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_exists">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1439"><code>src&#x2F;core&#x2F;Group.ts:1439</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Toggles the existence of this <code>Group</code>.
+An <code>IChild</code> that no longer exists can be garbage collected
+or re-allocated in a pool.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_game" class="property item public inherited">
+    <h3 class="name"><code>game</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_game">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l347"><code>src&#x2F;core&#x2F;Group.ts:347</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Game to which this Group belongs</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_id" class="property item public inherited">
+    <h3 class="name"><code>id</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_id">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l365"><code>src&#x2F;core&#x2F;Group.ts:365</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Unique identifier for this Group within the game,
+used internally by the framework.
+See the <code>name</code> property for a friendly version.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_members" class="property item">
+    <h3 class="name"><code>members</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="../classes/Kiwi.Group.html#property_members">
+                Kiwi.Group
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l81"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:81</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Collection of children belonging to this <code>GroupBuffer</code></p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> []</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item public inherited">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_name">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l75"><code>src&#x2F;core&#x2F;Group.ts:75</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Name for this Group. This is not checked for uniqueness
+within the game, but is very useful for debugging.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_onState" class="property item public inherited">
+    <h3 class="name"><code>onState</code></h3>
+    <span class="type">Unknown</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_onState">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l132"><code>src&#x2F;core&#x2F;Group.ts:132</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.4.1</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Indicates whether or not this entity is attached to the state.</p>
+<p>NOTE: This was implemented in 1.4.1
+but is not officially supported until 1.5.0.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_parent" class="property item public inherited">
+    <h3 class="name"><code>parent</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Group.html" class="crosslink">Kiwi.Group</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_parent">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l106"><code>src&#x2F;core&#x2F;Group.ts:106</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Parent of this group.</p>
+<p>Do not alter this property directly.
+If you want to change this group&#39;s position in the scene hierarchy,
+use <code>addChild</code> and related methods.
+If you do set <code>parent</code>, it may result in unexpected behavior.</p>
+<p>Note that this also sets <code>transform.parent</code> of this entity
+to be the passed group&#39;s transform.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_renderTask" class="property item">
+    <h3 class="name"><code>renderTask</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l89"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:89</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Render task identification key. If specified, the <code>GroupBuffer</code>
+will only render entities with that <code>RenderTask</code>. If not specified,
+the <code>GroupBuffer</code> will use the default render method.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> undefined</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_rotPointX" class="property item public inherited">
+    <h3 class="name"><code>rotPointX</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_rotPointX">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l272"><code>src&#x2F;core&#x2F;Group.ts:272</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Rotation offset of this group in the X axis.
+This is just aliased to the <code>transform</code> property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_rotPointY" class="property item public inherited">
+    <h3 class="name"><code>rotPointY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_rotPointY">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l288"><code>src&#x2F;core&#x2F;Group.ts:288</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Rotation offset of this group in the Y axis.
+This is just aliased to the <code>transform</code> property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_scale" class="property item public inherited">
+    <h3 class="name"><code>scale</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_scale">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l243"><code>src&#x2F;core&#x2F;Group.ts:243</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Scale of this group.
+This is just aliased to the <code>transform</code> property.
+This is WRITE-ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_state" class="property item public inherited">
+    <h3 class="name"><code>state</code></h3>
+    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_state">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l356"><code>src&#x2F;core&#x2F;Group.ts:356</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>State to which this Group belongs</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_target" class="property item">
+    <h3 class="name"><code>target</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_gameobjects_group-buffer.ts.html#l100"><code>src&#x2F;gameobjects&#x2F;group-buffer.ts:100</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Target parent of a subgraph.
+The <code>GroupBuffer</code> will render that subgraph.
+By default, the <code>GroupBuffer</code> has its own children.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> this</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_transform" class="property item public inherited">
+    <h3 class="name"><code>transform</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Geom.Transform.html" class="crosslink">Kiwi.Geom.Transform</a></span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_transform">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l86"><code>src&#x2F;core&#x2F;Group.ts:86</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transform object for this group.
+Transform handles the calculation of coordinates/rotation/scale etc
+in the game world.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_visible" class="property item public inherited">
+    <h3 class="name"><code>visible</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_visible">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1594"><code>src&#x2F;core&#x2F;Group.ts:1594</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.0.1</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Whether this is visible or not.
+Note that groups do not have alpha,
+so this is the only way to control visibility.</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> true</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_willRender" class="property item public deprecated inherited">
+    <h3 class="name"><code>willRender</code></h3>
+    <span class="type">Boolean</span>
+
+    
+        <span class="flag deprecated" title="Use visible instead">deprecated</span>
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_willRender">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l1566"><code>src&#x2F;core&#x2F;Group.ts:1566</code></a>
+        
+        </p>
+
+        
+            <p>Deprecated: Use visible instead</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Controls whether render is automatically called by the parent</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_worldX" class="property item public inherited">
+    <h3 class="name"><code>worldX</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_worldX">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l183"><code>src&#x2F;core&#x2F;Group.ts:183</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Horizontal coordinate of this group in world space;
+that is, after parent transforms.
+This is just aliased to the <code>transform</code> property.
+This is READ-ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_worldY" class="property item public inherited">
+    <h3 class="name"><code>worldY</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_worldY">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l198"><code>src&#x2F;core&#x2F;Group.ts:198</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Vertical coordinate of this group in world space;
+that is, after parent transforms.
+This is just aliased to the <code>transform</code> property.
+This is READ-ONLY.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_x" class="property item public inherited">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_x">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l153"><code>src&#x2F;core&#x2F;Group.ts:153</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Horizontal coordinate of this group.
+This is just aliased to the <code>transform</code> property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_y" class="property item public inherited">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Group.html#property_y">Kiwi.Group</a>:
+            
+        
+        
+        <a href="../files/src_core_Group.ts.html#l168"><code>src&#x2F;core&#x2F;Group.ts:168</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Vertical coordinate of this group.
+This is just aliased to the <code>transform</code> property.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

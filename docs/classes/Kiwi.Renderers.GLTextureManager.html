@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.5.0-beta1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,36 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -70,6 +100,8 @@
                 <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
             
                 <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
             
@@ -281,11 +313,15 @@
             
                 <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -322,8 +358,6 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
-            
-                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -521,6 +555,13 @@ and memory management</p>
                         
                             <li class="index-item method private">
                                 <a href="#method__uploadTexture">_uploadTexture</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_addTextureToCache">addTextureToCache</a>
 
                                 
                                 
@@ -790,7 +831,7 @@ and memory management</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l130"><code>src&#x2F;render&#x2F;GLTextureManager.ts:130</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l141"><code>src&#x2F;render&#x2F;GLTextureManager.ts:141</code></a>
         
         </p>
 
@@ -905,7 +946,7 @@ and memory management</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l382"><code>src&#x2F;render&#x2F;GLTextureManager.ts:382</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l408"><code>src&#x2F;render&#x2F;GLTextureManager.ts:408</code></a>
         
         </p>
 
@@ -1034,7 +1075,7 @@ Previous versions used a different memory freeing algorithm.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l108"><code>src&#x2F;render&#x2F;GLTextureManager.ts:108</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l119"><code>src&#x2F;render&#x2F;GLTextureManager.ts:119</code></a>
         
         </p>
 
@@ -1136,7 +1177,7 @@ Previous versions used a different memory freeing algorithm.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l146"><code>src&#x2F;render&#x2F;GLTextureManager.ts:146</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l157"><code>src&#x2F;render&#x2F;GLTextureManager.ts:157</code></a>
         
         </p>
 
@@ -1209,6 +1250,96 @@ Previous versions used a different memory freeing algorithm.</p>
 </div>
 
                 
+                    <div id="method_addTextureToCache" class="method item">
+    <h3 class="name"><code>addTextureToCache</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>glTexture</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLTextureManager.ts.html#l107"><code>src&#x2F;render&#x2F;GLTextureManager.ts:107</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.5.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Add a texture wrapper to the cache. Wraps a private function.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">glTexture</code>
+                        <span class="type">GLTextureWrapper</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_clearTextures" class="method item public">
     <h3 class="name"><code>clearTextures</code></h3>
 
@@ -1253,7 +1384,7 @@ Previous versions used a different memory freeing algorithm.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l244"><code>src&#x2F;render&#x2F;GLTextureManager.ts:244</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l263"><code>src&#x2F;render&#x2F;GLTextureManager.ts:263</code></a>
         
         </p>
 
@@ -1343,7 +1474,7 @@ Previous versions used a different memory freeing algorithm.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l266"><code>src&#x2F;render&#x2F;GLTextureManager.ts:266</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l285"><code>src&#x2F;render&#x2F;GLTextureManager.ts:285</code></a>
         
         </p>
 
@@ -1442,7 +1573,7 @@ Global assets remain untouched.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l316"><code>src&#x2F;render&#x2F;GLTextureManager.ts:316</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l335"><code>src&#x2F;render&#x2F;GLTextureManager.ts:335</code></a>
         
         </p>
 
@@ -1555,7 +1686,7 @@ Global assets remain untouched.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l218"><code>src&#x2F;render&#x2F;GLTextureManager.ts:218</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l237"><code>src&#x2F;render&#x2F;GLTextureManager.ts:237</code></a>
         
         </p>
 
@@ -1670,7 +1801,7 @@ and attempts to upload the attached texture to video memory.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l301"><code>src&#x2F;render&#x2F;GLTextureManager.ts:301</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l320"><code>src&#x2F;render&#x2F;GLTextureManager.ts:320</code></a>
         
         </p>
 
@@ -1783,7 +1914,7 @@ and attempts to upload the attached texture to video memory.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l204"><code>src&#x2F;render&#x2F;GLTextureManager.ts:204</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l223"><code>src&#x2F;render&#x2F;GLTextureManager.ts:223</code></a>
         
         </p>
 
@@ -1894,7 +2025,7 @@ and attempts to upload the attached texture to video memory.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l172"><code>src&#x2F;render&#x2F;GLTextureManager.ts:172</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l191"><code>src&#x2F;render&#x2F;GLTextureManager.ts:191</code></a>
         
         </p>
 
@@ -1986,7 +2117,7 @@ and attempts to upload the attached texture to video memory.</p>
 
     
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type">Boolean</span>
         </span>
     
 
@@ -2015,7 +2146,7 @@ and attempts to upload the attached texture to video memory.</p>
             
         
         
-        <a href="../files/src_render_GLTextureManager.ts.html#l331"><code>src&#x2F;render&#x2F;GLTextureManager.ts:331</code></a>
+        <a href="../files/src_render_GLTextureManager.ts.html#l350"><code>src&#x2F;render&#x2F;GLTextureManager.ts:350</code></a>
         
         </p>
 
@@ -2098,7 +2229,9 @@ and attempts to upload the attached texture to video memory.</p>
             <div class="returns-description">
                 
                     
-                    <p>boolean</p>
+                        <span class="type">Boolean</span>:
+                    
+                    <p>Whether the texture was successfully used</p>
 
                 
             </div>

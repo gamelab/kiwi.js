@@ -1,286 +1,342 @@
 /**
-*
-* @module Kiwi
-*
-*/
+@module Kiwi
+**/
 declare module Kiwi {
     /**
-    * The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.
-    *
-    * @class Game
-    * @namespace Kiwi
-    * @constructor
-    * @param [domParent=''] {String} The ID of a DOM element that the game should use as its 'container'. If you are targeting Cocoon then you don't need to worry about this and can leave it blank.
-    * @param [name='KiwiGame'] {String} The name of the game that is being created.
-    * @param [state=null] {Any} The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.
-    * @param [options] {Object} Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON
-    *   @param [options.debug=Kiwi.DEBUG_ON] {Number} If debugging is enabled or not.
-    *   @param [options.bootCallback=null] {Function} A callback to be executed when the game reaches the boot stage.
-    *   @param [options.deviceTarget=Kiwi.TARGET_BROWSER] {Number} The type of device Kiwi is being used on.
-    *   @param [options.renderer=Kiwi.RENDERER_AUTO] {Number} The renderer Kiwi should use.
-    *   @param [options.width=Kiwi.Stage.DEFAULT_WIDTH] {Number} The width of this instance of Kiwi.
-    *   @param [options.height=Kiwi.Stage.DEFAULT_HEIGHT] {Number} The height of this instance of Kiwi.
-    *   @param [options.scaleType=Kiwi.Stage.SCALE_NONE] {Number} The type of scaling that should be applied to Kiwi.
-    *   @param [options.plugins=[]] {Array} A list of the names of plugins that are to be used with this game.
-    *   @param [options.log] {Object} Default state of the Log properties
-    *       @param [options.log.recording=true] {Boolean} If the logs should be recorded.
-    *       @param [options.log.display=true] {Boolean} If the logs should be displayed or not.
-    *       @param [options.log.enabled=true] {Boolean} If the Logger is enabled at all.
-    *       @param [options.log.maxRecordings=Infinity] {Number} The maximum number of recordings to have at a single time.
-    * @return {Kiwi.Game}
-    *
-    */
+    The base class that is used when you create a new Game.
+    Handles the initialisation of all of the various individual game managers
+    and holds the RAF (RequestAnimationFrame object) used for the game loop.
+
+    @class Game
+    @namespace Kiwi
+    @constructor
+    @param [domParent=""] {string} ID of a DOM element that the game
+        should use as its `container`. If you are targeting Cocoon
+        then you don't need to worry about this and can leave it blank.
+    @param [name="KiwiGame"] {string} Name of the game that is being created
+    @param [state=null] {Any} State to load initially.
+        This is preferably the state object, but can be its string name.
+    @param [options] {object} Any special options for the game
+        @param [options.debug=Kiwi.DEBUG_ON] {number} Whether debugging
+            is enabled
+        @param [options.bootCallback=null] {function} Callback to be executed
+            when the game reaches the boot stage
+        @param [options.deviceTarget=Kiwi.TARGET_BROWSER] {number} Type of
+            device Kiwi is being used on. Values include `Kiwi.TARGET_BROWSER`
+            and `Kiwi.TARGET_COCOON`.
+        @param [options.renderer=Kiwi.RENDERER_AUTO] {number} Renderer Kiwi
+            should use. Values include `Kiwi.RENDERER_AUTO`, `Kiwi.RENDERER_CANVAS`, and `Kiwi.RENDERER_WEBGL`.
+        @param [options.width=Kiwi.Stage.DEFAULT_WIDTH] {number} Width of
+            this instance of Kiwi
+        @param [options.height=Kiwi.Stage.DEFAULT_HEIGHT] {number} Height of
+            this instance of Kiwi
+        @param [options.scaleType=Kiwi.Stage.SCALE_NONE] {number} Type of
+            scaling that should be applied to the game. See `Kiwi.Stage`.
+        @param [options.plugins=[]] {array} List of the names of plugins
+            that are to be used with this game
+        @param [options.log] {object} Default state of the Log properties
+            @param [options.log.recording=true] {boolean} Whether logs
+                should be recorded
+            @param [options.log.display=true] {boolean} Whether logs
+                should be displayed
+            @param [options.log.enabled=true] {boolean} Whether logger
+                is enabled at all
+            @param [options.log.maxRecordings=Infinity] {number} Maximum
+                number of recordings to have at a single time
+    **/
     class Game {
         constructor(domParent?: string, name?: string, state?: any, options?: any);
         /**
-        * The render mode of the game. This will be either set to CANVAS or WEBGL.
-        * @property _renderOption
-        * @type number
-        * @private
-        */
+        Render mode of the game. This will be either set to CANVAS or WEBGL.
+
+        @property _renderOption
+        @type number
+        @private
+        **/
         private _renderOption;
         /**
-        * Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.
-        * @property renderOption
-        * @type number
-        * @public
-        */
+        Render mode of the game, decided once the game initialises. READ ONLY.
+
+        @property renderOption
+        @type number
+        @public
+        **/
         renderOption: number;
         /**
-        * A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.
-        * @property bootCallbackOption
-        * @type Function
-        * @private
-        */
+        Callback function that can be passed in as an option
+        in the configuration object.
+        Invoked after the boot process has completed.
+
+        @property bootCallbackOption
+        @type function
+        @private
+        **/
         bootCallbackOption: Function;
         /**
-        * The type of device that you are targeting. This is either set to COCOON or BROWSER
-        * @property _deviceTargetOption
-        * @type number
-        * @private
-        */
+        Type of device that you are targeting.
+        This is either set to COCOON or BROWSER.
+
+        @property _deviceTargetOption
+        @type number
+        @private
+        **/
         private _deviceTargetOption;
         /**
-        * Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.
-        * @property deviceTargetOption
-        * @type number
-        * @public
-        */
+        Returns the device target option for the game.
+        This is READ ONLY and is decided once the game gets initialised.
+
+        @property deviceTargetOption
+        @type number
+        @public
+        **/
         deviceTargetOption: number;
         /**
-        * If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
-        * This gets set to either DEBUG_ON or DEBUG_OFF
-        * @property _debugOption
-        * @type number
-        * @private
-        */
+        If when rendering, the game should render a new CANVAS which is
+        above everything. This new canvas is for debugging purposes only.
+        This gets set to either DEBUG_ON or DEBUG_OFF
+
+        @property _debugOption
+        @type number
+        @private
+        **/
         private _debugOption;
         /**
-        * Returns the debug option. This is READ ONLY and is decided once the game gets initialised.
-        * @property debugOption
-        * @type number
-        * @public
-        */
+        Debug option, decided once the game gets initialised. READ ONLY.
+
+        @property debugOption
+        @type number
+        @public
+        **/
         debugOption: number;
         /**
-        * Returns true if debug option is set to Kiwi.DEBUG_ON
-        * @property debug
-        * @type boolean
-        * @public
-        */
+        Whether debug option is set to `Kiwi.DEBUG_ON`
+
+        @property debug
+        @type boolean
+        @public
+        **/
         debug: boolean;
         /**
-        * Holds the renderer that is being used. This is determined based on the _renderMode
-        * @property renderer
-        * @type IRenderManager
-        * @public
-        */
+        Renderer that is being used, based on the `_renderMode`
+
+        @property renderer
+        @type IRenderManager
+        @public
+        **/
         renderer: IRenderManager;
         /**
-        * Holds the hud manager.
-        * @property huds
-        * @type HUDManager
-        * @public
-        */
+        HUD manager
+
+        @property huds
+        @type HUDManager
+        @public
+        **/
         huds: Kiwi.HUD.HUDManager;
-        /**
-        * The type of object that the game is.
-        * @method objType
-        * @return {String} "Game"
-        * @public
-        */
         objType(): string;
         /**
-        * The object that peforms DOM and device startup operations for browsers (ie not cocoon)
-        * @property _startup
-        * @type Kiwi.System.Bootstrap
-        * @private
-        */
+        Performs DOM and device startup operations for browsers (not Cocoon)
+
+        @property _startup
+        @type Kiwi.System.Bootstrap
+        @private
+        **/
         private _startup;
+        /**
+        Unique id for the game
+
+        @property id
+        @type number
+        @public
+        **/
         id: number;
         /**
-        * The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.
-        * @property audio
-        * @type Kiwi.Sound.AudioManager
-        * @public
-        */
+        Audio manager that handles all of the audio in game.
+        Inside you can globally mute the audio, create new sounds, etc.
+
+        @property audio
+        @type Kiwi.Sound.AudioManager
+        @public
+        **/
         audio: Kiwi.Sound.AudioManager;
         /**
-        * The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.
-        * @property fileStore
-        * @type Kiwi.Files.FileStore
-        * @public
-        */
+        Global file store for this game. This handles the storage
+        and access of information loaded,
+        as well as tags that maybe set for them individual files.
+
+        @property fileStore
+        @type Kiwi.Files.FileStore
+        @public
+        **/
         fileStore: Kiwi.Files.FileStore;
         /**
-        * Handles any user input with the game. These could via the users keyboard, mouse or touch events.
-        * @property input
-        * @type Kiwi.Input.InputManager
-        * @public
-        */
+        Handles user input with the game, e.g. keyboard, mouse or touch events
+
+        @property input
+        @type Kiwi.Input.InputManager
+        @public
+        **/
         input: Kiwi.Input.InputManager;
         /**
-        * Manages the cameras the are on the stage. Single default Camera only in this version.
-        * @property cameras
-        * @type Kiwi.CameraManager
-        * @public
-        */
+        Manages the cameras the are on the stage
+
+        @property cameras
+        @type Kiwi.CameraManager
+        @public
+        **/
         cameras: Kiwi.CameraManager;
         /**
-        * Manages plugins registration and initialisation for the game instance.
-        * @property pluginManager
-        * @type Kiwi.PluginManager
-        * @public
-        */
+        Manages plugins registration and initialisation for the game instance
+
+        @property pluginManager
+        @type Kiwi.PluginManager
+        @public
+        **/
         pluginManager: Kiwi.PluginManager;
         /**
-        * Loads files from outside sources and checks to see that they have loaded correctly or not.
-        * @property loader
-        * @type Kiwi.Files.Loader
-        * @public
-        */
+        Loads files from outside sources
+        and checks to see that they have loaded correctly or not.
+
+        @property loader
+        @type Kiwi.Files.Loader
+        @public
+        **/
         loader: Kiwi.Files.Loader;
         /**
-        * The Request Animation Frame that is being used for the update and render loops.
-        * @property raf
-        * @type Kiwi.Utils.RequestAnimationFrame
-        * @public
-        */
+        `RequestAnimationFrame` used for the update and render loops
+
+        @property raf
+        @type Kiwi.Utils.RequestAnimationFrame
+        @public
+        **/
         raf: Kiwi.Utils.RequestAnimationFrame;
         /**
-        * The ONLY stage that is being used for this game.
-        * @property stage
-        * @type Stage
-        * @public
-        */
+        The ONLY stage that is being used for this game.
+
+        @property stage
+        @type Stage
+        @public
+        **/
         stage: Kiwi.Stage;
         /**
-        * Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.
-        * @property states
-        * @type Kiwi.StateManager
-        * @public
-        */
+        Manages all of the states that exist for this game.
+        Via the manager you can create new states,
+        switch states and do various other tasks.
+
+        @property states
+        @type Kiwi.StateManager
+        @public
+        **/
         states: Kiwi.StateManager;
         /**
-        * Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.
-        * @property time
-        * @type Kiwi.Time.ClockManager
-        * @public
-        */
+        Holds a reference to the clocks that are being used
+        and has a `master` clock that is being used for the game.
+
+        @property time
+        @type Kiwi.Time.ClockManager
+        @public
+        **/
         time: Kiwi.Time.ClockManager;
         /**
-        * The tween manager holds a reference to all of the tweens that are created and currently being used.
-        * @property tweens
-        * @type Kiwi.Animations.Tweens.TweenManager
-        * @public
-        */
+        Tween manager used to create and run all global tweens
+
+        @property tweens
+        @type Kiwi.Animations.Tweens.TweenManager
+        @public
+        **/
         tweens: Kiwi.Animations.Tweens.TweenManager;
         /**
-        * A Random Data Generator. This is useful for create unique ids and random information.
-        * @property rnd
-        * @type Kiwi.Utils.RandomDataGenerato
-        * @public
-        */
+        Random Data Generator used to create unique ids and random information
+
+        @property rnd
+        @type Kiwi.Utils.RandomDataGenerator
+        @public
+        **/
         rnd: Kiwi.Utils.RandomDataGenerator;
         /**
-        * The framerate at which the game will update at.
-        * @property _framerate
-        * @type Number
-        * @default 60
-        * @private
-        */
+        Framerate at which the game will update
+
+        @property _framerate
+        @type number
+        @default 60
+        @private
+        **/
         private _frameRate;
         /**
-        * The interval between frames.
-        * @property _interval
-        * @type Number
-        * @default 1000/60
-        * @private
-        */
+        Interval between frames in milliseconds
+
+        @property _interval
+        @type number
+        @default 1000/60
+        @private
+        **/
         private _interval;
         /**
-        * The current interval between frames.
-        * @property _delta
-        * @type number
-        * @private
-        */
+        Current interval between frames
+
+        @property _delta
+        @type number
+        @private
+        **/
         private _delta;
         /**
-        * The last time the game was updated
-        * @property _lastTime
-        * @type number
-        * @private
-        */
+        Last time the game was updated
+
+        @property _lastTime
+        @type number
+        @private
+        **/
         private _lastTime;
         /**
-        * The number of frames since the game was launched.
-        * @property _frame
-        * @type number
-        * @private
-        * @since 1.1.0
-        */
+        Number of frames since the game was launched
+
+        @property _frame
+        @type number
+        @private
+        @since 1.1.0
+        **/
         private _frame;
         /**
-        * The number of frames since the game was launched.
-        *
-        * Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.
-        *
-        * The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.
-        * @property frame
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Number of frames since the game was launched.
+
+        Use this to drive cyclic animations.
+        However, `idealFrame` is a smoother alternative.
+
+        You may manually reset it in a `Kiwi.State.create()` function
+        to restart the count from 0.
+
+        The largest exact integer value of a JavaScript number is 2^53,
+        or 9007199254740992. At 60 frames per second,
+        this will take 4,760,273 years to become inaccurate.
+
+        @property frame
+        @type number
+        @public
+        @since 1.1.0
+        **/
         frame: number;
         /**
-        * The number of ideal frames since the game was launched.
-        *
-        * Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.
-        * @property idealFrame
-        * @type number
-        * @public
-        * @since 1.1.0
-        */
+        Number of ideal frames since the game was launched.
+
+        Use this to drive cyclic animations.
+        This will be smoother than using the frame parameter.
+        It is derived from the total time elapsed since the game launched.
+
+        @property idealFrame
+        @type number
+        @public
+        @since 1.1.0
+        **/
         idealFrame: number;
         /**
-        * The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.
-        * @property frameRate
-        * @return string
-        * @public
-        */
+        The current frameRate that the update/render loops are running at.
+        Note that this may not be an  accurate representation.
+
+        @property frameRate
+        @return string
+        @public
+        **/
         frameRate: number;
-        /**
-        * The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
-        * Once the managers have started up the start loop will then begin to create the game loop.
-        * @method start
-        * @private
-        */
         private _start();
-        /**
-        * The game loop.
-        * @method _loop
-        * @private
-        */
         private _loop();
     }
 }
@@ -307,7 +363,7 @@ declare module Kiwi {
         @param height {number} Initial height of the game
         @param scaleType {number} Scale method to use. May be
             `Kiwi.Stage.SCALE_NONE`, `Kiwi.Stage.SCALE_STRETCH`,
-            or `Kiwi.Stage.SCALE_FIT`.
+            `Kiwi.Stage.SCALE_FIT`, or `Kiwi.Stage.SCALE_FIT_INSIDE`.
         @return {Kiwi.Stage}
         **/
         constructor(game: Kiwi.Game, name: string, width: number, height: number, scaleType: number);
@@ -372,6 +428,20 @@ declare module Kiwi {
         @static
         **/
         static SCALE_STRETCH: number;
+        /**
+        SCALE_FIT_INSIDE will scale the stage to fit its parent.
+        The stage will maintain aspect ratio and touch either the top/bottom
+        or the sides of the container (or both), without going outside.
+        This is exactly like the CocoonJS implementation of SCALE_FIT.
+
+        @property SCALE_FIT_INSIDE
+        @type number
+        @default 3
+        @public
+        @static
+        @since 1.5.0
+        **/
+        static SCALE_FIT_INSIDE: number;
         /**
         Scaling method that should be applied to the container element
 
@@ -1777,11 +1847,23 @@ declare module Kiwi {
     * @param x {Number} The entities position on the x axis.
     * @param y {Number} The entities position on the y axis.
     * @return {Kiwi.Entity} This entity.
-    *
     */
     class Entity implements Kiwi.IChild {
         constructor(state: Kiwi.State, x: number, y: number);
+        /**
+        WebGL exclusive rendering system.
+        @property glRenderer
+        @type Kiwi.Renderers.Renderer
+        **/
         glRenderer: Kiwi.Renderers.Renderer;
+        /**
+        Registry for `RenderTask` objects, used by Buffers
+        to render a single object in multiple ways.
+
+        @property renderTasks
+        @type object
+        **/
+        renderTasks: Object;
         /**
         * Represents the position, scale, rotation and registration of this Entity.
         * @property transform
@@ -3777,7 +3859,7 @@ declare module Kiwi.GameObjects {
         /**
         * Called by the Layer to which this Game Object is attached
         * @method render
-        * @param {Kiwi.Camara} camera
+        * @param camera {Kiwi.Camera}
         * @public
         */
         render(camera: Kiwi.Camera): void;
@@ -4189,10 +4271,11 @@ declare module Kiwi.GameObjects.Tilemap {
     * @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
     * @param [atlas] {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
     * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See 'createFromFileStore' for more information.
+    * @param [substitution=false] {boolean} Whether to create a buffered substitution for these tiles, to accelerate rendering on some devices.
     * @return {TileMap}
     */
     class TileMap {
-        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell?: number);
+        constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell?: number, substitution?: boolean);
         /**
         * The orientation of the tilemap.
         * Note: This value does not affect the individual layers.
@@ -4296,7 +4379,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
         * @public
         */
-        createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell?: number): boolean;
+        createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell?: number, substitution?: boolean): boolean;
         /**
         * Generates new TileTypes based upon the Tileset information that lies inside the Tiled JSON.
         * This is an INTERNAL method, which is used when the createFromFileStore method is executed.
@@ -4393,6 +4476,7 @@ declare module Kiwi.GameObjects.Tilemap {
         * @public
         */
         createNewLayer(name: string, atlas: Kiwi.Textures.TextureAtlas, data?: number[], w?: number, h?: number, x?: number, y?: number, tw?: number, th?: number, orientation?: string): TileMapLayer;
+        createSubstitute(tileLayer: any): void;
         /**
         * Eventually will create a new object layer. Currently does nothing.
         * @method createNewObjectLayer
@@ -8750,23 +8834,20 @@ declare module Kiwi.Textures {
         * The width of a single cell.
         * @property cellWidth
         * @type number
-        * @private
         */
-        private cellWidth;
+        cellWidth: number;
         /**
         * The height of a single cell.
         * @property cellHeight
         * @type number
-        * @private
         */
-        private cellHeight;
+        cellHeight: number;
         /**
         * The number of cells that are on this spritesheet
         * @property numCells
         * @type number
-        * @private
         */
-        private numCells;
+        numCells: number;
         /**
         * The number of rows for the spritesheet
         * @property rows
@@ -8797,30 +8878,26 @@ declare module Kiwi.Textures {
         * How much the whole spritesheet should be offset by on the X axis.
         * @property sheetOffsetX
         * @type number
-        * @private
         */
-        private sheetOffsetX;
+        sheetOffsetX: number;
         /**
         * How much the whole spritesheet should be offset by on the Y axis.
         * @property sheetOffsetY
         * @type number
-        * @private
         */
-        private sheetOffsetY;
+        sheetOffsetY: number;
         /**
         * How much each cell should be offset by on the X axis.
         * @property cellOffsetX
         * @type number
-        * @private
         */
-        private cellOffsetX;
+        cellOffsetX: number;
         /**
         * How much each cell should be offset by on the Y axis.
         * @property cellOffsetY
         * @type number
-        * @private
         */
-        private cellOffsetY;
+        cellOffsetY: number;
         /**
         * Generates the atlas cells based on the information that was provided.
         *
@@ -9872,7 +9949,7 @@ declare module Kiwi.Renderers {
     * @constructor
     * @namespace Kiwi.Renderers
     * @param game {Kiwi.Game} The game that this canvas renderer belongs to.
-    * @return {Kiwi.Renderes.CanvasRenderer}
+    * @return {Kiwi.Renderers.CanvasRenderer}
     */
     class CanvasRenderer implements IRenderManager {
         constructor(game: Kiwi.Game);
@@ -9980,44 +10057,40 @@ declare module Kiwi.Renderers {
         /**
         Texture manager object used to allocate GL Textures
 
-        @property _textureManager
+        @property textureManager
         @type Kiwi.Renderes.GLTextureManager
-        @private
         **/
-        private _textureManager;
+        textureManager: GLTextureManager;
         /**
         Shader manager object used to allocate GL Shaders
 
-        @property _shaderManager
+        @property shaderManager
         @type Kiwi.Renderes.GLShaderManager
-        @private
         **/
-        private _shaderManager;
+        shaderManager: Kiwi.Shaders.ShaderManager;
         /**
         Stage resolution in pixels
 
         @property _stageResolution
         @type Float32Array
-        @private
+        @protected
         **/
-        private _stageResolution;
+        protected _stageResolution: Float32Array;
         /**
         Renderer object currently in use during a rendering batch
 
-        @property _currentRenderer
+        @property currentRenderer
         @type Kiwi.Renderers.Renderer
-        @private
         **/
-        private _currentRenderer;
+        currentRenderer: Renderer;
         /**
         Current blend mode
 
-        @property _currentBlendMode
+        @property currentBlendMode
         @type Kiwi.Renderers.GLBlendMode
-        @private
         @since 1.1.0
         **/
-        private _currentBlendMode;
+        currentBlendMode: GLBlendMode;
         /**
         Tally of number of entities rendered per frame
 
@@ -10065,11 +10138,10 @@ declare module Kiwi.Renderers {
         /**
         Most recently bound texture atlas
 
-        @property _currentTextureAtlas
+        @property currentTextureAtlas
         @type TextureAtlas
-        @private
         **/
-        private _currentTextureAtlas;
+        currentTextureAtlas: Kiwi.Textures.TextureAtlas;
         /**
         Add a texture to the Texture Manager.
 
@@ -10107,11 +10179,10 @@ declare module Kiwi.Renderers {
         rendering requirements matched the `TextureAtlasRenderer`
         capabilities.
 
-        @property _sharedRenderers
+        @property sharedRenderers
         @type Array
-        @private
         **/
-        private _sharedRenderers;
+        sharedRenderers: any;
         addSharedRenderer(rendererID: string, params?: any): boolean;
         addSharedRendererClone(rendererID: string, cloneID: string, params?: any): boolean;
         requestSharedRenderer(rendererID: string, params?: any): Kiwi.Renderers.Renderer;
@@ -10121,7 +10192,7 @@ declare module Kiwi.Renderers {
         initState(state: Kiwi.State): void;
         endState(state: Kiwi.State): void;
         render(camera: Kiwi.Camera): void;
-        private _sequence;
+        protected _sequence: any[];
         private _batches;
         collateRenderSequence(): void;
         collateChild(child: IChild): void;
@@ -10132,7 +10203,7 @@ declare module Kiwi.Renderers {
         setupGLState(gl: WebGLRenderingContext, entity: any): void;
         private _switchRenderer(gl, entity);
         private _switchTexture(gl, entity);
-        private _switchBlendMode(gl, blendMode);
+        switchBlendMode(gl: WebGLRenderingContext, blendMode: GLBlendMode): void;
     }
 }
 /**
@@ -10419,6 +10490,7 @@ declare module Kiwi.Renderers {
         **/
         private _textureWrapperCache;
         private _addTextureToCache(glTexture);
+        addTextureToCache(glTexture: GLTextureWrapper): void;
         private _removeTextureFromCache(gl, glTexture);
         private _deleteTexture(gl, idx);
         private _uploadTexture(gl, glTextureWrapper);
@@ -10779,6 +10851,95 @@ declare module Kiwi.Renderers {
         * @public
         */
         static square: number[];
+    }
+}
+/**
+@module Kiwi
+@submodule Renderers
+**/
+declare module Kiwi.Renderers {
+    class RenderTask {
+        constructor(params: any);
+        /**
+        Name or key of this task. This will identify the task in the
+        `renderTasks` object on an entity.
+
+        Note that this will override any `RenderTask` of the same key.
+
+        @property name
+        @type string
+        **/
+        name: string;
+        /**
+        Entity to which this task belongs. Rendering information not specified
+        in the render task will be derived from this entity.
+
+        @property entity
+        @type Kiwi.Entity
+        **/
+        entity: Kiwi.Entity;
+        /**
+        Override alpha
+        @property _alpha
+        @type number
+        @default undefined
+        @private
+        **/
+        private _alpha;
+        /**
+        Override texture
+        @property _atlas
+        @type Kiwi.Textures.TextureAtlas
+        @default undefined
+        @private
+        **/
+        private _atlas;
+        /**
+        Override WebGL renderer
+        @property _renderer
+        @type Kiwi.Renderers.Renderer
+        @default undefined
+        @private
+        **/
+        private _renderer;
+        /**
+        Override `render` method
+        @property _renderCanvas
+        @type function
+        @default undefined
+        @private
+        **/
+        private _renderCanvas;
+        /**
+        Alpha override
+        @property alpha
+        @type number
+        **/
+        alpha: number;
+        /**
+        Texture override.
+        Must have cells corresponding to the base entity's atlas' cells.
+        (They may be the same cell.)
+
+        @property atlas
+        @type Kiwi.Textures.TextureAtlas
+        **/
+        atlas: Kiwi.Textures.TextureAtlas;
+        /**
+        WebGL renderer override. This object may contain
+        variant shader and blend mode data.
+
+        @property renderer
+        @type Kiwi.Renderers.Renderer
+        **/
+        renderer: Kiwi.Renderers.Renderer;
+        /**
+        Canvas render method override.
+        @method renderCanvas
+        @type function
+        **/
+        renderCanvas: Function;
+        static getCanvasCompositingFunction(entity: Kiwi.Entity, mode: string): any;
     }
 }
 /**
@@ -15424,294 +15585,117 @@ declare module Kiwi.Geom {
     }
 }
 /**
-*
-* @module Kiwi
-* @submodule Geom
-*/
+@module Kiwi
+@submodule Geom
+**/
 declare module Kiwi.Geom {
     /**
-    * Represents a 2d transformation matrix. This can be used to map points
-    * between different coordinate spaces. Matrices are used by Transform
-    * objects to represent translation, scale and rotation transformations,
-    * and to determine where objects are in world space or camera space.
-    * Objects such as entities and groups may be nested, and their associated
-    * transforms may represent how they are scaled, translated and rotated
-    * relative to a parent transform. By concatenating an object's
-    * transformation matrix with its ancestors matrices, it is possible to
-    * determine the absolute position of the object in world space.
-    * See
-    * http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics
-    * for an in depth discussion of 2d tranformation matrices.
-    *
-    * @class Matrix
-    * @namespace Kiwi.Geom
-    * @constructor
-    * @param [a=1] {Number}  position 0,0 of the matrix,
-    *	affects scaling and rotation.
-    * @param [b=0] {Number}  position 0,1 of the matrix,
-    *	affects scaling and rotation.
-    * @param [c=0] {Number}  position 1,0 of the matrix,
-    *	affects scaling and rotation.
-    * @param [d=1] {Number}  position 1,1 of the matrix,
-    *	affects scaling and rotation.
-    * @param [tx=0] {Number}  position 2,0 of the matrix,
-    *	affects translation on x axis.
-    * @param [ty=0] {Number}  position 2,1 of the matrix,
-    *	affects translation on y axis.
-    * @return (Object) This object.
-    *
-    */
+    Represents a 2d transformation matrix. This can be used to map points
+    between different coordinate spaces. Matrices are used by Transform
+    objects to represent translation, scale and rotation transformations,
+    and to determine where objects are in world space or camera space.
+    Objects such as entities and groups may be nested, and their associated
+    transforms may represent how they are scaled, translated and rotated
+    relative to a parent transform. By concatenating an object's
+    transformation matrix with its ancestors matrices, it is possible to
+    determine the absolute position of the object in world space.
+    See
+    http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics
+    for an in depth discussion of 2d transformation matrices.
+
+    @class Matrix
+    @namespace Kiwi.Geom
+    @constructor
+    @param [a=1] {number} Position 0,0 of the matrix;
+        affects scaling and rotation
+    @param [b=0] {number} Position 0,1 of the matrix;
+        affects scaling and rotation
+    @param [c=0] {number} Position 1,0 of the matrix;
+        affects scaling and rotation
+    @param [d=1] {number} Position 1,1 of the matrix;
+        affects scaling and rotation
+    @param [tx=0] {number} Position 2,0 of the matrix;
+        affects translation on x axis
+    @param [ty=0] {number} Position 2,1 of the matrix;
+        affects translation on y axis
+    **/
     class Matrix {
         constructor(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number);
-        /**
-        * The type of object this is.
-        * @method objType
-        * @return {String} "Matrix"
-        * @public
-        */
         objType(): string;
         /**
-        * Position 0,0 of the matrix, affects scaling and rotation
-        * @property a
-        * @type Number
-        * @default 1
-        * @public
-        */
+        Position 0,0 of the matrix; affects scaling and rotation
+
+        @property a
+        @type number
+        @default 1
+        @public
+        **/
         a: number;
         /**
-        * Position 0,1 of the matrix, affects scaling and rotation.
-        * @property b
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Position 0,1 of the matrix; affects scaling and rotation
+
+        @property b
+        @type number
+        @default 0
+        @public
+        **/
         b: number;
         /**
-        * Position 1,0 of the matrix, affects scaling and rotation.
-        * @property c
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Position 1,0 of the matrix; affects scaling and rotation
+
+        @property c
+        @type number
+        @default 0
+        @public
+        **/
         c: number;
         /**
-        * Position 1,1 of the matrix, affects scaling and rotation.
-        * @property d
-        * @type Number
-        * @default 1
-        * @public
-        */
+        Position 1,1 of the matrix; affects scaling and rotation
+
+        @property d
+        @type number
+        @default 1
+        @public
+        **/
         d: number;
         /**
-        * Position 2,0 of the matrix, affects translation on x axis.
-        * @property tx
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Position 2,0 of the matrix; affects translation on x axis
+
+        @property tx
+        @type number
+        @default 0
+        @public
+        **/
         tx: number;
         /**
-        * Position 2,1 of the matrix, affects translation on y axis.
-        * @property ty
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Position 2,1 of the matrix; affects translation on y axis
+
+        @property ty
+        @type number
+        @default 0
+        @public
+        **/
         ty: number;
-        /**
-        * Set all matrix values
-        * @method setTo
-        * @param [a=1] {Number} position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b=0] {Number} position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c=0] {Number} position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d=1] {Number} position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx=0] {Number} position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty=0] {Number} position 2,1 of the matrix, affects translation on y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         setTo(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
-        /**
-        * Set matrix values from transform values
-        * @method setFromTransform
-        * @param tx {Number} Translation on x axis.
-        * @param ty {Number} Translation on y axis.
-        * @param scaleX {Number} scaleX. Scale on x axis.
-        * @param scaleY {Number} scaleY. Scale on y axis.
-        * @param rotation {Number} rotation.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         setFromTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number): Matrix;
-        /**
-        * Set matrix values from transform values, with rotation point data included
-        * @method setFromOffsetTransform
-        * @param tx {Number} tx. Translation on x axis.
-        * @param ty {Number} ty. Translation on y axis.
-        * @param scaleX {Number} scaleX. Scale on x axis.
-        * @param scaleY {Number} scaleY. Scale on y axis.
-        * @param rotation {Number} rotation.
-        * @param rotPointX {Number} Rotation point offset on x axis.
-        * @param rotPointY {Number} Rotation point offset on y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        * @since 1.0.1
-        */
         setFromOffsetTransform(tx: number, ty: number, scaleX: number, scaleY: number, rotation: number, rotPointX: number, rotPointY: number): Matrix;
-        /**
-        * Prepend values to this matrix, paramters supplied individually.
-        * @method prepend
-        * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c=0]{Number} position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d=0]{Number} position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx=0]{Number} position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty=0]{Number} position 2,1 of the matrix, affects translation on y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         prepend(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
-        /**
-        * Prepend a matrix to this matrix.
-        * @method prependMatrix
-        * @param m {Kiwi.Geom.Matrix} The matrix to prepend.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         prependMatrix(m: Matrix): Matrix;
-        /**
-        * Append values to this matrix, parameters supplied individually.
-        * @method append
-        * @param [a=1]{Number} position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b=0]{Number} position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c=0]{Number} position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d=1]{Number} position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx=0]{Number} position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty=0]{Number} position 2,1 of the matrix, affects translation on y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         append(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number): Matrix;
-        /**
-        * Append a matrix to this matrix.
-        * @method appendMatrix
-        * @param m {Kiwi.Geom.Matrix} The matrix to append.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         appendMatrix(m: Matrix): Matrix;
-        /**
-        * Set the tx and ty elements of the matrix.
-        * @method setPosition
-        * @param x {Number} Translation on x axis.
-        * @param y {Number} Translation on y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         setPosition(x: number, y: number): Matrix;
-        /**
-        * Set the tx and ty elements of the matrix from an object with x and y properties.
-        * @method setPositionPoint
-        * @param p {Number} The object from which to copy the x and y properties from.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         setPositionPoint(p: any): Matrix;
-        /**
-        * Get the x and y position of the matrix as an object with x and y properties
-        * @method getPosition
-        * @return {Kiwi.Geom.Point} An object constructed from a literal with x and y properties.
-        * @public
-        */
         getPosition(output?: Kiwi.Geom.Point): Kiwi.Geom.Point;
-        /**
-        * Set the matrix to the identity matrix - when appending or prepending this matrix to another there will be no change in the resulting matrix
-        * @method identity
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         identity(): Matrix;
-        /**
-        * Rotate the matrix by "radians" degrees
-        * @method rotate
-        * @param radians {Number} The angle (in radians) to rotate this matrix by.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         rotate(radians: number): Matrix;
-        /**
-        * Translate the matrix by the amount passed.
-        *
-        * @method translate
-        * @param tx {Number} The amount to translate on the x axis.
-        * @param ty {Number} The amount to translate on the y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         translate(tx: number, ty: number): Matrix;
-        /**
-        * Scales the matrix by the amount passed.
-        *
-        * @method scale
-        * @param scaleX {Number} The amount to scale on the x axis.
-        * @param scaleY {Number} The amount to scale on the y axis.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         scale(scaleX: number, scaleY: number): Matrix;
-        /**
-        * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
-        * @method transformPoint
-        * @param pt {Object} The point to be translated.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         transformPoint(pt: any): any;
-        /**
-        * Invert this matrix so that it represents the opposite of its orginal tranformaation.
-        * @method invert
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         invert(): Matrix;
-        /**
-        * Copy another matrix to this matrix.
-        * @method copyFrom
-        * @param m {Kiwi.Geom.Matrix} The matrixto be copied from.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         copyFrom(m: Matrix): Matrix;
-        /**
-        * Copy this matrix to another matrix.
-        * @method copyTo
-        * @param m {Kiwi.Geom.Matrix} The matrix to copy to.
-        * @return {Kiwi.Geom.Matrix} This object.
-        * @public
-        */
         copyTo(m: Matrix): Matrix;
-        /**
-        * Clone this matrix and returns a new Matrix object.
-        * @method clone
-        * @return {Kiwi.Geom.Matrix}
-        * @public
-        */
         clone(): Matrix;
-        /**
-        * Returns a string representation of this object.
-        * @method toString
-        * @return {string} A string representation of the instance.
-        * @public
-        */
         toString: string;
-        /**
-        * Check whether this matrix equals another matrix.
-        *
-        * @method equals
-        * @param matrix {Kiwi.Geom.Matrix}
-        * @return boolean
-        * @public
-        */
         equals(matrix: Matrix): boolean;
     }
 }
@@ -19508,497 +19492,340 @@ declare module Kiwi.Sound {
     }
 }
 /**
-* @module Kiwi
-* @submodule Time
-*/
+@module Kiwi
+@submodule Time
+**/
 declare module Kiwi.Time {
     /**
-    * The Clock class offers a way of tracking time within a game.
-    * When creating a new Clock you should NOT directly instantiate this class
-    * but instead use the addClock method on a ClockManager.
-    * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks
-    *   real world time in milliseconds elapsed since the application started.
-    *   This happens automatically and there is no need to do anything to set
-    *   this up.
-    * - An instance of a clock is used to track time in arbitrary units
-    *   (milliseconds by default)
-    * - A clock can be started, paused, unpaused and stopped. Once stopped,
-    *   re-starting the clock again will reset it. It can also have its time
-    *   scale freely transformed.
-    * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer
-    *   class for timer details.
-    * - If the clock is paused, any timers attached to the clock will take this
-    *   into account and not continue to fire events until the clock is
-    *   unpaused. (Note that this is not the same as pausing timers, which can
-    *   be done manually and needs to be undone manually.)
-    * - Animations and TweenManagers can use any Clock.
-    *
-    * @class Clock
-    * @namespace Kiwi.Time
-    * @constructor
-    * @param manager {ClockManager} ClockManager that this clock belongs to
-    * @param master {Kiwi.Time.MasterClock} MasterClock that this is getting
-    *	the time in relation to
-    * @param name {String} Name of the clock
-    * @param [units=1000] {Number} Units that this clock is to operate in
-    *	per second
-    * @return {Kiwi.Time.Clock} This Clock object
-    */
+    The Clock class offers a way of tracking time within a game.
+    When creating a new Clock you should NOT directly instantiate this class
+    but instead use the addClock method on a ClockManager.
+
+    - The MasterClock is a property of the Kiwi.Time.Manager class and tracks
+        real world time in milliseconds elapsed since the application started.
+        This happens automatically and there is no need to do anything to set
+        this up.
+    - An instance of a clock is used to track time in arbitrary units
+        (milliseconds by default)
+    - A clock can be started, paused, unpaused and stopped. Once stopped,
+        re-starting the clock again will reset it. It can also have its time
+        scale freely transformed.
+    - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer
+        class for timer details.
+    - If the clock is paused, any timers attached to the clock will take this
+        into account and not continue to fire events until the clock is
+        unpaused. (Note that this is not the same as pausing timers, which can
+        be done manually and needs to be undone manually.)
+    - Animations and TweenManagers can use any Clock.
+    
+    @class Clock
+    @namespace Kiwi.Time
+    @constructor
+    @param manager {ClockManager} ClockManager that this clock belongs to
+    @param master {Kiwi.Time.MasterClock} MasterClock that this is getting
+        the time in relation to
+    @param name {string} Name of the clock
+    @param [units=1000] {number} Units that this clock is to operate in
+        per second
+    @return {Kiwi.Time.Clock} This Clock object
+    **/
     class Clock {
         constructor(manager: Kiwi.Time.ClockManager, master: Kiwi.Time.MasterClock, name: string, units?: number);
-        /**
-        * The type of object that this is
-        * @method objType
-        * @return {String} "Clock"
-        * @public
-        */
         objType(): string;
         /**
-        * Collection of Timer objects using this clock
-        * @property timers
-        * @type Timer[]
-        * @private
-        */
-        private timers;
+        Collection of Timer objects using this clock
+
+        @property timers
+        @type Timer[]
+        @public
+        **/
+        timers: Kiwi.Time.Timer[];
         /**
-        * Time the clock was first started relative to the master clock
-        * @property _timeFirstStarted
-        * @type Number
-        * @default null
-        * @private
-        */
+        Time the clock was first started relative to the master clock
+
+        @property _timeFirstStarted
+        @type Number
+        @default null
+        @private
+        **/
         private _timeFirstStarted;
-        /**
-        * Number of clock units elapsed since the clock was first started
-        * @method elapsedSinceFirstStarted
-        * @return {Number} Number of clock units elapsed
-        * @public
-        */
         elapsedSinceFirstStarted(): number;
         /**
-        * Most recent time the clock was started relative to the master clock
-        * @property _timeLastStarted
-        * @type Number
-        * @default null
-        * @private
-        */
+        Most recent time the clock was started relative to the master clock
+
+        @property _timeLastStarted
+        @type Number
+        @default null
+        @private
+        **/
         private _timeLastStarted;
-        /**
-        * Most recent time the clock was started relative to the master clock
-        * @method started
-        * @return {Number} Milliseconds
-        * @public
-        */
         started(): number;
         /**
-        * Rate at which time passes on this clock.
-        * 1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.
-        * This mostly affects timers, animations and tweens.
-        * @property timeScale
-        * @type number
-        * @default 1.0
-        * @public
-        * @since 1.2.0
-        */
+        Rate at which time passes on this clock.
+        1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.
+        This mostly affects timers, animations and tweens.
+
+        @property timeScale
+        @type number
+        @default 1.0
+        @public
+        @since 1.2.0
+        **/
         timeScale: number;
         /**
-        * Clock units elapsed since the clock was most recently started,
-        * not including paused time.
-        * @property _elapsed
-        * @type number
-        * @private
-        * @since 1.2.0
-        */
+        Clock units elapsed since the clock was most recently started,
+        not including paused time
+
+        @property _elapsed
+        @type number
+        @private
+        @since 1.2.0
+        **/
         private _elapsed;
         /**
-        * Master time on last frame
-        * @property _lastMasterElapsed
-        * @type number
-        * @private
-        * @since 1.2.0
-        */
+        Master time on last frame
+
+        @property _lastMasterElapsed
+        @type number
+        @private
+        @since 1.2.0
+        **/
         private _lastMasterElapsed;
         /**
-        * Master time on current frame
-        * @property _currentMasterElapsed
-        * @type number
-        * @private
-        * @since 1.2.0
-        */
+        Master time on current frame
+
+        @property _currentMasterElapsed
+        @type number
+        @private
+        @since 1.2.0
+        **/
         private _currentMasterElapsed;
         /**
-        * Rate of time passage, as modified by time scale and frame rate.
-        * Under ideal conditions this should be 1.
-        * If the frame rate drops, this will rise. Multiply transformations
-        * by rate to get smooth change over time.
-        * @property rate
-        * @type number
-        * @public
-        * @since 1.2.0
-        */
+        Rate of time passage, as modified by time scale and frame rate.
+        Under ideal conditions this should be 1.
+        If the frame rate drops, this will rise. Multiply transformations
+        by rate to get smooth change over time.
+
+        @property rate
+        @type number
+        @public
+        @since 1.2.0
+        **/
         rate: number;
         /**
-        * Maximum frame duration. If a frame takes longer than this to render,
-        * the clock will only advance this far, in effect slowing down time.
-        * If this value is 0 or less, it will not be checked and frames can
-        * take any amount of time to render.
-        * @property _maxFrameDuration
-        * @type number
-        * @default -1
-        * @private
-        */
+        Maximum frame duration. If a frame takes longer than this to render,
+        the clock will only advance this far, in effect slowing down time.
+        If this value is 0 or less, it will not be checked and frames can
+        take any amount of time to render.
+
+        @property _maxFrameDuration
+        @type number
+        @default -1
+        @private
+        **/
         private _maxFrameDuration;
         /**
-        * Maximum frame duration. If a frame takes longer than this to render,
-        * the clock will only advance this far, in effect slowing down time.
-        * If this value is 0 or less, it will not be checked and frames can
-        * take any amount of time to render.
-        * @property maxFrameDuration
-        * @type number
-        * @default -1
-        * @public
-        */
+        Maximum frame duration. If a frame takes longer than this to render,
+        the clock will only advance this far, in effect slowing down time.
+        If this value is 0 or less, it will not be checked and frames can
+        take any amount of time to render.
+
+        @property maxFrameDuration
+        @type number
+        @default -1
+        @public
+        **/
         maxFrameDuration: number;
-        /**
-        * Number of clock units elapsed since the clock was most recently
-        * started (not including time spent paused)
-        * @method elapsed
-        * @return {Number} Number of clock units
-        * @public
-        */
         elapsed(): number;
         /**
-        * Time the clock was most recently stopped relative to the
-        * master clock.
-        * @property _timeLastStopped
-        * @type Number
-        * @default null
-        * @private
-        */
+        Time the clock was most recently stopped relative to the master clock
+
+        @property _timeLastStopped
+        @type Number
+        @default null
+        @private
+        **/
         private _timeLastStopped;
-        /**
-        * Number of clock units elapsed since the clock was most recently
-        * stopped.
-        * @method elapsedSinceLastStopped
-        * @return {Number} Number of clock units
-        * @public
-        */
         elapsedSinceLastStopped(): number;
         /**
-        * Time the clock was most receently paused relative to the
-        * master clock.
-        * @property _timeLastPaused
-        * @private
-        * @type Number
-        * @default null
-        * @private
-        */
+        Time the clock was most receently paused relative to the
+        master clock
+
+        @property _timeLastPaused
+        @private
+        @type number
+        @default null
+        @private
+        **/
         private _timeLastPaused;
-        /**
-        * Number of clock units elapsed since the clock was most recently paused.
-        * @method elapsedSinceLastPaused
-        * @return {Number} Number of clock units
-        * @public
-        */
         elapsedSinceLastPaused(): number;
         /**
-        * Time the clock was most recently unpaused relative to the
-        * master clock.
-        * @property _timeLastUnpaused
-        * @private
-        * @type Number
-        * @default null
-        * @private
-        */
+        Time the clock was most recently unpaused relative to the
+        master clock
+
+        @property _timeLastUnpaused
+        @private
+        @type number
+        @default null
+        @private
+        **/
         private _timeLastUnpaused;
-        /**
-        * Number of clock units elapsed since the clock was most recently
-        * unpaused.
-        * @method elapsedSinceLastUnpaused
-        * @return {Number} Number of clock units
-        * @public
-        */
         elapsedSinceLastUnpaused(): number;
         /**
-        * Total number of milliseconds the clock has been paused
-        * since it was last started
-        * @property _totalPaused
-        * @private
-        * @type Number
-        * @default 0
-        * @private
-        */
+        Total number of milliseconds the clock has been paused
+        since it was last started
+
+        @property _totalPaused
+        @private
+        @type number
+        @default 0
+        @private
+        **/
         private _totalPaused;
         /**
-        * Whether the clock is in a running state
-        * @property _isRunning
-        * @type boolean
-        * @default false
-        * @private
-        */
+        Whether the clock is in a running state
+
+        @property _isRunning
+        @type boolean
+        @default false
+        @private
+        **/
         private _isRunning;
-        /**
-        * Check if the clock is currently running
-        * @method isRunning
-        * @return {boolean} `true` if running
-        * @public
-        */
         isRunning(): boolean;
         /**
-        * Whether the clock is in a stopped state
-        * @property _isStopped
-        * @type boolean
-        * @default true
-        * @private
-        */
+        Whether the clock is in a stopped state
+
+        @property _isStopped
+        @type boolean
+        @default true
+        @private
+        **/
         private _isStopped;
         /**
-        * Check if the clock is in the stopped state
-        * @method isStopped
-        * @return {boolean} `true` if stopped
-        * @public
-        */
+        Check if the clock is in the stopped state
+
+        @method isStopped
+        @return {boolean} `true` if stopped
+        @public
+        **/
         isStopped(): boolean;
         /**
-        * Whether the clock is in a paused state
-        * @property _isPaused
-        * @type boolean
-        * @default false
-        * @private
-        */
+        Whether the clock is in a paused state
+
+        @property _isPaused
+        @type boolean
+        @default false
+        @private
+        **/
         private _isPaused;
-        /**
-        * Check if the clock is in the paused state
-        * @method isPaused
-        * @return {boolean} `true` if paused
-        * @public
-        */
         isPaused(): boolean;
         /**
-        * Internal reference to the state of the elapsed timer
-        * @property _elapsedState
-        * @type Number
-        * @private
-        */
+        Internal reference to the state of the elapsed timer
+
+        @property _elapsedState
+        @type number
+        @private
+        **/
         private _elapsedState;
         /**
-        * Time manager that this clock belongs to
-        * @property manager
-        * @type ClockManager
-        * @public
-        */
+        Time manager that this clock belongs to
+
+        @property manager
+        @type ClockManager
+        @public
+        **/
         manager: Kiwi.Time.ClockManager;
         /**
-        * Master clock from which time is derived
-        * @property master
-        * @type Kiwi.Time.MasterClock
-        * @public
-        */
+        Master clock from which time is derived
+
+        @property master
+        @type Kiwi.Time.MasterClock
+        @public
+        **/
         master: Kiwi.Time.MasterClock;
         /**
-        * The time it takes for the time to update. Using this you can calculate the fps.
-        * @property delta
-        * @type number
-        * @since 1.3.0
-        * @readOnly
-        * @public
-        */
+        Time it takes for the time to update.
+        Using this you can calculate the fps.
+
+        @property delta
+        @type number
+        @since 1.3.0
+        @readOnly
+        @public
+        **/
         delta: number;
         /**
-        * Name of the clock
-        * @property name
-        * @type string
-        * @public
-        */
+        Name of the clock
+
+        @property name
+        @type string
+        @public
+        **/
         name: string;
         /**
-        * Number of milliseconds counted as one unit of time by the clock
-        * @property units
-        * @type Number
-        * @default 0
-        * @public
-        */
+        Number of milliseconds counted as one unit of time by the clock
+
+        @property units
+        @type number
+        @default 0
+        @public
+        **/
         units: number;
         /**
-        * Constant indicating that the Clock is running
-        * (and has not yet been paused and resumed)
-        * @property _RUNNING
-        * @static
-        * @type number
-        * @default 0
-        * @private
-        */
+        Constant indicating that the Clock is running
+        (and has not yet been paused and resumed)
+
+        @property _RUNNING
+        @static
+        @type number
+        @default 0
+        @private
+        **/
         private static _RUNNING;
         /**
-        * Constant indicating that the Clock is paused
-        * @property _PAUSED
-        * @static
-        * @type number
-        * @default 1
-        * @private
-        */
+        Constant indicating that the Clock is paused
+
+        @property _PAUSED
+        @static
+        @type number
+        @default 1
+        @private
+        **/
         private static _PAUSED;
         /**
-        * Constant indicating that the Clock is running
-        * (and has been paused then resumed)
-        * @property _RESUMED
-        * @static
-        * @type number
-        * @default 2
-        * @private
-        */
+        Constant indicating that the Clock is running
+        (and has been paused then resumed)
+
+        @property _RESUMED
+        @static
+        @type number
+        @default 2
+        @private
+        **/
         private static _RESUMED;
         /**
-        * Constant indicating that the Clock is stopped
-        * @property _STOPPED
-        * @static
-        * @type number
-        * @default 3
-        * @private
-        */
+        Constant indicating that the Clock is stopped
+
+        @property _STOPPED
+        @static
+        @type number
+        @default 3
+        @private
+        **/
         private static _STOPPED;
-        /**
-        * Add an existing Timer to the Clock.
-        * @method addTimer
-        * @param timer {Timer} Timer object instance to be added to this Clock
-        * @return {Kiwi.Time.Clock} This Clock object
-        * @public
-        */
         addTimer(timer: Timer): Clock;
-        /**
-        * Create a new Timer and add it to this Clock.
-        * @method createTimer
-        * @param name {string} Name of the Timer (must be unique on this Clock)
-        * @param [delay=1] {Number} Number of clock units to wait between
-        *	firing events
-        * @param [repeatCount=0] {Number} Number of times to repeat the Timer
-        *	(default 0)
-        * @param [start=true] {Boolean} If the timer should start
-        * @return {Kiwi.Time.Timer} The newly created Timer
-        * @public
-        */
         createTimer(name: string, delay?: number, repeatCount?: number, start?: boolean): Timer;
-        /**
-        * Remove a Timer from this Clock based on either the Timer object
-        * or its name.
-        * @method removeTimer
-        * @param [timer=null] {Timer} Timer object you wish to remove.
-        *	If you wish to delete by Timer Name set this to null.
-        * @param [timerName=''] {string} Name of the Timer object to remove
-        * @return {boolean} `true` if the Timer was successfully removed
-        * @public
-        */
         removeTimer(timer?: Timer, timerName?: string): boolean;
-        /**
-        * Check if the Timer already exists on this Clock.
-        * @method checkExists
-        * @param name {string} Name of the Timer
-        * @return {boolean} `true` if the Timer exists
-        * @public
-        */
         checkExists(name: string): boolean;
-        /**
-        * Stop all timers attached to the clock.
-        * @method stopAllTimers
-        * @return {Clock} This Clock object
-        * @public
-        */
         stopAllTimers(): Clock;
-        /**
-        * Convert a number to milliseconds based on clock units.
-        * @method toMilliseconds
-        * @param time {number} Seconds
-        * @return {Number} Milliseconds
-        * @public
-        */
         convertToMilliseconds(time: number): number;
-        /**
-        * Update all Timers linked to this Clock.
-        * @method update
-        * @public
-        */
         update(): void;
-        /**
-        * Start the clock. This resets the clock and starts it running.
-        * @method start
-        * @return {Clock} This Clock object
-        * @public
-        */
         start(): Clock;
-        /**
-        * Pause the clock. This can only be paused if it is already running.
-        * @method pause
-        * @return {Kiwi.Time.Clock} This Clock object
-        * @public
-        */
         pause(): Clock;
-        /**
-        * Resume the clock. This can only be resumed if it is already paused.
-        * @method resume
-        * @return {Kiwi.Time.Clock} This Clock object
-        * @public
-        */
         resume(): Clock;
-        /**
-        * Stop the clock. This can only be stopped if it is already running
-        *	or is paused.
-        * @method stop
-        * @return {Kiwi.Time.Clock} This Clock object
-        * @public
-        */
         stop(): Clock;
-        /**
-        * Return a string representation of this object.
-        * @method toString
-        * @return {string} String representation of the instance
-        * @public
-        */
         toString(): string;
-        /**
-        * Set a function to execute after a certain time interval.
-        * Emulates `window.setTimeout`, except attached to a `Kiwi.Time.Clock`.
-        * This allows you to pause and manipulate time, and the timeout will
-        * respect the clock on which it is created.
-        *
-        * No `clearTimeout` is provided; you should use `Kiwi.Time.Timer`
-        * functions to achieve further control.
-        *
-        * Any parameters after `context` will be passed as parameters to the
-        * callback function. Note that you must specify `context` in order for
-        * this to work. You may specify `null`, in which case it will default
-        * to the global scope `window`.
-        *
-        * @method setTimeout
-        * @param callback {function} Function to execute
-        * @param timeout {number} Milliseconds before execution
-        * @param [context] {object} Object to be `this` for the callback
-        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used
-        *	to further manipulate the timer
-        * @public
-        */
         setTimeout(callback: any, timeout: number, context: any, ...args: any[]): Timer;
-        /**
-        * Set a function to repeatedly execute at fixed time intervals.
-        * Emulates `window.setInterval`, except attached to a `Kiwi.Time.Clock`.
-        * This allows you to pause and manipulate time, and the timeout will
-        * respect the clock on which it is created.
-        *
-        * No `clearInterval` is provided; you should use `Kiwi.Time.Timer`
-        * functions to achieve further control.
-        *
-        * Any parameters after `context` will be passed as parameters to the
-        * callback function. Note that you must specify `context` in order for
-        * this to work. You may specify `null`, in which case it will default
-        * to the global scope `window`.
-        *
-        * @method setInterval
-        * @param callback {function} Function to execute
-        * @param timeout {number} Milliseconds between executions
-        * @param [context=window] {object} Object to be `this` for the callback
-        * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
-        *   which can be used to further manipulate the timer
-        * @public
-        */
         setInterval(callback: any, timeout: number, context: any, ...args: any[]): Timer;
     }
 }
@@ -22604,7 +22431,7 @@ declare module Kiwi.Utils {
 /**
 *
 * @module Kiwi
-* @submodule Utils.
+* @submodule Utils
 *
 */
 declare module Kiwi.Utils {
@@ -22940,6 +22767,890 @@ declare module Kiwi.Utils {
     }
 }
 /**
+@module Kiwi
+@submodule Buffers
+**/
+declare module Kiwi.Buffers {
+    class Buffer extends Kiwi.Entity implements Kiwi.GameObjects.StaticImage {
+        /**
+        Frame buffer entity. A GameObject that contains a render target.
+
+        Buffers are created and rendered by a `Bufferer` object.
+        Do not create them as stand-alones.
+
+        This is the base class for other buffer types.
+        It doesn't do anything by itself.
+
+        CocoonJS is not capable of using the `baseImage` parameter.
+        All other clients support it. When using CocoonJS,
+        consider using `drawCut` on a temporary game object instead.
+
+        @class Buffer
+        @extends Kiwi.Entity
+        **/
+        constructor(params: any);
+        /**
+        Texture atlas that handles buffers.
+        Ensure that WebGL uses `Kiwi.Buffers.BufferAtlas`.
+
+        @property atlas
+        @type Kiwi.Textures.TextureAtlas
+        **/
+        atlas: Kiwi.Textures.TextureAtlas;
+        /**
+        Bounding box
+        @property box
+        @type Kiwi.Components.Box
+        **/
+        box: Kiwi.Components.Box;
+        /**
+        Buffer manager
+        @property bufferer
+        @type Kiwi.Buffers.Bufferer
+        **/
+        bufferer: Kiwi.Buffers.Bufferer;
+        /**
+        Buffer canvas
+        @property _canvas
+        @type HTMLCanvasElement
+        @protected
+        **/
+        protected _canvas: HTMLCanvasElement;
+        /**
+        Buffer draw context
+        @property _ctx
+        @type CanvasRenderingContext2D
+        @protected
+        **/
+        protected _ctx: CanvasRenderingContext2D;
+        /**
+        Color to which the buffer will clear before drawing
+        @property clearColor
+        @type Kiwi.Utils.Color
+        **/
+        clearColor: Kiwi.Utils.Color;
+        /**
+        Whether to clear the Buffer before rendering.
+        Set this to `false` for accumulative effects.
+        @property clearOnRender
+        @type boolean
+        @default true
+        **/
+        clearOnRender: boolean;
+        /**
+        Framebuffer object. WebGL only.
+        @property _framebuffer
+        @type WebGLFramebuffer
+        @protected
+        **/
+        protected _framebuffer: WebGLFramebuffer;
+        /**
+        Context for draw operations. WebGL only.
+        @property gl
+        @type WebGLRenderingContext
+        @default this.game.stage.gl
+        **/
+        gl: WebGLRenderingContext;
+        /**
+        WebGL rendering system
+        @property glRenderer
+        @type Kiwi.Renderers.Renderer
+        **/
+        glRenderer: Kiwi.Renderers.Renderer;
+        /**
+        Identifies this as being a buffer.
+        @property isBuffer
+        @type boolean
+        @default true
+        @static
+        **/
+        static isBuffer: boolean;
+        /**
+        Name of this `Buffer`
+        @property name
+        @type string
+        @default "UnnamedBuffer"
+        **/
+        name: string;
+        /**
+        Name of texture to export on destroy.
+        If `undefined`, no texture will be exported.
+
+        This export may be triggered at any time.
+        The buffer texture may be accessed without exporting, via its `atlas`.
+
+        @property preserve
+        @type string
+        @default undefined
+        **/
+        preserve: string;
+        /**
+        Whether to redraw this buffer every frame
+        @property redraw
+        @type boolean
+        @default true
+        **/
+        redraw: boolean;
+        /**
+        Texture of the buffer. WebGL only.
+        @property _texture
+        @type WebGLTexture
+        @protected
+        **/
+        protected _texture: WebGLTexture;
+        clear(bind?: boolean): void;
+        protected _clearCanvas(): void;
+        protected _clearGl(bind?: boolean): void;
+        destroy(): void;
+        draw(): void;
+        protected _drawCanvas(): void;
+        protected _drawCanvasImmediate(): void;
+        protected _drawGl(): void;
+        protected _drawGlImmediate(): void;
+        drawImmediate(): void;
+        exportImage(key: string): void;
+        exportSpritesheet(key: string, model: Kiwi.Textures.SpriteSheet): void;
+        objType(): string;
+        render(camera: Kiwi.Camera): void;
+        renderGL(gl: WebGLRenderingContext, camera: Kiwi.Camera, params?: any): void;
+        protected _setupCanvas(params: any): void;
+        protected _setupCanvasBuffer(params: any): void;
+        protected _setupGl(params: any): void;
+        protected _setupGlBuffer(params: any): void;
+    }
+}
+/**
+@module Kiwi
+@submodule Buffers
+**/
+declare module Kiwi.Buffers {
+    class BufferAtlas extends Kiwi.Textures.TextureAtlas {
+        /**
+        Specialised texture atlas that allows a Buffer to maintain
+        an atlas without having an image in user memory. WebGL only.
+
+        @class BufferAtlas
+        @extends Kiwi.Textures.TextureAtlas
+        **/
+        constructor(params: any);
+        /**
+        Dimensions of framebuffer texture, for use in `enableGL`
+        @property _dimensions
+        @type Float32Array
+        @private
+        **/
+        private _dimensions;
+        /**
+        Texture wrapper to handle WebGL texture information.
+        This isn't a true `GLTextureWrapper`, but an emulator.
+        We must emulate the standard texture wrapping process
+        because framebuffers don't play nice with the normal atlas paradigm.
+
+        @property glTextureWrapper
+        @type object
+        @default undefined
+        **/
+        glTextureWrapper: any;
+        /**
+        Height of framebuffer texture
+        @property height
+        @type number
+        **/
+        height: number;
+        /**
+        Buffer texture
+        @property texture
+        @type WebGLTexture
+        **/
+        texture: WebGLTexture;
+        /**
+        Width of framebuffer texture
+        @property width
+        @type number
+        **/
+        width: number;
+        createGLTextureWrapper(gl: WebGLRenderingContext, textureManager: Kiwi.Renderers.GLTextureManager): void;
+        enableGL(gl: WebGLRenderingContext, renderer: Kiwi.Renderers.Renderer, textureManager: Kiwi.Renderers.GLTextureManager): void;
+    }
+}
+/**
+Buffers are a powerful off-screen drawing system.
+
+@module Kiwi
+@submodule Buffers
+@main Buffers
+**/
+declare module Kiwi.Buffers {
+    class Bufferer {
+        /**
+        Master system for rendering frame buffers.
+
+        You should use a `Bufferer` to create and control
+        all buffers within a `State`, rather than create them singly.
+        This ensures that `GroupBuffer` and `FilterBuffer` objects
+        are properly registered.
+
+        @class Bufferer
+        @namespace Kiwi.Buffers
+        @since 1.5.0
+        **/
+        constructor(params: any);
+        /**
+        Collated buffers in the State.
+        Computed each frame just before rendering.
+        @property bufferCollation
+        @type array
+        **/
+        bufferCollation: Array<Kiwi.Buffers.Buffer>;
+        /**
+        Master list of all buffers created in this scene
+        @property buffers
+        @type array
+        **/
+        buffers: Array<Kiwi.Buffers.Buffer>;
+        /**
+        Component that regulates per-frame updates
+        @property component
+        @type Kiwi.Component
+        **/
+        component: Kiwi.Component;
+        /**
+        Dedicated buffer render manager. Only created when WebGL is being used.
+        @property filterBufferGlRenderManager
+        @type Kiwi.Buffers.FilterBufferGlRenderManager
+        @default undefined
+        **/
+        filterBufferGlRenderManager: Kiwi.Buffers.FilterBufferGlRenderManager;
+        /**
+        WebGL rendering context in use
+        @property gl
+        @type WebGLRenderingContext
+        **/
+        gl: WebGLRenderingContext;
+        /**
+        Dedicated buffer render manager. Only created when WebGL is being used.
+        @property groupBufferGlRenderManager
+        @type Kiwi.Buffers.GroupBufferGlRenderManager
+        @default undefined
+        **/
+        groupBufferGlRenderManager: Kiwi.Buffers.GroupBufferGlRenderManager;
+        /**
+        Current game state
+        @property state
+        @type Kiwi.State
+        **/
+        state: Kiwi.State;
+        collateBuffers(target: Kiwi.Group): void;
+        collateChildren(entity: Kiwi.IChild, outArray: Array<any>, testFunc: Function): void;
+        createBuffer(params: any): Kiwi.Buffers.Buffer;
+        createFilterBuffer(params: any): Kiwi.GameObjects.FilterBuffer;
+        createGroupBuffer(params: any): Kiwi.GameObjects.GroupBuffer;
+        removeBuffer(buffer: Kiwi.Buffers.Buffer): boolean;
+        renderCanvas(target: Kiwi.Group): void;
+        renderGl(target: Kiwi.Group): void;
+        render(target: Kiwi.Group): void;
+        restoreGl(): void;
+        _setupCanvas(): void;
+        _setupGl(): void;
+        testBuffer(entity: Kiwi.Entity): boolean;
+    }
+}
+/**
+@module Kiwi
+@submodule Buffers
+**/
+declare module Kiwi.Buffers {
+    class FilterBufferGlRenderManager extends Kiwi.Renderers.GLRenderManager {
+        constructor(game: Kiwi.Game);
+        currentBlendMode: Kiwi.Renderers.GLBlendMode;
+        currentRenderer: Kiwi.Renderers.Renderer;
+        currentTextureAtlas: Kiwi.Textures.TextureAtlas;
+        /**
+        Game (publicly accessible)
+        @property game
+        @type Kiwi.Game
+        **/
+        game: Kiwi.Game;
+        /**
+        WebGL rendering context in use
+        @property gl
+        @type WebGLRenderingContext
+        **/
+        gl: WebGLRenderingContext;
+        /**
+        Core game renderer
+        @property renderer
+        @type Kiwi.Renderers.GLRenderManager
+        **/
+        renderer: Kiwi.Renderers.GLRenderManager;
+        /**
+        Base image renderer, used to initialize every `FilterBuffer`
+        render sequence
+
+        @property _baseRenderer
+        @type Kiwi.Renderers.FilterGl
+        @private
+        **/
+        private _baseRenderer;
+        /**
+        Normalized texture reference. This maps the corners of the textures
+        to the corners of the buffer.
+
+        @property corners
+        @type array
+        @static
+        **/
+        static corners: Array<number>;
+        renderBuffer(filterBuffer: any): void;
+        renderBaseImage(filterBuffer: Kiwi.GameObjects.FilterBuffer): void;
+        renderFilter(filterBuffer: Kiwi.GameObjects.FilterBuffer, filter: any): void;
+    }
+}
+/**
+@module Kiwi
+@submodule Buffers
+**/
+declare module Kiwi.Buffers {
+    class GroupBufferGlRenderManager extends Kiwi.Renderers.GLRenderManager {
+        constructor(game: Kiwi.Game);
+        currentBlendMode: Kiwi.Renderers.GLBlendMode;
+        currentRenderer: Kiwi.Renderers.Renderer;
+        currentTextureAtlas: Kiwi.Textures.TextureAtlas;
+        /**
+        Game (publicly accessible)
+        @property game
+        @type Kiwi.Game
+        **/
+        game: Kiwi.Game;
+        /**
+        WebGL rendering context in use
+        @property gl
+        @type WebGLRenderingContext
+        **/
+        gl: WebGLRenderingContext;
+        /**
+        Temporary scratch matrix
+        @property _m
+        @type Kiwi.Geom.Matrix
+        @private
+        **/
+        private _m;
+        /**
+        Core game renderer
+        @property renderer
+        @type Kiwi.Renderers.GLRenderManager
+        **/
+        renderer: Kiwi.Renderers.GLRenderManager;
+        private _applyRenderTasks(groupBuffer);
+        private _ceaseRenderTasks(groupBuffer);
+        renderBuffer(groupBuffer: Kiwi.GameObjects.GroupBuffer): void;
+    }
+}
+/**
+@module Kiwi
+@submodule GameObjects
+**/
+declare module Kiwi.GameObjects {
+    class FilterBuffer extends Kiwi.Buffers.Buffer {
+        constructor(params: any);
+        static processParams(params: any): any;
+        /**
+        Texture atlas from which the filtered texture is derived.
+
+        You should only update this to a texture with the same dimensions.
+        The filterBuffer properties are set to use this texture upon creation.
+
+        @property atlasInput
+        @type Kiwi.Textures.TextureAtlas
+        **/
+        atlasInput: Kiwi.Textures.TextureAtlas;
+        /**
+        Atlas used to refer to the input buffer
+        @property atlasSource
+        @type Kiwi.Textures.TextureAtlas
+        **/
+        atlasSource: Kiwi.Textures.TextureAtlas;
+        /**
+        Buffer into which the filter is output. Note that this may change
+        to reflect different internal frame buffers as the FilterBuffer
+        processes images. This access is read-only.
+
+        @property bufferOut
+        @type WebGLFramebuffer
+        **/
+        bufferOut: WebGLFramebuffer;
+        /**
+        Second canvas, used for redrawing the input image in canvas mode.
+
+        This is swapped with `_canvas` every time a filter pingpongs.
+        It is not a constant address.
+
+        @property _canvas2
+        @type HTMLCanvasElement
+        @private
+        **/
+        private _canvas2;
+        /**
+        Input canvas used for the base image.
+        This is a READ-ONLY property.
+
+        Note that the FilterBuffer exchanges internal canvas references
+        as it works. This is not a constant address.
+
+        @property canvasInput
+        @type HTMLCanvasElement
+        **/
+        canvasInput: HTMLCanvasElement;
+        /**
+        Second canvas, used for redrawing the input image in canvas mode.
+        This is a READ-ONLY property.
+
+        Note that the FilterBuffer exchanges internal canvas references
+        as it works. This is not a constant address.
+
+        @property canvasOutput
+        @type HTMLCanvasElement
+        **/
+        canvasOutput: HTMLCanvasElement;
+        /**
+        Corners of the input texture, in normalized coordinates.
+
+        These must be computed per-filterBuffer,
+        because the 0-1 normalized UV range doesn't work for textures
+        which were resized from NPOT to POT.
+
+        @property corners
+        @type array
+        **/
+        corners: Array<number>;
+        /**
+        Second rendering context in canvas mode.
+
+        This is swapped with `_ctx` every time a filter pingpongs.
+        It is not a constant address.
+
+        @property _ctx2
+        @type CanvasRenderingContext2D
+        @private
+        **/
+        private _ctx2;
+        /**
+        Input rendering context in canvas mode. READ-ONLY access.
+
+        This is swapped with `_ctx2` every time a filter pingpongs.
+        It is not a constant address.
+
+        @property ctxInput
+        @type CanvasRenderingContext2D
+        **/
+        ctxInput: CanvasRenderingContext2D;
+        /**
+        Output rendering context in canvas mode. READ-ONLY access.
+
+        This is swapped with `_ctx` every time a filter pingpongs.
+        It is not a constant address.
+
+        @property ctxOutput
+        @type CanvasRenderingContext2D
+        **/
+        ctxOutput: CanvasRenderingContext2D;
+        /**
+        List of all filters to be applied
+        @property filters
+        @type array
+        @default []
+        **/
+        filters: Array<any>;
+        /**
+        Second framebuffer, used for redrawing the input image in WebGL mode.
+
+        This is swapped with `_framebuffer` every time a filter pingpongs.
+        It is not a constant address.
+
+        @property _framebuffer2
+        @type WebGLFramebuffer
+        @private
+        **/
+        private _framebuffer2;
+        /**
+        WebGL texture. READ-ONLY.
+        @property texture
+        @type WebGLTexture
+        **/
+        texture: WebGLTexture;
+        /**
+        Second texture, used for redrawing the input image in WebGL mode.
+
+        This is swapped with `_texture` every time a filter pingpongs.
+        It is not a constant address.
+
+        The output texture atlas of a `FilterBuffer` uses
+        the texture in this property.
+
+        @property _texture2
+        @type WebGLTexture
+        @private
+        **/
+        private _texture2;
+        addFilter(key: string, params: any): any;
+        private _clearCanvas2;
+        destroy(): void;
+        protected _drawCanvas(): void;
+        protected _drawGl(): void;
+        exportImage(key: string): void;
+        exportSpritesheet(key: string, model: Kiwi.Textures.SpriteSheet): void;
+        getFilter(name: string): any;
+        pingpong(): void;
+        private _setupSecondBuffer(params);
+        updateTextureAtlas(): void;
+    }
+}
+/**
+@module Kiwi
+@submodule GameObjects
+**/
+declare module Kiwi.GameObjects {
+    class GroupBuffer extends Kiwi.Buffers.Buffer {
+        constructor(params: any);
+        /**
+        Camera to use. This describes the buffer's view into the scene.
+
+        Defaults to a new camera. This is not created using
+        `game.cameras.create`, because that would add it to the regular
+        render pipeline.
+
+        @property camera
+        @type Kiwi.Camera
+        **/
+        camera: Kiwi.Camera;
+        /**
+        Temporary scratch matrix used to compute canvas camera transforms.
+        @property _camMatrix
+        @type Kiwi.Geom.Matrix
+        @private
+        **/
+        private _camMatrix;
+        /**
+        Collection of children belonging to this `GroupBuffer`
+        @property members
+        @type array
+        @default []
+        **/
+        members: Array<any>;
+        /**
+        Render task identification key. If specified, the `GroupBuffer`
+        will only render entities with that `RenderTask`. If not specified,
+        the `GroupBuffer` will use the default render method.
+
+        @property renderTask
+        @type string
+        @default undefined
+        **/
+        renderTask: string;
+        /**
+        Target parent of a subgraph.
+        The `GroupBuffer` will render that subgraph.
+        By default, the `GroupBuffer` has its own children.
+
+        @property target
+        @type Kiwi.Entity
+        @default this
+        **/
+        target: any;
+        protected _drawCanvas(): void;
+        protected _drawGl(): void;
+        destroy(): void;
+        drawCopy(target: any): void;
+        drawCut(target: any): void;
+        private _extendWithGroupMethods();
+        private _recurse(child);
+        private _recurseTask(child);
+        update(): void;
+        private _updateMembers();
+    }
+}
+/**
+@module Kiwi
+@submodule Renderers
+**/
+declare module Kiwi.Renderers {
+    class FilterCanvas {
+        constructor();
+        /**
+        Whether this filter should be processed
+        @property active
+        @type boolean
+        @default true
+        **/
+        active: boolean;
+        /**
+        Shorthand name to identify the filter
+        @property name
+        @type string
+        @default "FilterCanvas"
+        @static
+        **/
+        static name: string;
+        clear(filterBuffer: Kiwi.GameObjects.FilterBuffer): void;
+        render(filterBuffer: Kiwi.GameObjects.FilterBuffer): void;
+    }
+}
+/**
+@module Kiwi
+@submodule Renderers
+**/
+declare module Kiwi.Renderers {
+    class FilterGl extends Kiwi.Renderers.Renderer {
+        constructor(params: any);
+        /**
+        Whether to apply this filter during `FilterBuffer` processing
+        @property active
+        @type boolean
+        @default true
+        **/
+        active: boolean;
+        /**
+        Index buffer
+        @property _indexBuffer
+        @type Kiwi.Renderers.GLElementArrayBuffer
+        @private
+        **/
+        private _indexBuffer;
+        /**
+        Name to identify this filter
+        @property name
+        @type string
+        @default undefined
+        **/
+        name: string;
+        /**
+        Shader program to use for the filter
+        @property shaderPair
+        @type Kiwi.Shaders.ShaderPair
+        **/
+        shaderPair: Kiwi.Shaders.ShaderPair;
+        /**
+        Name of the shader program to use
+        @property _shaderPairName
+        @type string
+        @default "FilterShaderBase"
+        @private
+        **/
+        private _shaderPairName;
+        /**
+        Vertex buffer
+        @property _vertexBuffer
+        @type Kiwi.Renderers.GLArrayBuffer
+        @private
+        **/
+        private _vertexBuffer;
+        enable(gl: WebGLRenderingContext): void;
+        disable(gl: WebGLRenderingContext): void;
+        drawCorners(gl: WebGLRenderingContext, corners: Array<any>): void;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterBase extends Kiwi.Shaders.ShaderPair {
+        constructor();
+        /**
+        Shader attribute references
+        @property attributes
+        @type object
+        **/
+        attributes: any;
+        /**
+        Shader uniform descriptors
+        @property uniforms
+        @type object
+        **/
+        uniforms: any;
+        /**
+        Shorthand name to identify the shader
+        @property name
+        @type string
+        @default "Base"
+        @static
+        **/
+        static name: string;
+        init(gl: WebGLRenderingContext): void;
+        /**
+        Source for the WebGL fragment shader.
+        @property fragSource
+        @type array
+        **/
+        fragSource: Array<string>;
+        /**
+        Source for the WebGL vertex shader.
+        @property vertSource
+        @type array
+        **/
+        vertSource: Array<string>;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterBlurHorizontal extends Kiwi.Shaders.FilterBase {
+        constructor();
+        /**
+        Shorthand name to identify the shader
+        @property name
+        @type string
+        @default "BlurHorizontal"
+        @static
+        **/
+        static name: string;
+        /**
+        Source for the WebGL fragment shader.
+        @property fragSource
+        @type array
+        **/
+        fragSource: Array<string>;
+        /**
+        Source for the WebGL vertex shader.
+        @property vertSource
+        @type array
+        **/
+        vertSource: Array<string>;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterBlurVertical extends Kiwi.Shaders.FilterBase {
+        constructor();
+        /**
+        Shorthand name to identify the shader
+        @property name
+        @type string
+        @default "BlurVertical"
+        @static
+        **/
+        static name: string;
+        /**
+        Source for the WebGL fragment shader.
+        @property fragSource
+        @type array
+        **/
+        fragSource: Array<string>;
+        /**
+        Source for the WebGL vertex shader.
+        @property vertSource
+        @type array
+        **/
+        vertSource: Array<string>;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterChannelMultCanvas extends Kiwi.Renderers.FilterCanvas {
+        constructor();
+        /**
+        Color of tint effect
+        @property color
+        @type Kiwi.Utils.Color
+        @default 0, 0, 0, 1
+        **/
+        color: Kiwi.Utils.Color;
+        /**
+        Shorthand name to identify the filter
+        @property name
+        @type string
+        @default "ChannelMult"
+        @static
+        **/
+        static name: string;
+        render(filterBuffer: Kiwi.GameObjects.FilterBuffer): void;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterColorValue extends Kiwi.Shaders.FilterBase {
+        constructor();
+        /**
+        Shorthand name to identify the shader
+        @property name
+        @type string
+        @default "ColorValue"
+        @static
+        **/
+        static name: string;
+        /**
+        Source for the WebGL fragment shader.
+        @property fragSource
+        @type array
+        **/
+        fragSource: Array<string>;
+        /**
+        Source for the WebGL vertex shader.
+        @property vertSource
+        @type array
+        **/
+        vertSource: Array<string>;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterInvertCanvas extends Kiwi.Renderers.FilterCanvas {
+        constructor();
+        /**
+        Shorthand name to identify the filter
+        @property name
+        @type string
+        @default "Invert"
+        @static
+        **/
+        static name: string;
+        render(filterBuffer: Kiwi.GameObjects.FilterBuffer): void;
+    }
+}
+/**
+@module Kiwi
+@submodule Shaders
+**/
+declare module Kiwi.Shaders {
+    class FilterInvert extends Kiwi.Shaders.FilterBase {
+        constructor();
+        /**
+        Shorthand name to identify the shader
+        @property name
+        @type string
+        @default "Invert"
+        @static
+        **/
+        static name: string;
+        /**
+        Source for the WebGL fragment shader.
+        @property fragSource
+        @type array
+        **/
+        fragSource: Array<string>;
+        /**
+        Source for the WebGL vertex shader.
+        @property vertSource
+        @type array
+        **/
+        vertSource: Array<string>;
+    }
+}
+/**
 * Module - Kiwi (Core)
 * The top level namespace in which all core classes and modules are defined.
 * @module Kiwi
@@ -23115,7 +23826,7 @@ declare module Kiwi {
         * Used to register a new Game with this manager. Returns the new number of games that have been registered.
         * @method register
         * @param game {Game} The game you are wanting to register.
-        * @return {Number] The new number of games registered.
+        * @return {Number} The new number of games registered.
         * @public
         */
         static register(game: Kiwi.Game): number;

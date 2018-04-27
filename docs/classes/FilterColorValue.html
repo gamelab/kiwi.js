@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Utils. - Kiwi.js</title>
+    <title>FilterColorValue - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.5.0-beta1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,36 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -70,6 +100,8 @@
                 <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
             
                 <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
             
@@ -281,11 +313,15 @@
             
                 <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -322,8 +358,6 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
-            
-                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -362,16 +396,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Utils. Module</h1>
-<div class="box clearfix meta">
+                        <h1>FilterColorValue Class</h1>
+<div class="box meta">
     
 
+    
+        <div class="extends">
+            Extends Kiwi.Shaders.FilterBase
+        </div>
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_utils_Log.ts.html#l10"><code>src&#x2F;utils&#x2F;Log.ts:10</code></a>
+            Defined in: <a href="../files/src_render_shaders_filters_color-value.ts.html#l10"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;color-value.ts:10</code></a>
         </div>
+    
+
+    
+        
+            Module: <a href="../modules/Shaders.html">Shaders</a><br>
+            Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
+        
     
 
     
@@ -380,38 +425,277 @@
 
 
 <div class="box intro">
-    <p>A utilty class used to add management functionality to common console methods. 
-You can use this class by either creating a new instance, or using the instance at the namespace &#39;Kiwi.Log&#39;.</p>
-<p>log/error/warn methods contained on this class function just like their &#39;console&#39; equivalents except that:</p>
-<ul>
-<li>You can assign a tag to message by adding a &#39;#&#39; symbol to the front of a parameter. Example: this.log(&#39;Hi&#39;, &#39;#welcome&#39;); </li>
-<li>Messages can have multiple tags. Example: this.log(&#39;Hi&#39;, &#39;#welcome&#39;, &#39;#greeting&#39;);</li>
-<li>Messages are recorded (by default) and you can then search through any messages saved.</li>
-</ul>
-<p>You can use the &#39;show&#39; commands to search through recordings and find specific messages.</p>
+    <p>Filter shader: convert to grayscale based on color value.</p>
+<p>Desaturation is achieved by RGB / 3.</p>
 
 </div>
 
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_FilterColorValue" class="method item">
+    <h3 class="name"><code>FilterColorValue</code></h3>
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
-            <p>This module provides the following classes:</p>
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_color-value.ts.html#l10"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;color-value.ts:10</code></a>
+        
+        </p>
 
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/Kiwi.Utils.Log.html">
-                        Kiwi.Utils.Log
-                    </a>
-                </li>
-            
-            </ul>
+
+        
+
         
     </div>
 
-    <div class="yui3-u-1-2">
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                        
+                            <li class="index-item property">
+                                <a href="#property_fragSource">fragSource</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_name">name</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_vertSource">vertSource</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_fragSource" class="property item">
+    <h3 class="name"><code>fragSource</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_color-value.ts.html#l32"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;color-value.ts:32</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Source for the WebGL fragment shader.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_name" class="property item">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_color-value.ts.html#l23"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;color-value.ts:23</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shorthand name to identify the shader</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;ColorValue&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_vertSource" class="property item">
+    <h3 class="name"><code>vertSource</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_color-value.ts.html#l48"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;color-value.ts:48</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Source for the WebGL vertex shader.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
         
     </div>
 </div>

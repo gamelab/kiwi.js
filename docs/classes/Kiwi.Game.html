@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.5.0-beta1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,36 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -70,6 +100,8 @@
                 <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
             
                 <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
             
@@ -281,11 +313,15 @@
             
                 <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -322,8 +358,6 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
-            
-                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -370,7 +404,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_core_Game.ts.html#l9"><code>src&#x2F;core&#x2F;Game.ts:9</code></a>
+            Defined in: <a href="../files/src_core_Game.ts.html#l7"><code>src&#x2F;core&#x2F;Game.ts:7</code></a>
         </div>
     
 
@@ -386,7 +420,9 @@
 
 
 <div class="box intro">
-    <p>The base class that is used when you create a new Game. Handles the initialisation of all of the various individual game managers and holds the RAF (RequestAnimationFrame object) which is used for the game loop.</p>
+    <p>The base class that is used when you create a new Game.
+Handles the initialisation of all of the various individual game managers
+and holds the RAF (RequestAnimationFrame object) used for the game loop.</p>
 
 </div>
 
@@ -402,13 +438,13 @@
             
                 <li class="arg">
                     
-                        <code class="optional">[domParent=&#x27;&#x27;]</code>
+                        <code class="optional">[domParent=&quot;&quot;]</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[name=&#x27;KiwiGame&#x27;]</code>
+                        <code class="optional">[name=&quot;KiwiGame&quot;]</code>
                     
                 </li>
             
@@ -428,10 +464,6 @@
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
-        </span>
     
 
     
@@ -457,7 +489,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l9"><code>src&#x2F;core&#x2F;Game.ts:9</code></a>
+        <a href="../files/src_core_Game.ts.html#l7"><code>src&#x2F;core&#x2F;Game.ts:7</code></a>
         
         </p>
 
@@ -479,7 +511,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[domParent=&#x27;&#x27;]</code>
+                        <code class="param-name optional">[domParent=&quot;&quot;]</code>
                         <span class="type">String</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -487,7 +519,9 @@
                     
 
                     <div class="param-description">
-                        <p>The ID of a DOM element that the game should use as its &#39;container&#39;. If you are targeting Cocoon then you don&#39;t need to worry about this and can leave it blank.</p>
+                        <p>ID of a DOM element that the game
+    should use as its <code>container</code>. If you are targeting Cocoon
+    then you don&#39;t need to worry about this and can leave it blank.</p>
 
                     </div>
 
@@ -496,7 +530,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name optional">[name=&#x27;KiwiGame&#x27;]</code>
+                        <code class="param-name optional">[name=&quot;KiwiGame&quot;]</code>
                         <span class="type">String</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
@@ -504,7 +538,7 @@
                     
 
                     <div class="param-description">
-                        <p>The name of the game that is being created.</p>
+                        <p>Name of the game that is being created</p>
 
                     </div>
 
@@ -521,7 +555,8 @@
                     
 
                     <div class="param-description">
-                        <p>The state to load initially. This can either be the name of a state, but preferably this would be the state object itself.</p>
+                        <p>State to load initially.
+    This is preferably the state object, but can be its string name.</p>
 
                     </div>
 
@@ -538,7 +573,7 @@
                     
 
                     <div class="param-description">
-                        <p>Any special options for the game. E.g. Is DEBUG_ON or DEBUG_OFF, RENDERER_CANVAS or RENDERER_WEBGL, TARGET_BROWSER or TARGET_COCOON</p>
+                        <p>Any special options for the game</p>
 
                     </div>
 
@@ -553,7 +588,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>If debugging is enabled or not.</p>
+                                    <p>Whether debugging
+        is enabled</p>
 
                                 </div>
 
@@ -568,7 +604,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>A callback to be executed when the game reaches the boot stage.</p>
+                                    <p>Callback to be executed
+        when the game reaches the boot stage</p>
 
                                 </div>
 
@@ -583,7 +620,9 @@
                                 
 
                                 <div class="param-description">
-                                    <p>The type of device Kiwi is being used on.</p>
+                                    <p>Type of
+        device Kiwi is being used on. Values include <code>Kiwi.TARGET_BROWSER</code>
+        and <code>Kiwi.TARGET_COCOON</code>.</p>
 
                                 </div>
 
@@ -598,7 +637,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>The renderer Kiwi should use.</p>
+                                    <p>Renderer Kiwi
+        should use. Values include <code>Kiwi.RENDERER_AUTO</code>, <code>Kiwi.RENDERER_CANVAS</code>, and <code>Kiwi.RENDERER_WEBGL</code>.</p>
 
                                 </div>
 
@@ -613,7 +653,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>The width of this instance of Kiwi.</p>
+                                    <p>Width of
+        this instance of Kiwi</p>
 
                                 </div>
 
@@ -628,7 +669,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>The height of this instance of Kiwi.</p>
+                                    <p>Height of
+        this instance of Kiwi</p>
 
                                 </div>
 
@@ -643,7 +685,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>The type of scaling that should be applied to Kiwi.</p>
+                                    <p>Type of
+        scaling that should be applied to the game. See <code>Kiwi.Stage</code>.</p>
 
                                 </div>
 
@@ -658,7 +701,8 @@
                                 
 
                                 <div class="param-description">
-                                    <p>A list of the names of plugins that are to be used with this game.</p>
+                                    <p>List of the names of plugins
+        that are to be used with this game</p>
 
                                 </div>
 
@@ -688,7 +732,8 @@
                                             
 
                                             <div class="param-description">
-                                                If the logs should be recorded.
+                                                Whether logs
+			should be recorded
                                             </div>
                                         </li>
                                         
@@ -700,7 +745,8 @@
                                             
 
                                             <div class="param-description">
-                                                If the logs should be displayed or not.
+                                                Whether logs
+			should be displayed
                                             </div>
                                         </li>
                                         
@@ -712,7 +758,8 @@
                                             
 
                                             <div class="param-description">
-                                                If the Logger is enabled at all.
+                                                Whether logger
+			is enabled at all
                                             </div>
                                         </li>
                                         
@@ -724,7 +771,8 @@
                                             
 
                                             <div class="param-description">
-                                                The maximum number of recordings to have at a single time.
+                                                Maximum
+			number of recordings to have at a single time
                                             </div>
                                         </li>
                                         
@@ -740,18 +788,6 @@
         </div>
     
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>:
-                    
-                
-            </div>
-        </div>
     
 
     
@@ -791,15 +827,15 @@
                                 
                             </li>
                         
-                            <li class="index-item method public">
-                                <a href="#method_objType">objType</a>
+                            <li class="index-item method private">
+                                <a href="#method__start">_start</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method_start">start</a>
+                            <li class="index-item method public">
+                                <a href="#method_objType">objType</a>
 
                                 
                                 
@@ -949,6 +985,13 @@
                             </li>
                         
                             <li class="index-item property public">
+                                <a href="#property_id">id</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public">
                                 <a href="#property_idealFrame">idealFrame</a>
 
                                 
@@ -1080,7 +1123,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l567"><code>src&#x2F;core&#x2F;Game.ts:567</code></a>
+        <a href="../files/src_core_Game.ts.html#l765"><code>src&#x2F;core&#x2F;Game.ts:765</code></a>
         
         </p>
 
@@ -1091,7 +1134,65 @@
     </div>
 
     <div class="description">
-        <p>The game loop.</p>
+        <p>Execute the game loop.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__start" class="method item private">
+    <h3 class="name"><code>_start</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Game.ts.html#l711"><code>src&#x2F;core&#x2F;Game.ts:711</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Handle start-up of the managers when the game is ready to boot.
+Once the managers have started up, create the game loop.</p>
 
     </div>
 
@@ -1141,7 +1242,7 @@
             
         
         
-        <a href="../files/src_core_Game.ts.html#l311"><code>src&#x2F;core&#x2F;Game.ts:311</code></a>
+        <a href="../files/src_core_Game.ts.html#l454"><code>src&#x2F;core&#x2F;Game.ts:454</code></a>
         
         </p>
 
@@ -1152,7 +1253,7 @@
     </div>
 
     <div class="description">
-        <p>The type of object that the game is.</p>
+        <p>Return the type of object that the game is.</p>
 
     </div>
 
@@ -1172,64 +1273,6 @@
                 
             </div>
         </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_start" class="method item private">
-    <h3 class="name"><code>start</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_core_Game.ts.html#l526"><code>src&#x2F;core&#x2F;Game.ts:526</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The start method gets executed when the game is ready to be booted, and handles the start-up of the managers.
-Once the managers have started up the start loop will then begin to create the game loop.</p>
-
-    </div>
-
-    
-
     
 
     
@@ -1269,7 +1312,7 @@ Once the managers have started up the start loop will then begin to create the g
             
         
         
-        <a href="../files/src_core_Game.ts.html#l265"><code>src&#x2F;core&#x2F;Game.ts:265</code></a>
+        <a href="../files/src_core_Game.ts.html#l401"><code>src&#x2F;core&#x2F;Game.ts:401</code></a>
         
         </p>
 
@@ -1279,7 +1322,8 @@ Once the managers have started up the start loop will then begin to create the g
     </div>
 
     <div class="description">
-        <p>If when rendering, the game should render a new CANVAS which is above everything. This new canvas is for debugging purposes only.
+        <p>If when rendering, the game should render a new CANVAS which is
+above everything. This new canvas is for debugging purposes only.
 This gets set to either DEBUG_ON or DEBUG_OFF</p>
 
     </div>
@@ -1317,7 +1361,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l451"><code>src&#x2F;core&#x2F;Game.ts:451</code></a>
+        <a href="../files/src_core_Game.ts.html#l618"><code>src&#x2F;core&#x2F;Game.ts:618</code></a>
         
         </p>
 
@@ -1327,7 +1371,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The current interval between frames.</p>
+        <p>Current interval between frames</p>
 
     </div>
 
@@ -1364,7 +1408,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l247"><code>src&#x2F;core&#x2F;Game.ts:247</code></a>
+        <a href="../files/src_core_Game.ts.html#l379"><code>src&#x2F;core&#x2F;Game.ts:379</code></a>
         
         </p>
 
@@ -1374,7 +1418,8 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The type of device that you are targeting. This is either set to COCOON or BROWSER</p>
+        <p>Type of device that you are targeting.
+This is either set to COCOON or BROWSER.</p>
 
     </div>
 
@@ -1411,7 +1456,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l467"><code>src&#x2F;core&#x2F;Game.ts:467</code></a>
+        <a href="../files/src_core_Game.ts.html#l636"><code>src&#x2F;core&#x2F;Game.ts:636</code></a>
         
         </p>
 
@@ -1423,7 +1468,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The number of frames since the game was launched.</p>
+        <p>Number of frames since the game was launched</p>
 
     </div>
 
@@ -1460,7 +1505,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l433"><code>src&#x2F;core&#x2F;Game.ts:433</code></a>
+        <a href="../files/src_core_Game.ts.html#l598"><code>src&#x2F;core&#x2F;Game.ts:598</code></a>
         
         </p>
 
@@ -1470,7 +1515,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The framerate at which the game will update at.</p>
+        <p>Framerate at which the game will update</p>
 
     </div>
 
@@ -1509,7 +1554,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l442"><code>src&#x2F;core&#x2F;Game.ts:442</code></a>
+        <a href="../files/src_core_Game.ts.html#l608"><code>src&#x2F;core&#x2F;Game.ts:608</code></a>
         
         </p>
 
@@ -1519,7 +1564,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The interval between frames.</p>
+        <p>Interval between frames in milliseconds</p>
 
     </div>
 
@@ -1558,7 +1603,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l459"><code>src&#x2F;core&#x2F;Game.ts:459</code></a>
+        <a href="../files/src_core_Game.ts.html#l627"><code>src&#x2F;core&#x2F;Game.ts:627</code></a>
         
         </p>
 
@@ -1568,7 +1613,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The last time the game was updated</p>
+        <p>Last time the game was updated</p>
 
     </div>
 
@@ -1605,7 +1650,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l221"><code>src&#x2F;core&#x2F;Game.ts:221</code></a>
+        <a href="../files/src_core_Game.ts.html#l348"><code>src&#x2F;core&#x2F;Game.ts:348</code></a>
         
         </p>
 
@@ -1615,7 +1660,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The render mode of the game. This will be either set to CANVAS or WEBGL.</p>
+        <p>Render mode of the game. This will be either set to CANVAS or WEBGL.</p>
 
     </div>
 
@@ -1652,7 +1697,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l321"><code>src&#x2F;core&#x2F;Game.ts:321</code></a>
+        <a href="../files/src_core_Game.ts.html#l465"><code>src&#x2F;core&#x2F;Game.ts:465</code></a>
         
         </p>
 
@@ -1662,7 +1707,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The object that peforms DOM and device startup operations for browsers (ie not cocoon)</p>
+        <p>Performs DOM and device startup operations for browsers (not Cocoon)</p>
 
     </div>
 
@@ -1699,7 +1744,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l337"><code>src&#x2F;core&#x2F;Game.ts:337</code></a>
+        <a href="../files/src_core_Game.ts.html#l483"><code>src&#x2F;core&#x2F;Game.ts:483</code></a>
         
         </p>
 
@@ -1709,7 +1754,8 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The audio manager that handles all of the audio in game. Inside you can globally mute the audio, create new sounds, e.t.c.</p>
+        <p>Audio manager that handles all of the audio in game.
+Inside you can globally mute the audio, create new sounds, etc.</p>
 
     </div>
 
@@ -1746,7 +1792,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l239"><code>src&#x2F;core&#x2F;Game.ts:239</code></a>
+        <a href="../files/src_core_Game.ts.html#l368"><code>src&#x2F;core&#x2F;Game.ts:368</code></a>
         
         </p>
 
@@ -1756,7 +1802,9 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>A callback function that can be passed in as an option in the conifugration object. Invoked after the boot process has completed.</p>
+        <p>Callback function that can be passed in as an option
+in the configuration object.
+Invoked after the boot process has completed.</p>
 
     </div>
 
@@ -1793,7 +1841,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l361"><code>src&#x2F;core&#x2F;Game.ts:361</code></a>
+        <a href="../files/src_core_Game.ts.html#l513"><code>src&#x2F;core&#x2F;Game.ts:513</code></a>
         
         </p>
 
@@ -1803,7 +1851,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Manages the cameras the are on the stage. Single default Camera only in this version.</p>
+        <p>Manages the cameras the are on the stage</p>
 
     </div>
 
@@ -1840,7 +1888,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l284"><code>src&#x2F;core&#x2F;Game.ts:284</code></a>
+        <a href="../files/src_core_Game.ts.html#l423"><code>src&#x2F;core&#x2F;Game.ts:423</code></a>
         
         </p>
 
@@ -1850,7 +1898,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Returns true if debug option is set to Kiwi.DEBUG_ON</p>
+        <p>Whether debug option is set to <code>Kiwi.DEBUG_ON</code></p>
 
     </div>
 
@@ -1887,7 +1935,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l274"><code>src&#x2F;core&#x2F;Game.ts:274</code></a>
+        <a href="../files/src_core_Game.ts.html#l412"><code>src&#x2F;core&#x2F;Game.ts:412</code></a>
         
         </p>
 
@@ -1897,7 +1945,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Returns the debug option. This is READ ONLY and is decided once the game gets initialised.</p>
+        <p>Debug option, decided once the game gets initialised. READ ONLY.</p>
 
     </div>
 
@@ -1934,7 +1982,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l255"><code>src&#x2F;core&#x2F;Game.ts:255</code></a>
+        <a href="../files/src_core_Game.ts.html#l389"><code>src&#x2F;core&#x2F;Game.ts:389</code></a>
         
         </p>
 
@@ -1944,7 +1992,8 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Returns the device target option for the game. This is READ ONLY and is decided once the game gets initialised.</p>
+        <p>Returns the device target option for the game.
+This is READ ONLY and is decided once the game gets initialised.</p>
 
     </div>
 
@@ -1981,7 +2030,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l345"><code>src&#x2F;core&#x2F;Game.ts:345</code></a>
+        <a href="../files/src_core_Game.ts.html#l493"><code>src&#x2F;core&#x2F;Game.ts:493</code></a>
         
         </p>
 
@@ -1991,7 +2040,9 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The global file store for this game. This handles the storage and access of information loaded, as well as tags that maybe set for them individual files.</p>
+        <p>Global file store for this game. This handles the storage
+and access of information loaded,
+as well as tags that maybe set for them individual files.</p>
 
     </div>
 
@@ -2028,7 +2079,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l476"><code>src&#x2F;core&#x2F;Game.ts:476</code></a>
+        <a href="../files/src_core_Game.ts.html#l646"><code>src&#x2F;core&#x2F;Game.ts:646</code></a>
         
         </p>
 
@@ -2040,9 +2091,14 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The number of frames since the game was launched.</p>
-<p>Use this to drive cyclic animations. You may manually reset it in a Kiwi.State.create() function to restart the count from 0.</p>
-<p>The largest exact integer value of a JavaScript number is 2^53, or 9007199254740992. At 60 frames per second, this will take 4,760,273 years to become inaccurate.</p>
+        <p>Number of frames since the game was launched.</p>
+<p>Use this to drive cyclic animations.
+However, <code>idealFrame</code> is a smoother alternative.</p>
+<p>You may manually reset it in a <code>Kiwi.State.create()</code> function
+to restart the count from 0.</p>
+<p>The largest exact integer value of a JavaScript number is 2^53,
+or 9007199254740992. At 60 frames per second,
+this will take 4,760,273 years to become inaccurate.</p>
 
     </div>
 
@@ -2079,7 +2135,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l508"><code>src&#x2F;core&#x2F;Game.ts:508</code></a>
+        <a href="../files/src_core_Game.ts.html#l689"><code>src&#x2F;core&#x2F;Game.ts:689</code></a>
         
         </p>
 
@@ -2089,7 +2145,8 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The current frameRate that the update/render loops are running at. Note that this may not be an  accurate representation.</p>
+        <p>The current frameRate that the update/render loops are running at.
+Note that this may not be an  accurate representation.</p>
 
     </div>
 
@@ -2126,7 +2183,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l303"><code>src&#x2F;core&#x2F;Game.ts:303</code></a>
+        <a href="../files/src_core_Game.ts.html#l443"><code>src&#x2F;core&#x2F;Game.ts:443</code></a>
         
         </p>
 
@@ -2136,7 +2193,54 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Holds the hud manager.</p>
+        <p>HUD manager</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_id" class="property item public">
+    <h3 class="name"><code>id</code></h3>
+    <span class="type">Number</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_core_Game.ts.html#l474"><code>src&#x2F;core&#x2F;Game.ts:474</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Unique id for the game</p>
 
     </div>
 
@@ -2173,7 +2277,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l494"><code>src&#x2F;core&#x2F;Game.ts:494</code></a>
+        <a href="../files/src_core_Game.ts.html#l672"><code>src&#x2F;core&#x2F;Game.ts:672</code></a>
         
         </p>
 
@@ -2185,8 +2289,10 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The number of ideal frames since the game was launched.</p>
-<p>Use this to drive cyclic animations. This will be smoother than using the frame parameter. It is derived from the total time elapsed since the game launched.</p>
+        <p>Number of ideal frames since the game was launched.</p>
+<p>Use this to drive cyclic animations.
+This will be smoother than using the frame parameter.
+It is derived from the total time elapsed since the game launched.</p>
 
     </div>
 
@@ -2223,7 +2329,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l353"><code>src&#x2F;core&#x2F;Game.ts:353</code></a>
+        <a href="../files/src_core_Game.ts.html#l504"><code>src&#x2F;core&#x2F;Game.ts:504</code></a>
         
         </p>
 
@@ -2233,7 +2339,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Handles any user input with the game. These could via the users keyboard, mouse or touch events.</p>
+        <p>Handles user input with the game, e.g. keyboard, mouse or touch events</p>
 
     </div>
 
@@ -2270,7 +2376,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l377"><code>src&#x2F;core&#x2F;Game.ts:377</code></a>
+        <a href="../files/src_core_Game.ts.html#l531"><code>src&#x2F;core&#x2F;Game.ts:531</code></a>
         
         </p>
 
@@ -2280,7 +2386,8 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Loads files from outside sources and checks to see that they have loaded correctly or not.</p>
+        <p>Loads files from outside sources
+and checks to see that they have loaded correctly or not.</p>
 
     </div>
 
@@ -2317,7 +2424,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l369"><code>src&#x2F;core&#x2F;Game.ts:369</code></a>
+        <a href="../files/src_core_Game.ts.html#l522"><code>src&#x2F;core&#x2F;Game.ts:522</code></a>
         
         </p>
 
@@ -2327,7 +2434,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Manages plugins registration and initialisation for the game instance.</p>
+        <p>Manages plugins registration and initialisation for the game instance</p>
 
     </div>
 
@@ -2364,7 +2471,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l385"><code>src&#x2F;core&#x2F;Game.ts:385</code></a>
+        <a href="../files/src_core_Game.ts.html#l541"><code>src&#x2F;core&#x2F;Game.ts:541</code></a>
         
         </p>
 
@@ -2374,7 +2481,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The Request Animation Frame that is being used for the update and render loops.</p>
+        <p><code>RequestAnimationFrame</code> used for the update and render loops</p>
 
     </div>
 
@@ -2411,7 +2518,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l295"><code>src&#x2F;core&#x2F;Game.ts:295</code></a>
+        <a href="../files/src_core_Game.ts.html#l434"><code>src&#x2F;core&#x2F;Game.ts:434</code></a>
         
         </p>
 
@@ -2421,7 +2528,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Holds the renderer that is being used. This is determined based on the _renderMode</p>
+        <p>Renderer that is being used, based on the <code>_renderMode</code></p>
 
     </div>
 
@@ -2458,7 +2565,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l229"><code>src&#x2F;core&#x2F;Game.ts:229</code></a>
+        <a href="../files/src_core_Game.ts.html#l357"><code>src&#x2F;core&#x2F;Game.ts:357</code></a>
         
         </p>
 
@@ -2468,7 +2575,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Returns the render mode of the game. This is READ ONLY and is decided once the game gets initialised.</p>
+        <p>Render mode of the game, decided once the game initialises. READ ONLY.</p>
 
     </div>
 
@@ -2482,7 +2589,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
                 
                     <div id="property_rnd" class="property item public">
     <h3 class="name"><code>rnd</code></h3>
-    <span class="type">Kiwi.Utils.RandomDataGenerato</span>
+    <span class="type"><a href="../classes/Kiwi.Utils.RandomDataGenerator.html" class="crosslink">Kiwi.Utils.RandomDataGenerator</a></span>
 
     
 
@@ -2505,7 +2612,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l425"><code>src&#x2F;core&#x2F;Game.ts:425</code></a>
+        <a href="../files/src_core_Game.ts.html#l589"><code>src&#x2F;core&#x2F;Game.ts:589</code></a>
         
         </p>
 
@@ -2515,7 +2622,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>A Random Data Generator. This is useful for create unique ids and random information.</p>
+        <p>Random Data Generator used to create unique ids and random information</p>
 
     </div>
 
@@ -2552,7 +2659,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l393"><code>src&#x2F;core&#x2F;Game.ts:393</code></a>
+        <a href="../files/src_core_Game.ts.html#l550"><code>src&#x2F;core&#x2F;Game.ts:550</code></a>
         
         </p>
 
@@ -2599,7 +2706,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l401"><code>src&#x2F;core&#x2F;Game.ts:401</code></a>
+        <a href="../files/src_core_Game.ts.html#l559"><code>src&#x2F;core&#x2F;Game.ts:559</code></a>
         
         </p>
 
@@ -2609,7 +2716,9 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Manages all of the states that exist for this game. Via the manager you can create new states, switch states and do various other tasks.</p>
+        <p>Manages all of the states that exist for this game.
+Via the manager you can create new states,
+switch states and do various other tasks.</p>
 
     </div>
 
@@ -2646,7 +2755,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l409"><code>src&#x2F;core&#x2F;Game.ts:409</code></a>
+        <a href="../files/src_core_Game.ts.html#l570"><code>src&#x2F;core&#x2F;Game.ts:570</code></a>
         
         </p>
 
@@ -2656,7 +2765,8 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>Holds a reference to the clocks that are being used and has a MASTER clock that is being used for the game.</p>
+        <p>Holds a reference to the clocks that are being used
+and has a <code>master</code> clock that is being used for the game.</p>
 
     </div>
 
@@ -2693,7 +2803,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
             
         
         
-        <a href="../files/src_core_Game.ts.html#l417"><code>src&#x2F;core&#x2F;Game.ts:417</code></a>
+        <a href="../files/src_core_Game.ts.html#l580"><code>src&#x2F;core&#x2F;Game.ts:580</code></a>
         
         </p>
 
@@ -2703,7 +2813,7 @@ This gets set to either DEBUG_ON or DEBUG_OFF</p>
     </div>
 
     <div class="description">
-        <p>The tween manager holds a reference to all of the tweens that are created and currently being used.</p>
+        <p>Tween manager used to create and run all global tweens</p>
 
     </div>
 

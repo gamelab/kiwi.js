@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.5.0-beta1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,36 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -70,6 +100,8 @@
                 <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
             
                 <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
             
@@ -281,11 +313,15 @@
             
                 <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -322,8 +358,6 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
-            
-                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -528,13 +562,6 @@
                             </li>
                         
                             <li class="index-item method private">
-                                <a href="#method__switchBlendMode">_switchBlendMode</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
                                 <a href="#method__switchRenderer">_switchRenderer</a>
 
                                 
@@ -687,6 +714,13 @@
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_switchBlendMode">switchBlendMode</a>
+
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -699,27 +733,6 @@
                         
                             <li class="index-item property private">
                                 <a href="#property__camMatrix">_camMatrix</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__currentBlendMode">_currentBlendMode</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__currentRenderer">_currentRenderer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__currentTextureAtlas">_currentTextureAtlas</a>
 
                                 
                                 
@@ -746,29 +759,8 @@
                                 
                             </li>
                         
-                            <li class="index-item property private">
-                                <a href="#property__shaderManager">_shaderManager</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__sharedRenderers">_sharedRenderers</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
+                            <li class="index-item property protected">
                                 <a href="#property__stageResolution">_stageResolution</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property private">
-                                <a href="#property__textureManager">_textureManager</a>
 
                                 
                                 
@@ -781,8 +773,50 @@
                                 
                             </li>
                         
+                            <li class="index-item property">
+                                <a href="#property_currentBlendMode">currentBlendMode</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_currentRenderer">currentRenderer</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_currentTextureAtlas">currentTextureAtlas</a>
+
+                                
+                                
+                            </li>
+                        
                             <li class="index-item property public">
                                 <a href="#property_numDrawCalls">numDrawCalls</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_shaderManager">shaderManager</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_sharedRenderers">sharedRenderers</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_textureManager">textureManager</a>
 
                                 
                                 
@@ -836,7 +870,7 @@
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l373"><code>src&#x2F;render&#x2F;GLRenderManager.ts:373</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l366"><code>src&#x2F;render&#x2F;GLRenderManager.ts:366</code></a>
         
         </p>
 
@@ -854,121 +888,6 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>).</p
 
     </div>
 
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__switchBlendMode" class="method item private">
-    <h3 class="name"><code>_switchBlendMode</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gl</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>blendMode</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l845"><code>src&#x2F;render&#x2F;GLRenderManager.ts:845</code></a>
-        
-        </p>
-
-
-        
-
-        
-            <p>Available since 1.1.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Switch blend mode to a new set of constants.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gl</code>
-                        <span class="type">WebGLRenderingContext</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Canvas rendering context</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">blendMode</code>
-                        <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>New blend mode</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
     
 
     
@@ -1027,7 +946,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>).</p
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l804"><code>src&#x2F;render&#x2F;GLRenderManager.ts:804</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l797"><code>src&#x2F;render&#x2F;GLRenderManager.ts:797</code></a>
         
         </p>
 
@@ -1143,7 +1062,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>).</p
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l827"><code>src&#x2F;render&#x2F;GLRenderManager.ts:827</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l820"><code>src&#x2F;render&#x2F;GLRenderManager.ts:820</code></a>
         
         </p>
 
@@ -1263,7 +1182,7 @@ Instantiates the default shared renderer (<code>TextureAtlasRenderer</code>).</p
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l226"><code>src&#x2F;render&#x2F;GLRenderManager.ts:226</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l219"><code>src&#x2F;render&#x2F;GLRenderManager.ts:219</code></a>
         
         </p>
 
@@ -1402,7 +1321,7 @@ to the array.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l257"><code>src&#x2F;render&#x2F;GLRenderManager.ts:257</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l250"><code>src&#x2F;render&#x2F;GLRenderManager.ts:250</code></a>
         
         </p>
 
@@ -1555,7 +1474,7 @@ renderers are more efficient than instances.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l175"><code>src&#x2F;render&#x2F;GLRenderManager.ts:175</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l169"><code>src&#x2F;render&#x2F;GLRenderManager.ts:169</code></a>
         
         </p>
 
@@ -1709,7 +1628,7 @@ renderers are more efficient than instances.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l655"><code>src&#x2F;render&#x2F;GLRenderManager.ts:655</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l648"><code>src&#x2F;render&#x2F;GLRenderManager.ts:648</code></a>
         
         </p>
 
@@ -1767,7 +1686,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l624"><code>src&#x2F;render&#x2F;GLRenderManager.ts:624</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l617"><code>src&#x2F;render&#x2F;GLRenderManager.ts:617</code></a>
         
         </p>
 
@@ -1825,7 +1744,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l610"><code>src&#x2F;render&#x2F;GLRenderManager.ts:610</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l603"><code>src&#x2F;render&#x2F;GLRenderManager.ts:603</code></a>
         
         </p>
 
@@ -1892,7 +1811,7 @@ Each batch requires the same renderer/shader/texture combination.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l514"><code>src&#x2F;render&#x2F;GLRenderManager.ts:514</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l507"><code>src&#x2F;render&#x2F;GLRenderManager.ts:507</code></a>
         
         </p>
 
@@ -1974,7 +1893,7 @@ The textureManager is told to empty its cache.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l497"><code>src&#x2F;render&#x2F;GLRenderManager.ts:497</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l490"><code>src&#x2F;render&#x2F;GLRenderManager.ts:490</code></a>
         
         </p>
 
@@ -2125,7 +2044,7 @@ rebuilds its cache of textures from the state&#39;s texture library.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l187"><code>src&#x2F;render&#x2F;GLRenderManager.ts:187</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l181"><code>src&#x2F;render&#x2F;GLRenderManager.ts:181</code></a>
         
         </p>
 
@@ -2232,7 +2151,7 @@ rebuilds its cache of textures from the state&#39;s texture library.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l530"><code>src&#x2F;render&#x2F;GLRenderManager.ts:530</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l523"><code>src&#x2F;render&#x2F;GLRenderManager.ts:523</code></a>
         
         </p>
 
@@ -2337,7 +2256,7 @@ Initiate recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l705"><code>src&#x2F;render&#x2F;GLRenderManager.ts:705</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l698"><code>src&#x2F;render&#x2F;GLRenderManager.ts:698</code></a>
         
         </p>
 
@@ -2466,7 +2385,7 @@ Initiate recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l689"><code>src&#x2F;render&#x2F;GLRenderManager.ts:689</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l682"><code>src&#x2F;render&#x2F;GLRenderManager.ts:682</code></a>
         
         </p>
 
@@ -2588,7 +2507,7 @@ Initiate recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l759"><code>src&#x2F;render&#x2F;GLRenderManager.ts:759</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l752"><code>src&#x2F;render&#x2F;GLRenderManager.ts:752</code></a>
         
         </p>
 
@@ -2721,7 +2640,7 @@ Initiate recursive render of scene graph starting at the root.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l338"><code>src&#x2F;render&#x2F;GLRenderManager.ts:338</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l331"><code>src&#x2F;render&#x2F;GLRenderManager.ts:331</code></a>
         
         </p>
 
@@ -2856,7 +2775,7 @@ requirements that do not suit batch rendering use this technique.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l303"><code>src&#x2F;render&#x2F;GLRenderManager.ts:303</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l296"><code>src&#x2F;render&#x2F;GLRenderManager.ts:296</code></a>
         
         </p>
 
@@ -2996,7 +2915,7 @@ renderer instance.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l438"><code>src&#x2F;render&#x2F;GLRenderManager.ts:438</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l431"><code>src&#x2F;render&#x2F;GLRenderManager.ts:431</code></a>
         
         </p>
 
@@ -3143,7 +3062,7 @@ and should not be called.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l785"><code>src&#x2F;render&#x2F;GLRenderManager.ts:785</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l778"><code>src&#x2F;render&#x2F;GLRenderManager.ts:778</code></a>
         
         </p>
 
@@ -3176,6 +3095,119 @@ and should not be called.</p>
 
                     <div class="param-description">
                          
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_switchBlendMode" class="method item">
+    <h3 class="name"><code>switchBlendMode</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>blendMode</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l838"><code>src&#x2F;render&#x2F;GLRenderManager.ts:838</code></a>
+        
+        </p>
+
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Switch blend mode to a new set of constants.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Canvas rendering context</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">blendMode</code>
+                        <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>New blend mode</p>
+
                     </div>
 
                     
@@ -3224,7 +3256,7 @@ and should not be called.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l157"><code>src&#x2F;render&#x2F;GLRenderManager.ts:157</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l152"><code>src&#x2F;render&#x2F;GLRenderManager.ts:152</code></a>
         
         </p>
 
@@ -3235,149 +3267,6 @@ and should not be called.</p>
 
     <div class="description">
         <p>Geometry data used to create <code>camMatrix</code></p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__currentBlendMode" class="property item private">
-    <h3 class="name"><code>_currentBlendMode</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l107"><code>src&#x2F;render&#x2F;GLRenderManager.ts:107</code></a>
-        
-        </p>
-
-        
-
-        
-            <p>Available since 1.1.0</p>
-        
-    </div>
-
-    <div class="description">
-        <p>Current blend mode</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__currentRenderer" class="property item private">
-    <h3 class="name"><code>_currentRenderer</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l98"><code>src&#x2F;render&#x2F;GLRenderManager.ts:98</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Renderer object currently in use during a rendering batch</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__currentTextureAtlas" class="property item private">
-    <h3 class="name"><code>_currentTextureAtlas</code></h3>
-    <span class="type">TextureAtlas</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l166"><code>src&#x2F;render&#x2F;GLRenderManager.ts:166</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Most recently bound texture atlas</p>
 
     </div>
 
@@ -3414,7 +3303,7 @@ and should not be called.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l117"><code>src&#x2F;render&#x2F;GLRenderManager.ts:117</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l112"><code>src&#x2F;render&#x2F;GLRenderManager.ts:112</code></a>
         
         </p>
 
@@ -3510,7 +3399,7 @@ and should not be called.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l137"><code>src&#x2F;render&#x2F;GLRenderManager.ts:137</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l132"><code>src&#x2F;render&#x2F;GLRenderManager.ts:132</code></a>
         
         </p>
 
@@ -3535,121 +3424,14 @@ Note: Not currently used - candidate for deletion</p>
 </div>
 
                 
-                    <div id="property__shaderManager" class="property item private">
-    <h3 class="name"><code>_shaderManager</code></h3>
-    <span class="type">Kiwi.Renderes.GLShaderManager</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l79"><code>src&#x2F;render&#x2F;GLRenderManager.ts:79</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Shader manager object used to allocate GL Shaders</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__sharedRenderers" class="property item private">
-    <h3 class="name"><code>_sharedRenderers</code></h3>
-    <span class="type">Array</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l200"><code>src&#x2F;render&#x2F;GLRenderManager.ts:200</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Array of renderers.</p>
-<p>Shared renderers are used for batch rendering.
-Multiple gameobjects can use the same renderer instance and add
-rendering info to a batch rather than rendering individually.
-This means only one draw call is necessary to render a number of
-objects. The most common use of this is standard 2d sprite rendering,
-and the TextureAtlasRenderer is added by default as a shared
-renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
-can all use the same renderer/shader combination and be drawn as
-part of the same batch.</p>
-<p>Custom gameobjects can also choose to use a shared renderer,
-for example in the case that a custom gameobject&#39;s
-rendering requirements matched the <code>TextureAtlasRenderer</code>
-capabilities.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__stageResolution" class="property item private">
+                    <div id="property__stageResolution" class="property item protected">
     <h3 class="name"><code>_stageResolution</code></h3>
     <span class="type">Float32Array</span>
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag protected">protected</span>
     
 
     
@@ -3667,7 +3449,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l89"><code>src&#x2F;render&#x2F;GLRenderManager.ts:89</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l86"><code>src&#x2F;render&#x2F;GLRenderManager.ts:86</code></a>
         
         </p>
 
@@ -3678,53 +3460,6 @@ capabilities.</p>
 
     <div class="description">
         <p>Stage resolution in pixels</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__textureManager" class="property item private">
-    <h3 class="name"><code>_textureManager</code></h3>
-    <span class="type">Kiwi.Renderes.GLTextureManager</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_render_GLRenderManager.ts.html#l70"><code>src&#x2F;render&#x2F;GLRenderManager.ts:70</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Texture manager object used to allocate GL Textures</p>
 
     </div>
 
@@ -3761,7 +3496,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l148"><code>src&#x2F;render&#x2F;GLRenderManager.ts:148</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l143"><code>src&#x2F;render&#x2F;GLRenderManager.ts:143</code></a>
         
         </p>
 
@@ -3772,6 +3507,143 @@ capabilities.</p>
 
     <div class="description">
         <p>Camera matrix used on graphics card</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_currentBlendMode" class="property item">
+    <h3 class="name"><code>currentBlendMode</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Renderers.GLBlendMode.html" class="crosslink">Kiwi.Renderers.GLBlendMode</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l103"><code>src&#x2F;render&#x2F;GLRenderManager.ts:103</code></a>
+        
+        </p>
+
+        
+
+        
+            <p>Available since 1.1.0</p>
+        
+    </div>
+
+    <div class="description">
+        <p>Current blend mode</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_currentRenderer" class="property item">
+    <h3 class="name"><code>currentRenderer</code></h3>
+    <span class="type"><a href="../classes/Kiwi.Renderers.Renderer.html" class="crosslink">Kiwi.Renderers.Renderer</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l95"><code>src&#x2F;render&#x2F;GLRenderManager.ts:95</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Renderer object currently in use during a rendering batch</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_currentTextureAtlas" class="property item">
+    <h3 class="name"><code>currentTextureAtlas</code></h3>
+    <span class="type">TextureAtlas</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l161"><code>src&#x2F;render&#x2F;GLRenderManager.ts:161</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Most recently bound texture atlas</p>
 
     </div>
 
@@ -3808,7 +3680,7 @@ capabilities.</p>
             
         
         
-        <a href="../files/src_render_GLRenderManager.ts.html#l127"><code>src&#x2F;render&#x2F;GLRenderManager.ts:127</code></a>
+        <a href="../files/src_render_GLRenderManager.ts.html#l122"><code>src&#x2F;render&#x2F;GLRenderManager.ts:122</code></a>
         
         </p>
 
@@ -3824,6 +3696,154 @@ capabilities.</p>
 
     
         <p><strong>Default:</strong> 0</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_shaderManager" class="property item">
+    <h3 class="name"><code>shaderManager</code></h3>
+    <span class="type">Kiwi.Renderes.GLShaderManager</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l78"><code>src&#x2F;render&#x2F;GLRenderManager.ts:78</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader manager object used to allocate GL Shaders</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_sharedRenderers" class="property item">
+    <h3 class="name"><code>sharedRenderers</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l194"><code>src&#x2F;render&#x2F;GLRenderManager.ts:194</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Array of renderers.</p>
+<p>Shared renderers are used for batch rendering.
+Multiple gameobjects can use the same renderer instance and add
+rendering info to a batch rather than rendering individually.
+This means only one draw call is necessary to render a number of
+objects. The most common use of this is standard 2d sprite rendering,
+and the TextureAtlasRenderer is added by default as a shared
+renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
+can all use the same renderer/shader combination and be drawn as
+part of the same batch.</p>
+<p>Custom gameobjects can also choose to use a shared renderer,
+for example in the case that a custom gameobject&#39;s
+rendering requirements matched the <code>TextureAtlasRenderer</code>
+capabilities.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_textureManager" class="property item">
+    <h3 class="name"><code>textureManager</code></h3>
+    <span class="type">Kiwi.Renderes.GLTextureManager</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_GLRenderManager.ts.html#l70"><code>src&#x2F;render&#x2F;GLRenderManager.ts:70</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Texture manager object used to allocate GL Textures</p>
+
+    </div>
+
     
 
     

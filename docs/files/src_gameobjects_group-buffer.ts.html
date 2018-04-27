@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/gameobjects/group-buffer.ts - Kiwi.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Kiwi.js"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.5.0-beta1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Sequence.html">Kiwi.Animations.Sequence</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tween.html">Kiwi.Animations.Tween</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Back.html">Kiwi.Animations.Tweens.Easing.Back</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Bounce.html">Kiwi.Animations.Tweens.Easing.Bounce</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Circular.html">Kiwi.Animations.Tweens.Easing.Circular</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Cubic.html">Kiwi.Animations.Tweens.Easing.Cubic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Elastic.html">Kiwi.Animations.Tweens.Easing.Elastic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Exponential.html">Kiwi.Animations.Tweens.Easing.Exponential</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Linear.html">Kiwi.Animations.Tweens.Easing.Linear</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quadratic.html">Kiwi.Animations.Tweens.Easing.Quadratic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quartic.html">Kiwi.Animations.Tweens.Easing.Quartic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Quintic.html">Kiwi.Animations.Tweens.Easing.Quintic</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
+            
+                <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
+            
+                <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
+            
+                <li><a href="../classes/Kiwi.CameraManager.html">Kiwi.CameraManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Component.html">Kiwi.Component</a></li>
+            
+                <li><a href="../classes/Kiwi.ComponentManager.html">Kiwi.ComponentManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.AnimationManager.html">Kiwi.Components.AnimationManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.ArcadePhysics.html">Kiwi.Components.ArcadePhysics</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Box.html">Kiwi.Components.Box</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Input.html">Kiwi.Components.Input</a></li>
+            
+                <li><a href="../classes/Kiwi.Components.Sound.html">Kiwi.Components.Sound</a></li>
+            
+                <li><a href="../classes/Kiwi.Entity.html">Kiwi.Entity</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.AudioFile.html">Kiwi.Files.AudioFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataFile.html">Kiwi.Files.DataFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.DataLibrary.html">Kiwi.Files.DataLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.File.html">Kiwi.Files.File</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.FileStore.html">Kiwi.Files.FileStore</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.Loader.html">Kiwi.Files.Loader</a></li>
+            
+                <li><a href="../classes/Kiwi.Files.TextureFile.html">Kiwi.Files.TextureFile</a></li>
+            
+                <li><a href="../classes/Kiwi.Game.html">Kiwi.Game</a></li>
+            
+                <li><a href="../classes/Kiwi.GameManager.html">Kiwi.GameManager</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Sprite.html">Kiwi.GameObjects.Sprite</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.StaticImage.html">Kiwi.GameObjects.StaticImage</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.TextField.html">Kiwi.GameObjects.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMap.html">Kiwi.GameObjects.Tilemap.TileMap</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayer.html">Kiwi.GameObjects.Tilemap.TileMapLayer</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayerIsometric.html">Kiwi.GameObjects.Tilemap.TileMapLayerIsometric</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal.html">Kiwi.GameObjects.Tilemap.TileMapLayerOrthogonal</a></li>
+            
+                <li><a href="../classes/Kiwi.GameObjects.Tilemap.TileType.html">Kiwi.GameObjects.Tilemap.TileType</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.AABB.html">Kiwi.Geom.AABB</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Circle.html">Kiwi.Geom.Circle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Intersect.html">Kiwi.Geom.Intersect</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.IntersectResult.html">Kiwi.Geom.IntersectResult</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Line.html">Kiwi.Geom.Line</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Matrix.html">Kiwi.Geom.Matrix</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Point.html">Kiwi.Geom.Point</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Ray.html">Kiwi.Geom.Ray</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Rectangle.html">Kiwi.Geom.Rectangle</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Transform.html">Kiwi.Geom.Transform</a></li>
+            
+                <li><a href="../classes/Kiwi.Geom.Vector2.html">Kiwi.Geom.Vector2</a></li>
+            
+                <li><a href="../classes/Kiwi.Group.html">Kiwi.Group</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Counter.html">Kiwi.HUD.HUDComponents.Counter</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.Time.html">Kiwi.HUD.HUDComponents.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDComponents.WidgetInput.html">Kiwi.HUD.HUDComponents.WidgetInput</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDDisplay.html">Kiwi.HUD.HUDDisplay</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDManager.html">Kiwi.HUD.HUDManager</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.HUDWidget.html">Kiwi.HUD.HUDWidget</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Bar.html">Kiwi.HUD.Widget.Bar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.BasicScore.html">Kiwi.HUD.Widget.BasicScore</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Button.html">Kiwi.HUD.Widget.Button</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Icon.html">Kiwi.HUD.Widget.Icon</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.IconBar.html">Kiwi.HUD.Widget.IconBar</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Menu.html">Kiwi.HUD.Widget.Menu</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.MenuItem.html">Kiwi.HUD.Widget.MenuItem</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.TextField.html">Kiwi.HUD.Widget.TextField</a></li>
+            
+                <li><a href="../classes/Kiwi.HUD.Widget.Time.html">Kiwi.HUD.Widget.Time</a></li>
+            
+                <li><a href="../classes/Kiwi.IChild.html">Kiwi.IChild</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Finger.html">Kiwi.Input.Finger</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.InputManager.html">Kiwi.Input.InputManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Key.html">Kiwi.Input.Key</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keyboard.html">Kiwi.Input.Keyboard</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Keycodes.html">Kiwi.Input.Keycodes</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Mouse.html">Kiwi.Input.Mouse</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.MouseCursor.html">Kiwi.Input.MouseCursor</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Pointer.html">Kiwi.Input.Pointer</a></li>
+            
+                <li><a href="../classes/Kiwi.Input.Touch.html">Kiwi.Input.Touch</a></li>
+            
+                <li><a href="../classes/Kiwi.PluginManager.html">Kiwi.PluginManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.CanvasRenderer.html">Kiwi.Renderers.CanvasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLArrayBuffer.html">Kiwi.Renderers.GLArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLBlendMode.html">Kiwi.Renderers.GLBlendMode</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLElementArrayBuffer.html">Kiwi.Renderers.GLElementArrayBuffer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLRenderManager.html">Kiwi.Renderers.GLRenderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureManager.html">Kiwi.Renderers.GLTextureManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.GLTextureWrapper.html">Kiwi.Renderers.GLTextureWrapper</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.Renderer.html">Kiwi.Renderers.Renderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Renderers.TextureAtlasRenderer.html">Kiwi.Renderers.TextureAtlasRenderer</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderManager.html">Kiwi.Shaders.ShaderManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.ShaderPair.html">Kiwi.Shaders.ShaderPair</a></li>
+            
+                <li><a href="../classes/Kiwi.Shaders.TextureAtlasShader.html">Kiwi.Shaders.TextureAtlasShader</a></li>
+            
+                <li><a href="../classes/Kiwi.Signal.html">Kiwi.Signal</a></li>
+            
+                <li><a href="../classes/Kiwi.SignalBinding.html">Kiwi.SignalBinding</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.Audio.html">Kiwi.Sound.Audio</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioLibrary.html">Kiwi.Sound.AudioLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Sound.AudioManager.html">Kiwi.Sound.AudioManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Stage.html">Kiwi.Stage</a></li>
+            
+                <li><a href="../classes/Kiwi.State.html">Kiwi.State</a></li>
+            
+                <li><a href="../classes/Kiwi.StateConfig.html">Kiwi.StateConfig</a></li>
+            
+                <li><a href="../classes/Kiwi.StateManager.html">Kiwi.StateManager</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Bootstrap.html">Kiwi.System.Bootstrap</a></li>
+            
+                <li><a href="../classes/Kiwi.System.Device.html">Kiwi.System.Device</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SingleImage.html">Kiwi.Textures.SingleImage</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.SpriteSheet.html">Kiwi.Textures.SpriteSheet</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureAtlas.html">Kiwi.Textures.TextureAtlas</a></li>
+            
+                <li><a href="../classes/Kiwi.Textures.TextureLibrary.html">Kiwi.Textures.TextureLibrary</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Clock.html">Kiwi.Time.Clock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.ClockManager.html">Kiwi.Time.ClockManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.MasterClock.html">Kiwi.Time.MasterClock</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.Timer.html">Kiwi.Time.Timer</a></li>
+            
+                <li><a href="../classes/Kiwi.Time.TimerEvent.html">Kiwi.Time.TimerEvent</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Canvas.html">Kiwi.Utils.Canvas</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Color.html">Kiwi.Utils.Color</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Common.html">Kiwi.Utils.Common</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.GameMath.html">Kiwi.Utils.GameMath</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Log.html">Kiwi.Utils.Log</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RandomDataGenerator.html">Kiwi.Utils.RandomDataGenerator</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.RequestAnimationFrame.html">Kiwi.Utils.RequestAnimationFrame</a></li>
+            
+                <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
+            
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
+            
+                <li><a href="../modules/Components.html">Components</a></li>
+            
+                <li><a href="../modules/Easing.html">Easing</a></li>
+            
+                <li><a href="../modules/Files.html">Files</a></li>
+            
+                <li><a href="../modules/GameObjects.html">GameObjects</a></li>
+            
+                <li><a href="../modules/Geom.html">Geom</a></li>
+            
+                <li><a href="../modules/HUD.html">HUD</a></li>
+            
+                <li><a href="../modules/HUDComponents.html">HUDComponents</a></li>
+            
+                <li><a href="../modules/Input.html">Input</a></li>
+            
+                <li><a href="../modules/Kiwi.html">Kiwi</a></li>
+            
+                <li><a href="../modules/Renderers.html">Renderers</a></li>
+            
+                <li><a href="../modules/Shaders.html">Shaders</a></li>
+            
+                <li><a href="../modules/Sound.html">Sound</a></li>
+            
+                <li><a href="../modules/System.html">System</a></li>
+            
+                <li><a href="../modules/Textures.html">Textures</a></li>
+            
+                <li><a href="../modules/Tilemap.html">Tilemap</a></li>
+            
+                <li><a href="../modules/Time.html">Time</a></li>
+            
+                <li><a href="../modules/Tweens.html">Tweens</a></li>
+            
+                <li><a href="../modules/Utils.html">Utils</a></li>
+            
+                <li><a href="../modules/Widget.html">Widget</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/gameobjects/group-buffer.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+@module Kiwi
+@submodule GameObjects
+**/
+
+module Kiwi.GameObjects {
+    export class GroupBuffer extends Kiwi.Buffers.Buffer {
+        constructor ( params ) {
+            /**
+            Buffer that draws a subgraph.
+            The GroupBuffer can either use its own children,
+            or another entity with members, as the subgraph.
+            The subgraph will be rendered into the buffer.
+
+            The GroupBuffer functions as a &#x60;Group&#x60;.
+
+            Children of the GroupBuffer will not be drawn
+            as part of the regular render sequence.
+
+            All standard Buffer options are available.
+
+            You should create &#x60;GroupBuffer&#x60; objects
+            using the &#x60;createGroupBuffer&#x60; method of a &#x60;Bufferer&#x60; object.
+
+            @class GroupBuffer
+            @constructor
+            @extends Kiwi.Buffers.Buffer
+            @extends Kiwi.Group
+            @param params {object} Composite parameter object
+                @param params.state {Kiwi.State} Current game state
+                @param params.bufferer {Kiwi.Buffers.Bufferer} Buffer
+                    manager object. You should not create &#x60;GroupBuffer&#x60; objects
+                    on their own; use a manager to ensure they are properly
+                    registered. The manager will auto-complete this parameter.
+                @param [params.camera] {Kiwi.Camera} Camera to use
+                @param [params.renderTask] {string} Render task identifier
+                @param [params.target=this] {Kiwi.Entity} Parent of a subgraph
+            **/
+
+            super( params );
+
+            this._extendWithGroupMethods();
+
+            this.camera = params.camera || new Kiwi.Camera(
+                this.game, 0,
+                this.name ? this.name + &quot;-camera&quot; : &quot;GroupBufferCamera&quot;,
+                0, 0, this.width, this.height );
+            this.camera.fitToStage = false;
+
+            this._camMatrix = new Kiwi.Geom.Matrix();
+
+            this.members = [];
+
+            this.renderTask = params.renderTask;
+
+            this.target = params.target || this;
+
+            this.addTag( &quot;GroupBuffer&quot; );
+        }
+
+        /**
+        Camera to use. This describes the buffer&#x27;s view into the scene.
+
+        Defaults to a new camera. This is not created using
+        &#x60;game.cameras.create&#x60;, because that would add it to the regular
+        render pipeline.
+
+        @property camera
+        @type Kiwi.Camera
+        **/
+        camera: Kiwi.Camera;
+
+        /**
+        Temporary scratch matrix used to compute canvas camera transforms.
+        @property _camMatrix
+        @type Kiwi.Geom.Matrix
+        @private
+        **/
+        private _camMatrix: Kiwi.Geom.Matrix;
+
+        /**
+        Collection of children belonging to this &#x60;GroupBuffer&#x60;
+        @property members
+        @type array
+        @default []
+        **/
+        members: Array&lt;any&gt;;
+
+        /**
+        Render task identification key. If specified, the &#x60;GroupBuffer&#x60;
+        will only render entities with that &#x60;RenderTask&#x60;. If not specified,
+        the &#x60;GroupBuffer&#x60; will use the default render method.
+
+        @property renderTask
+        @type string
+        @default undefined
+        **/
+        renderTask: string;
+
+        /**
+        Target parent of a subgraph.
+        The &#x60;GroupBuffer&#x60; will render that subgraph.
+        By default, the &#x60;GroupBuffer&#x60; has its own children.
+
+        @property target
+        @type Kiwi.Entity
+        @default this
+        **/
+        target: any;
+
+        protected _drawCanvas () {
+            /**
+            Custom canvas draw behavior.
+            @method _drawCanvas
+            @protected
+            **/
+
+            var ct, i, ignorance, stageCtx;
+
+            this.clear();
+
+            // Standard render techniques always use the stage context.
+            // We&#x27;re going to steal it, impersonate it, and put it back.
+            stageCtx = this.game.stage.ctx;
+            this.game.stage.ctx = this._ctx;
+
+            this._ctx.save();
+
+            // Apply camera
+            ct = this.camera.transform;
+            this._camMatrix.setFromOffsetTransform(
+                0, 0, ct.scaleX, ct.scaleY, ct.rotation,
+                ct.anchorPointX, ct.anchorPointY );
+            this._ctx.setTransform(
+                this._camMatrix.a, this._camMatrix.b,
+                this._camMatrix.c, this._camMatrix.d,
+                this._camMatrix.tx, this._camMatrix.ty );
+            this._ctx.transform(
+                1, 0, 0, 1, ct.x - ct.anchorPointX, ct.y - ct.anchorPointY );
+
+            // Draw elements
+            if ( this.target === this ) {
+
+                // GroupBuffers which render their own children
+                // must apply an inverse transform
+                // to the camera, otherwise children will inherit\
+                // parent transforms and slide around as the object transforms
+                ignorance = this.transform.ignoreChild;
+                this.transform.ignoreChild = true;
+
+                if ( this.renderTask ) {
+                    for ( i = 0; i &lt; this.members.length; i++ ) {
+                        this._recurseTask( this.members[ i ] );
+                    }
+                } else {
+                    for ( i = 0; i &lt; this.members.length; i++ ) {
+                        this._recurse( this.members[ i ] );
+                    }
+                }
+            } else {
+                if ( this.renderTask ) {
+                    this._recurseTask( this.target );
+                } else {
+                    this._recurse( this.target );
+                }
+            }
+
+            this._ctx.restore();
+            this.transform.ignoreChild = ignorance;
+            this.game.stage.ctx = stageCtx;
+        }
+
+        protected _drawGl () {
+            /**
+            Custom WebGL draw behavior.
+            @method _drawGl
+            @protected
+            **/
+
+            this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, this._framebuffer );
+            this.gl.viewport( 0, 0, this.width, this.height );
+            this.bufferer.groupBufferGlRenderManager.renderBuffer( this );
+        }
+
+        destroy () {
+            /**
+            Destroy the &#x60;GroupBuffer&#x60; and its own children.
+            Hybrid of &#x60;Buffer&#x60; and &#x60;Group&#x60; destroy methods.
+
+            Do not call this method. Use &#x60;exists = false&#x60; to ensure the entity
+            is removed at the appropriate point during the game loop.
+
+            @method destroy
+            **/
+
+            var i;
+
+            super.destroy();
+
+            // Duplicate of required &#x60;Group.destroy()&#x60; functionality
+            // Call after Buffer so members are still available for
+            // preservation export
+            for ( i = this.members.length - 1; i &gt;= 0; i-- ) {
+                this.members[ i ].destroy( true );
+            }
+        }
+
+        drawCopy ( target: any ) {
+            /**
+            Draw a copy of the target, using this &#x60;GroupBuffer&#x60;&#x27;s camera.
+
+            This is useful for capturing snapshots.
+
+            The operation will temporarily set &#x60;this.target&#x60; to &#x60;target&#x60;,
+            then call &#x60;drawImmediate()&#x60;.
+            Ensure that &#x60;clearOnRender&#x60; and &#x60;redraw&#x60; are set appropriately.
+
+            @method drawCopy
+            @param target {Kiwi.IChild} Entity to draw into the buffer.
+            **/
+
+            var _target = this.target;
+
+            this.target = target;
+
+            this.drawImmediate();
+
+            this.target = _target;
+        }
+
+        drawCut ( target ) {
+            /**
+            Draw the target, using this &#x60;GroupBuffer&#x60;&#x27;s camera.
+            The target is then deleted.
+
+            This is useful for one-time renders, such as custom sprite sheets.
+
+            The operation will temporarily set &#x60;this.target&#x60; to &#x60;target&#x60;,
+            then call &#x60;drawImmediate()&#x60;.
+            Ensure that &#x60;clearOnRender&#x60; and &#x60;redraw&#x60; are set appropriately.
+
+            @method drawCut
+            @param target {Kiwi.Entity} Entity to draw into the buffer.
+            **/
+
+            this.drawCopy( target );
+
+            target.exists = false;
+        }
+
+        private _extendWithGroupMethods () {
+            /**
+            Copy properties from &#x60;Kiwi.Group&#x60; to simulate multiple inheritance.
+            @method _extendWithGroupMethods
+            @private
+            **/
+
+            // The &#x60;GroupBuffer&#x60; shouldn&#x27;t be a &#x60;Group&#x60;, because
+            // (A) it needs the &#x60;Buffer&#x60; inheritance, and
+            // (B) groups don&#x27;t enter the render pipeline.
+
+            var i,
+                props = [
+                    &quot;_validateChild&quot;,
+                    &quot;addChild&quot;,
+                    &quot;addChildAfter&quot;,
+                    &quot;addChildAt&quot;,
+                    &quot;addChildBefore&quot;,
+                    &quot;callAll&quot;,
+                    &quot;clear&quot;,
+                    &quot;contains&quot;,
+                    &quot;containsAncestor&quot;,
+                    &quot;containsDescendant&quot;,
+                    &quot;forEach&quot;,
+                    &quot;getAllChildren&quot;,
+                    &quot;getChildAt&quot;,
+                    &quot;getChildByID&quot;,
+                    &quot;getChildByName&quot;,
+                    &quot;getChildIndex&quot;,
+                    &quot;getChildrenByTag&quot;,
+                    &quot;getFirstChildByTag&quot;,
+                    &quot;getLastChildByTag&quot;,
+                    &quot;numChildren&quot;,
+                    &quot;removeChild&quot;,
+                    &quot;removeChildAt&quot;,
+                    &quot;removeChildren&quot;,
+                    &quot;replaceChild&quot;,
+                    &quot;setAll&quot;,
+                    &quot;setChildIndex&quot;,
+                    &quot;swapChildren&quot;,
+                    &quot;swapChildrenAt&quot;
+                ];
+            for ( i = 0; i &lt; props.length; i++ ) {
+                Kiwi.GameObjects.GroupBuffer.prototype[ props[ i ] ] =
+                    Kiwi.Group.prototype[ props[ i ] ];
+            }
+        }
+
+        private _recurse ( child: any ) {
+            /**
+            Recursively render a subgraph. Used for canvas rendering.
+            @method _recurse
+            @param child {object} Child being checked
+            @private
+            **/
+
+            var i;
+
+            // Do not render non-visible objects or their children
+            if ( !child.visible ) {
+                return;
+            }
+
+            if ( child.childType() === Kiwi.GROUP ) {
+                for ( i = 0; i &lt; child.members.length; i++ ) {
+                    this._recurse( child.members[ i ] );
+                }
+            } else {
+                child.render( this.camera );
+            }
+        }
+
+        private _recurseTask ( child: any ) {
+            /**
+            Recursively render a subgraph with Canvas.
+            This variant of &#x60;_recurse&#x60; renders using &#x60;RenderTask&#x60; functions
+            matching this &#x60;GroupBuffer&#x60;.
+
+            @method _recurseTask
+            @param child {object} Child being checked
+            @private
+            **/
+
+            var alpha, i;
+
+            // Do not render non-visible objects or their children
+            if ( !child.visible ) {
+                return;
+            }
+
+            if ( child.childType() === Kiwi.GROUP ) {
+                for ( i = 0; i &lt; child.members.length; i++ ) {
+                    this._recurseTask( child.members[ i ] );
+                }
+            } else {
+                if (
+                    child.renderTasks &amp;&amp;
+                    child.renderTasks[ this.renderTask ] ) {
+
+                    alpha = child.alpha;
+                    child.alpha = child.renderTasks[ this.renderTask ].alpha;
+                    child.renderTasks[ this.renderTask ].renderCanvas.call(
+                        child, this.camera );
+                    child.alpha = alpha;
+                }
+            }
+        }
+
+        update () {
+            /**
+            Override default method.
+            @method update
+            **/
+
+            super.update();
+
+            this._updateMembers();
+        }
+
+        private _updateMembers () {
+            /**
+            Trigger update for all members. Update does not propagate into
+            &#x60;GroupBuffer&#x60; objects, because they&#x27;re not explicitly groups.
+
+            @method _updateMembers
+            @private
+            **/
+
+            var i;
+            for ( i = 0; i &lt; this.members.length; i++ ) {
+                this.members[ i ].update();
+            }
+        }
+    }
+}
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0</em>
+            <em>API Docs for: 1.5.0-beta1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,36 @@
 
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Buffer.html">Buffer</a></li>
+            
+                <li><a href="../classes/BufferAtlas.html">BufferAtlas</a></li>
+            
+                <li><a href="../classes/FilterBase.html">FilterBase</a></li>
+            
+                <li><a href="../classes/FilterBlurHorizontal.html">FilterBlurHorizontal</a></li>
+            
+                <li><a href="../classes/FilterBlurVertical.html">FilterBlurVertical</a></li>
+            
+                <li><a href="../classes/FilterBuffer.html">FilterBuffer</a></li>
+            
+                <li><a href="../classes/FilterBufferGlRenderManager.html">FilterBufferGlRenderManager</a></li>
+            
+                <li><a href="../classes/FilterCanvas.html">FilterCanvas</a></li>
+            
+                <li><a href="../classes/FilterChannelMultCanvas.html">FilterChannelMultCanvas</a></li>
+            
+                <li><a href="../classes/FilterColorValue.html">FilterColorValue</a></li>
+            
+                <li><a href="../classes/FilterGl.html">FilterGl</a></li>
+            
+                <li><a href="../classes/FilterInvert.html">FilterInvert</a></li>
+            
+                <li><a href="../classes/FilterInvertCanvas.html">FilterInvertCanvas</a></li>
+            
+                <li><a href="../classes/GroupBuffer.html">GroupBuffer</a></li>
+            
+                <li><a href="../classes/GroupBufferGlRenderManager.html">GroupBufferGlRenderManager</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Animation.html">Kiwi.Animations.Animation</a></li>
             
@@ -70,6 +100,8 @@
                 <li><a href="../classes/Kiwi.Animations.Tweens.Easing.Sinusoidal.html">Kiwi.Animations.Tweens.Easing.Sinusoidal</a></li>
             
                 <li><a href="../classes/Kiwi.Animations.Tweens.TweenManager.html">Kiwi.Animations.Tweens.TweenManager</a></li>
+            
+                <li><a href="../classes/Kiwi.Buffers.Bufferer.html">Kiwi.Buffers.Bufferer</a></li>
             
                 <li><a href="../classes/Kiwi.Camera.html">Kiwi.Camera</a></li>
             
@@ -281,11 +313,15 @@
             
                 <li><a href="../classes/Kiwi.Utils.Version.html">Kiwi.Utils.Version</a></li>
             
+                <li><a href="../classes/RenderTask.html">RenderTask</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
                 <li><a href="../modules/Animations.html">Animations</a></li>
+            
+                <li><a href="../modules/Buffers.html">Buffers</a></li>
             
                 <li><a href="../modules/Components.html">Components</a></li>
             
@@ -322,8 +358,6 @@
                 <li><a href="../modules/Tweens.html">Tweens</a></li>
             
                 <li><a href="../modules/Utils.html">Utils</a></li>
-            
-                <li><a href="../modules/Utils..html">Utils.</a></li>
             
                 <li><a href="../modules/Widget.html">Widget</a></li>
             
@@ -387,11 +421,17 @@ module Kiwi.GameObjects.Tilemap {
 	* @param [tileMapDataKey] {String} The Data key for the JSON you would like to use.
 	* @param [atlas] {Kiwi.Textures.TextureAtlas} The texture atlas that you would like the tilemap layers to use.
 	* @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. See &#x27;createFromFileStore&#x27; for more information.
+	* @param [substitution=false] {boolean} Whether to create a buffered substitution for these tiles, to accelerate rendering on some devices.
 	* @return {TileMap}
 	*/
 	export class TileMap {
 
-		constructor(state: Kiwi.State, tileMapData?: any, atlas?: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+		constructor(
+			state: Kiwi.State,
+			tileMapData?: any,
+			atlas?: Kiwi.Textures.TextureAtlas,
+			startingCell: number = 0,
+			substitution: boolean = false ) {
 
 			this.tileTypes = [];
 			this.createTileType(-1);
@@ -401,7 +441,8 @@ module Kiwi.GameObjects.Tilemap {
 			this.game = state.game;
 
 			if (tileMapData !== undefined &amp;&amp; atlas !== undefined) {
-				this.createFromFileStore(tileMapData, atlas, startingCell);
+				this.createFromFileStore(
+					tileMapData, atlas, startingCell, substitution);
 			} else if (tileMapData !== undefined || atlas !== undefined) {
 				Kiwi.Log.warn(&#x27;You must pass BOTH the TileMapDataKey and TextureAtlas inorder to create a TileMap from the File Store.&#x27;, &#x27;#tilemap&#x27;);
 			}
@@ -527,7 +568,11 @@ module Kiwi.GameObjects.Tilemap {
 		* @param [startingCell=0] {number} The number for the initial cell that the first TileType should use. If you pass -1 then no new TileTypes will be created.
 		* @public
 		*/
-		public createFromFileStore(tileMapData: any, atlas: Kiwi.Textures.TextureAtlas, startingCell:number=0) {
+		public createFromFileStore(
+			tileMapData: any,
+			atlas: Kiwi.Textures.TextureAtlas,
+			startingCell:number = 0,
+			substitution: boolean = false ) {
 
             var json = null;
 
@@ -601,6 +646,11 @@ module Kiwi.GameObjects.Tilemap {
 						layer.visible = (layerData.visible == undefined) ? true : layerData.visible;
 						layer.alpha = (layerData.opacity == undefined) ? 1 : layerData.opacity;
 						if (layerData.properties !== undefined)layer.properties = layerData.properties;
+
+						// Substitution
+						if ( substitution ) {
+							this.createSubstitute( layer );
+						}
 
 						break;
 
@@ -825,6 +875,124 @@ module Kiwi.GameObjects.Tilemap {
 			this.layers.push(layer);
 
 			return layer;
+		}
+
+		createSubstitute ( tileLayer ) {
+			/**
+			Create a substitute buffer to accelerate rendering tiles.
+
+			@method createSubstitute
+			@param tileLayer {TileMapLayer} Layer to substitute
+			**/
+
+			var state = tileLayer.state;
+
+			// Define resolution.
+			var stepX = state.game.stage.width;
+			var stepY = state.game.stage.height;
+
+			// Assert buffering system.
+			var buffers;
+			if ( !state.buffers ) {
+				state.buffers = new Kiwi.Buffers.Bufferer( {
+					state: state,
+				} );
+			}
+			buffers = state.buffers;
+
+			// Create substitute host.
+			var substitute = new Kiwi.Group(
+				state, tileLayer.name + &quot;-substitute&quot; );
+			( &lt;any&gt;substitute ).tileSampleGrid = [];
+			tileLayer.parent.addChildAfter( substitute, tileLayer );
+
+			// Create capture mechanism.
+			var captureBuffer = buffers.createGroupBuffer( {
+				width: stepX,
+				height: stepY,
+			} );
+
+			// Create sampling grid.
+			var sample;
+			var textureKey;
+			var x;
+			var y;
+			var xLimit = tileLayer.widthInPixels;
+			var yLimit = tileLayer.heightInPixels;
+			for ( x = 0; x * stepX &lt; xLimit; x++ ) {
+				( &lt;any&gt;substitute ).tileSampleGrid[ x ] = [];
+				for ( y = 0; y * stepY &lt; yLimit; y++ ) {
+					captureBuffer.camera.transform.x = -x * stepX;
+					captureBuffer.camera.transform.y = -y * stepY;
+					textureKey = tileLayer.name + &quot;-x&quot; + x + &quot;-y&quot; + y;
+					captureBuffer.drawCopy( tileLayer );
+					captureBuffer.exportImage( textureKey );
+
+					// Generate substitute.
+					sample = new Kiwi.GameObjects.StaticImage(
+						state,
+						state.textures[ textureKey ],
+						x * stepX, y * stepY );
+					substitute.addChild( sample );
+					( &lt;any&gt;substitute ).tileSampleGrid[ x ][ y ] = sample;
+				}
+			}
+
+			// Disable rendering on original tiles.
+			tileLayer.visible = false;
+
+			// Set up AABB visibility acceleration on substitute host.
+			var component = new Kiwi.Component(
+				substitute, &quot;Visibility Control&quot; );
+			substitute.components.add( component );
+			component.update = function visibilityControlUpdate () {
+				var minX, minY, maxX, maxY, x, y, sample;
+				var game = this.game;
+				var camera = game.cameras.defaultCamera;
+				var stage = game.stage;
+				var corner1 = new Kiwi.Geom.Point( 0, 0 );
+				var corner2 = new Kiwi.Geom.Point( 0, stage.height );
+				var corner3 = new Kiwi.Geom.Point( stage.width, 0 );
+				var corner4 = new Kiwi.Geom.Point( stage.width, stage.height );
+				var grid = this.owner.tileSampleGrid;
+				var gridX = grid.length;
+				var gridY = grid[ 0 ].length;
+
+				// Project bounds of game camera.
+				corner1 = camera.transformPoint( corner1 );
+				corner2 = camera.transformPoint( corner2 );
+				corner3 = camera.transformPoint( corner3 );
+				corner4 = camera.transformPoint( corner4 );
+
+				// Identify upper and lower bounds.
+				minX = Math.min( corner1.x, corner2.x, corner3.x, corner4.x );
+				maxX = Math.max( corner1.x, corner2.x, corner3.x, corner4.x );
+				minY = Math.min( corner1.y, corner2.y, corner3.y, corner4.y );
+				maxY = Math.max( corner1.y, corner2.y, corner3.y, corner4.y );
+
+				// Hide all.
+				for ( x = 0; x &lt; gridX; x++ ) {
+					for ( y = 0; y &lt; gridY; y++ ) {
+						grid[ x ][ y ].visible = false;
+					}
+				}
+
+				// Reveal AABB slot.
+				sample = grid[ 0 ][ 0 ];
+				for (
+					x = Math.floor( minX / sample.width );
+					x &lt; Math.min( gridX, Math.floor( maxX / sample.width ) + 1 );
+					x++ ) {
+
+					for (
+						y = Math.floor( minY / sample.height );
+						y &lt; Math.min( gridY, Math.floor( maxY / sample.height ) + 1 );
+						y++ ) {
+
+						grid[ x ][ y ].visible = true;
+					}
+				}
+			};
 		}
 
 
