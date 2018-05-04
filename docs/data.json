@@ -46718,7 +46718,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 520,
+            "line": 522,
             "description": "Used to control the current volume for this sound. 0 is silent, 1 is full volume.",
             "itemtype": "property",
             "name": "volume",
@@ -46732,7 +46732,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 554,
+            "line": 556,
             "description": "Mutes the sound and makes it 'silent'. \nThis will not stop the sound from playing, or events from being dispatched due when the sound has finished/is looping.",
             "itemtype": "property",
             "name": "mute",
@@ -46746,7 +46746,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 584,
+            "line": 586,
             "description": "Adds a new marker to the audio which will then allow for that section of audio to be played.",
             "itemtype": "method",
             "name": "addMarker",
@@ -46783,7 +46783,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 598,
+            "line": 600,
             "description": "Removes a currently existing marker from this audio.",
             "itemtype": "method",
             "name": "removeMarker",
@@ -46803,7 +46803,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 616,
+            "line": 618,
             "description": "Plays the current sound/audio from the start.",
             "itemtype": "method",
             "name": "play",
@@ -46831,7 +46831,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 696,
+            "line": 698,
             "description": "Stop the sound from playing.",
             "itemtype": "method",
             "name": "stop",
@@ -46844,7 +46844,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 724,
+            "line": 726,
             "description": "Pauses the sound so that you can resume it from at point to paused it at.",
             "itemtype": "method",
             "name": "pause",
@@ -46857,7 +46857,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 737,
+            "line": 739,
             "description": "Plays the sound from when you paused the sound.",
             "itemtype": "method",
             "name": "resume",
@@ -46870,7 +46870,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 772,
+            "line": 774,
             "description": "The update loop that gets executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -46883,7 +46883,7 @@
         },
         {
             "file": "src/sound/Audio.ts",
-            "line": 821,
+            "line": 823,
             "description": "This method handles the destruction of all of the properties when this audio is not longer needed. \nYou call this method when you want this method to be removed on the next garbage collection cycle.",
             "itemtype": "method",
             "name": "destroy",

@@ -912,7 +912,9 @@ module Kiwi.Sound {
 			}
 
 			var that = this;
-			this.context.decodeAudioData(this._file.data.raw, function (buffer) {
+
+			// Slice-copy the raw data, because this is a destructive decode.
+			this.context.decodeAudioData(this._file.data.raw.slice( 0 ), function (buffer) {
 				that._buffer = buffer;
 				that._decoded = true;
 			});

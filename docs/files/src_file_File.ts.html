@@ -1019,7 +1019,7 @@ module Kiwi.Files {
 				// Failed
 				Kiwi.Log.log(
 					&quot;Kiwi.Files.File: Failed to load file \&quot;&quot; +
-					this.name + &quot;\&quot;. Trying Again&quot;,
+					this.name + &quot;\&quot;&quot;,
 					&quot;#loading&quot; );
 				this.hasError = true;
 				this.success = false;
@@ -1030,7 +1030,7 @@ module Kiwi.Files {
 			} else {
 				Kiwi.Log.log(
 					&quot;Kiwi.Files.File: Failed to load file \&quot;&quot; +
-					this.name + &quot;\&quot;&quot;,
+					this.name + &quot;\&quot;. Trying again&quot;,
 					&quot;#loading&quot; );
 
 				// Try Again

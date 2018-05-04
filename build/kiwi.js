@@ -12912,7 +12912,7 @@ var Kiwi;
                 // Try again?
                 if (this.attemptCounter >= this.maxLoadAttempts) {
                     // Failed
-                    Kiwi.Log.log("Kiwi.Files.File: Failed to load file \"" + this.name + "\". Trying Again", "#loading");
+                    Kiwi.Log.log("Kiwi.Files.File: Failed to load file \"" + this.name + "\"", "#loading");
                     this.hasError = true;
                     this.success = false;
                     this.error = error;
@@ -12920,7 +12920,7 @@ var Kiwi;
                     this.onComplete.dispatch(this);
                 }
                 else {
-                    Kiwi.Log.log("Kiwi.Files.File: Failed to load file \"" + this.name + "\"", "#loading");
+                    Kiwi.Log.log("Kiwi.Files.File: Failed to load file \"" + this.name + "\". Trying again", "#loading");
                     // Try Again
                     this._load();
                 }
@@ -30233,7 +30233,8 @@ var Kiwi;
                     return;
                 }
                 var that = this;
-                this.context.decodeAudioData(this._file.data.raw, function (buffer) {
+                // Slice-copy the raw data, because this is a destructive decode.
+                this.context.decodeAudioData(this._file.data.raw.slice(0), function (buffer) {
                     that._buffer = buffer;
                     that._decoded = true;
                 });
@@ -39272,7 +39273,8 @@ var Kiwi;
             */
             AudioFile.prototype._decodeAudio = function () {
                 var _this = this;
-                this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+                // Slice-copy the raw data, because this is a destructive decode.
+                this.game.audio.context.decodeAudioData(this.data.raw.slice(0), function (buffer) {
                     if (buffer) {
                         _this.data.buffer = buffer;
                         _this.data.decoded = true;

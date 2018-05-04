@@ -567,7 +567,8 @@ module Kiwi.Files {
 
             var _this: any = this;
 
-            this.game.audio.context.decodeAudioData(this.data.raw, function (buffer) {
+            // Slice-copy the raw data, because this is a destructive decode.
+            this.game.audio.context.decodeAudioData(this.data.raw.slice( 0 ), function (buffer) {
                 if (buffer) {
                     _this.data.buffer = buffer;
                     _this.data.decoded = true;
