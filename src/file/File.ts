@@ -617,7 +617,7 @@ module Kiwi.Files {
 				// Failed
 				Kiwi.Log.log(
 					"Kiwi.Files.File: Failed to load file \"" +
-					this.name + "\". Trying Again",
+					this.name + "\"",
 					"#loading" );
 				this.hasError = true;
 				this.success = false;
@@ -628,7 +628,7 @@ module Kiwi.Files {
 			} else {
 				Kiwi.Log.log(
 					"Kiwi.Files.File: Failed to load file \"" +
-					this.name + "\"",
+					this.name + "\". Trying again",
 					"#loading" );
 
 				// Try Again
