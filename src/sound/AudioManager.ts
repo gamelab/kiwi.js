@@ -211,8 +211,60 @@ module Kiwi.Sound {
 
 				this.masterGain.gain.value = 1;
 				this.masterGain.connect(this.context.destination);
+
+				if ( this.context.state === "suspended" ) {
+					// Autoplay audio is disabled for this document.
+					// Audio must be triggered by user interaction.
+					this._setupAudioContextResume();
+				}
 			}
 
+		}
+
+		private _setupAudioContextResume () {
+			/**
+			Set up listeners to `resume` the `AudioContext`
+			when the user interacts with the page.
+			This is necessary because some browsers have begun disabling
+			autoplay to ensure better user experience.
+
+			@method _setupAudioContextResume
+			@private
+			@since 1.5.0
+			**/
+
+			var e;
+			var self = this;
+			var events = [
+				"keydown",
+				"mousedown",
+				"click",
+				"auxclick",
+				"pointerdown"
+			];
+
+			function resume () {
+				var e;
+
+				// Primary function: re-enable audio.
+				if ( self.context.state === "suspended" ) {
+					self.context.resume();
+				}
+
+				// Secondary function: remove resumption listeners,
+				// if they are no longer necessary.
+				if ( self.context.state !== "suspended" ) {
+					for ( e in events ) {
+						document.body.removeEventListener(
+							events[ e ], resume, false );
+					}
+				}
+			}
+
+			for ( e in events ) {
+				document.body.addEventListener(
+					events[ e ], resume, false );
+			}
 		}
 
 		/**
