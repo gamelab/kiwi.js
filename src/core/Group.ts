@@ -1064,12 +1064,13 @@ module Kiwi {
 			if (this.members.length > 0) {
 
 				for (var i = 0; i < this.members.length; i++) {
-					if (this.members[i].active === true) {
-						this.members[i].update();
+					let member = this.members[i];
+					if (member.active === true) {
+						member.update();
 					} 
 
-					if(this.members[i].exists === false) {
-						this.members[i].destroy( true );
+					if(member.exists === false) {
+						member.destroy( true );
 					}
 				}
 				
