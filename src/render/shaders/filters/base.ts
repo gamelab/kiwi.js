@@ -14,6 +14,7 @@ module Kiwi.Shaders {
 			Common base for shader filters.
 
 			@class FilterBase
+            @namespace Kiwi.Shaders
 			@constructor
 			@extends Kiwi.Shaders.ShaderPair
 			**/

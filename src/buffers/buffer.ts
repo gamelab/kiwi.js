@@ -21,6 +21,7 @@ module Kiwi.Buffers {
         consider using `drawCut` on a temporary game object instead.
 
         @class Buffer
+        @namespace Kiwi.Buffers
         @extends Kiwi.Entity
         **/
 

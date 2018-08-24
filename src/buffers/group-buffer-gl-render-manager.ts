@@ -16,6 +16,7 @@ module Kiwi.Buffers {
             Render managers are instantiated automatically by a `Bufferer` manager.
 
             @class GroupBufferGlRenderManager
+            @namespace Kiwi.Buffers
             @constructor
             @extends Kiwi.Renderers.GLRenderManager
             @param game {Kiwi.Game} Current game

@@ -10,6 +10,7 @@ module Kiwi.Buffers {
 		an atlas without having an image in user memory. WebGL only.
 
 		@class BufferAtlas
+        @namespace Kiwi.Buffers
 		@extends Kiwi.Textures.TextureAtlas
 		**/
 

@@ -37,6 +37,7 @@ module Kiwi.Renderers {
             This is an auto-created object literal that may contain many tasks.
 
             @class RenderTask
+            @namespace Kiwi.Renderers
             @constructor
             @param params {object} Composite parameter object
                 @param params.name {string} Name or key of render pass

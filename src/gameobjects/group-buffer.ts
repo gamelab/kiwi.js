@@ -23,6 +23,7 @@ module Kiwi.GameObjects {
             using the `createGroupBuffer` method of a `Bufferer` object.
 
             @class GroupBuffer
+            @namespace Kiwi.GameObjects
             @constructor
             @extends Kiwi.Buffers.Buffer
             @extends Kiwi.Group

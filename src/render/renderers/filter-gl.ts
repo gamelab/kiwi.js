@@ -20,6 +20,7 @@ module Kiwi.Renderers {
             It may also use extra information.
 
             @class FilterGl
+            @namespace Kiwi.Renderers
             @constructor
             @extends Kiwi.Renderers.Renderer
             @param params {object} Composite parameter object

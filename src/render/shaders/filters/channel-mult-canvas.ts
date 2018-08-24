@@ -19,6 +19,7 @@ module Kiwi.Shaders {
 			reference color. Default color is black.
 
 			@class FilterChannelMultCanvas
+            @namespace Kiwi.Shaders
 			@constructor
 			@extends Kiwi.Renderers.FilterCanvas
 			@param params {object} Composite parameter object

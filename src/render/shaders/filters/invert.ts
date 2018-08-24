@@ -10,6 +10,7 @@ module Kiwi.Shaders {
 			/**
 			Filter shader: invert image
 			@class FilterInvert
+            @namespace Kiwi.Shaders
 			@constructor
 			@extends Kiwi.Shaders.FilterBase
 			**/

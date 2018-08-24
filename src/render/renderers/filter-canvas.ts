@@ -28,6 +28,7 @@ module Kiwi.Renderers {
             via `ImageData` properties.
 
             @class FilterCanvas
+            @namespace Kiwi.Renderers
             @constructor
             **/
 

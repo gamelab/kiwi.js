@@ -13,6 +13,7 @@ module Kiwi.Shaders {
 			Desaturation is achieved by RGB / 3.
 
 			@class FilterColorValue
+            @namespace Kiwi.Shaders
 			@constructor
 			@extends Kiwi.Shaders.FilterBase
 			**/

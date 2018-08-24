@@ -11,6 +11,7 @@ module Kiwi.Shaders {
 			/**
 			Filter: invert RGB channels.
 			@class FilterInvertCanvas
+            @namespace Kiwi.Shaders
 			@constructor
 			@extends Kiwi.Renderers.FilterCanvas
 			**/

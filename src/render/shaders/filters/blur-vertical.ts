@@ -15,6 +15,7 @@ module Kiwi.Shaders {
 			screen aspect ratio.
 
 			@class FilterBlurVertical
+            @namespace Kiwi.Shaders
 			@constructor
 			@extends Kiwi.Shaders.ShaderPair
 			**/

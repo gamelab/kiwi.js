@@ -17,6 +17,7 @@ module Kiwi.Buffers {
             by a `Bufferer` manager.
 
             @class FilterBufferGlRenderManager
+            @namespace Kiwi.Buffers
             @constructor
             @extends Kiwi.Renderers.GLRenderManager
             @param game {Kiwi.Game} Current game

@@ -24,6 +24,7 @@ module Kiwi.GameObjects {
             will not change.
 
             @class FilterBuffer
+            @namespace Kiwi.GameObjects
             @constructor
             @extends Kiwi.Buffers.Buffer
             @param params {object} Composite parameter object
