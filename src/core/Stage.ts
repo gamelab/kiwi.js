@@ -797,29 +797,30 @@ module Kiwi {
 				this.ctx.fillStyle = "#fff";
 				this.gl = null;
 			} else if ( this._game.renderOption === Kiwi.RENDERER_WEBGL ) {
-				this.gl = this.canvas.getContext( "webgl" );
+				this.gl = this.canvas.getContext( "webgl2" );
 				if ( !this.gl ) {
-					this.gl = this.canvas.getContext( "experimental-webgl" );
+					Kiwi.Log.warn(
+						"Kiwi.Stage: `webgl2` context not available. " +
+						"Using `webgl`. #renderer" );
+					this.gl = this.canvas.getContext( "webgl" );
 					if ( !this.gl ) {
-						Kiwi.Log.warn(
-							"Kiwi.Stage: WebGL rendering is not available " +
-							"despite the device apparently supporting it. " +
-							"Reverting to CANVAS.",
-							"#renderer" );
-
-						// Reset to canvas mode
-						this.ctx = this.canvas.getContext( "2d" );
-						this.ctx.fillStyle = "#fff";
-						this.gl = null;
-					} else {
-						Kiwi.Log.warn(
+						Kiwi.Log.warn( 
 							"Kiwi.Stage: `webgl` context is not available. " +
-							"Using `experimental-webgl`",
-							"#renderer" );
+							"Using `experimental-webgl`. #renderer" );
+						this.gl = this.canvas.getContext( "experimental-webgl" );
+						if ( !this.gl ) {
+							Kiwi.Log.warn(
+								"Kiwi.Stage: WebGL rendering is not available " +
+								"despite the device apparently supporting it. " +
+								"Reverting to CANVAS. #renderer" );
+							this.ctx = this.canvas.getContext( "2d" );
+							this.ctx.fillStyle = "#fff";
+							this.gl = null;
+						}
 					}
 				}
-				if ( this.gl ) {
 
+				if ( this.gl ) {
 					// That is, WebGL was properly supported and created
 					this.gl.clearColor( 1, 1, 1, 1 );
 					this.gl.clear(
