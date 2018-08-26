@@ -54,6 +54,24 @@ module Kiwi {
 		private _states: Kiwi.State[];
 
 		/**
+		An array of all of the states that are contained within this manager.
+		This list order is read-only.
+		@property states
+		@type Array
+		@public
+		@since 1.5.0
+		**/
+		public get states(): Kiwi.State[] {
+			var i,
+				stateLength = this._states.length,
+				states = [];
+			for ( i = 0; i < stateLength; i++ ) {
+				states.push( this._states[ i ] );
+			}
+			return states;
+		}
+
+		/**
 		* The current State that the game is at.
 		* @property current
 		* @type Kiwi.State

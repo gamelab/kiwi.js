@@ -65,6 +65,8 @@ module Kiwi {
 			this.onFocus = new Kiwi.Signal();
 			this.onBlur = new Kiwi.Signal();
 			this.onVisibilityChange = new Kiwi.Signal();
+			this.onRendererCrash = new Kiwi.Signal();
+			this._onFlushElements = new Kiwi.Signal();
 
 			this._renderer = null;
 		}
@@ -655,10 +657,17 @@ module Kiwi {
 				this._x = this.offset.x;
 				this._y = this.offset.y;
 
+				var onWindowResized =
+					( event: UIEvent ) => this._windowResized( event );
+
 				window.addEventListener(
 					"resize",
-					( event: UIEvent ) => this._windowResized( event ),
+					onWindowResized,
 					true );
+
+				this._onFlushElements.addOnce( () =>
+					window.removeEventListener(
+						"resize", onWindowResized, true ) );
 
 				this._createFocusEvents();
 			}
@@ -668,13 +677,18 @@ module Kiwi {
 			if ( this._game.deviceTargetOption === Kiwi.TARGET_COCOON ) {
 				this._scaleContainer();
 
+				var onOrientationChange =
+					event => this._orientationChanged( event );
+
 				// Detect reorientation/resize
 				window.addEventListener(
 					"orientationchange",
-					function( event: UIEvent ) {
-						return self._orientationChanged( event );
-					},
+					onOrientationChange,
 					true );
+
+				this._onFlushElements.addOnce( () =>
+					window.removeEventListener(
+						"orientationchange", onOrientationChange, true ) );
 			} else {
 				this._calculateContainerScale();
 			}
@@ -706,7 +720,6 @@ module Kiwi {
 			var scrollLeft = window.pageXOffset || element.scrollLeft || document.body.scrollLeft;
 
 			return output.setTo( box.left + scrollLeft - clientLeft, box.top + scrollTop - clientTop );
-
 		}
 
 		private _windowResized( event: UIEvent ) {
@@ -762,7 +775,6 @@ module Kiwi {
 		}
 
 		private _createCompositeCanvas() {
-
 			/**
 			Handle creation of the canvas that the game will use,
 			and retrieve the context for the renderer.
@@ -826,6 +838,10 @@ module Kiwi {
 					this.gl.clear(
 						this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT );
 					this.ctx = null;
+
+					// Listen for loss of rendering context.
+					this.canvas.addEventListener(
+						"webglcontextlost", this.handleGlCrash.bind( this ) );
 				}
 			}
 
@@ -844,6 +860,71 @@ module Kiwi {
 			} else {
 				document.body.appendChild( this.canvas );
 			}
+		}
+
+		public flushElements() {
+			/**
+			Eliminate DOM elements created as part of the stage.
+			This is usually invoked to tidy the game state
+			in preparation for a game restart.
+
+			@method flushElements
+			@public
+			@since 1.5.0
+			**/
+
+			// Remove event listeners.
+			this._onFlushElements.dispatch();
+
+			var child = this.container.firstChild;
+			while ( child ) {
+				this.container.removeChild( child );
+				child = this.container.firstChild;
+			}
+		}
+
+		public handleGlCrash( event: WebGLContextEvent ) {
+			/**
+			Handle a WebGL crash.
+
+			This is a disruptive event that may be caused by the user's system.
+			Data in the WebGL system will be lost, including buffers.
+
+			When it detects a WebGL crash, Kiwi automatically restarts
+			in an attempt to regain control. It clears all global files.
+			The renderer will remain broken until you transition
+			to another `State`. This transition rebuilds texture libraries
+			and other necessary WebGL data. It also permits states
+			to perform preload processes to reload discarded files.
+
+			Attach listeners to the `onRendererCrash` signal to perform logic
+			in the event of a crash.
+
+			The recommended crash procedure is to transition to
+			a recovery State. This will prevent console errors and prompt
+			for preload processes. You may then perform logic to return
+			control to the user. The process may not be seamless;
+			this depends on your game structure.
+
+			@method handleGlCrash
+			@param event {WebGLContextEvent} Event from the crash.
+			@public
+			@since 1.5.0
+			**/
+
+			Kiwi.Log.error( "WebGL context lost!", "#renderer", event );
+
+			// All textures are now invalid.
+			this._game.fileStore.removeGlobalFiles();
+			this._game.states.states.forEach( state => {
+				if ( state.textureLibrary ) {
+					state.textureLibrary.clear();
+				}
+			} );
+
+			this._game.restart();
+
+			this.onRendererCrash.dispatch( event );
 		}
 
 		public resize( width: number, height: number ) {
@@ -1054,6 +1135,26 @@ module Kiwi {
 		}
 
 		/**
+		Dispatch callbacks when the Stage is flushed.
+
+		@property _onFlushElements
+		@type Kiwi.Signal
+		@since 1.5.0
+		@private
+		**/
+		private _onFlushElements: Kiwi.Signal;
+
+		/**
+		Dispatch callbacks when the Stage is flushed.
+
+		@property onRendererCrash
+		@type Kiwi.Signal
+		@since 1.5.0
+		@private
+		**/
+		private onRendererCrash: Kiwi.Signal;
+
+		/**
 		Dispatch callbacks when the page containing this game gains focus.
 
 		@property onFocus
@@ -1202,6 +1303,26 @@ module Kiwi {
 			window.addEventListener( "pagehide", this._visibilityChange );
 			window.addEventListener( "focus", this._visibilityChange );
 			window.addEventListener( "blur", this._visibilityChange );
+
+			// Prepare for cleanup.
+			this._onFlushElements.addOnce( () => {
+				window.removeEventListener(
+					"visibilitychange", this._visibilityChange );
+				window.removeEventListener(
+					"mozvisibilitychange", this._visibilityChange );
+				window.removeEventListener(
+					"webkitvisibilitychange", this._visibilityChange );
+				window.removeEventListener(
+					"msvisibilitychange", this._visibilityChange );
+				window.removeEventListener(
+					"pageshow", this._visibilityChange );
+				window.removeEventListener(
+					"pagehide", this._visibilityChange );
+				window.removeEventListener(
+					"focus", this._visibilityChange );
+				window.removeEventListener(
+					"blur", this._visibilityChange );
+			} );
 
 		}
 

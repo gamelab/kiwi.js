@@ -800,6 +800,21 @@ module Kiwi {
 			}
 		}
 
+		public restart () {
+			/**
+			Restart the game. Useful if the renderer has crashed.
+			See `Kiwi.Stage.handleGlCrash()` for more information.
+
+			@method restart
+			@public
+			@since 1.5.0
+			**/
+
+			this.stage.flushElements();
+
+			this._start();
+		}
+
 	}
 
 }
