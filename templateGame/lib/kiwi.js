@@ -576,6 +576,17 @@ var Kiwi;
                 this.states.postRender();
             }
         };
+        Game.prototype.restart = function () {
+            /**
+            Restart the game. Useful if the renderer has crashed.
+
+            @method restart
+            @public
+            @since 1.5.0
+            **/
+            this.stage.flushElements();
+            this._start();
+        };
         return Game;
     })();
     Kiwi.Game = Game;
@@ -662,6 +673,8 @@ var Kiwi;
             this.onFocus = new Kiwi.Signal();
             this.onBlur = new Kiwi.Signal();
             this.onVisibilityChange = new Kiwi.Signal();
+            this.onRendererCrash = new Kiwi.Signal();
+            this._onFlushElements = new Kiwi.Signal();
             this._renderer = null;
         }
         Stage.prototype.objType = function () {
@@ -999,16 +1012,18 @@ var Kiwi;
                 this.offset = this.getOffsetPoint(this.container);
                 this._x = this.offset.x;
                 this._y = this.offset.y;
-                window.addEventListener("resize", function (event) { return _this._windowResized(event); }, true);
+                var onWindowResized = function (event) { return _this._windowResized(event); };
+                window.addEventListener("resize", onWindowResized, true);
+                this._onFlushElements.addOnce(function () { return window.removeEventListener("resize", onWindowResized, true); });
                 this._createFocusEvents();
             }
             this._createCompositeCanvas();
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
                 this._scaleContainer();
+                var onOrientationChange = function (event) { return _this._orientationChanged(event); };
                 // Detect reorientation/resize
-                window.addEventListener("orientationchange", function (event) {
-                    return self._orientationChanged(event);
-                }, true);
+                window.addEventListener("orientationchange", onOrientationChange, true);
+                this._onFlushElements.addOnce(function () { return window.removeEventListener("orientationchange", onOrientationChange, true); });
             }
             else {
                 this._calculateContainerScale();
@@ -1105,18 +1120,19 @@ var Kiwi;
                 this.gl = null;
             }
             else if (this._game.renderOption === Kiwi.RENDERER_WEBGL) {
-                this.gl = this.canvas.getContext("webgl");
+                this.gl = this.canvas.getContext("webgl2");
                 if (!this.gl) {
-                    this.gl = this.canvas.getContext("experimental-webgl");
+                    Kiwi.Log.warn("Kiwi.Stage: `webgl2` context not available. " + "Using `webgl`. #renderer");
+                    this.gl = this.canvas.getContext("webgl");
                     if (!this.gl) {
-                        Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available " + "despite the device apparently supporting it. " + "Reverting to CANVAS.", "#renderer");
-                        // Reset to canvas mode
-                        this.ctx = this.canvas.getContext("2d");
-                        this.ctx.fillStyle = "#fff";
-                        this.gl = null;
-                    }
-                    else {
-                        Kiwi.Log.warn("Kiwi.Stage: `webgl` context is not available. " + "Using `experimental-webgl`", "#renderer");
+                        Kiwi.Log.warn("Kiwi.Stage: `webgl` context is not available. " + "Using `experimental-webgl`. #renderer");
+                        this.gl = this.canvas.getContext("experimental-webgl");
+                        if (!this.gl) {
+                            Kiwi.Log.warn("Kiwi.Stage: WebGL rendering is not available " + "despite the device apparently supporting it. " + "Reverting to CANVAS. #renderer");
+                            this.ctx = this.canvas.getContext("2d");
+                            this.ctx.fillStyle = "#fff";
+                            this.gl = null;
+                        }
                     }
                 }
                 if (this.gl) {
@@ -1124,6 +1140,8 @@ var Kiwi;
                     this.gl.clearColor(1, 1, 1, 1);
                     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
                     this.ctx = null;
+                    // Listen for loss of rendering context.
+                    this.canvas.addEventListener("webglcontextlost", this.handleGlCrash.bind(this));
                 }
             }
             // Create render manager.
@@ -1140,6 +1158,63 @@ var Kiwi;
             else {
                 document.body.appendChild(this.canvas);
             }
+        };
+        Stage.prototype.flushElements = function () {
+            /**
+            Eliminate DOM elements created as part of the stage.
+            This is usually invoked to tidy the game state
+            in preparation for a game restart.
+
+            @method flushElements
+            @public
+            @since 1.5.0
+            **/
+            // Remove event listeners.
+            this._onFlushElements.dispatch();
+            var child = this.container.firstChild;
+            while (child) {
+                this.container.removeChild(child);
+                child = this.container.firstChild;
+            }
+        };
+        Stage.prototype.handleGlCrash = function (event) {
+            /**
+            Handle a WebGL crash.
+
+            This is a disruptive event that may be caused by the user's system.
+            Data in the WebGL system will be lost, including buffers.
+
+            When it detects a WebGL crash, Kiwi automatically restarts
+            in an attempt to regain control. It clears all global files.
+            The renderer will remain broken until you transition
+            to another `State`. This transition rebuilds texture libraries
+            and other necessary WebGL data. It also permits states
+            to perform preload processes to reload discarded files.
+
+            Attach listeners to the `onRendererCrash` signal to perform logic
+            in the event of a crash.
+
+            The recommended crash procedure is to transition to
+            a recovery State. This will prevent console errors and prompt
+            for preload processes. You may then perform logic to return
+            control to the user. The process may not be seamless;
+            this depends on your game structure.
+
+            @method handleGlCrash
+            @param event {WebGLContextEvent} Event from the crash.
+            @public
+            @since 1.5.0
+            **/
+            Kiwi.Log.error("WebGL context lost!", "#renderer", event);
+            // All textures are now invalid.
+            this._game.fileStore.removeGlobalFiles();
+            this._game.states.states.forEach(function (state) {
+                if (state.textureLibrary) {
+                    state.textureLibrary.clear();
+                }
+            });
+            this._game.restart();
+            this.onRendererCrash.dispatch(event);
         };
         Stage.prototype.resize = function (width, height) {
             /**
@@ -1348,6 +1423,7 @@ var Kiwi;
             @since 1.3.0
             @private
             **/
+            var _this = this;
             this._visibility = "hidden";
             this._visibilityChange = this._checkVisibility.bind(this);
             if ("hidden" in document) {
@@ -1370,6 +1446,17 @@ var Kiwi;
             window.addEventListener("pagehide", this._visibilityChange);
             window.addEventListener("focus", this._visibilityChange);
             window.addEventListener("blur", this._visibilityChange);
+            // Prepare for cleanup.
+            this._onFlushElements.addOnce(function () {
+                window.removeEventListener("visibilitychange", _this._visibilityChange);
+                window.removeEventListener("mozvisibilitychange", _this._visibilityChange);
+                window.removeEventListener("webkitvisibilitychange", _this._visibilityChange);
+                window.removeEventListener("msvisibilitychange", _this._visibilityChange);
+                window.removeEventListener("pageshow", _this._visibilityChange);
+                window.removeEventListener("pagehide", _this._visibilityChange);
+                window.removeEventListener("focus", _this._visibilityChange);
+                window.removeEventListener("blur", _this._visibilityChange);
+            });
         };
         /**
         Default width of the stage
@@ -2310,6 +2397,25 @@ var Kiwi;
         StateManager.prototype.objType = function () {
             return "StateManager";
         };
+        Object.defineProperty(StateManager.prototype, "states", {
+            /**
+            An array of all of the states that are contained within this manager.
+            This list order is read-only.
+            @property states
+            @type Array
+            @public
+            @since 1.5.0
+            **/
+            get: function () {
+                var i, stateLength = this._states.length, states = [];
+                for (i = 0; i < stateLength; i++) {
+                    states.push(this._states[i]);
+                }
+                return states;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
         * Checks to see if a key exists. Internal use only.
         * @method checkKeyExists
@@ -18463,6 +18569,7 @@ var Kiwi;
                 This is an auto-created object literal that may contain many tasks.
     
                 @class RenderTask
+                @namespace Kiwi.Renderers
                 @constructor
                 @param params {object} Composite parameter object
                     @param params.name {string} Name or key of render pass
@@ -29725,6 +29832,49 @@ var Kiwi;
                     }
                     this.masterGain.gain.value = 1;
                     this.masterGain.connect(this.context.destination);
+                    if (this.context.state === "suspended") {
+                        // Autoplay audio is disabled for this document.
+                        // Audio must be triggered by user interaction.
+                        this._setupAudioContextResume();
+                    }
+                }
+            };
+            AudioManager.prototype._setupAudioContextResume = function () {
+                /**
+                Set up listeners to `resume` the `AudioContext`
+                when the user interacts with the page.
+                This is necessary because some browsers have begun disabling
+                autoplay to ensure better user experience.
+    
+                @method _setupAudioContextResume
+                @private
+                @since 1.5.0
+                **/
+                var e;
+                var self = this;
+                var events = [
+                    "keydown",
+                    "mousedown",
+                    "click",
+                    "auxclick",
+                    "pointerdown"
+                ];
+                function resume() {
+                    var e;
+                    // Primary function: re-enable audio.
+                    if (self.context.state === "suspended") {
+                        self.context.resume();
+                    }
+                    // Secondary function: remove resumption listeners,
+                    // if they are no longer necessary.
+                    if (self.context.state !== "suspended") {
+                        for (e in events) {
+                            document.body.removeEventListener(events[e], resume, false);
+                        }
+                    }
+                }
+                for (e in events) {
+                    document.body.addEventListener(events[e], resume, false);
                 }
             };
             /**
@@ -36184,6 +36334,7 @@ var Kiwi;
             consider using `drawCut` on a temporary game object instead.
     
             @class Buffer
+            @namespace Kiwi.Buffers
             @extends Kiwi.Entity
             **/
             function Buffer(params) {
@@ -36693,6 +36844,7 @@ var Kiwi;
             an atlas without having an image in user memory. WebGL only.
     
             @class BufferAtlas
+            @namespace Kiwi.Buffers
             @extends Kiwi.Textures.TextureAtlas
             **/
             function BufferAtlas(params) {
@@ -37031,6 +37183,7 @@ var Kiwi;
                 by a `Bufferer` manager.
     
                 @class FilterBufferGlRenderManager
+                @namespace Kiwi.Buffers
                 @constructor
                 @extends Kiwi.Renderers.GLRenderManager
                 @param game {Kiwi.Game} Current game
@@ -37229,6 +37382,7 @@ var Kiwi;
                 Render managers are instantiated automatically by a `Bufferer` manager.
     
                 @class GroupBufferGlRenderManager
+                @namespace Kiwi.Buffers
                 @constructor
                 @extends Kiwi.Renderers.GLRenderManager
                 @param game {Kiwi.Game} Current game
@@ -37439,6 +37593,7 @@ var Kiwi;
                 will not change.
     
                 @class FilterBuffer
+                @namespace Kiwi.GameObjects
                 @constructor
                 @extends Kiwi.Buffers.Buffer
                 @param params {object} Composite parameter object
@@ -37924,6 +38079,7 @@ var Kiwi;
                 using the `createGroupBuffer` method of a `Bufferer` object.
     
                 @class GroupBuffer
+                @namespace Kiwi.GameObjects
                 @constructor
                 @extends Kiwi.Buffers.Buffer
                 @extends Kiwi.Group
@@ -38207,6 +38363,7 @@ var Kiwi;
                 via `ImageData` properties.
     
                 @class FilterCanvas
+                @namespace Kiwi.Renderers
                 @constructor
                 **/
                 this.active = true;
@@ -38268,6 +38425,7 @@ var Kiwi;
                 It may also use extra information.
     
                 @class FilterGl
+                @namespace Kiwi.Renderers
                 @constructor
                 @extends Kiwi.Renderers.Renderer
                 @param params {object} Composite parameter object
@@ -38340,6 +38498,7 @@ var Kiwi;
                 Common base for shader filters.
     
                 @class FilterBase
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Shaders.ShaderPair
                 **/
@@ -38421,6 +38580,7 @@ var Kiwi;
                 screen aspect ratio.
     
                 @class FilterBlurHorizontal
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Shaders.ShaderPair
                 **/
@@ -38492,6 +38652,7 @@ var Kiwi;
                 screen aspect ratio.
     
                 @class FilterBlurVertical
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Shaders.ShaderPair
                 **/
@@ -38566,6 +38727,7 @@ var Kiwi;
                 reference color. Default color is black.
     
                 @class FilterChannelMultCanvas
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Renderers.FilterCanvas
                 @param params {object} Composite parameter object
@@ -38623,6 +38785,7 @@ var Kiwi;
                 Desaturation is achieved by RGB / 3.
     
                 @class FilterColorValue
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Shaders.FilterBase
                 **/
@@ -38683,6 +38846,7 @@ var Kiwi;
                 /**
                 Filter: invert RGB channels.
                 @class FilterInvertCanvas
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Renderers.FilterCanvas
                 **/
@@ -38733,6 +38897,7 @@ var Kiwi;
                 /**
                 Filter shader: invert image
                 @class FilterInvert
+                @namespace Kiwi.Shaders
                 @constructor
                 @extends Kiwi.Shaders.FilterBase
                 **/

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Kiwi.Components.Sound - Kiwi.js</title>
+    <title>Kiwi.Shaders.FilterBase - Kiwi.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -396,25 +396,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>Kiwi.Components.Sound Class</h1>
+                        <h1>Kiwi.Shaders.FilterBase Class</h1>
 <div class="box meta">
     
 
     
         <div class="extends">
-            Extends <a href="../classes/Kiwi.Component.html" class="crosslink">Kiwi.Component</a>
+            Extends <a href="../classes/Kiwi.Shaders.ShaderPair.html" class="crosslink">Kiwi.Shaders.ShaderPair</a>
         </div>
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_components_Sound.ts.html#l10"><code>src&#x2F;components&#x2F;Sound.ts:10</code></a>
+            Defined in: <a href="../files/src_render_shaders_filters_base.ts.html#l11"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:11</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/Components.html">Components</a><br>
+            Module: <a href="../modules/Shaders.html">Shaders</a><br>
             Parent Module: <a href="../modules/Kiwi.html">Kiwi</a>
         
     
@@ -425,35 +425,21 @@
 
 
 <div class="box intro">
-    <p>The Sound Component is a class to assist with the creation and management of multiple pieces of audio that may exist on a single Entity. 
-This class is NOT needed when dealing with audio but is instead can be used to assist in dealing with audio.</p>
+    <p>Shader for rendering base images in filters.</p>
+<p>Common base for shader filters.</p>
 
 </div>
 
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Kiwi.Components.Sound" class="method item">
-    <h3 class="name"><code>Kiwi.Components.Sound</code></h3>
+        <div id="method_Kiwi.Shaders.FilterBase" class="method item">
+    <h3 class="name"><code>Kiwi.Shaders.FilterBase</code></h3>
 
     
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>parent</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Components.Sound.html" class="crosslink">Kiwi.Components.Sound</a></span>
-        </span>
     
 
     
@@ -479,7 +465,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l10"><code>src&#x2F;components&#x2F;Sound.ts:10</code></a>
+        <a href="../files/src_render_shaders_filters_base.ts.html#l11"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:11</code></a>
         
         </p>
 
@@ -494,43 +480,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     
-        <div class="params">
-            <h4>Parameters:</h4>
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">parent</code>
-                        <span class="type">Any</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Who the owner of the sound component is.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Components.Sound.html" class="crosslink">Kiwi.Components.Sound</a></span>:
-                    
-                
-            </div>
-        </div>
     
 
     
@@ -563,92 +513,50 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 
                     <ul class="index-list methods extends">
                         
-                            <li class="index-item method private">
-                                <a href="#method__validate">_validate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_addSound">addSound</a>
+                            <li class="index-item method public inherited">
+                                <a href="#method_applyUniform">applyUniform</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public inherited">
-                                <a href="#method_destroy">destroy</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_getSound">getSound</a>
+                                <a href="#method_applyUniforms">applyUniforms</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public inherited">
-                                <a href="#method_objType">objType</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_play">play</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_play">play</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_play">play</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_play">play</a>
+                                <a href="#method_attach">attach</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public inherited">
-                                <a href="#method_postUpdate">postUpdate</a>
+                                <a href="#method_compile">compile</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method inherited">
+                                <a href="#method_init">init</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public inherited">
-                                <a href="#method_preUpdate">preUpdate</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method public">
-                                <a href="#method_removeSound">removeSound</a>
+                                <a href="#method_initUniforms">initUniforms</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method public inherited">
-                                <a href="#method_update">update</a>
+                                <a href="#method_setParam">setParam</a>
 
                                 
                                 
@@ -664,45 +572,80 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 
                     <ul class="index-list properties extends">
                         
-                            <li class="index-item property public inherited">
-                                <a href="#property_active">active</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property public deprecated inherited">
-                                <a href="#property_dirty">dirty</a>
-
-                                
-                                
-                                    <span class="flag deprecated">deprecated</span>
-                                
-                            </li>
-                        
-                            <li class="index-item property public inherited">
-                                <a href="#property_game">game</a>
+                            <li class="index-item property inherited">
+                                <a href="#property_attributes">attributes</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public inherited">
+                                <a href="#property_fragShader">fragShader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_fragSource">fragSource</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_loaded">loaded</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_name">name</a>
 
                                 
+                                    <span class="flag static">static</span>
+                                
                                 
                             </li>
                         
                             <li class="index-item property public inherited">
-                                <a href="#property_owner">owner</a>
+                                <a href="#property_shaderProgram">shaderProgram</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property public inherited">
-                                <a href="#property_state">state</a>
+                                <a href="#property_texture2DFrag">texture2DFrag</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_texture2DVert">texture2DVert</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property inherited">
+                                <a href="#property_uniforms">uniforms</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property public inherited">
+                                <a href="#property_vertShader">vertShader</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_vertSource">vertSource</a>
 
                                 
                                 
@@ -722,12 +665,18 @@ This class is NOT needed when dealing with audio but is instead can be used to a
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__validate" class="method item private">
-    <h3 class="name"><code>_validate</code></h3>
+                    <div id="method_applyUniform" class="method item public inherited">
+    <h3 class="name"><code>applyUniform</code></h3>
 
     
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
             
                 <li class="arg">
                     
@@ -740,15 +689,11 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     
 
     
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
 
     
 
     
-        <span class="flag private">private</span>
+        <span class="flag public">public</span>
     
 
     
@@ -762,15 +707,12 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_applyUniform">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l100"><code>src&#x2F;components&#x2F;Sound.ts:100</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l170"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:170</code></a>
         
         </p>
 
@@ -781,7 +723,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>This method is used to check to see if an audio segment with the name that is specified is on this component.</p>
+        <p>Applies a single uniforms to the uploaded program</p>
 
     </div>
 
@@ -793,6 +735,21 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="param">
                     
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
                         <code class="param-name">name</code>
                         <span class="type">String</span>
                     
@@ -800,8 +757,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
                     
 
                     <div class="param-description">
-                        <p>The name of the audio segment you want to check exists.</p>
-
+                         
                     </div>
 
                     
@@ -812,25 +768,13 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method_addSound" class="method item public">
-    <h3 class="name"><code>addSound</code></h3>
+                    <div id="method_applyUniforms" class="method item public inherited">
+    <h3 class="name"><code>applyUniforms</code></h3>
 
     
         <div class="args">
@@ -838,25 +782,106 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="arg">
                     
-                        <code>name</code>
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_applyUniforms">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l158"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:158</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Applies all uniforms to the uploaded program</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_attach" class="method item public inherited">
+    <h3 class="name"><code>attach</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>key</code>
+                        <code>vertShader</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code class="optional">[volume=1]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[loop=false]</code>
+                        <code>fragShader</code>
                     
                 </li>
             
@@ -866,7 +891,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 
     
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>
+            <span class="type">WebGLProgram</span>
         </span>
     
 
@@ -887,15 +912,12 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_attach">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l48"><code>src&#x2F;components&#x2F;Sound.ts:48</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l76"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:76</code></a>
         
         </p>
 
@@ -906,7 +928,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>Creates a new audio segment on this component.</p>
+        <p>Attaches the shaders to the program and links them</p>
 
     </div>
 
@@ -918,15 +940,14 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="param">
                     
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The name for this audio file. This is how you will access the audio from this component and so it should be unique.</p>
-
+                         
                     </div>
 
                     
@@ -934,15 +955,14 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="param">
                     
-                        <code class="param-name">key</code>
-                        <span class="type">String</span>
+                        <code class="param-name">vertShader</code>
+                        <span class="type">WebGLShader</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The piece of audio that you want to use.</p>
-
+                         
                     </div>
 
                     
@@ -950,33 +970,159 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="param">
                     
-                        <code class="param-name optional">[volume=1]</code>
+                        <code class="param-name">fragShader</code>
+                        <span class="type">WebGLShader</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">WebGLProgram</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_compile" class="method item public inherited">
+    <h3 class="name"><code>compile</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>src</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shaderType</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">WebGLShader</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_compile">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l93"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:93</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Compiles the shaders</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">src</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shaderType</code>
                         <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The volume that the audio should be set to.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[loop=false]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>If the audio should keep play again when it finishes playing.</p>
-
+                         
                     </div>
 
                     
@@ -993,7 +1139,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>:
+                        <span class="type">WebGLShader</span>:
                     
                 
             </div>
@@ -1004,19 +1150,27 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 </div>
 
                 
-                    <div id="method_destroy" class="method item public">
-    <h3 class="name"><code>destroy</code></h3>
+                    <div id="method_init" class="method item">
+    <h3 class="name"><code>init</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>gl</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
 
     
 
-    
-        <span class="flag public">public</span>
     
 
     
@@ -1030,15 +1184,15 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     <div class="meta">
         
             <p>Inherited from
-            <a href="../classes/Kiwi.Component.html#method_destroy">
-                Kiwi.Component
+            <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_init">
+                Kiwi.Shaders.ShaderPair
             </a>
             
             but overwritten in
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l174"><code>src&#x2F;components&#x2F;Sound.ts:174</code></a>
+        <a href="../files/src_render_shaders_filters_base.ts.html#l59"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:59</code></a>
         
         </p>
 
@@ -1049,78 +1203,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>Destroys this AudioComponent and all of the Audio objects it has.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_getSound" class="method item public">
-    <h3 class="name"><code>getSound</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_Sound.ts.html#l86"><code>src&#x2F;components&#x2F;Sound.ts:86</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the Audio object for the sound that you pass.</p>
+        <p>Initialize shader pair.</p>
 
     </div>
 
@@ -1132,192 +1215,14 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="param">
                     
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingContext</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The piece of audio you would like to grab.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="../classes/Kiwi.Sound.Audio.html" class="crosslink">Kiwi.Sound.Audio</a></span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_objType" class="method item public">
-    <h3 class="name"><code>objType</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            <p>Inherited from
-            <a href="../classes/Kiwi.Component.html#method_objType">
-                Kiwi.Component
-            </a>
-            
-            but overwritten in
-            
-        
-        
-        <a href="../files/src_components_Sound.ts.html#l30"><code>src&#x2F;components&#x2F;Sound.ts:30</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the type of object that this is.</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    <p>&quot;Sound&quot;</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_play" class="method item public">
-    <h3 class="name"><code>play</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_Sound.ts.html#l117"><code>src&#x2F;components&#x2F;Sound.ts:117</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Plays the audio that you specify.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The name of the audio file you would like to play.</p>
+                        <p>WebGL rendering context</p>
 
                     </div>
 
@@ -1334,8 +1239,8 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 </div>
 
                 
-                    <div id="method_play" class="method item public">
-    <h3 class="name"><code>play</code></h3>
+                    <div id="method_initUniforms" class="method item public inherited">
+    <h3 class="name"><code>initUniforms</code></h3>
 
     
         <div class="args">
@@ -1343,275 +1248,12 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="arg">
                     
-                        <code>name</code>
+                        <code>gl</code>
                     
                 </li>
             
             </ul><span class="paren">)</span>
         </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_Sound.ts.html#l132"><code>src&#x2F;components&#x2F;Sound.ts:132</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Stops the audio that you specify from playing.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Name of the audio file you would like to stop.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_play" class="method item public">
-    <h3 class="name"><code>play</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_Sound.ts.html#l147"><code>src&#x2F;components&#x2F;Sound.ts:147</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Pauses the audio that you specify.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The name of the audio you would like to pause.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_play" class="method item public">
-    <h3 class="name"><code>play</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_Sound.ts.html#l160"><code>src&#x2F;components&#x2F;Sound.ts:160</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Resumes the audio that you specify. Note: Audio can only resume if it was paused initially.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The name of the audio you would like to resume.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_postUpdate" class="method item public inherited">
-    <h3 class="name"><code>postUpdate</code></h3>
-
-    
-        <span class="paren">()</span>
     
 
     
@@ -1634,11 +1276,11 @@ This class is NOT needed when dealing with audio but is instead can be used to a
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#method_postUpdate">Kiwi.Component</a>:
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_initUniforms">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_core_Component.ts.html#l114"><code>src&#x2F;core&#x2F;Component.ts:114</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l185"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:185</code></a>
         
         </p>
 
@@ -1649,10 +1291,33 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>Components can postUpdate, that is run an update after the parent has updated. This is to be overriden by subclasses.</p>
+        <p>Initialises all uniforms</p>
 
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gl</code>
+                        <span class="type">WebGLRenderingCotext</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -1661,62 +1326,8 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 </div>
 
                 
-                    <div id="method_preUpdate" class="method item public inherited">
-    <h3 class="name"><code>preUpdate</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#method_preUpdate">Kiwi.Component</a>:
-            
-        
-        
-        <a href="../files/src_core_Component.ts.html#l100"><code>src&#x2F;core&#x2F;Component.ts:100</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Components can preUpdate, that is update before the parent updates. This is to be overriden by subclasses.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_removeSound" class="method item public">
-    <h3 class="name"><code>removeSound</code></h3>
+                    <div id="method_setParam" class="method item public inherited">
+    <h3 class="name"><code>setParam</code></h3>
 
     
         <div class="args">
@@ -1724,7 +1335,13 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="arg">
                     
-                        <code>name</code>
+                        <code>uniformName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
                     
                 </li>
             
@@ -1751,15 +1368,12 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     <div class="meta">
         
             
-                
-                <p>
-                
-                Defined in
-                
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#method_setParam">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_components_Sound.ts.html#l69"><code>src&#x2F;components&#x2F;Sound.ts:69</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l146"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:146</code></a>
         
         </p>
 
@@ -1770,7 +1384,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>Removes the audio sementment with the name you have given.</p>
+        <p>Sets a single uniform value and marks it as dirty.</p>
 
     </div>
 
@@ -1782,15 +1396,29 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
                 <li class="param">
                     
-                        <code class="param-name">name</code>
+                        <code class="param-name">uniformName</code>
                         <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The piece of audio you would like to remove.</p>
+                         
+                    </div>
 
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type"></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -1798,60 +1426,6 @@ This class is NOT needed when dealing with audio but is instead can be used to a
             
             </ul>
         </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_update" class="method item public inherited">
-    <h3 class="name"><code>update</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#method_update">Kiwi.Component</a>:
-            
-        
-        
-        <a href="../files/src_core_Component.ts.html#l107"><code>src&#x2F;core&#x2F;Component.ts:107</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>If the component is being added to a State rather than a Game Object then over-ride its update method to perform required tasks.</p>
-
-    </div>
-
     
 
     
@@ -1868,8 +1442,142 @@ This class is NOT needed when dealing with audio but is instead can be used to a
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_active" class="property item public inherited">
-    <h3 class="name"><code>active</code></h3>
+                    <div id="property_attributes" class="property item">
+    <h3 class="name"><code>attributes</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            <p>Inherited from
+            <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_attributes">
+                Kiwi.Shaders.ShaderPair
+            </a>
+            
+            but overwritten in
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_base.ts.html#l35"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:35</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader attribute references</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fragShader" class="property item public inherited">
+    <h3 class="name"><code>fragShader</code></h3>
+    <span class="type">WebGLShader</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_fragShader">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l60"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:60</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Fragment shader</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_fragSource" class="property item">
+    <h3 class="name"><code>fragSource</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_base.ts.html#l73"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:73</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Source for the WebGL fragment shader.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_loaded" class="property item public inherited">
+    <h3 class="name"><code>loaded</code></h3>
     <span class="type">Boolean</span>
 
     
@@ -1886,11 +1594,11 @@ This class is NOT needed when dealing with audio but is instead can be used to a
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#property_active">Kiwi.Component</a>:
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_loaded">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_core_Component.ts.html#l81"><code>src&#x2F;core&#x2F;Component.ts:81</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l44"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:44</code></a>
         
         </p>
 
@@ -1900,101 +1608,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>An active Component is one that has its update method called by its parent.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> true</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_dirty" class="property item public deprecated inherited">
-    <h3 class="name"><code>dirty</code></h3>
-    <span class="type">Boolean</span>
-
-    
-        <span class="flag deprecated">deprecated</span>
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#property_dirty">Kiwi.Component</a>:
-            
-        
-        
-        <a href="../files/src_core_Component.ts.html#l90"><code>src&#x2F;core&#x2F;Component.ts:90</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The state of this component.</p>
-
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_game" class="property item public inherited">
-    <h3 class="name"><code>game</code></h3>
-    <span class="type"><a href="../classes/Kiwi.Game.html" class="crosslink">Kiwi.Game</a></span>
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#property_game">Kiwi.Component</a>:
-            
-        
-        
-        <a href="../files/src_core_Component.ts.html#l65"><code>src&#x2F;core&#x2F;Component.ts:65</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The game this Component belongs to</p>
+        <p>Returns whether the shader pair has been loaded and compiled.</p>
 
     </div>
 
@@ -2006,13 +1620,62 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 </div>
 
                 
-                    <div id="property_name" class="property item public inherited">
+                    <div id="property_name" class="property item">
     <h3 class="name"><code>name</code></h3>
     <span class="type">String</span>
 
     
 
     
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_base.ts.html#l49"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shorthand name to identify the shader</p>
+
+    </div>
+
+    
+        <p><strong>Default:</strong> &quot;Base&quot;</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_shaderProgram" class="property item public inherited">
+    <h3 class="name"><code>shaderProgram</code></h3>
+    <span class="type">WebGLProgram</span>
+
+    
+
+    
         <span class="flag public">public</span>
     
 
@@ -2024,11 +1687,11 @@ This class is NOT needed when dealing with audio but is instead can be used to a
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#property_name">Kiwi.Component</a>:
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_shaderProgram">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_core_Component.ts.html#l73"><code>src&#x2F;core&#x2F;Component.ts:73</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l68"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:68</code></a>
         
         </p>
 
@@ -2038,7 +1701,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>The name of this component.</p>
+        <p>The WebGl shader program</p>
 
     </div>
 
@@ -2050,15 +1713,101 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 </div>
 
                 
-                    <div id="property_owner" class="property item public inherited">
-    <h3 class="name"><code>owner</code></h3>
+                    <div id="property_texture2DFrag" class="property item public inherited">
+    <h3 class="name"><code>texture2DFrag</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_texture2DFrag">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l130"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:130</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader frag source (for override)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_texture2DVert" class="property item public inherited">
+    <h3 class="name"><code>texture2DVert</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                <p>Inherited from
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_texture2DVert">Kiwi.Shaders.ShaderPair</a>:
+            
+        
+        
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l138"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:138</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Shader vert source (for override)</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_uniforms" class="property item">
+    <h3 class="name"><code>uniforms</code></h3>
     <span class="type">Object</span>
 
     
 
     
-        <span class="flag public">public</span>
-    
 
     
 
@@ -2066,13 +1815,16 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 
     <div class="meta">
         
+            <p>Inherited from
+            <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_uniforms">
+                Kiwi.Shaders.ShaderPair
+            </a>
             
-                <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#property_owner">Kiwi.Component</a>:
+            but overwritten in
             
         
         
-        <a href="../files/src_core_Component.ts.html#l48"><code>src&#x2F;core&#x2F;Component.ts:48</code></a>
+        <a href="../files/src_render_shaders_filters_base.ts.html#l42"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:42</code></a>
         
         </p>
 
@@ -2082,7 +1834,7 @@ This class is NOT needed when dealing with audio but is instead can be used to a
     </div>
 
     <div class="description">
-        <p>The object that owns this entity</p>
+        <p>Shader uniform descriptors</p>
 
     </div>
 
@@ -2094,9 +1846,9 @@ This class is NOT needed when dealing with audio but is instead can be used to a
 </div>
 
                 
-                    <div id="property_state" class="property item public inherited">
-    <h3 class="name"><code>state</code></h3>
-    <span class="type"><a href="../classes/Kiwi.State.html" class="crosslink">Kiwi.State</a></span>
+                    <div id="property_vertShader" class="property item public inherited">
+    <h3 class="name"><code>vertShader</code></h3>
+    <span class="type">WebGLShader</span>
 
     
 
@@ -2112,23 +1864,66 @@ This class is NOT needed when dealing with audio but is instead can be used to a
         
             
                 <p>Inherited from
-                <a href="../classes/Kiwi.Component.html#property_state">Kiwi.Component</a>:
+                <a href="../classes/Kiwi.Shaders.ShaderPair.html#property_vertShader">Kiwi.Shaders.ShaderPair</a>:
             
         
         
-        <a href="../files/src_core_Component.ts.html#l56"><code>src&#x2F;core&#x2F;Component.ts:56</code></a>
+        <a href="../files/src_render_shaders_ShaderPair.ts.html#l52"><code>src&#x2F;render&#x2F;shaders&#x2F;ShaderPair.ts:52</code></a>
         
         </p>
 
         
 
         
-            <p>Available since 1.3.1</p>
+    </div>
+
+    <div class="description">
+        <p>Vertex shader</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_vertSource" class="property item">
+    <h3 class="name"><code>vertSource</code></h3>
+    <span class="type">Array</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_render_shaders_filters_base.ts.html#l87"><code>src&#x2F;render&#x2F;shaders&#x2F;filters&#x2F;base.ts:87</code></a>
+        
+        </p>
+
+        
+
         
     </div>
 
     <div class="description">
-        <p>The state which this component&#39;s owner belongs to.</p>
+        <p>Source for the WebGL vertex shader.</p>
 
     </div>
 

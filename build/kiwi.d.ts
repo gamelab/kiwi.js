@@ -338,6 +338,7 @@ declare module Kiwi {
         frameRate: number;
         private _start();
         private _loop();
+        restart(): void;
     }
 }
 /**
@@ -785,12 +786,32 @@ declare module Kiwi {
         private _orientationChanged(event);
         private _calculateContainerScale();
         private _createCompositeCanvas();
+        flushElements(): void;
+        handleGlCrash(event: WebGLContextEvent): void;
         resize(width: number, height: number): void;
         setRGBColor(r: number, g: number, b: number): any;
         createDebugCanvas(): void;
         clearDebugCanvas(color?: string): void;
         toggleDebugCanvas(): void;
         private _scaleContainer();
+        /**
+        Dispatch callbacks when the Stage is flushed.
+
+        @property _onFlushElements
+        @type Kiwi.Signal
+        @since 1.5.0
+        @private
+        **/
+        private _onFlushElements;
+        /**
+        Dispatch callbacks when the Stage is flushed.
+
+        @property onRendererCrash
+        @type Kiwi.Signal
+        @since 1.5.0
+        @private
+        **/
+        private onRendererCrash;
         /**
         Dispatch callbacks when the page containing this game gains focus.
 
@@ -1416,6 +1437,15 @@ declare module Kiwi {
         * @private
         */
         private _states;
+        /**
+        An array of all of the states that are contained within this manager.
+        This list order is read-only.
+        @property states
+        @type Array
+        @public
+        @since 1.5.0
+        **/
+        states: Kiwi.State[];
         /**
         * The current State that the game is at.
         * @property current
@@ -18925,6 +18955,7 @@ declare module Kiwi.Sound {
         * @public
         */
         boot(): void;
+        private _setupAudioContextResume();
         /**
         * Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.
         * @method _unlocked
@@ -22786,6 +22817,7 @@ declare module Kiwi.Buffers {
         consider using `drawCut` on a temporary game object instead.
 
         @class Buffer
+        @namespace Kiwi.Buffers
         @extends Kiwi.Entity
         **/
         constructor(params: any);
@@ -22930,6 +22962,7 @@ declare module Kiwi.Buffers {
         an atlas without having an image in user memory. WebGL only.
 
         @class BufferAtlas
+        @namespace Kiwi.Buffers
         @extends Kiwi.Textures.TextureAtlas
         **/
         constructor(params: any);

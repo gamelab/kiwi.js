@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.5.0-beta1",
+        "version": "1.5.0-beta2",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -183,19 +183,23 @@
                 "Buffers": 1
             },
             "classes": {
-                "BufferAtlas": 1
+                "Kiwi.Buffers.BufferAtlas": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Buffers": 1
+            }
         },
         "src/buffers/buffer.ts": {
             "name": "src/buffers/buffer.ts",
             "modules": {},
             "classes": {
-                "Buffer": 1
+                "Kiwi.Buffers.Buffer": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Buffers": 1
+            }
         },
         "src/buffers/bufferer.ts": {
             "name": "src/buffers/bufferer.ts",
@@ -212,19 +216,23 @@
             "name": "src/buffers/filter-buffer-gl-render-manager.ts",
             "modules": {},
             "classes": {
-                "FilterBufferGlRenderManager": 1
+                "Kiwi.Buffers.FilterBufferGlRenderManager": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Buffers": 1
+            }
         },
         "src/buffers/group-buffer-gl-render-manager.ts": {
             "name": "src/buffers/group-buffer-gl-render-manager.ts",
             "modules": {},
             "classes": {
-                "GroupBufferGlRenderManager": 1
+                "Kiwi.Buffers.GroupBufferGlRenderManager": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Buffers": 1
+            }
         },
         "src/components/AnimationManager.ts": {
             "name": "src/components/AnimationManager.ts",
@@ -623,19 +631,23 @@
             "name": "src/gameobjects/filter-buffer.ts",
             "modules": {},
             "classes": {
-                "FilterBuffer": 1
+                "Kiwi.GameObjects.FilterBuffer": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.GameObjects": 1
+            }
         },
         "src/gameobjects/group-buffer.ts": {
             "name": "src/gameobjects/group-buffer.ts",
             "modules": {},
             "classes": {
-                "GroupBuffer": 1
+                "Kiwi.GameObjects.GroupBuffer": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.GameObjects": 1
+            }
         },
         "src/geom/AABB.ts": {
             "name": "src/geom/AABB.ts",
@@ -1060,19 +1072,23 @@
             "name": "src/render/renderers/filter-canvas.ts",
             "modules": {},
             "classes": {
-                "FilterCanvas": 1
+                "Kiwi.Renderers.FilterCanvas": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Renderers": 1
+            }
         },
         "src/render/renderers/filter-gl.ts": {
             "name": "src/render/renderers/filter-gl.ts",
             "modules": {},
             "classes": {
-                "FilterGl": 1
+                "Kiwi.Renderers.FilterGl": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Renderers": 1
+            }
         },
         "src/render/shaders/filters/base.ts": {
             "name": "src/render/shaders/filters/base.ts",
@@ -1080,64 +1096,78 @@
                 "Shaders": 1
             },
             "classes": {
-                "FilterBase": 1
+                "Kiwi.Shaders.FilterBase": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/filters/blur-horizontal.ts": {
             "name": "src/render/shaders/filters/blur-horizontal.ts",
             "modules": {},
             "classes": {
-                "FilterBlurHorizontal": 1
+                "Kiwi.Shaders.FilterBlurHorizontal": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/filters/blur-vertical.ts": {
             "name": "src/render/shaders/filters/blur-vertical.ts",
             "modules": {},
             "classes": {
-                "FilterBlurVertical": 1
+                "Kiwi.Shaders.FilterBlurVertical": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/filters/channel-mult-canvas.ts": {
             "name": "src/render/shaders/filters/channel-mult-canvas.ts",
             "modules": {},
             "classes": {
-                "FilterChannelMultCanvas": 1
+                "Kiwi.Shaders.FilterChannelMultCanvas": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/filters/color-value.ts": {
             "name": "src/render/shaders/filters/color-value.ts",
             "modules": {},
             "classes": {
-                "FilterColorValue": 1
+                "Kiwi.Shaders.FilterColorValue": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/filters/invert-canvas.ts": {
             "name": "src/render/shaders/filters/invert-canvas.ts",
             "modules": {},
             "classes": {
-                "FilterInvertCanvas": 1
+                "Kiwi.Shaders.FilterInvertCanvas": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/filters/invert.ts": {
             "name": "src/render/shaders/filters/invert.ts",
             "modules": {},
             "classes": {
-                "FilterInvert": 1
+                "Kiwi.Shaders.FilterInvert": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Shaders": 1
+            }
         },
         "src/render/shaders/ShaderPair.ts": {
             "name": "src/render/shaders/ShaderPair.ts",
@@ -1253,10 +1283,12 @@
             "name": "src/render/render-task.ts",
             "modules": {},
             "classes": {
-                "RenderTask": 1
+                "Kiwi.Renderers.RenderTask": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "Kiwi.Renderers": 1
+            }
         },
         "src/sound/Audio.ts": {
             "name": "src/sound/Audio.ts",
@@ -1627,11 +1659,11 @@
             "classes": {
                 "Kiwi.Animations.Animation": 1,
                 "Kiwi.Animations.Sequence": 1,
-                "BufferAtlas": 1,
-                "Buffer": 1,
+                "Kiwi.Buffers.BufferAtlas": 1,
+                "Kiwi.Buffers.Buffer": 1,
                 "Kiwi.Buffers.Bufferer": 1,
-                "FilterBufferGlRenderManager": 1,
-                "GroupBufferGlRenderManager": 1,
+                "Kiwi.Buffers.FilterBufferGlRenderManager": 1,
+                "Kiwi.Buffers.GroupBufferGlRenderManager": 1,
                 "Kiwi.Components.AnimationManager": 1,
                 "Kiwi.Components.ArcadePhysics": 1,
                 "Kiwi.Components.Box": 1,
@@ -1662,8 +1694,8 @@
                 "Kiwi.GameObjects.Sprite": 1,
                 "Kiwi.GameObjects.StaticImage": 1,
                 "Kiwi.GameObjects.TextField": 1,
-                "FilterBuffer": 1,
-                "GroupBuffer": 1,
+                "Kiwi.GameObjects.FilterBuffer": 1,
+                "Kiwi.GameObjects.GroupBuffer": 1,
                 "Kiwi.Geom.AABB": 1,
                 "Kiwi.Geom.Circle": 1,
                 "Kiwi.Geom.Intersect": 1,
@@ -1689,15 +1721,15 @@
                 "Kiwi.Input.Touch": 1,
                 "Kiwi.Renderers.Renderer": 1,
                 "Kiwi.Renderers.TextureAtlasRenderer": 1,
-                "FilterCanvas": 1,
-                "FilterGl": 1,
-                "FilterBase": 1,
-                "FilterBlurHorizontal": 1,
-                "FilterBlurVertical": 1,
-                "FilterChannelMultCanvas": 1,
-                "FilterColorValue": 1,
-                "FilterInvertCanvas": 1,
-                "FilterInvert": 1,
+                "Kiwi.Renderers.FilterCanvas": 1,
+                "Kiwi.Renderers.FilterGl": 1,
+                "Kiwi.Shaders.FilterBase": 1,
+                "Kiwi.Shaders.FilterBlurHorizontal": 1,
+                "Kiwi.Shaders.FilterBlurVertical": 1,
+                "Kiwi.Shaders.FilterChannelMultCanvas": 1,
+                "Kiwi.Shaders.FilterColorValue": 1,
+                "Kiwi.Shaders.FilterInvertCanvas": 1,
+                "Kiwi.Shaders.FilterInvert": 1,
                 "Kiwi.Shaders.ShaderPair": 1,
                 "Kiwi.Shaders.TextureAtlasShader": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1,
@@ -1708,7 +1740,7 @@
                 "Kiwi.Shaders.ShaderManager": 1,
                 "Kiwi.Renderers.GLTextureManager": 1,
                 "Kiwi.Renderers.GLTextureWrapper": 1,
-                "RenderTask": 1,
+                "Kiwi.Renderers.RenderTask": 1,
                 "Kiwi.Sound.Audio": 1,
                 "Kiwi.Sound.AudioLibrary": 1,
                 "Kiwi.Sound.AudioManager": 1,
@@ -1762,11 +1794,11 @@
             "name": "Buffers",
             "submodules": {},
             "classes": {
-                "BufferAtlas": 1,
-                "Buffer": 1,
+                "Kiwi.Buffers.BufferAtlas": 1,
+                "Kiwi.Buffers.Buffer": 1,
                 "Kiwi.Buffers.Bufferer": 1,
-                "FilterBufferGlRenderManager": 1,
-                "GroupBufferGlRenderManager": 1
+                "Kiwi.Buffers.FilterBufferGlRenderManager": 1,
+                "Kiwi.Buffers.GroupBufferGlRenderManager": 1
             },
             "fors": {},
             "is_submodule": 1,
@@ -1843,8 +1875,8 @@
                 "Kiwi.GameObjects.Sprite": 1,
                 "Kiwi.GameObjects.StaticImage": 1,
                 "Kiwi.GameObjects.TextField": 1,
-                "FilterBuffer": 1,
-                "GroupBuffer": 1
+                "Kiwi.GameObjects.FilterBuffer": 1,
+                "Kiwi.GameObjects.GroupBuffer": 1
             },
             "fors": {},
             "namespaces": {
@@ -2027,8 +2059,8 @@
             "classes": {
                 "Kiwi.Renderers.Renderer": 1,
                 "Kiwi.Renderers.TextureAtlasRenderer": 1,
-                "FilterCanvas": 1,
-                "FilterGl": 1,
+                "Kiwi.Renderers.FilterCanvas": 1,
+                "Kiwi.Renderers.FilterGl": 1,
                 "Kiwi.Renderers.CanvasRenderer": 1,
                 "Kiwi.Renderers.GLArrayBuffer": 1,
                 "Kiwi.Renderers.GLBlendMode": 1,
@@ -2036,7 +2068,7 @@
                 "Kiwi.Renderers.GLRenderManager": 1,
                 "Kiwi.Renderers.GLTextureManager": 1,
                 "Kiwi.Renderers.GLTextureWrapper": 1,
-                "RenderTask": 1
+                "Kiwi.Renderers.RenderTask": 1
             },
             "fors": {},
             "is_submodule": 1,
@@ -2055,13 +2087,13 @@
             "name": "Shaders",
             "submodules": {},
             "classes": {
-                "FilterBase": 1,
-                "FilterBlurHorizontal": 1,
-                "FilterBlurVertical": 1,
-                "FilterChannelMultCanvas": 1,
-                "FilterColorValue": 1,
-                "FilterInvertCanvas": 1,
-                "FilterInvert": 1,
+                "Kiwi.Shaders.FilterBase": 1,
+                "Kiwi.Shaders.FilterBlurHorizontal": 1,
+                "Kiwi.Shaders.FilterBlurVertical": 1,
+                "Kiwi.Shaders.FilterChannelMultCanvas": 1,
+                "Kiwi.Shaders.FilterColorValue": 1,
+                "Kiwi.Shaders.FilterInvertCanvas": 1,
+                "Kiwi.Shaders.FilterInvert": 1,
                 "Kiwi.Shaders.ShaderPair": 1,
                 "Kiwi.Shaders.TextureAtlasShader": 1,
                 "Kiwi.Shaders.ShaderManager": 1
@@ -2502,9 +2534,9 @@
                 "type": "Kiwi.Animations.Sequence"
             }
         },
-        "BufferAtlas": {
-            "name": "BufferAtlas",
-            "shortname": "BufferAtlas",
+        "Kiwi.Buffers.BufferAtlas": {
+            "name": "Kiwi.Buffers.BufferAtlas",
+            "shortname": "Kiwi.Buffers.BufferAtlas",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2512,15 +2544,15 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Buffers",
-            "namespace": "",
+            "namespace": "Kiwi.Buffers",
             "file": "src/buffers/buffer-atlas.ts",
             "line": 8,
             "description": "Specialised texture atlas that allows a Buffer to maintain\nan atlas without having an image in user memory. WebGL only.",
             "extends": "Kiwi.Textures.TextureAtlas"
         },
-        "Buffer": {
-            "name": "Buffer",
-            "shortname": "Buffer",
+        "Kiwi.Buffers.Buffer": {
+            "name": "Kiwi.Buffers.Buffer",
+            "shortname": "Kiwi.Buffers.Buffer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2528,7 +2560,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Buffers",
-            "namespace": "",
+            "namespace": "Kiwi.Buffers",
             "file": "src/buffers/buffer.ts",
             "line": 10,
             "description": "Frame buffer entity. A GameObject that contains a render target.\n\nBuffers are created and rendered by a `Bufferer` object.\nDo not create them as stand-alones.\n\nThis is the base class for other buffer types.\nIt doesn't do anything by itself.\n\nCocoonJS is not capable of using the `baseImage` parameter.\nAll other clients support it. When using CocoonJS,\nconsider using `drawCut` on a temporary game object instead.",
@@ -2550,9 +2582,9 @@
             "description": "Master system for rendering frame buffers.\n\nYou should use a `Bufferer` to create and control\nall buffers within a `State`, rather than create them singly.\nThis ensures that `GroupBuffer` and `FilterBuffer` objects\nare properly registered.",
             "since": "1.5.0"
         },
-        "FilterBufferGlRenderManager": {
-            "name": "FilterBufferGlRenderManager",
-            "shortname": "FilterBufferGlRenderManager",
+        "Kiwi.Buffers.FilterBufferGlRenderManager": {
+            "name": "Kiwi.Buffers.FilterBufferGlRenderManager",
+            "shortname": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2560,7 +2592,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Buffers",
-            "namespace": "",
+            "namespace": "Kiwi.Buffers",
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
             "line": 11,
             "description": "Render manager for a `FilterBuffer`.\nThis extends the normal `GLRenderManager`\nto permit enhanced framebuffer functionality.\n\nRender managers are instantiated automatically\nby a `Bufferer` manager.",
@@ -2574,9 +2606,9 @@
                 }
             ]
         },
-        "GroupBufferGlRenderManager": {
-            "name": "GroupBufferGlRenderManager",
-            "shortname": "GroupBufferGlRenderManager",
+        "Kiwi.Buffers.GroupBufferGlRenderManager": {
+            "name": "Kiwi.Buffers.GroupBufferGlRenderManager",
+            "shortname": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2584,7 +2616,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Buffers",
-            "namespace": "",
+            "namespace": "Kiwi.Buffers",
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
             "line": 11,
             "description": "Render manager for a `GroupBuffer`.\nThis extends the normal `GLRenderManager`\nto permit enhanced framebuffer functionality.\n\nRender managers are instantiated automatically by a `Bufferer` manager.",
@@ -4291,9 +4323,9 @@
                 }
             ]
         },
-        "FilterBuffer": {
-            "name": "FilterBuffer",
-            "shortname": "FilterBuffer",
+        "Kiwi.GameObjects.FilterBuffer": {
+            "name": "Kiwi.GameObjects.FilterBuffer",
+            "shortname": "Kiwi.GameObjects.FilterBuffer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4301,7 +4333,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "GameObjects",
-            "namespace": "",
+            "namespace": "Kiwi.GameObjects",
             "file": "src/gameobjects/filter-buffer.ts",
             "line": 9,
             "description": "Buffer that draws a texture.\nThe `FilterBuffer` takes a single input texture,\napplies a number of filter effects, and outputs it into the buffer.\n\nThe `FilterBuffer` functions as a `StaticImage`.\nIt does not have children.\n\nAll standard Buffer options are available.\n\nYou should create `FilterBuffer` objects\nusing the `createFilterBuffer` method of a `Bufferer` object.\n\nNote: the FilterBuffer is generated to process one specific image.\nWhile you may change that image, the dimensions of the buffer\nwill not change.",
@@ -4332,9 +4364,9 @@
                 }
             ]
         },
-        "GroupBuffer": {
-            "name": "GroupBuffer",
-            "shortname": "GroupBuffer",
+        "Kiwi.GameObjects.GroupBuffer": {
+            "name": "Kiwi.GameObjects.GroupBuffer",
+            "shortname": "Kiwi.GameObjects.GroupBuffer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4342,7 +4374,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "GameObjects",
-            "namespace": "",
+            "namespace": "Kiwi.GameObjects",
             "file": "src/gameobjects/group-buffer.ts",
             "line": 9,
             "description": "Buffer that draws a subgraph.\nThe GroupBuffer can either use its own children,\nor another entity with members, as the subgraph.\nThe subgraph will be rendered into the buffer.\n\nThe GroupBuffer functions as a `Group`.\n\nChildren of the GroupBuffer will not be drawn\nas part of the regular render sequence.\n\nAll standard Buffer options are available.\n\nYou should create `GroupBuffer` objects\nusing the `createGroupBuffer` method of a `Bufferer` object.",
@@ -5800,9 +5832,9 @@
                 "type": "Kiwi.Renderers.TextureAtlasRenderer"
             }
         },
-        "FilterCanvas": {
-            "name": "FilterCanvas",
-            "shortname": "FilterCanvas",
+        "Kiwi.Renderers.FilterCanvas": {
+            "name": "Kiwi.Renderers.FilterCanvas",
+            "shortname": "Kiwi.Renderers.FilterCanvas",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5810,15 +5842,15 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Renderers",
-            "namespace": "",
+            "namespace": "Kiwi.Renderers",
             "file": "src/render/renderers/filter-canvas.ts",
             "line": 10,
             "description": "Renders a filtered version of an input image.\n\nFilters are added to a `FilterBuffer` object,\ncreated by a `Bufferer`. They will not work on their own.\n\nThis filter system is effectively a replacement of\n`Kiwi.Entity.render()`.\nIt can run a wide variety of image manipulation algorithms.\n\nThis class should be extended and used as an example\nfor developing other canvas filters. It contains useful utilities.\n\nCocoonJS note: This platform is not capable of using\n`globalCompositeOperation` modes. All other clients support them.\nAs best practice, avoid creating canvas filters that rely on\n`globalCompositeOperation`,\nand instead use direct pixel manipulation\nvia `ImageData` properties.",
             "is_constructor": 1
         },
-        "FilterGl": {
-            "name": "FilterGl",
-            "shortname": "FilterGl",
+        "Kiwi.Renderers.FilterGl": {
+            "name": "Kiwi.Renderers.FilterGl",
+            "shortname": "Kiwi.Renderers.FilterGl",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5826,7 +5858,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Renderers",
-            "namespace": "",
+            "namespace": "Kiwi.Renderers",
             "file": "src/render/renderers/filter-gl.ts",
             "line": 9,
             "description": "Renders a filtered version of an input image.\n\nFilters are added to a `FilterBuffer` object,\ncreated by a `Bufferer`. They will not work on their own.\n\nThis filter system is effectively a `Kiwi.Renderers.Renderer`,\nspecialized to deal with texture filtering.\nIt draws a square of WebGL texture coordinates 0-1\n(the entire image).\nThe main variant is the shader used by the filter.\nIt may also use extra information.",
@@ -5864,9 +5896,9 @@
                 }
             ]
         },
-        "FilterBase": {
-            "name": "FilterBase",
-            "shortname": "FilterBase",
+        "Kiwi.Shaders.FilterBase": {
+            "name": "Kiwi.Shaders.FilterBase",
+            "shortname": "Kiwi.Shaders.FilterBase",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5874,16 +5906,16 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/base.ts",
             "line": 11,
             "description": "Shader for rendering base images in filters.\n\nCommon base for shader filters.",
             "is_constructor": 1,
             "extends": "Kiwi.Shaders.ShaderPair"
         },
-        "FilterBlurHorizontal": {
-            "name": "FilterBlurHorizontal",
-            "shortname": "FilterBlurHorizontal",
+        "Kiwi.Shaders.FilterBlurHorizontal": {
+            "name": "Kiwi.Shaders.FilterBlurHorizontal",
+            "shortname": "Kiwi.Shaders.FilterBlurHorizontal",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5891,16 +5923,16 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/blur-horizontal.ts",
             "line": 10,
             "description": "Filter shader: blur image horizontally.\n\nThis should be stacked with a vertical blur to create\na radial blur effect. The blur will be elliptical, proportionate to\nscreen aspect ratio.",
             "is_constructor": 1,
             "extends": "Kiwi.Shaders.ShaderPair"
         },
-        "FilterBlurVertical": {
-            "name": "FilterBlurVertical",
-            "shortname": "FilterBlurVertical",
+        "Kiwi.Shaders.FilterBlurVertical": {
+            "name": "Kiwi.Shaders.FilterBlurVertical",
+            "shortname": "Kiwi.Shaders.FilterBlurVertical",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5908,16 +5940,16 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/blur-vertical.ts",
             "line": 10,
             "description": "Filter shader: blur image vertically.\n\nThis should be stacked with a horizontal blur to create\na radial blur effect. The blur will be elliptical, proportionate to\nscreen aspect ratio.",
             "is_constructor": 1,
             "extends": "Kiwi.Shaders.ShaderPair"
         },
-        "FilterChannelMultCanvas": {
-            "name": "FilterChannelMultCanvas",
-            "shortname": "FilterChannelMultCanvas",
+        "Kiwi.Shaders.FilterChannelMultCanvas": {
+            "name": "Kiwi.Shaders.FilterChannelMultCanvas",
+            "shortname": "Kiwi.Shaders.FilterChannelMultCanvas",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5925,7 +5957,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/channel-mult-canvas.ts",
             "line": 11,
             "description": "Tints or multiplies the channels of the buffer\nrelative to a reference color.\n\nChannelMult multiplies each channel by the corresponding channel\nof a reference color.\n\nAdjust the values of the `color` property to adjust the\nreference color. Default color is black.",
@@ -5947,9 +5979,9 @@
                 }
             ]
         },
-        "FilterColorValue": {
-            "name": "FilterColorValue",
-            "shortname": "FilterColorValue",
+        "Kiwi.Shaders.FilterColorValue": {
+            "name": "Kiwi.Shaders.FilterColorValue",
+            "shortname": "Kiwi.Shaders.FilterColorValue",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5957,16 +5989,16 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/color-value.ts",
             "line": 10,
             "description": "Filter shader: convert to grayscale based on color value.\n\nDesaturation is achieved by RGB / 3.",
             "is_constructor": 1,
             "extends": "Kiwi.Shaders.FilterBase"
         },
-        "FilterInvertCanvas": {
-            "name": "FilterInvertCanvas",
-            "shortname": "FilterInvertCanvas",
+        "Kiwi.Shaders.FilterInvertCanvas": {
+            "name": "Kiwi.Shaders.FilterInvertCanvas",
+            "shortname": "Kiwi.Shaders.FilterInvertCanvas",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5974,16 +6006,16 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/invert-canvas.ts",
             "line": 11,
             "description": "Filter: invert RGB channels.",
             "is_constructor": 1,
             "extends": "Kiwi.Renderers.FilterCanvas"
         },
-        "FilterInvert": {
-            "name": "FilterInvert",
-            "shortname": "FilterInvert",
+        "Kiwi.Shaders.FilterInvert": {
+            "name": "Kiwi.Shaders.FilterInvert",
+            "shortname": "Kiwi.Shaders.FilterInvert",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5991,7 +6023,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Shaders",
-            "namespace": "",
+            "namespace": "Kiwi.Shaders",
             "file": "src/render/shaders/filters/invert.ts",
             "line": 10,
             "description": "Filter shader: invert image",
@@ -6287,9 +6319,9 @@
                 "type": "Kiwi.Renderers.GLTextureWrapper"
             }
         },
-        "RenderTask": {
-            "name": "RenderTask",
-            "shortname": "RenderTask",
+        "Kiwi.Renderers.RenderTask": {
+            "name": "Kiwi.Renderers.RenderTask",
+            "shortname": "Kiwi.Renderers.RenderTask",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -6297,7 +6329,7 @@
             "extension_for": [],
             "module": "Kiwi",
             "submodule": "Renderers",
-            "namespace": "",
+            "namespace": "Kiwi.Renderers",
             "file": "src/render/render-task.ts",
             "line": 10,
             "description": "Information about a rendering pass for an entity.\n\nRender tasks apply new visuals to the same underlying entity.\nThey can be used by a buffered rendering system to provide multiple\ninformation types to a deferred renderer.\n\nA render task may override one or more of the following:\n- Alpha\n- Texture atlas (including animation and cell information)\n- WebGL renderer (including shader and blend mode information)\n- Canvas render method\n\nNote that the WebGL renderer and\nthe canvas render method are mutually exclusive.\nIf you wish to use one as a fallback for the other,\nbe aware that the available solutions may be very different.\n\nA render task cannot override animations.\nIt must mirror the base entity in behavior.\nAccordingly, its atlas must provide\nat least as many cells as the base entity.\nThese cells will be displayed using\nthe same animation and anchor point data as the base entity.\n\nWhen it is created, a `RenderTask` will attempt to add itself\nto a property on the target entity called `renderTasks`.\nThis is an auto-created object literal that may contain many tasks.",
@@ -9484,7 +9516,7 @@
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 17,
+            "line": 18,
             "is_constructor": 1,
             "params": [
                 {
@@ -9531,71 +9563,77 @@
                     ]
                 }
             ],
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 41,
+            "line": 42,
             "description": "Dimensions of framebuffer texture, for use in `enableGL`",
             "itemtype": "property",
             "name": "_dimensions",
             "type": "Float32Array",
             "access": "private",
             "tagname": "",
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 49,
+            "line": 50,
             "description": "Texture wrapper to handle WebGL texture information.\nThis isn't a true `GLTextureWrapper`, but an emulator.\nWe must emulate the standard texture wrapping process\nbecause framebuffers don't play nice with the normal atlas paradigm.",
             "itemtype": "property",
             "name": "glTextureWrapper",
             "type": "object",
             "default": "undefined",
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 61,
+            "line": 62,
             "description": "Height of framebuffer texture",
             "itemtype": "property",
             "name": "height",
             "type": "number",
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 68,
+            "line": 69,
             "description": "Buffer texture",
             "itemtype": "property",
             "name": "texture",
             "type": "WebGLTexture",
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 75,
+            "line": 76,
             "description": "Width of framebuffer texture",
             "itemtype": "property",
             "name": "width",
             "type": "number",
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 85,
+            "line": 86,
             "description": "Create a `GLTextureWrapper` to allow the atlas to communicate\nefficiently with the video card.",
             "itemtype": "method",
             "name": "createGLTextureWrapper",
@@ -9611,13 +9649,14 @@
                     "type": "Kiwi.Renderers.GLTextureManager"
                 }
             ],
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer-atlas.ts",
-            "line": 111,
+            "line": 112,
             "description": "Enable the texture on the video card.",
             "itemtype": "method",
             "name": "enableGL",
@@ -9638,13 +9677,14 @@
                     "type": "Kiwi.Renderers.GLTextureManager"
                 }
             ],
-            "class": "BufferAtlas",
+            "class": "Kiwi.Buffers.BufferAtlas",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 28,
+            "line": 29,
             "is_constructor": 1,
             "params": [
                 {
@@ -9789,193 +9829,209 @@
                     ]
                 }
             ],
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 136,
+            "line": 137,
             "description": "Texture atlas that handles buffers.\nEnsure that WebGL uses `Kiwi.Buffers.BufferAtlas`.",
             "itemtype": "property",
             "name": "atlas",
             "type": "Kiwi.Textures.TextureAtlas",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 145,
+            "line": 146,
             "description": "Bounding box",
             "itemtype": "property",
             "name": "box",
             "type": "Kiwi.Components.Box",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 152,
+            "line": 153,
             "description": "Buffer manager",
             "itemtype": "property",
             "name": "bufferer",
             "type": "Kiwi.Buffers.Bufferer",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 159,
+            "line": 160,
             "description": "Buffer canvas",
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 167,
+            "line": 168,
             "description": "Buffer draw context",
             "itemtype": "property",
             "name": "_ctx",
             "type": "CanvasRenderingContext2D",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 175,
+            "line": 176,
             "description": "Color to which the buffer will clear before drawing",
             "itemtype": "property",
             "name": "clearColor",
             "type": "Kiwi.Utils.Color",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 182,
+            "line": 183,
             "description": "Whether to clear the Buffer before rendering.\nSet this to `false` for accumulative effects.",
             "itemtype": "property",
             "name": "clearOnRender",
             "type": "boolean",
             "default": "true",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 191,
+            "line": 192,
             "description": "Framebuffer object. WebGL only.",
             "itemtype": "property",
             "name": "_framebuffer",
             "type": "WebGLFramebuffer",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 199,
+            "line": 200,
             "description": "Context for draw operations. WebGL only.",
             "itemtype": "property",
             "name": "gl",
             "type": "WebGLRenderingContext",
             "default": "this.game.stage.gl",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 207,
+            "line": 208,
             "description": "WebGL rendering system",
             "itemtype": "property",
             "name": "glRenderer",
             "type": "Kiwi.Renderers.Renderer",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 214,
+            "line": 215,
             "description": "Identifies this as being a buffer.",
             "itemtype": "property",
             "name": "isBuffer",
             "type": "boolean",
             "default": "true",
             "static": 1,
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 223,
+            "line": 224,
             "description": "Name of this `Buffer`",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"UnnamedBuffer\"",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 231,
+            "line": 232,
             "description": "Name of texture to export on destroy.\nIf `undefined`, no texture will be exported.\n\nThis export may be triggered at any time.\nThe buffer texture may be accessed without exporting, via its `atlas`.",
             "itemtype": "property",
             "name": "preserve",
             "type": "string",
             "default": "undefined",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 244,
+            "line": 245,
             "description": "Whether to redraw this buffer every frame",
             "itemtype": "property",
             "name": "redraw",
             "type": "boolean",
             "default": "true",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 251,
+            "line": 252,
             "description": "Texture of the buffer. WebGL only.",
             "itemtype": "property",
             "name": "_texture",
             "type": "WebGLTexture",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 260,
+            "line": 261,
             "description": "Clear the contents of this buffer. This function is an automatic\nalias of either `_clearCanvas` or `_clearGl`.\n\nNote that this method assumes it is not being called\nduring a render sequence. Most user interaction will come during\nthe `update()` period instead. As such, the WebGL version\nautomatically binds the buffer before clearing,\nthen binds back to the main screen.\nTo disable this binding and just clear the current buffer,\nwhatever that may be, specify the parameter `false`.",
             "itemtype": "method",
             "name": "clear",
@@ -9988,25 +10044,27 @@
                     "optdefault": "true"
                 }
             ],
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 278,
+            "line": 279,
             "description": "Clear the contents of this buffer using Canvas methods.",
             "itemtype": "method",
             "name": "_clearCanvas",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 299,
+            "line": 300,
             "description": "Clear the contents of this buffer using WebGL methods.",
             "itemtype": "method",
             "name": "_clearGl",
@@ -10021,91 +10079,99 @@
             ],
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 328,
+            "line": 329,
             "description": "Destroy this entity and its components.\nExtends standard `Entity` behavior.\nAlso erases the associated buffer.\n\nIf the `preserve` property is set,\nexports the texture to the global filestore.\n\nDo not call this method if the buffer is part of the scene graph.\nUse `exists = false` to ensure the entity is removed\nat the appropriate point during the game loop.\n\nYou should only use `destroy`\nif the buffer is not part of the scene graph,\nand so will not be destroyed by the game loop.",
             "itemtype": "method",
             "name": "destroy",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 362,
+            "line": 363,
             "description": "Render the targets of this buffer.\n\nThis method is set to be an alias of the appropriate\n`_drawCanvas` or `_drawGl` methods during construction.",
             "itemtype": "method",
             "name": "draw",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 373,
+            "line": 374,
             "description": "Render the targets of this buffer using Canvas.\n\nOverride this method.",
             "itemtype": "method",
             "name": "_drawCanvas",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 384,
+            "line": 385,
             "description": "Render the targets of this buffer using Canvas.\n\nThis immediate version is for use with out-of-order rendering;\nfor example, rendering a buffered texture only on rare game events,\nand not as part of the usual render sequence.\n\nYou should use `drawImmediate` for better compatibility.",
             "itemtype": "method",
             "name": "_drawCanvasImmediate",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 401,
+            "line": 402,
             "description": "Render the targets of this buffer using WebGL.\n\nOverride this method.",
             "itemtype": "method",
             "name": "_drawGl",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 412,
+            "line": 413,
             "description": "Render the targets of this buffer using WebGL.\n\nThis immediate version is for use with out-of-order rendering;\nfor example, rendering a buffered texture only on rare game events,\nand not as part of the usual render sequence.\nIt will change WebGL state and attempt to clean up after itself.\n\nYou should use `drawImmediate` for better compatibility.",
             "itemtype": "method",
             "name": "_drawGlImmediate",
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 431,
+            "line": 432,
             "description": "Render the targets of this buffer immediately.\n\nThis immediate version is for use with out-of-order rendering;\nfor example, rendering a buffered texture only on rare game events,\nand not as part of the usual render sequence.\n\nThis method is set to be an alias of the appropriate\n`_drawCanvasImmediate` or `_drawGlImmediate` method\nduring construction. This method should be used by preference.\n\nNote that this does not redraw member buffers.\nIf your buffer contains other buffers that must redraw,\nconsider using `bufferer.render( this )`.",
             "itemtype": "method",
             "name": "drawImmediate",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 451,
+            "line": 452,
             "description": "Export the current state of the buffer to a global texture file\nas a `SingleImage` with the supplied key parameter.\nAn associated atlas will be added to the state texture library.\n\nThe texture file will be stored as a canvas element.\n\nWebGL note: This will unbind any currently-bound framebuffer.",
             "itemtype": "method",
             "name": "exportImage",
@@ -10116,13 +10182,14 @@
                     "type": "String"
                 }
             ],
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 522,
+            "line": 523,
             "description": "Export the current state of the buffer to a global texture file\nas a `SpriteSheet` with the supplied key parameter\nand the model's sprite properties.\nAn associated atlas will be added to the state texture library.\n\nThe texture file will be stored as a canvas element.\n\nWebGL note: This will unbind any currently-bound framebuffer.",
             "itemtype": "method",
             "name": "exportSpritesheet",
@@ -10138,13 +10205,14 @@
                     "type": "Kiwi.Textures.SpriteSheet"
                 }
             ],
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 590,
+            "line": 591,
             "description": "Return the type of object that this is.",
             "itemtype": "method",
             "name": "objType",
@@ -10152,13 +10220,14 @@
                 "description": "\"Buffer\"",
                 "type": "String"
             },
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 601,
+            "line": 602,
             "description": "Implements `Kiwi.GameObjects.StaticImage` `render` method.",
             "itemtype": "method",
             "name": "render",
@@ -10169,13 +10238,14 @@
                     "type": "Kiwi.Camera"
                 }
             ],
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 614,
+            "line": 615,
             "description": "Implements `Kiwi.GameObjects.StaticImage` `renderGL` method.",
             "itemtype": "method",
             "name": "renderGL",
@@ -10197,13 +10267,14 @@
                     "optional": true
                 }
             ],
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 627,
+            "line": 628,
             "description": "Run setup protocols unique to the Canvas environment.",
             "itemtype": "method",
             "name": "_setupCanvas",
@@ -10216,13 +10287,14 @@
             ],
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 650,
+            "line": 651,
             "description": "Create render buffer.",
             "itemtype": "method",
             "name": "_setupCanvasBuffer",
@@ -10235,13 +10307,14 @@
             ],
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 670,
+            "line": 671,
             "description": "Run setup protocols unique to the WebGL environment.",
             "itemtype": "method",
             "name": "_setupGl",
@@ -10254,13 +10327,14 @@
             ],
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/buffer.ts",
-            "line": 715,
+            "line": 716,
             "description": "Create framebuffer and associated texture.",
             "itemtype": "method",
             "name": "_setupGlBuffer",
@@ -10273,9 +10347,10 @@
             ],
             "access": "protected",
             "tagname": "",
-            "class": "Buffer",
+            "class": "Kiwi.Buffers.Buffer",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/bufferer.ts",
@@ -10633,65 +10708,70 @@
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 67,
+            "line": 68,
             "description": "Game (publicly accessible)",
             "itemtype": "property",
             "name": "game",
             "type": "Kiwi.Game",
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 74,
+            "line": 75,
             "description": "WebGL rendering context in use",
             "itemtype": "property",
             "name": "gl",
             "type": "WebGLRenderingContext",
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 81,
+            "line": 82,
             "description": "Core game renderer",
             "itemtype": "property",
             "name": "renderer",
             "type": "Kiwi.Renderers.GLRenderManager",
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 88,
+            "line": 89,
             "description": "Base image renderer, used to initialize every `FilterBuffer`\nrender sequence",
             "itemtype": "property",
             "name": "_baseRenderer",
             "type": "Kiwi.Renderers.FilterGl",
             "access": "private",
             "tagname": "",
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 98,
+            "line": 99,
             "description": "Normalized texture reference. This maps the corners of the textures\nto the corners of the buffer.",
             "itemtype": "property",
             "name": "corners",
             "type": "array",
             "static": 1,
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 114,
+            "line": 115,
             "description": "Render to the specified `FilterBuffer`.",
             "itemtype": "method",
             "name": "renderBuffer",
@@ -10702,13 +10782,14 @@
                     "type": "Kiwi.GameObjects.FilterBuffer"
                 }
             ],
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 152,
+            "line": 153,
             "description": "Render the base image of the `FilterBuffer` into buffer 2.\n\nThis is not pingponged yet, because if there are no filters,\nthe filterBuffer will just display the base image.",
             "itemtype": "method",
             "name": "renderBaseImage",
@@ -10719,13 +10800,14 @@
                     "type": "Kiwi.GameObjects.FilterBuffer"
                 }
             ],
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/filter-buffer-gl-render-manager.ts",
-            "line": 205,
+            "line": 206,
             "description": "Render a filter from buffer 1 to buffer 2.",
             "itemtype": "method",
             "name": "renderFilter",
@@ -10741,59 +10823,64 @@
                     "type": "Kiwi.Buffers.Filter"
                 }
             ],
-            "class": "FilterBufferGlRenderManager",
+            "class": "Kiwi.Buffers.FilterBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 64,
+            "line": 65,
             "description": "Game (publicly accessible)",
             "itemtype": "property",
             "name": "game",
             "type": "Kiwi.Game",
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 71,
+            "line": 72,
             "description": "WebGL rendering context in use",
             "itemtype": "property",
             "name": "gl",
             "type": "WebGLRenderingContext",
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 78,
+            "line": 79,
             "description": "Temporary scratch matrix",
             "itemtype": "property",
             "name": "_m",
             "type": "Kiwi.Geom.Matrix",
             "access": "private",
             "tagname": "",
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 86,
+            "line": 87,
             "description": "Core game renderer",
             "itemtype": "property",
             "name": "renderer",
             "type": "Kiwi.Renderers.GLRenderManager",
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 95,
+            "line": 96,
             "description": "Modify the render sequence to use a `RenderTask`.\n\nThis will discard any renderable objects that do not have\nthe specified render task.\nIt will then modify the sequence records of\neach compatible object to reflect its `RenderTask` settings.",
             "itemtype": "method",
             "name": "_applyRenderTasks",
@@ -10806,13 +10893,14 @@
             ],
             "access": "private",
             "tagname": "",
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 138,
+            "line": 139,
             "description": "Modify members of a render sequence to remove data\nspecific to a completed render pass.\nThis entails removing some alpha data.",
             "itemtype": "method",
             "name": "_ceaseRenderTasks",
@@ -10825,13 +10913,14 @@
             ],
             "access": "private",
             "tagname": "",
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/buffers/group-buffer-gl-render-manager.ts",
-            "line": 160,
+            "line": 161,
             "description": "Render to the specified `GroupBuffer`.",
             "itemtype": "method",
             "name": "renderBuffer",
@@ -10842,9 +10931,10 @@
                     "type": "Kiwi.GameObjects.GroupBuffer"
                 }
             ],
-            "class": "GroupBufferGlRenderManager",
+            "class": "Kiwi.Buffers.GroupBufferGlRenderManager",
             "module": "Kiwi",
-            "submodule": "Buffers"
+            "submodule": "Buffers",
+            "namespace": "Kiwi.Buffers"
         },
         {
             "file": "src/components/AnimationManager.ts",
@@ -27753,7 +27843,7 @@
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 71,
+            "line": 72,
             "description": "Process params for `super` invocation.",
             "itemtype": "method",
             "name": "processParams",
@@ -27769,176 +27859,191 @@
                 "type": "Object"
             },
             "static": 1,
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 100,
+            "line": 101,
             "description": "Texture atlas from which the filtered texture is derived.\n\nYou should only update this to a texture with the same dimensions.\nThe filterBuffer properties are set to use this texture upon creation.",
             "itemtype": "property",
             "name": "atlasInput",
             "type": "Kiwi.Textures.TextureAtlas",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 111,
+            "line": 112,
             "description": "Atlas used to refer to the input buffer",
             "itemtype": "property",
             "name": "atlasSource",
             "type": "Kiwi.Textures.TextureAtlas",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 118,
+            "line": 119,
             "description": "Buffer into which the filter is output. Note that this may change\nto reflect different internal frame buffers as the FilterBuffer\nprocesses images. This access is read-only.",
             "itemtype": "property",
             "name": "bufferOut",
             "type": "WebGLFramebuffer",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 130,
+            "line": 131,
             "description": "Second canvas, used for redrawing the input image in canvas mode.\n\nThis is swapped with `_canvas` every time a filter pingpongs.\nIt is not a constant address.",
             "itemtype": "property",
             "name": "_canvas2",
             "type": "HTMLCanvasElement",
             "access": "private",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 142,
+            "line": 143,
             "description": "Input canvas used for the base image.\nThis is a READ-ONLY property.\n\nNote that the FilterBuffer exchanges internal canvas references\nas it works. This is not a constant address.",
             "itemtype": "property",
             "name": "canvasInput",
             "type": "HTMLCanvasElement",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 156,
+            "line": 157,
             "description": "Second canvas, used for redrawing the input image in canvas mode.\nThis is a READ-ONLY property.\n\nNote that the FilterBuffer exchanges internal canvas references\nas it works. This is not a constant address.",
             "itemtype": "property",
             "name": "canvasOutput",
             "type": "HTMLCanvasElement",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 170,
+            "line": 171,
             "description": "Corners of the input texture, in normalized coordinates.\n\nThese must be computed per-filterBuffer,\nbecause the 0-1 normalized UV range doesn't work for textures\nwhich were resized from NPOT to POT.",
             "itemtype": "property",
             "name": "corners",
             "type": "array",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 182,
+            "line": 183,
             "description": "Second rendering context in canvas mode.\n\nThis is swapped with `_ctx` every time a filter pingpongs.\nIt is not a constant address.",
             "itemtype": "property",
             "name": "_ctx2",
             "type": "CanvasRenderingContext2D",
             "access": "private",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 194,
+            "line": 195,
             "description": "Input rendering context in canvas mode. READ-ONLY access.\n\nThis is swapped with `_ctx2` every time a filter pingpongs.\nIt is not a constant address.",
             "itemtype": "property",
             "name": "ctxInput",
             "type": "CanvasRenderingContext2D",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 207,
+            "line": 208,
             "description": "Output rendering context in canvas mode. READ-ONLY access.\n\nThis is swapped with `_ctx` every time a filter pingpongs.\nIt is not a constant address.",
             "itemtype": "property",
             "name": "ctxOutput",
             "type": "CanvasRenderingContext2D",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 220,
+            "line": 221,
             "description": "List of all filters to be applied",
             "itemtype": "property",
             "name": "filters",
             "type": "array",
             "default": "[]",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 228,
+            "line": 229,
             "description": "Second framebuffer, used for redrawing the input image in WebGL mode.\n\nThis is swapped with `_framebuffer` every time a filter pingpongs.\nIt is not a constant address.",
             "itemtype": "property",
             "name": "_framebuffer2",
             "type": "WebGLFramebuffer",
             "access": "private",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 240,
+            "line": 241,
             "description": "WebGL texture. READ-ONLY.",
             "itemtype": "property",
             "name": "texture",
             "type": "WebGLTexture",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 249,
+            "line": 250,
             "description": "Second texture, used for redrawing the input image in WebGL mode.\n\nThis is swapped with `_texture` every time a filter pingpongs.\nIt is not a constant address.\n\nThe output texture atlas of a `FilterBuffer` uses\nthe texture in this property.",
             "itemtype": "property",
             "name": "_texture2",
             "type": "WebGLTexture",
             "access": "private",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 265,
+            "line": 266,
             "description": "Add a new filter to the `FilterBuffer`.\nThe new filter will be positioned at\nthe end of the `filters` queue.\n\nFilters are identified by key in\n`Kiwi.Shaders.Filters.FiltersGl` and\n`Kiwi.Shaders.Filters.FilterShaders`,\nin order. The key is the `name` property of the filter or shader.\nIf no key can be found,\nthis function issues a warning and returns null.\n\nIf a filter requires params, they may be specified.\nMost filters do not.\nThis function will automatically add\n`gl` and `shaderManager` params.\n\nSome filters are defined only as shaders.\nThese will automatically be assigned to a `FilterGl` object,\nwhich will be named by the shader.\nA shader-only filter is assumed to be `FilterGl` compatible,\nwith a single input texture.",
             "itemtype": "method",
             "name": "addFilter",
@@ -27959,59 +28064,64 @@
                 "description": "Filter created",
                 "type": "Kiwi.Shaders.ShaderPair"
             },
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 359,
+            "line": 360,
             "description": "Clear the contents of this buffer using Canvas methods.\n\nThis modified version targets `_canvas2`, the visible buffer.",
             "itemtype": "method",
             "name": "_clearCanvas",
             "access": "private",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 383,
+            "line": 384,
             "description": "Extend destroy behavior to deal with back buffer.",
             "itemtype": "method",
             "name": "destroy",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 401,
+            "line": 402,
             "description": "Custom canvas draw behavior.",
             "itemtype": "method",
             "name": "_drawCanvas",
             "access": "protected",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 430,
+            "line": 431,
             "description": "Custom WebGL draw behavior.",
             "itemtype": "method",
             "name": "_drawGl",
             "access": "protected",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 442,
+            "line": 443,
             "description": "Export the current state of the buffer to a global texture file\nas a `SingleImage` with the supplied key parameter.\nAn associated atlas will be added to the state texture library.\n\nThe texture file will be stored as a canvas element.\n\nWebGL note: This will unbind any currently-bound framebuffer.\n\nThis method is extended for `FilterBuffer`.\nIt will pingpong before export.",
             "itemtype": "method",
             "name": "exportImage",
@@ -28022,13 +28132,14 @@
                     "type": "String"
                 }
             ],
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 464,
+            "line": 465,
             "description": "Export the current state of the buffer to a global texture file\nas a `SpriteSheet` with the supplied key parameter\nand the model's sprite properties.\nAn associated atlas will be added to the state texture library.\n\nThe texture file will be stored as a canvas element.\n\nWebGL note: This will unbind any currently-bound framebuffer.\n\nThis method is extended for `FilterBuffer`.\nIt will pingpong before export.",
             "itemtype": "method",
             "name": "exportSpritesheet",
@@ -28044,13 +28155,14 @@
                     "type": "Kiwi.Textures.SpriteSheet"
                 }
             ],
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 489,
+            "line": 490,
             "description": "Return the specified filter, if it exists on this `FilterBuffer`.",
             "itemtype": "method",
             "name": "getFilter",
@@ -28065,23 +28177,25 @@
                 "description": "Filter with the specified name, or `null`.",
                 "type": "Object"
             },
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 509,
+            "line": 510,
             "description": "Swap buffers. Note that this will not swap the buffer\non the texture atlas. Used during filter rendering.\nIt should not be necessary to call this.\n\nIf you are writing your own `FilterCanvas` extensions, you may wish\nto use `pingpong()`. Canvas filters do not automatically pingpong,\nbut it may sometimes be useful to have the second buffer available\nto draw or process.",
             "itemtype": "method",
             "name": "pingpong",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 546,
+            "line": 547,
             "description": "Setup a second framebuffer, so the renderer can pingpong.\n\nThis puts the initial buffer into the second position,\nwhich is thereafter used as the output texture source.\nThe first-position buffer is drawn into the second position,\nso should be more fundamentally accessible to filters and shaders.",
             "itemtype": "method",
             "name": "_setupSecondBuffer",
@@ -28094,117 +28208,127 @@
             ],
             "access": "private",
             "tagname": "",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/filter-buffer.ts",
-            "line": 594,
+            "line": 595,
             "description": "Ensure that the output texture atlas is pointing at\nthe correct sub-buffer.",
             "itemtype": "method",
             "name": "updateTextureAtlas",
-            "class": "FilterBuffer",
+            "class": "Kiwi.GameObjects.FilterBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 61,
+            "line": 62,
             "description": "Camera to use. This describes the buffer's view into the scene.\n\nDefaults to a new camera. This is not created using\n`game.cameras.create`, because that would add it to the regular\nrender pipeline.",
             "itemtype": "property",
             "name": "camera",
             "type": "Kiwi.Camera",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 73,
+            "line": 74,
             "description": "Temporary scratch matrix used to compute canvas camera transforms.",
             "itemtype": "property",
             "name": "_camMatrix",
             "type": "Kiwi.Geom.Matrix",
             "access": "private",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 81,
+            "line": 82,
             "description": "Collection of children belonging to this `GroupBuffer`",
             "itemtype": "property",
             "name": "members",
             "type": "array",
             "default": "[]",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 89,
+            "line": 90,
             "description": "Render task identification key. If specified, the `GroupBuffer`\nwill only render entities with that `RenderTask`. If not specified,\nthe `GroupBuffer` will use the default render method.",
             "itemtype": "property",
             "name": "renderTask",
             "type": "string",
             "default": "undefined",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 100,
+            "line": 101,
             "description": "Target parent of a subgraph.\nThe `GroupBuffer` will render that subgraph.\nBy default, the `GroupBuffer` has its own children.",
             "itemtype": "property",
             "name": "target",
             "type": "Kiwi.Entity",
             "default": "this",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 112,
+            "line": 113,
             "description": "Custom canvas draw behavior.",
             "itemtype": "method",
             "name": "_drawCanvas",
             "access": "protected",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 174,
+            "line": 175,
             "description": "Custom WebGL draw behavior.",
             "itemtype": "method",
             "name": "_drawGl",
             "access": "protected",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 186,
+            "line": 187,
             "description": "Destroy the `GroupBuffer` and its own children.\nHybrid of `Buffer` and `Group` destroy methods.\n\nDo not call this method. Use `exists = false` to ensure the entity\nis removed at the appropriate point during the game loop.",
             "itemtype": "method",
             "name": "destroy",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 209,
+            "line": 210,
             "description": "Draw a copy of the target, using this `GroupBuffer`'s camera.\n\nThis is useful for capturing snapshots.\n\nThe operation will temporarily set `this.target` to `target`,\nthen call `drawImmediate()`.\nEnsure that `clearOnRender` and `redraw` are set appropriately.",
             "itemtype": "method",
             "name": "drawCopy",
@@ -28215,13 +28339,14 @@
                     "type": "Kiwi.IChild"
                 }
             ],
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 232,
+            "line": 233,
             "description": "Draw the target, using this `GroupBuffer`'s camera.\nThe target is then deleted.\n\nThis is useful for one-time renders, such as custom sprite sheets.\n\nThe operation will temporarily set `this.target` to `target`,\nthen call `drawImmediate()`.\nEnsure that `clearOnRender` and `redraw` are set appropriately.",
             "itemtype": "method",
             "name": "drawCut",
@@ -28232,25 +28357,27 @@
                     "type": "Kiwi.Entity"
                 }
             ],
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 252,
+            "line": 253,
             "description": "Copy properties from `Kiwi.Group` to simulate multiple inheritance.",
             "itemtype": "method",
             "name": "_extendWithGroupMethods",
             "access": "private",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 300,
+            "line": 301,
             "description": "Recursively render a subgraph. Used for canvas rendering.",
             "itemtype": "method",
             "name": "_recurse",
@@ -28263,13 +28390,14 @@
             ],
             "access": "private",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 324,
+            "line": 325,
             "description": "Recursively render a subgraph with Canvas.\nThis variant of `_recurse` renders using `RenderTask` functions\nmatching this `GroupBuffer`.",
             "itemtype": "method",
             "name": "_recurseTask",
@@ -28282,31 +28410,34 @@
             ],
             "access": "private",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 360,
+            "line": 361,
             "description": "Override default method.",
             "itemtype": "method",
             "name": "update",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/gameobjects/group-buffer.ts",
-            "line": 371,
+            "line": 372,
             "description": "Trigger update for all members. Update does not propagate into\n`GroupBuffer` objects, because they're not explicitly groups.",
             "itemtype": "method",
             "name": "_updateMembers",
             "access": "private",
             "tagname": "",
-            "class": "GroupBuffer",
+            "class": "Kiwi.GameObjects.GroupBuffer",
             "module": "Kiwi",
-            "submodule": "GameObjects"
+            "submodule": "GameObjects",
+            "namespace": "Kiwi.GameObjects"
         },
         {
             "file": "src/geom/AABB.ts",
@@ -42923,32 +43054,34 @@
         },
         {
             "file": "src/render/renderers/filter-canvas.ts",
-            "line": 37,
+            "line": 38,
             "description": "Whether this filter should be processed",
             "itemtype": "property",
             "name": "active",
             "type": "boolean",
             "default": "true",
-            "class": "FilterCanvas",
+            "class": "Kiwi.Renderers.FilterCanvas",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-canvas.ts",
-            "line": 45,
+            "line": 46,
             "description": "Shorthand name to identify the filter",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"FilterCanvas\"",
             "static": 1,
-            "class": "FilterCanvas",
+            "class": "Kiwi.Renderers.FilterCanvas",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-canvas.ts",
-            "line": 55,
+            "line": 56,
             "description": "Clear the output canvas.",
             "itemtype": "method",
             "name": "clear",
@@ -42959,13 +43092,14 @@
                     "type": "Kiwi.GameObjects.FilterBuffer"
                 }
             ],
-            "class": "FilterCanvas",
+            "class": "Kiwi.Renderers.FilterCanvas",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-canvas.ts",
-            "line": 68,
+            "line": 69,
             "description": "Render the `input` canvas to the `output` canvas.\nThis is not proportional; corners map to corners.",
             "itemtype": "method",
             "name": "render",
@@ -42976,61 +43110,66 @@
                     "type": "Kiwi.GameObjects.FilterBuffer"
                 }
             ],
-            "class": "FilterCanvas",
+            "class": "Kiwi.Renderers.FilterCanvas",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 51,
+            "line": 52,
             "description": "Whether to apply this filter during `FilterBuffer` processing",
             "itemtype": "property",
             "name": "active",
             "type": "boolean",
             "default": "true",
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 59,
+            "line": 60,
             "description": "Index buffer",
             "itemtype": "property",
             "name": "_indexBuffer",
             "type": "Kiwi.Renderers.GLElementArrayBuffer",
             "access": "private",
             "tagname": "",
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 67,
+            "line": 68,
             "description": "Name to identify this filter",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "undefined",
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 75,
+            "line": 76,
             "description": "Shader program to use for the filter",
             "itemtype": "property",
             "name": "shaderPair",
             "type": "Kiwi.Shaders.ShaderPair",
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 82,
+            "line": 83,
             "description": "Name of the shader program to use",
             "itemtype": "property",
             "name": "_shaderPairName",
@@ -43038,26 +43177,28 @@
             "default": "\"FilterShaderBase\"",
             "access": "private",
             "tagname": "",
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 91,
+            "line": 92,
             "description": "Vertex buffer",
             "itemtype": "property",
             "name": "_vertexBuffer",
             "type": "Kiwi.Renderers.GLArrayBuffer",
             "access": "private",
             "tagname": "",
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 100,
+            "line": 101,
             "description": "Enable the renderer for drawing.",
             "itemtype": "method",
             "name": "enable",
@@ -43068,13 +43209,14 @@
                     "type": "WebGLRenderingContext"
                 }
             ],
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 114,
+            "line": 115,
             "description": "Disable the renderer to make room for another.",
             "itemtype": "method",
             "name": "disable",
@@ -43085,13 +43227,14 @@
                     "type": "WebGLRenderingContext"
                 }
             ],
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/renderers/filter-gl.ts",
-            "line": 124,
+            "line": 125,
             "description": "Make a draw call. Actual rendering to current framebuffer ensues.",
             "itemtype": "method",
             "name": "drawCorners",
@@ -43107,48 +43250,52 @@
                     "type": "Array"
                 }
             ],
-            "class": "FilterGl",
+            "class": "Kiwi.Renderers.FilterGl",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/shaders/filters/base.ts",
-            "line": 34,
+            "line": 35,
             "description": "Shader attribute references",
             "itemtype": "property",
             "name": "attributes",
             "type": "object",
-            "class": "FilterBase",
+            "class": "Kiwi.Shaders.FilterBase",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/base.ts",
-            "line": 41,
+            "line": 42,
             "description": "Shader uniform descriptors",
             "itemtype": "property",
             "name": "uniforms",
             "type": "object",
-            "class": "FilterBase",
+            "class": "Kiwi.Shaders.FilterBase",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/base.ts",
-            "line": 48,
+            "line": 49,
             "description": "Shorthand name to identify the shader",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"Base\"",
             "static": 1,
-            "class": "FilterBase",
+            "class": "Kiwi.Shaders.FilterBase",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/base.ts",
-            "line": 58,
+            "line": 59,
             "description": "Initialize shader pair.",
             "itemtype": "method",
             "name": "init",
@@ -43159,130 +43306,141 @@
                     "type": "WebGLRenderingContext"
                 }
             ],
-            "class": "FilterBase",
+            "class": "Kiwi.Shaders.FilterBase",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/base.ts",
-            "line": 72,
+            "line": 73,
             "description": "Source for the WebGL fragment shader.",
             "itemtype": "property",
             "name": "fragSource",
             "type": "array",
-            "class": "FilterBase",
+            "class": "Kiwi.Shaders.FilterBase",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/base.ts",
-            "line": 86,
+            "line": 87,
             "description": "Source for the WebGL vertex shader.",
             "itemtype": "property",
             "name": "vertSource",
             "type": "array",
-            "class": "FilterBase",
+            "class": "Kiwi.Shaders.FilterBase",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/blur-horizontal.ts",
-            "line": 25,
+            "line": 26,
             "description": "Shorthand name to identify the shader",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"BlurHorizontal\"",
             "static": 1,
-            "class": "FilterBlurHorizontal",
+            "class": "Kiwi.Shaders.FilterBlurHorizontal",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/blur-horizontal.ts",
-            "line": 34,
+            "line": 35,
             "description": "Source for the WebGL fragment shader.",
             "itemtype": "property",
             "name": "fragSource",
             "type": "array",
-            "class": "FilterBlurHorizontal",
+            "class": "Kiwi.Shaders.FilterBlurHorizontal",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/blur-horizontal.ts",
-            "line": 56,
+            "line": 57,
             "description": "Source for the WebGL vertex shader.",
             "itemtype": "property",
             "name": "vertSource",
             "type": "array",
-            "class": "FilterBlurHorizontal",
+            "class": "Kiwi.Shaders.FilterBlurHorizontal",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/blur-vertical.ts",
-            "line": 25,
+            "line": 26,
             "description": "Shorthand name to identify the shader",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"BlurVertical\"",
             "static": 1,
-            "class": "FilterBlurVertical",
+            "class": "Kiwi.Shaders.FilterBlurVertical",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/blur-vertical.ts",
-            "line": 34,
+            "line": 35,
             "description": "Source for the WebGL fragment shader.",
             "itemtype": "property",
             "name": "fragSource",
             "type": "array",
-            "class": "FilterBlurVertical",
+            "class": "Kiwi.Shaders.FilterBlurVertical",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/blur-vertical.ts",
-            "line": 56,
+            "line": 57,
             "description": "Source for the WebGL vertex shader.",
             "itemtype": "property",
             "name": "vertSource",
             "type": "array",
-            "class": "FilterBlurVertical",
+            "class": "Kiwi.Shaders.FilterBlurVertical",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/channel-mult-canvas.ts",
-            "line": 33,
+            "line": 34,
             "description": "Color of tint effect",
             "itemtype": "property",
             "name": "color",
             "type": "Kiwi.Utils.Color",
             "default": "0, 0, 0, 1",
-            "class": "FilterChannelMultCanvas",
+            "class": "Kiwi.Shaders.FilterChannelMultCanvas",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/channel-mult-canvas.ts",
-            "line": 41,
+            "line": 42,
             "description": "Shorthand name to identify the filter",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"ChannelMult\"",
             "static": 1,
-            "class": "FilterChannelMultCanvas",
+            "class": "Kiwi.Shaders.FilterChannelMultCanvas",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/channel-mult-canvas.ts",
-            "line": 51,
+            "line": 52,
             "description": "Render the inversion effect.\n\nThis does not require a pingpong, and can operate entirely on\nbuffer 2 pixels.",
             "itemtype": "method",
             "name": "render",
@@ -43293,61 +43451,66 @@
                     "type": "Kiwi.GameObjects.FilterBuffer"
                 }
             ],
-            "class": "FilterChannelMultCanvas",
+            "class": "Kiwi.Shaders.FilterChannelMultCanvas",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/color-value.ts",
-            "line": 23,
+            "line": 24,
             "description": "Shorthand name to identify the shader",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"ColorValue\"",
             "static": 1,
-            "class": "FilterColorValue",
+            "class": "Kiwi.Shaders.FilterColorValue",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/color-value.ts",
-            "line": 32,
+            "line": 33,
             "description": "Source for the WebGL fragment shader.",
             "itemtype": "property",
             "name": "fragSource",
             "type": "array",
-            "class": "FilterColorValue",
+            "class": "Kiwi.Shaders.FilterColorValue",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/color-value.ts",
-            "line": 48,
+            "line": 49,
             "description": "Source for the WebGL vertex shader.",
             "itemtype": "property",
             "name": "vertSource",
             "type": "array",
-            "class": "FilterColorValue",
+            "class": "Kiwi.Shaders.FilterColorValue",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/invert-canvas.ts",
-            "line": 21,
+            "line": 22,
             "description": "Shorthand name to identify the filter",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"Invert\"",
             "static": 1,
-            "class": "FilterInvertCanvas",
+            "class": "Kiwi.Shaders.FilterInvertCanvas",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/invert-canvas.ts",
-            "line": 31,
+            "line": 32,
             "description": "Render the inversion effect.\n\nThis does not require a pingpong, and can operate entirely on\nbuffer 2 pixels.",
             "itemtype": "method",
             "name": "render",
@@ -43358,44 +43521,48 @@
                     "type": "Kiwi.GameObjects.FilterBuffer"
                 }
             ],
-            "class": "FilterInvertCanvas",
+            "class": "Kiwi.Shaders.FilterInvertCanvas",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/invert.ts",
-            "line": 20,
+            "line": 21,
             "description": "Shorthand name to identify the shader",
             "itemtype": "property",
             "name": "name",
             "type": "string",
             "default": "\"Invert\"",
             "static": 1,
-            "class": "FilterInvert",
+            "class": "Kiwi.Shaders.FilterInvert",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/invert.ts",
-            "line": 29,
+            "line": 30,
             "description": "Source for the WebGL fragment shader.",
             "itemtype": "property",
             "name": "fragSource",
             "type": "array",
-            "class": "FilterInvert",
+            "class": "Kiwi.Shaders.FilterInvert",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/filters/invert.ts",
-            "line": 44,
+            "line": 45,
             "description": "Source for the WebGL vertex shader.",
             "itemtype": "property",
             "name": "vertSource",
             "type": "array",
-            "class": "FilterInvert",
+            "class": "Kiwi.Shaders.FilterInvert",
             "module": "Kiwi",
-            "submodule": "Shaders"
+            "submodule": "Shaders",
+            "namespace": "Kiwi.Shaders"
         },
         {
             "file": "src/render/shaders/ShaderPair.ts",
@@ -45988,29 +46155,31 @@
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 70,
+            "line": 71,
             "description": "Name or key of this task. This will identify the task in the\n`renderTasks` object on an entity.\n\nNote that this will override any `RenderTask` of the same key.",
             "itemtype": "property",
             "name": "name",
             "type": "string",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 81,
+            "line": 82,
             "description": "Entity to which this task belongs. Rendering information not specified\nin the render task will be derived from this entity.",
             "itemtype": "property",
             "name": "entity",
             "type": "Kiwi.Entity",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 90,
+            "line": 91,
             "description": "Override alpha",
             "itemtype": "property",
             "name": "_alpha",
@@ -46018,13 +46187,14 @@
             "default": "undefined",
             "access": "private",
             "tagname": "",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 99,
+            "line": 100,
             "description": "Override texture",
             "itemtype": "property",
             "name": "_atlas",
@@ -46032,13 +46202,14 @@
             "default": "undefined",
             "access": "private",
             "tagname": "",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 108,
+            "line": 109,
             "description": "Override WebGL renderer",
             "itemtype": "property",
             "name": "_renderer",
@@ -46046,13 +46217,14 @@
             "default": "undefined",
             "access": "private",
             "tagname": "",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 117,
+            "line": 118,
             "description": "Override `render` method",
             "itemtype": "property",
             "name": "_renderCanvas",
@@ -46060,57 +46232,62 @@
             "default": "undefined",
             "access": "private",
             "tagname": "",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 126,
+            "line": 127,
             "description": "Alpha override",
             "itemtype": "property",
             "name": "alpha",
             "type": "number",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 138,
+            "line": 139,
             "description": "Texture override.\nMust have cells corresponding to the base entity's atlas' cells.\n(They may be the same cell.)",
             "itemtype": "property",
             "name": "atlas",
             "type": "Kiwi.Textures.TextureAtlas",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 153,
+            "line": 154,
             "description": "WebGL renderer override. This object may contain\nvariant shader and blend mode data.",
             "itemtype": "property",
             "name": "renderer",
             "type": "Kiwi.Renderers.Renderer",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 167,
+            "line": 168,
             "description": "Canvas render method override.",
             "itemtype": "method",
             "name": "renderCanvas",
             "type": "function",
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/render/render-task.ts",
-            "line": 181,
+            "line": 182,
             "description": "Return a function which sets the `globalCompositeOperation` before\nrendering an entity. Executes in the scope of `entity`.\n\nUse this to create `RenderTask` objects for canvas compositing.\n\nNote that compositing occurs only within a buffer.\nThese operations will not blend with objects outside the buffer.",
             "itemtype": "method",
             "name": "getCanvasCompositingFunction",
@@ -46127,9 +46304,10 @@
                     "type": "String"
                 }
             ],
-            "class": "RenderTask",
+            "class": "Kiwi.Renderers.RenderTask",
             "module": "Kiwi",
-            "submodule": "Renderers"
+            "submodule": "Renderers",
+            "namespace": "Kiwi.Renderers"
         },
         {
             "file": "src/sound/Audio.ts",
@@ -47227,7 +47405,21 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 218,
+            "line": 225,
+            "description": "Set up listeners to `resume` the `AudioContext`\nwhen the user interacts with the page.\nThis is necessary because some browsers have begun disabling\nautoplay to ensure better user experience.",
+            "itemtype": "method",
+            "name": "_setupAudioContextResume",
+            "access": "private",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.Sound.AudioManager",
+            "module": "Kiwi",
+            "submodule": "Sound",
+            "namespace": "Kiwi.Sound"
+        },
+        {
+            "file": "src/sound/AudioManager.ts",
+            "line": 270,
             "description": "Is executed when a mouse event is fired on the device. This is used to enabled playback of sounds on the current device if they were awaiting for a user event.",
             "itemtype": "method",
             "name": "_unlocked",
@@ -47240,7 +47432,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 246,
+            "line": 298,
             "description": "Used to mute the audio on the device, or to check to see if the device is muted.\nThis will not stop audio from being played, will just mean that the audio is silent.",
             "itemtype": "property",
             "name": "mute",
@@ -47255,7 +47447,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 292,
+            "line": 344,
             "description": "Global setting and getting of the volume.\nA number between 0 (silence) and 1 (full volume).",
             "itemtype": "property",
             "name": "volume",
@@ -47270,7 +47462,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 330,
+            "line": 382,
             "description": "Indicates whether or not an Audio Object is registered with this Audio Manager or not. For Kiwi Internal use only.",
             "itemtype": "method",
             "name": "isRegistered",
@@ -47294,7 +47486,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 347,
+            "line": 399,
             "description": "Registers an Audio Object with this audio manager. Also assign's the audio piece a unique ID to identify it by. Internal Kiwi use only.",
             "itemtype": "method",
             "name": "registerSound",
@@ -47318,7 +47510,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 363,
+            "line": 415,
             "description": "Used to create a new sound on the audio manager. Returns the newly created sound.",
             "itemtype": "method",
             "name": "add",
@@ -47356,7 +47548,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 382,
+            "line": 434,
             "description": "Removes the passed sound from the AudioManager.\nIf you remove a Audio Object from the AudioManager, then that Audio Object will not have a update loop.",
             "itemtype": "method",
             "name": "remove",
@@ -47382,7 +47574,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 411,
+            "line": 463,
             "description": "Plays all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "playAll",
@@ -47395,7 +47587,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 426,
+            "line": 478,
             "description": "Stops all of the sounds that are listed in the AudioManager from playing.",
             "itemtype": "method",
             "name": "stopAll",
@@ -47408,7 +47600,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 443,
+            "line": 495,
             "description": "Pauses all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "pauseAll",
@@ -47421,7 +47613,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 460,
+            "line": 512,
             "description": "Resumes all of the sounds listed in the AudioManager.",
             "itemtype": "method",
             "name": "resumeAll",
@@ -47434,7 +47626,7 @@
         },
         {
             "file": "src/sound/AudioManager.ts",
-            "line": 477,
+            "line": 529,
             "description": "The update loop that is executed every frame.",
             "itemtype": "method",
             "name": "update",
@@ -56493,11 +56685,11 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/buffers/buffer-atlas.ts:17"
+            "line": " src/buffers/buffer-atlas.ts:18"
         },
         {
             "message": "Missing item type",
-            "line": " src/buffers/buffer.ts:28"
+            "line": " src/buffers/buffer.ts:29"
         },
         {
             "message": "Missing item type",
