@@ -2,7 +2,7 @@
     "project": {
         "name": "Kiwi.js",
         "description": "Kiwi.js is a Javascript/Typescript library for creating HTML5 games.",
-        "version": "1.5.0-beta2",
+        "version": "1.5.0-beta4",
         "url": "http://kiwijs.org/"
     },
     "files": {
@@ -16460,6 +16460,19 @@
             "namespace": "Kiwi"
         },
         {
+            "file": "src/core/Game.ts",
+            "line": 804,
+            "description": "Restart the game. Useful if the renderer has crashed.\nSee `Kiwi.Stage.handleGlCrash()` for more information.",
+            "itemtype": "method",
+            "name": "restart",
+            "access": "public",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.Game",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
             "file": "src/core/Group.ts",
             "line": 51,
             "description": "Return the type of this object.",
@@ -19261,7 +19274,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 74,
+            "line": 76,
             "description": "Return the type of this object.",
             "itemtype": "method",
             "name": "objType",
@@ -19277,7 +19290,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 85,
+            "line": 87,
             "description": "Default width of the stage",
             "itemtype": "property",
             "name": "DEFAULT_WIDTH",
@@ -19292,7 +19305,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 96,
+            "line": 98,
             "description": "Default height of the stage",
             "itemtype": "property",
             "name": "DEFAULT_HEIGHT",
@@ -19307,7 +19320,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 107,
+            "line": 109,
             "description": "Default scaling method used on Kiwi games.\nThis scaling method will set the container's width/height\nto static values.",
             "itemtype": "property",
             "name": "SCALE_NONE",
@@ -19322,7 +19335,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 120,
+            "line": 122,
             "description": "SCALE_FIT will scale the stage's width to fit its parent's width.\nThe height is then calculated to maintain the aspect ratio of the\nwidth/height of the Stage.\n\nIn CocoonJS, it still maintains aspect ratio, but keeps the\nentire game stage on the screen.",
             "itemtype": "property",
             "name": "SCALE_FIT",
@@ -19337,7 +19350,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 136,
+            "line": 138,
             "description": "Stretch will make the stage scale to fit its parent's width/height\n(by using max/min height of 100%).\nIf the parent doesn't have a height set then the height will be\nthe height of the stage.",
             "itemtype": "property",
             "name": "SCALE_STRETCH",
@@ -19352,7 +19365,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 150,
+            "line": 152,
             "description": "SCALE_FIT_INSIDE will scale the stage to fit its parent.\nThe stage will maintain aspect ratio and touch either the top/bottom\nor the sides of the container (or both), without going outside.\nThis is exactly like the CocoonJS implementation of SCALE_FIT.",
             "itemtype": "property",
             "name": "SCALE_FIT_INSIDE",
@@ -19368,7 +19381,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 165,
+            "line": 167,
             "description": "Scaling method that should be applied to the container element",
             "itemtype": "property",
             "name": "_scaleType",
@@ -19382,7 +19395,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 175,
+            "line": 177,
             "description": "Type of scaling that should be applied the container element.",
             "itemtype": "property",
             "name": "scaleType",
@@ -19396,7 +19409,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 193,
+            "line": 195,
             "description": "Alpha of the stage",
             "itemtype": "property",
             "name": "_alpha",
@@ -19410,7 +19423,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 203,
+            "line": 205,
             "description": "Alpha of the container element.\n0 = invisible, 1 = fully visible.\nNote: Because the alpha value is applied to the container,\nit will not work in CocoonJS.",
             "itemtype": "property",
             "name": "alpha",
@@ -19424,7 +19437,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 228,
+            "line": 230,
             "description": "Horizontal coordinate of the stage",
             "itemtype": "property",
             "name": "_x",
@@ -19437,7 +19450,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 237,
+            "line": 239,
             "description": "Horizontal coordinate of the stage. This number should be the same\nas the stage's `left` property.",
             "itemtype": "property",
             "name": "x",
@@ -19450,7 +19463,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 260,
+            "line": 262,
             "description": "Vertical coordinate of the stage",
             "itemtype": "property",
             "name": "_y",
@@ -19463,7 +19476,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 269,
+            "line": 271,
             "description": "Vertical coordinate of the stage. This number should be the same\nas the stage's `top` property.",
             "itemtype": "property",
             "name": "y",
@@ -19476,7 +19489,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 292,
+            "line": 294,
             "description": "Width of the stage",
             "itemtype": "property",
             "name": "_width",
@@ -19489,7 +19502,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 301,
+            "line": 303,
             "description": "Width of the stage. This is READ ONLY.\nSee the \"resize\" method if you need to modify this value.",
             "itemtype": "property",
             "name": "width",
@@ -19503,7 +19516,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 314,
+            "line": 316,
             "description": "Height of the stage",
             "itemtype": "property",
             "name": "_height",
@@ -19516,7 +19529,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 323,
+            "line": 325,
             "description": "Height of the stage. This is READ ONLY.\nSee the `resize` method if you need to modify this value.",
             "itemtype": "property",
             "name": "height",
@@ -19530,7 +19543,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 336,
+            "line": 338,
             "description": "`Signal` that dispatches an event when the stage gets resized",
             "itemtype": "property",
             "name": "onResize",
@@ -19543,7 +19556,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 345,
+            "line": 347,
             "description": "`Signal` which dispatches events when the window is resized.\nUseful to detect if the screen is now in a \"landscape\" or \"portrait\"\nview on mobile/CocoonJS devices.",
             "itemtype": "property",
             "name": "onWindowResize",
@@ -19556,7 +19569,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 356,
+            "line": 358,
             "description": "Amount that the container has been scaled by",
             "itemtype": "property",
             "name": "_scale",
@@ -19570,7 +19583,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 366,
+            "line": 368,
             "description": "Amount that the container has been scaled by.\nMainly used for re-calculating input coordinates.\n\nNote: For COCOONJS this returns 1 since COCOONJS translates the\nscale itself. This property is READ ONLY.",
             "itemtype": "property",
             "name": "scale",
@@ -19584,7 +19597,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 382,
+            "line": 384,
             "description": "Amount that the container has been scaled by on the X axis",
             "itemtype": "property",
             "name": "scaleX",
@@ -19598,7 +19611,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 394,
+            "line": 396,
             "description": "Amount that the container has been scaled by on the Y axis",
             "itemtype": "property",
             "name": "scaleY",
@@ -19612,7 +19625,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 406,
+            "line": 408,
             "description": "Geometric `Point` which determines the offset of this `Stage`",
             "itemtype": "property",
             "name": "offset",
@@ -19625,7 +19638,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 415,
+            "line": 417,
             "description": "`Game` this `Stage` belongs to",
             "itemtype": "property",
             "name": "_game",
@@ -19638,7 +19651,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 424,
+            "line": 426,
             "description": "Title of the game",
             "itemtype": "property",
             "name": "name",
@@ -19651,7 +19664,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 433,
+            "line": 435,
             "description": "Whether or not this Stage is DOM ready",
             "itemtype": "property",
             "name": "domReady",
@@ -19664,7 +19677,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 442,
+            "line": 444,
             "description": "Background color of the stage",
             "itemtype": "property",
             "name": "_color",
@@ -19677,7 +19690,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 451,
+            "line": 453,
             "description": "Background color of the stage.\n\nThis can be any valid parameter for Kiwi.Utils.Color.\nIf passing multiple parameters, do so in a single array.\n\nThe default value is \"ffffff\" or pure white.\n\nNote for users of CocoonJS: When using the WebGL renderer,\nthe stage color will fill all parts of the screen outside the canvas.\nKiwi.js will automatically set the color to \"000000\" or pure black\nwhen using CocoonJS. If you change it, and your game does not fill\nthe entire screen, the empty portions of the screen will also change\ncolor.",
             "itemtype": "property",
             "name": "color",
@@ -19690,7 +19703,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 481,
+            "line": 483,
             "description": "Allows the setting of the background color of the stage through\ncomponent RGB colour values.\n\nThis property returns an Object literal\nwith \"r\", \"g\", \"b\" colour streams of values between 0 and 255.\nYou must assign it to this object for it to take effect.",
             "itemtype": "property",
             "name": "rgbColor",
@@ -19703,7 +19716,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 506,
+            "line": 508,
             "description": "Allows the setting of the background color of the stage through\ncomponent RGBA colour values.\n\nThis property returns an Object literal\nwith \"r\", \"g\", \"b\" colour streams of values between 0 and 255.\nYou must assign it to this object for it to take effect.\n\nNote that the alpha value is from 0-255, not 0-1. This is to\npreserve compatibility with hex-style color values, e.g. \"ff0000ff\".",
             "itemtype": "property",
             "name": "rgbaColor",
@@ -19717,7 +19730,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 537,
+            "line": 539,
             "description": "Get the normalized background color of the stage.\nReturns an object with rgba values, each being between 0 and 1.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "normalizedColor",
@@ -19730,7 +19743,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 554,
+            "line": 556,
             "description": "WebGL rendering context",
             "itemtype": "property",
             "name": "gl",
@@ -19743,7 +19756,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 563,
+            "line": 565,
             "description": "Canvas rendering context",
             "itemtype": "property",
             "name": "ctx",
@@ -19756,7 +19769,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 572,
+            "line": 574,
             "description": "Canvas element to which the game is rendered",
             "itemtype": "property",
             "name": "canvas",
@@ -19769,7 +19782,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 581,
+            "line": 583,
             "description": "Debugging canvas",
             "itemtype": "property",
             "name": "debugCanvas",
@@ -19782,7 +19795,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 590,
+            "line": 592,
             "description": "Debug canvas rendering context",
             "itemtype": "property",
             "name": "dctx",
@@ -19795,7 +19808,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 599,
+            "line": 601,
             "description": "Parent div in which the layers and input live",
             "itemtype": "property",
             "name": "container",
@@ -19808,7 +19821,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 608,
+            "line": 610,
             "description": "Renderer created after context detection",
             "itemtype": "property",
             "name": "_renderer",
@@ -19822,7 +19835,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 618,
+            "line": 620,
             "description": "Renderer associated with the canvas context.\nThis is either a `GLRenderManager` or a `CanvasRenderer`.\nIf the Kiwi.RENDERER_WEBGL renderer was requested\nbut could not be created, it will fall back to CanvasRenderer.\nThis is READ ONLY.",
             "itemtype": "property",
             "name": "renderer",
@@ -19836,7 +19849,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 636,
+            "line": 638,
             "description": "Execute when the DOM has loaded and the game is just starting.\nThis is an internal method used by the core of Kiwi itself.",
             "itemtype": "method",
             "name": "boot",
@@ -19855,7 +19868,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 687,
+            "line": 701,
             "description": "Get the x/y coordinate offset of any given valid DOM Element\nfrom the top/left position of the browser.\n\nBased on jQuery offset\nhttps://github.com/jquery/jquery/blob/master/src/offset.js",
             "itemtype": "method",
             "name": "getOffsetPoint",
@@ -19884,7 +19897,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 714,
+            "line": 727,
             "description": "Fire when the window is resized.",
             "itemtype": "method",
             "name": "_windowResized",
@@ -19903,7 +19916,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 730,
+            "line": 743,
             "description": "Fire when the device is reoriented.",
             "itemtype": "method",
             "name": "_orientationChanged",
@@ -19923,7 +19936,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 744,
+            "line": 757,
             "description": "Calculate new offset and scale for the stage.",
             "itemtype": "method",
             "name": "_calculateContainerScale",
@@ -19935,7 +19948,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 766,
+            "line": 778,
             "description": "Handle creation of the canvas that the game will use,\nand retrieve the context for the renderer.",
             "itemtype": "method",
             "name": "_createCompositeCanvas",
@@ -19947,7 +19960,40 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 850,
+            "line": 866,
+            "description": "Eliminate DOM elements created as part of the stage.\nThis is usually invoked to tidy the game state\nin preparation for a game restart.",
+            "itemtype": "method",
+            "name": "flushElements",
+            "access": "public",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Stage.ts",
+            "line": 887,
+            "description": "Handle a WebGL crash.\n\nThis is a disruptive event that may be caused by the user's system.\nData in the WebGL system will be lost, including buffers.\n\nWhen it detects a WebGL crash, Kiwi automatically restarts\nin an attempt to regain control. It clears all global files.\nThe renderer will remain broken until you transition\nto another `State`. This transition rebuilds texture libraries\nand other necessary WebGL data. It also permits states\nto perform preload processes to reload discarded files.\n\nAttach listeners to the `onRendererCrash` signal to perform logic\nin the event of a crash.\n\nThe recommended crash procedure is to transition to\na recovery State. This will prevent console errors and prompt\nfor preload processes. You may then perform logic to return\ncontrol to the user. The process may not be seamless;\nthis depends on your game structure.",
+            "itemtype": "method",
+            "name": "handleGlCrash",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "Event from the crash.",
+                    "type": "WebGLContextEvent"
+                }
+            ],
+            "access": "public",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Stage.ts",
+            "line": 932,
             "description": "Set the stage width and height for rendering purposes.\nThis will not effect that \"scaleType\" that it has been set to.",
             "itemtype": "method",
             "name": "resize",
@@ -19971,7 +20017,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 874,
+            "line": 956,
             "description": "Set background color of the stage through component\nRGB colour values. Each parameter is a number between 0 and 255.\nThis method also returns an Object literal with \"r\", \"g\", \"b\"\nproperties.",
             "itemtype": "method",
             "name": "setRGBColor",
@@ -20004,7 +20050,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 894,
+            "line": 976,
             "description": "Create a debug canvas and add it above the regular game canvas.\nThe debug canvas is not created by default (even with debugging on)\nand rendering/clearing of the canvas is up to the developer.\nThe context for rendering can be accessed via the `dctx` property.\nYou can use the `clearDebugCanvas` method to clear the canvas.",
             "itemtype": "method",
             "name": "createDebugCanvas",
@@ -20016,7 +20062,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 939,
+            "line": 1021,
             "description": "Clear the debug canvas and fill with the color passed.\nIf no color is passed, then red at 20% opacity is used.",
             "itemtype": "method",
             "name": "clearDebugCanvas",
@@ -20035,7 +20081,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 956,
+            "line": 1038,
             "description": "Toggle the visibility of the debug canvas.",
             "itemtype": "method",
             "name": "toggleDebugCanvas",
@@ -20047,7 +20093,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 970,
+            "line": 1052,
             "description": "Handle the scaling/sizing based upon the `scaleType` property.",
             "itemtype": "method",
             "name": "_scaleContainer",
@@ -20059,7 +20105,35 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1055,
+            "line": 1137,
+            "description": "Dispatch callbacks when the Stage is flushed.",
+            "itemtype": "property",
+            "name": "_onFlushElements",
+            "type": "Kiwi.Signal",
+            "since": "1.5.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Stage.ts",
+            "line": 1147,
+            "description": "Dispatch callbacks when the Stage is flushed.",
+            "itemtype": "property",
+            "name": "onRendererCrash",
+            "type": "Kiwi.Signal",
+            "since": "1.5.0",
+            "access": "private",
+            "tagname": "",
+            "class": "Kiwi.Stage",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/Stage.ts",
+            "line": 1157,
             "description": "Dispatch callbacks when the page containing this game gains focus.",
             "itemtype": "property",
             "name": "onFocus",
@@ -20073,7 +20147,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1065,
+            "line": 1167,
             "description": "Dispatch callbacks when this page containing this game loses focus.",
             "itemtype": "property",
             "name": "onBlur",
@@ -20087,7 +20161,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1075,
+            "line": 1177,
             "description": "Dispatch callbacks when the visiblity of the page changes.",
             "itemtype": "property",
             "name": "onVisibilityChange",
@@ -20101,7 +20175,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1085,
+            "line": 1187,
             "description": "Whether the page is currently visible (via the Visiblity API).\nIf the Visiblity API is unsupported this will remain set to true\nregardless of focus/blur events.",
             "itemtype": "property",
             "name": "visibility",
@@ -20117,7 +20191,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1106,
+            "line": 1208,
             "description": "Contains string used to access the `hidden` property on the document.",
             "itemtype": "property",
             "name": "_visibility",
@@ -20132,7 +20206,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1117,
+            "line": 1219,
             "description": "Contains the bound version of the `_checkVisibility` method.",
             "itemtype": "property",
             "name": "_visibilityChange",
@@ -20146,7 +20220,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1129,
+            "line": 1231,
             "description": "Fire when the page visibility changes, or the page focus/blur\nevents fire. In charge of firing the appropriate signals.",
             "itemtype": "method",
             "name": "_checkVisibility",
@@ -20166,7 +20240,7 @@
         },
         {
             "file": "src/core/Stage.ts",
-            "line": 1163,
+            "line": 1265,
             "description": "Add the focus, blur, and visibility events to the document.",
             "itemtype": "method",
             "name": "_createFocusEvents",
@@ -20457,7 +20531,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 348,
+            "line": 355,
             "description": "Extendable method. You may write your own, but it must call this\nvia `Kiwi.State.prototype.postUpdate.call( this )`.\n\nThe post update loop is executed every frame after the update method.",
             "itemtype": "method",
             "name": "postUpdate",
@@ -20469,7 +20543,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 361,
+            "line": 368,
             "description": "Overrideable method.\n\nCalled after all of the members have rendered themselves.\nUseful for debugging.",
             "itemtype": "method",
             "name": "postRender",
@@ -20481,7 +20555,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 372,
+            "line": 379,
             "description": "Overrideable method.\n\nCalled just before this `State` is going to be shut down,\nand the game switches to another `State`.",
             "itemtype": "method",
             "name": "shutDown",
@@ -20493,7 +20567,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 391,
+            "line": 398,
             "description": "Add a new image file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addImage",
@@ -20548,7 +20622,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 413,
+            "line": 420,
             "description": "Add a new spritesheet image file to be loaded when the state loads\nassets.",
             "itemtype": "method",
             "name": "addSpriteSheet",
@@ -20635,7 +20709,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 447,
+            "line": 454,
             "description": "Add a new texture atlas to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addTextureAtlas",
@@ -20678,7 +20752,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 469,
+            "line": 476,
             "description": "Add a JSON file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addJSON",
@@ -20709,7 +20783,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 486,
+            "line": 493,
             "description": "Add a new audio file to be loaded when the state loads assets.",
             "itemtype": "method",
             "name": "addAudio",
@@ -20738,7 +20812,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 512,
+            "line": 519,
             "description": "Contains a reference to all of the objects that have ever been\ncreated for this state, generally `Kiwi.Entity` or `Kiwi.Group`.\nUseful for keeping track of sprites that are not used any more\nand need to be destroyed.",
             "itemtype": "property",
             "name": "_trackingList",
@@ -20751,7 +20825,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 523,
+            "line": 530,
             "description": "Add a new object to the tracking list.\nThis is an internal KiwiJS method and game devs\nshouldn't need to worry about it.",
             "itemtype": "method",
             "name": "addToTrackingList",
@@ -20770,7 +20844,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 538,
+            "line": 545,
             "description": "Remove an object from the tracking list.\nThis should only need to happen when a child is destroyed.\nThis is an internal Kiwi method and game devs\nshouldn't really need to worry about it.",
             "itemtype": "method",
             "name": "removeFromTrackingList",
@@ -20789,7 +20863,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 554,
+            "line": 561,
             "description": "Destroys all objects in the tracking list that are\nnot currently on stage. \nAll that currently don't have this `State` as an ancestor.\nReturns the number of objects removed.",
             "itemtype": "method",
             "name": "destroyUnused",
@@ -20805,7 +20879,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 579,
+            "line": 586,
             "description": "Used to mark all Entities that have been created for deletion,\nregardless of whether they are on the stage or not.",
             "itemtype": "method",
             "name": "destroy",
@@ -20825,7 +20899,7 @@
         },
         {
             "file": "src/core/State.ts",
-            "line": 623,
+            "line": 630,
             "description": "Recursively destroys a child and all its children.",
             "itemtype": "method",
             "name": "_destroyChildren",
@@ -21071,6 +21145,20 @@
         {
             "file": "src/core/StateManager.ts",
             "line": 56,
+            "description": "An array of all of the states that are contained within this manager.\nThis list order is read-only.",
+            "itemtype": "property",
+            "name": "states",
+            "type": "Array",
+            "access": "public",
+            "tagname": "",
+            "since": "1.5.0",
+            "class": "Kiwi.StateManager",
+            "module": "Kiwi",
+            "namespace": "Kiwi"
+        },
+        {
+            "file": "src/core/StateManager.ts",
+            "line": 74,
             "description": "The current State that the game is at.",
             "itemtype": "property",
             "name": "current",
@@ -21084,7 +21172,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 65,
+            "line": 83,
             "description": "The name of the new State that is to be switched to.",
             "itemtype": "property",
             "name": "_newStateKey",
@@ -21098,7 +21186,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 74,
+            "line": 92,
             "description": "Checks to see if a key exists. Internal use only.",
             "itemtype": "method",
             "name": "checkKeyExists",
@@ -21121,7 +21209,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 95,
+            "line": 113,
             "description": "Checks to see if the State passed is valid or not.",
             "itemtype": "method",
             "name": "checkValidState",
@@ -21144,7 +21232,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 112,
+            "line": 130,
             "description": "Adds the given State to the StateManager.\nThe State must have a unique key set on it, or it will fail to be added to the manager.\nReturns true if added successfully, otherwise false (can happen if State is already in the StateManager)",
             "itemtype": "method",
             "name": "addState",
@@ -21174,7 +21262,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 169,
+            "line": 187,
             "description": "Is executed once the DOM has finished loading.\nThis is an INTERNAL Kiwi method.",
             "itemtype": "method",
             "name": "boot",
@@ -21186,7 +21274,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 179,
+            "line": 197,
             "description": "Switches to the name (key) of the state that you pass. \nDoes not work if the state you are switching to is already the current state OR if that state does not exist yet.",
             "itemtype": "method",
             "name": "setCurrentState",
@@ -21209,7 +21297,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 200,
+            "line": 218,
             "description": "Actually switches to a state that is stored in the 'newStateKey' property. This method is executed after the update loops have been executed to help prevent developer errors.",
             "itemtype": "method",
             "name": "bootNewState",
@@ -21221,7 +21309,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 232,
+            "line": 250,
             "description": "Swaps the current state.\nIf the state has already been loaded (via addState) then you can just pass the key.\nOtherwise you can pass the state object as well and it will load it then swap to it.",
             "itemtype": "method",
             "name": "switchState",
@@ -21272,7 +21360,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 290,
+            "line": 308,
             "description": "Gets a state by the key that is passed.",
             "itemtype": "method",
             "name": "getState",
@@ -21295,7 +21383,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 319,
+            "line": 337,
             "description": "Checks to see if the state that is being switched to needs to load some files or not.\nIf it does it loads the file, if it does not it runs the create method.",
             "itemtype": "method",
             "name": "checkPreload",
@@ -21307,7 +21395,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 338,
+            "line": 356,
             "description": "Checks to see if the state being switched to contains a create method.\nIf it does then it calls the create method.",
             "itemtype": "method",
             "name": "callCreate",
@@ -21319,7 +21407,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 354,
+            "line": 372,
             "description": "Checks to see if the state has a init method and then executes that method if it is found.",
             "itemtype": "method",
             "name": "checkInit",
@@ -21331,7 +21419,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 375,
+            "line": 393,
             "description": "Is execute whilst files are being loaded by the state.",
             "itemtype": "method",
             "name": "onLoadProgress",
@@ -21360,7 +21448,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 388,
+            "line": 406,
             "description": "Executed when the preloading has completed. Then executes the loadComplete and create methods of the new State.",
             "itemtype": "method",
             "name": "onLoadComplete",
@@ -21372,7 +21460,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 406,
+            "line": 424,
             "description": "Rebuilds the texture, audio and data libraries that are on the current state. Thus updating what files the user has access to.",
             "itemtype": "method",
             "name": "rebuildLibraries",
@@ -21384,7 +21472,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 421,
+            "line": 439,
             "description": "The update loop that is accessible on the StateManager.",
             "itemtype": "method",
             "name": "update",
@@ -21396,7 +21484,7 @@
         },
         {
             "file": "src/core/StateManager.ts",
-            "line": 450,
+            "line": 468,
             "description": "PostRender - Called after all of the rendering has been executed in a frame.",
             "itemtype": "method",
             "name": "postRender",

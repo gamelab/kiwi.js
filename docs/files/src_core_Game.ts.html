@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0-beta2</em>
+            <em>API Docs for: 1.5.0-beta4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1200,6 +1200,21 @@ module Kiwi {
 				this.cameras.render();
 				this.states.postRender();
 			}
+		}
+
+		public restart () {
+			/**
+			Restart the game. Useful if the renderer has crashed.
+			See &#x60;Kiwi.Stage.handleGlCrash()&#x60; for more information.
+
+			@method restart
+			@public
+			@since 1.5.0
+			**/
+
+			this.stage.flushElements();
+
+			this._start();
 		}
 
 	}

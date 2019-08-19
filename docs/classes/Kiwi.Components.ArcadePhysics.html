@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0-beta2</em>
+            <em>API Docs for: 1.5.0-beta4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -650,8 +650,6 @@ either groups or gameobjects within the same argument, the ported functions one 
                                 <a href="#method_overlaps">overlaps</a>
 
                                 
-                                    <span class="flag static">static</span>
-                                
                                 
                             </li>
                         
@@ -667,6 +665,8 @@ either groups or gameobjects within the same argument, the ported functions one 
                             <li class="index-item method public">
                                 <a href="#method_overlaps">overlaps</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -2025,6 +2025,137 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
             
                 <li class="arg">
                     
+                        <code>gameObject</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[seperateObjects=false]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag public">public</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_components_ArcadePhysics.ts.html#l882"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:882</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
+If seperateObjects is true it will seperate the two entities based on their bounding box.
+Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component. 
+Also: Not to be used for separation from tiles.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">gameObject</code>
+                        <span class="type"><a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[seperateObjects=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_overlaps" class="method item public">
+    <h3 class="name"><code>overlaps</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
                         <code>gameObject1</code>
                     
                 </li>
@@ -2296,137 +2427,6 @@ Use the collision constants (like LEFT, FLOOR, e.t.c) when passing sides.</p>
                     <div class="param-description">
                         <p>If they overlap should the seperate or not</p>
 
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_overlaps" class="method item public">
-    <h3 class="name"><code>overlaps</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>gameObject</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[seperateObjects=false]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag public">public</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_components_ArcadePhysics.ts.html#l882"><code>src&#x2F;components&#x2F;ArcadePhysics.ts:882</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>A method to check to see if the parent of this physics component overlaps with another Kiwi.Entity.
-If seperateObjects is true it will seperate the two entities based on their bounding box.
-Note: The GameObject passed must contain a box component and only if you want to separate the two objects must is ALSO contain an ArcadePhysics component. 
-Also: Not to be used for separation from tiles.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">gameObject</code>
-                        <span class="type"><a href="../classes/Kiwi.Entity.html" class="crosslink">Kiwi.Entity</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[seperateObjects=false]</code>
-                        <span class="type">Boolean</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
                     </div>
 
                     

@@ -579,6 +579,7 @@ var Kiwi;
         Game.prototype.restart = function () {
             /**
             Restart the game. Useful if the renderer has crashed.
+            See `Kiwi.Stage.handleGlCrash()` for more information.
 
             @method restart
             @public
@@ -5193,6 +5194,7 @@ var Kiwi;
         **/
         State.prototype.update = function () {
             this.components.update();
+            var destroyables = [];
             for (var i = 0; i < this.members.length; i++) {
                 //Should the update loop be executed?
                 if (this.members[i].active === true) {
@@ -5200,8 +5202,11 @@ var Kiwi;
                 }
                 //Does the child need to be destroyed?
                 if (this.members[i].exists === false) {
-                    this.members[i].destroy(true);
+                    destroyables.push(this.members[i]);
                 }
+            }
+            for (var i = 0; i < destroyables.length; i++) {
+                destroyables[i].destroy(true);
             }
         };
         /**

@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.5.0-beta2</em>
+            <em>API Docs for: 1.5.0-beta4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -454,6 +454,24 @@ module Kiwi {
 		* @private
 		*/
 		private _states: Kiwi.State[];
+
+		/**
+		An array of all of the states that are contained within this manager.
+		This list order is read-only.
+		@property states
+		@type Array
+		@public
+		@since 1.5.0
+		**/
+		public get states(): Kiwi.State[] {
+			var i,
+				stateLength = this._states.length,
+				states = [];
+			for ( i = 0; i &lt; stateLength; i++ ) {
+				states.push( this._states[ i ] );
+			}
+			return states;
+		}
 
 		/**
 		* The current State that the game is at.
