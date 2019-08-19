@@ -331,6 +331,8 @@ module Kiwi {
 
 			this.components.update();
 
+			var destroyables = [];
+
 			for (var i = 0; i < this.members.length; i++) {
 
 				//Should the update loop be executed?
@@ -340,8 +342,13 @@ module Kiwi {
 
 				//Does the child need to be destroyed?
 				if (this.members[i].exists === false) {
-					this.members[i].destroy( true );
+					destroyables.push( this.members[ i ] );
 				}
+			}
+
+			// Destroy objects outside the list traversal.
+			for ( var i = 0; i < destroyables.length; i++ ) {
+				destroyables[ i ].destroy( true );
 			}
 		}
 
